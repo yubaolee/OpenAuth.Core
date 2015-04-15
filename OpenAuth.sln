@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Presentation(用户接口层)", "1 Presentation(用户接口层)", "{57649E80-38FC-421D-82E1-BE71A786F762}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 Application(应用层)", "2 Application(应用层)", "{757BB00A-46B6-4B9B-9331-D6B60BE92E05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 Domain(领域层)", "3 Domain(领域层)", "{7618C0B1-D556-40C2-B2DD-CCECDC4E46B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 Infrastructure(基础设施层)", "4 Infrastructure(基础设施层)", "{EE008F5F-FD7F-407F-B201-6486BDE6B9F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 Test(测试)", "5 Test(测试)", "{C59DF46D-7815-462B-9FFF-750B2120B75B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Web", "OpenAuth.Web\OpenAuth.Web.csproj", "{814246F3-BC71-43CC-8CD4-2A107F2B3B52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.App", "OpenAuth.App\OpenAuth.App.csproj", "{0BBF2D65-FFFD-4272-B138-8EA4FB6FEC48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Domain", "OpenAuth.Domain\OpenAuth.Domain.csproj", "{6108DA8E-92A1-4ABE-B9F5-26D64D55CA2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Infrastructure", "OpenAuth.Infrastructure\OpenAuth.Infrastructure.csproj", "{ADAE08C0-DE22-41F7-9F94-0E62AE327C25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.UnitTest", "OpenAuth.UnitTest\OpenAuth.UnitTest.csproj", "{2E6B5B73-7757-43F0-8AC8-3030F7C191B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{814246F3-BC71-43CC-8CD4-2A107F2B3B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{814246F3-BC71-43CC-8CD4-2A107F2B3B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{814246F3-BC71-43CC-8CD4-2A107F2B3B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{814246F3-BC71-43CC-8CD4-2A107F2B3B52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BBF2D65-FFFD-4272-B138-8EA4FB6FEC48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BBF2D65-FFFD-4272-B138-8EA4FB6FEC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BBF2D65-FFFD-4272-B138-8EA4FB6FEC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BBF2D65-FFFD-4272-B138-8EA4FB6FEC48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6108DA8E-92A1-4ABE-B9F5-26D64D55CA2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6108DA8E-92A1-4ABE-B9F5-26D64D55CA2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6108DA8E-92A1-4ABE-B9F5-26D64D55CA2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6108DA8E-92A1-4ABE-B9F5-26D64D55CA2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADAE08C0-DE22-41F7-9F94-0E62AE327C25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADAE08C0-DE22-41F7-9F94-0E62AE327C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADAE08C0-DE22-41F7-9F94-0E62AE327C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADAE08C0-DE22-41F7-9F94-0E62AE327C25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E6B5B73-7757-43F0-8AC8-3030F7C191B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E6B5B73-7757-43F0-8AC8-3030F7C191B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E6B5B73-7757-43F0-8AC8-3030F7C191B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E6B5B73-7757-43F0-8AC8-3030F7C191B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{814246F3-BC71-43CC-8CD4-2A107F2B3B52} = {57649E80-38FC-421D-82E1-BE71A786F762}
+		{0BBF2D65-FFFD-4272-B138-8EA4FB6FEC48} = {757BB00A-46B6-4B9B-9331-D6B60BE92E05}
+		{6108DA8E-92A1-4ABE-B9F5-26D64D55CA2C} = {7618C0B1-D556-40C2-B2DD-CCECDC4E46B6}
+		{ADAE08C0-DE22-41F7-9F94-0E62AE327C25} = {EE008F5F-FD7F-407F-B201-6486BDE6B9F1}
+		{2E6B5B73-7757-43F0-8AC8-3030F7C191B8} = {C59DF46D-7815-462B-9FFF-750B2120B75B}
+	EndGlobalSection
+EndGlobal

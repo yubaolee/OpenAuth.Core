@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/json2.js")" type="text/javascript"></script>
+
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/easyui/themes/metro-blue/easyui.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/easyui/themes/icon.css")" />
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/easyui/jquery.easyui.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="background-image:url(/Scripts/head.jpg); height:55px; padding-left: 5px">
+        <h2><b>@ViewBag.Title</b></h2>
+    </div>
+    @RenderBody()
+</body>
+</html>

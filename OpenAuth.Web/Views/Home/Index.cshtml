@@ -1,0 +1,26 @@
+﻿
+@{
+    Layout = "~/Views/Home/_Layout.cshtml";
+}
+
+<div id="centerlayout" data-options="region:'center',title:'数据状态列表'">
+    <div id="tb" style="padding:5px;height:auto">
+        <fieldset>
+            <legend>查询</legend>
+            @using (Ajax.BeginForm("Index", new RouteValueDictionary { { "id", "" } },
+                new AjaxOptions { UpdateTargetId = "statustable", InsertionMode = InsertionMode.Replace },
+                new RouteValueDictionary { { "id", "searchForm" } }))
+            {
+                <span>IP地址：</span><input type="text" class="easyui-textbox" name="searchip" id="searchip" style="width:120px" />
+                <span>设备ID：</span><input type="text" class="easyui-textbox" name="searchdevadd" id="searchdevadd" style="width:120px" />
+                <span>从</span><input type="text" name="starttime" id="starttime" class="easyui-datebox" style="width:120px" />
+                <span>到</span><input type="text" name="endtime" id="endtime" class="easyui-datebox" style="width:120px" />
+                <a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+            }
+        </fieldset>
+    </div>
+
+</div>
+
+
+

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Domain.Model
 {
     public partial class User
     {
@@ -16,9 +16,10 @@ namespace OpenAuth.Domain
         public string Password { get; set; }
         public string RealName { get; set; }
         public string RoleId { get; set; }
-        public Nullable<int> Enabled { get; set; }
-        public Nullable<int> DeleteMark { get; set; }
+        public bool Enabled { get; set; }
+        public bool DeleteMark { get; set; }
         public virtual ICollection<Department> Departments { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
+
     }
 }

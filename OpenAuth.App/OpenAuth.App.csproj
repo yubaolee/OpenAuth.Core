@@ -39,7 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\LoginRequest.cs" />
+    <Compile Include="DTO\LoginResponse.cs" />
+    <Compile Include="LoginApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DTO\Response.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenAuth.Domain\OpenAuth.Domain.csproj">

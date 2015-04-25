@@ -1,5 +1,6 @@
 using System.Data.Entity.ModelConfiguration;
 using OpenAuth.Domain;
+using OpenAuth.Domain.Model;
 
 namespace OpenAuth.Infrastructure.Mapping
 {
@@ -34,6 +35,15 @@ namespace OpenAuth.Infrastructure.Mapping
                     m.MapLeftKey("UserId");
                     m.MapRightKey("DepartmentId");
                     m.ToTable("UserDepartment");
+                });
+
+            this.HasMany(u => u.Roles)
+                .WithMany(r => r.Users)
+                .Map(m =>
+                {
+                    m.MapLeftKey("UserId");
+                    m.MapRightKey("RoleId");
+                    m.ToTable("UserRole");
                 });
 
             // Table & Column Mappings

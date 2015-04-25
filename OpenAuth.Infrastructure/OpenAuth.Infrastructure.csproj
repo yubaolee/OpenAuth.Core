@@ -55,6 +55,8 @@
     <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="OpenAuthDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenAuth.App\OpenAuth.App.csproj">

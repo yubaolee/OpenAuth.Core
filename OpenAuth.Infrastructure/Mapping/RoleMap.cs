@@ -1,5 +1,6 @@
 using System.Data.Entity.ModelConfiguration;
 using OpenAuth.Domain;
+using OpenAuth.Domain.Model;
 
 namespace OpenAuth.Infrastructure.Mapping
 {
@@ -29,6 +30,16 @@ namespace OpenAuth.Infrastructure.Mapping
 
             this.Property(t => t.DepartmentId)
                 .HasMaxLength(50);
+
+            this.HasMany(d => d.Users)
+              .WithMany(u => u.Roles)
+              .Map(
+                  m =>
+                  {
+                      m.MapLeftKey("RoleId");
+                      m.MapRightKey("UserId");
+                      m.ToTable("UserRole");
+                  });
 
 
             // Table & Column Mappings

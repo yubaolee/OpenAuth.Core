@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Domain.Model
 {
     public partial class Menu
     {

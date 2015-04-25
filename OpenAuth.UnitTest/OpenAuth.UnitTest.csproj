@@ -63,12 +63,17 @@
   <ItemGroup>
     <Compile Include="DepartmentTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LoginTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenAuth.App\OpenAuth.App.csproj">
+      <Project>{0BBF2D65-FFFD-4272-B138-8EA4FB6FEC48}</Project>
+      <Name>OpenAuth.App</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenAuth.Domain\OpenAuth.Domain.csproj">
       <Project>{6108DA8E-92A1-4ABE-B9F5-26D64D55CA2C}</Project>
       <Name>OpenAuth.Domain</Name>

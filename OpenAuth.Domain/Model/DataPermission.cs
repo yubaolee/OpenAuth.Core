@@ -1,4 +1,4 @@
-namespace OpenAuth.Domain
+namespace OpenAuth.Domain.Model
 {
     public partial class DataPermission
     {

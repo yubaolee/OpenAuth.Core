@@ -1,5 +1,6 @@
 using System.Data.Entity;
 using OpenAuth.Domain;
+using OpenAuth.Domain.Model;
 using OpenAuth.Infrastructure.Mapping;
 
 namespace OpenAuth.Infrastructure

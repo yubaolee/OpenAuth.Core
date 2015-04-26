@@ -18,9 +18,9 @@ namespace OpenAuth.Domain.Model
         public string FullName { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
-        public Nullable<int> Enabled { get; set; }
+        public bool Enabled { get; set; }
         public Nullable<int> SortCode { get; set; }
-        public Nullable<int> DeleteMark { get; set; }
+        public bool DeleteMark { get; set; }
         public string DepartmentId { get; set; }
         public virtual ICollection<DataPermission> DataPermissions { get; set; }
         public virtual Department Department { get; set; }

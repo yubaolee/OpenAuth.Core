@@ -122,79 +122,81 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\1.9.1\jquery.min.js" />
+    <Content Include="Content\avatars\avatar.png" />
+    <Content Include="Content\avatars\avatar1.png" />
+    <Content Include="Content\avatars\avatar2.png" />
+    <Content Include="Content\avatars\avatar3.png" />
+    <Content Include="Content\avatars\avatar4.png" />
+    <Content Include="Content\avatars\user.jpg" />
+    <Content Include="Content\css\ace-ie.min.css" />
+    <Content Include="Content\css\ace-responsive.min.css" />
+    <Content Include="Content\css\ace-skins.min.css" />
+    <Content Include="Content\css\ace.min.css" />
+    <Content Include="Content\css\bootstrap-responsive.min.css" />
+    <Content Include="Content\css\bootstrap-timepicker.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\chosen-sprite%402x.png" />
+    <Content Include="Content\css\chosen-sprite.png" />
+    <Content Include="Content\css\chosen.css" />
+    <Content Include="Content\css\colorbox.css" />
+    <Content Include="Content\css\colorpicker.css" />
+    <Content Include="Content\css\datepicker.css" />
+    <Content Include="Content\css\daterangepicker.css" />
+    <Content Include="Content\css\font-awesome-ie7.min.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\fullcalendar.css" />
+    <Content Include="Content\css\jquery-ui-1.10.2.custom.min.css" />
+    <Content Include="Content\css\jquery.gritter.css" />
+    <Content Include="Content\css\prettify.css" />
+    <Content Include="Content\images\border.png" />
+    <Content Include="Content\images\controls.png" />
+    <Content Include="Content\images\gritter-light.png" />
+    <Content Include="Content\images\gritter.png" />
+    <Content Include="Content\images\ie-spacer.gif" />
+    <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\loading_background.png" />
+    <Content Include="Content\images\overlay.png" />
+    <Content Include="Content\img\alpha.png" />
+    <Content Include="Content\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\img\glyphicons-halflings.png" />
+    <Content Include="Content\img\hue.png" />
+    <Content Include="Content\img\saturation.png" />
+    <Content Include="Content\js\ace-elements.min.js" />
+    <Content Include="Content\js\ace.min.js" />
+    <Content Include="Content\js\bootbox.min.js" />
+    <Content Include="Content\js\bootstrap-colorpicker.min.js" />
+    <Content Include="Content\js\bootstrap-datepicker.min.js" />
+    <Content Include="Content\js\bootstrap-timepicker.min.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\chosen.jquery.min.js" />
+    <Content Include="Content\js\date.js" />
+    <Content Include="Content\js\daterangepicker.min.js" />
+    <Content Include="Content\js\excanvas.min.js" />
+    <Content Include="Content\js\fuelux.spinner.js" />
+    <Content Include="Content\js\fuelux.wizard.js" />
+    <Content Include="Content\js\fullcalendar.min.js" />
+    <Content Include="Content\js\jquery-1.9.1.min.js" />
+    <Content Include="Content\js\jquery-ui-1.10.2.custom.min.js" />
+    <Content Include="Content\js\jquery.autosize-min.js" />
+    <Content Include="Content\js\jquery.colorbox-min.js" />
+    <Content Include="Content\js\jquery.dataTables.bootstrap.js" />
+    <Content Include="Content\js\jquery.dataTables.min.js" />
+    <Content Include="Content\js\jquery.easy-pie-chart.min.js" />
+    <Content Include="Content\js\jquery.flot.min.js" />
+    <Content Include="Content\js\jquery.flot.pie.min.js" />
+    <Content Include="Content\js\jquery.flot.resize.min.js" />
+    <Content Include="Content\js\jquery.gritter.min.js" />
+    <Content Include="Content\js\jquery.inputlimiter.1.3.1.min.js" />
+    <Content Include="Content\js\jquery.knob.min.js" />
+    <Content Include="Content\js\jquery.maskedinput.min.js" />
+    <Content Include="Content\js\jquery.slimscroll.min.js" />
+    <Content Include="Content\js\jquery.sparkline.min.js" />
+    <Content Include="Content\js\jquery.ui.touch-punch.min.js" />
+    <Content Include="Content\js\jquery.validate.min.js" />
+    <Content Include="Content\js\prettify.js" />
+    <Content Include="Content\js\spin.min.js" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\easyui\jquery.easyui.min.js" />
-    <Content Include="Scripts\easyui\themes\icon.css" />
-    <Content Include="Scripts\easyui\themes\icons\back.png" />
-    <Content Include="Scripts\easyui\themes\icons\blank.gif" />
-    <Content Include="Scripts\easyui\themes\icons\cancel.png" />
-    <Content Include="Scripts\easyui\themes\icons\cut.png" />
-    <Content Include="Scripts\easyui\themes\icons\edit_add.png" />
-    <Content Include="Scripts\easyui\themes\icons\edit_remove.png" />
-    <Content Include="Scripts\easyui\themes\icons\filesave.png" />
-    <Content Include="Scripts\easyui\themes\icons\help.png" />
-    <Content Include="Scripts\easyui\themes\icons\mini_add.png" />
-    <Content Include="Scripts\easyui\themes\icons\mini_edit.png" />
-    <Content Include="Scripts\easyui\themes\icons\mini_refresh.png" />
-    <Content Include="Scripts\easyui\themes\icons\no.png" />
-    <Content Include="Scripts\easyui\themes\icons\ok.png" />
-    <Content Include="Scripts\easyui\themes\icons\pencil.png" />
-    <Content Include="Scripts\easyui\themes\icons\print.png" />
-    <Content Include="Scripts\easyui\themes\icons\redo.png" />
-    <Content Include="Scripts\easyui\themes\icons\reload.png" />
-    <Content Include="Scripts\easyui\themes\icons\search.png" />
-    <Content Include="Scripts\easyui\themes\icons\sum.png" />
-    <Content Include="Scripts\easyui\themes\icons\tip.png" />
-    <Content Include="Scripts\easyui\themes\icons\undo.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\accordion.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\calendar.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\combo.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\combobox.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\datagrid.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\datebox.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\dialog.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\easyui.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\accordion_arrows.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\blank.gif" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\calendar_arrows.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\combo_arrow.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\datagrid_icons.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\datebox_arrow.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\layout_arrows.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\linkbutton_bg.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\loading.gif" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\menu_arrows.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\messager_icons.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\pagination_icons.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\panel_tools.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\searchbox_button.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\slider_handle.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\spinner_arrows.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\tabs_icons.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\tree_icons.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\validatebox_arrows.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\images\validatebox_warning.png" />
-    <Content Include="Scripts\easyui\themes\metro-blue\layout.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\linkbutton.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\menu.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\menubutton.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\messager.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\pagination.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\panel.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\progressbar.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\propertygrid.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\searchbox.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\slider.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\spinner.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\splitbutton.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\tabs.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\tree.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\validatebox.css" />
-    <Content Include="Scripts\easyui\themes\metro-blue\window.css" />
-    <Content Include="Scripts\head.jpg" />
-    <Content Include="Scripts\jquery-1.8.2.min.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\json2.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -212,19 +214,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\easyui\themes\metro-blue\images\Thumbs.db" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\_Layout.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\OpenAuth.App\OpenAuth.App.csproj">
       <Project>{0bbf2d65-fffd-4272-b138-8ea4fb6fec48}</Project>
       <Name>OpenAuth.App</Name>
@@ -237,6 +226,30 @@
       <Project>{adae08c0-de22-41f7-9f94-0e62ae327c25}</Project>
       <Name>OpenAuth.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\font\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff" />
+    <Content Include="Content\font\DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff" />
+    <Content Include="Content\font\fontawesome-webfont.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Layout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Header.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Left.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

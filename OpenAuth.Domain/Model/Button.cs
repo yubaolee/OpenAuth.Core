@@ -17,7 +17,7 @@ namespace OpenAuth.Domain.Model
         public string Control_ID { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
-        public Nullable<int> Enabled { get; set; }
+        public bool Enabled { get; set; }
         public Nullable<int> SortCode { get; set; }
         public virtual ICollection<RoleMenuButton> RoleMenuButtons { get; set; }
     }

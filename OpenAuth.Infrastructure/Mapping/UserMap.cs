@@ -46,6 +46,11 @@ namespace OpenAuth.Infrastructure.Mapping
                     m.ToTable("UserRole");
                 });
 
+            //д╛хо╫ги╚
+            this.HasOptional(u => u.DefaultRole)
+                .WithMany()
+                .HasForeignKey(u =>u.RoleId);
+
             // Table & Column Mappings
             this.ToTable("User");
             this.Property(t => t.UserId).HasColumnName("UserId");

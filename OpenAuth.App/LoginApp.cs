@@ -34,11 +34,12 @@ namespace OpenAuth.App
             }
             else
             {
+                resp.UserId = user.UserId;
+                resp.Success = true;
                 foreach (var role in user.Roles)
                 {
                     resp.UserRoleNames.Add(role.FullName);
                 }
-                resp.Success = true;
             }
             return resp;
         }

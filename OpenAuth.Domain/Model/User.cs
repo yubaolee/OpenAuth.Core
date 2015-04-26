@@ -21,5 +21,7 @@ namespace OpenAuth.Domain.Model
         public virtual ICollection<Department> Departments { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
 
+        public Role DefaultRole { get; set; }
+
     }
 }

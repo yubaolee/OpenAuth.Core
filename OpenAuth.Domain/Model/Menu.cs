@@ -20,8 +20,8 @@ namespace OpenAuth.Domain.Model
         public string NavigateUrl { get; set; }
         public string FormName { get; set; }
         public string Target { get; set; }
-        public Nullable<int> IsUnfold { get; set; }
-        public Nullable<int> Enabled { get; set; }
+        public bool IsUnfold { get; set; }
+        public bool Enabled { get; set; }
         public Nullable<int> SortCode { get; set; }
         public virtual ICollection<Button> Buttons { get; set; }
         public virtual ICollection<RoleMenuButton> RoleMenuButtons { get; set; }

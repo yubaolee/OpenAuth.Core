@@ -8,6 +8,7 @@ namespace OpenAuth.Domain.Model
         public Button()
         {
             this.RoleMenuButtons = new List<RoleMenuButton>();
+            this.Menus = new List<Menu>();
         }
 
         public string ButtonId { get; set; }
@@ -20,5 +21,6 @@ namespace OpenAuth.Domain.Model
         public bool Enabled { get; set; }
         public Nullable<int> SortCode { get; set; }
         public virtual ICollection<RoleMenuButton> RoleMenuButtons { get; set; }
+        public virtual ICollection<Menu> Menus { get; set; } 
     }
 }

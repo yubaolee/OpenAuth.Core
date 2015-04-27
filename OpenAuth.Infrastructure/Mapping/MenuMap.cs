@@ -37,6 +37,25 @@ namespace OpenAuth.Infrastructure.Mapping
             this.Property(t => t.Target)
                 .HasMaxLength(50);
 
+            //菜单包含的按钮
+            this.HasMany(t => t.Buttons)
+                .WithMany(b => b.Menus)
+                .Map(m =>
+                {
+                    m.MapLeftKey("MenuId");
+                    m.MapRightKey("ButtonId");
+                    m.ToTable("MenuButton");
+                });
+            //TODO:菜单包含的角色（如果不加这句，EF查询时会自动添加Role_RoleId列
+            this.HasMany(t => t.Roles)
+               .WithMany(b => b.RoleMenus)
+               .Map(m =>
+               {
+                   m.MapLeftKey("MenuId");
+                   m.MapRightKey("RoleId");
+                   m.ToTable("RoleMenu");
+               });
+
             // Table & Column Mappings
             this.ToTable("Menu");
             this.Property(t => t.MenuId).HasColumnName("MenuId");

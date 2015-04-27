@@ -31,6 +31,7 @@ namespace OpenAuth.Infrastructure.Mapping
             this.Property(t => t.DepartmentId)
                 .HasMaxLength(50);
 
+            //角色包含的用户；
             this.HasMany(d => d.Users)
               .WithMany(u => u.Roles)
               .Map(
@@ -40,6 +41,16 @@ namespace OpenAuth.Infrastructure.Mapping
                       m.MapRightKey("UserId");
                       m.ToTable("UserRole");
                   });
+
+            //角色包含的菜单
+            this.HasMany(m => m.RoleMenus)
+                .WithMany(r => r.Roles)
+                .Map(m =>
+                {
+                    m.MapLeftKey("RoleId");
+                    m.MapRightKey("MenuId");
+                    m.ToTable("RoleMenu");
+                });
 
 
             // Table & Column Mappings

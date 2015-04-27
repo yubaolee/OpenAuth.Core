@@ -26,14 +26,12 @@ namespace OpenAuth.Web.Controllers
         }
 
         [HttpPost]
-        public ContentResult Login(string username, string password)
+        public ActionResult Login(string username, string password)
         {
             var request = new LoginRequest {UserName = username, Password = password};
             var loginApp = new LoginApp(new UserRepository());
             var response = loginApp.Login(request);
-            if(response.Success)
-               Response.Redirect("Home/Index");
-            return Content(response.Message);
+            return Json(new{Success= response.Success,Message=response.Message});
         }
 
     }

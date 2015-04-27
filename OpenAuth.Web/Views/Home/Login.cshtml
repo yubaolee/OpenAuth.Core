@@ -3,24 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <title>Login Page - Ace Admin</title>
-    <meta name="description" content="User login page" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   
+    <script type="text/javascript" src="@Url.Content("~/Content/1.9.1/jquery.min.js")"></script>
     <!-- basic styles -->
     <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet" />
-    >
     <link href="@Url.Content("~/Content/css/bootstrap-responsive.min.css")" rel="stylesheet" />
-    >
     <link rel="stylesheet" href="@Url.Content("~/Content/css/font-awesome.min.css")" />
-    >
     <!--[if IE 7]>
       <link rel="stylesheet" href="css/font-awesome-ie7.min.css" />
     <![endif]-->
     <!-- page specific plugin styles -->
     <!-- ace styles -->
     <link rel="stylesheet" href="@Url.Content("~/Content/css/ace.min.css")" />
-    >
     <link rel="stylesheet" href="@Url.Content("~/Content/css/ace-responsive.min.css")" />
-    >
     <!--[if lt IE 9]>
       <link rel="stylesheet" href="css/ace-ie.min.css" />
     <![endif]-->
@@ -52,13 +47,13 @@
                                                 <fieldset>
                                                     <label>
                                                         <span class="block input-icon input-icon-right">
-                                                            <input type="text" class="span12" id="username" placeholder="Username" />
+                                                            <input type="text" class="span12" id="username" value="admin" placeholder="Username" />
                                                             <i class="icon-user"></i>
                                                         </span>
                                                     </label>
                                                     <label>
                                                         <span class="block input-icon input-icon-right">
-                                                            <input type="password" class="span12" id="password" placeholder="Password" />
+                                                            <input type="password" class="span12" id="password" value="123456" placeholder="Password" />
                                                             <i class="icon-lock"></i>
                                                         </span>
                                                     </label>
@@ -67,8 +62,9 @@
                                                         <label class="span8">
                                                             <input type="checkbox"><span class="lbl"> Remember Me</span>
                                                         </label>
-                                                        <button onclick="Login()" class="span4 btn btn-small btn-primary"><i class="icon-key"></i> Login</button>
-                                                    </div>
+                                                        @*TODO:尼妹，这个第一次点击不正常？<button onclick="Login();" class="span4 btn btn-small btn-primary"><i class="icon-key"></i> Login</button>*@
+                                                            <input type="button" value="登录" onclick="Login();" />
+</div>
 
                                                 </fieldset>
                                             </form>
@@ -84,7 +80,7 @@
         </div>
     </div><!--/.fluid-container-->
     <!-- basic scripts -->
-    <script type="text/javascript" src="@Url.Content("~/Content/1.9.1/jquery.min.js")"></script>
+   
     <!-- page specific plugin scripts -->
     <!-- inline scripts related to this page -->
 
@@ -92,14 +88,23 @@
         function Login() {
             var username = $("#username").val();
             var password = $("#password").val();
-            $.post("/Home/Login",
-                    {
-                        username: username,
-                        password: password
-                    },
-                    function (data) {
-                           alert("登陆失败：" + data);
-                    });
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/Login",
+                data: {
+                    username: username,
+                    password: password
+                },
+                success: function(rel) {
+                    if (rel.Success)
+                        window.location = "/Home/Index";
+                    else
+                        alert("登陆失败：" + rel.Message);
+                }
+              
+            });
         }
     </script>
 </body>

@@ -122,7 +122,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="Content\1.9.1\jquery.min.js" />
     <Content Include="Content\avatars\avatar.png" />
     <Content Include="Content\avatars\avatar1.png" />
     <Content Include="Content\avatars\avatar2.png" />

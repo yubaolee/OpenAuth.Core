@@ -2,51 +2,22 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Dashboard - Ace Admin</title>
+    <title>DDD权限管理系统</title>
     <meta name="description" content="overview & stats" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- basic styles -->
     <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/css/bootstrap-responsive.min.css")" rel="stylesheet" />
     <link rel="stylesheet" href="@Url.Content("~/Content/css/font-awesome.min.css")" />
-    <!--[if IE 7]>
-      <link rel="stylesheet" href="css/font-awesome-ie7.min.css" />
-    <![endif]-->
-    <!-- page specific plugin styles -->
-    <!-- ace styles -->
     <link rel="stylesheet" href="@Url.Content("~/Content/css/ace.min.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Content/css/ace-responsive.min.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Content/css/ace-skins.min.css")" />
-    <!--[if lt IE 9]>
-      <link rel="stylesheet" href="css/ace-ie.min.css" />
-    <![endif]-->
-
 </head>
 <body>
-    
-
-    <!-- basic scripts -->
-    <script type="text/javascript" src="@Url.Content("~/Content/1.9.1/jquery.min.js")"></script>
-    <script type="text/javascript">
-        window.jQuery || document.write("<script src='~/Content/js/jquery-1.9.1.min.js'>\x3C/script>");
-    </script>
-
+    <script src="@Url.Content("~/Content/js/jquery-1.9.1.min.js")"></script>
     <script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
-    <!-- page specific plugin scripts -->
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="js/excanvas.min.js"></script>
-    <![endif]-->
-    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery-ui-1.10.2.custom.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.ui.touch-punch.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.slimscroll.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.easy-pie-chart.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.sparkline.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.flot.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.flot.pie.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.flot.resize.min.js")"></script>
-    <!-- ace scripts -->
     <script src="@Url.Content("~/Content/js/ace-elements.min.js")"></script>
-<script src="@Url.Content("~/Content/js/ace.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/ace.min.js")"></script>
 
     @RenderBody()
 </body>

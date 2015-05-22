@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using OpenAuth.Domain.Utility;
 
 namespace OpenAuth.Domain.Model
 {
-    public partial class User
+    public partial class User :EntityBase<string>
     {
         public User()
         {
@@ -11,7 +12,6 @@ namespace OpenAuth.Domain.Model
             this.Roles = new List<Role>();
         }
 
-        public string UserId { get; set; }
         public string Account { get; set; }
         public string Password { get; set; }
         public string RealName { get; set; }
@@ -23,5 +23,10 @@ namespace OpenAuth.Domain.Model
 
         public Role DefaultRole { get; set; }
 
+        protected override void Validate()
+        {
+            if(string.IsNullOrEmpty(Account))
+                AddBrokenRule(new BusinessRule("Account","用户帐号不能为空"));
+        }
     }
 }

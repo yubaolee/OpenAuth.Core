@@ -2,11 +2,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@RenderPage("~/Views/Shared/_Header.cshtml")
+@RenderPage("~/Views/Home/Header.cshtml")
 <div class="container-fluid" id="main-container">
     <a href="#" id="menu-toggler"><span></span></a><!-- menu toggler -->
-    @RenderPage("~/Views/Shared/Left.cshtml")
-    <div id="main-content" class="clearfix">
+@{
+    Html.RenderAction("LeftMenu","Menu");
+}
+<div id="main-content" class="clearfix">
 
         <div id="breadcrumbs">
 
@@ -14,7 +16,6 @@
 
                 <li><i class="icon-home"></i> <a href="#">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
 
-                <li class="active">Dashboard</li>
             </ul><!--.breadcrumb-->
 
         </div><!--#breadcrumbs-->

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
 using OpenAuth.App.DTO;
+using OpenAuth.Domain.Service;
 using OpenAuth.Infrastructure.Repository;
 
 namespace OpenAuth.UnitTest
@@ -12,9 +13,8 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void Login()
         {
-
             var loginReq = new LoginRequest { UserName = "admin", Password = "123456" };
-            var loginApp = new LoginApp(new UserRepository());
+            var loginApp = new LoginApp(new LoginService(new UserRepository()));
             var response = loginApp.Login(loginReq);
             Assert.IsTrue(response.Success);
             Assert.AreEqual(response.UserName, loginReq.UserName);

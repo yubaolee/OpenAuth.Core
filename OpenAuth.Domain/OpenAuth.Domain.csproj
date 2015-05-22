@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IMenuRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Model\Button.cs" />
     <Compile Include="Model\DataPermission.cs" />
@@ -49,6 +50,14 @@
     <Compile Include="Model\Role.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Service\LoginService.cs" />
+    <Compile Include="Service\MenuService.cs" />
+    <Compile Include="Utility\BusinessRule.cs" />
+    <Compile Include="Utility\EntityBase.cs" />
+    <Compile Include="Utility\IAggregateRoot.cs" />
+    <Compile Include="Utility\IReadOnlyRepository.cs" />
+    <Compile Include="Utility\IRepository.cs" />
+    <Compile Include="Utility\ValueObjectBase.cs" />
+    <Compile Include="Utility\ValueObjectIsInvalidException.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

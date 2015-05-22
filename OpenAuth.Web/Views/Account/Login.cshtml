@@ -57,7 +57,7 @@
                                                         </label>
                                                         <button id="btnLogin" type="button" data-loading-text="loading" onclick="Login();" class="span4 btn btn-small btn-primary"><i class="icon-key"></i> Login</button>
                                                     </div>
-                                                    
+
 
                                                 </fieldset>
                                             </form>
@@ -68,14 +68,13 @@
 
                         </div>
 
-                       
+
                     </div>
                 </div><!--/span-->
             </div><!--/row-->
         </div>
     </div><!--/.fluid-container-->
     <!-- basic scripts -->
-   
     <!-- page specific plugin scripts -->
     <!-- inline scripts related to this page -->
 
@@ -87,12 +86,12 @@
 
             $.ajax({
                 type: "POST",
-                url: "/Home/Login",
+                url: "/Account/Login",
                 data: {
                     username: username,
                     password: password
                 },
-                success: function(rel) {
+                success: function (rel) {
                     if (rel.Success)
                         window.location = "/Home/Index";
                     else {
@@ -106,7 +105,7 @@
                             '</div>');
                     }
                 }
-              
+
             });
         }
     </script>

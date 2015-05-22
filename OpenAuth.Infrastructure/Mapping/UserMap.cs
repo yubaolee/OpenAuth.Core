@@ -9,10 +9,10 @@ namespace OpenAuth.Infrastructure.Mapping
         public UserMap()
         {
             // Primary Key
-            this.HasKey(t => t.UserId);
+            this.HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.UserId)
+            this.Property(t => t.Id)
                 .IsRequired()
                 .HasMaxLength(50);
 
@@ -53,7 +53,7 @@ namespace OpenAuth.Infrastructure.Mapping
 
             // Table & Column Mappings
             this.ToTable("User");
-            this.Property(t => t.UserId).HasColumnName("UserId");
+            this.Property(t => t.Id).HasColumnName("UserId");
             this.Property(t => t.Account).HasColumnName("Account");
             this.Property(t => t.Password).HasColumnName("Password");
             this.Property(t => t.RealName).HasColumnName("RealName");

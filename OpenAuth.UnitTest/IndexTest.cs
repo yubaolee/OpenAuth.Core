@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenAuth.Domain.Model;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace OpenAuth.UnitTest
 {
@@ -10,9 +8,7 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void MenuTest()
         {
-            string userid = "";
-            IndexApp app = new IndexApp();
-            MenuResponse response = app.LoadMenu(userid);
+          
         }
     }
 }

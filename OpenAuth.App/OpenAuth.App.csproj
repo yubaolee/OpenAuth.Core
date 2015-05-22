@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,7 +42,11 @@
   <ItemGroup>
     <Compile Include="DTO\LoginRequest.cs" />
     <Compile Include="DTO\LoginResponse.cs" />
+    <Compile Include="DTO\MenuForUserRequest.cs" />
+    <Compile Include="DTO\MenuForUserResponse.cs" />
     <Compile Include="LoginApp.cs" />
+    <Compile Include="LoginCacheApp.cs" />
+    <Compile Include="MenuApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DTO\Response.cs" />
   </ItemGroup>

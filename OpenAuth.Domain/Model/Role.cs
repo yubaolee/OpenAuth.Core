@@ -1,19 +1,23 @@
 using System;
 using System.Collections.Generic;
+using OpenAuth.Domain.Utility;
 
 namespace OpenAuth.Domain.Model
 {
-    public partial class Role
+    public partial class Role :EntityBase<string>, IAggregateRoot
     {
         public Role()
         {
             this.DataPermissions = new List<DataPermission>();
             this.RoleMenus = new List<Menu>();
-            this.RoleMenuButtons = new List<RoleMenuButton>();
             this.Users = new List<User>();
         }
 
-        public string RoleId { get; set; }
+        protected override void Validate()
+        {
+            throw new NotImplementedException();
+        }
+
         public string ParentId { get; set; }
         public string FullName { get; set; }
         public string Category { get; set; }
@@ -25,7 +29,6 @@ namespace OpenAuth.Domain.Model
         public virtual ICollection<DataPermission> DataPermissions { get; set; }
         public virtual Department Department { get; set; }
         public virtual ICollection<Menu> RoleMenus { get; set; }
-        public virtual ICollection<RoleMenuButton> RoleMenuButtons { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

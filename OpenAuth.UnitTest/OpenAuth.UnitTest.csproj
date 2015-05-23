@@ -84,6 +84,10 @@
       <Project>{ADAE08C0-DE22-41F7-9F94-0E62AE327C25}</Project>
       <Name>OpenAuth.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj">
+      <Project>{E8DF8DEA-E2CF-4BDB-8F4F-3F8205B0E03A}</Project>
+      <Name>OpenAuth.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

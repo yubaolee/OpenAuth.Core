@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using OpenAuth.Domain.Interface;
 using OpenAuth.Domain.Model;
 
-namespace OpenAuth.Infrastructure.Repository
+namespace OpenAuth.Repository.Repository
 {
     public class UserRepository :BaseRepository, IUserRepository
     {

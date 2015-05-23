@@ -26,12 +26,13 @@ namespace OpenAuth.App
         {
             _menuService = service;
         }
-        public MenuForUserResponse LoadFor(MenuForUserRequest request)
+        public MenuForUserResponse LoadMenus()
         {
             var response = new MenuForUserResponse();
-            foreach (var menu in _menuService.GetMenuFor(request.UserId))
+            var user = LoginCacheApp.GetLogin();
+            if (user != null)
             {
-                response.Menus.Add(menu);
+              //  response.Menus = 
             }
             return response;
         }

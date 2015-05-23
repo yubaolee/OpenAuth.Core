@@ -2,7 +2,7 @@ using System.Data.Entity.ModelConfiguration;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Model;
 
-namespace OpenAuth.Infrastructure.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public class UserMap : EntityTypeConfiguration<User>
     {

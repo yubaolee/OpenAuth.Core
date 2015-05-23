@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using OpenAuth.Domain.Utility;
 
 namespace OpenAuth.Domain.Model
 {
-    public partial class Department
+    public partial class Department : EntityBase<string>, IAggregateRoot
     {
         public Department()
         {
@@ -11,7 +12,6 @@ namespace OpenAuth.Domain.Model
             this.Users = new List<User>();
         }
 
-        public string DepartmentId { get; set; }
         public string ParentId { get; set; }
         public string FullName { get; set; }
         public string Description { get; set; }
@@ -20,5 +20,9 @@ namespace OpenAuth.Domain.Model
         public bool DeleteMark { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
         public virtual ICollection<User> Users { get; set; }
+        protected override void Validate()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

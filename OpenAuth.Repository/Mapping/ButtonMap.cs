@@ -1,18 +1,17 @@
 using System.Data.Entity.ModelConfiguration;
-using OpenAuth.Domain;
 using OpenAuth.Domain.Model;
 
-namespace OpenAuth.Infrastructure.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public class ButtonMap : EntityTypeConfiguration<Button>
     {
         public ButtonMap()
         {
             // Primary Key
-            this.HasKey(t => t.ButtonId);
+            this.HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.ButtonId)
+            this.Property(t => t.Id)
                 .IsRequired()
                 .HasMaxLength(50);
 
@@ -36,7 +35,7 @@ namespace OpenAuth.Infrastructure.Mapping
 
             // Table & Column Mappings
             this.ToTable("Button");
-            this.Property(t => t.ButtonId).HasColumnName("ButtonId");
+            this.Property(t => t.Id).HasColumnName("ButtonId");
             this.Property(t => t.FullName).HasColumnName("FullName");
             this.Property(t => t.Img).HasColumnName("Img");
             this.Property(t => t.Event).HasColumnName("Event");

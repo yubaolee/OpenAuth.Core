@@ -1,18 +1,17 @@
 using System.Data.Entity.ModelConfiguration;
-using OpenAuth.Domain;
 using OpenAuth.Domain.Model;
 
-namespace OpenAuth.Infrastructure.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public class DepartmentMap : EntityTypeConfiguration<Department>
     {
         public DepartmentMap()
         {
             // Primary Key
-            this.HasKey(t => t.DepartmentId);
+            this.HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.DepartmentId)
+            this.Property(t => t.Id)
                 .IsRequired()
                 .HasMaxLength(50);
 
@@ -40,7 +39,7 @@ namespace OpenAuth.Infrastructure.Mapping
 
             // Table & Column Mappings
             this.ToTable("Department");
-            this.Property(t => t.DepartmentId).HasColumnName("DepartmentId");
+            this.Property(t => t.Id).HasColumnName("DepartmentId");
             this.Property(t => t.ParentId).HasColumnName("ParentId");
             this.Property(t => t.FullName).HasColumnName("FullName");
             this.Property(t => t.Description).HasColumnName("Description");

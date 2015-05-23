@@ -1,9 +1,8 @@
 using System.Data.Entity;
-using OpenAuth.Domain;
 using OpenAuth.Domain.Model;
-using OpenAuth.Infrastructure.Mapping;
+using OpenAuth.Repository.Mapping;
 
-namespace OpenAuth.Infrastructure
+namespace OpenAuth.Repository
 {
     public partial class OpenAuthDBContext : DbContext
     {
@@ -22,7 +21,6 @@ namespace OpenAuth.Infrastructure
         public DbSet<Department> Departments { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Role> Roles { get; set; }
-     //   public DbSet<RoleMenuButton> RoleMenuButtons { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -32,7 +30,6 @@ namespace OpenAuth.Infrastructure
             modelBuilder.Configurations.Add(new DepartmentMap());
             modelBuilder.Configurations.Add(new MenuMap());
             modelBuilder.Configurations.Add(new RoleMap());
-         //   modelBuilder.Configurations.Add(new RoleMenuButtonMap());
             modelBuilder.Configurations.Add(new UserMap());
         }
     }

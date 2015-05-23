@@ -4,7 +4,7 @@ using OpenAuth.Domain.Utility;
 
 namespace OpenAuth.Domain.Model
 {
-    public partial class User :EntityBase<string>
+    public partial class User :EntityBase<string>, IAggregateRoot
     {
         public User()
         {

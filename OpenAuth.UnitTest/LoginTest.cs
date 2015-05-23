@@ -2,7 +2,7 @@
 using OpenAuth.App;
 using OpenAuth.App.DTO;
 using OpenAuth.Domain.Service;
-using OpenAuth.Infrastructure.Repository;
+using OpenAuth.Repository.Repository;
 
 namespace OpenAuth.UnitTest
 {

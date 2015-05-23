@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ButtonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Global.asax.cs">
@@ -236,6 +237,10 @@
       <Project>{adae08c0-de22-41f7-9f94-0e62ae327c25}</Project>
       <Name>OpenAuth.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj">
+      <Project>{E8DF8DEA-E2CF-4BDB-8F4F-3F8205B0E03A}</Project>
+      <Name>OpenAuth.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\font\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff" />
@@ -260,6 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Button\List.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

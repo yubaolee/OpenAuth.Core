@@ -34,8 +34,8 @@
                 <b class="arrow icon-angle-down"></b>
             </a>
             <ul class="submenu">
-                <li><a href="pricing.html"><i class="icon-double-angle-right"></i> Pricing Tables</a></li>
-                <li><a href="invoice.html"><i class="icon-double-angle-right"></i> Invoice</a></li>
+                <li><a href="#" onclick="loadMenus();"><i class="icon-double-angle-right"></i> 菜单管理</a></li>
+                <li><a href="invoice.html"><i class="icon-double-angle-right"></i> 按钮管理</a></li>
                 <li><a href="login.html"><i class="icon-double-angle-right"></i> Login & Register</a></li>
                 <li><a href="error-404.html"><i class="icon-double-angle-right"></i> Error 404</a></li>
                 <li><a href="error-500.html"><i class="icon-double-angle-right"></i> Error 500</a></li>
@@ -46,3 +46,11 @@
 
     <div id="sidebar-collapse"><i class="icon-double-angle-left"></i></div>
 </div><!--/#sidebar-->
+
+<script type="text/javascript">
+    function loadMenus() {
+        $.get('@Url.Action("List","Button")', function (data, status) {
+            $("#main-content").html(data);
+        });
+    }
+</script>

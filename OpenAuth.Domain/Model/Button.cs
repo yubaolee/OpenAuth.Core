@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
+using OpenAuth.Domain.Utility;
 
 namespace OpenAuth.Domain.Model
 {
-    public partial class Button
+    public partial class Button : EntityBase<string>, IAggregateRoot
     {
         public Button()
         {
-            this.RoleMenuButtons = new List<RoleMenuButton>();
             this.Menus = new List<Menu>();
         }
 
-        public string ButtonId { get; set; }
         public string FullName { get; set; }
         public string Img { get; set; }
         public string Event { get; set; }
@@ -20,7 +19,10 @@ namespace OpenAuth.Domain.Model
         public string Description { get; set; }
         public bool Enabled { get; set; }
         public Nullable<int> SortCode { get; set; }
-        public virtual ICollection<RoleMenuButton> RoleMenuButtons { get; set; }
-        public virtual ICollection<Menu> Menus { get; set; } 
+        public virtual ICollection<Menu> Menus { get; set; }
+        protected override void Validate()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

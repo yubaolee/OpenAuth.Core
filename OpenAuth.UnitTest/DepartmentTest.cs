@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenAuth.Infrastructure;
+using OpenAuth.Repository;
 
 namespace OpenAuth.UnitTest
 {

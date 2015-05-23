@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.DTO;
 using OpenAuth.Domain.Service;
-using OpenAuth.Infrastructure.Repository;
+using OpenAuth.Repository.Repository;
 
 namespace OpenAuth.Web.Controllers
 {

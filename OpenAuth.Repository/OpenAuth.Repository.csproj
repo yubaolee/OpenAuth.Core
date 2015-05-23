@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0BBF2D65-FFFD-4272-B138-8EA4FB6FEC48}</ProjectGuid>
+    <ProjectGuid>{E8DF8DEA-E2CF-4BDB-8F4F-3F8205B0E03A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenAuth.App</RootNamespace>
-    <AssemblyName>OpenAuth.App</AssemblyName>
+    <RootNamespace>OpenAuth.Repository</RootNamespace>
+    <AssemblyName>OpenAuth.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,9 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,25 +46,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\LoginRequest.cs" />
-    <Compile Include="DTO\LoginResponse.cs" />
-    <Compile Include="DTO\MenuForUserRequest.cs" />
-    <Compile Include="DTO\MenuForUserResponse.cs" />
-    <Compile Include="LoginApp.cs" />
-    <Compile Include="LoginCacheApp.cs" />
-    <Compile Include="MenuApp.cs" />
+    <Compile Include="Mapping\ButtonMap.cs" />
+    <Compile Include="Mapping\DataPermissionMap.cs" />
+    <Compile Include="Mapping\DepartmentMap.cs" />
+    <Compile Include="Mapping\MenuMap.cs" />
+    <Compile Include="Mapping\RoleMap.cs" />
+    <Compile Include="Mapping\UserMap.cs" />
+    <Compile Include="OpenAuthDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DTO\Response.cs" />
+    <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenAuth.Domain\OpenAuth.Domain.csproj">
       <Project>{6108da8e-92a1-4abe-b9f5-26d64d55ca2c}</Project>
       <Name>OpenAuth.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenAuth.Infrastructure\OpenAuth.Infrastructure.csproj">
-      <Project>{adae08c0-de22-41f7-9f94-0e62ae327c25}</Project>
-      <Name>OpenAuth.Infrastructure</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="DB.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

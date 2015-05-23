@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using OpenAuth.App;
-using OpenAuth.App.DTO;
 using OpenAuth.Domain.Service;
-using OpenAuth.Infrastructure.Repository;
 
 namespace OpenAuth.Web.Controllers
 {
@@ -16,10 +11,8 @@ namespace OpenAuth.Web.Controllers
 
         public ActionResult LeftMenu()
         {
-            var service = new MenuService(new UserRepository());
-            MenuApp app = new MenuApp(service);
-            var request = new MenuForUserRequest {UserId = LoginCacheApp.GetLogin().UserId};
-            var response = app.LoadFor(request);
+            MenuApp app = new MenuApp(new MenuService());
+            var response = app.LoadMenus();
             return PartialView(response);
         }
 

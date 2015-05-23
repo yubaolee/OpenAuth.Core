@@ -2,17 +2,17 @@ using System.Data.Entity.ModelConfiguration;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Model;
 
-namespace OpenAuth.Infrastructure.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public class MenuMap : EntityTypeConfiguration<Menu>
     {
         public MenuMap()
         {
             // Primary Key
-            this.HasKey(t => t.MenuId);
+            this.HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.MenuId)
+            this.Property(t => t.Id)
                 .IsRequired()
                 .HasMaxLength(50);
 
@@ -58,7 +58,7 @@ namespace OpenAuth.Infrastructure.Mapping
 
             // Table & Column Mappings
             this.ToTable("Menu");
-            this.Property(t => t.MenuId).HasColumnName("MenuId");
+            this.Property(t => t.Id).HasColumnName("MenuId");
             this.Property(t => t.ParentId).HasColumnName("ParentId");
             this.Property(t => t.FullName).HasColumnName("FullName");
             this.Property(t => t.Description).HasColumnName("Description");

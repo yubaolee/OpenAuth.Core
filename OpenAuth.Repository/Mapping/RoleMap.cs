@@ -2,17 +2,17 @@ using System.Data.Entity.ModelConfiguration;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Model;
 
-namespace OpenAuth.Infrastructure.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public class RoleMap : EntityTypeConfiguration<Role>
     {
         public RoleMap()
         {
             // Primary Key
-            this.HasKey(t => t.RoleId);
+            this.HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.RoleId)
+            this.Property(t => t.Id)
                 .IsRequired()
                 .HasMaxLength(50);
 
@@ -55,7 +55,7 @@ namespace OpenAuth.Infrastructure.Mapping
 
             // Table & Column Mappings
             this.ToTable("Role");
-            this.Property(t => t.RoleId).HasColumnName("RoleId");
+            this.Property(t => t.Id).HasColumnName("RoleId");
             this.Property(t => t.ParentId).HasColumnName("ParentId");
             this.Property(t => t.FullName).HasColumnName("FullName");
             this.Property(t => t.Category).HasColumnName("Category");

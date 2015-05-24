@@ -1,4 +1,4 @@
-﻿namespace OpenAuth.Repository.Repository
+﻿namespace OpenAuth.Repository
 {
     public class BaseRepository
     {

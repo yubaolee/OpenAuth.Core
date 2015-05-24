@@ -2,7 +2,7 @@
 using OpenAuth.App;
 using OpenAuth.App.DTO;
 using OpenAuth.Domain.Service;
-using OpenAuth.Repository.Repository;
+using OpenAuth.Repository;
 
 namespace OpenAuth.Web.Controllers
 {

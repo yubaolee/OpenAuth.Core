@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Presentation(用户接口层)", "1 Presentation(用户接口层)", "{57649E80-38FC-421D-82E1-BE71A786F762}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Presentation(用户UI)", "1 Presentation(用户UI)", "{57649E80-38FC-421D-82E1-BE71A786F762}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 Application(应用层)", "2 Application(应用层)", "{757BB00A-46B6-4B9B-9331-D6B60BE92E05}"
 EndProject
@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Infrastructure", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.UnitTest", "OpenAuth.UnitTest\OpenAuth.UnitTest.csproj", "{2E6B5B73-7757-43F0-8AC8-3030F7C191B8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 Repository", "5 Repository", "{7A38939E-FC9B-44A9-BD3D-E0CE438624E6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 Repository(仓储）", "5 Repository(仓储）", "{7A38939E-FC9B-44A9-BD3D-E0CE438624E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Repository", "OpenAuth.Repository\OpenAuth.Repository.csproj", "{E8DF8DEA-E2CF-4BDB-8F4F-3F8205B0E03A}"
 EndProject

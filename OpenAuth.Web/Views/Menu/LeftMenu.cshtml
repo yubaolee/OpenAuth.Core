@@ -26,17 +26,16 @@
             </a>
         </li>
     }
-        
+        <li><a href="#" id="menuLoadMenus"><i class="icon-double-angle-right"></i> 菜单管理</a></li>
+        <li><a href="#" id="menuLoadButtons"><i class="icon-double-angle-right"></i> 按钮管理</a></li>
         <li>
             <a href="#" class="dropdown-toggle">
                 <i class="icon-file"></i>
-                <span>Other Pages</span>
+                <span>其他</span>
                 <b class="arrow icon-angle-down"></b>
             </a>
             <ul class="submenu">
-                <li><a href="#" onclick="loadMenus();"><i class="icon-double-angle-right"></i> 菜单管理</a></li>
-                <li><a href="invoice.html"><i class="icon-double-angle-right"></i> 按钮管理</a></li>
-                <li><a href="login.html"><i class="icon-double-angle-right"></i> Login & Register</a></li>
+               <li><a href="login.html"><i class="icon-double-angle-right"></i> Login & Register</a></li>
                 <li><a href="error-404.html"><i class="icon-double-angle-right"></i> Error 404</a></li>
                 <li><a href="error-500.html"><i class="icon-double-angle-right"></i> Error 500</a></li>
                 <li><a href="blank.html"><i class="icon-double-angle-right"></i> Blank Page</a></li>
@@ -48,9 +47,18 @@
 </div><!--/#sidebar-->
 
 <script type="text/javascript">
-    function loadMenus() {
-        $.get('@Url.Action("List","Button")', function (data, status) {
-            $("#main-content").html(data);
+    $(document).ready(function() {
+        $("#menuLoadButtons").click(function () {
+            $.get('@Url.Action("List","Button")', function (data, status) {
+                $("#main-content").html(data);
+            });
         });
-    }
+
+        $("#menuLoadMenus").click(function () {
+            $.get('@Url.Action("List","Menu")', function (data, status) {
+                $("#main-content").html(data);
+            });
+        });
+    });
+
 </script>

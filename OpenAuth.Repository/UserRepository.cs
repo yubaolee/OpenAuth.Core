@@ -3,7 +3,7 @@ using System.Linq;
 using OpenAuth.Domain.Interface;
 using OpenAuth.Domain.Model;
 
-namespace OpenAuth.Repository.Repository
+namespace OpenAuth.Repository
 {
     public class UserRepository :BaseRepository, IUserRepository
     {

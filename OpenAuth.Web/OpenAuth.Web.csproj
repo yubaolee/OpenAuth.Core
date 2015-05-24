@@ -266,6 +266,7 @@
   <ItemGroup>
     <None Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Button\List.cshtml" />
+    <Content Include="Views\Menu\List.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

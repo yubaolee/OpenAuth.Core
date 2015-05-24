@@ -16,5 +16,10 @@ namespace OpenAuth.Web.Controllers
             return PartialView(response);
         }
 
+        public ActionResult List()
+        {
+            return View();
+        }
+
     }
 }

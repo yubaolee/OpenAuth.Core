@@ -9,7 +9,7 @@ namespace OpenAuth.Web.Controllers
         //
         // GET: /Menu/
 
-        public ActionResult LeftMenu()
+        public ActionResult Navigate()
         {
             MenuApp app = new MenuApp(new MenuService());
             var response = app.LoadMenus();

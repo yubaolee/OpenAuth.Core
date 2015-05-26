@@ -1,43 +1,17 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@RenderPage("~/Views/Home/Header.cshtml")
-<div class="container-fluid" id="main-container">
-    <a href="#" id="menu-toggler"><span></span></a><!-- menu toggler -->
-    @{
-        Html.RenderAction("LeftMenu", "Menu");
-    }
-    <div id="main-content" class="clearfix">
-
-        <div id="breadcrumbs">
-
-            <ul class="breadcrumb">
-
-                <li><i class="icon-home"></i> <a href="#">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-
-            </ul><!--.breadcrumb-->
-
-        </div><!--#breadcrumbs-->
-
-        <div id="page-content" class="clearfix">
-
-            <div class="row-fluid">
-
-                <div class="row-fluid">
-
-
-                </div><!--/row-->
-
-                <div class="hr hr32 hr-dotted"></div>
-
-                <!-- PAGE CONTENT ENDS HERE -->
-            </div><!--/row-->
-
-        </div><!--/#page-content-->
-    </div><!-- #main-content -->
-</div><!--/.fluid-container#main-container-->
-<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
-    <i class="icon-double-angle-up icon-only"></i>
-</a>
-<!-- inline scripts related to this page -->
+<div id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li><i class="icon-home"></i> <a href="#">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+    </ul><!--.breadcrumb-->
+</div><!--#breadcrumbs-->
+<div id="page-content" class="clearfix">
+    <div class="row-fluid">
+        <div class="row-fluid">
+            Welcome To Domain Driven Design System
+        </div><!--/row-->
+        <div class="hr hr32 hr-dotted"></div>
+        <!-- PAGE CONTENT ENDS HERE -->
+    </div><!--/row-->
+</div><!--/#page-content-->

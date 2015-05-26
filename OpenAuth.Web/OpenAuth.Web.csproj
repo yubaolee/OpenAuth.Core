@@ -51,7 +51,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -74,9 +73,6 @@
     <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <Private>True</Private>
@@ -140,26 +136,13 @@
     <Content Include="Content\avatars\avatar3.png" />
     <Content Include="Content\avatars\avatar4.png" />
     <Content Include="Content\avatars\user.jpg" />
-    <Content Include="Content\css\ace-ie.min.css" />
     <Content Include="Content\css\ace-responsive.min.css" />
-    <Content Include="Content\css\ace-skins.min.css" />
     <Content Include="Content\css\ace.min.css" />
     <Content Include="Content\css\bootstrap-responsive.min.css" />
-    <Content Include="Content\css\bootstrap-timepicker.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\chosen-sprite%402x.png" />
     <Content Include="Content\css\chosen-sprite.png" />
-    <Content Include="Content\css\chosen.css" />
-    <Content Include="Content\css\colorbox.css" />
-    <Content Include="Content\css\colorpicker.css" />
-    <Content Include="Content\css\datepicker.css" />
-    <Content Include="Content\css\daterangepicker.css" />
-    <Content Include="Content\css\font-awesome-ie7.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
-    <Content Include="Content\css\fullcalendar.css" />
-    <Content Include="Content\css\jquery-ui-1.10.2.custom.min.css" />
-    <Content Include="Content\css\jquery.gritter.css" />
-    <Content Include="Content\css\prettify.css" />
     <Content Include="Content\images\border.png" />
     <Content Include="Content\images\controls.png" />
     <Content Include="Content\images\gritter-light.png" />
@@ -175,38 +158,8 @@
     <Content Include="Content\img\saturation.png" />
     <Content Include="Content\js\ace-elements.min.js" />
     <Content Include="Content\js\ace.min.js" />
-    <Content Include="Content\js\bootbox.min.js" />
-    <Content Include="Content\js\bootstrap-colorpicker.min.js" />
-    <Content Include="Content\js\bootstrap-datepicker.min.js" />
-    <Content Include="Content\js\bootstrap-timepicker.min.js" />
     <Content Include="Content\js\bootstrap.min.js" />
-    <Content Include="Content\js\chosen.jquery.min.js" />
-    <Content Include="Content\js\date.js" />
-    <Content Include="Content\js\daterangepicker.min.js" />
-    <Content Include="Content\js\excanvas.min.js" />
-    <Content Include="Content\js\fuelux.spinner.js" />
-    <Content Include="Content\js\fuelux.wizard.js" />
-    <Content Include="Content\js\fullcalendar.min.js" />
     <Content Include="Content\js\jquery-1.9.1.min.js" />
-    <Content Include="Content\js\jquery-ui-1.10.2.custom.min.js" />
-    <Content Include="Content\js\jquery.autosize-min.js" />
-    <Content Include="Content\js\jquery.colorbox-min.js" />
-    <Content Include="Content\js\jquery.dataTables.bootstrap.js" />
-    <Content Include="Content\js\jquery.dataTables.min.js" />
-    <Content Include="Content\js\jquery.easy-pie-chart.min.js" />
-    <Content Include="Content\js\jquery.flot.min.js" />
-    <Content Include="Content\js\jquery.flot.pie.min.js" />
-    <Content Include="Content\js\jquery.flot.resize.min.js" />
-    <Content Include="Content\js\jquery.gritter.min.js" />
-    <Content Include="Content\js\jquery.inputlimiter.1.3.1.min.js" />
-    <Content Include="Content\js\jquery.knob.min.js" />
-    <Content Include="Content\js\jquery.maskedinput.min.js" />
-    <Content Include="Content\js\jquery.slimscroll.min.js" />
-    <Content Include="Content\js\jquery.sparkline.min.js" />
-    <Content Include="Content\js\jquery.ui.touch-punch.min.js" />
-    <Content Include="Content\js\jquery.validate.min.js" />
-    <Content Include="Content\js\prettify.js" />
-    <Content Include="Content\js\spin.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -261,7 +214,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Menu\LeftMenu.cshtml" />
+    <Content Include="Views\Menu\Navigate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Account\Login.cshtml" />

@@ -39,25 +39,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Button.cs" />
+    <Compile Include="DataPermission.cs" />
+    <Compile Include="Department.cs" />
     <Compile Include="Interface\IMenuRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
-    <Compile Include="ModelBehavior\User.cs" />
-    <Compile Include="Model\Button.cs" />
-    <Compile Include="Model\DataPermission.cs" />
-    <Compile Include="Model\Department.cs" />
-    <Compile Include="Model\Menu.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="MenuButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\Role.cs" />
-    <Compile Include="Model\User.cs" />
-    <Compile Include="Service\LoginService.cs" />
-    <Compile Include="Service\MenuService.cs" />
-    <Compile Include="Utility\BusinessRule.cs" />
-    <Compile Include="Utility\EntityBase.cs" />
-    <Compile Include="Utility\IAggregateRoot.cs" />
-    <Compile Include="Utility\IReadOnlyRepository.cs" />
-    <Compile Include="Utility\IRepository.cs" />
-    <Compile Include="Utility\ValueObjectBase.cs" />
-    <Compile Include="Utility\ValueObjectIsInvalidException.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="RoleMenu.cs" />
+    <Compile Include="RoleMenuButton.cs" />
+    <Compile Include="sysdiagram.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserDepartment.cs" />
+    <Compile Include="UserRole.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

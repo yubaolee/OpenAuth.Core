@@ -40,24 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\LoginRequest.cs" />
-    <Compile Include="DTO\LoginResponse.cs" />
-    <Compile Include="DTO\MenuForUserRequest.cs" />
-    <Compile Include="DTO\MenuForUserResponse.cs" />
     <Compile Include="LoginApp.cs" />
     <Compile Include="LoginCacheApp.cs" />
-    <Compile Include="MenuApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DTO\Response.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenAuth.Domain\OpenAuth.Domain.csproj">
       <Project>{6108da8e-92a1-4abe-b9f5-26d64d55ca2c}</Project>
       <Name>OpenAuth.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenAuth.Infrastructure\OpenAuth.Infrastructure.csproj">
-      <Project>{adae08c0-de22-41f7-9f94-0e62ae327c25}</Project>
-      <Name>OpenAuth.Infrastructure</Name>
+    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj">
+      <Project>{e8df8dea-e2cf-4bdb-8f4f-3f8205b0e03a}</Project>
+      <Name>OpenAuth.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using OpenAuth.Domain.Model;
+using System.Linq;
 
 namespace OpenAuth.Domain.Interface
 {
@@ -7,6 +7,8 @@ namespace OpenAuth.Domain.Interface
     {
         User FindByAccount(string account);
         User FindById(string id);
+
+        IEnumerable<User> LoadUsers();
 
     }
 }

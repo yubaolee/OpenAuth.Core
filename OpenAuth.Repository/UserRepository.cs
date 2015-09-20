@@ -1,35 +1,27 @@
-﻿using System;
+﻿using OpenAuth.Domain.Interface;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using OpenAuth.Domain.Interface;
-using OpenAuth.Domain.Model;
+using System.Text;
+using OpenAuth.Domain;
 
 namespace OpenAuth.Repository
 {
     public class UserRepository :BaseRepository, IUserRepository
     {
-        public User FindByAccount(string username)
+        public User FindByAccount(string account)
         {
-            try
-            {
-                return _Context.Users.First(e => e.Account == username);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return Context.Users.SingleOrDefault(u => u.Account == account);
         }
 
         public User FindById(string id)
         {
-            try
-            {
-                return _Context.Users.First(e => e.Id == id);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return Context.Users.SingleOrDefault(u => u.UserId == id);
+        }
+
+        public IEnumerable<User> LoadUsers()
+        {
+            return Context.Users.ToList();
         }
     }
-
 }

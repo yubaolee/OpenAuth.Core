@@ -1,38 +1,29 @@
 using System;
-using System.Linq;
-using System.Security.Cryptography;
-using OpenAuth.App.DTO;
 using OpenAuth.Domain.Interface;
-using OpenAuth.Domain.Service;
 
 namespace OpenAuth.App
 {
     public class LoginApp
     {
-        private LoginService _loginService;
+        private IUserRepository _repository;
 
-        public LoginApp(LoginService service)
+        public LoginApp(IUserRepository repository)
         {
-            _loginService = service;
+            _repository = repository;
         }
 
-        public LoginResponse Login(LoginRequest request)
+        public void Login(string userName, string password)
         {
-            var resp = new LoginResponse {UserName = request.UserName};
+            var user = _repository.FindByAccount(userName);
+            if (user == null)
+            {
+                throw new Exception("用户帐号不存在");
+            }
 
-            try
-            {
-                var user = _loginService.Login(request.UserName, request.Password);
-                resp.UserId = user.Id;
-                resp.Success = true;
-            }
-            catch (Exception ex)
-            {
-                resp.Success = false;
-                resp.Message = ex.Message;
-            }
-           
-            return resp;
+            user.CheckLogin(password);
+
+            LoginCacheApp.SetLogin(user);
+
         }
     }
 }

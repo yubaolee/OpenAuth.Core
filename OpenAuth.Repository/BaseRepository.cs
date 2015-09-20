@@ -1,7 +1,13 @@
-﻿namespace OpenAuth.Repository
+﻿using OpenAuth.Repository.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OpenAuth.Repository
 {
-    public class BaseRepository
+   public  class BaseRepository
     {
-        protected OpenAuthDBContext _Context = new OpenAuthDBContext();
+       protected OpenAuthDBContext Context = new OpenAuthDBContext();
     }
 }

@@ -1,21 +1,20 @@
 ﻿using System.Web;
-
-using OpenAuth.App.DTO;
+using OpenAuth.Domain;
 
 namespace OpenAuth.App
 {
     public  class LoginCacheApp
     {
-        public static LoginResponse GetLogin()
+        public static User GetLogin()
         {
             var session = HttpContext.Current.Session;
-            return session["Login"] as LoginResponse;
+            return session["Login"] as User;
         }
 
-        public static void SetLogin(LoginResponse loginresp)
+        public static void SetLogin(User loginresp)
         {
             var session = HttpContext.Current.Session;
-            var login = session["Login"] as LoginResponse;
+            var login = session["Login"] as User;
             if (login != null && login.UserId == loginresp.UserId)
             {
                 return;

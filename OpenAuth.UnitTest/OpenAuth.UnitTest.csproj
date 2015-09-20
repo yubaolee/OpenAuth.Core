@@ -61,11 +61,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DbContextTest.cs" />
-    <Compile Include="DepartmentTest.cs" />
-    <Compile Include="IndexTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LoginTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -79,10 +75,6 @@
     <ProjectReference Include="..\OpenAuth.Domain\OpenAuth.Domain.csproj">
       <Project>{6108DA8E-92A1-4ABE-B9F5-26D64D55CA2C}</Project>
       <Name>OpenAuth.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenAuth.Infrastructure\OpenAuth.Infrastructure.csproj">
-      <Project>{ADAE08C0-DE22-41F7-9F94-0E62AE327C25}</Project>
-      <Name>OpenAuth.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj">
       <Project>{E8DF8DEA-E2CF-4BDB-8F4F-3F8205B0E03A}</Project>

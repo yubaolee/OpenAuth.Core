@@ -175,11 +175,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\avatars\avatar.png" />
-    <Content Include="assets\avatars\avatar1.png" />
-    <Content Include="assets\avatars\avatar2.png" />
-    <Content Include="assets\avatars\avatar3.png" />
-    <Content Include="assets\avatars\avatar4.png" />
-    <Content Include="assets\avatars\avatar5.png" />
     <Content Include="assets\avatars\profile-pic.jpg" />
     <Content Include="assets\avatars\user.jpg" />
     <Content Include="assets\css\ace-ie.min.css" />
@@ -204,18 +199,6 @@
     <Content Include="assets\css\jquery.gritter.css" />
     <Content Include="assets\css\select2.css" />
     <Content Include="assets\css\ui.jqgrid.css" />
-    <Content Include="assets\images\gallery\image-1.jpg" />
-    <Content Include="assets\images\gallery\image-2.jpg" />
-    <Content Include="assets\images\gallery\image-3.jpg" />
-    <Content Include="assets\images\gallery\image-4.jpg" />
-    <Content Include="assets\images\gallery\image-5.jpg" />
-    <Content Include="assets\images\gallery\image-6.jpg" />
-    <Content Include="assets\images\gallery\thumb-1.jpg" />
-    <Content Include="assets\images\gallery\thumb-2.jpg" />
-    <Content Include="assets\images\gallery\thumb-3.jpg" />
-    <Content Include="assets\images\gallery\thumb-4.jpg" />
-    <Content Include="assets\images\gallery\thumb-5.jpg" />
-    <Content Include="assets\images\gallery\thumb-6.jpg" />
     <Content Include="assets\js\ace-elements.min.js" />
     <Content Include="assets\js\ace-extra.min.js" />
     <Content Include="assets\js\ace.min.js" />

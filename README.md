@@ -9,5 +9,6 @@
 3. OpenAuth.App 应用层，为界面提供接口
 4. OpenAuth.Mvc 采用bootstrap ace admin界面的前端
 5. OpenAuth.UnitTest 单元测试
+6. Infrastructure 通用工具集合
 
 

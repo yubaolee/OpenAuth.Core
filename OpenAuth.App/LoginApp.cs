@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 
 namespace OpenAuth.App
@@ -23,6 +25,11 @@ namespace OpenAuth.App
             user.CheckLogin(password);
 
 
+        }
+
+        public IEnumerable<User> LoadUsers()
+        {
+            return _repository.LoadUsers();
         }
     }
 }

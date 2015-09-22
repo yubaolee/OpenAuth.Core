@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using OpenAuth.App;
 using OpenAuth.Domain.Interface;
 using OpenAuth.Repository;
 
@@ -31,6 +32,7 @@ namespace OpenAuth.Mvc
             var builder = new ContainerBuilder();
 
             builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder.RegisterType<LoginApp>();
 
             // Register your MVC controllers.
             builder.RegisterControllers(typeof (MvcApplication).Assembly);

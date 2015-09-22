@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using OpenAuth.Mvc.Models;
-using System.Collections.Generic;
-using System.Security.Claims;
+﻿using System;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Infrastructure.Helper;
 using Newtonsoft.Json;
 using OpenAuth.App;
-using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
+using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -18,12 +13,10 @@ namespace OpenAuth.Mvc.Controllers
     public class AccountController : Controller
     {
         private LoginApp _loginApp;
-        private IUserRepository _userRepository;
 
-        public AccountController(IUserRepository repository)
+        public AccountController()
         {
-            _userRepository = repository;
-            _loginApp = new LoginApp(_userRepository);
+            _loginApp = (LoginApp) DependencyResolver.Current.GetService(typeof (LoginApp));
         }
         //
         // GET: /Account/Login
@@ -44,15 +37,15 @@ namespace OpenAuth.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 //直接生成登陆用户，在实际的项目中采用数据库形式
-                var user = new User {Account = "admin"};
-                if (user != null)
+                try
                 {
-                    
+                    _loginApp.Login(model.UserName, model.Password);
+                    SessionHelper.AddSessionUser(model);
                     return RedirectToLocal(returnUrl);
                 }
-                else
+                catch (Exception exception)
                 {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    ModelState.AddModelError("", exception.Message);
                 }
             }
 
@@ -72,10 +65,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
-        public string LoadUsers()
-        {
-            return JsonConvert.SerializeObject(_userRepository.LoadUsers());
-        }
+      
 
 
 

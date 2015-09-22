@@ -17,11 +17,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Domain", "OpenAuth
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.UnitTest", "OpenAuth.UnitTest\OpenAuth.UnitTest.csproj", "{2E6B5B73-7757-43F0-8AC8-3030F7C191B8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 Repository(仓储）", "4 Repository(仓储）", "{7A38939E-FC9B-44A9-BD3D-E0CE438624E6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 功能适配层", "4 功能适配层", "{7A38939E-FC9B-44A9-BD3D-E0CE438624E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Repository", "OpenAuth.Repository\OpenAuth.Repository.csproj", "{E8DF8DEA-E2CF-4BDB-8F4F-3F8205B0E03A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Mvc", "OpenAuth.Mvc\OpenAuth.Mvc.csproj", "{2A9D9687-1822-41CF-B7DF-819BFC0F8FE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{5FEAEC9A-4F1E-4EE7-B377-9DB1B0870DAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{2A9D9687-1822-41CF-B7DF-819BFC0F8FE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A9D9687-1822-41CF-B7DF-819BFC0F8FE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A9D9687-1822-41CF-B7DF-819BFC0F8FE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FEAEC9A-4F1E-4EE7-B377-9DB1B0870DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FEAEC9A-4F1E-4EE7-B377-9DB1B0870DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FEAEC9A-4F1E-4EE7-B377-9DB1B0870DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FEAEC9A-4F1E-4EE7-B377-9DB1B0870DAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{6108DA8E-92A1-4ABE-B9F5-26D64D55CA2C} = {7618C0B1-D556-40C2-B2DD-CCECDC4E46B6}
 		{2E6B5B73-7757-43F0-8AC8-3030F7C191B8} = {C59DF46D-7815-462B-9FFF-750B2120B75B}
 		{E8DF8DEA-E2CF-4BDB-8F4F-3F8205B0E03A} = {7A38939E-FC9B-44A9-BD3D-E0CE438624E6}
+		{5FEAEC9A-4F1E-4EE7-B377-9DB1B0870DAC} = {7A38939E-FC9B-44A9-BD3D-E0CE438624E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35

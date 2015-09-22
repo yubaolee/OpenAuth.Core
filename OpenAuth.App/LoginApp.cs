@@ -22,7 +22,6 @@ namespace OpenAuth.App
 
             user.CheckLogin(password);
 
-            LoginCacheApp.SetLogin(user);
 
         }
     }

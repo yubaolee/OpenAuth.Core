@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0BBF2D65-FFFD-4272-B138-8EA4FB6FEC48}</ProjectGuid>
+    <ProjectGuid>{5FEAEC9A-4F1E-4EE7-B377-9DB1B0870DAC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenAuth.App</RootNamespace>
-    <AssemblyName>OpenAuth.App</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Infrastructure</RootNamespace>
+    <AssemblyName>Infrastructure</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,18 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LoginApp.cs" />
+    <Compile Include="Helper\CookieHelper.cs" />
+    <Compile Include="Helper\SessionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenAuth.Domain\OpenAuth.Domain.csproj">
-      <Project>{6108da8e-92a1-4abe-b9f5-26d64d55ca2c}</Project>
-      <Name>OpenAuth.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj">
-      <Project>{e8df8dea-e2cf-4bdb-8f4f-3f8205b0e03a}</Project>
-      <Name>OpenAuth.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

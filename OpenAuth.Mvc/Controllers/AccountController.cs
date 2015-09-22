@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Infrastructure.Helper;
 using Newtonsoft.Json;
 using OpenAuth.App;
 using OpenAuth.Domain;
@@ -16,11 +17,13 @@ namespace OpenAuth.Mvc.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private LoginApp _loginApp;
         private IUserRepository _userRepository;
 
         public AccountController(IUserRepository repository)
         {
             _userRepository = repository;
+            _loginApp = new LoginApp(_userRepository);
         }
         //
         // GET: /Account/Login
@@ -44,7 +47,7 @@ namespace OpenAuth.Mvc.Controllers
                 var user = new User {Account = "admin"};
                 if (user != null)
                 {
-                    await SignInAsync(user, model.RememberMe);
+                    
                     return RedirectToLocal(returnUrl);
                 }
                 else
@@ -61,7 +64,7 @@ namespace OpenAuth.Mvc.Controllers
         // POST: /Account/LogOff
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
+            SessionHelper.Clear();
             return RedirectToAction("Login", "Account");
         }
 
@@ -74,36 +77,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonConvert.SerializeObject(_userRepository.LoadUsers());
         }
 
-        #region 帮助程序
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
-
-        /// <summary>
-        /// sign information as an asynchronous operation.
-        /// </summary>
-        /// <param name="user">用户</param>
-        /// <param name="isPersistent">Remember me?</param>
-        /// <returns>Task.</returns>
-        private async Task SignInAsync(User user, bool isPersistent)
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Account),
-                new Claim(ClaimTypes.Role, "Administrator"),
-                new Claim(ClaimTypes.NameIdentifier, "7c301fe4-099e-46f9-bdb8-e922d73a8031"),
-                new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider",
-                    "ASP.NET Identity")
-            };
-            var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
-        }
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
@@ -117,6 +91,5 @@ namespace OpenAuth.Mvc.Controllers
             }
         }
 
-        #endregion 帮助程序
     }
 }

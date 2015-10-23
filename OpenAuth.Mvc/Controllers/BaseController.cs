@@ -25,12 +25,12 @@ namespace OpenAuth.Mvc.Controllers
 		{
 			base.OnActionExecuting(filterContext);
 
-			#region 当Session过期自动跳出登录画面
-			if (SessionHelper.GetSessionUser<LoginViewModel>() == null)
-			{
-				Response.Redirect("~/Account/Login");
-			}
-			#endregion
+            //#region 当Session过期自动跳出登录画面
+            //if (SessionHelper.GetSessionUser<LoginViewModel>() == null)
+            //{
+            //    Response.Redirect("~/Account/Login");
+            //}
+            //#endregion
 		}
 	}
 }

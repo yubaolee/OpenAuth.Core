@@ -1,25 +1,19 @@
 using System;
+using System.Collections.Generic;
 
 namespace OpenAuth.Domain
 {
     public partial class User
     {
-        public string UserId { get; set; }
+        public int Id { get; set; }
         public string Account { get; set; }
         public string Password { get; set; }
-        public string RealName { get; set; }
-        public string RoleId { get; set; }
-        public bool Enabled { get; set; }
-        public bool DeleteMark { get; set; }
-
-        public void CheckLogin(string password)
-        {
-            if(this.Password != password)
-                throw new Exception("密码错误");
-            if(!this.Enabled)
-                throw new Exception("用户已经被停用");
-            if (DeleteMark)
-                throw new Exception("该账号已经被删除");
-        }
+        public string Name { get; set; }
+        public int Sex { get; set; }
+        public int Status { get; set; }
+        public int Type { get; set; }
+        public string BizCode { get; set; }
+        public System.DateTime CreateTime { get; set; }
+        public int CreateId { get; set; }
     }
 }

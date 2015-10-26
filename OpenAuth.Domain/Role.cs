@@ -1,15 +1,17 @@
+using System;
+using System.Collections.Generic;
+
 namespace OpenAuth.Domain
 {
     public partial class Role
     {
-        public string RoleId { get; set; }
-        public string ParentId { get; set; }
-        public string FullName { get; set; }
-        public string Category { get; set; }
-        public string Description { get; set; }
-        public bool Enabled { get; set; }
-        public int SortCode { get; set; }
-        public bool DeleteMark { get; set; }
-        public string DepartmentId { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Status { get; set; }
+        public int Type { get; set; }
+        public System.DateTime CreateTime { get; set; }
+        public string CreateId { get; set; }
+        public int CreateOrgId { get; set; }
+        public string CreateOrgCascadeId { get; set; }
     }
 }

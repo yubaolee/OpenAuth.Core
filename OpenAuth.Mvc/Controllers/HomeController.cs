@@ -21,9 +21,9 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ContentResult Main()
+        public ActionResult Main()
         {
-            return Content("欢迎使用基于DDD的权限管理系统");
+            return View();
         }
 
         public ActionResult Login()

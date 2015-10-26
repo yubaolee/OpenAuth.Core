@@ -120,8 +120,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="AutofacExt.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ModuleManagerController.cs" />
+    <Compile Include="Controllers\OrgManagerController.cs" />
+    <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -129,6 +133,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BJUI\images\captcha.jpeg" />
     <Content Include="BJUI\images\datagrid\AU.gif" />
     <Content Include="BJUI\images\datagrid\BR.gif" />
     <Content Include="BJUI\images\datagrid\CN.gif" />
@@ -142,14 +147,7 @@
     <Content Include="BJUI\images\loginbg_02.jpg" />
     <Content Include="BJUI\images\loginbg_03.jpg" />
     <Content Include="BJUI\images\loginbg_04.jpg" />
-    <Content Include="BJUI\images\loginbg_05.jpg" />
-    <Content Include="BJUI\images\loginbg_06.jpg" />
-    <Content Include="BJUI\images\loginbg_07.jpg" />
-    <Content Include="BJUI\images\loginbg_08.jpg" />
-    <Content Include="BJUI\images\loginbg_09.jpg" />
-    <Content Include="BJUI\images\logo.jpg" />
     <Content Include="BJUI\images\logo.png" />
-    <Content Include="BJUI\images\logo_bootstrap.png" />
     <Content Include="BJUI\js\bjui-ajax.js" />
     <Content Include="BJUI\js\bjui-ajaxtab.js" />
     <Content Include="BJUI\js\bjui-alertmsg.js" />
@@ -563,6 +561,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\UserManager\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -603,6 +602,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrgManager\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Main.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

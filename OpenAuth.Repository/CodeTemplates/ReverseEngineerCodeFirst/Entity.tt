@@ -48,8 +48,6 @@ namespace OpenAuth.Domain
                 "System.Data.Spatial.",
                 "System.Data.Entity.Spatial.");
         }
-
-        
 #>
         <#= Accessibility.ForProperty(property) #> <#= typeUsage #> <#= code.Escape(property) #> { get; set; }
 <#

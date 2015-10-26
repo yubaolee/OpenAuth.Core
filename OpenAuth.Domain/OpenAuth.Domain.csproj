@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenAuth.Domain</RootNamespace>
     <AssemblyName>OpenAuth.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,20 +42,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Button.cs" />
-    <Compile Include="DataPermission.cs" />
-    <Compile Include="Department.cs" />
-    <Compile Include="Interface\IMenuRepository.cs" />
+    <Compile Include="Interface\IOrgRepository.cs" />
+    <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="MenuButton.cs" />
+    <Compile Include="Module.cs" />
+    <Compile Include="ModuleRole.cs" />
+    <Compile Include="Org.cs" />
+    <Compile Include="Page.cs" />
+    <Compile Include="PageElement.cs" />
+    <Compile Include="PageElementGrant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
-    <Compile Include="RoleMenu.cs" />
-    <Compile Include="RoleMenuButton.cs" />
-    <Compile Include="sysdiagram.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="UserDepartment.cs" />
+    <Compile Include="UserCfg.cs" />
+    <Compile Include="UserExt.cs" />
+    <Compile Include="UserModule.cs" />
+    <Compile Include="UserOrg.cs" />
     <Compile Include="UserRole.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,58 @@
+﻿<script type="text/javascript">
+   
+
+    $('#test-datagrid-array').datagrid({
+        gridTitle: '机构列表显示',
+        showToolbar: true,
+        toolbarItem: 'all',
+        addLocation: 'first',
+        local: 'local',
+        dataUrl: 'OrgManager/LoadOrg',
+        dataType: 'json',
+        columns: [
+            {
+                name: 'Type',
+                label: '类型',
+                type: 'select',
+                items: [ { '0': '默认' }],
+                align: 'center',
+                width: 80,
+                render: $.datagrid.renderItem
+            },
+            {
+                name: 'Name',
+                label: '机构名称',
+                align: 'center',
+                width: 100,
+                rule: 'required'
+            },
+            
+           
+            
+            {
+                name: 'CreateTime',
+                label: '登记日期',
+                type: 'date',
+                pattern: 'yyyy-MM-dd HH:mm'
+            }
+        ],
+        hiddenFields: ['Id'],
+        editUrl: 'ajaxDone1.html',
+        delUrl: 'ajaxDone1.html',
+        paging: { total: 30, pageSize: 5 },
+        showTfoot: true,
+        editMode: 'dialog',
+        fullGrid: true,
+        showLinenumber: true,
+        showCheckboxcol: true
+    })
+
+  
+</script>
+<div class="bjui-pageContent">
+    <div style="padding:15px; height:100%; width:100%;">
+       
+        <table id="test-datagrid-array" data-width="100%" data-height="280" class="table table-bordered"></table>
+      
+    </div>
+</div>

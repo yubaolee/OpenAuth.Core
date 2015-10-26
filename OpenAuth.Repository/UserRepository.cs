@@ -7,7 +7,7 @@ using OpenAuth.Domain;
 
 namespace OpenAuth.Repository
 {
-    public class UserRepository :BaseRepository, IUserRepository
+    public class UserRepository :BaseRepository<User>, IUserRepository
     {
         public User FindByAccount(string account)
         {
@@ -16,7 +16,7 @@ namespace OpenAuth.Repository
 
         public User FindById(string id)
         {
-            return Context.Users.SingleOrDefault(u => u.UserId == id);
+            return FindSingle(u => u.Account == id);
         }
 
         public IEnumerable<User> LoadUsers()

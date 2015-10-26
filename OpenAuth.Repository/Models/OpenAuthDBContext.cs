@@ -1,4 +1,5 @@
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using OpenAuth.Domain;
 using OpenAuth.Repository.Models.Mapping;
 
@@ -16,32 +17,34 @@ namespace OpenAuth.Repository.Models
         {
         }
 
-        public DbSet<Button> Buttons { get; set; }
-        public DbSet<DataPermission> DataPermissions { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Menu> Menus { get; set; }
-        public DbSet<MenuButton> MenuButtons { get; set; }
+        public DbSet<Module> Modules { get; set; }
+        public DbSet<ModuleRole> ModuleRoles { get; set; }
+        public DbSet<Org> Orgs { get; set; }
+        public DbSet<Page> Pages { get; set; }
+        public DbSet<PageElement> PageElements { get; set; }
+        public DbSet<PageElementGrant> PageElementGrants { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<RoleMenu> RoleMenus { get; set; }
-        public DbSet<RoleMenuButton> RoleMenuButtons { get; set; }
-        public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserDepartment> UserDepartments { get; set; }
+        public DbSet<UserCfg> UserCfgs { get; set; }
+        public DbSet<UserExt> UserExts { get; set; }
+        public DbSet<UserModule> UserModules { get; set; }
+        public DbSet<UserOrg> UserOrgs { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new ButtonMap());
-            modelBuilder.Configurations.Add(new DataPermissionMap());
-            modelBuilder.Configurations.Add(new DepartmentMap());
-            modelBuilder.Configurations.Add(new MenuMap());
-            modelBuilder.Configurations.Add(new MenuButtonMap());
+            modelBuilder.Configurations.Add(new ModuleMap());
+            modelBuilder.Configurations.Add(new ModuleRoleMap());
+            modelBuilder.Configurations.Add(new OrgMap());
+            modelBuilder.Configurations.Add(new PageMap());
+            modelBuilder.Configurations.Add(new PageElementMap());
+            modelBuilder.Configurations.Add(new PageElementGrantMap());
             modelBuilder.Configurations.Add(new RoleMap());
-            modelBuilder.Configurations.Add(new RoleMenuMap());
-            modelBuilder.Configurations.Add(new RoleMenuButtonMap());
-            modelBuilder.Configurations.Add(new sysdiagramMap());
             modelBuilder.Configurations.Add(new UserMap());
-            modelBuilder.Configurations.Add(new UserDepartmentMap());
+            modelBuilder.Configurations.Add(new UserCfgMap());
+            modelBuilder.Configurations.Add(new UserExtMap());
+            modelBuilder.Configurations.Add(new UserModuleMap());
+            modelBuilder.Configurations.Add(new UserOrgMap());
             modelBuilder.Configurations.Add(new UserRoleMap());
         }
     }

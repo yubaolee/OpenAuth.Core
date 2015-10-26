@@ -22,7 +22,7 @@ namespace OpenAuth.App
                 throw new Exception("用户帐号不存在");
             }
 
-            user.CheckLogin(password);
+        //    user.CheckLogin(password);
 
 
         }

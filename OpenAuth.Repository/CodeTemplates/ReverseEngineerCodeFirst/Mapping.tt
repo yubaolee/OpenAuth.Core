@@ -72,11 +72,11 @@ namespace <#= code.EscapeNamespace(efHost.Namespace) #>
         {
             if (isKey && storeGeneratedPattern != StoreGeneratedPattern.Identity)
             {
-                configLines.Add(".HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)");
+            //    configLines.Add(".HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)");
             }
             else if ((!isKey || efHost.EntityType.KeyMembers.Count > 1) && storeGeneratedPattern == StoreGeneratedPattern.Identity)
             {
-                configLines.Add(".HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)");
+            //    configLines.Add(".HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)");
             }
         }
                     

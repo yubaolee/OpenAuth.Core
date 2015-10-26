@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OpenAuth.Domain.Interface
 {
-    public  interface IOrgRepository
+    public  interface IOrgRepository :IRepository<Org>
     {
         IEnumerable<Org> LoadOrgs();
     }

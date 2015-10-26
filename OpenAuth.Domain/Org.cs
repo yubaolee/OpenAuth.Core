@@ -21,5 +21,13 @@ namespace OpenAuth.Domain
         public System.DateTime CreateTime { get; set; }
         public int CreateId { get; set; }
         public int SortNo { get; set; }
+
+        public Org()
+        {
+            HotKey = "";
+            IconName = "";
+            BizCode = "";
+            CustomCode = "";
+        }
     }
 }

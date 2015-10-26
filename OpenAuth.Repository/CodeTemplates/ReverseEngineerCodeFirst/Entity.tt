@@ -2,72 +2,129 @@
 <#@ include file="EF.Utility.CS.ttinclude" #><#@
  output extension=".cs" #><#
 
-    var efHost = (EfTextTemplateHost)Host;
-    var code = new CodeGenerationTools(this);
+	var efHost = (EfTextTemplateHost)Host;
+	var code = new CodeGenerationTools(this);
+	code.GetSummryDictionary(".",efHost.EntityContainer.Name,efHost.EntityType.Name,"sa","000000");
+
 #>
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace OpenAuth.Domain
 {
-    public partial class <#= efHost.EntityType.Name #>
-    {
+	/// <summary>
+	/// <#= code.GetSummry(code.Escape(efHost.EntityType.Properties[0])) #>
+	/// </summary>
+	public partial class <#= efHost.EntityType.Name #>
+	{
 <#
-    var collectionNavigations = efHost.EntityType.NavigationProperties.Where(
-        np => np.DeclaringType == efHost.EntityType
-            && np.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many);
+	var collectionNavigations = efHost.EntityType.NavigationProperties.Where(np => np.DeclaringType == efHost.EntityType && np.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many);
+		
+	foreach (var property in efHost.EntityType.Properties)
+	{
+		var typeUsage = code.Escape(property.TypeUsage);
 
-    // Add a ctor to initialize any collections
-    if (collectionNavigations.Any())
-    {
+		// Fix-up spatial types for EF6
+		if (efHost.EntityFrameworkVersion >= new Version(6, 0)
+			&& typeUsage.StartsWith("System.Data.Spatial."))
+		{
+			typeUsage = typeUsage.Replace(
+				"System.Data.Spatial.",
+				"System.Data.Entity.Spatial.");
+		}
 #>
-        public <#= code.Escape(efHost.EntityType) #>()
-        {
-<#
-        foreach (var navProperty in collectionNavigations)
-        {
-#>
-            this.<#= code.Escape(navProperty) #> = new List<<#= code.Escape(navProperty.ToEndMember.GetEntityType()) #>>();
-<#
-        }
-#>
-        }
+		/// <summary>
+		/// <#= code.GetSummry(code.Escape(property)) #>
+		/// </summary>
+		/// <returns></returns>
+		<#= Accessibility.ForProperty(property) #> <#= typeUsage #> <#= code.Escape(property) #> { get; set; }
 
 <#
-    }
-        
-    foreach (var property in efHost.EntityType.Properties)
-    {
-        var typeUsage = code.Escape(property.TypeUsage);
+	}
 
-        // Fix-up spatial types for EF6
-        if (efHost.EntityFrameworkVersion >= new Version(6, 0)
-            && typeUsage.StartsWith("System.Data.Spatial."))
-        {
-            typeUsage = typeUsage.Replace(
-                "System.Data.Spatial.",
-                "System.Data.Entity.Spatial.");
-        }
+	foreach (var navProperty in efHost.EntityType.NavigationProperties.Where(np => np.DeclaringType == efHost.EntityType))
+	{
+		if (navProperty.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many)
+		{
 #>
-        <#= Accessibility.ForProperty(property) #> <#= typeUsage #> <#= code.Escape(property) #> { get; set; }
+		public virtual ICollection<<#= code.Escape(navProperty.ToEndMember.GetEntityType()) #>> <#= code.Escape(navProperty) #> { get; set; }
 <#
-    }
+		}
+		else
+		{
+#>
+		public virtual <#= code.Escape(navProperty.ToEndMember.GetEntityType()) #> <#= code.Escape(navProperty) #> { get; set; }
+<#
+		}
+	}
+#>
 
-    foreach (var navProperty in efHost.EntityType.NavigationProperties.Where(np => np.DeclaringType == efHost.EntityType))
-    {
-        if (navProperty.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many)
-        {
+		public <#= code.Escape(efHost.EntityType) #>()
+		{
+		 <#	foreach (var property in efHost.EntityType.Properties)
+			{
+				var typeUsage = code.Escape(property.TypeUsage);
+
+				// Fix-up spatial types for EF6
+				if (efHost.EntityFrameworkVersion >= new Version(6, 0)
+					&& typeUsage.StartsWith("System.Data.Spatial."))
+				{
+					typeUsage = typeUsage.Replace(
+						"System.Data.Spatial.",
+						"System.Data.Entity.Spatial.");
+				}
+				if(typeUsage=="System.Guid")
+			{
+			#>
+	this.<#= code.Escape(property) #>= Guid.NewGuid();
+		  <#}
+			else if(typeUsage=="System.DateTime")
+			{
+		  #>
+	this.<#= code.Escape(property) #>= DateTime.Now;
+		  <#}
+			else if(typeUsage=="bool")
+			{
+		  #>
+	this.<#= code.Escape(property) #>= false;
+		  <# }
+			else if(typeUsage=="int"||typeUsage=="double")
+			{
+			#>
+	this.<#= code.Escape(property) #>= 0;
+		  <# }
+		  else if(typeUsage=="byte[]")
+			{
+			#>
+	this.<#= code.Escape(property) #>= new byte[0];
+		  <# }
+		  else if(typeUsage=="decimal")
+			{
+			#>
+	this.<#= code.Escape(property) #>= 0M;
+		  <# }
+		  else if(typeUsage=="string")
+			{
+			#>
+	this.<#= code.Escape(property) #>= string.Empty;
+		   <#}
+		   else{ }
+		   }
+	if (collectionNavigations.Any())
+	{
+		foreach (var navProperty in collectionNavigations)
+		{
 #>
-        public virtual ICollection<<#= code.Escape(navProperty.ToEndMember.GetEntityType()) #>> <#= code.Escape(navProperty) #> { get; set; }
+	 this.<#= code.Escape(navProperty) #> = new List<<#= code.Escape(navProperty.ToEndMember.GetEntityType()) #>>();
 <#
-        }
-        else
-        {
-#>
-        public virtual <#= code.Escape(navProperty.ToEndMember.GetEntityType()) #> <#= code.Escape(navProperty) #> { get; set; }
-<#
-        }
-    }
-#>
-    }
+		}
+
+   }#>
 }
+		
+	
+
+	}
+} 

@@ -12,8 +12,6 @@ namespace OpenAuth.Repository.Models.Mapping
             this.HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.Id);
-
             // Table & Column Mappings
             this.ToTable("UserOrg");
             this.Property(t => t.Id).HasColumnName("Id");

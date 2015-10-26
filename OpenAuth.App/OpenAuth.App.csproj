@@ -52,10 +52,6 @@
       <Project>{6108da8e-92a1-4abe-b9f5-26d64d55ca2c}</Project>
       <Name>OpenAuth.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj">
-      <Project>{e8df8dea-e2cf-4bdb-8f4f-3f8205b0e03a}</Project>
-      <Name>OpenAuth.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

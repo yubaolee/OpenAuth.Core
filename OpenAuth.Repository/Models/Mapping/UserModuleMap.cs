@@ -11,6 +11,7 @@ namespace OpenAuth.Repository.Models.Mapping
             // Primary Key
             this.HasKey(t => t.Id);
 
+            // Properties
             // Table & Column Mappings
             this.ToTable("UserModule");
             this.Property(t => t.Id).HasColumnName("Id");

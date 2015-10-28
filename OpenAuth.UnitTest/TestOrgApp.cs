@@ -65,16 +65,26 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void TestAddOrg()
         {
-            int id = _app.AddOrg(new Org
+            int rootId = _app.AddOrg(new Org
             {
                 Name = "集团总部",
                 ParentId = 0
             });
-            Assert.IsTrue(id != 0);
-            id = _app.AddOrg(new Org
+            Assert.IsTrue(rootId != 0);
+           int  id = _app.AddOrg(new Org
             {
                 Name = "一分公司",
-                ParentId = id
+                ParentId = rootId
+            });
+            id = _app.AddOrg(new Org
+            {
+                Name = "二分公司",
+                ParentId = rootId
+            });
+            id = _app.AddOrg(new Org
+            {
+                Name = "三分公司",
+                ParentId = rootId
             });
 
             Assert.IsTrue(id != 0);

@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>B-JUI 客户端框架</title>
-    <meta name="Keywords" content="B-JUI,Bootstrap,DWZ,jquery,ui,前端,框架,开源,OSC,开源框架,knaan" />
-    <meta name="Description" content="B-JUI, Bootstrap for DWZ富客户端框架，基于DWZ富客户端框架修改。主要针对皮肤，编辑器，表单验证等方面进行了大量修改，引入了Bootstrap，Font Awesome，KindEditor，jquery.validationEngine，iCheck等众多开源项目。交流QQ群：232781006。" />
+    <title>OpenAuth.net 基于经典DDD框架的权限管理</title>
+    <meta name="Keywords" content="OpenAuth,DDD权限管理,yubaolee" />
+    <meta name="Description" content="OpenAuth,DDD权限管理,yubaolee" />
     <!-- bootstrap - css -->
     <link href="~/BJUI/themes/css/bootstrap.css" rel="stylesheet">
     <!-- core - css -->
@@ -17,6 +17,7 @@
     <link href="~/BJUI/plugins/niceValidator/jquery.validator.css" rel="stylesheet">
     <link href="~/BJUI/plugins/bootstrapSelect/bootstrap-select.css" rel="stylesheet">
     <link href="~/BJUI/themes/css/FA/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/BJUI/plugins/styles/zTreeStyle/zTreeStyle.css" />
     <!--[if lte IE 7]>
     <link href="~/BJUI/themes/css/ie7.css" rel="stylesheet">
     <![endif]-->
@@ -33,7 +34,7 @@
     <![endif]-->
     <!-- BJUI.all 分模块压缩版 -->
     <script src="~/BJUI/js/bjui-all.js"></script>
-   
+
     <!-- plugins -->
     <!-- swfupload for uploadify && kindeditor -->
     <script src="~/BJUI/plugins/swfupload/swfupload.js"></script>
@@ -55,17 +56,14 @@
     <script src="~/BJUI/plugins/icheck/icheck.min.js"></script>
     <!-- dragsort -->
     <script src="~/BJUI/plugins/dragsort/jquery.dragsort-0.5.1.min.js"></script>
-    <!-- HighCharts -->
-    <script src="~/BJUI/plugins/highcharts/highcharts.js"></script>
-    <script src="~/BJUI/plugins/highcharts/highcharts-3d.js"></script>
-    <script src="~/BJUI/plugins/highcharts/themes/gray.js"></script>
-    <!-- ECharts -->
-    <script src="~/BJUI/plugins/echarts/echarts.js"></script>
     <!-- other plugins -->
     <script src="~/BJUI/plugins/other/jquery.autosize.js"></script>
     <link href="~/BJUI/plugins/uploadify/css/uploadify.css" rel="stylesheet">
     <script src="~/BJUI/plugins/uploadify/scripts/jquery.uploadify.min.js"></script>
     <script src="~/BJUI/plugins/download/jquery.fileDownload.js"></script>
+
+    <!---本项目扩展的JS代码-->
+    <script src="~/BJUI/myextension.js"></script>
     <!-- init -->
     <script type="text/javascript">
         $(function () {
@@ -203,23 +201,10 @@
                         <li class="active">
                             <a href="javascript:;" data-toggle="slidebar"><i class="fa fa-check-square-o"></i> 应用管理</a>
                             <div class="items hide" data-noinit="true">
-                                <ul id="bjui-doc-tree-base" class="ztree ztree_main" data-toggle="ztree" data-on-click="MainMenuClick" 
+                                <ul id="bjui-doc-tree-base" class="ztree ztree_main" data-toggle="ztree" data-on-click="MainMenuClick"
                                     data-expand-all="true" data-faicon="star-o" data-tit="基本设置">
                                     <li data-id="99" data-pid="0" data-faicon="folder-open-o" data-faicon-close="folder-o">文件列表</li>
                                     <li data-id="100" data-pid="99" data-url="OrgManager/Index" data-tabid="doc-file" data-faicon="caret-right">机构管理</li>
-                                    <li data-id="1" data-pid="0" data-faicon="folder-open-o" data-faicon-close="folder-o" data-faicon="caret-right">框架介绍</li>
-                                    <li data-id="10" data-pid="1" data-url="doc/base/structure.html" data-tabid="doc-base" data-faicon="caret-right">页面结构</li>
-                                    <li data-id="11" data-pid="1" data-url="doc/base/init.html" data-tabid="doc-base" data-faicon="caret-right">框架初始化</li>
-                                    <li data-id="12" data-pid="1" data-url="doc/base/hnav.html" data-tabid="doc-base" data-faicon="caret-right">横向导航菜单</li>
-                                    <li data-id="13" data-pid="1" data-url="doc/base/navtab.html" data-tabid="doc-base" data-faicon="caret-right">标签工作区(navtab)</li>
-                                    <li data-id="14" data-pid="1" data-url="doc/base/dialog.html" data-tabid="doc-base" data-faicon="caret-right">弹窗工作区(dialog)</li>
-                                    <li data-id="15" data-pid="1" data-url="doc/base/idname.html" data-tabid="doc-base" data-faicon="caret-right">元素ID命名规范</li>
-                                    <li data-id="16" data-pid="1" data-url="doc/base/data.html" data-tabid="doc-base" data-faicon="caret-right">data属性</li>
-                                    <li data-id="17" data-pid="1" data-url="doc/base/api.html" data-tabid="doc-base" data-faicon="caret-right">jQuery API调用</li>
-                                    <li data-id="18" data-pid="1" data-url="doc/base/event.html" data-tabid="doc-base" data-faicon="caret-right">事件</li>
-                                    <li data-id="19" data-pid="1" data-url="doc/base/url.html" data-tabid="doc-base" data-update="true" data-faicon="caret-right">URL动态赋值</li>
-                                    <li data-id="9" data-pid="0" data-faicon="folder-open-o" data-faicon-close="folder-o" data-faicon="caret-right">框架皮肤</li>
-                                    <li data-id="90" data-pid="9" data-url="doc/theme/color.html" data-tabid="doc-theme" data-faicon="caret-right">颜色值</li>
                                 </ul>
                             </div>
                         </li>

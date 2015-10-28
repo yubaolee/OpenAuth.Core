@@ -29,5 +29,16 @@ namespace OpenAuth.Mvc.Controllers
 			var orgs = _orgApp.GetAll();
 			return JsonHelper.Instance.Serialize(orgs);
 		}
+
+	    public JsonResult LoadTree()
+	    {
+	        return Json(_orgApp.GetAll().Select(o =>new
+	        {
+               id = o.Id,
+               pId = o.ParentId,
+               name = o.Name,
+               text = o.Name
+	        }), JsonRequestBehavior.AllowGet);
+	    }
 	}
 }

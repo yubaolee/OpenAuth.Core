@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 
@@ -23,11 +24,20 @@ namespace OpenAuth.App
         public int AddOrg(Org org)
         {
             string cascadeId;
-            //根据同一级个数计算ID
-            int currentCascadeId = _repository.GetCount(o => o.ParentId == 0) + 1;
+            int currentCascadeId = 1;
+           
 
             if (org.ParentId != 0)
             {
+                //根据同一级中最大的语义ID
+                var maxCascadeIdOrg = _repository.Find(o => o.ParentId == org.ParentId)
+                    .OrderByDescending(o =>o.CascadeId).FirstOrDefault();
+                if (maxCascadeIdOrg != null)
+                {
+                    var cascades = maxCascadeIdOrg.CascadeId.Split('.');
+                    currentCascadeId = int.Parse(cascades[cascades.Length - 1]) + 1;
+                }
+               
                 var parentOrg = _repository.FindSingle(o => o.Id == org.ParentId);
                 if (parentOrg != null)
                 {

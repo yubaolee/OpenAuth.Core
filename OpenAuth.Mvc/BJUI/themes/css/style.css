@@ -147,7 +147,7 @@ td[align=right] input{text-align:right;}
 .table.nowrap th{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 /* Main */
 #bjui-window{margin:0 auto; overflow:hidden;}
-#bjui-header{position:relative; margin-bottom:0; height:70px; overflow:visible; border-width:0; border-radius:0;}
+#bjui-header{position:relative; margin-bottom:0; height:80px; overflow:visible; border-width:0; border-radius:0;}
 #bjui-header > .bjui-navbar-header{float:left;}
 #bjui-header > .bjui-navbar-header > .bjui-navbar-logo{display:block; padding-left:6px; padding-top:1px;}
 #bjui-header > .bjui-navbar-header > .bjui-navbar-toggle{display:none; position:absolute; top:5px; right:5px;}
@@ -180,7 +180,7 @@ td[align=right] input{text-align:right;}
 #bjui-header > #bjui-navbar-collapse > .bjui-navbar-right > li > .dropdown-menu > li > a.theme_blue{color:blue;}
 #bjui-header > #bjui-navbar-collapse > .bjui-navbar-right > li > .dropdown-menu > li > a.theme_red{color:#fc5555;}
 #bjui-header > #bjui-navbar-collapse > .bjui-navbar-right > li > .dropdown-menu > li > a.theme_green{color:green;}
-#bjui-hnav{position:absolute; top:38px; width:100%; height:32px; overflow:visible;}
+#bjui-hnav{position:absolute; top:47px; height:32px; overflow:visible;}
 #bjui-hnav > .bjui-hnav-more-left{position:absolute; left:0; top:0; z-index:1; display:none;}
 #bjui-hnav > .bjui-hnav-more-right{position:absolute; right:0; top:0; z-index:1; display:none;}
 #bjui-hnav > .bjui-hnav-more-left,

@@ -178,6 +178,7 @@
     <Content Include="BJUI\js\jquery-1.7.2.min.js" />
     <Content Include="BJUI\js\jquery.cookie.js" />
     <Content Include="BJUI\js\sha256.js" />
+    <Content Include="BJUI\myextension.js" />
     <Content Include="BJUI\other\html5shiv.min.js" />
     <Content Include="BJUI\other\jquery.iframe-transport.js" />
     <Content Include="BJUI\other\respond.min.js" />

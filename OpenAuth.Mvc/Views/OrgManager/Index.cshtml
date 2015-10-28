@@ -11,11 +11,31 @@
 
 <script type="text/javascript">
 
+    function zTreeOnClick(event, treeId, treeNode) {
+        alert(treeNode.tId + ", " + treeNode.name);
+    };
+
     $(document).ready(function () {
 
-        $.getJSON("OrgManager/LoadTree", function (json) {
-            zTreeObj = initTree("#orgTree", json);
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: "null"
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick
+            }
+        };
 
+        $.getJSON("OrgManager/LoadTree", function (json) {
+            var zTreeObj = $.fn.zTree.init($("#orgTree"), setting, json);
         });
 
         $('#test-datagrid-array').datagrid({

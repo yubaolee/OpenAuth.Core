@@ -11,10 +11,6 @@
 
 <script type="text/javascript">
 
-    function zTreeOnClick(event, treeId, treeNode) {
-        alert(treeNode.tId + ", " + treeNode.name);
-    };
-
     $(document).ready(function () {
 
         var setting = {
@@ -22,10 +18,14 @@
                 selectedMulti: false
             },
             data: {
+                key: {
+                    name: "Name",
+                    title: "Name"
+                },
                 simpleData: {
                     enable: true,
-                    idKey: "id",
-                    pIdKey: "pId",
+                    idKey: "Id",
+                    pIdKey: "ParentId",
                     rootPId: "null"
                 }
             },
@@ -34,53 +34,58 @@
             }
         };
 
-        $.getJSON("OrgManager/LoadTree", function (json) {
+        $.getJSON("OrgManager/LoadOrg", function (json) {
             var zTreeObj = $.fn.zTree.init($("#orgTree"), setting, json);
-        });
 
-        $('#test-datagrid-array').datagrid({
-            gridTitle: '机构列表显示',
-            showToolbar: true,
-            toolbarItem: 'all',
-            addLocation: 'first',
-            local: 'local',
-            dataUrl: 'OrgManager/LoadOrg',
-            dataType: 'json',
-            columns: [
-                {
-                    name: 'Type',
-                    label: '类型',
-                    type: 'select',
-                    items: [{ '0': '默认' }],
-                    align: 'center',
-                    width: 80,
-                    render: $.datagrid.renderItem
-                },
-                {
-                    name: 'Name',
-                    label: '机构名称',
-                    align: 'center',
-                    width: 100,
-                    rule: 'required'
-                },
-                {
-                    name: 'CreateTime',
-                    label: '登记日期',
-                    type: 'date',
-                    pattern: 'yyyy-MM-dd HH:mm'
-                }
-            ],
-            hiddenFields: ['Id'],
-            editUrl: 'ajaxDone1.html',
-            delUrl: 'ajaxDone1.html',
-            paging: { total: 30, pageSize: 5 },
-            showTfoot: true,
-            editMode: 'dialog',
-            fullGrid: true,
-            showLinenumber: true,
-            showCheckboxcol: true
+            $('#test-datagrid-array').datagrid({
+                gridTitle: '机构列表显示',
+                showToolbar: true,
+                toolbarItem: 'all',
+                columns: [
+                    { name: 'Name', width: '150', label: '机构名称' },
+                    { name: 'CreateTime', width: '120', label: '登记日期' }
+                ],
+                data: json,
+                hiddenFields: ['Id'],
+                editUrl: 'ajaxDone1.html',
+                delUrl: 'ajaxDone1.html',
+                editMode: 'dialog',
+                fullGrid: true,
+                showLinenumber: true,
+                showCheckboxcol: true,
+                paging: false,
+                filterMult: false,
+                showTfoot: true
+            });
         });
 
     });
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        $.getJSON("OrgManager/LoadChildren", { id: treeNode.Id }, function (json) {
+            $('#test-datagrid-array').destroy();
+            $('#test-datagrid-array').datagrid({
+                gridTitle: '机构列表显示',
+                showToolbar: true,
+                toolbarItem: 'all',
+                columns: [
+                    { name: 'Name', width: '150', label: '机构名称' },
+                    { name: 'CreateTime', width: '120', label: '登记日期' }
+                ],
+                data: json,
+                hiddenFields: ['Id'],
+                editUrl: 'ajaxDone1.html',
+                delUrl: 'ajaxDone1.html',
+                editMode: 'dialog',
+                fullGrid: true,
+                showLinenumber: true,
+                showCheckboxcol: true,
+                paging: false,
+                filterMult: false,
+                showTfoot: true
+            });
+        });
+
+    }
     //@@ sourceURL=orgIndex.js
 </script>

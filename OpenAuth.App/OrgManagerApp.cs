@@ -21,6 +21,12 @@ namespace OpenAuth.App
             return _repository.LoadOrgs();
         }
 
+        /// <summary>
+        /// 添加部门
+        /// </summary>
+        /// <param name="org">The org.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="System.Exception">未能找到该组织的父节点信息</exception>
         public int AddOrg(Org org)
         {
             string cascadeId;
@@ -60,6 +66,16 @@ namespace OpenAuth.App
             _repository.Add(org);
             _repository.Save();
             return org.Id;
+        }
+
+        /// <summary>
+        /// 部门的直接子部门
+        /// </summary>
+        /// <param name="orgId">The org unique identifier.</param>
+        /// <returns>IEnumerable{Org}.</returns>
+        public IEnumerable<Org> LoadChildren(int orgId)
+        {
+            return _repository.Find(u => u.ParentId == orgId);
         }
     }
 }

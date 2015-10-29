@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
+using OpenAuth.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -26,19 +27,14 @@ namespace OpenAuth.Mvc.Controllers
 
 		public string LoadOrg()
 		{
-			var orgs = _orgApp.GetAll();
-			return JsonHelper.Instance.Serialize(orgs);
+		    return JsonHelper.Instance.Serialize(_orgApp.GetAll());
 		}
 
-	    public JsonResult LoadTree()
+	    public string LoadChildren(int id)
 	    {
-	        return Json(_orgApp.GetAll().Select(o =>new
-	        {
-               id = o.Id,
-               pId = o.ParentId,
-               name = o.Name,
-               text = o.Name
-	        }), JsonRequestBehavior.AllowGet);
+	        return JsonHelper.Instance.Serialize(_orgApp.LoadChildren(id));
 	    }
+
+	   
 	}
 }

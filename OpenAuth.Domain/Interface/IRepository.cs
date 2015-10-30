@@ -35,6 +35,16 @@ namespace OpenAuth.Domain.Interface
 
         void Delete(T entity);
 
+        /// <summary>
+        /// 批量更新
+        /// </summary>
+        void Update(Expression<Func<T, bool>> exp, T entity);
+
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        void Delete(Expression<Func<T, bool>> exp);
+
         void Save();
     }
 }

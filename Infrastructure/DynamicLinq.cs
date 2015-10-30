@@ -87,10 +87,23 @@ namespace Infrastructure
                 case ">=":
                     filter = Expression.GreaterThanOrEqual(left, right);
                     break;
+                case "!=":
+                    filter = Expression.NotEqual(left, right);
+                    break;
 
                 case "like":
                     filter = Expression.Call(left, typeof(string).GetMethod("Contains", new Type[] { typeof(string) }),
                                  Expression.Constant(filterObj.Value));
+                    break;
+                case "not in":
+                    var listExpression = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
+                    var method = typeof(List<string>).GetMethod("Contains", new Type[] { typeof(string) }); //Contains语句
+                    filter = Expression.Not(Expression.Call(listExpression, method, left));
+                    break;
+                case "in":
+                    var lExp = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
+                    var methodInfo = typeof(List<string>).GetMethod("Contains", new Type[] { typeof(string) }); //Contains语句
+                    filter = Expression.Call(lExp, methodInfo, left);
                     break;
             }
 

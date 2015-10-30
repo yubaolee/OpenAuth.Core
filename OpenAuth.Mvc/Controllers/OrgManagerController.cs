@@ -35,6 +35,14 @@ namespace OpenAuth.Mvc.Controllers
 	        return JsonHelper.Instance.Serialize(_orgApp.LoadChildren(id));
 	    }
 
-	   
+        public void DelOrg(string json)
+        {
+            var delObj = JsonHelper.Instance.Deserialize<Org[]>(json);
+            foreach (var obj in delObj)
+            {
+                _orgApp.DelOrg(obj.Id);
+            }
+           
+        }
 	}
 }

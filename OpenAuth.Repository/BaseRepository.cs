@@ -2,6 +2,7 @@
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
+using EntityFramework.Extensions;
 using OpenAuth.Domain.Interface;
 using OpenAuth.Repository.Models;
 using Infrastructure;
@@ -68,6 +69,16 @@ namespace OpenAuth.Repository
        {
            Context.Set<T>().Remove(entity);
            Save();
+       }
+
+       public void Update(Expression<Func<T, bool>> exp, T entity)
+       {
+           Context.Set<T>().Where(exp).Update(u => entity);
+       }
+
+       public void Delete(Expression<Func<T, bool>> exp)
+       {
+           Context.Set<T>().Where(exp).Delete();
        }
 
        public void Save()

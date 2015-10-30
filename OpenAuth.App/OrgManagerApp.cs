@@ -77,5 +77,10 @@ namespace OpenAuth.App
         {
             return _repository.Find(u => u.ParentId == orgId);
         }
+
+        public void DelOrg(int Id)
+        {
+            _repository.Delete(u =>u.Id ==Id);
+        }
     }
 }

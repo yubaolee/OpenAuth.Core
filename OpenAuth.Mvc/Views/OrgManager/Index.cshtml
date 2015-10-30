@@ -36,54 +36,42 @@
 
         $.getJSON("OrgManager/LoadOrg", function (json) {
             var zTreeObj = $.fn.zTree.init($("#orgTree"), setting, json);
-
-            $('#test-datagrid-array').datagrid({
-                gridTitle: '机构列表显示',
-                showToolbar: true,
-                toolbarItem: 'all',
-                columns: [
-                    { name: 'Name', width: '150', label: '机构名称' },
-                    { name: 'CreateTime', width: '120', label: '登记日期' }
-                ],
-                data: json,
-                hiddenFields: ['Id'],
-                editUrl: 'ajaxDone1.html',
-                delUrl: 'ajaxDone1.html',
-                editMode: 'dialog',
-                fullGrid: true,
-                showLinenumber: true,
-                showCheckboxcol: true,
-                paging: false,
-                filterMult: false,
-                showTfoot: true
-            });
+            zTreeObj.expandAll(true);
+            loadDataGrid(json);
         });
 
     });
 
+    function loadDataGrid(data) {
+
+        $('#test-datagrid-array').datagrid({
+            gridTitle: '机构列表显示',
+            showToolbar: true,
+            toolbarItem: 'all',
+            columns: [
+                { name: 'Name', width: '150', label: '机构名称' },
+                { name: 'CreateTime', width: '120', label: '登记日期' }
+            ],
+            data: data,
+            hiddenFields: ['Id'],
+            editUrl: 'OrgManager/AddOrg',
+            delUrl: 'OrgManager/DelOrg',
+            editMode: 'dialog',
+            fullGrid: true,
+            showLinenumber: true,
+            showCheckboxcol: true,
+            paging: false,
+            filterMult: false,
+            showTfoot: true
+        });
+    }
+
     function zTreeOnClick(event, treeId, treeNode) {
         $.getJSON("OrgManager/LoadChildren", { id: treeNode.Id }, function (json) {
-            $('#test-datagrid-array').destroy();
-            $('#test-datagrid-array').datagrid({
-                gridTitle: '机构列表显示',
-                showToolbar: true,
-                toolbarItem: 'all',
-                columns: [
-                    { name: 'Name', width: '150', label: '机构名称' },
-                    { name: 'CreateTime', width: '120', label: '登记日期' }
-                ],
-                data: json,
-                hiddenFields: ['Id'],
-                editUrl: 'ajaxDone1.html',
-                delUrl: 'ajaxDone1.html',
-                editMode: 'dialog',
-                fullGrid: true,
-                showLinenumber: true,
-                showCheckboxcol: true,
-                paging: false,
-                filterMult: false,
-                showTfoot: true
-            });
+
+            $('#ztree-detail').empty().append('<table id="test-datagrid-array" data-width="100%" data-height="100%" class="table table-bordered"></table>');
+            loadDataGrid(json);
+
         });
 
     }

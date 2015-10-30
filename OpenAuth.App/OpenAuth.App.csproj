@@ -48,6 +48,10 @@
     <Compile Include="OrgManagerApp.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{5FEAEC9A-4F1E-4EE7-B377-9DB1B0870DAC}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenAuth.Domain\OpenAuth.Domain.csproj">
       <Project>{6108da8e-92a1-4abe-b9f5-26d64d55ca2c}</Project>
       <Name>OpenAuth.Domain</Name>

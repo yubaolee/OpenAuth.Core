@@ -32,7 +32,7 @@ namespace OpenAuth.Mvc.Controllers
 
 	    public string LoadChildren(int id)
 	    {
-	        return JsonHelper.Instance.Serialize(_orgApp.LoadChildren(id));
+	        return JsonHelper.Instance.Serialize(_orgApp.LoadAllChildren(id));
 	    }
 
         public void DelOrg(string json)

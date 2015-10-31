@@ -91,6 +91,32 @@ namespace OpenAuth.UnitTest
         }
 
         [TestMethod]
+        public void TestDelOrg()
+        {
+            int rootId = _app.AddOrg(new Org
+            {
+                Name = "即将被删除",
+                ParentId = 0
+            });
+            Assert.IsTrue(rootId != 0);
+
+            int id = _app.AddOrg(new Org
+            {
+                Name = "即将被删除1",
+                ParentId = rootId
+            });
+            id = _app.AddOrg(new Org
+            {
+                Name = "即将被删除2",
+                ParentId = id
+            });
+
+            _app.DelOrg(rootId);
+        }
+
+
+
+        [TestMethod]
         public void TestLoadOrg()
         {
             var orgs = _app.GetAll();

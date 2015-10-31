@@ -48,6 +48,12 @@ namespace OpenAuth.Domain
 		public int ModuleId { get; set; }
 
 
+        /// <summary>
+        /// 所属页面ID
+        /// </summary>
+        public int PageId { get; set; }
+
+
 		/// <summary>
 		/// 备注
 		/// </summary>

@@ -31,6 +31,7 @@ namespace OpenAuth.Repository.Models.Mapping
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Type).HasColumnName("Type");
             this.Property(t => t.ModuleId).HasColumnName("ModuleId");
+            this.Property(t => t.PageId).HasColumnName("PageId");
             this.Property(t => t.Remark).HasColumnName("Remark");
         }
     }

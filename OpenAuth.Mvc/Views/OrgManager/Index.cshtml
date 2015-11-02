@@ -3,6 +3,8 @@
         <div style="float: left; width: 220px; height: 240px; overflow: auto;" class="table table-bordered">
             <ul id="orgTree" class="ztree"></ul>
         </div>
+
+        
         <div id="ztree-detail" style="margin-left: 225px; width: auto;">
             <table id="test-datagrid-array" data-width="100%" data-height="100%" class="table table-bordered"></table>
         </div>
@@ -10,70 +12,109 @@
 </div>
 
 <script type="text/javascript">
-
+    var selectedId = 0;
     $(document).ready(function () {
-
-        var setting = {
-            view: {
-                selectedMulti: false
-            },
-            data: {
-                key: {
-                    name: "Name",
-                    title: "Name"
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: "Id",
-                    pIdKey: "ParentId",
-                    rootPId: "null"
-                }
-            },
-            callback: {
-                onClick: zTreeOnClick
-            }
-        };
-
-        $.getJSON("OrgManager/LoadOrg", function (json) {
-            var zTreeObj = $.fn.zTree.init($("#orgTree"), setting, json);
-            zTreeObj.expandAll(true);
-            loadDataGrid(json);
-        });
-
+        Init(0);
     });
-
+    //加载数据到datagrid
     function loadDataGrid(data) {
-
         $('#test-datagrid-array').datagrid({
             gridTitle: '机构列表显示',
             showToolbar: true,
-            toolbarItem: 'all',
+            toolbarItem: 'add, edit, refresh, |, del',
             columns: [
-                { name: 'Name', width: '150', label: '机构名称' },
-                { name: 'CreateTime', width: '120', label: '登记日期' }
+              {
+                  name: 'Id',
+                  hide: true
+              },
+              {
+                  name: 'Name',
+                  width: '150',
+                  label: '机构名称'
+              },
+              {
+                  name: 'CreateTime',
+                  width: '120',
+                  label: '登记日期'
+              }
             ],
             data: data,
-            hiddenFields: ['Id'],
-            editUrl: 'OrgManager/AddOrg',
+            addUrl: 'OrgManager/AddOrg',
             delUrl: 'OrgManager/DelOrg',
+            editUrl: 'OrgManager/EditOrg',
             editMode: 'dialog',
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
             paging: false,
             filterMult: false,
-            showTfoot: true
+            showTfoot: true,
+            delCallback: function (delResult) {
+                if (delResult.Status == true)
+                    Init(selectedId);
+                else {
+                    $(this).alertmsg('warn', delResult.Message);
+                }
+            }
         });
     }
-
     function zTreeOnClick(event, treeId, treeNode) {
-        $.getJSON("OrgManager/LoadChildren", { id: treeNode.Id }, function (json) {
-
+        selectedId = treeNode.Id;
+        $.getJSON('OrgManager/LoadChildren', {
+            id: treeNode.Id
+        }, function (json) {
             $('#ztree-detail').empty().append('<table id="test-datagrid-array" data-width="100%" data-height="100%" class="table table-bordered"></table>');
             loadDataGrid(json);
-
         });
-
+    }
+    function Init(selectedId) {
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            data: {
+                key: {
+                    name: 'Name',
+                    title: 'Name'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: 'Id',
+                    pIdKey: 'ParentId',
+                    rootPId: 'null'
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick
+            }
+        };
+        $.getJSON('OrgManager/LoadOrg', function (json) {
+            var zTreeObj = $.fn.zTree.init($('#orgTree'), setting, json);
+            zTreeObj.expandAll(true);
+            if (selectedId == 0) {
+                loadDataGrid(json);
+            } else {
+                //TODO：设置ztree选中，不过没看到效果..
+                var selectedNod = zTreeObj.getNodesByParam('Id', selectedId, null);
+                zTreeObj.selectNode(selectedNod, false);
+                $.getJSON('OrgManager/LoadChildren', {
+                    id: selectedId
+                }, function (data) {
+                    $('#ztree-detail').empty().append('<table id="test-datagrid-array" data-width="100%" data-height="100%" class="table table-bordered"></table>');
+                    loadDataGrid(data);
+                });
+            }
+        });
+    }
+    function getSelected() {
+        var selected = $('#test-datagrid-array').data('selectedTrs');
+        if (selected == null) {
+            $(this).alertmsg('warn', '至少选择一个对象', {
+                displayMode: 'slide',
+                title: '重要提示'
+            });
+        }
+        return selected;
     }
     //@@ sourceURL=orgIndex.js
 </script>

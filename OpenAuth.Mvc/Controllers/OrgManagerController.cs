@@ -12,6 +12,7 @@ namespace OpenAuth.Mvc.Controllers
 	public class OrgManagerController : BaseController
 	{
 		private OrgManagerApp _orgApp;
+        private Response _response = new Response();
 
 		public OrgManagerController()
 		{
@@ -35,14 +36,24 @@ namespace OpenAuth.Mvc.Controllers
 	        return JsonHelper.Instance.Serialize(_orgApp.LoadAllChildren(id));
 	    }
 
-        public void DelOrg(string json)
+        public string DelOrg(string json)
         {
-            var delObj = JsonHelper.Instance.Deserialize<Org[]>(json);
-            foreach (var obj in delObj)
+            try
             {
-                _orgApp.DelOrg(obj.Id);
+                var delObj = JsonHelper.Instance.Deserialize<Org[]>(json);
+                foreach (var obj in delObj)
+                {
+                    _orgApp.DelOrg(obj.Id);
+                }
             }
-           
+            catch (Exception e)
+            {
+                _response.Status = false;
+                _response.Message = e.Message;
+            }
+
+            return JsonHelper.Instance.Serialize(_response);
+
         }
 	}
 }

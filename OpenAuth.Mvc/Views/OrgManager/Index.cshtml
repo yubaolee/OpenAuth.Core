@@ -1,11 +1,10 @@
 ﻿<div class="bjui-pageContent">
     <div class="clearfix">
-        <div style="float: left; width: 220px; height: 240px; overflow: auto;" class="table table-bordered">
+        <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
             <ul id="orgTree" class="ztree"></ul>
         </div>
 
-        
-        <div id="ztree-detail" style="margin-left: 225px; width: auto;">
+        <div id="ztree-detail" style="margin-left: 225px; width: auto;height: auto">
             <table id="test-datagrid-array" data-width="100%" data-height="100%" class="table table-bordered"></table>
         </div>
     </div>
@@ -22,19 +21,43 @@
             gridTitle: '机构列表显示',
             showToolbar: true,
             toolbarItem: 'add, edit, refresh, |, del',
+            //toolbarCustom: '<button class=" btn-green" data-icon="plus" type="button">添加</button>' +
+            //    '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>',
             columns: [
               {
                   name: 'Id',
-                  hide: true
+                  label:'Id',
+                  hide: true,
+                  edit:false
+              },
+              {
+                  name: 'CascadeId',
+                  label: '唯一标识',
+                  edit:false
               },
               {
                   name: 'Name',
-                  width: '150',
                   label: '机构名称'
               },
               {
+                  name: 'ParentName',
+                  label: '上级机构',
+                  type: 'lookup',
+                  attrs: { 'data-url': 'OrgManager/LookupParent' }
+              },
+            {
+                name: 'Status',
+                label: '禁用',
+                type: 'boolean',
+                align: 'center',
+                render: function (value) {
+                    return (value && String(value) == 'true') ?
+                        '<span style="color:red;">是</span>' : '否'
+
+                }
+            },
+              {
                   name: 'CreateTime',
-                  width: '120',
                   label: '登记日期'
               }
             ],
@@ -115,6 +138,13 @@
             });
         }
         return selected;
+    }
+
+    //自定义的编辑按钮
+    function editOrg() {
+        var selected = getSelected();
+        if (selected == null) return;
+
     }
     //@@ sourceURL=orgIndex.js
 </script>

@@ -25,6 +25,11 @@ namespace OpenAuth.Mvc.Controllers
 			return View();
 		}
 
+	    public ActionResult LookupParent()
+	    {
+	        return View();
+	    }
+
 
 		public string LoadOrg()
 		{

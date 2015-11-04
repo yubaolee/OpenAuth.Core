@@ -1,0 +1,60 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = null;
+}
+<div class="bjui-pageContent">
+    <div style="float: left; width: 100%; height: 240px; overflow: auto;" class="table table-bordered">
+        <ul id="lookupTree" class="ztree"></ul>
+    </div>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li>
+            <a href="javascript:;" id="btnSelected" data-toggle="lookupback"
+               data-args="{nationid:'A001', nation:'CN'}"
+               class="btn btn-blue" title="选择本项" data-icon="check">选择</a>
+        </li>
+        <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+    function Init() {
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            data: {
+                key: {
+                    name: 'Name',
+                    title: 'Name'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: 'Id',
+                    pIdKey: 'ParentId',
+                    rootPId: 'null'
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick
+            }
+        };
+        $.getJSON('OrgManager/LoadOrg', function (json) {
+            var zTreeObj = $.fn.zTree.init($('#lookupTree'), setting, json);
+            zTreeObj.expandAll(true);
+        });
+    }
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        var selected = "{ParentName:'" + treeNode.Name + "', ParentId:" + treeNode.Id + "}";
+        $("#btnSelected").attr("data-args",selected);
+    }
+
+    //@@ sourceURL=lookupParent.js
+</script>

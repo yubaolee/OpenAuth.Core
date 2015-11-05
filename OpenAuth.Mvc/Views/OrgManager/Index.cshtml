@@ -52,14 +52,10 @@
               },
             {
                 name: 'Status',
-                label: '禁用',
-                type: 'boolean',
+                label: '状态',
+                type: 'select',
                 align: 'center',
-                render: function (value) {
-                    return (value && String(value) == 'true') ?
-                        '<span style="color:red;">是</span>' : '否'
-
-                }
+                items:[{'0':'正常'}, {'1':'禁用'}]
             },
               {
                   name: 'CreateTime',

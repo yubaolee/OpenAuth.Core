@@ -92,8 +92,7 @@ namespace OpenAuth.App
         public void DelOrg(int id)
         {
             var delOrg = _repository.FindSingle(u => u.Id == id);
-            if (delOrg == null)
-                throw new Exception("未能找到要删除的对象");
+            if (delOrg == null) return;
 
             _repository.Delete(u => u.CascadeId.Contains(delOrg.CascadeId));
         }

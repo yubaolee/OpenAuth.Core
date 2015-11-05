@@ -31,8 +31,13 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="Status" class="control-label x85">禁用：</label>
-                        <input type="checkbox" name="Status" id="Status" value="true" data-toggle="icheck">
+                        <label for="Status" class="control-label x85">设置状态：</label>
+
+                        <select name="Status" id="Status" data-toggle="selectpicker" data-rule="required">
+                            <option value="0">正常</option>
+                            <option value="1">禁用</option>
+                        </select>
+
                     </td>
                 </tr>
             </tbody>

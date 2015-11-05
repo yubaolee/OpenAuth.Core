@@ -1,49 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Infrastructure;
+﻿using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
+using System;
+using System.Web.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
 {
-	public class OrgManagerController : BaseController
-	{
-		private OrgManagerApp _orgApp;
+    public class OrgManagerController : BaseController
+    {
+        private OrgManagerApp _orgApp;
         private BjuiResponse _bjuiResponse = new BjuiResponse();
 
-		public OrgManagerController()
-		{
-			_orgApp = (OrgManagerApp) DependencyResolver.Current.GetService(typeof (OrgManagerApp));
-		}
-		//
-		// GET: /OrgManager/
-		public ActionResult Index()
-		{
-			return View();
-		}
+        public OrgManagerController()
+        {
+            _orgApp = (OrgManagerApp)DependencyResolver.Current.GetService(typeof(OrgManagerApp));
+        }
+
+        //
+        // GET: /OrgManager/
+        public ActionResult Index()
+        {
+            return View();
+        }
 
         /// <summary>
         /// 选择上级机构页面
         /// </summary>
         /// <returns>ActionResult.</returns>
-	    public ActionResult LookupParent()
-	    {
-	        return View();
-	    }
+        public ActionResult LookupParent()
+        {
+            return View();
+        }
 
-
-	    public ActionResult AddOrg()
-	    {
-	        return View();
-	    }
+        public ActionResult AddOrg()
+        {
+            return View();
+        }
 
         //添加组织提交
         [HttpPost]
-	    public string AddOrg(Org org)
+        public string AddOrg(Org org)
         {
             try
             {
@@ -55,19 +52,32 @@ namespace OpenAuth.Mvc.Controllers
                 _bjuiResponse.message = ex.Message;
             }
             return JsonHelper.Instance.Serialize(_bjuiResponse);
-
         }
 
+        public string EditOrg(string json)
+        {
+            try
+            {
+                var org = JsonHelper.Instance.Deserialize<Org>(json);
+                _orgApp.ModifyOrg(org);
+            }
+            catch (Exception ex)
+            {
+                _bjuiResponse.statusCode = "300";
+                _bjuiResponse.message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(_bjuiResponse);
+        }
 
-		public string LoadOrg()
-		{
-		    return JsonHelper.Instance.Serialize(_orgApp.GetAll());
-		}
+        public string LoadOrg()
+        {
+            return JsonHelper.Instance.Serialize(_orgApp.GetAll());
+        }
 
-	    public string LoadChildren(int id)
-	    {
-	        return JsonHelper.Instance.Serialize(_orgApp.LoadAllChildren(id));
-	    }
+        public string LoadChildren(int id)
+        {
+            return JsonHelper.Instance.Serialize(_orgApp.LoadAllChildren(id));
+        }
 
         /// <summary>
         /// 删除指定ID的组织
@@ -78,7 +88,6 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                
                 foreach (var obj in Id.Split(','))
                 {
                     _orgApp.DelOrg(int.Parse(obj));
@@ -91,7 +100,6 @@ namespace OpenAuth.Mvc.Controllers
             }
 
             return JsonHelper.Instance.Serialize(_bjuiResponse);
-
         }
-	}
+    }
 }

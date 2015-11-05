@@ -21,6 +21,35 @@ namespace OpenAuth.App
         }
 
         /// <summary>
+        /// 部门的直接子部门
+        /// <para>TODO:可以根据用户的喜好决定选择LoadAllChildren或LoadDirectChildren</para>
+        /// </summary>
+        /// <param name="orgId">The org unique identifier.</param>
+        /// <returns>IEnumerable{Org}.</returns>
+        public IEnumerable<Org> LoadDirectChildren(int orgId)
+        {
+            return _repository.Find(u => u.ParentId == orgId);
+        }
+
+        /// <summary>
+        /// 得到部门的所有子部门
+        /// <para>如果orgId为0，表示取得所有部门</para>
+        /// </summary>
+        public IEnumerable<Org> LoadAllChildren(int orgId)
+        {
+            string cascadeId = "0.";
+            if (orgId != 0)
+            {
+                var org = _repository.FindSingle(u => u.Id == orgId);
+                if (org == null)
+                    throw new Exception("未能找到指定对象信息");
+                cascadeId = org.CascadeId;
+            }
+
+            return _repository.Find(u => u.CascadeId.Contains(cascadeId) && u.Id != orgId);
+        }
+
+        /// <summary>
         /// 添加部门
         /// </summary>
         /// <param name="org">The org.</param>
@@ -57,33 +86,9 @@ namespace OpenAuth.App
             return org.Id;
         }
 
-        /// <summary>
-        /// 部门的直接子部门
-        /// <para>TODO:可以根据用户的喜好决定选择LoadAllChildren或LoadDirectChildren</para>
-        /// </summary>
-        /// <param name="orgId">The org unique identifier.</param>
-        /// <returns>IEnumerable{Org}.</returns>
-        public IEnumerable<Org> LoadDirectChildren(int orgId)
+        public void ModifyOrg(Org org)
         {
-            return _repository.Find(u => u.ParentId == orgId);
-        }
-
-        /// <summary>
-        /// 得到部门的所有子部门
-        /// <para>如果orgId为0，表示取得所有部门</para>
-        /// </summary>
-        public IEnumerable<Org> LoadAllChildren(int orgId)
-        {
-            string cascadeId = "0.";
-            if (orgId != 0)
-            {
-                var org = _repository.FindSingle(u => u.Id == orgId);
-                if (org == null)
-                    throw new Exception("未能找到指定对象信息");
-                cascadeId = org.CascadeId;
-            }
-
-            return _repository.Find(u => u.CascadeId.Contains(cascadeId) && u.Id != orgId);
+            _repository.Update(u =>u.Id == org.Id,org);
         }
 
         /// <summary>

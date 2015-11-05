@@ -23,7 +23,7 @@
         $('#mainGrid').datagrid({
             gridTitle: '机构列表显示',
             showToolbar: true,
-            toolbarItem: 'refresh, |, del',
+            toolbarItem: 'refresh, |, del,edit',
             toolbarCustom: '<a href="/OrgManager/AddOrg" class="btn btn-green" data-icon ="plus"  ' +
                 'data-toggle="dialog" data-id="dialog-mask" data-mask="true">添加</a>' +
                '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>',
@@ -31,16 +31,19 @@
             {
                 name: 'Id',
                 label: 'Id',
+                attrs: { readonly: 'readonly' },
                 hide: true
             },
             {
                 name: 'ParentId',
                 label: '上级机构ID',
+                attrs: { readonly: 'readonly'},
                 hide: true
             },
               {
                   name: 'CascadeId',
-                  label: '唯一标识'
+                  label: '唯一标识',
+                  attrs: { readonly: 'readonly'}
               },
               {
                   name: 'Name',
@@ -48,7 +51,9 @@
               },
               {
                   name: 'ParentName',
-                  label: '上级机构'
+                  label: '上级机构',
+                  edit: false,
+                  attrs: { readonly: 'readonly' }
               },
             {
                 name: 'Status',
@@ -65,7 +70,6 @@
               }
             ],
             data: data,
-            addUrl: 'OrgManager/AddOrg',
             delUrl: 'OrgManager/DelOrg',
             delPK: "Id",
             editUrl: 'OrgManager/EditOrg',
@@ -77,6 +81,13 @@
             filterMult: false,
             showTfoot: true,
             delCallback: function (delResult) {
+                if (delResult.statusCode == "200")
+                    Init(selectedId);
+                else {
+                    $(this).alertmsg('warn', delResult.message);
+                }
+            },
+            editCallback: function (delResult) {
                 if (delResult.statusCode == "200")
                     Init(selectedId);
                 else {

@@ -68,14 +68,22 @@ namespace OpenAuth.App
             return _repository.Find(u => u.ParentId == orgId);
         }
 
-        //得到部门的所有子部门
+        /// <summary>
+        /// 得到部门的所有子部门
+        /// <para>如果orgId为0，表示取得所有部门</para>
+        /// </summary>
         public IEnumerable<Org> LoadAllChildren(int orgId)
         {
-            var org = _repository.FindSingle(u => u.Id == orgId);
-            if (org == null)
-                throw new Exception("未能找到指定对象信息");
+            string cascadeId = "0.";
+            if (orgId != 0)
+            {
+                var org = _repository.FindSingle(u => u.Id == orgId);
+                if (org == null)
+                    throw new Exception("未能找到指定对象信息");
+                cascadeId = org.CascadeId;
+            }
 
-            return _repository.Find(u => u.CascadeId.Contains(org.CascadeId) && u.Id != orgId);
+            return _repository.Find(u => u.CascadeId.Contains(cascadeId) && u.Id != orgId);
         }
 
         /// <summary>

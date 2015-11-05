@@ -6,13 +6,14 @@ using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.Domain;
+using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
 	public class OrgManagerController : BaseController
 	{
 		private OrgManagerApp _orgApp;
-        private Response _response = new Response();
+        private BjuiResponse _bjuiResponse = new BjuiResponse();
 
 		public OrgManagerController()
 		{
@@ -25,10 +26,37 @@ namespace OpenAuth.Mvc.Controllers
 			return View();
 		}
 
+        /// <summary>
+        /// 选择上级机构页面
+        /// </summary>
+        /// <returns>ActionResult.</returns>
 	    public ActionResult LookupParent()
 	    {
 	        return View();
 	    }
+
+
+	    public ActionResult AddOrg()
+	    {
+	        return View();
+	    }
+
+        //添加组织提交
+        [HttpPost]
+	    public string AddOrg(Org org)
+        {
+            try
+            {
+                _orgApp.AddOrg(org);
+            }
+            catch (Exception ex)
+            {
+                _bjuiResponse.statusCode = "300";
+                _bjuiResponse.message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(_bjuiResponse);
+
+        }
 
 
 		public string LoadOrg()
@@ -41,23 +69,28 @@ namespace OpenAuth.Mvc.Controllers
 	        return JsonHelper.Instance.Serialize(_orgApp.LoadAllChildren(id));
 	    }
 
-        public string DelOrg(string json)
+        /// <summary>
+        /// 删除指定ID的组织
+        /// <para>Id为逗号分开的字符串</para>
+        /// </summary>
+        /// <returns>System.String.</returns>
+        public string DelOrg(string Id)
         {
             try
             {
-                var delObj = JsonHelper.Instance.Deserialize<Org[]>(json);
-                foreach (var obj in delObj)
+                
+                foreach (var obj in Id.Split(','))
                 {
-                    _orgApp.DelOrg(obj.Id);
+                    _orgApp.DelOrg(int.Parse(obj));
                 }
             }
             catch (Exception e)
             {
-                _response.Status = false;
-                _response.Message = e.Message;
+                _bjuiResponse.statusCode = "300";
+                _bjuiResponse.message = e.Message;
             }
 
-            return JsonHelper.Instance.Serialize(_response);
+            return JsonHelper.Instance.Serialize(_bjuiResponse);
 
         }
 	}

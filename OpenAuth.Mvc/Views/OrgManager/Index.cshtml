@@ -5,7 +5,7 @@
         </div>
 
         <div id="ztree-detail" style="margin-left: 225px; width: auto;height: auto">
-            <table id="test-datagrid-array" data-width="100%" data-height="100%" class="table table-bordered"></table>
+            <table id="mainGrid" data-width="100%" data-height="100%" class="table table-bordered"></table>
         </div>
     </div>
 </div>
@@ -17,23 +17,30 @@
     });
     //加载数据到datagrid
     function loadDataGrid(data) {
-        $('#test-datagrid-array').datagrid({
+        //b-jui的datagrid需要重新处理HTML
+        $('#ztree-detail').empty()
+            .append('<table id="mainGrid" data-width="100%" data-height="100%" class="table table-bordered"></table>');
+        $('#mainGrid').datagrid({
             gridTitle: '机构列表显示',
             showToolbar: true,
-            toolbarItem: 'add, edit, refresh, |, del',
-            //toolbarCustom: '<button class=" btn-green" data-icon="plus" type="button">添加</button>' +
-            //    '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>',
+            toolbarItem: 'refresh, |, del',
+            toolbarCustom: '<a href="/OrgManager/AddOrg" class="btn btn-green" data-icon ="plus"  ' +
+                'data-toggle="dialog" data-id="dialog-mask" data-mask="true">添加</a>' +
+               '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>',
             columns: [
-              {
-                  name: 'Id',
-                  label:'Id',
-                  hide: true,
-                  edit:false
-              },
+            {
+                name: 'Id',
+                label: 'Id',
+                hide: true
+            },
+            {
+                name: 'ParentId',
+                label: '上级机构ID',
+                hide: true
+            },
               {
                   name: 'CascadeId',
-                  label: '唯一标识',
-                  edit:false
+                  label: '唯一标识'
               },
               {
                   name: 'Name',
@@ -41,9 +48,7 @@
               },
               {
                   name: 'ParentName',
-                  label: '上级机构',
-                  type: 'lookup',
-                  attrs: { 'data-url': 'OrgManager/LookupParent' }
+                  label: '上级机构'
               },
             {
                 name: 'Status',
@@ -58,12 +63,15 @@
             },
               {
                   name: 'CreateTime',
-                  label: '登记日期'
+                  label: '登记日期',
+                  type: 'date',
+                  pattern: 'yyyy-MM-dd HH:mm:ss'
               }
             ],
             data: data,
             addUrl: 'OrgManager/AddOrg',
             delUrl: 'OrgManager/DelOrg',
+            delPK: "Id",
             editUrl: 'OrgManager/EditOrg',
             editMode: 'dialog',
             fullGrid: true,
@@ -73,10 +81,10 @@
             filterMult: false,
             showTfoot: true,
             delCallback: function (delResult) {
-                if (delResult.Status == true)
+                if (delResult.statusCode == "200")
                     Init(selectedId);
                 else {
-                    $(this).alertmsg('warn', delResult.Message);
+                    $(this).alertmsg('warn', delResult.message);
                 }
             }
         });
@@ -86,10 +94,10 @@
         $.getJSON('OrgManager/LoadChildren', {
             id: treeNode.Id
         }, function (json) {
-            $('#ztree-detail').empty().append('<table id="test-datagrid-array" data-width="100%" data-height="100%" class="table table-bordered"></table>');
             loadDataGrid(json);
         });
     }
+
     function Init(selectedId) {
         var setting = {
             view: {
@@ -114,35 +122,45 @@
         $.getJSON('OrgManager/LoadOrg', function (json) {
             var zTreeObj = $.fn.zTree.init($('#orgTree'), setting, json);
             zTreeObj.expandAll(true);
-            if (selectedId == 0) {
-                loadDataGrid(json);
-            } else {
-                //TODO：设置ztree选中，不过没看到效果..
-                var selectedNod = zTreeObj.getNodesByParam('Id', selectedId, null);
-                zTreeObj.selectNode(selectedNod, false);
-                $.getJSON('OrgManager/LoadChildren', {
-                    id: selectedId
-                }, function (data) {
-                    $('#ztree-detail').empty().append('<table id="test-datagrid-array" data-width="100%" data-height="100%" class="table table-bordered"></table>');
-                    loadDataGrid(data);
-                });
-            }
+
+            $.getJSON('OrgManager/LoadChildren', {
+                id: selectedId
+            }, function (data) {
+                loadDataGrid(data);
+            });
+
+            //TODO：设置ztree选中，不过没看到效果..
+            var selectedNod = zTreeObj.getNodesByParam('Id', selectedId, null);
+            zTreeObj.selectNode(selectedNod, false);
+
         });
     }
-    function getSelected() {
-        var selected = $('#test-datagrid-array').data('selectedTrs');
-        if (selected == null) {
+
+    //获取勾选的值
+    //column:为从0开始的列标识
+    function getSelected(column) {
+        var selected = $('#mainGrid').data('selectedTrs');
+        if (selected == null || selected.length == 0) {
             $(this).alertmsg('warn', '至少选择一个对象', {
                 displayMode: 'slide',
                 title: '重要提示'
             });
+            return null;
         }
-        return selected;
+
+        var records = new Array();
+        selected.each(function () {
+            records[records.length] = this.children[column].innerText;
+        });
+
+        return records;
     }
+
+
 
     //自定义的编辑按钮
     function editOrg() {
-        var selected = getSelected();
+        var selected = getSelected(2);
         if (selected == null) return;
 
     }

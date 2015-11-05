@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "title";
+    Layout = null;
+}
+
+<div class="bjui-pageContent">
+    <form action="/OrgManager/AddOrg" class="pageForm" data-toggle="validate">
+        <table class="table table-condensed table-hover">
+            <tbody>
+                <tr>
+                    <td align="center"><h3>* 添加</h3></td>
+                </tr>
+              
+                <tr>
+                    <td>
+                        <label for="Name" class="control-label x90">机构名称：</label>
+                        <input type="text" name="Name" id="Name" value=""
+                                data-rule="required" size="20">
+                    </td>
+                   
+                </tr>
+                <tr>
+                    <td>
+                        <input  id="ParentId" name="ParentId" type="hidden">
+                        <label for="ParentName" class="control-label x90">上级机构：</label>
+                        <input type="text" name="ParentName" id="ParentName"
+                               value="" data-toggle="lookup" data-url="/OrgManager/LookupParent">
+                    </td>
+                   
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Status" class="control-label x85">禁用：</label>
+                        <input type="checkbox" name="Status" id="Status" value="true" data-toggle="icheck">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">关闭</button></li>
+        <li><button type="submit" class="btn-green">保存</button></li>
+    </ul>
+</div>

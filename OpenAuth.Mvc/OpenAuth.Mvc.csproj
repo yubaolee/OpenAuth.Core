@@ -130,6 +130,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BJUIResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -611,6 +612,7 @@
     <Content Include="Views\Home\Main.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Views\OrgManager\AddOrg.cshtml" />
     <None Include="Views\OrgManager\LookupParent.cshtml" />
   </ItemGroup>
   <PropertyGroup>

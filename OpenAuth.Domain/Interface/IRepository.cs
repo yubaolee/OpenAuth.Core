@@ -31,6 +31,9 @@ namespace OpenAuth.Domain.Interface
 
         void Add(T entity);
 
+        /// <summary>
+        /// 更新一个实体的所有属性
+        /// </summary>
         void Update(T entity);
 
         void Delete(T entity);

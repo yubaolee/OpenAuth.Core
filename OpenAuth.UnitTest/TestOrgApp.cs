@@ -125,5 +125,17 @@ namespace OpenAuth.UnitTest
                 Console.WriteLine(org.Name);
             }
         }
+
+        [TestMethod]
+        public void TestEdit()
+        {
+            var org = new Org
+            {
+                Id = 60,
+                Name = "test"
+
+            };
+            _app.ModifyOrg(org);
+        }
     }
 }

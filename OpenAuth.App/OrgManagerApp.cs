@@ -88,7 +88,7 @@ namespace OpenAuth.App
 
         public void ModifyOrg(Org org)
         {
-            _repository.Update(u =>u.Id == org.Id,org);
+            _repository.Update(org);
         }
 
         /// <summary>

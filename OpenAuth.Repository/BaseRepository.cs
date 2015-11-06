@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
@@ -61,7 +62,10 @@ namespace OpenAuth.Repository
 
        public void Update(T entity)
        {
-           Context.Set<T>().AddOrUpdate(entity);
+           var entry = this.Context.Entry(entity);
+
+           entry.State = EntityState.Modified;
+
            Save();
        }
 
@@ -73,6 +77,7 @@ namespace OpenAuth.Repository
 
        public void Update(Expression<Func<T, bool>> exp, T entity)
        {
+           //TODO: 暂时有问题，EntityFramework.Extension的Update必须有new操作
            Context.Set<T>().Where(exp).Update(u => entity);
        }
 

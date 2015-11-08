@@ -563,7 +563,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\UserManager\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -614,6 +613,9 @@
   <ItemGroup>
     <None Include="Views\OrgManager\AddOrg.cshtml" />
     <None Include="Views\OrgManager\LookupParent.cshtml" />
+    <Content Include="Views\UserManager\Index.cshtml" />
+    <Content Include="Views\UserManager\AddOrg.cshtml" />
+    <Content Include="Views\OrgManager\LookupOrg.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

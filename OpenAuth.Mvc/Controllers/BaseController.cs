@@ -21,6 +21,9 @@ namespace OpenAuth.Mvc.Controllers
 {
 	public class BaseController : Controller
 	{
+        protected BjuiResponse BjuiResponse = new BjuiResponse();
+
+       
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
 			base.OnActionExecuting(filterContext);

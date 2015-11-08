@@ -10,7 +10,7 @@ namespace OpenAuth.Mvc.Controllers
     public class OrgManagerController : BaseController
     {
         private OrgManagerApp _orgApp;
-        private BjuiResponse _bjuiResponse = new BjuiResponse();
+       
 
         public OrgManagerController()
         {
@@ -48,10 +48,10 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                _bjuiResponse.statusCode = "300";
-                _bjuiResponse.message = ex.Message;
+                BjuiResponse.statusCode = "300";
+                BjuiResponse.message = ex.Message;
             }
-            return JsonHelper.Instance.Serialize(_bjuiResponse);
+            return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
         public string EditOrg(string json)
@@ -63,10 +63,10 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                _bjuiResponse.statusCode = "300";
-                _bjuiResponse.message = ex.Message;
+                BjuiResponse.statusCode = "300";
+                BjuiResponse.message = ex.Message;
             }
-            return JsonHelper.Instance.Serialize(_bjuiResponse);
+            return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
         public string LoadOrg()
@@ -95,11 +95,11 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception e)
             {
-                _bjuiResponse.statusCode = "300";
-                _bjuiResponse.message = e.Message;
+                BjuiResponse.statusCode = "300";
+                BjuiResponse.message = e.Message;
             }
 
-            return JsonHelper.Instance.Serialize(_bjuiResponse);
+            return JsonHelper.Instance.Serialize(BjuiResponse);
         }
     }
 }

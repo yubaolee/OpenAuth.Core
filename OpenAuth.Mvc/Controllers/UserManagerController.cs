@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
 {
-    public class UserManagerController : Controller
+    public class UserManagerController : BaseController
     {
         //
         // GET: /UserManager/

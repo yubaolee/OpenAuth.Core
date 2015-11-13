@@ -12,13 +12,12 @@
 // <summary>IOC≥ı ºªØ</summary>
 // ***********************************************************************
 
-using Autofac;
-using Autofac.Integration.Mvc;
-using OpenAuth.App;
-using OpenAuth.Domain.Interface;
-using OpenAuth.Repository;
 using System.Reflection;
 using System.Web.Mvc;
+using Autofac;
+using Autofac.Configuration;
+using Autofac.Integration.Mvc;
+using OpenAuth.App;
 
 namespace OpenAuth.Mvc
 {
@@ -28,8 +27,7 @@ namespace OpenAuth.Mvc
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<UserRepository>().As<IUserRepository>();
-            builder.RegisterType<OrgRepository>().As<IOrgRepository>();
+            builder.RegisterModule(new ConfigurationSettingsReader("autofac")); 
             builder.RegisterType<LoginApp>();
             builder.RegisterType<OrgManagerApp>();
             builder.RegisterType<UserManagerApp>();

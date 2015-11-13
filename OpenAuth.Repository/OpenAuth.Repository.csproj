@@ -54,12 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="Models\Mapping\ModuleElementGrantMap.cs" />
+    <Compile Include="Models\Mapping\ModuleElementMap.cs" />
     <Compile Include="Models\Mapping\ModuleMap.cs" />
     <Compile Include="Models\Mapping\ModuleRoleMap.cs" />
     <Compile Include="Models\Mapping\OrgMap.cs" />
-    <Compile Include="Models\Mapping\PageElementGrantMap.cs" />
-    <Compile Include="Models\Mapping\PageElementMap.cs" />
-    <Compile Include="Models\Mapping\PageMap.cs" />
     <Compile Include="Models\Mapping\RoleMap.cs" />
     <Compile Include="Models\Mapping\UserCfgMap.cs" />
     <Compile Include="Models\Mapping\UserExtMap.cs" />
@@ -83,6 +82,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,13 +10,11 @@ namespace OpenAuth.Domain
 	/// </summary>
 	public partial class User
 	{
-
 		/// <summary>
 		/// 用户ID
 		/// </summary>
 		/// <returns></returns>
 		public int Id { get; set; }
-
 
 		/// <summary>
 		/// 
@@ -26,13 +22,11 @@ namespace OpenAuth.Domain
 		/// <returns></returns>
 		public string Account { get; set; }
 
-
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
 		public string Password { get; set; }
-
 
 		/// <summary>
 		/// 组织名称
@@ -40,13 +34,11 @@ namespace OpenAuth.Domain
 		/// <returns></returns>
 		public string Name { get; set; }
 
-
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
 		public int Sex { get; set; }
-
 
 		/// <summary>
 		/// 当前状态
@@ -54,13 +46,11 @@ namespace OpenAuth.Domain
 		/// <returns></returns>
 		public int Status { get; set; }
 
-
 		/// <summary>
 		/// 组织类型
 		/// </summary>
 		/// <returns></returns>
 		public int Type { get; set; }
-
 
 		/// <summary>
 		/// 业务对照码
@@ -68,13 +58,11 @@ namespace OpenAuth.Domain
 		/// <returns></returns>
 		public string BizCode { get; set; }
 
-
 		/// <summary>
 		/// 创建时间
 		/// </summary>
 		/// <returns></returns>
 		public System.DateTime CreateTime { get; set; }
-
 
 		/// <summary>
 		/// 创建人ID
@@ -83,31 +71,19 @@ namespace OpenAuth.Domain
 		public int CreateId { get; set; }
 
 
-
 		public User()
 		{
-		 
-	this.Id= 0;
-		  
-	this.Account= string.Empty;
-		   
-	this.Password= string.Empty;
-		   
-	this.Name= string.Empty;
-		   
-	this.Sex= 0;
-		  
-	this.Status= 0;
-		  
-	this.Type= 0;
-		  
-	this.BizCode= string.Empty;
-		   
-	this.CreateTime= DateTime.Now;
-		  
-	this.CreateId= 0;
-		  
-}
+		 	this.Id= 0;
+		  	this.Account= string.Empty;
+		   	this.Password= string.Empty;
+		   	this.Name= string.Empty;
+		   	this.Sex= 0;
+		  	this.Status= 0;
+		  	this.Type= 0;
+		  	this.BizCode= string.Empty;
+		   	this.CreateTime= DateTime.Now;
+		  	this.CreateId= 0;
+		  }
 		
 	
 

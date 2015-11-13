@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,68 +8,54 @@ namespace OpenAuth.Domain
 	/// <summary>
 	/// 用户ID
 	/// </summary>
-	public partial class PageElementGrant
+	public partial class ModuleElement
 	{
-
 		/// <summary>
 		/// 用户ID
 		/// </summary>
 		/// <returns></returns>
 		public int Id { get; set; }
 
-
 		/// <summary>
-		/// 页面元素流水号
+		/// DOM ID
 		/// </summary>
 		/// <returns></returns>
-		public int ElementId { get; set; }
-
-
-		/// <summary>
-		/// 用户流水号
-		/// </summary>
-		/// <returns></returns>
-		public int UserId { get; set; }
-
+		public string DomId { get; set; }
 
 		/// <summary>
-		/// 角色流水号
+		/// 组织名称
 		/// </summary>
 		/// <returns></returns>
-		public int RoleId { get; set; }
-
+		public string Name { get; set; }
 
 		/// <summary>
-		/// 岗位流水号
+		/// 组织类型
 		/// </summary>
 		/// <returns></returns>
-		public int PostId { get; set; }
-
+		public int Type { get; set; }
 
 		/// <summary>
-		/// 权限类型
+		/// 所属功能模块流水号
 		/// </summary>
 		/// <returns></returns>
-		public int GrantType { get; set; }
+		public int ModuleId { get; set; }
+
+		/// <summary>
+		/// 备注
+		/// </summary>
+		/// <returns></returns>
+		public string Remark { get; set; }
 
 
-
-		public PageElementGrant()
+		public ModuleElement()
 		{
-		 
-	this.Id= 0;
-		  
-	this.ElementId= 0;
-		  
-	this.UserId= 0;
-		  
-	this.RoleId= 0;
-		  
-	this.PostId= 0;
-		  
-	this.GrantType= 0;
-		  
-}
+		 	this.Id= 0;
+		  	this.DomId= string.Empty;
+		   	this.Name= string.Empty;
+		   	this.Type= 0;
+		  	this.ModuleId= 0;
+		  	this.Remark= string.Empty;
+		   }
 		
 	
 

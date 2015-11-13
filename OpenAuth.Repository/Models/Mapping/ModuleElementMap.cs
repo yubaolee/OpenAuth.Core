@@ -4,9 +4,9 @@ using OpenAuth.Domain;
 
 namespace OpenAuth.Repository.Models.Mapping
 {
-    public class PageElementMap : EntityTypeConfiguration<PageElement>
+    public class ModuleElementMap : EntityTypeConfiguration<ModuleElement>
     {
-        public PageElementMap()
+        public ModuleElementMap()
         {
             // Primary Key
             this.HasKey(t => t.Id);
@@ -25,13 +25,12 @@ namespace OpenAuth.Repository.Models.Mapping
                 .HasMaxLength(4000);
 
             // Table & Column Mappings
-            this.ToTable("PageElement");
+            this.ToTable("ModuleElement");
             this.Property(t => t.Id).HasColumnName("Id");
             this.Property(t => t.DomId).HasColumnName("DomId");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Type).HasColumnName("Type");
             this.Property(t => t.ModuleId).HasColumnName("ModuleId");
-            this.Property(t => t.PageId).HasColumnName("PageId");
             this.Property(t => t.Remark).HasColumnName("Remark");
         }
     }

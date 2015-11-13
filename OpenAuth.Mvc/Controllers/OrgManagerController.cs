@@ -33,6 +33,11 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        public ActionResult LookupMulti()
+        {
+            return View();
+        }
+
         public ActionResult AddOrg()
         {
             return View();
@@ -71,7 +76,16 @@ namespace OpenAuth.Mvc.Controllers
 
         public string LoadOrg()
         {
-            return JsonHelper.Instance.Serialize(_orgApp.GetAll());
+            var orgs = _orgApp.GetAll();
+           //添加根节点
+            orgs.Add(new Org
+            {
+                Id = 0,
+                ParentId = -1,
+                Name = "全部机构",
+                CascadeId = "0"
+            });
+            return JsonHelper.Instance.Serialize(orgs);
         }
 
         public string LoadChildren(int id)

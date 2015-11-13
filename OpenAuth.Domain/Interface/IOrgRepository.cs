@@ -9,5 +9,7 @@ namespace OpenAuth.Domain.Interface
     public  interface IOrgRepository :IRepository<Org>
     {
         IEnumerable<Org> LoadOrgs();
+
+        IEnumerable<Org> LoadByUser(int userId);
     }
 }

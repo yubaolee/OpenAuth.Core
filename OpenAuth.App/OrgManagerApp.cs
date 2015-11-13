@@ -15,9 +15,9 @@ namespace OpenAuth.App
             _repository = repository;
         }
 
-        public IEnumerable<Org> GetAll()
+        public IList<Org> GetAll()
         {
-            return _repository.LoadOrgs();
+            return _repository.LoadOrgs().ToList();
         }
 
         /// <summary>
@@ -26,16 +26,16 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="orgId">The org unique identifier.</param>
         /// <returns>IEnumerable{Org}.</returns>
-        public IEnumerable<Org> LoadDirectChildren(int orgId)
+        public IList<Org> LoadDirectChildren(int orgId)
         {
-            return _repository.Find(u => u.ParentId == orgId);
+            return _repository.Find(u => u.ParentId == orgId).ToList();
         }
 
         /// <summary>
         /// 得到部门的所有子部门
         /// <para>如果orgId为0，表示取得所有部门</para>
         /// </summary>
-        public IEnumerable<Org> LoadAllChildren(int orgId)
+        public IList<Org> LoadAllChildren(int orgId)
         {
             string cascadeId = "0.";
             if (orgId != 0)
@@ -46,7 +46,7 @@ namespace OpenAuth.App
                 cascadeId = org.CascadeId;
             }
 
-            return _repository.Find(u => u.CascadeId.Contains(cascadeId) && u.Id != orgId);
+            return _repository.Find(u => u.CascadeId.Contains(cascadeId) && u.Id != orgId).ToList();
         }
 
         /// <summary>

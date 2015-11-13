@@ -14,5 +14,15 @@ namespace OpenAuth.Repository
         {
             return Find();
         }
+
+        public IEnumerable<Org> LoadByUser(int userId)
+        {
+            var result = from userorg in Context.UserOrgs
+                join org in Context.Orgs on userorg.OrgId equals org.Id
+                where userorg.UserId == userId
+                select org;
+            return result;
+
+        }
     }
 }

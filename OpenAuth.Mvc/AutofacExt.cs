@@ -12,13 +12,13 @@
 // <summary>IOC≥ı ºªØ</summary>
 // ***********************************************************************
 
-using System.Reflection;
-using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using OpenAuth.App;
 using OpenAuth.Domain.Interface;
 using OpenAuth.Repository;
+using System.Reflection;
+using System.Web.Mvc;
 
 namespace OpenAuth.Mvc
 {
@@ -32,9 +32,11 @@ namespace OpenAuth.Mvc
             builder.RegisterType<OrgRepository>().As<IOrgRepository>();
             builder.RegisterType<LoginApp>();
             builder.RegisterType<OrgManagerApp>();
+            builder.RegisterType<UserManagerApp>();
+
 
             // Register your MVC controllers.
-            builder.RegisterControllers(typeof (MvcApplication).Assembly);
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             // OPTIONAL: Register model binders that require DI.
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());

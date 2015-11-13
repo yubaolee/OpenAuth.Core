@@ -1,11 +1,17 @@
-﻿<div class="bjui-pageContent">
+﻿@{
+    string _prefix = "org";
+    var _treeId = _prefix + "Tree";
+    var _gridId = _prefix + "Grid";
+    var _treeDetail = _prefix + "Detail";
+}
+<div class="bjui-pageContent">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="orgTree" class="ztree"></ul>
+            <ul id="@_treeId" class="ztree"></ul>
         </div>
 
-        <div id="ztree-detail" style="margin-left: 225px; width: auto;height: auto">
-            <table id="mainGrid" data-width="100%" data-height="100%" class="table table-bordered"></table>
+        <div id="@_treeDetail" style="margin-left: 225px; width: auto;height: auto">
+            <table id="@_gridId" data-width="100%" data-height="100%" class="table table-bordered"></table>
         </div>
     </div>
 </div>
@@ -16,11 +22,11 @@
         Init(0);
     });
     //加载数据到datagrid
-    function loadDataGrid(data) {
+    function LoadOrg(data) {
         //b-jui的datagrid需要重新处理HTML
-        $('#ztree-detail').empty()
-            .append('<table id="mainGrid" data-width="100%" data-height="100%" class="table table-bordered"></table>');
-        $('#mainGrid').datagrid({
+        $('#@_treeDetail').empty()
+            .append('<table id="@_gridId" data-width="100%" data-height="100%" class="table table-bordered"></table>');
+        $('#@_gridId').datagrid({
             gridTitle: '机构列表显示',
             showToolbar: true,
             toolbarItem: 'refresh, |, del,edit',
@@ -100,7 +106,7 @@
         $.getJSON('OrgManager/LoadChildren', {
             id: treeNode.Id
         }, function (json) {
-            loadDataGrid(json);
+            LoadOrg(json);
         });
     }
 
@@ -126,13 +132,13 @@
             }
         };
         $.getJSON('OrgManager/LoadOrg', function (json) {
-            var zTreeObj = $.fn.zTree.init($('#orgTree'), setting, json);
+            var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
 
             $.getJSON('OrgManager/LoadChildren', {
                 id: selectedId
             }, function (data) {
-                loadDataGrid(data);
+                LoadOrg(data);
             });
 
             //TODO：设置ztree选中，不过没看到效果..
@@ -145,7 +151,7 @@
     //获取勾选的值
     //column:为从0开始的列标识
     function getSelected(column) {
-        var selected = $('#mainGrid').data('selectedTrs');
+        var selected = $('#@_gridId').data('selectedTrs');
         if (selected == null || selected.length == 0) {
             $(this).alertmsg('warn', '至少选择一个对象', {
                 displayMode: 'slide',

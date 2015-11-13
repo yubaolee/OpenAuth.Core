@@ -1,77 +1,91 @@
-﻿<div class="bjui-pageContent">
+﻿@{
+    string _prefix = "user";
+    var _treeId = _prefix + "Tree";
+    var _gridId = _prefix + "Grid";
+    var _treeDetail = _prefix + "Detail";
+}
+<div class="bjui-pageContent">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="orgTree" class="ztree"></ul>
+            <ul id="@_treeId" class="ztree"></ul>
         </div>
 
-        <div id="ztree-detail" style="margin-left: 225px; width: auto;height: auto">
-            <table id="mainGrid" data-width="100%" data-height="100%" class="table table-bordered"></table>
+        <div id="@_treeDetail" style="margin-left: 225px; width: auto;height: auto">
+            <table id="@_gridId" data-width="100%" data-height="100%" class="table table-bordered"></table>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
+    var gridid = '#@_gridId';
     var selectedId = 0;
     $(document).ready(function () {
-        Init(0);
+        initZtree();
+        loadDataGrid();
     });
     //加载数据到datagrid
-    function loadDataGrid(data) {
+    function loadDataGrid() {
+        $.getJSON('UserManager/Load', {
+            orgId: selectedId
+        }, function (data) {
+            initGrid(data);
+        });
+    }
+    function initGrid(data) {
         //b-jui的datagrid需要重新处理HTML
-        $('#ztree-detail').empty()
-            .append('<table id="mainGrid" data-width="100%" data-height="100%" class="table table-bordered"></table>');
-        $('#mainGrid').datagrid({
-            gridTitle: '机构列表显示',
+        $('#@_treeDetail').empty()
+            .append('<table id="@_gridId" data-width="100%" data-height="100%" class="table table-bordered"></table>');
+        $(gridid).datagrid({
+            gridTitle: '用户列表',
             showToolbar: true,
             toolbarItem: 'refresh, |, del,edit',
-            toolbarCustom: '<a href="/OrgManager/AddOrg" class="btn btn-green" data-icon ="plus"  ' +
+            toolbarCustom: '<a href="/UserManager/Add" class="btn btn-green" data-icon ="plus"  ' +
                 'data-toggle="dialog" data-id="dialog-mask" data-mask="true">添加</a>' ,
             columns: [
-            {
-                name: 'Id',
-                label: 'Id',
-                attrs: { readonly: 'readonly' },
-                hide: true
-            },
-            {
-                name: 'ParentId',
-                label: '上级机构ID',
-                attrs: { readonly: 'readonly'},
-                hide: true
-            },
-              {
-                  name: 'CascadeId',
-                  label: '唯一标识',
-                  attrs: { readonly: 'readonly'}
-              },
-              {
-                  name: 'Name',
-                  label: '机构名称'
-              },
-              {
-                  name: 'ParentName',
-                  label: '上级机构',
-                  edit: false,
-                  attrs: { readonly: 'readonly' }
-              },
-            {
-                name: 'Status',
-                label: '状态',
-                type: 'select',
-                align: 'center',
-                items:[{'0':'正常'}, {'1':'禁用'}]
-            },
-              {
-                  name: 'CreateTime',
-                  label: '登记日期',
-                  type: 'date',
-                  pattern: 'yyyy-MM-dd HH:mm:ss'
-              }
+                {
+                    name: 'Id',
+                    label: 'Id',
+                    attrs: { readonly: 'readonly' },
+                    hide: true
+                },
+                {
+                    name: 'Account',
+                    label: '用户账号',
+                    attrs: { readonly: 'readonly'}
+                },
+                {
+                    name: 'Name',
+                    label: '姓名/昵称'
+                },
+                {
+                    name: 'Organizations',
+                    label: '所属机构'
+                },
+                {
+                    name: 'Status',
+                    label: '状态',
+                    type: 'select',
+                    align: 'center',
+                    items:[{'0':'正常'}, {'1':'禁用'}]
+                },
+                {
+                    name: 'Sex',
+                    label: '性别',
+                    type: 'select',
+                    align: 'center',
+                    items: [{ '0': '男' }, { '1': '女' }]
+                },
+                {
+                    name: 'CreateTime',
+                    label: '登记日期',
+                    type: 'date',
+                    pattern: 'yyyy-MM-dd HH:mm:ss'
+                }
             ],
             data: data,
-            delUrl: 'OrgManager/DelOrg',
+            delUrl: 'UserManager/Delete',
             delPK: "Id",
-            editUrl: 'OrgManager/EditOrg',
+            editUrl: 'UserManager/Edit',
             editMode: 'dialog',
             fullGrid: true,
             showLinenumber: true,
@@ -81,14 +95,14 @@
             showTfoot: true,
             delCallback: function (delResult) {
                 if (delResult.statusCode == "200")
-                    Init(selectedId);
+                    loadDataGrid();
                 else {
                     $(this).alertmsg('warn', delResult.message);
                 }
             },
             editCallback: function (delResult) {
                 if (delResult.statusCode == "200")
-                    Init(selectedId);
+                    loadDataGrid();
                 else {
                     $(this).alertmsg('warn', delResult.message);
                 }
@@ -97,18 +111,12 @@
     }
     function zTreeOnClick(event, treeId, treeNode) {
         selectedId = treeNode.Id;
-        $.getJSON('OrgManager/LoadChildren', {
-            id: treeNode.Id
-        }, function (json) {
-            loadDataGrid(json);
-        });
+        loadDataGrid();
     }
 
-    function Init(selectedId) {
+    function initZtree() {
         var setting = {
-            view: {
-                selectedMulti: false
-            },
+            view: {selectedMulti: false},
             data: {
                 key: {
                     name: 'Name',
@@ -121,31 +129,18 @@
                     rootPId: 'null'
                 }
             },
-            callback: {
-                onClick: zTreeOnClick
-            }
+            callback: {onClick: zTreeOnClick}
         };
         $.getJSON('OrgManager/LoadOrg', function (json) {
-            var zTreeObj = $.fn.zTree.init($('#orgTree'), setting, json);
+            var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
-
-            $.getJSON('OrgManager/LoadChildren', {
-                id: selectedId
-            }, function (data) {
-                loadDataGrid(data);
-            });
-
-            //TODO：设置ztree选中，不过没看到效果..
-            var selectedNod = zTreeObj.getNodesByParam('Id', selectedId, null);
-            zTreeObj.selectNode(selectedNod, false);
-
         });
     }
 
     //获取勾选的值
     //column:为从0开始的列标识
     function getSelected(column) {
-        var selected = $('#mainGrid').data('selectedTrs');
+        var selected = $(gridid).data('selectedTrs');
         if (selected == null || selected.length == 0) {
             $(this).alertmsg('warn', '至少选择一个对象', {
                 displayMode: 'slide',
@@ -170,5 +165,5 @@
         if (selected == null) return;
 
     }
-    //@@ sourceURL=orgIndex.js
+    //@@ sourceURL=userManagerIndex.js
 </script>

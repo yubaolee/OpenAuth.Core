@@ -16,7 +16,7 @@ namespace OpenAuth.App
 
         public void Login(string userName, string password)
         {
-            var user = _repository.FindByAccount(userName);
+            var user = _repository.FindSingle(u =>u.Account ==userName);
             if (user == null)
             {
                 throw new Exception("用户帐号不存在");

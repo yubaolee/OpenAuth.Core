@@ -123,7 +123,6 @@
     <Compile Include="AutofacExt.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ModuleManagerController.cs" />
     <Compile Include="Controllers\OrgManagerController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Global.asax.cs">
@@ -612,10 +611,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\OrgManager\AddOrg.cshtml" />
-    <None Include="Views\OrgManager\LookupParent.cshtml" />
+    <Content Include="Views\OrgManager\LookupParent.cshtml" />
     <Content Include="Views\UserManager\Index.cshtml" />
-    <Content Include="Views\UserManager\AddOrg.cshtml" />
-    <Content Include="Views\OrgManager\LookupOrg.cshtml" />
+    <Content Include="Views\UserManager\Add.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

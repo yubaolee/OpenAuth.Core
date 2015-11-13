@@ -24,9 +24,9 @@
                     <td>
                         <input  id="ParentId" name="ParentId" type="hidden">
                         <label for="ParentName" class="control-label x90">上级机构：</label>
-                        <input type="text" name="ParentName" id="ParentName"
-                               value="" data-toggle="lookup" data-url="/OrgManager/LookupParent">
-                    </td>
+                        <input type="text" name="ParentName" id="ParentName" data-toggle="selectztree" size="20" data-tree="#j_select_tree1">
+                        <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
+</td>
                    
                 </tr>
                 <tr>
@@ -50,3 +50,66 @@
         <li><button type="submit" class="btn-green">保存</button></li>
     </ul>
 </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+    function Init() {
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            check: {
+                enable: true,
+                chkStyle: "radio",
+                radioType: "all"
+            },
+            data: {
+                key: {
+                    name: 'Name',
+                    title: 'Name'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: 'Id',
+                    pIdKey: 'ParentId',
+                    rootPId: 'null'
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick,
+                onCheck: zTreeCheck
+            }
+        };
+        $.getJSON('OrgManager/LoadOrg', function (json) {
+            var zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
+            zTreeObj.expandAll(true);
+        });
+    }
+
+    function zTreeCheck(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj(treeId),
+            nodes = zTree.getCheckedNodes(true);
+        var ids = '', names = '';
+        for (var i = 0; i < nodes.length; i++) {
+            ids += ',' + nodes[i].Id;
+            names += ',' + nodes[i].Name;
+        }
+        if (ids.length > 0) {  //去掉第一个逗号
+            ids = ids.substr(1);
+            names = names.substr(1);
+        }
+
+        var $from = $('#' + treeId).data('fromObj');
+        if ($from && $from.length) $from.val(names);
+
+        $('#ParentId').val(ids);
+    }
+    function zTreeOnClick(event, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj(treeId);
+        zTree.checkNode(treeNode, !treeNode.checked, true, true);
+        event.preventDefault();
+    }
+</script>

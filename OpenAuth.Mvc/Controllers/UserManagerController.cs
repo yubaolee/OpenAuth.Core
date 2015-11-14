@@ -1,10 +1,7 @@
-﻿using Infrastructure;
-using OpenAuth.App;
-using OpenAuth.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Web.Mvc;
+using Infrastructure;
+using OpenAuth.App;
 using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
@@ -25,33 +22,19 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ActionResult Add()
+        public ActionResult Add(int id = 0)
         {
-            return View();
+            return View(_app.Find(id));
         }
 
         //添加组织提交
         [HttpPost]
-        public string Add(UserView org)
+        public string Add(UserView view)
         {
             try
             {
-                int[] orgIds = org.OrganizationIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.Add(org, orgIds);
-            }
-            catch (Exception ex)
-            {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
-            }
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
-
-        public string Edit(string json)
-        {
-            try
-            {
-                var org = JsonHelper.Instance.Deserialize<User>(json);
+                _app.AddOrUpdate(view);
+                
             }
             catch (Exception ex)
             {
@@ -64,9 +47,15 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载组织下面的所有用户
         /// </summary>
-        public string Load(int orgId)
+        public string Load(int orgId, int pageindex = 1, int pagesize = 10)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(orgId));
+            return JsonHelper.Instance.Serialize(_app.Load(orgId, pageindex, pagesize));
+        }
+
+        //获取组织下面用户个数
+        public int GetCount(int orgId)
+        {
+            return _app.GetUserCntInOrg(orgId);
         }
 
         public string Delete(string Id)

@@ -8,13 +8,10 @@ namespace OpenAuth.Domain.Interface
         IEnumerable<User> LoadUsers();
 
         IEnumerable<User> LoadInOrgs(params int[] orgId);
-        int GetUserCount(params int[] orgIds);
+        int GetUserCntInOrgs(params int[] orgIds);
         IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params int[] orgIds);
 
-        /// <summary>
-        /// 添加用户
-        /// </summary>
-        void AddWithOrg(User user, params int[] orgIds);
+        void SetOrg(int userId, params int[] orgIds);
 
         /// <summary>
         /// 删除用户及与该用户相关的信息

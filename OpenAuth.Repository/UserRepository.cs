@@ -31,7 +31,7 @@ namespace OpenAuth.Repository
 
         }
 
-        public int GetUserCount(params int[] orgIds)
+        public int GetUserCntInOrgs(params int[] orgIds)
         {
             return LoadInOrgs(orgIds).Count();
         }
@@ -41,16 +41,18 @@ namespace OpenAuth.Repository
             return LoadInOrgs(orgIds).OrderBy(u =>u.Name).Skip((pageindex -1)*pagesize).Take(pagesize);
         }
 
-        public void AddWithOrg(User user, params int[] orgIds)
+        /// <summary>
+        /// 设置用户的机构
+        /// </summary>
+        public void SetOrg(int userId, params int[] orgIds)
         {
             using (TransactionScope ts = new TransactionScope())
             {
-               Add(user);
-               Save();
+                Context.UserOrgs.Where(u => u.UserId == userId).Delete();
 
                 foreach (var orgId in orgIds)
                 {
-                    Context.UserOrgs.Add(new UserOrg{OrgId = orgId,UserId = user.Id});
+                    Context.UserOrgs.Add(new UserOrg{OrgId = orgId,UserId = userId});
                 }
                 Save();
                 ts.Complete();

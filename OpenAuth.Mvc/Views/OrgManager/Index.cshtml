@@ -29,6 +29,7 @@
         $('#@_gridId').datagrid({
             gridTitle: '机构列表显示',
             showToolbar: true,
+            filterThead: false,
             toolbarItem: 'refresh, |, del,edit',
             toolbarCustom: '<a href="/OrgManager/AddOrg" class="btn btn-green" data-icon ="plus"  ' +
                 'data-toggle="dialog" data-id="dialog-mask" data-mask="true">添加</a>' ,
@@ -146,35 +147,6 @@
             zTreeObj.selectNode(selectedNod, false);
 
         });
-    }
-
-    //获取勾选的值
-    //column:为从0开始的列标识
-    function getSelected(column) {
-        var selected = $('#@_gridId').data('selectedTrs');
-        if (selected == null || selected.length == 0) {
-            $(this).alertmsg('warn', '至少选择一个对象', {
-                displayMode: 'slide',
-                title: '重要提示'
-            });
-            return null;
-        }
-
-        var records = new Array();
-        selected.each(function () {
-            records[records.length] = this.children[column].innerText;
-        });
-
-        return records;
-    }
-
-
-
-    //自定义的编辑按钮
-    function editOrg() {
-        var selected = getSelected(2);
-        if (selected == null) return;
-
     }
     //@@ sourceURL=orgIndex.js
 </script>

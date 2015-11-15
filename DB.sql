@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2008                    */
-/* Created on:     2015/10/27 8:57:02                           */
+/* Created on:     2015/11/15 23:04:57                          */
 /*==============================================================*/
 
 
@@ -9,6 +9,20 @@ if exists (select 1
            where  id = object_id('Module')
             and   type = 'U')
    drop table Module
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('ModuleElement')
+            and   type = 'U')
+   drop table ModuleElement
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('ModuleElementGrant')
+            and   type = 'U')
+   drop table ModuleElementGrant
 go
 
 if exists (select 1
@@ -23,27 +37,6 @@ if exists (select 1
            where  id = object_id('Org')
             and   type = 'U')
    drop table Org
-go
-
-if exists (select 1
-            from  sysobjects
-           where  id = object_id('Page')
-            and   type = 'U')
-   drop table Page
-go
-
-if exists (select 1
-            from  sysobjects
-           where  id = object_id('PageElement')
-            and   type = 'U')
-   drop table PageElement
-go
-
-if exists (select 1
-            from  sysobjects
-           where  id = object_id('PageElementGrant')
-            and   type = 'U')
-   drop table PageElementGrant
 go
 
 if exists (select 1
@@ -384,10 +377,286 @@ alter table Module
 go
 
 /*==============================================================*/
+/* Table: ModuleElement                                         */
+/*==============================================================*/
+create table ModuleElement (
+   Id                   int                  identity,
+   DomId                varchar(255)         not null default ' ',
+   Name                 varchar(255)         not null default ' ',
+   Type                 int                  not null default 0,
+   ModuleId             int                  not null default 0,
+   Remark               varchar(4000)        not null default ' '
+)
+go
+
+if exists (select 1 from  sys.extended_properties
+           where major_id = object_id('ModuleElement') and minor_id = 0)
+begin 
+   declare @CurrentUser sysname 
+select @CurrentUser = user_name() 
+execute sp_dropextendedproperty 'MS_Description',  
+   'user', @CurrentUser, 'table', 'ModuleElement' 
+ 
+end 
+
+
+select @CurrentUser = user_name() 
+execute sp_addextendedproperty 'MS_Description',  
+   '模块元素表', 
+   'user', @CurrentUser, 'table', 'ModuleElement'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElement')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Id')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'Id'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '流水号',
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'Id'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElement')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'DomId')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'DomId'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   'DOM ID',
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'DomId'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElement')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Name')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'Name'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '名称',
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'Name'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElement')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Type')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'Type'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '类型',
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'Type'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElement')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'ModuleId')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'ModuleId'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '所属功能模块流水号',
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'ModuleId'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElement')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Remark')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'Remark'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '备注',
+   'user', @CurrentUser, 'table', 'ModuleElement', 'column', 'Remark'
+go
+
+alter table ModuleElement
+   add constraint PK_MODULEELEMENT primary key (Id)
+go
+
+/*==============================================================*/
+/* Table: ModuleElementGrant                                    */
+/*==============================================================*/
+create table ModuleElementGrant (
+   Id                   int                  identity,
+   ElementId            int                  not null default 0,
+   UserId               int                  not null default 0,
+   RoleId               int                  not null default 0,
+   GrantType            int                  not null default 0
+)
+go
+
+if exists (select 1 from  sys.extended_properties
+           where major_id = object_id('ModuleElementGrant') and minor_id = 0)
+begin 
+   declare @CurrentUser sysname 
+select @CurrentUser = user_name() 
+execute sp_dropextendedproperty 'MS_Description',  
+   'user', @CurrentUser, 'table', 'ModuleElementGrant' 
+ 
+end 
+
+
+select @CurrentUser = user_name() 
+execute sp_addextendedproperty 'MS_Description',  
+   '元素授权表', 
+   'user', @CurrentUser, 'table', 'ModuleElementGrant'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElementGrant')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Id')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'Id'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '流水号',
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'Id'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElementGrant')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'ElementId')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'ElementId'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '页面元素流水号',
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'ElementId'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElementGrant')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'UserId')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'UserId'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '用户流水号',
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'UserId'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElementGrant')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'RoleId')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'RoleId'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '角色流水号',
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'RoleId'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('ModuleElementGrant')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'GrantType')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'GrantType'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '权限类型',
+   'user', @CurrentUser, 'table', 'ModuleElementGrant', 'column', 'GrantType'
+go
+
+alter table ModuleElementGrant
+   add constraint PK_MODULEELEMENTGRANT primary key (Id)
+go
+
+/*==============================================================*/
 /* Table: ModuleRole                                            */
 /*==============================================================*/
 create table ModuleRole (
-   Id                   int                  not null,
+   Id                   int                  identity,
    RoleId               int                  not null default 0,
    ModuleId             int                  not null default 0,
    Type                 int                  not null default 0,
@@ -861,550 +1130,6 @@ alter table Org
 go
 
 /*==============================================================*/
-/* Table: Page                                                  */
-/*==============================================================*/
-create table Page (
-   Id                   int                  identity,
-   ModuleId             int                  not null default 0,
-   Name                 varchar(255)         not null default ' ',
-   Url                  varchar(255)         not null default ' ',
-   Type                 int                  not null default 0,
-   Enabled              bit                  not null default 1,
-   IsDefault            bit                  not null default 0,
-   Icon                 varchar(255)         not null default ' ',
-   IconBig              varchar(255)         not null default ' ',
-   Vector               varchar(255)         not null default ' ',
-   SortNo               int                  not null default 0
-)
-go
-
-if exists (select 1 from  sys.extended_properties
-           where major_id = object_id('Page') and minor_id = 0)
-begin 
-   declare @CurrentUser sysname 
-select @CurrentUser = user_name() 
-execute sp_dropextendedproperty 'MS_Description',  
-   'user', @CurrentUser, 'table', 'Page' 
- 
-end 
-
-
-select @CurrentUser = user_name() 
-execute sp_addextendedproperty 'MS_Description',  
-   '一个模块可以有多个页面', 
-   'user', @CurrentUser, 'table', 'Page'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Id')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Id'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '流水号',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Id'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'ModuleId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'ModuleId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '功能模块ID',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'ModuleId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Name')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Name'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '名称',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Name'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Url')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Url'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '页面URL',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Url'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Type')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Type'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '类型',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Type'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Enabled')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Enabled'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '使能状态',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Enabled'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'IsDefault')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'IsDefault'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '是否缺省子页面',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'IsDefault'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Icon')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Icon'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '小图标',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Icon'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'IconBig')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'IconBig'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '大图标',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'IconBig'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Vector')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Vector'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '矢量图标',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'Vector'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('Page')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'SortNo')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'Page', 'column', 'SortNo'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '排序号',
-   'user', @CurrentUser, 'table', 'Page', 'column', 'SortNo'
-go
-
-alter table Page
-   add constraint PK_PAGE primary key (Id)
-go
-
-/*==============================================================*/
-/* Table: PageElement                                           */
-/*==============================================================*/
-create table PageElement (
-   Id                   int                  not null,
-   DomId                varchar(255)         not null default ' ',
-   Name                 varchar(255)         not null default ' ',
-   Type                 int                  not null default 0,
-   ModuleId             int                  not null default 0,
-   Remark               varchar(4000)        not null default ' '
-)
-go
-
-if exists (select 1 from  sys.extended_properties
-           where major_id = object_id('PageElement') and minor_id = 0)
-begin 
-   declare @CurrentUser sysname 
-select @CurrentUser = user_name() 
-execute sp_dropextendedproperty 'MS_Description',  
-   'user', @CurrentUser, 'table', 'PageElement' 
- 
-end 
-
-
-select @CurrentUser = user_name() 
-execute sp_addextendedproperty 'MS_Description',  
-   '页面元素表', 
-   'user', @CurrentUser, 'table', 'PageElement'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElement')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Id')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'Id'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '流水号',
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'Id'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElement')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'DomId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'DomId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   'DOM ID',
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'DomId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElement')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Name')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'Name'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '名称',
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'Name'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElement')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Type')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'Type'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '类型',
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'Type'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElement')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'ModuleId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'ModuleId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '所属功能模块流水号',
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'ModuleId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElement')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Remark')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'Remark'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '备注',
-   'user', @CurrentUser, 'table', 'PageElement', 'column', 'Remark'
-go
-
-alter table PageElement
-   add constraint PK_PAGEELEMENT primary key (Id)
-go
-
-/*==============================================================*/
-/* Table: PageElementGrant                                      */
-/*==============================================================*/
-create table PageElementGrant (
-   Id                   int                  not null,
-   ElementId            int                  not null default 0,
-   UserId               int                  not null default 0,
-   RoleId               int                  not null default 0,
-   PostId               int                  not null default 0,
-   GrantType            int                  not null default 0
-)
-go
-
-if exists (select 1 from  sys.extended_properties
-           where major_id = object_id('PageElementGrant') and minor_id = 0)
-begin 
-   declare @CurrentUser sysname 
-select @CurrentUser = user_name() 
-execute sp_dropextendedproperty 'MS_Description',  
-   'user', @CurrentUser, 'table', 'PageElementGrant' 
- 
-end 
-
-
-select @CurrentUser = user_name() 
-execute sp_addextendedproperty 'MS_Description',  
-   '页面元素授权表', 
-   'user', @CurrentUser, 'table', 'PageElementGrant'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElementGrant')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Id')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'Id'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '流水号',
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'Id'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElementGrant')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'ElementId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'ElementId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '页面元素流水号',
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'ElementId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElementGrant')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'UserId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'UserId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '用户流水号',
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'UserId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElementGrant')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'RoleId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'RoleId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '角色流水号',
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'RoleId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElementGrant')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'PostId')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'PostId'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '岗位流水号',
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'PostId'
-go
-
-if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('PageElementGrant')
-  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'GrantType')
-)
-begin
-   declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'GrantType'
-
-end
-
-
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   '权限类型',
-   'user', @CurrentUser, 'table', 'PageElementGrant', 'column', 'GrantType'
-go
-
-alter table PageElementGrant
-   add constraint PK_PAGEELEMENTGRANT primary key (Id)
-go
-
-/*==============================================================*/
 /* Table: Role                                                  */
 /*==============================================================*/
 create table Role (
@@ -1596,7 +1321,7 @@ go
 /* Table: [User]                                                */
 /*==============================================================*/
 create table [User] (
-   Id                   int                  not null,
+   Id                   int                  identity,
    Account              varchar(255)         not null default ' ',
    Password             varchar(255)         not null default ' ',
    Name                 varchar(255)         not null default ' ',
@@ -2300,7 +2025,7 @@ go
 /* Table: UserModule                                            */
 /*==============================================================*/
 create table UserModule (
-   Id                   int                  not null,
+   Id                   int                  identity,
    UserId               int                  not null default 0,
    ModuleId             int                  not null default 0,
    Type                 int                  not null default 0,
@@ -2448,7 +2173,7 @@ go
 /* Table: UserOrg                                               */
 /*==============================================================*/
 create table UserOrg (
-   Id                   int                  not null,
+   Id                   int                  identity,
    OrgId                int                  not null default 0,
    UserId               int                  not null default 0,
    OperateTime          datetime             not null default getdate(),
@@ -2557,7 +2282,7 @@ go
 /* Table: UserRole                                              */
 /*==============================================================*/
 create table UserRole (
-   Id                   int                  not null,
+   Id                   int                  identity,
    RoleId               int                  not null default 0,
    UserId               int                  not null default 0,
    OperateTime          datetime             not null default getdate(),
@@ -2661,4 +2386,3 @@ go
 alter table UserRole
    add constraint PK_USERROLE primary key (Id)
 go
-

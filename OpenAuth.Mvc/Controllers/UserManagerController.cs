@@ -47,9 +47,9 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载组织下面的所有用户
         /// </summary>
-        public string Load(int orgId, int pageindex = 1, int pagesize = 10)
+        public string Load(int orgId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(orgId, pageindex, pagesize));
+            return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
         }
 
         //获取组织下面用户个数

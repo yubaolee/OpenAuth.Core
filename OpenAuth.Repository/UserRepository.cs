@@ -12,9 +12,9 @@ namespace OpenAuth.Repository
 {
     public class UserRepository :BaseRepository<User>, IUserRepository
     {
-        public IEnumerable<User> LoadUsers()
+        public IEnumerable<User> LoadUsers(int pageindex, int pagesize)
         {
-            return Context.Users.ToList();
+            return Context.Users.OrderBy(u => u.Name).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
         public IEnumerable<User> LoadInOrgs(params int[] orgId)

@@ -26,10 +26,5 @@ namespace OpenAuth.App
 
 
         }
-
-        public IEnumerable<User> LoadUsers()
-        {
-            return _repository.LoadUsers();
-        }
     }
 }

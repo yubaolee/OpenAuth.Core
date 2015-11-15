@@ -3,7 +3,6 @@
     var _treeId = _prefix + "Tree";
     var _gridId = _prefix + "Grid";
     var _treeDetail = _prefix + "Detail";
-    var _pageId = _prefix + "Page";
 }
 <div class="bjui-pageContent">
     <div class="clearfix">
@@ -11,15 +10,11 @@
             <ul id="@_treeId" class="ztree"></ul>
         </div>
 
-        <div id="@_treeDetail" style="margin-left: 225px; width: auto; height: auto">
+        <div id="@_treeDetail" style="margin-left: 225px;">
         </div>
     </div>
 </div>
-<div class="bjui-pageFooter">
-   
-    <div class="pagination-box" data-toggle="pagination" data-total="10" data-page-size="5" data-page-current="1"></div>
-  
-</div>
+
 
 <script type="text/javascript">
     var gridid = '#@_gridId';
@@ -30,23 +25,10 @@
     });
     //加载数据到datagrid
     function loadDataGrid() {
-        $.getJSON('UserManager/Load', {
-            orgId: selectedId
-        }, function (data) {
-            initGrid(data);
-        });
-    }
-    function initGrid(data) {
         //b-jui的datagrid需要重新处理HTML
         $('#@_treeDetail').empty()
-            .append('<table id="@_gridId" data-width="100%" data-height="auto" class="table table-bordered"></table>'
-            +'<div id="@_pageId" style="float:right"></div>');
-        $('#@_pageId').pagination({
-            total: 10,
-            pageSize: 10,
-            pageCurrent: 1,
-            pageNum:1
-        });
+            .append('<table id="@_gridId" class="table table-bordered"></table>');
+
         $(gridid).datagrid({
             gridTitle: '用户列表',
             showToolbar: true,
@@ -65,38 +47,45 @@
                 {
                     name: 'Account',
                     label: '用户账号',
-                    attrs: { readonly: 'readonly'}
+                    width: 142,
+                    attrs: { readonly: 'readonly' }
                 },
                 {
                     name: 'Name',
-                    label: '姓名/昵称'
+                    label: '姓名/昵称',
+                    width: 226
                 },
                 {
                     name: 'Organizations',
-                    label: '所属机构'
+                    label: '所属机构',
+                    width: 150
                 },
                 {
                     name: 'Status',
                     label: '状态',
                     type: 'select',
                     align: 'center',
-                    items:[{'0':'正常'}, {'1':'禁用'}]
+                    width: 80,
+                    items: [{ '0': '正常' }, { '1': '禁用' }]
                 },
                 {
                     name: 'Sex',
                     label: '性别',
                     type: 'select',
                     align: 'center',
+                    width: 80,
                     items: [{ '0': '男' }, { '1': '女' }]
                 },
                 {
                     name: 'CreateTime',
                     label: '登记日期',
                     type: 'date',
+                    width: 180,
                     pattern: 'yyyy-MM-dd HH:mm:ss'
                 }
             ],
-            data: data,
+            //  data: data,
+            dataUrl: 'UserManager/Load?orgId=' + selectedId,
             delUrl: 'UserManager/Delete',
             delPK: "Id",
             editUrl: 'UserManager/Edit',
@@ -104,9 +93,10 @@
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
-            paging: false,
+            paging: true,
             filterMult: false,
             showTfoot: true,
+            height: '700',
             delCallback: function (delResult) {
                 if (delResult.statusCode == "200")
                     loadDataGrid();
@@ -123,6 +113,7 @@
             }
         });
     }
+
     function zTreeOnClick(event, treeId, treeNode) {
         selectedId = treeNode.Id;
         loadDataGrid();

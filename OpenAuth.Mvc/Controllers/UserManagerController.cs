@@ -27,7 +27,7 @@ namespace OpenAuth.Mvc.Controllers
             return View(_app.Find(id));
         }
 
-        //添加组织提交
+        //添加或修改组织
         [HttpPost]
         public string Add(UserView view)
         {

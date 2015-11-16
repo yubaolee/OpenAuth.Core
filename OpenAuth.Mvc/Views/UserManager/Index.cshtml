@@ -35,7 +35,7 @@
             filterThead: false,
             toolbarItem: 'refresh, |, del',
             toolbarCustom: '<a href="/UserManager/Add" class="btn btn-green" data-icon ="plus"  ' +
-                'data-toggle="dialog" data-id="dialog-mask" data-mask="true">添加</a>' +
+                'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="loadDataGrid">添加</a>' +
                 '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>',
             columns: [
                 {
@@ -88,8 +88,6 @@
             dataUrl: 'UserManager/Load?orgId=' + selectedId,
             delUrl: 'UserManager/Delete',
             delPK: "Id",
-            editUrl: 'UserManager/Edit',
-            editMode: 'dialog',
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
@@ -98,13 +96,6 @@
             showTfoot: true,
             height: '700',
             delCallback: function (delResult) {
-                if (delResult.statusCode == "200")
-                    loadDataGrid();
-                else {
-                    $(this).alertmsg('warn', delResult.message);
-                }
-            },
-            editCallback: function (delResult) {
                 if (delResult.statusCode == "200")
                     loadDataGrid();
                 else {
@@ -170,7 +161,14 @@
         var selected = getSelected(2);
         if (selected == null) return;
 
-        $(this).dialog({ id: 'editDialog', url: '/UserManager/Add?id='+selected, title: '编辑' });
+        $(this).dialog({
+            id: 'editDialog',
+            url: '/UserManager/Add?id=' + selected,
+            title: '编辑',
+            onClose:function() {
+                loadDataGrid();
+            }
+        });
 
     }
     //@@ sourceURL=userManagerIndex.js

@@ -19,6 +19,7 @@
 <script type="text/javascript">
     var gridid = '#@_gridId';
     var selectedId = 0;
+    var grid;
     $(document).ready(function () {
         initZtree();
         loadDataGrid();
@@ -29,13 +30,13 @@
         $('#@_treeDetail').empty()
             .append('<table id="@_gridId" class="table table-bordered"></table>');
 
-        $(gridid).datagrid({
+       grid = $(gridid).datagrid({
             gridTitle: '用户列表',
             showToolbar: true,
             filterThead: false,
             toolbarItem: 'refresh, |, del',
             toolbarCustom: '<a href="/UserManager/Add" class="btn btn-green" data-icon ="plus"  ' +
-                'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="loadDataGrid">添加</a>' +
+                'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="refreshGrid">添加</a>' +
                 '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>',
             columns: [
                 {
@@ -166,10 +167,15 @@
             url: '/UserManager/Add?id=' + selected,
             title: '编辑',
             onClose:function() {
-                loadDataGrid();
+                refreshGrid();
             }
         });
 
+    }
+
+    function refreshGrid() {
+        //grid.refresh();
+        loadDataGrid();
     }
     //@@ sourceURL=userManagerIndex.js
 </script>

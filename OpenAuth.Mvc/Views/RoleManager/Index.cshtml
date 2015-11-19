@@ -45,41 +45,44 @@
                },    
                {
                     name: 'Name',
-                    label: '角色名称'
+                    label: '角色名称',
+                   width:100
                },    
                {
                     name: 'Status',
-                    label: '当前状态'
+                    label: '当前状态',
+                    type: 'select',
+                    align: 'center',
+                   items:[{'0':'正常'}],
+                   width:50
                },    
                {
                     name: 'Type',
-                    label: '角色类型'
+                    label: '角色类型',
+                    type: 'select',
+                    align: 'center',
+                    items: [{ '0': '管理员' }],
+                   width:50
                },    
                {
                     name: 'CreateTime',
                     label: '创建时间'
                     , type: 'date',
-                    width: 180,
+                    width: 150,
                     pattern: 'yyyy-MM-dd HH:mm:ss'
-               },    
-               {
-                    name: 'CreateId',
-                    label: '创建人ID'
-               },    
-               {
-                    name: 'OrgId',
-                    label: '所属部门流水号'
-               },    
+               },       
+              
                {
                     name: 'OrgCascadeId',
-                    label: '所属部门节点语义ID'
+                    label: '所属部门节点语义ID',
+                   width:100
                },    
                {
                     name: 'OrgName',
-                    label: '所属部门名称'
-               },    
+                    label: '所属部门名称',
+                   width:100
+               }   
             ],
-            //  data: data,
             dataUrl: 'RoleManager/Load?orgId=' + selectedId,
             delUrl: 'Role/Delete',
             delPK: "Id",

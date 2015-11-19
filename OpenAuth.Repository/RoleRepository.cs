@@ -12,7 +12,7 @@ namespace OpenAuth.Repository
     {
         public IEnumerable<Role> LoadRoles(int pageindex, int pagesize)
         {
-            return Context.Roles.OrderBy(u => u.Name).Skip((pageindex - 1) * pagesize).Take(pagesize);
+            return Context.Roles.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
         public int GetRoleCntInOrgs(params int[] orgIds)
@@ -22,7 +22,7 @@ namespace OpenAuth.Repository
 
         public IEnumerable<Role> LoadInOrgs(int pageindex, int pagesize, params int[] orgIds)
         {
-            return LoadInOrgs(orgIds).OrderBy(u => u.Name).Skip((pageindex - 1) * pagesize).Take(pagesize);
+            return LoadInOrgs(orgIds).OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
         public void Delete(int id)

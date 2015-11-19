@@ -14,7 +14,7 @@ namespace OpenAuth.Repository
     {
         public IEnumerable<User> LoadUsers(int pageindex, int pagesize)
         {
-            return Context.Users.OrderBy(u => u.Name).Skip((pageindex - 1) * pagesize).Take(pagesize);
+            return Context.Users.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
         public IEnumerable<User> LoadInOrgs(params int[] orgId)
@@ -38,7 +38,7 @@ namespace OpenAuth.Repository
 
         public IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params int[] orgIds)
         {
-            return LoadInOrgs(orgIds).OrderBy(u =>u.Name).Skip((pageindex -1)*pagesize).Take(pagesize);
+            return LoadInOrgs(orgIds).OrderBy(u =>u.Id).Skip((pageindex -1)*pagesize).Take(pagesize);
         }
 
         /// <summary>

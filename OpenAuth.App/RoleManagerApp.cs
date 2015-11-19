@@ -70,8 +70,10 @@ namespace OpenAuth.App
 
         public Role Find(int id)
         {
-            return  _repository.FindSingle(u => u.Id == id);
-           
+            var role =  _repository.FindSingle(u => u.Id == id);
+            if(role == null) role = new Role();
+            return role;
+
         }
 
         public void Delete(int id)
@@ -79,17 +81,16 @@ namespace OpenAuth.App
             _repository.Delete(id);
         }
 
-        public void AddOrUpdate(Role view)
+        public void AddOrUpdate(Role role)
         {
-            Role Role = view;
-            if (Role.Id == 0)
+            if (role.Id == 0)
             {
-                Role.CreateTime = DateTime.Now;
-                _repository.Add(Role);
+                role.CreateTime = DateTime.Now;
+                _repository.Add(role);
             }
             else
             {
-                _repository.Update(Role);
+                _repository.Update(role);
             }
 
         }

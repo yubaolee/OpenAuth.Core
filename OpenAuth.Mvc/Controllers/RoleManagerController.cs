@@ -30,11 +30,11 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改组织
         [HttpPost]
-        public string Add(Role view)
+        public string Add(Role role)
         {
             try
             {
-                _app.AddOrUpdate(view);
+                _app.AddOrUpdate(role);
                 
             }
             catch (Exception ex)

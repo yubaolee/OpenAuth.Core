@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2008                    */
-/* Created on:     2015/11/19 21:22:16                          */
+/* Created on:     2015/11/19 21:52:04                          */
 /*==============================================================*/
 
 
@@ -1152,7 +1152,7 @@ go
 /* Table: Role                                                  */
 /*==============================================================*/
 create table Role (
-   Id                   int                  not null,
+   Id                   int                  identity,
    Name                 varchar(255)         not null default ' ',
    Status               int                  not null default 1,
    Type                 int                  not null default 0,

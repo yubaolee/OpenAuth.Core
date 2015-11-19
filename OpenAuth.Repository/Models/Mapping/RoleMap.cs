@@ -20,7 +20,11 @@ namespace OpenAuth.Repository.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(64);
 
-            this.Property(t => t.CreateOrgCascadeId)
+            this.Property(t => t.OrgCascadeId)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            this.Property(t => t.OrgName)
                 .IsRequired()
                 .HasMaxLength(255);
 
@@ -32,8 +36,9 @@ namespace OpenAuth.Repository.Models.Mapping
             this.Property(t => t.Type).HasColumnName("Type");
             this.Property(t => t.CreateTime).HasColumnName("CreateTime");
             this.Property(t => t.CreateId).HasColumnName("CreateId");
-            this.Property(t => t.CreateOrgId).HasColumnName("CreateOrgId");
-            this.Property(t => t.CreateOrgCascadeId).HasColumnName("CreateOrgCascadeId");
+            this.Property(t => t.OrgId).HasColumnName("OrgId");
+            this.Property(t => t.OrgCascadeId).HasColumnName("OrgCascadeId");
+            this.Property(t => t.OrgName).HasColumnName("OrgName");
         }
     }
 }

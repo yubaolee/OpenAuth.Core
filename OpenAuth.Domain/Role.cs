@@ -17,7 +17,7 @@ namespace OpenAuth.Domain
 		public int Id { get; set; }
 
 		/// <summary>
-		/// 组织名称
+		/// 名称
 		/// </summary>
 		/// <returns></returns>
 		public string Name { get; set; }
@@ -47,16 +47,22 @@ namespace OpenAuth.Domain
 		public string CreateId { get; set; }
 
 		/// <summary>
-		/// 创建人所属部门流水号
+		/// 所属部门流水号
 		/// </summary>
 		/// <returns></returns>
-		public int CreateOrgId { get; set; }
+		public int OrgId { get; set; }
 
 		/// <summary>
-		/// 创建人所属部门节点语义ID
+		/// 所属部门节点语义ID
 		/// </summary>
 		/// <returns></returns>
-		public string CreateOrgCascadeId { get; set; }
+		public string OrgCascadeId { get; set; }
+
+		/// <summary>
+		/// 所属部门名称
+		/// </summary>
+		/// <returns></returns>
+		public string OrgName { get; set; }
 
 
 		public Role()
@@ -67,8 +73,9 @@ namespace OpenAuth.Domain
 		  	this.Type= 0;
 		  	this.CreateTime= DateTime.Now;
 		  	this.CreateId= string.Empty;
-		   	this.CreateOrgId= 0;
-		  	this.CreateOrgCascadeId= string.Empty;
+		   	this.OrgId= 0;
+		  	this.OrgCascadeId= string.Empty;
+		   	this.OrgName= string.Empty;
 		   }
 		
 	

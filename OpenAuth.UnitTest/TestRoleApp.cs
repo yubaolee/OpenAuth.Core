@@ -13,10 +13,10 @@ namespace OpenAuth.UnitTest
     /// TestOrgApp 的摘要说明
     /// </summary>
     [TestClass]
-    public class TestUserApp
+    public class TestRoleApp
     {
 
-        private UserManagerApp _app = new UserManagerApp(new UserRepository(), new OrgRepository());
+        private RoleManagerApp _app = new RoleManagerApp(new RoleRepository(), new OrgRepository());
         private string _time = DateTime.Now.ToString("HH_mm_ss_ms");
 
 
@@ -28,22 +28,20 @@ namespace OpenAuth.UnitTest
                 Add();
             }
            
-
         }
 
         [TestMethod]
         public void TestDel()
         {
-            var user = new UserView
+            var role = new Role
             {
-                Account = "user" + _time,
-                Name = "即将被删除的账号" + _time,
-                OrganizationIds = "3,2"
-
+                Name = "即将删除" + _time,
+                CreateTime = DateTime.Now,
+                OrgId = 1
             };
-            _app.AddOrUpdate(user);
-            Console.WriteLine("new user:" + user.Id);
-            _app.Delete(user.Id);
+            _app.AddOrUpdate(role);
+            Console.WriteLine("new role:" + role.Id);
+            _app.Delete(role.Id);
             
         }
 
@@ -59,25 +57,23 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void TestEdit()
         {
-            var user = Add();
-            user.Name = "修改后的名称" + _time;
-            _app.AddOrUpdate(user);
-            Console.WriteLine(user.Name);
+            var role = Add();
+            role.Name = "修改后的名称" + _time;
+            _app.AddOrUpdate(role);
+            Console.WriteLine(role.Name);
         }
 
 
-        private UserView Add()
+        private Role Add()
         {
-            var user = new UserView
+            var role = new Role
             {
-                Account = "user" + _time,
-                Name = "新用户" + _time,
-                OrganizationIds = "3,2"
-
+                Name = "test_" + _time,
+                CreateTime = DateTime.Now,
+                OrgId = 1
             };
-            _app.AddOrUpdate(user);
-            Console.WriteLine(user.Name + " \t用户ID：" + user.Id);
-            return user;
+            _app.AddOrUpdate(role);
+            return role;
         }
     }
 }

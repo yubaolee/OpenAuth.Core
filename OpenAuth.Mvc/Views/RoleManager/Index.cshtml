@@ -1,5 +1,5 @@
 ﻿@{
-    string _prefix = "user";
+    string _prefix = "Role";
     var _treeId = _prefix + "Tree";
     var _gridId = _prefix + "Grid";
     var _treeDetail = _prefix + "Detail";
@@ -19,7 +19,6 @@
 <script type="text/javascript">
     var gridid = '#@_gridId';
     var selectedId = 0;
-    var grid;
     $(document).ready(function () {
         initZtree();
         loadDataGrid();
@@ -30,64 +29,59 @@
         $('#@_treeDetail').empty()
             .append('<table id="@_gridId" class="table table-bordered"></table>');
 
-       grid = $(gridid).datagrid({
-            gridTitle: '用户列表',
+        $(gridid).datagrid({
+            gridTitle: '列表',
             showToolbar: true,
             filterThead: false,
             toolbarItem: 'refresh, |, del',
-            toolbarCustom: '<a href="/UserManager/Add" class="btn btn-green" data-icon ="plus"  ' +
+            toolbarCustom: '<a href="/RoleManager/Add" class="btn btn-green" data-icon ="plus"  ' +
                 'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="refreshGrid">添加</a>' +
-                '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>',
+                '<button class=" btn-green" onclick="editRole()" data-icon="pencil" type="button">编辑</button>',
             columns: [
-                {
+               {
                     name: 'Id',
-                    label: 'Id',
-                    attrs: { readonly: 'readonly' },
-                    hide: true
-                },
-                {
-                    name: 'Account',
-                    label: '用户账号',
-                    width: 142,
-                    attrs: { readonly: 'readonly' }
-                },
-                {
+                    label: '流水号'
+                    , hide: true
+               },    
+               {
                     name: 'Name',
-                    label: '姓名/昵称',
-                    width: 226
-                },
-                {
-                    name: 'Organizations',
-                    label: '所属机构',
-                    width: 150
-                },
-                {
+                    label: '角色名称'
+               },    
+               {
                     name: 'Status',
-                    label: '状态',
-                    type: 'select',
-                    align: 'center',
-                    width: 80,
-                    items: [{ '0': '正常' }, { '1': '禁用' }]
-                },
-                {
-                    name: 'Sex',
-                    label: '性别',
-                    type: 'select',
-                    align: 'center',
-                    width: 80,
-                    items: [{ '0': '男' }, { '1': '女' }]
-                },
-                {
+                    label: '当前状态'
+               },    
+               {
+                    name: 'Type',
+                    label: '角色类型'
+               },    
+               {
                     name: 'CreateTime',
-                    label: '登记日期',
-                    type: 'date',
+                    label: '创建时间'
+                    , type: 'date',
                     width: 180,
                     pattern: 'yyyy-MM-dd HH:mm:ss'
-                }
+               },    
+               {
+                    name: 'CreateId',
+                    label: '创建人ID'
+               },    
+               {
+                    name: 'OrgId',
+                    label: '所属部门流水号'
+               },    
+               {
+                    name: 'OrgCascadeId',
+                    label: '所属部门节点语义ID'
+               },    
+               {
+                    name: 'OrgName',
+                    label: '所属部门名称'
+               },    
             ],
             //  data: data,
-            dataUrl: 'UserManager/Load?orgId=' + selectedId,
-            delUrl: 'UserManager/Delete',
+            dataUrl: 'RoleManager/Load?orgId=' + selectedId,
+            delUrl: 'Role/Delete',
             delPK: "Id",
             fullGrid: true,
             showLinenumber: true,
@@ -158,13 +152,13 @@
 
 
     //自定义的编辑按钮
-    function editOrg() {
+    function editRole() {
         var selected = getSelected(2);
         if (selected == null) return;
 
         $(this).dialog({
             id: 'editDialog',
-            url: '/UserManager/Add?id=' + selected,
+            url: '/RoleManager/Add?id=' + selected,
             title: '编辑',
             onClose:function() {
                 refreshGrid();
@@ -177,5 +171,5 @@
         $('#@_gridId').datagrid('refresh');
        // loadDataGrid();
     }
-    //@@ sourceURL=userManagerIndex.js
+    //@@ sourceURL=RoleManagerIndex.js
 </script>

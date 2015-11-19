@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Interface\IOrgRepository.cs" />
     <Compile Include="Interface\IRepository.cs" />
+    <Compile Include="Interface\IRoleRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="ModuleElement.cs" />

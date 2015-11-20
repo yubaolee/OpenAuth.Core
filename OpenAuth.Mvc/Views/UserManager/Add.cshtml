@@ -41,8 +41,8 @@
                         <label for="Status" class="control-label x85">设置状态：</label>
 
                         <select name="Status" id="Status" data-toggle="selectpicker" data-rule="required">
-                            <option value="0">正常</option>
-                            <option value="1">禁用</option>
+                            <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>    }>正常</option>
+                            <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>    }>禁用</option>
                         </select>
                     </td>
                 </tr>
@@ -51,8 +51,8 @@
                         <label for="Sex" class="control-label x85">性别：</label>
 
                         <select name="Sex" id="Sex" data-toggle="selectpicker" data-rule="required">
-                            <option value="0">男</option>
-                            <option value="1">女</option>
+                            <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>     }>男</option>
+                            <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>     }>女</option>
                         </select>
                     </td>
                 </tr>

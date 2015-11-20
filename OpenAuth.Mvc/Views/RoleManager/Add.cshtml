@@ -28,8 +28,8 @@
 
                         <label for="Status" class="control-label x90">当前状态：</label>
                         <select name="Status" id="Status" data-toggle="selectpicker" data-rule="required">
-                            <option value="0">正常</option>
-                            <option value="1">禁用</option>
+                            <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>   }>正常</option>
+                            <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>   }>禁用</option>
                         </select>
                     </td>
                 </tr>
@@ -38,8 +38,8 @@
 
                         <label for="Type" class="control-label x90">角色类型：</label>
                         <select name="Type" id="Type" data-toggle="selectpicker" data-rule="required">
-                            <option value="0">管理员</option>
-                            <option value="1">普通用户</option>
+                            <option value="0" @if (Model.Type == 0) { <text> selected="selected" </text>  }>管理员</option>
+                            <option value="1" @if (Model.Type == 1) { <text> selected="selected" </text>   }>普通角色</option>
                         </select>
                     </td>
                 </tr>

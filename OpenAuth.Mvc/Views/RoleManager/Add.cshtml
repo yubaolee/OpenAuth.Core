@@ -28,8 +28,8 @@
 
                         <label for="Status" class="control-label x90">当前状态：</label>
                         <select name="Status" id="Status" data-toggle="selectpicker" data-rule="required">
-                            <option value="0">正常</option>
-                            <option value="1">禁用</option>
+                            <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>   }>正常</option>
+                            <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>   }>禁用</option>
                         </select>
                     </td>
                 </tr>
@@ -38,20 +38,28 @@
 
                         <label for="Type" class="control-label x90">角色类型：</label>
                         <select name="Type" id="Type" data-toggle="selectpicker" data-rule="required">
-                            <option value="0">管理员</option>
-                            <option value="1">普通用户</option>
+                            <option value="0" @if (Model.Type == 0) { <text> selected="selected" </text>  }>管理员</option>
+                            <option value="1" @if (Model.Type == 1) { <text> selected="selected" </text>   }>普通角色</option>
                         </select>
                     </td>
                 </tr>
 
-             
-                <tr>
+
+            <tr>
+                <td>
+                    <label for="OrgName" class="control-label x90">所属机构：</label>
+                    <input id="OrgId" name="OrgId" value="" style="display: none"/>
+                    <input type="text" name="OrgName" id="OrgName"
+                           data-toggle="selectztree" size="20" data-tree="#j_select_tree1" value="@Model.OrgName">
+                    <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
+                </td>
+            </tr>
+                 <tr>
                     <td>
-                        <label for="OrgName" class="control-label x90">所属机构：</label>
-                        <input id="OrgId" name="OrgId" value="" style="display: none" />
-                        <input type="text" name="OrgName" id="OrgName"
-                               data-toggle="selectztree" size="20" data-tree="#j_select_tree1" value="@Model.OrgName">
-                        <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
+
+                        <label for="OrgCascadeId" class="control-label x90">机构级联ID：</label>
+                        <input type="text" name="OrgCascadeId" id="OrgCascadeId" value="@Model.OrgCascadeId"
+                               data-rule="required" size="20">
                     </td>
                 </tr>
             </tbody>
@@ -105,20 +113,23 @@
     function zTreeCheck(e, treeId, treeNode) {
         var zTree = $.fn.zTree.getZTreeObj(treeId),
             nodes = zTree.getCheckedNodes(true);
-        var ids = '', names = '';
+        var ids = '', names = '', cascadeids='';
         for (var i = 0; i < nodes.length; i++) {
             ids += ',' + nodes[i].Id;
             names += ',' + nodes[i].Name;
+            cascadeids += ',' + nodes[i].CascadeId;
         }
         if (ids.length > 0) {  //去掉第一个逗号
             ids = ids.substr(1);
             names = names.substr(1);
+            cascadeids = cascadeids.substr(1);
         }
 
         var $from = $('#' + treeId).data('fromObj');
         if ($from && $from.length) $from.val(names);
 
         $('#OrgId').val(ids);
+        $('#OrgCascadeId').val(cascadeids);
     }
     function zTreeOnClick(event, treeId, treeNode) {
         var zTree = $.fn.zTree.getZTreeObj(treeId);

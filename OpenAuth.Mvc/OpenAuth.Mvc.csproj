@@ -126,6 +126,7 @@
     <Compile Include="AutofacExt.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ModuleManagerController.cs" />
     <Compile Include="Controllers\OrgManagerController.cs" />
     <Compile Include="Controllers\RoleManagerController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
@@ -614,6 +615,8 @@
     <Content Include="Views\Home\Main.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\ModuleManager\Index.cshtml" />
+    <Content Include="Views\ModuleManager\Add.cshtml" />
     <None Include="Views\OrgManager\AddOrg.cshtml" />
     <Content Include="Views\OrgManager\LookupParent.cshtml" />
     <Content Include="Views\UserManager\Index.cshtml" />

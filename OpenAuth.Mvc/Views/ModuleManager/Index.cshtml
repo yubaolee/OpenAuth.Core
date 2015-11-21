@@ -1,4 +1,4 @@
-@{
+﻿@{
     string _prefix = "Module";
     var _treeId = _prefix + "Tree";
     var _gridId = _prefix + "Grid";
@@ -40,63 +40,54 @@
             columns: [
                {
                     name: 'Id',
-                    label: '功能模块流水号'
-                    , hide: true
+                    label: '功能模块流水号',
+                    hide: true
                },    
                {
                     name: 'CascadeId',
-                    label: '节点语义ID'
+                    label: '节点语义ID',
+                     width: 80
                },    
                {
                     name: 'Name',
-                    label: '功能模块名称'
+                    label: '功能模块名称',
+                     width: 80
                },    
                {
                     name: 'Url',
-                    label: '主页面URL'
+                    label: '主页面URL',
+                     width: 80
                },    
-               {
-                    name: 'HotKey',
-                    label: '热键'
-               },    
+                 
                {
                     name: 'ParentId',
-                    label: '父节点流水号'
+                    label: '父节点流水号',
+                    hide:true
                },    
-               {
-                    name: 'IsLeaf',
-                    label: '是否叶子节点'
-                     ,type: 'select',
-                    align: 'center',
-                    width: 80,
-                    items: [{ '0': '否' }, { '1': '是' }]
-               },    
-               {
-                    name: 'IsAutoExpand',
-                    label: '是否自动展开'
-                     ,type: 'select',
-                    align: 'center',
-                    width: 80,
-                    items: [{ '0': '否' }, { '1': '是' }]
-               },    
+                
                {
                     name: 'IconName',
+                     width: 80,
                     label: '节点图标文件名称'
                },    
                {
                     name: 'Status',
+                     width: 80,
                     label: '当前状态'
                },    
                {
                     name: 'ParentName',
+                     width: 80,
                     label: '父节点名称'
                },    
                {
                     name: 'Vector',
+                     width: 80,
                     label: '矢量图标'
                },    
                {
                     name: 'SortNo',
+                     width: 80,
                     label: '排序号'
                },    
             ],

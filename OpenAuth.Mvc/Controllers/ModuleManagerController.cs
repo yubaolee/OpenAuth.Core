@@ -23,28 +23,6 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ActionResult Add(int id = 0)
-        {
-            return View(_app.Find(id));
-        }
-
-        //添加或修改模块
-        [HttpPost]
-        public string Add(Module model)
-        {
-            try
-            {
-                _app.AddOrUpdate(model);
-                
-            }
-            catch (Exception ex)
-            {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
-            }
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
-
         /// <summary>
         /// 加载模块下面的所有模块
         /// </summary>
@@ -64,16 +42,33 @@ namespace OpenAuth.Mvc.Controllers
             {
                 Id = 0,
                 ParentId = -1,
-                Name = "全部模块",
+                Name = "根节点",
                 CascadeId = "0"
             });
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        //获取模块下面模块个数
-        public int GetCount(int orgId)
+
+        public ActionResult Add(int id = 0)
         {
-            return _app.GetModuleCntInOrg(orgId);
+            return View(_app.Find(id));
+        }
+
+        //添加或修改模块
+        [HttpPost]
+        public string Add(Module model)
+        {
+            try
+            {
+                _app.AddOrUpdate(model);
+
+            }
+            catch (Exception ex)
+            {
+                BjuiResponse.statusCode = "300";
+                BjuiResponse.message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
         public string Delete(string Id)

@@ -4,6 +4,7 @@ using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.App
 {
@@ -14,18 +15,6 @@ namespace OpenAuth.App
         public ModuleManagerApp(IModuleRepository repository)
         {
             _repository = repository;
-        }
-
-        public int GetModuleCntInOrg(int orgId)
-        {
-            if (orgId == 0)
-            {
-                return _repository.Find(null).Count();
-            }
-            else
-            {
-                return _repository.GetModuleCntInOrgs(GetSubOrgIds(orgId));
-            }
         }
 
         /// <summary>
@@ -61,7 +50,19 @@ namespace OpenAuth.App
             return _repository.Find(u => u.ParentId == 0).ToList();
         }
 
-     
+        public List<ModuleView> LoadByParent(int parentId)
+        {
+            var modules = new List<ModuleView>();
+            var roots = _repository.Find(u => u.ParentId == parentId);
+            foreach (var module in roots)
+            {
+                ModuleView mv = module;
+                mv.Childern = LoadByParent(module.Id);
+                modules.Add(mv);
+            }
+            return modules;
+        }
+
 
         public Module Find(int id)
         {
@@ -141,6 +142,5 @@ namespace OpenAuth.App
 
         #endregion 私有方法
 
-       
     }
 }

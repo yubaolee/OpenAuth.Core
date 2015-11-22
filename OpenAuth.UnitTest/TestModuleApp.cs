@@ -82,6 +82,17 @@ namespace OpenAuth.UnitTest
            
         }
 
+        [TestMethod]
+        public void TestLoad()
+        {
+            var modules = _app.LoadByParent(0);
+            foreach (var module in modules)
+            {
+                
+                Console.WriteLine(module.Name);
+            }
+        }
+
         public Module Add(int parent = 0)
         {
             var module = new Module()

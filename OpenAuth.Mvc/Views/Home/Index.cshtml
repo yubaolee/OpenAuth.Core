@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model List<OpenAuth.App.ViewModel.ModuleView>
+<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="utf-8">
@@ -84,76 +85,70 @@
                 },
                 debug: true,    // [可选]调试模式 [true|false，默认false]
                 theme: 'sky' // 若有Cookie['bjui_theme'],优先选择Cookie['bjui_theme']。皮肤[五种皮肤:default, orange, purple, blue, red, green]
-            })
+            });
 
             // main - menu
             $('#bjui-accordionmenu')
                 .collapse()
                 .on('hidden.bs.collapse', function (e) {
                     $(this).find('> .panel > .panel-heading').each(function () {
-                        var $heading = $(this), $a = $heading.find('> h4 > a')
-
-                        if ($a.hasClass('collapsed')) $heading.removeClass('active')
-                    })
+                        var $heading = $(this), $a = $heading.find('> h4 > a');
+                        if ($a.hasClass('collapsed')) $heading.removeClass('active');
+                    });
                 })
                 .on('shown.bs.collapse', function (e) {
                     $(this).find('> .panel > .panel-heading').each(function () {
-                        var $heading = $(this), $a = $heading.find('> h4 > a')
-
-                        if (!$a.hasClass('collapsed')) $heading.addClass('active')
-                    })
-                })
-
+                        var $heading = $(this), $a = $heading.find('> h4 > a');
+                        if (!$a.hasClass('collapsed')) $heading.addClass('active');
+                    });
+                });
             $(document).on('click', 'ul.menu-items > li > a', function (e) {
-                var $a = $(this), $li = $a.parent(), options = $a.data('options').toObj()
+                var $a = $(this), $li = $a.parent(), options = $a.data('options').toObj();
                 var onClose = function () {
-                    $li.removeClass('active')
-                }
+                    $li.removeClass('active');
+                };
                 var onSwitch = function () {
-                    $('#bjui-accordionmenu').find('ul.menu-items > li').removeClass('switch')
-                    $li.addClass('switch')
-                }
-
-                $li.addClass('active')
+                    $('#bjui-accordionmenu').find('ul.menu-items > li').removeClass('switch');
+                    $li.addClass('switch');
+                };
+                $li.addClass('active');
                 if (options) {
-                    options.url = $a.attr('href')
-                    options.onClose = onClose
-                    options.onSwitch = onSwitch
-                    if (!options.title) options.title = $a.text()
-
+                    options.url = $a.attr('href');
+                    options.onClose = onClose;
+                    options.onSwitch = onSwitch;
+                    if (!options.title) options.title = $a.text();
                     if (!options.target)
-                        $a.navtab(options)
+                        $a.navtab(options);
                     else
-                        $a.dialog(options)
+                        $a.dialog(options);
                 }
 
-                e.preventDefault()
-            })
+                e.preventDefault();
+            });
 
             //时钟
-            var today = new Date(), time = today.getTime()
-            $('#bjui-date').html(today.formatDate('yyyy/MM/dd'))
+            var today = new Date(), time = today.getTime();
+            $('#bjui-date').html(today.formatDate('yyyy/MM/dd'));
             setInterval(function () {
-                today = new Date(today.setSeconds(today.getSeconds() + 1))
-                $('#bjui-clock').html(today.formatDate('HH:mm:ss'))
-            }, 1000)
-        })
+                today = new Date(today.setSeconds(today.getSeconds() + 1));
+                $('#bjui-clock').html(today.formatDate('HH:mm:ss'));
+            }, 1000);
+
+        });
 
         //菜单-事件
         function MainMenuClick(event, treeId, treeNode) {
-            event.preventDefault()
-
-            if (treeNode.isParent) {
-                var zTree = $.fn.zTree.getZTreeObj(treeId)
-
-                zTree.expandNode(treeNode, !treeNode.open, false, true, true)
-                return
-            }
+            event.preventDefault();
+            //if (treeNode.isParent) {
+            //    var zTree = $.fn.zTree.getZTreeObj(treeId);
+            //    zTree.expandNode(treeNode, !treeNode.open, false, true, true);
+            //    return;
+            //}
 
             if (treeNode.target && treeNode.target == 'dialog')
-                $(event.target).dialog({ id: treeNode.tabid, url: treeNode.url, title: treeNode.name })
+                $(event.target).dialog({ id: treeNode.tabid, url: treeNode.url, title: treeNode.name });
             else
-                $(event.target).navtab({ id: treeNode.tabid, url: treeNode.url, title: treeNode.name, fresh: treeNode.fresh, external: treeNode.external })
+                $(event.target).navtab({ id: treeNode.tabid, url: treeNode.url, title: treeNode.name, fresh: treeNode.fresh, external: treeNode.external });
         }
     </script>
 </head>
@@ -200,19 +195,30 @@
                     <ul id="bjui-hnav-navbar">
                         <li class="active">
                             <a href="javascript:;" data-toggle="slidebar"><i class="fa fa-check-square-o"></i> 应用管理</a>
-                            <div class="items hide" data-noinit="true">
+                            <div class="items hide" data-noinit="true" id="navTree">
+
                                 <ul id="bjui-doc-tree-base" class="ztree ztree_main" data-toggle="ztree" data-on-click="MainMenuClick"
-                                    data-expand-all="true" data-faicon="star-o" data-tit="基本设置">
-                                    <li data-id="99" data-pid="0" data-faicon="folder-open-o" data-faicon-close="folder-o">系统设置</li>
-                                    <li data-id="100" data-pid="99" data-url="OrgManager/Index" data-tabid="orgManager" data-faicon="caret-right">机构管理</li>
-                                    <li data-id="101" data-pid="99" data-url="UserManager/Index" data-tabid="userManager" data-faicon="caret-right">用户管理</li>
-                                    <li data-id="102" data-pid="99" data-url="RoleManager/Index" data-tabid="roleManager" data-faicon="caret-right">角色管理</li>
-                                    <li data-id="103" data-pid="99" data-url="ModuleManager/Index" data-tabid="moduleManager" data-faicon="caret-right">模块管理</li>
+                                    data-expand-all="true" data-faicon="star-o" data-tit="控制台">
+
+                                    @foreach (var module in Model)
+                                    {
+                                        <li data-id="@module.Id" data-pid="0" data-faicon="folder-open-o" data-faicon-close="folder-o">@module.Name</li>
+
+                                        foreach (var child in module.Childern)
+                                        {
+                                            <li data-id="@child.Id" data-pid="@child.ParentId"
+                                                data-faicon="caret-right"
+                                                data-url="@child.Url" data-tabid="@child.Id">@child.Name</li>
+                                        }
+
+                                    }
                                 </ul>
                             </div>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i> 系统设置 <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-cog"></i> 系统设置 <span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#">角色权限</a></li>
                                 <li><a href="#">用户列表</a></li>

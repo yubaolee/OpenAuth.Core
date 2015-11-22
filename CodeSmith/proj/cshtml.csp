@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<codeSmith xmlns="http://www.codesmithtools.com/schema/csp.xsd">
+  <variables>
+    <add key="ConnectionString1" value="Data Source=.;Initial Catalog=OpenAuthDB;Persist Security Info=True;User ID=sa;Password=000000;MultipleActiveResultSets=True" />
+  </variables>
+  <propertySets>
+    <propertySet name="Module.Index.cshtml" output="..\bin\ModuleManager\Index.cshtml" template="cshtmlwithorg.cst" mergeInit="Data Source=.;Initial Catalog=OpenAuthDB;Persist Security Info=True;User ID=sa;Password=000000;MultipleActiveResultSets=True">
+      <property name="SourceTable">
+        <connectionString>$(ConnectionString1)</connectionString>
+        <providerType>SchemaExplorer.SqlSchemaProvider,SchemaExplorer.SqlSchemaProvider</providerType>
+        <table>
+      <owner>dbo</owner>
+      <name>Module</name>
+    </table>
+      </property>
+      <property name="ModuleName">Module</property>
+    </propertySet>
+    <propertySet name="Role.Index.cshtml" output="..\bin\RoleManager\Index.cshtml" template="cshtmlwithorg.cst">
+      <property name="SourceTable">
+        <connectionString>$(ConnectionString1)</connectionString>
+        <providerType>SchemaExplorer.SqlSchemaProvider,SchemaExplorer.SqlSchemaProvider</providerType>
+        <table>
+      <owner>dbo</owner>
+      <name>Role</name>
+    </table>
+      </property>
+      <property name="ModuleName">Role</property>
+    </propertySet>
+  </propertySets>
+</codeSmith>

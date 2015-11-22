@@ -43,6 +43,9 @@ namespace OpenAuth.App
             };
         }
 
+        /// <summary>
+        /// 为树型结构提供数据
+        /// </summary>
         public List<Module> LoadForTree(bool bAll)
         {
             if (bAll)
@@ -50,6 +53,11 @@ namespace OpenAuth.App
             return _repository.Find(u => u.ParentId == 0).ToList();
         }
 
+        /// <summary>
+        /// 以组合的方式显示所有的模块信息
+        /// </summary>
+        /// <param name="parentId">The parent unique identifier.</param>
+        /// <returns>List{ModuleView}.</returns>
         public List<ModuleView> LoadByParent(int parentId)
         {
             var modules = new List<ModuleView>();
@@ -127,7 +135,7 @@ namespace OpenAuth.App
             foreach (var obj in sameLevels)
             {
                 int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
-                if (currentCascadeId < objCascadeId) currentCascadeId = objCascadeId + 1;
+                if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
             return currentCascadeId;

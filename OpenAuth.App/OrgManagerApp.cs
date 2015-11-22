@@ -113,7 +113,7 @@ namespace OpenAuth.App
             foreach (var obj in sameLevels)
             {
                 int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
-                if (currentCascadeId < objCascadeId) currentCascadeId = objCascadeId + 1;
+                if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
             return currentCascadeId;

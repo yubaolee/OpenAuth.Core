@@ -19,21 +19,21 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="Name" class="control-label x105">功能模块名称：</label>
+                        <label for="Name" class="control-label x120">功能模块名称：</label>
                         <input type="text" name="Name" id="Name" value="@Model.Name"
                                data-rule="required" size="20">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="Url" class="control-label x105">主页面URL：</label>
+                        <label for="Url" class="control-label x120">主页面URL：</label>
                         <input type="text" name="Url" id="Url" value="@Model.Url"
                                data-rule="required" size="20">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="ParentId" class="control-label x105">上级功能模块：</label>
+                        <label for="ParentId" class="control-label x120">上级功能模块：</label>
                         <input id="ParentId" name="ParentId" value="" style="display: none"/>
                         <input type="text" name="ParentName" id="ParentName"
                                data-toggle="selectztree" size="20" data-tree="#j_select_tree1" 
@@ -44,13 +44,13 @@
                
                 <tr>
                     <td>
-                        <label for="IconName" class="control-label x105">节点图标文件名称：</label>
+                        <label for="IconName" class="control-label x120">节点图标文件名称：</label>
                         <input type="text" name="IconName" id="IconName" value="@Model.IconName"  size="20">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="Status" class="control-label x105">当前状态：</label>
+                        <label for="Status" class="control-label x120">当前状态：</label>
                         <select name="Status" id="Status" data-toggle="selectpicker" data-rule="required">
                             <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>   }>默认</option>
                             <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>   }>状态1</option>
@@ -60,13 +60,13 @@
               
                 <tr>
                     <td>
-                        <label for="Vector" class="control-label x105">矢量图标：</label>
+                        <label for="Vector" class="control-label x120">矢量图标：</label>
                         <input type="text" name="Vector" id="Vector" value="@Model.Vector" size="20">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="SortNo" class="control-label x105">排序号：</label>
+                        <label for="SortNo" class="control-label x120">排序号：</label>
                         <select name="SortNo" id="SortNo" data-toggle="selectpicker" data-rule="required">
                             <option value="0" @if (Model.SortNo == 0) { <text> selected="selected" </text>   }>默认</option>
                             <option value="1" @if (Model.SortNo == 1) { <text> selected="selected" </text>   }>状态1</option>

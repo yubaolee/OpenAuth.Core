@@ -92,7 +92,7 @@
                },    
             ],
             dataUrl: 'ModuleManager/Load?orgId=' + selectedId,
-            delUrl: 'Module/Delete',
+            delUrl: 'ModuleManager/Delete',
             delPK: "Id",
             fullGrid: true,
             showLinenumber: true,
@@ -133,7 +133,7 @@
             },
             callback: {onClick: zTreeOnClick}
         };
-        $.getJSON('OrgManager/LoadOrg', function (json) {
+        $.getJSON('ModuleManager/LoadForTree', function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });

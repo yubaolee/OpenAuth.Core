@@ -14,121 +14,61 @@
                 <tr>
                     <td>
                         @Html.HiddenFor(m => m.Id)
-                <tr>
-                    <td>
-
-                        <label for="CascadeId" class="control-label x90">节点语义ID：</label>
-                        <input type="text" name="CascadeId" id="CascadeId" value="@Model.CascadeId"
-                               data-rule="required" size="20">
+                        @Html.HiddenFor(m =>m.CascadeId)
                     </td>
                 </tr>
                 <tr>
                     <td>
-
-                        <label for="Name" class="control-label x90">功能模块名称：</label>
+                        <label for="Name" class="control-label x105">功能模块名称：</label>
                         <input type="text" name="Name" id="Name" value="@Model.Name"
                                data-rule="required" size="20">
                     </td>
                 </tr>
                 <tr>
                     <td>
-
-                        <label for="Url" class="control-label x90">主页面URL：</label>
+                        <label for="Url" class="control-label x105">主页面URL：</label>
                         <input type="text" name="Url" id="Url" value="@Model.Url"
                                data-rule="required" size="20">
                     </td>
                 </tr>
                 <tr>
                     <td>
-
-                        <label for="HotKey" class="control-label x90">热键：</label>
-                        <input type="text" name="HotKey" id="HotKey" value="@Model.HotKey"
-                               data-rule="required" size="20">
+                        <label for="ParentId" class="control-label x105">上级功能模块：</label>
+                        <input id="ParentId" name="ParentId" value="" style="display: none"/>
+                        <input type="text" name="ParentName" id="ParentName"
+                               data-toggle="selectztree" size="20" data-tree="#j_select_tree1" 
+                               value="@Model.ParentName">
+                        <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
                     </td>
                 </tr>
+               
                 <tr>
                     <td>
-
-                <tr>
-                    <td>
-                        <label for="ParentId" class="control-label x85">父节点流水号：</label>
-
-                        <select name="ParentId" id="ParentId" data-toggle="selectpicker" data-rule="required">
-                            <option value="0" @if (Model.ParentId == 0) { <text> selected="selected" </text>   }>默认</option>
-                            <option value="1" @if (Model.ParentId == 1) { <text> selected="selected" </text>   }>状态1</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-
-                <tr>
-                    <td>
-                        <label for="IsLeaf" class="control-label x85">是否叶子节点：</label>
-
-                        <select name="IsLeaf" id="IsLeaf" data-toggle="selectpicker" data-rule="required">
-                            <option value="0" @if (Model.IsLeaf) { <text> selected="selected" </text>   }>否</option>
-                            <option value="1" @if (!Model.IsLeaf) { <text> selected="selected" </text>   }>是</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-
-                <tr>
-                    <td>
-                        <label for="IsAutoExpand" class="control-label x85">是否自动展开：</label>
-
-                        <select name="IsAutoExpand" id="IsAutoExpand" data-toggle="selectpicker" data-rule="required">
-                            <option value="0" @if (Model.IsAutoExpand) { <text> selected="selected" </text>   }>否</option>
-                            <option value="1" @if (!Model.IsAutoExpand) { <text> selected="selected" </text>   }>是</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-
-                        <label for="IconName" class="control-label x90">节点图标文件名称：</label>
+                        <label for="IconName" class="control-label x105">节点图标文件名称：</label>
                         <input type="text" name="IconName" id="IconName" value="@Model.IconName"
                                data-rule="required" size="20">
                     </td>
                 </tr>
                 <tr>
                     <td>
-
-                <tr>
-                    <td>
-                        <label for="Status" class="control-label x85">当前状态：</label>
-
+                        <label for="Status" class="control-label x105">当前状态：</label>
                         <select name="Status" id="Status" data-toggle="selectpicker" data-rule="required">
                             <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>   }>默认</option>
                             <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>   }>状态1</option>
                         </select>
                     </td>
                 </tr>
+              
                 <tr>
                     <td>
-
-                        <label for="ParentName" class="control-label x90">父节点名称：</label>
-                        <input type="text" name="ParentName" id="ParentName" value="@Model.ParentName"
-                               data-rule="required" size="20">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-
-                        <label for="Vector" class="control-label x90">矢量图标：</label>
+                        <label for="Vector" class="control-label x105">矢量图标：</label>
                         <input type="text" name="Vector" id="Vector" value="@Model.Vector"
                                data-rule="required" size="20">
                     </td>
                 </tr>
                 <tr>
                     <td>
-
-                <tr>
-                    <td>
-                        <label for="SortNo" class="control-label x85">排序号：</label>
-
+                        <label for="SortNo" class="control-label x105">排序号：</label>
                         <select name="SortNo" id="SortNo" data-toggle="selectpicker" data-rule="required">
                             <option value="0" @if (Model.SortNo == 0) { <text> selected="selected" </text>   }>默认</option>
                             <option value="1" @if (Model.SortNo == 1) { <text> selected="selected" </text>   }>状态1</option>
@@ -157,8 +97,8 @@
             },
             check: {
                 enable: true,
-                chkStyle: "checkbox",
-                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+                chkStyle: "radio",
+                radioType: "all"
             },
             data: {
                 key: {
@@ -177,7 +117,7 @@
                 onCheck: zTreeCheck
             }
         };
-        $.getJSON('OrgManager/LoadOrg', function (json) {
+        $.getJSON('ModuleManager/LoadForTree?bAll=true', function (json) {
             var zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
             zTreeObj.expandAll(true);
         });
@@ -199,7 +139,7 @@
         var $from = $('#' + treeId).data('fromObj');
         if ($from && $from.length) $from.val(names);
 
-        $('#OrganizationIds').val(ids);
+        $('#ParentId').val(ids);
     }
     function zTreeOnClick(event, treeId, treeNode) {
         var zTree = $.fn.zTree.getZTreeObj(treeId);

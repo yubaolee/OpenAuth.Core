@@ -109,13 +109,13 @@ namespace OpenAuth.App
         {
             int currentCascadeId = 1;
 
-            var maxCascadeIdOrg = _repository.Find(o => o.ParentId == parentId)
-                .OrderByDescending(o => o.CascadeId).FirstOrDefault();
-            if (maxCascadeIdOrg != null)
+            var sameLevels = _repository.Find(o => o.ParentId == parentId);
+            foreach (var obj in sameLevels)
             {
-                var cascades = maxCascadeIdOrg.CascadeId.Split('.');
-                currentCascadeId = int.Parse(cascades[cascades.Length - 1]) + 1;
+                int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
+                if (currentCascadeId < objCascadeId) currentCascadeId = objCascadeId + 1;
             }
+
             return currentCascadeId;
         }
 

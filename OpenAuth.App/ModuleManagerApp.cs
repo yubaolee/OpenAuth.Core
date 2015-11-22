@@ -10,13 +10,10 @@ namespace OpenAuth.App
     public class ModuleManagerApp
     {
         private IModuleRepository _repository;
-        private IOrgRepository _orgRepository;
 
-        public ModuleManagerApp(IModuleRepository repository,
-            IOrgRepository orgRepository)
+        public ModuleManagerApp(IModuleRepository repository)
         {
             _repository = repository;
-            _orgRepository = orgRepository;
         }
 
         public int GetModuleCntInOrg(int orgId)
@@ -57,15 +54,14 @@ namespace OpenAuth.App
             };
         }
 
-        /// <summary>
-        /// 获取当前组织的所有下级组织
-        /// </summary>
-        private int[] GetSubOrgIds(int orgId)
+        public List<Module> LoadForTree(bool bAll)
         {
-            var org = _orgRepository.FindSingle(u => u.Id == orgId);
-            var orgs = _orgRepository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
-            return orgs;
+            if (bAll)
+                return _repository.Find(null).ToList();
+            return _repository.Find(u => u.ParentId == 0).ToList();
         }
+
+     
 
         public Module Find(int id)
         {
@@ -77,7 +73,10 @@ namespace OpenAuth.App
 
         public void Delete(int id)
         {
-            _repository.Delete(id);
+            var del = _repository.FindSingle(u => u.Id == id);
+            if (del == null) return;
+
+            _repository.Delete(u => u.CascadeId.Contains(del.CascadeId));
         }
 
         public void AddOrUpdate(Module model)
@@ -85,6 +84,29 @@ namespace OpenAuth.App
             Module module = model;
             if (module.Id == 0)
             {
+                string cascadeId;
+                int currentCascadeId = GetMaxCascadeId(module.ParentId);
+
+                if (module.ParentId != 0)
+                {
+                    var parentOrg = _repository.FindSingle(o => o.Id == module.ParentId);
+                    if (parentOrg != null)
+                    {
+                        cascadeId = parentOrg.CascadeId + "." + currentCascadeId;
+                        module.ParentName = parentOrg.Name;
+                    }
+                    else
+                    {
+                        throw new Exception("未能找到该组织的父节点信息");
+                    }
+                }
+                else
+                {
+                    cascadeId = "0." + currentCascadeId;
+                    module.ParentName = "";
+                }
+
+                module.CascadeId = cascadeId;
                 _repository.Add(module);
             }
             else
@@ -93,6 +115,31 @@ namespace OpenAuth.App
             }
            
         }
+
+        #region 私有方法
+
+        //根据同一级中最大的语义ID
+        private int GetMaxCascadeId(int parentId)
+        {
+            int currentCascadeId = 1;
+            var sameLevels = _repository.Find(o => o.ParentId == parentId);
+            foreach (var obj in sameLevels)
+            {
+                int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
+                if (currentCascadeId < objCascadeId) currentCascadeId = objCascadeId + 1;
+            }
+
+            return currentCascadeId;
+        }
+
+        private int[] GetSubOrgIds(int orgId)
+        {
+            var org = _repository.FindSingle(u => u.Id == orgId);
+            var orgs = _repository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
+            return orgs;
+        }
+
+        #endregion 私有方法
 
        
     }

@@ -28,7 +28,7 @@ namespace OpenAuth.Mvc.Controllers
             return View(_app.Find(id));
         }
 
-        //添加或修改组织
+        //添加或修改模块
         [HttpPost]
         public string Add(Module model)
         {
@@ -46,14 +46,31 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 加载组织下面的所有用户
+        /// 加载模块下面的所有模块
         /// </summary>
         public string Load(int orgId, int pageCurrent = 1, int pageSize = 30)
         {
             return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
         }
 
-        //获取组织下面用户个数
+        /// <summary>
+        /// 加载tree结构
+        /// </summary>
+        public string LoadForTree(bool bAll=false)
+        {
+            var orgs = _app.LoadForTree(bAll);
+            //添加根节点
+            orgs.Add(new Module
+            {
+                Id = 0,
+                ParentId = -1,
+                Name = "全部模块",
+                CascadeId = "0"
+            });
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        //获取模块下面模块个数
         public int GetCount(int orgId)
         {
             return _app.GetModuleCntInOrg(orgId);

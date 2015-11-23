@@ -14,7 +14,6 @@
                 <tr>
                     <td>
                         @Html.HiddenFor(m => m.Id)
-                        @Html.HiddenFor(m =>m.CascadeId)
                     </td>
                 </tr>
                 <tr>
@@ -34,7 +33,7 @@
                 <tr>
                     <td>
                         <label for="ParentId" class="control-label x120">上级功能模块：</label>
-                        <input id="ParentId" name="ParentId" value="" style="display: none"/>
+                        <input id="ParentId" name="ParentId" value="@Model.ParentId" style="display: none"/>
                         <input type="text" name="ParentName" id="ParentName"
                                data-toggle="selectztree" size="20" data-tree="#j_select_tree1" 
                                value="@Model.ParentName">

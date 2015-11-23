@@ -139,7 +139,9 @@ namespace OpenAuth.UnitTest
             var module = new Module()
             {
                 Name = "test_" + _time,
-                ParentId = parent
+                ParentId = parent,
+                IconName = null,
+                HotKey = null
             };
             _app.AddOrUpdate(module);
             return module;

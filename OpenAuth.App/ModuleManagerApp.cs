@@ -1,10 +1,10 @@
-
+using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenAuth.App.ViewModel;
+using Infrastructure;
 
 namespace OpenAuth.App
 {
@@ -18,7 +18,7 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// 加载一个部门及子部门全部Modules
+        /// 加载一个节点下面的所有
         /// </summary>
         public dynamic Load(int parentId, int pageindex, int pagesize)
         {
@@ -35,7 +35,7 @@ namespace OpenAuth.App
                 total = _repository.GetModuleCntInOrgs(parentId);
             }
 
-            return new 
+            return new
             {
                 total = total,
                 list = Modules,
@@ -71,7 +71,6 @@ namespace OpenAuth.App
             return modules;
         }
 
-
         public Module Find(int id)
         {
             var module = _repository.FindSingle(u => u.Id == id);
@@ -88,22 +87,20 @@ namespace OpenAuth.App
             _repository.Delete(u => u.CascadeId.Contains(del.CascadeId));
         }
 
-        public void AddOrUpdate(Module model)
+        public void AddOrUpdate(Module vm)
         {
-            Module module = model;
-            ChangeModuleCascade(module);
-            if (module.Id == 0)
+            Module model = new Module();
+            vm.CopyTo(model);  //copy一次，防止成员为null的情况
+            ChangeModuleCascade(model);
+            if (model.Id == 0)
             {
-                _repository.Add(module);
+                _repository.Add(model);
             }
             else
             {
-                _repository.Update(module);
+                _repository.Update(model);
             }
-           
         }
-
-       
 
         #region 私有方法
 
@@ -150,13 +147,12 @@ namespace OpenAuth.App
             else
             {
                 cascadeId = "0." + currentCascadeId;
-                module.ParentName = "";
+                module.ParentName = "根节点";
             }
 
             module.CascadeId = cascadeId;
         }
 
         #endregion 私有方法
-
     }
 }

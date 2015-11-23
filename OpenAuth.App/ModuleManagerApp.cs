@@ -20,19 +20,19 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个部门及子部门全部Modules
         /// </summary>
-        public dynamic Load(int orgId, int pageindex, int pagesize)
+        public dynamic Load(int parentId, int pageindex, int pagesize)
         {
             IEnumerable<Module> Modules;
             int total = 0;
-            if (orgId == 0)
+            if (parentId == 0)
             {
                 Modules = _repository.LoadModules(pageindex, pagesize);
                 total = _repository.GetCount();
             }
             else
             {
-                Modules = _repository.LoadInOrgs(pageindex, pagesize,GetSubOrgIds(orgId));
-                total = _repository.GetModuleCntInOrgs(orgId);
+                Modules = _repository.LoadInOrgs(pageindex, pagesize, GetSubOrgIds(parentId));
+                total = _repository.GetModuleCntInOrgs(parentId);
             }
 
             return new 
@@ -91,31 +91,9 @@ namespace OpenAuth.App
         public void AddOrUpdate(Module model)
         {
             Module module = model;
+            ChangeModuleCascade(module);
             if (module.Id == 0)
             {
-                string cascadeId;
-                int currentCascadeId = GetMaxCascadeId(module.ParentId);
-
-                if (module.ParentId != 0)
-                {
-                    var parentOrg = _repository.FindSingle(o => o.Id == module.ParentId);
-                    if (parentOrg != null)
-                    {
-                        cascadeId = parentOrg.CascadeId + "." + currentCascadeId;
-                        module.ParentName = parentOrg.Name;
-                    }
-                    else
-                    {
-                        throw new Exception("未能找到该组织的父节点信息");
-                    }
-                }
-                else
-                {
-                    cascadeId = "0." + currentCascadeId;
-                    module.ParentName = "";
-                }
-
-                module.CascadeId = cascadeId;
                 _repository.Add(module);
             }
             else
@@ -124,6 +102,8 @@ namespace OpenAuth.App
             }
            
         }
+
+       
 
         #region 私有方法
 
@@ -143,9 +123,37 @@ namespace OpenAuth.App
 
         private int[] GetSubOrgIds(int orgId)
         {
-            var org = _repository.FindSingle(u => u.Id == orgId);
-            var orgs = _repository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
+            var parent = _repository.FindSingle(u => u.Id == orgId);
+            var orgs = _repository.Find(u => u.CascadeId.Contains(parent.CascadeId)).Select(u => u.Id).ToArray();
             return orgs;
+        }
+
+        //修改对象的级联ID
+        private void ChangeModuleCascade(Module module)
+        {
+            string cascadeId;
+            int currentCascadeId = GetMaxCascadeId(module.ParentId);
+
+            if (module.ParentId != 0)
+            {
+                var parentOrg = _repository.FindSingle(o => o.Id == module.ParentId);
+                if (parentOrg != null)
+                {
+                    cascadeId = parentOrg.CascadeId + "." + currentCascadeId;
+                    module.ParentName = parentOrg.Name;
+                }
+                else
+                {
+                    throw new Exception("未能找到该组织的父节点信息");
+                }
+            }
+            else
+            {
+                cascadeId = "0." + currentCascadeId;
+                module.ParentName = "";
+            }
+
+            module.CascadeId = cascadeId;
         }
 
         #endregion 私有方法

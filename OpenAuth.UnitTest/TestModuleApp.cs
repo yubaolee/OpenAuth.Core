@@ -57,6 +57,47 @@ namespace OpenAuth.UnitTest
         //
         #endregion
 
+        //初始化导航
+        [TestMethod]
+        public void InitNav()
+        {
+            var root = new Module()
+            {
+                Name = "基础设置",
+                ParentId = 0
+            };
+            _app.AddOrUpdate(root);
+
+            var module = new Module
+            {
+                Name = "模块管理",
+                Url = "ModuleManager/Index",
+                ParentId = root.Id
+            };
+            _app.AddOrUpdate(module);
+            module = new Module
+            {
+                Name = "用户管理",
+                Url = "UserManager/Index",
+                ParentId = root.Id
+            };
+            _app.AddOrUpdate(module);
+            module = new Module
+            {
+                Name = "角色管理",
+                Url = "RoleManager/Index",
+                ParentId = root.Id
+            };
+            _app.AddOrUpdate(module);
+            module = new Module
+            {
+                Name = "机构管理",
+                Url = "OrgManager/Index",
+                ParentId = root.Id
+            };
+            _app.AddOrUpdate(module);
+        }
+
         [TestMethod]
         public void TestAddModule()
         {

@@ -63,7 +63,7 @@ namespace OpenAuth.Repository
        public void Update(T entity)
        {
            var entry = this.Context.Entry(entity);
-
+           //todo:如果状态没有任何更改，会报错
            entry.State = EntityState.Modified;
 
            Save();

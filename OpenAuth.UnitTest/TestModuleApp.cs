@@ -120,7 +120,8 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void TestEdit()
         {
-           
+            var module = _app.Find(7);
+            _app.AddOrUpdate(module);
         }
 
         [TestMethod]

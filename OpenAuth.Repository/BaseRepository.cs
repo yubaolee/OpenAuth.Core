@@ -28,7 +28,7 @@ namespace OpenAuth.Repository
        /// </summary>
        public T FindSingle(Expression<Func<T, bool>> exp)
        {
-           return Context.Set<T>().FirstOrDefault(exp);
+           return Context.Set<T>().AsNoTracking().FirstOrDefault(exp);
        }
 
        /// <summary>

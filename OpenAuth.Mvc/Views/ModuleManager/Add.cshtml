@@ -14,6 +14,7 @@
                 <tr>
                     <td>
                         @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m =>m.CascadeId)
                     </td>
                 </tr>
                 <tr>
@@ -33,12 +34,25 @@
                 <tr>
                     <td>
                         <label for="ParentId" class="control-label x120">上级功能模块：</label>
-                        <input id="ParentId" name="ParentId" value="@Model.ParentId" style="display: none"/>
-                        <input type="text" name="ParentName" id="ParentName"
-                               data-toggle="selectztree" size="20" data-tree="#j_select_tree1" 
-                               value="@Model.ParentName">
+                        <input id="ParentId" name="ParentId" value="@Model.ParentId" style="display: none" />
+                        <input type="text" name="ParentName" id="ParentName" size="20"
+                               value="@Model.ParentName"
+                               @if (Model.Id == 0)
+                               {
+                                   <text> data-toggle="selectztree" data-tree="#j_select_tree1"</text>
+                               }
+                               else
+                               {
+                                   //TODO:修改的时候暂不能修改结构，因为以下：
+                                   //如果在前台处理，不能处理自身的ID
+                                   //如果在后台处理，因为算法会找最大的级联ID进行计算，如果每次都执行算法，肯定不行
+                                   //如果判断前端是否修改组织，再到后台处理，会增加前端的复杂程序
+                                   <text>readonly="readonly"</text>
+                               } />
+
                         <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
                     </td>
+
                 </tr>
                
                 <tr>

@@ -105,22 +105,10 @@ namespace OpenAuth.App
         #region 私有方法
 
         //根据同一级中最大的语义ID
-        private int GetMaxCascadeId(int parentId)
-        {
-            int currentCascadeId = 1;
-            var sameLevels = _repository.Find(o => o.ParentId == parentId);
-            foreach (var obj in sameLevels)
-            {
-                int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
-                if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
-            }
 
-            return currentCascadeId;
-        }
-
-        private int[] GetSubOrgIds(int orgId)
+        private int[] GetSubOrgIds(int parentId)
         {
-            var parent = _repository.FindSingle(u => u.Id == orgId);
+            var parent = _repository.FindSingle(u => u.Id == parentId);
             var orgs = _repository.Find(u => u.CascadeId.Contains(parent.CascadeId)).Select(u => u.Id).ToArray();
             return orgs;
         }
@@ -129,7 +117,13 @@ namespace OpenAuth.App
         private void ChangeModuleCascade(Module module)
         {
             string cascadeId;
-            int currentCascadeId = GetMaxCascadeId(module.ParentId);
+            int currentCascadeId = 1;  //当前结点的级联节点最后一位
+            var sameLevels = _repository.Find(o => o.ParentId == module.ParentId && o.Id != module.Id);
+            foreach (var obj in sameLevels)
+            {
+                int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
+                if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
+            }
 
             if (module.ParentId != 0)
             {

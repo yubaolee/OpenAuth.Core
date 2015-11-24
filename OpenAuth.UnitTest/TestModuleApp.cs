@@ -19,43 +19,7 @@ namespace OpenAuth.UnitTest
         private TestContext testContextInstance;
         private ModuleManagerApp _app = new ModuleManagerApp(new ModuleRepository());
         private string _time = DateTime.Now.ToString("HH_mm_ss_ms");
-        /// <summary>
-        ///获取或设置测试上下文，该上下文提供
-        ///有关当前测试运行及其功能的信息。
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region 附加测试特性
-        //
-        // 编写测试时，可以使用以下附加特性: 
-        //
-        // 在运行类中的第一个测试之前使用 ClassInitialize 运行代码
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // 在类中的所有测试都已运行之后使用 ClassCleanup 运行代码
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // 在运行每个测试之前，使用 TestInitialize 来运行代码
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // 在每个测试运行完之后，使用 TestCleanup 来运行代码
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
+      
 
         //初始化导航
         [TestMethod]
@@ -120,8 +84,15 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void TestEdit()
         {
-            var module = _app.Find(7);
-            _app.AddOrUpdate(module);
+            //var module = _app.Find(7);
+            //_app.AddOrUpdate(module);
+
+            var module1 = new Module
+            {
+                Id = 14,
+                Name = DateTime.Now.ToString()
+            };
+            _app.AddOrUpdate(module1);
         }
 
         [TestMethod]

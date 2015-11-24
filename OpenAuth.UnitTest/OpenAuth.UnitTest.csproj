@@ -67,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestFunction.cs" />
     <Compile Include="TestModuleApp.cs" />
+    <Compile Include="TestRepository.cs" />
     <Compile Include="TestRoleApp.cs" />
     <Compile Include="TestUserApp.cs" />
     <Compile Include="TestOrgApp.cs" />

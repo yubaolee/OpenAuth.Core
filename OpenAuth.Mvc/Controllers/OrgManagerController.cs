@@ -49,7 +49,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _orgApp.AddOrg(org);
+                _orgApp.AddOrUpdate(org);
             }
             catch (Exception ex)
             {
@@ -64,7 +64,7 @@ namespace OpenAuth.Mvc.Controllers
             try
             {
                 var org = JsonHelper.Instance.Deserialize<Org>(json);
-                _orgApp.ModifyOrg(org);
+                _orgApp.AddOrUpdate(org);
             }
             catch (Exception ex)
             {

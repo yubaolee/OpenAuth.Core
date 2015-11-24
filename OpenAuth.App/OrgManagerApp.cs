@@ -55,10 +55,46 @@ namespace OpenAuth.App
         /// <param name="org">The org.</param>
         /// <returns>System.Int32.</returns>
         /// <exception cref="System.Exception">未能找到该组织的父节点信息</exception>
-        public int AddOrg(Org org)
+        public int AddOrUpdate(Org org)
+        {
+
+            ChangeModuleCascade(org);
+            if (org.Id == 0)
+            {
+                _repository.Add(org);
+            }
+            else
+            {
+                _repository.Update(org);
+            }
+
+            return org.Id;
+        }
+
+        /// <summary>
+        /// 删除指定ID的部门及其所有子部门
+        /// </summary>
+        public void DelOrg(int id)
+        {
+            var delOrg = _repository.FindSingle(u => u.Id == id);
+            if (delOrg == null) return;
+
+            _repository.Delete(u => u.CascadeId.Contains(delOrg.CascadeId));
+        }
+
+        #region 私有方法
+
+        //修改对象的级联ID，生成类似XXX.XXX.X.XX
+        private void ChangeModuleCascade(Org org)
         {
             string cascadeId;
-            int currentCascadeId = GetMaxCascadeId(org.ParentId);
+            int currentCascadeId = 1;  //当前结点的级联节点最后一位
+            var sameLevels = _repository.Find(o => o.ParentId == org.ParentId && o.Id != org.Id);
+            foreach (var obj in sameLevels)
+            {
+                int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
+                if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
+            }
 
             if (org.ParentId != 0)
             {
@@ -76,47 +112,10 @@ namespace OpenAuth.App
             else
             {
                 cascadeId = "0." + currentCascadeId;
-                org.ParentName = "";
+                org.ParentName = "根节点";
             }
 
             org.CascadeId = cascadeId;
-            org.CreateTime = DateTime.Now;
-            _repository.Add(org);
-            _repository.Save();
-            return org.Id;
-        }
-
-        public void ModifyOrg(Org org)
-        {
-            _repository.Update(org);
-        }
-
-        /// <summary>
-        /// 删除指定ID的部门及其所有子部门
-        /// </summary>
-        public void DelOrg(int id)
-        {
-            var delOrg = _repository.FindSingle(u => u.Id == id);
-            if (delOrg == null) return;
-
-            _repository.Delete(u => u.CascadeId.Contains(delOrg.CascadeId));
-        }
-
-        #region 私有方法
-
-        //根据同一级中最大的语义ID
-        private int GetMaxCascadeId(int parentId)
-        {
-            int currentCascadeId = 1;
-
-            var sameLevels = _repository.Find(o => o.ParentId == parentId);
-            foreach (var obj in sameLevels)
-            {
-                int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
-                if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
-            }
-
-            return currentCascadeId;
         }
 
         #endregion 私有方法

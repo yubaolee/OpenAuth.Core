@@ -1,4 +1,8 @@
-﻿@model dynamic
+﻿@*
+    选择多个模块ID，以ids的形式返回
+*@
+
+@model dynamic
 
 @{
     ViewBag.Title = "title";
@@ -22,11 +26,6 @@
 </div>
 
 <script type="text/javascript">
-
-    //function zTreeOnClick(event, treeId, treeNode) {
-    //    var selected = "{ParentName:'" + treeNode.Name + "', ParentId:" + treeNode.Id + "}";
-    //    $("#btnSelected").attr("data-args",selected);
-    //}
 
     $(document).ready(function () {
         Init();
@@ -74,7 +73,7 @@
             ids = ids.substr(1);
         }
 
-        $("#btnSelected").attr("data-args", ids);
+        $("#btnSelected").attr("data-args", "{ ids: '" + ids + "' }");
     }
     function zTreeOnClick(event, treeId, treeNode) {
         var zTree = $.fn.zTree.getZTreeObj(treeId);

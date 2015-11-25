@@ -617,6 +617,7 @@
   <ItemGroup>
     <Content Include="Views\ModuleManager\Index.cshtml" />
     <Content Include="Views\ModuleManager\Add.cshtml" />
+    <Content Include="Views\ModuleManager\LookupMulti.cshtml" />
     <None Include="Views\OrgManager\AddOrg.cshtml" />
     <Content Include="Views\OrgManager\LookupParent.cshtml" />
     <Content Include="Views\UserManager\Index.cshtml" />

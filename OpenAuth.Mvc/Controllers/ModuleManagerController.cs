@@ -1,9 +1,8 @@
-
-using System;
-using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.Domain;
+using System;
+using System.Web.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -23,6 +22,12 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        //用于选择模块时使用
+        public ActionResult LookUpMulti()
+        {
+            return View();
+        }
+
         /// <summary>
         /// 加载模块下面的所有模块
         /// </summary>
@@ -34,7 +39,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载tree结构
         /// </summary>
-        public string LoadForTree(bool bAll=false)
+        public string LoadForTree(bool bAll = false)
         {
             var orgs = _app.LoadForTree(bAll);
             //添加根节点
@@ -48,7 +53,6 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-
         public ActionResult Add(int id = 0)
         {
             return View(_app.Find(id));
@@ -61,7 +65,6 @@ namespace OpenAuth.Mvc.Controllers
             try
             {
                 _app.AddOrUpdate(model);
-
             }
             catch (Exception ex)
             {

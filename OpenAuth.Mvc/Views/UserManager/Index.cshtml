@@ -174,14 +174,14 @@
 
     }
 
-    //自定义的编辑按钮
+    //授权按钮
     function accessMenu() {
         var selected = getSelected(2);
         if (selected == null) return;
 
         $(this).dialog({
-            id: 'editDialog',
-            url: '/UserManager/Add?id=' + selected,
+            id: 'accessMenuDialog',
+            url: '/ModuleManager/LookupMulti?id=' + selected,
             title: '编辑',
             onClose: function () {
                 refreshGrid();

@@ -37,7 +37,8 @@
             toolbarItem: 'refresh, |, del',
             toolbarCustom: '<a href="/UserManager/Add" class="btn btn-green" data-icon ="plus"  ' +
                 'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="refreshGrid">添加</a>' +
-                '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>',
+                '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>'+
+                 '<button class=" btn-green" onclick="accessMenu()" data-icon="pencil" type="button">用户菜单授权</button>',
             columns: [
                 {
                     name: 'Id',
@@ -167,6 +168,22 @@
             url: '/UserManager/Add?id=' + selected,
             title: '编辑',
             onClose:function() {
+                refreshGrid();
+            }
+        });
+
+    }
+
+    //自定义的编辑按钮
+    function accessMenu() {
+        var selected = getSelected(2);
+        if (selected == null) return;
+
+        $(this).dialog({
+            id: 'editDialog',
+            url: '/UserManager/Add?id=' + selected,
+            title: '编辑',
+            onClose: function () {
                 refreshGrid();
             }
         });

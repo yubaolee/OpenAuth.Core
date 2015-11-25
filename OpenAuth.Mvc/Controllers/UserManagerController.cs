@@ -52,12 +52,6 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
         }
 
-        //获取组织下面用户个数
-        public int GetCount(int orgId)
-        {
-            return _app.GetUserCntInOrg(orgId);
-        }
-
         public string Delete(string Id)
         {
             try

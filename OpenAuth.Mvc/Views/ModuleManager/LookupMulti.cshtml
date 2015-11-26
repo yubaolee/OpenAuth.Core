@@ -2,15 +2,17 @@
     选择多个模块ID，以ids的形式返回
 *@
 
-@model dynamic
-
 @{
     ViewBag.Title = "title";
     Layout = null;
 }
 <div class="bjui-pageContent">
-    <div style="float: left; width: 100%; height: 240px; overflow: auto;" class="table table-bordered">
+    <div style="float: left; width: 220px; height: 240px; overflow: auto;" class="table table-bordered">
         <ul id="lookupTree" class="ztree"></ul>
+    </div>
+    <!--已经选中的列表-->
+    <div style="margin-left: 225px">
+         <ul id="selected" class="ztree"></ul>
     </div>
 </div>
 <div class="bjui-pageFooter">
@@ -29,6 +31,7 @@
 
     $(document).ready(function () {
         Init();
+        InitSelected();
     });
     function Init() {
         var setting = {
@@ -58,6 +61,32 @@
         };
         $.getJSON('ModuleManager/LoadForTree?bAll=true', function (json) {
             var zTreeObj = $.fn.zTree.init($('#lookupTree'), setting, json);
+            zTreeObj.expandAll(true);
+        });
+    }
+
+    function InitSelected() {
+        var setting = {
+          
+            data: {
+                key: {
+                    name: 'Name',
+                    title: 'Name'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: 'Id',
+                    pIdKey: 'ParentId',
+                    rootPId: 'null'
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick,
+                onCheck: zTreeCheck
+            }
+        };
+        $.getJSON('ModuleManager/LoadForTree?bAll=true', function (json) {
+            var zTreeObj = $.fn.zTree.init($('#selected'), setting, json);
             zTreeObj.expandAll(true);
         });
     }

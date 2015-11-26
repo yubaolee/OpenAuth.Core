@@ -30,8 +30,14 @@
             var selected = getSelected(2);
             if (selected == null) return;
 
-            $.getJSON('UserManager/AccessModule', function (json) {
-                //授权操作
+            $.post('UserManager/AccessModule', { userId: selected, moduleIds: accessIds },
+                function (json) {
+                    var rel = $.parseJSON(json);
+                    if (rel.statusCode == "200") {
+                        $(this).alertmsg('ok', rel.message);
+                    } else {
+                        $(this).alertmsg('error', rel.message);
+                    }
             });
         });
     });

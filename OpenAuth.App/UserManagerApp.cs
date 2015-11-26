@@ -11,12 +11,15 @@ namespace OpenAuth.App
     {
         private IUserRepository _repository;
         private IOrgRepository _orgRepository;
+        private IUserModuleRepository _usermoduleRepository;
 
         public UserManagerApp(IUserRepository repository,
-            IOrgRepository orgRepository)
+            IOrgRepository orgRepository,
+            IUserModuleRepository usermoduleRepository)
         {
             _repository = repository;
             _orgRepository = orgRepository;
+            _usermoduleRepository = usermoduleRepository;
         }
 
         public int GetUserCntInOrg(int orgId)
@@ -112,6 +115,11 @@ namespace OpenAuth.App
             _repository.SetOrg(user.Id, orgIds);
         }
 
-       
+
+        public void AccessModules(int userId, int[] ids)
+        {
+            _usermoduleRepository.DeleteByUser(userId);
+            _usermoduleRepository.AddUserModule(userId, ids);
+        }
     }
 }

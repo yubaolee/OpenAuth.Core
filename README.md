@@ -1,4 +1,9 @@
 ####项目简介：
+
+项目采用经典DDD架构(用沃恩.弗农大神的话，其实这是DDD-Lite）思想进行开发，简洁而不简单，实用至上，并且所写每一行代码都经过深思熟虑，符合SOLID规则！
+
+当然，如果你想学习完整的DDD框架，可以参考我的另一个项目（[BestQ&A--开源中国推荐项目/集`CQRS` `AES`等DDD高级特性于一体的问答系统](http://git.oschina.net/yubaolee/BestQA)）
+
 `秀外`
 
 基于B-JUI酷炫（[炫不炫，你说了算](http://demo2.hzqianqi.com/)）的动态效果：

@@ -83,7 +83,7 @@
         };
         $.post('ModuleManager/LoadForUser', { userId: $('#userId').val() },
             function (json) {
-                var zTreeObj = $.fn.zTree.init($('#selected'), setting, json);
+                var zTreeObj = $.fn.zTree.init($('#selected'), setting, eval(json));
                 zTreeObj.expandAll(true);
         });
     }

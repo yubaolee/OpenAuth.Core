@@ -128,7 +128,7 @@
                 onCheck: zTreeCheck
             }
         };
-        $.getJSON('ModuleManager/LoadForTree?bAll=true', function (json) {
+        $.getJSON('ModuleManager/LoadForTree', function (json) {
             var zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
             zTreeObj.expandAll(true);
         });

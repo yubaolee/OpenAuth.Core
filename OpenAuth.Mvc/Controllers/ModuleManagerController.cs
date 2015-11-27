@@ -23,8 +23,9 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         //用于选择模块时使用
-        public ActionResult LookUpMulti()
+        public ActionResult LookUpMulti(int userId)
         {
+            ViewBag.UserId = userId;
             return View();
         }
 
@@ -37,11 +38,11 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 加载tree结构
+        /// 直接加载所有的模块
         /// </summary>
-        public string LoadForTree(bool bAll = false)
+        public string LoadForTree()
         {
-            var orgs = _app.LoadForTree(bAll);
+            var orgs = _app.LoadForTree();
             //添加根节点
             orgs.Add(new Module
             {
@@ -53,6 +54,39 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
+        /// <summary>
+        /// 加载首页导航模块
+        /// </summary>
+        /// <returns>System.String.</returns>
+        public string LoadForNav()
+        {
+            var orgs = _app.LoadForNav();
+            //添加根节点
+            orgs.Add(new Module
+            {
+                Id = 0,
+                ParentId = -1,
+                Name = "根节点",
+                CascadeId = "0"
+            });
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        public string LoadForUser(int userId)
+        {
+            var orgs = _app.LoadForUser(userId);
+            //添加根节点
+            orgs.Add(new Module
+            {
+                Id = 0,
+                ParentId = -1,
+                Name = "已为用户分配的模块",
+                CascadeId = "0"
+            });
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        #region 命令操作
         public ActionResult Add(int id = 0)
         {
             return View(_app.Find(id));
@@ -91,5 +125,6 @@ namespace OpenAuth.Mvc.Controllers
 
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
+        #endregion
     }
 }

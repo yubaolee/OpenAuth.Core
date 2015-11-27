@@ -11,10 +11,13 @@ namespace OpenAuth.App
     public class ModuleManagerApp
     {
         private IModuleRepository _repository;
+        private IUserModuleRepository _userModuleRepository;
 
-        public ModuleManagerApp(IModuleRepository repository)
+        public ModuleManagerApp(IModuleRepository repository,
+            IUserModuleRepository userModuleRepository)
         {
             _repository = repository;
+            _userModuleRepository = userModuleRepository;
         }
 
         /// <summary>
@@ -46,10 +49,19 @@ namespace OpenAuth.App
         /// <summary>
         /// 为树型结构提供数据
         /// </summary>
-        public List<Module> LoadForTree(bool bAll)
+        public List<Module> LoadForTree()
         {
-            if (bAll)
                 return _repository.Find(null).ToList();
+        }
+        public List<Module> LoadForUser(int userId)
+        {
+            var moduleIds = _userModuleRepository.Find(u => u.UserId == userId).Select(u => u.ModuleId).ToList();
+            if(!moduleIds.Any()) return null;
+            return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
+        }
+
+        public List<Module> LoadForNav()
+        {
             return _repository.Find(u => u.ParentId == 0).ToList();
         }
 
@@ -148,5 +160,7 @@ namespace OpenAuth.App
         }
 
         #endregion 私有方法
+
+      
     }
 }

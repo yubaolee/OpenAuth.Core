@@ -7,28 +7,24 @@
     Layout = null;
 }
 <div class="bjui-pageContent">
+    <input style="display: none" id="userId" value="@ViewBag.UserId"/>
     <div style="float: left; width: 220px; height: 240px; overflow: auto;" class="table table-bordered">
         <ul id="lookupTree" class="ztree"></ul>
     </div>
     <!--已经选中的列表-->
     <div style="margin-left: 225px">
-         <ul id="selected" class="ztree"></ul>
+        <ul id="selected" class="ztree"></ul>
     </div>
 </div>
 <div class="bjui-pageFooter">
     <ul>
         <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
-
-        <li>
-            <a href="javascript:;" id="btnSelected" data-toggle="lookupback"
-               data-args=""
-               class="btn btn-blue" title="选择本项" data-icon="check">选择</a>
-        </li>
+        <li><button type="button" onclick="save()" class="btn btn-blue" data-icon="check">保存</button></li>
     </ul>
 </div>
 
 <script type="text/javascript">
-
+    var moduleIds;
     $(document).ready(function () {
         Init();
         InitSelected();
@@ -59,7 +55,7 @@
                 onCheck: zTreeCheck
             }
         };
-        $.getJSON('ModuleManager/LoadForTree?bAll=true', function (json) {
+        $.getJSON('ModuleManager/LoadForTree', function (json) {
             var zTreeObj = $.fn.zTree.init($('#lookupTree'), setting, json);
             zTreeObj.expandAll(true);
         });
@@ -85,10 +81,23 @@
                 onCheck: zTreeCheck
             }
         };
-        $.getJSON('ModuleManager/LoadForTree?bAll=true', function (json) {
-            var zTreeObj = $.fn.zTree.init($('#selected'), setting, json);
-            zTreeObj.expandAll(true);
+        $.post('ModuleManager/LoadForUser', { userId: $('#userId').val() },
+            function (json) {
+                var zTreeObj = $.fn.zTree.init($('#selected'), setting, json);
+                zTreeObj.expandAll(true);
         });
+    }
+
+    function save() {
+        $.post('UserManager/AccessModule', { userId: $('#userId').val(), moduleIds: moduleIds },
+            function (json) {
+                var rel = $.parseJSON(json);
+                if (rel.statusCode == "200") {
+                    $(this).alertmsg('ok', rel.message);
+                } else {
+                    $(this).alertmsg('error', rel.message);
+                }
+            });
     }
 
     function zTreeCheck(e, treeId, treeNode) {
@@ -102,7 +111,7 @@
             ids = ids.substr(1);
         }
 
-        $("#btnSelected").attr("data-args", "{ ids: '" + ids + "' }");
+        moduleIds = ids;
     }
     function zTreeOnClick(event, treeId, treeNode) {
         var zTree = $.fn.zTree.getZTreeObj(treeId);

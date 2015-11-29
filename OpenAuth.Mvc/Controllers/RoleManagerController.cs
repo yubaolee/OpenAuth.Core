@@ -1,9 +1,9 @@
-using System;
-using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
-using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
+using System;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -28,14 +28,13 @@ namespace OpenAuth.Mvc.Controllers
             return View(_app.Find(id));
         }
 
-        //添加或修改组织
+        //添加或修改角色
         [HttpPost]
         public string Add(Role role)
         {
             try
             {
                 _app.AddOrUpdate(role);
-                
             }
             catch (Exception ex)
             {
@@ -46,7 +45,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 加载组织下面的所有用户
+        /// 加载角色下面的所有用户
         /// </summary>
         public string Load(int orgId, int pageCurrent = 1, int pageSize = 30)
         {
@@ -70,5 +69,20 @@ namespace OpenAuth.Mvc.Controllers
 
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
+
+        #region 为用户设置角色界面
+        public ActionResult LookUpMulti(int userId)
+        {
+            ViewBag.UserId = userId;
+            return View(_app.LoadWithUser(userId));
+        }
+
+        public string AccessRoles(int userId, string ids)
+        {
+            var roleids = ids.Split(',').Select(id => int.Parse(id)).ToArray();
+            _app.AccessRole(userId, roleids);
+            return JsonHelper.Instance.Serialize(BjuiResponse);
+        }
+        #endregion
     }
 }

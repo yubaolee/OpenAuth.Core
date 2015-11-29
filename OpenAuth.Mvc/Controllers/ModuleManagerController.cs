@@ -2,6 +2,7 @@ using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.Domain;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
@@ -84,6 +85,22 @@ namespace OpenAuth.Mvc.Controllers
                 CascadeId = "0"
             });
             return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        public string AccessModule(int userId, string moduleIds)
+        {
+            try
+            {
+                var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
+                _app.AccessModules(userId, ids);
+            }
+            catch (Exception e)
+            {
+                BjuiResponse.message = e.Message;
+                BjuiResponse.statusCode = "300";
+            }
+
+            return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
         #region 命令操作

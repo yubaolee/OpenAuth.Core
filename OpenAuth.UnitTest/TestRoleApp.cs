@@ -16,7 +16,9 @@ namespace OpenAuth.UnitTest
     public class TestRoleApp
     {
 
-        private RoleManagerApp _app = new RoleManagerApp(new RoleRepository(), new OrgRepository());
+        private RoleManagerApp _app = new RoleManagerApp(new RoleRepository(), 
+            new OrgRepository(),
+            new UserRoleRepository());
         private string _time = DateTime.Now.ToString("HH_mm_ss_ms");
 
 

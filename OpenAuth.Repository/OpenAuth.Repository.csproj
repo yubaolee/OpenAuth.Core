@@ -73,6 +73,7 @@
     <Compile Include="RoleRepository.cs" />
     <Compile Include="UserModuleRepository.cs" />
     <Compile Include="UserRepository.cs" />
+    <Compile Include="UserRoleRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">

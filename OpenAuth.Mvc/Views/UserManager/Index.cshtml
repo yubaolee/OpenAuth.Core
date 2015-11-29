@@ -22,23 +22,6 @@
     $(document).ready(function () {
         initZtree();
         loadDataGrid();
-
-        $('#btnAccess').on('afterchange.bjui.lookup', function (e, data) {
-            var accessIds = data.value; //得到授权的模块IDS
-
-            var selected = getSelected(2);
-            if (selected == null) return;
-
-            $.post('UserManager/AccessModule', { userId: selected, moduleIds: accessIds },
-                function (json) {
-                    var rel = $.parseJSON(json);
-                    if (rel.statusCode == "200") {
-                        $(this).alertmsg('ok', rel.message);
-                    } else {
-                        $(this).alertmsg('error', rel.message);
-                    }
-                });
-        });
     });
     //加载数据到datagrid
     function loadDataGrid() {
@@ -54,9 +37,8 @@
             toolbarCustom: '<a href="/UserManager/Add" class="btn btn-green" data-icon ="plus"  ' +
                 'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="refreshGrid">添加</a>' +
                 '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>' +
-                '<button id="btnAccess" class=" btn-green" data-toggle="lookupbtn" ' +
-                'name="ids" data-id="" data-selectType="user" data-url="/ModuleManager/LookupMulti">用户菜单授权</button>' +
-                '<button type="button" class="btn btn-green" onclick="openModuleAccess(this)">用户模块授权</button>',
+                '<button type="button" class="btn btn-green" onclick="openModuleAccess(this)">用户模块授权</button>'+
+                '<button type="button" class ="btn btn-green" onclick="openRoleAccess(this)">用户角色授权</button>',
             columns: [
                 {
                     name: 'Id',
@@ -205,6 +187,21 @@
             id: 'accessUserModule',
             url: '/ModuleManager/LookupMulti',
             title: '为用户分配模块',
+            data: {
+                userId: selected
+            }
+        });
+    }
+
+    //用户角色授权
+    function openRoleAccess(obj) {
+        var selected = getSelected(2);
+        if (selected == null) return;
+
+        $(obj).dialog({
+            id: 'accessUserRole',
+            url: '/RoleManager/LookupMulti',
+            title: '为用户分配角色',
             data: {
                 userId: selected
             }

@@ -1,0 +1,77 @@
+﻿@model List<OpenAuth.App.ViewModel.RoleVM>
+@{
+    ViewBag.Title = "title";
+    Layout = null;
+}
+@*<div class="bjui-pageHeader">
+        <div class="bjui-searchBar">
+            <label>名称：</label><input type="text" value="" name="code" size="10" />&nbsp;
+            <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
+            <a class="btn btn-orange" href="javascript:;" data-toggle="reloadsearch" data-clear-query="true" data-icon="undo">清空查询</a>&nbsp;
+            <div class="pull-right">
+                <input type="checkbox" name="lookupType" value="1" data-toggle="icheck" data-label="追加" checked>
+                <button type="button" class="btn-blue" data-toggle="lookupback" data-lookupid="ids" data-warn="请至少选择一项职业" data-icon="check-square-o">选择选中</button>
+            </div>
+        </div>
+    </div>*@
+
+<div class="bjui-pageContent">
+    <input style="display: none" id="userId" value="@ViewBag.UserId" />
+    <table data-selected-multi="true" class="table table-bordered" data-toggle="tablefixed" data-width="100%">
+        <thead>
+            <tr>
+                <th data-order-field="id">ID</th>
+                <th data-order-field="name">名称</th>
+                <th data-order-field="note">所属部门</th>
+                <th class="orderby asc" data-order-field="date">部门级联ID</th>
+                <th >是否已经分配</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr data-id="@role.Id">
+                    <td>@role.Id</td>
+                    <td>@role.Name</td>
+                    <td>@role.OrgName</td>
+                    <td>@role.OrgCascadeId</td>
+                    <td><input type="checkbox" disabled data-toggle="icheck" 
+                               @if (role.IsBelongUser) { <text> checked </text>  }></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+        <li>
+            <button type="button" class="btn-blue"
+                    data-url="RoleManager/AccessRoles?userid={#userId}&ids={#bjui-selected}"
+                    data-toggle="doajax" data-icon="check-square-o">
+                设置权限
+            </button>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    var moduleIds;
+    $(document).ready(function () {
+
+    });
+
+    function save() {
+        $.post('UserManager/AccessModule', { userId: $('#userId').val(), moduleIds: moduleIds },
+            function (json) {
+                var rel = $.parseJSON(json);
+                if (rel.statusCode == "200") {
+                    $(this).alertmsg('ok', rel.message);
+                } else {
+                    $(this).alertmsg('error', rel.message);
+                }
+            });
+    }
+
+    //@@ sourceURL=lookupMulti.js
+</script>

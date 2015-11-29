@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.ViewModel;
-using OpenAuth.Mvc.Models;
-using WebGrease.Css.Extensions;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -74,20 +71,6 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
-        public string AccessModule(int userId, string moduleIds)
-        {
-            try
-            {
-               var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AccessModules(userId, ids);
-            }
-            catch (Exception e)
-            {
-                BjuiResponse.message = e.Message;
-                BjuiResponse.statusCode = "300";
-            }
-
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
+        
     }
 }

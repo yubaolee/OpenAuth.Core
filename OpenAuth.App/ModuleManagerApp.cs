@@ -114,6 +114,12 @@ namespace OpenAuth.App
             }
         }
 
+        public void AccessModules(int userId, int[] ids)
+        {
+            _userModuleRepository.DeleteByUser(userId);
+            _userModuleRepository.AddUserModule(userId, ids);
+        }
+
         #region 私有方法
 
         //根据同一级中最大的语义ID

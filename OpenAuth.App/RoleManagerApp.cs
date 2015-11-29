@@ -4,6 +4,7 @@ using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Security;
 
 namespace OpenAuth.App
 {
@@ -11,12 +12,15 @@ namespace OpenAuth.App
     {
         private IRoleRepository _repository;
         private IOrgRepository _orgRepository;
+        private IUserRoleRepository _userRoleRepository;
 
         public RoleManagerApp(IRoleRepository repository,
-            IOrgRepository orgRepository)
+            IOrgRepository orgRepository,
+            IUserRoleRepository userRoleRepository)
         {
             _repository = repository;
             _orgRepository = orgRepository;
+            _userRoleRepository = userRoleRepository;
         }
 
         public int GetRoleCntInOrg(int orgId)
@@ -45,12 +49,12 @@ namespace OpenAuth.App
             }
             else
             {
-                roles = _repository.LoadInOrgs(pageindex, pagesize,GetSubOrgIds(orgId));
+                roles = _repository.LoadInOrgs(pageindex, pagesize, GetSubOrgIds(orgId));
                 total = _repository.GetRoleCntInOrgs(orgId);
             }
-           
 
-            return new 
+
+            return new
             {
                 total = total,
                 list = roles,
@@ -70,8 +74,8 @@ namespace OpenAuth.App
 
         public Role Find(int id)
         {
-            var role =  _repository.FindSingle(u => u.Id == id);
-            if(role == null) role = new Role();
+            var role = _repository.FindSingle(u => u.Id == id);
+            if (role == null) role = new Role();
             return role;
 
         }
@@ -95,6 +99,25 @@ namespace OpenAuth.App
 
         }
 
-       
+
+        public List<RoleVM> LoadWithUser(int userId)
+        {
+            var roleIds = _repository.Find(null).ToList();
+            var rolevms = new List<RoleVM>();
+            foreach (var role in roleIds)
+            {
+                RoleVM rolevm = role;
+                rolevm.IsBelongUser = (_userRoleRepository.FindSingle(u => u.RoleId == role.Id && u.UserId == userId) !=
+                                      null);
+                rolevms.Add(rolevm);
+            }
+            return rolevms;
+        }
+
+        public void AccessRole(int userId, int[] roleIds)
+        {
+            _userRoleRepository.DeleteByUser(userId);
+           _userRoleRepository.AddUserRole(userId, roleIds);
+        }
     }
 }

@@ -89,7 +89,7 @@
     }
 
     function save() {
-        $.post('UserManager/AccessModule', { userId: $('#userId').val(), moduleIds: moduleIds },
+        $.post('ModuleManager/AccessModule', { userId: $('#userId').val(), moduleIds: moduleIds },
             function (json) {
                 var rel = $.parseJSON(json);
                 if (rel.statusCode == "200") {

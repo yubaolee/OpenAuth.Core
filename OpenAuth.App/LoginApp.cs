@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
-using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
+using System;
+using Infrastructure.Helper;
+using OpenAuth.Domain;
 
 namespace OpenAuth.App
 {
@@ -16,15 +16,14 @@ namespace OpenAuth.App
 
         public void Login(string userName, string password)
         {
-            var user = _repository.FindSingle(u =>u.Account ==userName);
+            var user = _repository.FindSingle(u => u.Account == userName);
             if (user == null)
             {
                 throw new Exception("用户帐号不存在");
             }
 
-        //    user.CheckLogin(password);
-
-
+            user.CheckPassword(password);
+            SessionHelper.AddSessionUser(user);
         }
     }
 }

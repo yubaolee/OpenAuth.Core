@@ -29,9 +29,9 @@ namespace OpenAuth.Mvc.Controllers
 			base.OnActionExecuting(filterContext);
 
             //#region 当Session过期自动跳出登录画面
-            //if (SessionHelper.GetSessionUser<LoginViewModel>() == null)
+            //if (SessionHelper.GetSessionUser<User>() == null)
             //{
-            //    Response.Redirect("~/Account/Login");
+            //    Response.Redirect("/Login/Index");
             //}
             //#endregion
 		}

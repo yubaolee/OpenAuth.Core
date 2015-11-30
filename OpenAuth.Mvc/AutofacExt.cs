@@ -21,7 +21,7 @@ using System.Web.Mvc;
 
 namespace OpenAuth.Mvc
 {
-    static internal class AutofacExt
+    internal static  class AutofacExt
     {
         public static void InitAutofac()
         {

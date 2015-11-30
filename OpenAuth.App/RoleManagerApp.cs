@@ -12,15 +12,15 @@ namespace OpenAuth.App
     {
         private IRoleRepository _repository;
         private IOrgRepository _orgRepository;
-        private IUserRoleRepository _userRoleRepository;
+        private IRelevanceRepository _relevanceRepository;
 
         public RoleManagerApp(IRoleRepository repository,
             IOrgRepository orgRepository,
-            IUserRoleRepository userRoleRepository)
+            IRelevanceRepository relevanceRepository)
         {
             _repository = repository;
             _orgRepository = orgRepository;
-            _userRoleRepository = userRoleRepository;
+            _relevanceRepository = relevanceRepository;
         }
 
         public int GetRoleCntInOrg(int orgId)
@@ -107,8 +107,10 @@ namespace OpenAuth.App
             foreach (var role in roleIds)
             {
                 RoleVM rolevm = role;
-                rolevm.IsBelongUser = (_userRoleRepository.FindSingle(u => u.RoleId == role.Id && u.UserId == userId) !=
-                                      null);
+                rolevm.IsBelongUser = (_relevanceRepository.FindSingle(u => u.SecondId == role.Id
+                    && u.FirstId == userId 
+                    && u.Key =="UserRole")
+                    !=null);
                 rolevms.Add(rolevm);
             }
             return rolevms;
@@ -116,8 +118,9 @@ namespace OpenAuth.App
 
         public void AccessRole(int userId, int[] roleIds)
         {
-            _userRoleRepository.DeleteByUser(userId);
-           _userRoleRepository.AddUserRole(userId, roleIds);
+            _relevanceRepository.DeleteBy("UserRole", userId);
+
+            _relevanceRepository.AddRelevance("UserRole",roleIds.ToDictionary(roleId => userId));
         }
     }
 }

@@ -35,7 +35,7 @@ namespace OpenAuth.Domain
 		public int Type { get; set; }
 
 		/// <summary>
-		/// 所属功能模块流水号
+		/// 功能模块Id
 		/// </summary>
 		/// <returns></returns>
 		public int ModuleId { get; set; }

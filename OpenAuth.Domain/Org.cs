@@ -65,7 +65,7 @@ namespace OpenAuth.Domain
 		public string IconName { get; set; }
 
 		/// <summary>
-		/// 当前状态
+		/// 状态
 		/// </summary>
 		/// <returns></returns>
 		public int Status { get; set; }

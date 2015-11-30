@@ -41,7 +41,7 @@ namespace OpenAuth.Domain
 		public int Sex { get; set; }
 
 		/// <summary>
-		/// 当前状态
+		/// 状态
 		/// </summary>
 		/// <returns></returns>
 		public int Status { get; set; }

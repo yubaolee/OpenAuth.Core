@@ -17,7 +17,7 @@ namespace OpenAuth.UnitTest
         
 
         private TestContext testContextInstance;
-        private ModuleManagerApp _app = new ModuleManagerApp(new ModuleRepository(), new UserModuleRepository());
+        private ModuleManagerApp _app = new ModuleManagerApp(new ModuleRepository(), new RelevanceRepository());
         private string _time = DateTime.Now.ToString("HH_mm_ss_ms");
       
 

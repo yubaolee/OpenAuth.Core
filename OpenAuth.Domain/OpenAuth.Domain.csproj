@@ -46,22 +46,18 @@
     <Compile Include="Interface\IOrgRepository.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Interface\IRoleRepository.cs" />
-    <Compile Include="Interface\IUserRoleRepository.cs" />
-    <Compile Include="Interface\IUserModuleRepository.cs" />
+    <Compile Include="Interface\IRelevanceRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="ModuleElement.cs" />
     <Compile Include="ModuleElementGrant.cs" />
-    <Compile Include="ModuleRole.cs" />
     <Compile Include="Org.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relevance.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserCfg.cs" />
     <Compile Include="UserExt.cs" />
-    <Compile Include="UserModule.cs" />
-    <Compile Include="UserOrg.cs" />
-    <Compile Include="UserRole.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

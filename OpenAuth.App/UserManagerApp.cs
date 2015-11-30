@@ -11,12 +11,15 @@ namespace OpenAuth.App
     {
         private IUserRepository _repository;
         private IOrgRepository _orgRepository;
+        private IRelevanceRepository _relevanceRepository;
 
         public UserManagerApp(IUserRepository repository,
-            IOrgRepository orgRepository)
+            IOrgRepository orgRepository,
+            IRelevanceRepository relevanceRepository)
         {
             _repository = repository;
             _orgRepository = orgRepository;
+            _relevanceRepository = relevanceRepository;
         }
 
         public int GetUserCntInOrg(int orgId)
@@ -92,7 +95,10 @@ namespace OpenAuth.App
 
         public void Delete(int id)
         {
-            _repository.Delete(id);
+            _repository.Delete(u =>u.Id == id);
+            _relevanceRepository.DeleteBy("UserOrg", id);
+            _relevanceRepository.DeleteBy("UserModule", id);
+            _relevanceRepository.DeleteBy("UserRole");
         }
 
         public void AddOrUpdate(UserView view)
@@ -109,7 +115,8 @@ namespace OpenAuth.App
             }
             int[] orgIds = view.OrganizationIds.Split(',').Select(id => int.Parse(id)).ToArray();
 
-            _repository.SetOrg(user.Id, orgIds);
+            _relevanceRepository.DeleteBy("UserOrg", user.Id);
+            _relevanceRepository.AddRelevance("UserOrg", orgIds.ToDictionary(u =>user.Id));
         }
 
     }

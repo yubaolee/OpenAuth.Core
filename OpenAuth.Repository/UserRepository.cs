@@ -21,8 +21,8 @@ namespace OpenAuth.Repository
         {
             var result = from user in Context.Users
                      where (
-                         Context.UserOrgs.Where(uo => orgId.Contains(uo.OrgId))
-                         .Select(u => u.UserId)
+                         Context.Relevances.Where(uo => orgId.Contains(uo.SecondId) && uo.Key =="UserOrg")
+                         .Select(u => u.FirstId)
                          .Distinct()
                      )
                      .Contains(user.Id)
@@ -41,32 +41,5 @@ namespace OpenAuth.Repository
             return LoadInOrgs(orgIds).OrderBy(u =>u.Id).Skip((pageindex -1)*pagesize).Take(pagesize);
         }
 
-        /// <summary>
-        /// 设置用户的机构
-        /// </summary>
-        public void SetOrg(int userId, params int[] orgIds)
-        {
-            using (TransactionScope ts = new TransactionScope())
-            {
-                Context.UserOrgs.Where(u => u.UserId == userId).Delete();
-
-                foreach (var orgId in orgIds)
-                {
-                    Context.UserOrgs.Add(new UserOrg{OrgId = orgId,UserId = userId});
-                }
-                Save();
-                ts.Complete();
-            }
-        }
-
-        public void Delete(int id)
-        {
-            using (TransactionScope ts = new TransactionScope())
-            {
-                Context.UserOrgs.Where(u => u.UserId == id).Delete();
-                Delete(u =>u.Id == id);
-                ts.Complete();
-            }
-        }
     }
 }

@@ -17,7 +17,7 @@ namespace OpenAuth.Domain
 		public int Id { get; set; }
 
 		/// <summary>
-		/// 页面元素流水号
+		/// 元素流水号
 		/// </summary>
 		/// <returns></returns>
 		public int ElementId { get; set; }

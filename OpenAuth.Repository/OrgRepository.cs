@@ -17,9 +17,9 @@ namespace OpenAuth.Repository
 
         public IEnumerable<Org> LoadByUser(int userId)
         {
-            var result = from userorg in Context.UserOrgs
-                join org in Context.Orgs on userorg.OrgId equals org.Id
-                where userorg.UserId == userId
+            var result = from userorg in Context.Relevances
+                join org in Context.Orgs on userorg.SecondId equals org.Id
+                where userorg.FirstId == userId && userorg.Key =="UserOrg"
                 select org;
             return result;
 

@@ -17,13 +17,13 @@ namespace OpenAuth.Domain
 		public int Id { get; set; }
 
 		/// <summary>
-		/// 名称
+		/// 组织名称
 		/// </summary>
 		/// <returns></returns>
 		public string Name { get; set; }
 
 		/// <summary>
-		/// 当前状态
+		/// 状态
 		/// </summary>
 		/// <returns></returns>
 		public int Status { get; set; }

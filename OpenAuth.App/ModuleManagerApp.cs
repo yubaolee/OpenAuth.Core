@@ -11,13 +11,13 @@ namespace OpenAuth.App
     public class ModuleManagerApp
     {
         private IModuleRepository _repository;
-        private IUserModuleRepository _userModuleRepository;
+        private IRelevanceRepository _relevanceRepository;
 
         public ModuleManagerApp(IModuleRepository repository,
-            IUserModuleRepository userModuleRepository)
+            IRelevanceRepository relevanceRepository)
         {
             _repository = repository;
-            _userModuleRepository = userModuleRepository;
+            _relevanceRepository = relevanceRepository;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace OpenAuth.App
         }
         public List<Module> LoadForUser(int userId)
         {
-            var moduleIds = _userModuleRepository.Find(u => u.UserId == userId).Select(u => u.ModuleId).ToList();
+            var moduleIds = _relevanceRepository.Find(u => u.FirstId == userId).Select(u => u.SecondId).ToList();
             if(!moduleIds.Any()) return null;
             return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
         }
@@ -116,8 +116,8 @@ namespace OpenAuth.App
 
         public void AccessModules(int userId, int[] ids)
         {
-            _userModuleRepository.DeleteByUser(userId);
-            _userModuleRepository.AddUserModule(userId, ids);
+            _relevanceRepository.DeleteBy("UserModule",userId);
+            _relevanceRepository.AddRelevance("UserModule",ids.ToDictionary(u =>userId));
         }
 
         #region 私有方法

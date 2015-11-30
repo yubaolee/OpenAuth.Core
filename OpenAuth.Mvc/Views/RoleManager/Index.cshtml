@@ -36,7 +36,8 @@
             toolbarItem: 'refresh, |, del',
             toolbarCustom: '<a href="/RoleManager/Add" class="btn btn-green" data-icon ="plus"  ' +
                 'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="refreshGrid">添加</a>' +
-                '<button class=" btn-green" onclick="editRole()" data-icon="pencil" type="button">编辑</button>',
+                '<button class=" btn-green" onclick="editRole()" data-icon="pencil" type="button">编辑</button>'+
+                  '<button type="button" class="btn btn-green" onclick="openModuleAccess(this)">角色模块</button>',
             columns: [
                {
                     name: 'Id',
@@ -174,5 +175,22 @@
         $('#@_gridId').datagrid('refresh');
        // loadDataGrid();
     }
+
+    //用户模块授权按钮
+    function openModuleAccess(obj) {
+
+        var selected = getSelected(2);
+        if (selected == null) return;
+
+        $(obj).dialog({
+            id: 'accessRoleModule',
+            url: '/ModuleManager/LookupMultiForRole',
+            title: '为角色分配模块',
+            data: {
+                roleid: selected
+            }
+        });
+    }
+
     //@@ sourceURL=RoleManagerIndex.js
 </script>

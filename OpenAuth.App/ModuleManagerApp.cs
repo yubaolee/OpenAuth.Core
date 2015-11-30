@@ -1,10 +1,10 @@
+using Infrastructure;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Infrastructure;
 
 namespace OpenAuth.App
 {
@@ -51,13 +51,7 @@ namespace OpenAuth.App
         /// </summary>
         public List<Module> LoadForTree()
         {
-                return _repository.Find(null).ToList();
-        }
-        public List<Module> LoadForUser(int userId)
-        {
-            var moduleIds = _relevanceRepository.Find(u => u.FirstId == userId).Select(u => u.SecondId).ToList();
-            if(!moduleIds.Any()) return null;
-            return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
+            return _repository.Find(null).ToList();
         }
 
         public List<Module> LoadForNav()
@@ -114,11 +108,59 @@ namespace OpenAuth.App
             }
         }
 
-        public void AccessModules(int userId, int[] ids)
+        #region 用户/角色分配模块
+
+        /// <summary>
+        /// 加载特定用户的模块
+        /// </summary>
+        /// <param name="userId">The user unique identifier.</param>
+        public List<Module> LoadForUser(int userId)
         {
-            _relevanceRepository.DeleteBy("UserModule",userId);
-            _relevanceRepository.AddRelevance("UserModule",ids.ToDictionary(u =>userId));
+            var moduleIds =
+                _relevanceRepository.Find(u => u.FirstId == userId && u.Key == "UserModule")
+                    .Select(u => u.SecondId)
+                    .ToList();
+            if (!moduleIds.Any()) return null;
+            return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
         }
+
+        /// <summary>
+        /// 为特定的用户分配模块
+        /// </summary>
+        /// <param name="userId">The user unique identifier.</param>
+        /// <param name="ids">模块ID</param>
+        public void AssignModuleForUser(int userId, int[] ids)
+        {
+            _relevanceRepository.DeleteBy("UserModule", userId);
+            _relevanceRepository.AddRelevance("UserModule", ids.ToLookup(u => userId));
+        }
+
+        /// <summary>
+        /// 加载特定角色的模块
+        /// </summary>
+        /// <param name="roleId">The role unique identifier.</param>
+        public List<Module> LoadForRole(int roleId)
+        {
+            var moduleIds =
+                _relevanceRepository.Find(u => u.FirstId == roleId && u.Key == "RoleModule")
+                    .Select(u => u.SecondId)
+                    .ToList();
+            if (!moduleIds.Any()) return null;
+            return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
+        }
+
+        /// <summary>
+        /// 为特定的角色分配模块
+        /// </summary>
+        /// <param name="roleId">The user unique identifier.</param>
+        /// <param name="ids">模块ID</param>
+        public void AssignModuleForRole(int roleId, int[] ids)
+        {
+            _relevanceRepository.DeleteBy("RoleModule", roleId);
+            _relevanceRepository.AddRelevance("RoleModule", ids.ToLookup(u => roleId));
+        }
+
+        #endregion 用户/角色分配模块
 
         #region 私有方法
 
@@ -166,7 +208,5 @@ namespace OpenAuth.App
         }
 
         #endregion 私有方法
-
-      
     }
 }

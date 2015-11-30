@@ -24,9 +24,16 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         //用于选择模块时使用
-        public ActionResult LookUpMulti(int userId)
+        public ActionResult LookUpMultiForUser(int userId)
         {
             ViewBag.UserId = userId;
+            return View();
+        }
+
+        //为角色分配模块
+        public ActionResult LookupMultiForRole(int roleId)
+        {
+            ViewBag.RoleId = roleId;
             return View();
         }
 
@@ -87,12 +94,42 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string AccessModule(int userId, string moduleIds)
+        public string LoadForRole(int roleId)
+        {
+            var orgs = _app.LoadForRole(roleId);
+            //添加根节点
+            orgs.Add(new Module
+            {
+                Id = 0,
+                ParentId = -1,
+                Name = "已为角色分配的模块",
+                CascadeId = "0"
+            });
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        public string AssignModuleForRole(int roleId, string moduleIds)
         {
             try
             {
                 var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AccessModules(userId, ids);
+                _app.AssignModuleForRole(roleId, ids);
+            }
+            catch (Exception e)
+            {
+                BjuiResponse.message = e.Message;
+                BjuiResponse.statusCode = "300";
+            }
+
+            return JsonHelper.Instance.Serialize(BjuiResponse);
+        }
+
+        public string AssignModuleForUser(int userId, string moduleIds)
+        {
+            try
+            {
+                var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
+                _app.AssignModuleForUser(userId, ids);
             }
             catch (Exception e)
             {

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "title";
     Layout = null;
 }
@@ -8,26 +7,21 @@
     <form action="/OrgManager/AddOrg" class="pageForm" data-toggle="validate">
         <table class="table table-condensed table-hover">
             <tbody>
-                <tr>
-                    <td align="center"><h3>* 添加</h3></td>
-                </tr>
-              
+
                 <tr>
                     <td>
                         <label for="Name" class="control-label x90">机构名称：</label>
                         <input type="text" name="Name" id="Name" value=""
-                                data-rule="required" size="20">
+                               data-rule="required" size="20">
                     </td>
-                   
                 </tr>
                 <tr>
                     <td>
-                        <input  id="ParentId" name="ParentId" type="hidden">
+                        <input id="ParentId" name="ParentId" type="hidden">
                         <label for="ParentName" class="control-label x90">上级机构：</label>
                         <input type="text" name="ParentName" id="ParentName" data-toggle="selectztree" size="20" data-tree="#j_select_tree1">
                         <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
-</td>
-                   
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -37,7 +31,6 @@
                             <option value="0">正常</option>
                             <option value="1">禁用</option>
                         </select>
-
                     </td>
                 </tr>
             </tbody>
@@ -50,7 +43,6 @@
         <li><button type="submit" class="btn-green">保存</button></li>
     </ul>
 </div>
-
 
 <script type="text/javascript">
     $(document).ready(function () {

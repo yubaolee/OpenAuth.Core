@@ -116,7 +116,7 @@ namespace OpenAuth.App
             int[] orgIds = view.OrganizationIds.Split(',').Select(id => int.Parse(id)).ToArray();
 
             _relevanceRepository.DeleteBy("UserOrg", user.Id);
-            _relevanceRepository.AddRelevance("UserOrg", orgIds.ToDictionary(u =>user.Id));
+            _relevanceRepository.AddRelevance("UserOrg", orgIds.ToLookup(u =>user.Id));
         }
 
     }

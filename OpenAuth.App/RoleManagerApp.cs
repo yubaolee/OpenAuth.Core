@@ -4,7 +4,6 @@ using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Security;
 
 namespace OpenAuth.App
 {
@@ -53,7 +52,6 @@ namespace OpenAuth.App
                 total = _repository.GetRoleCntInOrgs(orgId);
             }
 
-
             return new
             {
                 total = total,
@@ -77,7 +75,6 @@ namespace OpenAuth.App
             var role = _repository.FindSingle(u => u.Id == id);
             if (role == null) role = new Role();
             return role;
-
         }
 
         public void Delete(int id)
@@ -96,9 +93,7 @@ namespace OpenAuth.App
             {
                 _repository.Update(role);
             }
-
         }
-
 
         public List<RoleVM> LoadWithUser(int userId)
         {
@@ -108,9 +103,9 @@ namespace OpenAuth.App
             {
                 RoleVM rolevm = role;
                 rolevm.IsBelongUser = (_relevanceRepository.FindSingle(u => u.SecondId == role.Id
-                    && u.FirstId == userId 
-                    && u.Key =="UserRole")
-                    !=null);
+                    && u.FirstId == userId
+                    && u.Key == "UserRole")
+                    != null);
                 rolevms.Add(rolevm);
             }
             return rolevms;
@@ -120,7 +115,7 @@ namespace OpenAuth.App
         {
             _relevanceRepository.DeleteBy("UserRole", userId);
 
-            _relevanceRepository.AddRelevance("UserRole",roleIds.ToDictionary(roleId => userId));
+            _relevanceRepository.AddRelevance("UserRole", roleIds.ToLookup(roleId => userId));
         }
     }
 }

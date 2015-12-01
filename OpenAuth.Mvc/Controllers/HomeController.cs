@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using Infrastructure;
+using Infrastructure.Helper;
 using OpenAuth.App;
+using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -19,7 +21,8 @@ namespace OpenAuth.Mvc.Controllers
         }
         public ActionResult Index()
         {
-            return View(_app.LoadByParent(0));
+            var user = SessionHelper.GetSessionUser<LoginUserVM>();
+            return View(user.Modules);
         }
 
         public ActionResult Main()

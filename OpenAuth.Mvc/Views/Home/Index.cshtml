@@ -1,4 +1,4 @@
-﻿@model List<OpenAuth.App.ViewModel.ModuleView>
+﻿@model List<OpenAuth.Domain.Module>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -204,12 +204,12 @@
                                     {
                                         <li data-id="@module.Id" data-pid="0" data-faicon="folder-open-o" data-faicon-close="folder-o">@module.Name</li>
 
-                                        foreach (var child in module.Childern)
+                                        @*foreach (var child in module.Childern)
                                         {
                                             <li data-id="@child.Id" data-pid="@child.ParentId"
                                                 data-faicon="caret-right"
                                                 data-url="@child.Url" data-tabid="@child.Id">@child.Name</li>
-                                        }
+                                        }*@
 
                                     }
                                 </ul>

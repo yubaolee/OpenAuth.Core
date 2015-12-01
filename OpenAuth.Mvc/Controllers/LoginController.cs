@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Infrastructure.Helper;
 using OpenAuth.App;
 
 namespace OpenAuth.Mvc.Controllers
@@ -26,7 +27,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.Login(username, password);
+                SessionHelper.AddSessionUser( _app.Login(username, password));
                 return RedirectToAction("Index", "Home");
                 
             }
@@ -34,6 +35,29 @@ namespace OpenAuth.Mvc.Controllers
             {
                 return View(e.Message);
             }
+        }
+
+        /// <summary>
+        /// 开发者登陆
+        /// </summary>
+        public ActionResult LoginByDev()
+        {
+            try
+            {
+                SessionHelper.AddSessionUser(_app.LoginByDev());
+                return RedirectToAction("Index", "Home");
+
+            }
+            catch (Exception e)
+            {
+                return View(e.Message);
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            SessionHelper.Clear();
+            return RedirectToAction("Index", "Login");
         }
     }
 }

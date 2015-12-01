@@ -49,6 +49,7 @@
     <Compile Include="UserManagerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrgManagerApp.cs" />
+    <Compile Include="ViewModel\LoginUserVM.cs" />
     <Compile Include="ViewModel\ModuleView.cs" />
     <Compile Include="ViewModel\RoleVM.cs" />
     <Compile Include="ViewModel\UserView.cs" />

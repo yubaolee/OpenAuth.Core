@@ -14,6 +14,7 @@
 
 using System.Web.Mvc;
 using Infrastructure.Helper;
+using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
 
@@ -29,10 +30,10 @@ namespace OpenAuth.Mvc.Controllers
 			base.OnActionExecuting(filterContext);
 
             //#region 当Session过期自动跳出登录画面
-            //if (SessionHelper.GetSessionUser<User>() == null)
-            //{
-            //    Response.Redirect("/Login/Index");
-            //}
+            if (SessionHelper.GetSessionUser<LoginUserVM>() == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
             //#endregion
 		}
 	}

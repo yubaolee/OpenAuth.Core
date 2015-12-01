@@ -107,6 +107,7 @@ namespace OpenAuth.App
             if (user.Id == 0)
             {
                 user.CreateTime = DateTime.Now;
+                user.Password = user.Account; //初始密码与账号相同
                 _repository.Add(user);
             }
             else

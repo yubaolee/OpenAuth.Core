@@ -54,11 +54,6 @@ namespace OpenAuth.App
             return _repository.Find(null).ToList();
         }
 
-        public List<Module> LoadForNav()
-        {
-            return _repository.Find(u => u.ParentId == 0).ToList();
-        }
-
         /// <summary>
         /// 以组合的方式显示所有的模块信息
         /// </summary>

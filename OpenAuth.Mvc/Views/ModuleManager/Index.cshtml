@@ -133,7 +133,7 @@
             },
             callback: {onClick: zTreeOnClick}
         };
-        $.getJSON('ModuleManager/LoadForNav', function (json) {
+        $.getJSON('ModuleManager/LoadForTree', function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });

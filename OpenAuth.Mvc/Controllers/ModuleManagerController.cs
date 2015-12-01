@@ -62,24 +62,6 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        /// <summary>
-        /// 加载首页导航模块
-        /// </summary>
-        /// <returns>System.String.</returns>
-        public string LoadForNav()
-        {
-            var orgs = _app.LoadForNav();
-            //添加根节点
-            orgs.Add(new Module
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "根节点",
-                CascadeId = "0"
-            });
-            return JsonHelper.Instance.Serialize(orgs);
-        }
-
         public string LoadForUser(int userId)
         {
             var orgs = _app.LoadForUser(userId);

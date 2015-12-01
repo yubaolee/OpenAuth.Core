@@ -18,7 +18,7 @@
     <link href="~/BJUI/plugins/niceValidator/jquery.validator.css" rel="stylesheet">
     <link href="~/BJUI/plugins/bootstrapSelect/bootstrap-select.css" rel="stylesheet">
     <link href="~/BJUI/themes/css/FA/css/font-awesome.min.css" rel="stylesheet">
-    <link href="~/BJUI/plugins/styles/zTreeStyle/zTreeStyle.css"/>
+    <link href="~/BJUI/plugins/styles/zTreeStyle/zTreeStyle.css" />
     <!--[if lte IE 7]>
     <link href="~/BJUI/themes/css/ie7.css" rel="stylesheet">
     <![endif]-->
@@ -202,15 +202,20 @@
 
                                     @foreach (var module in Model)
                                     {
-                                        <li data-id="@module.Id" data-pid="0" data-faicon="folder-open-o" data-faicon-close="folder-o">@module.Name</li>
-
-                                        @*foreach (var child in module.Childern)
-                                        {
-                                            <li data-id="@child.Id" data-pid="@child.ParentId"
-                                                data-faicon="caret-right"
-                                                data-url="@child.Url" data-tabid="@child.Id">@child.Name</li>
-                                        }*@
-
+                                        
+                                        <li data-id="@module.Id" data-pid="@module.ParentId"
+                                            @if (string.IsNullOrWhiteSpace(module.Url.Trim()))
+                                            {
+                                                @:data - faicon = "folder-open-o"
+                                                @:data - faicon - close = "folder-o"
+                                            }
+                                            else
+                                            {
+                                                @:data-faicon="caret-right"
+                                                @:data-url="@module.Url"
+                                                @:data-tabid="@module.Id"
+                                            }
+                                            >@module.Name</li>
                                     }
                                 </ul>
                             </div>

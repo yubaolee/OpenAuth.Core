@@ -552,6 +552,7 @@
     <Content Include="BJUI\themes\purple\zTreeStandard.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Views\Home\git.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

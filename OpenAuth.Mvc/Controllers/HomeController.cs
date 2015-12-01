@@ -29,5 +29,10 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
+
+        public ActionResult Git()
+        {
+            return View();
+        }
     }
 }

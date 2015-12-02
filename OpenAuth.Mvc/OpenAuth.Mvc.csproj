@@ -128,6 +128,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ModuleElementManagerController.cs" />
     <Compile Include="Controllers\ModuleManagerController.cs" />
     <Compile Include="Controllers\OrgManagerController.cs" />
     <Compile Include="Controllers\RoleManagerController.cs" />
@@ -622,6 +623,7 @@
     <Content Include="Views\ModuleManager\Add.cshtml" />
     <Content Include="Views\ModuleManager\LookupMultiForUser.cshtml" />
     <Content Include="Views\ModuleManager\LookupMultiForRole.cshtml" />
+    <None Include="Views\ModuleElementManager\Index.cshtml" />
     <None Include="Views\OrgManager\AddOrg.cshtml" />
     <Content Include="Views\OrgManager\LookupParent.cshtml" />
     <Content Include="Views\UserManager\Index.cshtml" />

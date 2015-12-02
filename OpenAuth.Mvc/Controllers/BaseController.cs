@@ -30,7 +30,7 @@ namespace OpenAuth.Mvc.Controllers
             var loginUser = SessionHelper.GetSessionUser<LoginUserVM>();
             if (loginUser == null)
             {
-                Response.Redirect("/Login/Index");
+                filterContext.Result = new RedirectResult("/Login/Index");
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace OpenAuth.Mvc.Controllers
                     && !url.Contains("Git")
                     && !loginUser.Modules.Any(u => url.Contains(u.Url)))
                     {
-                        Response.Redirect("/Error/NoAccess");
+                        filterContext.Result = new RedirectResult("/Login/Index");
                         return;
                     }
             }

@@ -122,7 +122,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
-        #region 命令操作
+        #region 添加编辑模块
         public ActionResult Add(int id = 0)
         {
             return View(_app.Find(id));
@@ -162,5 +162,6 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
         #endregion
+
     }
 }

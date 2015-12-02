@@ -1,0 +1,61 @@
+﻿@model IEnumerable<OpenAuth.Domain.ModuleElement>
+
+<script type="text/javascript">
+
+//删除回调
+$('#tableButtons').on('afterdelete.bjui.tabledit', function(e) {
+    var $tbody = $(e.relatedTarget);
+    console.log('你删除了一条数据，还有['+ $tbody.find('> tr').length +']条数据！');
+})
+</script>
+<div class="bjui-pageHeader">
+        <div class="bjui-searchBar">
+            <div class="alert alert-info search-inline"><i class="fa fa-info-circle"></i> 双击行可编辑</div>&nbsp;
+            <button type="button" class="btn-green" data-toggle="tableditadd" data-target="#tableButtons" data-num="1" data-icon="plus">
+                添加新按钮
+            </button>&nbsp;
+        </div>
+</div>
+<div class="bjui-pageContent tableContent">
+    <form id="j_custom_form" class="pageForm" data-toggle="validate" method="post">
+        <table id="tableButtons" class="table table-bordered table-hover table-striped table-top"
+               data-toggle="tabledit" data-initnum="0" data-action="/ModuleElementManager/AddOrEditButton" data-single-noindex="true">
+            <thead>
+                <tr data-idname="Id">
+                    <th width="80" title="按钮标识"><input type="text" name="DomId" data-rule="required" value="" size="5"></th>
+                    <th width="80" title="按钮显示"><input type="text" name="Name" data-rule="required" value="" size="5"></th>
+                    <th title="备注"><textarea name="Remark" data-toggle="autoheight"></textarea></th>
+                    <th width="80" title="所属模块ID"><input readonly="readonly" type="text" value="@ViewBag.ModuleId" name="ModuleId"/></th>
+                    <th title="操作" width="100">
+                        <a href="javascript:;" class="btn btn-green" data-toggle="dosave">增加</a>
+                        <a href="javascript:;" class="btn btn-red row-del">取消</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var element in Model)
+            {
+                <tr data-id="@element.Id">
+                    
+                    <td>@element.DomId</td>
+                    <td>@element.Name</td>
+                    <td>@element.Remark</td>
+                    <td>@ViewBag.ModuleId</td>
+                    <td data-noedit="true">
+                        <input type="text" style="display: none" value="@element.Id" id="element_@element.Id" />
+                        <button type="button" class="btn-green" data-toggle="doedit">编辑</button>
+                        <a href="/ModuleElementManager/DelButton?id={#element_@element.Id}" class="btn btn-red row-del" 
+                           data-confirm-msg="确定要删除该行信息吗？">删</a>
+                    </td>
+                </tr>
+            }
+           
+            </tbody>
+        </table>
+    </form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+    </ul>
+</div>

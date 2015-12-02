@@ -18,6 +18,8 @@ using Autofac.Integration.Mvc;
 using OpenAuth.App;
 using System.Reflection;
 using System.Web.Mvc;
+using OpenAuth.Domain.Interface;
+using OpenAuth.Repository;
 
 namespace OpenAuth.Mvc
 {
@@ -27,12 +29,20 @@ namespace OpenAuth.Mvc
         {
             var builder = new ContainerBuilder();
 
+            //·ºÐÍ×¢²á
+            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
+
+            //Ó¦ÓÃ²ã×¢²á
             builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
             builder.RegisterType<LoginApp>();
             builder.RegisterType<OrgManagerApp>();
             builder.RegisterType<UserManagerApp>();
             builder.RegisterType<RoleManagerApp>();
             builder.RegisterType<ModuleManagerApp>();
+            builder.RegisterType<ModuleElementManagerApp>();
+
+           
+
             // Register your MVC controllers.
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 

@@ -36,7 +36,8 @@
             toolbarItem: 'refresh, |, del',
             toolbarCustom: '<a href="/ModuleManager/Add" class="btn btn-green" data-icon ="plus"  ' +
                 'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="refreshGrid">添加</a>' +
-                '<button class=" btn-green" onclick="editModule()" data-icon="pencil" type="button">编辑</button>',
+                '<button class=" btn-green" onclick="editModule()" data-icon="pencil" type="button">编辑</button>' +
+                '<button class=" btn-green" onclick="assignButton()" data-icon="pencil" type="button">为模块分配按钮</button>',
             columns: [
                {
                     name: 'Id',
@@ -174,6 +175,19 @@
             onClose:function() {
                 refreshGrid();
             }
+        });
+
+    }
+
+    //为模块分配按钮
+    function assignButton() {
+        var selected = getSelected(2);
+        if (selected == null) return;
+
+        $(this).dialog({
+            id: 'editDialog',
+            url: '/ModuleElementManager/Index?id=' + selected,
+            title: '为模块分配按钮'
         });
 
     }

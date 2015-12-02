@@ -12,29 +12,42 @@
 // <summary>基础控制器，设置权限</summary>
 // ***********************************************************************
 
-using System.Web.Mvc;
+using System;
+using System.Linq;
 using Infrastructure.Helper;
 using OpenAuth.App.ViewModel;
-using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
+using System.Web.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
 {
-	public class BaseController : Controller
-	{
+    public class BaseController : Controller
+    {
         protected BjuiResponse BjuiResponse = new BjuiResponse();
 
-       
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			base.OnActionExecuting(filterContext);
-
-            //#region 当Session过期自动跳出登录画面
-            if (SessionHelper.GetSessionUser<LoginUserVM>() == null)
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var loginUser = SessionHelper.GetSessionUser<LoginUserVM>();
+            if (loginUser == null)
             {
                 Response.Redirect("/Login/Index");
+                return;
             }
-            //#endregion
-		}
-	}
+
+            if (Request.Url != null)
+            {
+                string url = Request.Url.LocalPath;
+                if(url !="/"
+                    && !url.Contains("Main")
+                    && !url.Contains("Error")
+                    && !url.Contains("Git")
+                    && !loginUser.Modules.Any(u => url.Contains(u.Url)))
+                    {
+                        Response.Redirect("/Error/NoAccess");
+                        return;
+                    }
+            }
+            base.OnActionExecuting(filterContext);
+        }
+    }
 }

@@ -82,7 +82,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 Id = 0,
                 ParentId = -1,
-                Name = "全部机构",
+                Name = "根结点",
                 CascadeId = "0"
             });
             return JsonHelper.Instance.Serialize(orgs);

@@ -125,6 +125,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AutofacExt.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleManagerController.cs" />
@@ -552,6 +553,7 @@
     <Content Include="BJUI\themes\purple\zTreeStandard.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Views\Error\NoAccess.cshtml" />
     <None Include="Views\Home\git.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

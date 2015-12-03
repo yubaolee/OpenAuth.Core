@@ -29,6 +29,15 @@
         $('#@_treeDetail').empty()
             .append('<table id="@_gridId" class="table table-bordered"></table>');
 
+        @{
+             string strBtns = string.Empty;
+              foreach (var element in ViewBag.Module.Elements)
+                {
+                    strBtns +="<button type=\"button\" class =\"btn btn-green\">"+element.Name +"</button>";
+
+                }
+        }
+
         grid = $(gridid).datagrid({
             gridTitle: '用户列表',
             showToolbar: true,
@@ -37,8 +46,8 @@
             toolbarCustom: '<a href="/UserManager/Add" class="btn btn-green" data-icon ="plus"  ' +
                 'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="refreshGrid">添加</a>' +
                 '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>' +
-                '<button type="button" class="btn btn-green" onclick="openModuleAccess(this)">为用户分配模块</button>'+
-                '<button type="button" class ="btn btn-green" onclick="openRoleAccess(this)">为用户分配角色</button>',
+                '<button type="button" class="btn btn-green" onclick="openModuleAccess(this)">为用户分配模块</button>' +
+                '<button type="button" class ="btn btn-green" onclick="openRoleAccess(this)">为用户分配角色</button>' + '@strBtns',
             columns: [
                 {
                     name: 'Id',
@@ -179,7 +188,7 @@
 
     //用户模块授权按钮
     function openModuleAccess(obj) {
-        
+
         var selected = getSelected(2);
         if (selected == null) return;
 

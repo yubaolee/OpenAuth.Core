@@ -69,6 +69,11 @@ namespace OpenAuth.App
                 }
             };
             loginUser.Modules = _moduleRepository.Find(null).MapToList<ModuleView>();
+            //模块包含的菜单
+            foreach (var module in loginUser.Modules)
+            {
+                module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id).ToList();
+            }
             return loginUser;
         }
     }

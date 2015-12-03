@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
+using OpenAuth.Domain;
 using OpenAuth.Repository;
 
 namespace OpenAuth.UnitTest
@@ -18,7 +19,11 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void Test()
         {
-            var login = new LoginApp(new UserRepository(), new ModuleRepository(),  new RelevanceRepository());
+            var login = new LoginApp(new UserRepository(), 
+                new ModuleRepository(), 
+                new RelevanceRepository(),
+                new BaseRepository<ModuleElement>()
+                );
             var user = login.Login("admin", "admin");
             foreach (var module in user.Modules)
             {

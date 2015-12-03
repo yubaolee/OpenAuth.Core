@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Infrastructure;
+﻿using Infrastructure;
 using OpenAuth.Domain;
+using System.Collections.Generic;
 
 namespace OpenAuth.App.ViewModel
 {
@@ -39,17 +39,21 @@ namespace OpenAuth.App.ViewModel
         /// <summary>
         /// 子节点
         /// </summary>
-        public List<ModuleView> Childern  = new List<ModuleView>();
+        public List<ModuleView> Childern = new List<ModuleView>();
+
+        /// <summary>
+        /// 模块中的元素
+        /// </summary>
+        public List<ModuleElement> Elements = new List<ModuleElement>();
 
         public static implicit operator ModuleView(Module module)
         {
-            return AutoMapperExt.ConvertTo<Module, ModuleView>(module);
+            return module.MapTo<ModuleView>();
         }
 
         public static implicit operator Module(ModuleView view)
         {
-            return AutoMapperExt.ConvertTo<ModuleView, Module>(view);
+            return view.MapTo<Module>();
         }
-
     }
 }

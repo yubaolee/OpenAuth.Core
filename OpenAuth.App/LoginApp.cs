@@ -14,14 +14,17 @@ namespace OpenAuth.App
         private IUserRepository _repository;
         private IModuleRepository _moduleRepository;
         private IRelevanceRepository _relevanceRepository;
+        private IRepository<ModuleElement> _moduleElementRepository; 
 
         public LoginApp(IUserRepository repository,
             IModuleRepository moduleRepository,
-            IRelevanceRepository relevanceRepository)
+            IRelevanceRepository relevanceRepository,
+            IRepository<ModuleElement>  moduleElementRepository )
         {
             _repository = repository;
             _moduleRepository = moduleRepository;
             _relevanceRepository = relevanceRepository;
+            _moduleElementRepository = moduleElementRepository;
         }
 
         public LoginUserVM Login(string userName, string password)
@@ -48,7 +51,7 @@ namespace OpenAuth.App
                         (u.FirstId == user.Id && u.Key == "UserModule") ||
                         (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u =>u.SecondId).ToList();
             //得出最终用户拥有的模块
-            loginVM.Modules = _moduleRepository.Find(u => moduleIds.Contains(u.Id)).ToList();
+            loginVM.Modules = _moduleRepository.Find(u => moduleIds.Contains(u.Id)).MapToList<ModuleView>();
             
            return loginVM;
         }
@@ -65,7 +68,7 @@ namespace OpenAuth.App
                     Name = "开发者账号"
                 }
             };
-            loginUser.Modules = _moduleRepository.Find(null).ToList();
+            loginUser.Modules = _moduleRepository.Find(null).MapToList<ModuleView>();
             return loginUser;
         }
     }

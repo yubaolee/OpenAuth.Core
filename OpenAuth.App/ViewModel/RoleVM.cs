@@ -52,12 +52,12 @@ namespace OpenAuth.App.ViewModel
 
         public static implicit operator RoleVM(Role role)
         {
-            return AutoMapperExt.ConvertTo<Role,RoleVM>(role);
+            return role.MapTo<RoleVM>();
         }
 
         public static implicit operator Role(RoleVM rolevm)
         {
-            return AutoMapperExt.ConvertTo<RoleVM, Role>(rolevm);
+            return rolevm.MapTo<Role>();
         }
 
     }

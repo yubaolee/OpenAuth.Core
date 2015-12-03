@@ -71,12 +71,12 @@ namespace OpenAuth.App.ViewModel
 
         public static implicit operator UserView(User user)
         {
-            return AutoMapperExt.ConvertTo<User, UserView>(user);
+            return user.MapTo<UserView>();
         }
 
         public static implicit operator User(UserView view)
         {
-            return AutoMapperExt.ConvertTo<UserView, User>(view);
+            return view.MapTo<User>();
         }
     }
 }

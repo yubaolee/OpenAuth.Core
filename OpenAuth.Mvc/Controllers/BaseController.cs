@@ -12,11 +12,10 @@
 // <summary>基础控制器，设置权限</summary>
 // ***********************************************************************
 
-using System;
-using System.Linq;
 using Infrastructure.Helper;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
@@ -34,18 +33,22 @@ namespace OpenAuth.Mvc.Controllers
                 return;
             }
 
-            if (Request.Url != null)
+            string url = Request.Url.LocalPath;
+            if (url != "/"
+                && !url.Contains("Main")
+                && !url.Contains("Error")
+                && !url.Contains("Git"))
             {
-                string url = Request.Url.LocalPath;
-                if(url !="/"
-                    && !url.Contains("Main")
-                    && !url.Contains("Error")
-                    && !url.Contains("Git")
-                    && !loginUser.Modules.Any(u => url.Contains(u.Url)))
-                    {
-                        filterContext.Result = new RedirectResult("/Login/Index");
-                        return;
-                    }
+                var module = loginUser.Modules.FirstOrDefault(u => url.Contains(u.Url));
+                if (module == null)
+                {
+                    filterContext.Result = new RedirectResult("/Login/Index");
+                    return;
+                }
+                else
+                {
+                    ViewBag.Module = module;
+                }
             }
             base.OnActionExecuting(filterContext);
         }

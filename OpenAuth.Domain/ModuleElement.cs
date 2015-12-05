@@ -70,6 +70,8 @@ namespace OpenAuth.Domain
 		/// <returns></returns>
 		public string Remark { get; set; }
 
+        public int Sort { get; set; }
+
 
 		public ModuleElement()
 		{
@@ -83,7 +85,8 @@ namespace OpenAuth.Domain
 		   	this.Icon= string.Empty;
 		   	this.Class= string.Empty;
 		   	this.Remark= string.Empty;
-		   }
+		    this.Sort = 0;
+		}
 		
 	
 

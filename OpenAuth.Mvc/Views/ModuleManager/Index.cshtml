@@ -161,7 +161,19 @@
         return records[0];
     }
 
-
+    //删除
+    function del() {
+        var selected = getSelected(2);
+        if (selected == null) return;
+        
+        $.get('ModuleManager/Delete?Id=' + selected, function (data) {
+            if (data.statusCode == "200")
+                loadDataGrid();
+            else {
+                $(this).alertmsg('warn', data.message);
+            }
+        });
+    }
 
     //自定义的编辑按钮
     function editModule() {

@@ -78,5 +78,12 @@ namespace OpenAuth.App.ViewModel
         {
             return view.MapTo<User>();
         }
+
+        public UserView()
+        {
+            Organizations = string.Empty;
+            OrganizationIds = string.Empty;
+            CreateUser = string.Empty;
+        }
     }
 }

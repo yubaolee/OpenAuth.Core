@@ -66,6 +66,13 @@ namespace OpenAuth.UnitTest
             Console.WriteLine(user.Name);
         }
 
+        [TestMethod]
+        public void TestFind()
+        {
+            var user = _app.Find(21);
+            Console.WriteLine(user.Name);
+        }
+
 
         private UserView Add()
         {

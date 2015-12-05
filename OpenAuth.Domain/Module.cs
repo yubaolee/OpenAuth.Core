@@ -6,12 +6,12 @@ using System.Linq;
 namespace OpenAuth.Domain
 {
 	/// <summary>
-	/// 系统模块
+	/// 用户ID
 	/// </summary>
 	public partial class Module
 	{
 		/// <summary>
-		/// 模块ID
+		/// 用户ID
 		/// </summary>
 		/// <returns></returns>
 		public int Id { get; set; }

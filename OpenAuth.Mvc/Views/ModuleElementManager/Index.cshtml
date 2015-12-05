@@ -21,30 +21,38 @@ $('#tableButtons').on('afterdelete.bjui.tabledit', function(e) {
         <table id="tableButtons" class="table table-bordered table-hover table-striped table-top"
                data-toggle="tabledit" data-initnum="0" data-action="/ModuleElementManager/AddOrEditButton" data-single-noindex="true">
             <thead>
-                <tr data-idname="Id">
-                    <th width="80" title="按钮标识"><input type="text" name="DomId" data-rule="required" value="" size="5"></th>
-                    <th width="80" title="按钮显示"><input type="text" name="Name" data-rule="required" value="" size="5"></th>
-                    <th title="备注"><textarea name="Remark" data-toggle="autoheight"></textarea></th>
-                    <th width="80" title="所属模块ID"><input readonly="readonly" type="text" value="@ViewBag.ModuleId" name="ModuleId"/></th>
-                    <th title="操作" width="100">
-                        <a href="javascript:;" class="btn btn-green" data-toggle="dosave">增加</a>
-                        <a href="javascript:;" class="btn btn-red row-del">取消</a>
-                    </th>
-                </tr>
+            <tr data-idname="Id">
+                <th width="80" title="元素类型"><input type="text" name="Type" data-rule="required" value="button" size="5"></th>
+                <th width="80" title="按钮标识"><input type="text" name="DomId" data-rule="required" value="" size="5"></th>
+                <th width="80" title="按钮显示"><input type="text" name="Name" data-rule="required" value="" size="5"></th>
+                <th width="120" title="按钮样式"><input type="text" name="Class" data-rule="required" value="btn-green btn-nm" size="5"></th>
+                <th width="80" title="按钮图标"><input type="text" name="Icon" data-rule="required" value="pencil" size="5"></th>
+                <th width="120" title="按钮脚本"><textarea name="Script" data-toggle="autoheight" value="javascript:;"></textarea></th>
+                <th width="120" title="附加属性"><textarea name="Attr" data-toggle="autoheight"></textarea></th>
+                <th width="80" title="所属模块ID"><input readonly="readonly" type="text" value="@ViewBag.ModuleId"
+                                                     name="ModuleId"/></th>
+                <th title="操作" width="100">
+                    <a href="javascript:;" class="btn btn-green" data-toggle="dosave">增加</a>
+                    <a href="javascript:;" class="btn btn-red row-del">取消</a>
+                </th>
+            </tr>
             </thead>
             <tbody>
             @foreach (var element in Model)
             {
                 <tr data-id="@element.Id">
-                    
+                    <td>@element.Type</td>
                     <td>@element.DomId</td>
                     <td>@element.Name</td>
-                    <td>@element.Remark</td>
+                    <td>@element.Class</td>
+                    <td>@element.Icon</td>
+                    <td>@element.Script</td>
+                    <td>@element.Attr</td>
                     <td>@ViewBag.ModuleId</td>
                     <td data-noedit="true">
-                        <input type="text" style="display: none" value="@element.Id" id="element_@element.Id" />
+                        <input type="text" style="display: none" value="@element.Id" id="element_@element.Id"/>
                         <button type="button" class="btn-green" data-toggle="doedit">编辑</button>
-                        <a href="/ModuleElementManager/DelButton?id={#element_@element.Id}" class="btn btn-red row-del" 
+                        <a href="/ModuleElementManager/DelButton?id={#element_@element.Id}" class="btn btn-red row-del"
                            data-confirm-msg="确定要删除该行信息吗？">删</a>
                     </td>
                 </tr>

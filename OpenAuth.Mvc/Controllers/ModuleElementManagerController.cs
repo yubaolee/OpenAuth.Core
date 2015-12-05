@@ -13,6 +13,7 @@
 // ***********************************************************************
 
 using System;
+using System.Data.Entity.Validation;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
@@ -42,9 +43,11 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.AddOrUpdate(button);
+                var newbtn = new ModuleElement();
+                button.CopyTo(newbtn);
+                _app.AddOrUpdate(newbtn);
             }
-            catch (Exception e)
+            catch (DbEntityValidationException e)
             {
                 _bjuiResponse.statusCode = "300";
                 _bjuiResponse.message = e.Message;

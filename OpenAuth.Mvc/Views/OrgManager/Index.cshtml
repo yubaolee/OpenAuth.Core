@@ -4,35 +4,35 @@
     var _gridId = _prefix + "Grid";
     var _treeDetail = _prefix + "Detail";
 }
-<div class="bjui-pageContent">
+@{ Html.RenderAction("MenuHeader", "Home");}
+
+<div class="bjui-pageContent tableContent">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
             <ul id="@_treeId" class="ztree"></ul>
         </div>
 
-        <div id="@_treeDetail" style="margin-left: 225px; width: auto;height: auto">
-            <table id="@_gridId" data-width="100%" data-height="100%" class="table table-bordered"></table>
+        <div id="@_treeDetail" style="margin-left: 225px; ">
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
+    var gridid = '#@_gridId';
     var selectedId = 0;
+    var grid;
     $(document).ready(function () {
-        Init(0);
+        initZtree();
+        LoadOrg();
     });
     //加载数据到datagrid
-    function LoadOrg(data) {
+    function LoadOrg() {
         //b-jui的datagrid需要重新处理HTML
         $('#@_treeDetail').empty()
-            .append('<table id="@_gridId" data-width="100%" data-height="100%" class="table table-bordered"></table>');
-        $('#@_gridId').datagrid({
-            gridTitle: '机构列表显示',
-            showToolbar: true,
+            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
+       grid = $('#@_gridId').datagrid({
+            showToolbar: false,
             filterThead: false,
-            toolbarItem: 'refresh, |, del,edit',
-            toolbarCustom: '<a href="/OrgManager/AddOrg" class="btn btn-green" data-icon ="plus"  ' +
-                'data-toggle="dialog" data-id="dialog-mask" data-mask="true">添加</a>' ,
             columns: [
             {
                 name: 'Id',
@@ -75,9 +75,7 @@
                   pattern: 'yyyy-MM-dd HH:mm:ss'
               }
             ],
-            data: data,
-            delUrl: 'OrgManager/DelOrg',
-            delPK: "Id",
+            dataUrl: 'OrgManager/LoadChildren?Id=' + selectedId,
             editUrl: 'OrgManager/EditOrg',
             editMode: 'dialog',
             fullGrid: true,
@@ -86,13 +84,7 @@
             paging: false,
             filterMult: false,
             showTfoot: true,
-            delCallback: function (delResult) {
-                if (delResult.statusCode == "200")
-                    Init(selectedId);
-                else {
-                    $(this).alertmsg('warn', delResult.message);
-                }
-            },
+            height:700,
             editCallback: function (delResult) {
                 if (delResult.statusCode == "200")
                     Init(selectedId);
@@ -104,14 +96,10 @@
     }
     function zTreeOnClick(event, treeId, treeNode) {
         selectedId = treeNode.Id;
-        $.getJSON('OrgManager/LoadChildren', {
-            id: treeNode.Id
-        }, function (json) {
-            LoadOrg(json);
-        });
+        LoadOrg();
     }
 
-    function Init(selectedId) {
+    function initZtree() {
         var setting = {
             view: {
                 selectedMulti: false
@@ -135,18 +123,26 @@
         $.getJSON('OrgManager/LoadOrg', function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
-
-            $.getJSON('OrgManager/LoadChildren', {
-                id: selectedId
-            }, function (data) {
-                LoadOrg(data);
-            });
-
-            //TODO：设置ztree选中，不过没看到效果..
-            var selectedNod = zTreeObj.getNodesByParam('Id', selectedId, null);
-            zTreeObj.selectNode(selectedNod, false);
-
         });
     }
+
+    function refreshGrid() {
+        $('#@_gridId').datagrid('refresh');
+    }
+
+    //删除
+    function del() {
+        var selected = getSelected('#@_gridId',2);
+        if (selected == null) return;
+
+        $.getJSON('OrgManager/DelOrg?Id=' + selected, function (data) {
+            if (data.statusCode == "200")
+                refreshGrid();
+            else {
+                $(this).alertmsg('warn', data.message);
+            }
+        });
+    }
+
     //@@ sourceURL=orgIndex.js
 </script>

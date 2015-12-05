@@ -34,5 +34,16 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
+
+
+        /// <summary>
+        /// 所有页面按钮控制分部视图
+        /// </summary>
+        /// <returns>ActionResult.</returns>
+        [ChildActionOnly]
+        public ActionResult MenuHeader()
+        {
+            return View();
+        }
     }
 }

@@ -4,7 +4,9 @@
     var _gridId = _prefix + "Grid";
     var _treeDetail = _prefix + "Detail";
 }
-<div class="bjui-pageContent">
+
+@{ Html.RenderAction("MenuHeader", "Home");}
+<div class="bjui-pageContent tableContent">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
             <ul id="@_treeId" class="ztree"></ul>
@@ -27,17 +29,11 @@
     function loadDataGrid() {
         //b-jui的datagrid需要重新处理HTML
         $('#@_treeDetail').empty()
-            .append('<table id="@_gridId" class="table table-bordered"></table>');
+            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
 
         $(gridid).datagrid({
-            gridTitle: '列表',
-            showToolbar: true,
+            showToolbar: false,
             filterThead: false,
-            toolbarItem: 'refresh, |, del',
-            toolbarCustom: '<a href="/ModuleManager/Add" class="btn btn-green" data-icon ="plus"  ' +
-                'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="refreshGrid">添加</a>' +
-                '<button class=" btn-green" onclick="editModule()" data-icon="pencil" type="button">编辑</button>' +
-                '<button class=" btn-green" onclick="assignButton()" data-icon="pencil" type="button">为模块分配按钮</button>',
             columns: [
                {
                     name: 'Id',
@@ -93,22 +89,13 @@
                },    
             ],
             dataUrl: 'ModuleManager/Load?orgId=' + selectedId,
-            delUrl: 'ModuleManager/Delete',
-            delPK: "Id",
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
             paging: true,
             filterMult: false,
             showTfoot: true,
-            height: '700',
-            delCallback: function (delResult) {
-                if (delResult.statusCode == "200")
-                    loadDataGrid();
-                else {
-                    $(this).alertmsg('warn', delResult.message);
-                }
-            }
+            height: '700'
         });
     }
 
@@ -140,30 +127,9 @@
         });
     }
 
-    //获取勾选的值
-    //column:为从0开始的列标识
-    function getSelected(column) {
-        var selected = $(gridid).data('selectedTrs');
-        if (selected == null || selected.length == 0) {
-            $(this).alertmsg('warn', '至少选择一个对象', {
-                displayMode: 'slide',
-                title: '重要提示'
-            });
-            return null;
-        }
-
-        //todo：下面这段只能chrome有效
-        var records = new Array();
-        selected.each(function () {
-            records[records.length] = this.children[column].innerText;
-        });
-
-        return records[0];
-    }
-
     //删除
     function del() {
-        var selected = getSelected(2);
+        var selected = getSelected(gridid,2);
         if (selected == null) return;
         
         $.get('ModuleManager/Delete?Id=' + selected, function (data) {
@@ -177,7 +143,7 @@
 
     //自定义的编辑按钮
     function editModule() {
-        var selected = getSelected(2);
+        var selected = getSelected(gridid,2);
         if (selected == null) return;
 
         $(this).dialog({
@@ -193,13 +159,13 @@
 
     //为模块分配按钮
     function assignButton() {
-        var selected = getSelected(2);
+        var selected = getSelected(gridid,2);
         if (selected == null) return;
 
         $(this).dialog({
             id: 'editDialog',
-            width: 820,
-            height: 500,
+            width: 1000,
+            height: 700,
             mask:true,
             url: '/ModuleElementManager/Index?id=' + selected,
             title: '为模块分配按钮'

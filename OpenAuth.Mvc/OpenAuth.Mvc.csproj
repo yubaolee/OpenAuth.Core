@@ -623,6 +623,7 @@
     <Content Include="Views\ModuleManager\Add.cshtml" />
     <Content Include="Views\ModuleManager\LookupMultiForUser.cshtml" />
     <Content Include="Views\ModuleManager\LookupMultiForRole.cshtml" />
+    <None Include="Views\Home\MenuHeader.cshtml" />
     <None Include="Views\ModuleElementManager\Index.cshtml" />
     <None Include="Views\OrgManager\AddOrg.cshtml" />
     <Content Include="Views\OrgManager\LookupParent.cshtml" />

@@ -1,0 +1,51 @@
+﻿@using System.Text
+<div class="bjui-pageHeader">
+    <div class="bjui-searchBar">
+        <div class="bjui-searchBar">
+            @*<label>名称：</label><input type="text" value="" name="code" size="10">&nbsp;
+                <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
+                <a class="btn btn-orange" href="javascript:;" data-toggle="reloadsearch" data-clear-query="true" data-icon="undo">
+                    清空查询
+                </a></li>*@
+            <div class="pull-right">
+                @{
+                    var sb = new StringBuilder();
+                    foreach (var element in ViewBag.Module.Elements)
+                    {
+                        sb.Append("<" + element.Type
+                                  + " data-icon='" + element.Icon + "' "
+                                  + " class='" + element.Class + "' "
+                                  + " onclick='" + element.Script + "' " + element.Attr
+                                  + ">" + element.Name + "</" + element.Type + ">");
+                    }
+                    @Html.Raw(sb.ToString())
+                }
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //获取勾选的值
+    //column:为从0开始的列标识
+    function getSelected(gridid, column) {
+        var selected = $(gridid).data('selectedTrs');
+        if (selected == null || selected.length == 0) {
+            $(this).alertmsg('warn', '至少选择一个对象', {
+                displayMode: 'slide',
+                title: '重要提示'
+            });
+            return null;
+        }
+
+        //todo：下面这段只能chrome有效
+        var records = new Array();
+        selected.each(function () {
+            records[records.length] = this.children[column].innerText;
+        });
+
+        return records[0];
+    }
+</script>

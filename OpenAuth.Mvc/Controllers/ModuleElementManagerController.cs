@@ -13,10 +13,12 @@
 // ***********************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
+using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
 
@@ -68,5 +70,19 @@ namespace OpenAuth.Mvc.Controllers
             }
             return JsonHelper.Instance.Serialize(_bjuiResponse);
         }
+
+        #region 为角色分配菜单
+
+        public ActionResult AssignForRole(int roleId)
+        {
+            ViewBag.RoleId = roleId;
+            return View();
+        }
+
+        public string Load(int roleId, int orgId)
+        {
+            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("RoleElement", roleId, orgId));
+        }
+        #endregion
     }
 }

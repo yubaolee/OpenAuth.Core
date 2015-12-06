@@ -39,7 +39,7 @@ namespace OpenAuth.App
         /// </summary>
         public dynamic Load(int orgId, int pageindex, int pagesize)
         {
-            if (pageindex < 1) pageindex = 1;  //如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
+            if (pageindex < 1) pageindex = 1;  //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
             IEnumerable<User> users;
             int total = 0;
             if (orgId == 0)

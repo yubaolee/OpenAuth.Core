@@ -170,5 +170,19 @@
         });
     }
 
+    //为角色分配菜单
+    function openAssignElement(obj) {
+        var selected = getSelected(gridid, 2);
+        if (selected == null) return;
+
+        $(obj).dialog({
+            id: 'assignElement',
+            url: '/ModuleElementManager/AssignForRole?roleId=' + selected,
+            title: '为角色分配菜单',
+            width: 700,
+            height:380
+        });
+    }
+
     //@@ sourceURL=RoleManagerIndex.js
 </script>

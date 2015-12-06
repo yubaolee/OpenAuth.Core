@@ -115,7 +115,7 @@ namespace OpenAuth.App
                 _relevanceRepository.Find(u => u.FirstId == userId && u.Key == "UserModule")
                     .Select(u => u.SecondId)
                     .ToList();
-            if (!moduleIds.Any()) return null;
+            if (!moduleIds.Any()) return new List<Module>();
             return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
         }
 
@@ -140,7 +140,7 @@ namespace OpenAuth.App
                 _relevanceRepository.Find(u => u.FirstId == roleId && u.Key == "RoleModule")
                     .Select(u => u.SecondId)
                     .ToList();
-            if (!moduleIds.Any()) return null;
+            if (!moduleIds.Any()) return new List<Module>();
             return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
         }
 

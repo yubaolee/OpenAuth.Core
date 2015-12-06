@@ -4,6 +4,8 @@
 
 当然，如果你想学习完整的DDD框架，可以参考我的另一个项目（[BestQ&A--开源中国推荐项目/集`CQRS` `AES`等DDD高级特性于一体的问答系统](http://git.oschina.net/yubaolee/BestQA)）
 
+项目详细描述：http://www.cnblogs.com/yubaolee/p/OpenAuth.html 
+
 `秀外`
 
 基于B-JUI酷炫（[炫不炫，你说了算](http://demo2.hzqianqi.com/)）的动态效果：

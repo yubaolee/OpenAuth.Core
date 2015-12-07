@@ -120,14 +120,14 @@
             },
             callback: {onClick: zTreeOnClick}
         };
-        $.getJSON('ModuleManager/LoadForTree', function (json) {
+        $.getJSON('ModuleManager/LoadModuleWithRoot', function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });
     }
 
     //删除
-    function del() {
+    function delModule() {
         var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
         
@@ -150,7 +150,7 @@
             url: '/ModuleManager/Add?id=' + selected,
             title: '编辑',
             onClose:function() {
-                refreshGrid();
+                refreshModuleGrid();
             }
         });
 
@@ -172,7 +172,7 @@
 
     }
 
-    function refreshGrid() {
+    function refreshModuleGrid() {
         $('#@_gridId').datagrid('refresh');
        // loadDataGrid();
     }

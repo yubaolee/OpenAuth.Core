@@ -148,7 +148,13 @@
             if (treeNode.target && treeNode.target == 'dialog')
                 $(event.target).dialog({ id: treeNode.tabid, url: treeNode.url, title: treeNode.name });
             else
-                $(event.target).navtab({ id: treeNode.tabid, url: treeNode.url, title: treeNode.name, fresh: treeNode.fresh, external: treeNode.external });
+                $(event.target).navtab({
+                    id: treeNode.tabid,
+                    url: treeNode.url,
+                    title: treeNode.name,
+                    fresh: treeNode.fresh,
+                    external: treeNode.external
+                });
         }
     </script>
 </head>
@@ -234,7 +240,9 @@
                         </li>
                     </ul>
                 </div>
-                <button type="button" class="btn-default bjui-hnav-more-right" title="导航菜单右移"><i class="fa fa-angle-double-right"></i></button>
+                <button type="button" class="btn-default bjui-hnav-more-right" title="导航菜单右移">
+                    <i class="fa fa-angle-double-right"></i>
+                </button>
             </div>
         </header>
         <div id="bjui-container">
@@ -249,10 +257,16 @@
                 </div>
             </div>
             <div id="bjui-navtab" class="tabsPage">
-                <div class="tabsPageHeader">
+                <div class="tabsPageHeader"><!--标签头-->
                     <div class="tabsPageHeaderContent">
                         <ul class="navtab-tab nav nav-tabs">
-                            <li data-url="Home/Main"><a href="javascript:;"><span><i class="fa fa-home"></i> #maintab#</span></a></li>
+                            <li data-url="Home/Main">
+                                <a href="javascript:;">
+                                    <span>
+                                        <i class="fa fa-home"></i> #maintab#
+                                    </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="tabsLeft"><i class="fa fa-angle-double-left"></i></div>
@@ -262,7 +276,7 @@
                 <ul class="tabsMoreList">
                     <li><a href="javascript:;">#maintab#</a></li>
                 </ul>
-                <div class="navtab-panel tabsPageContent">
+                <div class="navtab-panel tabsPageContent"> <!--标签内容-->
                     <div class="navtabPage unitBox">
                         <div class="bjui-pageContent" style="background:#FFF;">
                             Loading...

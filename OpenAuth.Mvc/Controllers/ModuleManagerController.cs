@@ -54,6 +54,20 @@ namespace OpenAuth.Mvc.Controllers
         {
             var orgs = SessionHelper.GetSessionUser<LoginUserVM>().Modules;
             //添加根节点
+            //orgs.Add(new Module
+            //{
+            //    Id = 0,
+            //    ParentId = -1,
+            //    Name = "根节点",
+            //    CascadeId = "0"
+            //});
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        public string LoadModuleWithRoot()
+        {
+            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().Modules.MapToList<ModuleView>();
+            //添加根节点
             orgs.Add(new Module
             {
                 Id = 0,
@@ -72,7 +86,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 Id = 0,
                 ParentId = -1,
-                Name = "用户可访问模块（包括角色所拥有的）",
+                Name = "用户及角色拥有的模块",
                 CascadeId = "0"
             });
             return JsonHelper.Instance.Serialize(orgs);

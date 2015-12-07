@@ -120,13 +120,13 @@
     }
 
     //删除
-    function del() {
+    function delRole() {
         var selected = getSelected('#@_gridId', 2);
         if (selected == null) return;
 
         $.getJSON('RoleManager/Delete?Id=' + selected, function (data) {
             if (data.statusCode == "200")
-                refreshGrid();
+                refreshRoleGrid();
             else {
                 $(this).alertmsg('warn', data.message);
             }
@@ -143,18 +143,18 @@
             url: '/RoleManager/Add?id=' + selected,
             title: '编辑',
             onClose:function() {
-                refreshGrid();
+                refreshRoleGrid();
             }
         });
     }
 
-    function refreshGrid() {
+    function refreshRoleGrid() {
         $('#@_gridId').datagrid('refresh');
        // loadDataGrid();
     }
 
-    //角色模块授权按钮
-    function openModuleAccess(obj) {
+    //为角色分配模块
+    function assignRoleModule(obj) {
 
         var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
@@ -170,7 +170,7 @@
     }
 
     //为角色分配菜单
-    function openAssignElement(obj) {
+    function assignRoleElement(obj) {
         var selected = getSelected('#@_gridId', 2);
         if (selected == null) return;
 

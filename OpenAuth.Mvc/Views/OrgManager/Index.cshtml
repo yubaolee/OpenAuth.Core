@@ -125,18 +125,18 @@
         });
     }
 
-    function refreshGrid() {
+    function refreshOrgGrid() {
         $('#@_gridId').datagrid('refresh');
     }
 
     //删除
-    function del() {
+    function delOrg() {
         var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
 
         $.getJSON('OrgManager/DelOrg?Id=' + selected, function (data) {
             if (data.statusCode == "200")
-                refreshGrid();
+                refreshOrgGrid();
             else {
                 $(this).alertmsg('warn', data.message);
             }

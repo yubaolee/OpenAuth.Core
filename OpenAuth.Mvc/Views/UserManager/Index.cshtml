@@ -124,7 +124,7 @@
 
 
     //删除
-    function del() {
+    function delUser() {
         var selected = getSelected('#@_gridId', 2);
         if (selected == null) return;
 
@@ -138,7 +138,7 @@
     }
 
     //自定义的编辑按钮
-    function editOrg() {
+    function editUser() {
         var selected = getSelected('#@_gridId', 2);
         if (selected == null) return;
 
@@ -147,18 +147,18 @@
             url: '/UserManager/Add?id=' + selected,
             title: '编辑',
             onClose: function () {
-                refreshGrid();
+                refreshUserGrid();
             }
         });
 
     }
 
-    function refreshGrid() {
+    function refreshUserGrid() {
         $('#@_gridId').datagrid('refresh');
     }
 
     //用户模块授权按钮
-    function openModuleAccess(obj) {
+    function openUserModuleAccess(obj) {
 
         var selected = getSelected('#@_gridId', 2);
         if (selected == null) return;
@@ -174,7 +174,7 @@
     }
 
     //用户角色授权
-    function openRoleAccess(obj) {
+    function openUserRoleAccess(obj) {
         var selected = getSelected('#@_gridId', 2);
         if (selected == null) return;
 
@@ -188,8 +188,8 @@
         });
     }
 
-    //为角色分配菜单
-    function openAssignElement(obj) {
+    //分配菜单
+    function openAssignUserElement(obj) {
         var selected = getSelected('#@_gridId', 2);
         if (selected == null) return;
 

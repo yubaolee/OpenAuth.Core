@@ -19,7 +19,6 @@
 
 
 <script type="text/javascript">
-    var gridid = '#@_gridId';
     var selectedId = 0;
     $(document).ready(function () {
         initZtree();
@@ -31,7 +30,7 @@
         $('#@_treeDetail').empty()
             .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
 
-        $(gridid).datagrid({
+        $('#@_gridId').datagrid({
             showToolbar:false,
             filterThead: false,
             columns: [
@@ -122,7 +121,7 @@
 
     //删除
     function del() {
-        var selected = getSelected(gridid, 2);
+        var selected = getSelected('#@_gridId', 2);
         if (selected == null) return;
 
         $.getJSON('RoleManager/Delete?Id=' + selected, function (data) {
@@ -136,7 +135,7 @@
 
     //自定义的编辑按钮
     function editRole() {
-        var selected = getSelected(gridid,2);
+        var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
 
         $(this).dialog({
@@ -157,7 +156,7 @@
     //角色模块授权按钮
     function openModuleAccess(obj) {
 
-        var selected = getSelected(gridid,2);
+        var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -172,7 +171,7 @@
 
     //为角色分配菜单
     function openAssignElement(obj) {
-        var selected = getSelected(gridid, 2);
+        var selected = getSelected('#@_gridId', 2);
         if (selected == null) return;
 
         $(obj).dialog({

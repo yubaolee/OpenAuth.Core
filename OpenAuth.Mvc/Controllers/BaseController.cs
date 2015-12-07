@@ -32,14 +32,11 @@ namespace OpenAuth.Mvc.Controllers
                 filterContext.Result = new RedirectResult("/Login/Index");
                 return;
             }
+            var controllername = Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
 
-            string url = Request.Url.LocalPath;
-            if (url != "/"
-                && !url.Contains("Main")
-                && !url.Contains("Error")
-                && !url.Contains("Git"))
+            if (controllername != "home")  //主页控制器无需权限控制
             {
-                var module = loginUser.Modules.FirstOrDefault(u => url.Contains(u.Url));
+                var module = loginUser.Modules.FirstOrDefault(u => u.Url.ToLower().Contains(controllername));
                 if (module == null)
                 {
                     filterContext.Result = new RedirectResult("/Login/Index");
@@ -47,9 +44,10 @@ namespace OpenAuth.Mvc.Controllers
                 }
                 else
                 {
-                    ViewBag.Module = module;
+                    ViewBag.Module = module;  //为View显示服务，主要是为了显示按钮
                 }
             }
+
             base.OnActionExecuting(filterContext);
         }
     }

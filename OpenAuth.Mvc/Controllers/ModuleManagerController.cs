@@ -4,6 +4,8 @@ using OpenAuth.Domain;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using Infrastructure.Helper;
+using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -50,7 +52,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string LoadForTree()
         {
-            var orgs = _app.LoadForTree();
+            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().Modules;
             //添加根节点
             orgs.Add(new Module
             {
@@ -70,7 +72,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 Id = 0,
                 ParentId = -1,
-                Name = "已为用户分配的模块",
+                Name = "用户可访问模块（包括角色所拥有的）",
                 CascadeId = "0"
             });
             return JsonHelper.Instance.Serialize(orgs);

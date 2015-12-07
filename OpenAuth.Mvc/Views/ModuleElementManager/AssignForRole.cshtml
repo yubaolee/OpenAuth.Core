@@ -9,10 +9,10 @@
         <input style="display: none" id="roleId" value="@ViewBag.RoleId" />
         <div class="pull-right">
             <div class="alert alert-info search-inline">
-                <i class="fa fa-info-circle"></i> 可多选统一授权
+                <i class="fa fa-info-circle"></i> 点击行为单选，点击复选框可多选统一授权
             </div>&nbsp;
-            <button type="button" class="btn-green" data-num="1" data-icon="plus" data-toggle="assign">
-                授权选中
+            <button type="button" class="btn-green" data-num="1" data-icon="plus" onclick="assign()">
+                授权选中项目
             </button>&nbsp;
         </div>
     </div>
@@ -70,7 +70,7 @@
                    width: 80
                }
             ],
-            dataUrl: 'ModuleElementManager/Load?orgId=' + selectedId +'&roleId='+$('#roleId').val(),
+            dataUrl: 'ModuleElementManager/LoadForRole?orgId=' + selectedId +'&roleId='+$('#roleId').val(),
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
@@ -102,7 +102,9 @@
             },
             callback: { onClick: zTreeOnClick }
         };
-        $.getJSON('ModuleManager/LoadForTree', function (json) {
+        $.getJSON('ModuleManager/LoadForRole',
+            { roleId: $('#roleId').val() },
+            function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });
@@ -110,18 +112,17 @@
 
     //授权选中的
     function assign() {
-        var selected = getSelected(gridid, 2);
+        var selected = getSelectedMany(gridid, 2);
         if (selected == null) return;
-
-        $(this).dialog({
-            id: 'assign',
-            url: '/ModuleManager/Add?id=' + selected,
-            title: '编辑',
-            onClose: function () {
-                refreshGrid();
-            }
-        });
-
+      
+        $.post("ModuleElementManager/AssignForRole",
+        {
+            roleId:$('#roleId').val(),
+            menuIds: selected
+        },
+       function (data) {
+           refreshGrid();
+       });
     }
 
     function refreshGrid() {

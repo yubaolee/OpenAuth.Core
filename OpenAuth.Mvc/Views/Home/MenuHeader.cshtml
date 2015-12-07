@@ -28,9 +28,7 @@
 </div>
 
 <script type="text/javascript">
-    //获取勾选的值
-    //column:为从0开始的列标识
-    function getSelected(gridid, column) {
+    function getDatagridRow(gridid) {
         var selected = $(gridid).data('selectedTrs');
         if (selected == null || selected.length == 0) {
             $(this).alertmsg('warn', '至少选择一个对象', {
@@ -39,6 +37,14 @@
             });
             return null;
         }
+        return selected;
+    }
+    //获取勾选的值
+    //column:为从0开始的列标识
+    function getSelected(gridid, column) {
+
+        var selected = getDatagridRow(gridid);
+        if (selected == null) return null;
 
         //todo：下面这段只能chrome有效
         var records = new Array();
@@ -47,5 +53,18 @@
         });
 
         return records[0];
+    }
+    //返回选择的多条记录，用逗号隔开
+    function getSelectedMany(gridid, column) {
+        var selected = getDatagridRow(gridid);
+        if (selected == null) return null;
+
+        //todo：下面这段只能chrome有效
+        var results = '';
+        selected.each(function () {
+            results += ',' + this.children[column].innerText;
+        });
+        results = results.substr(1); //去掉第一个逗号
+        return results;
     }
 </script>

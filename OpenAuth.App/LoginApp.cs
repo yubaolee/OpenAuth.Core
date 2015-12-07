@@ -50,8 +50,20 @@ namespace OpenAuth.App
                     u =>
                         (u.FirstId == user.Id && u.Key == "UserModule") ||
                         (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u =>u.SecondId).ToList();
+            //用户角色与自己分配到的菜单ID
+            var elementIds =
+               _relevanceRepository.Find(
+                   u =>
+                       (u.FirstId == user.Id && u.Key == "UserElement") ||
+                       (u.Key == "RoleElement" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
             //得出最终用户拥有的模块
             loginVM.Modules = _moduleRepository.Find(u => moduleIds.Contains(u.Id)).MapToList<ModuleView>();
+
+            //模块菜单权限
+            foreach (var module in loginVM.Modules)
+            {
+                module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id && elementIds.Contains( u.Id)).ToList();
+            }
             
            return loginVM;
         }

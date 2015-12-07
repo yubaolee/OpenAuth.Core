@@ -19,7 +19,6 @@
 
 
 <script type="text/javascript">
-    var gridid = '#@_gridId';
     var selectedId = 0;
     $(document).ready(function () {
         initZtree();
@@ -31,7 +30,7 @@
         $('#@_treeDetail').empty()
             .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
 
-        $(gridid).datagrid({
+        $('#@_gridId').datagrid({
             showToolbar: false,
             filterThead: false,
             columns: [
@@ -129,7 +128,7 @@
 
     //删除
     function del() {
-        var selected = getSelected(gridid,2);
+        var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
         
         $.get('ModuleManager/Delete?Id=' + selected, function (data) {
@@ -143,7 +142,7 @@
 
     //自定义的编辑按钮
     function editModule() {
-        var selected = getSelected(gridid,2);
+        var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
 
         $(this).dialog({
@@ -159,13 +158,13 @@
 
     //为模块分配按钮
     function assignButton() {
-        var selected = getSelected(gridid,2);
+        var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
 
         $(this).dialog({
             id: 'editDialog',
             width: 1000,
-            height: 700,
+            height: 500,
             mask:true,
             url: '/ModuleElementManager/Index?id=' + selected,
             title: '为模块分配按钮'

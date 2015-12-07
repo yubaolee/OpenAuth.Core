@@ -107,14 +107,26 @@ namespace OpenAuth.App
 
         /// <summary>
         /// 加载特定用户的模块
+        /// TODO:这里会加载用户及用户角色的所有模块，“为用户分配模块”功能会给人一种混乱的感觉，但可以接受
         /// </summary>
         /// <param name="userId">The user unique identifier.</param>
         public List<Module> LoadForUser(int userId)
         {
+            //用户角色
+            var userRoleIds =
+                _relevanceRepository.Find(u => u.FirstId == userId && u.Key == "UserRole").Select(u => u.SecondId).ToList();
+
+            //用户角色与自己分配到的模块ID
             var moduleIds =
-                _relevanceRepository.Find(u => u.FirstId == userId && u.Key == "UserModule")
-                    .Select(u => u.SecondId)
-                    .ToList();
+                _relevanceRepository.Find(
+                    u =>
+                        (u.FirstId == userId && u.Key == "UserModule") ||
+                        (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+
+            //var moduleIds =
+            //    _relevanceRepository.Find(u => u.FirstId == userId && u.Key == "UserModule")
+            //        .Select(u => u.SecondId)
+            //        .ToList();
             if (!moduleIds.Any()) return new List<Module>();
             return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
         }

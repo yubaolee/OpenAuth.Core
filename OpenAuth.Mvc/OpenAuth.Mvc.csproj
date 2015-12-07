@@ -624,6 +624,7 @@
     <Content Include="Views\ModuleManager\LookupMultiForUser.cshtml" />
     <Content Include="Views\ModuleManager\LookupMultiForRole.cshtml" />
     <None Include="Views\Home\MenuHeader.cshtml" />
+    <Content Include="Views\ModuleElementManager\AssignForUser.cshtml" />
     <None Include="Views\ModuleElementManager\Index.cshtml" />
     <Content Include="Views\ModuleElementManager\AssignForRole.cshtml" />
     <None Include="Views\OrgManager\AddOrg.cshtml" />

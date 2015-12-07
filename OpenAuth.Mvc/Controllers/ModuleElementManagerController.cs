@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Linq;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
@@ -78,10 +79,54 @@ namespace OpenAuth.Mvc.Controllers
             ViewBag.RoleId = roleId;
             return View();
         }
+        [HttpPost]
+        public string AssignForRole(int roleId, string menuIds)
+        {
+            try
+            {
+                var ids = menuIds.Split(',').Select(id => int.Parse(id)).ToArray();
+                _app.AssignForRole(roleId, ids);
+            }
+            catch (Exception e)
+            {
+                _bjuiResponse.statusCode = "300";
+                _bjuiResponse.message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(_bjuiResponse);
+        }
 
-        public string Load(int roleId, int orgId)
+        public string LoadForRole(int roleId, int orgId)
         {
             return JsonHelper.Instance.Serialize(_app.LoadWithAccess("RoleElement", roleId, orgId));
+        }
+        #endregion
+
+        #region 为用户分配菜单
+
+        public ActionResult AssignForUser(int userId)
+        {
+            ViewBag.UserId = userId;
+            return View();
+        }
+        [HttpPost]
+        public string AssignForUser(int userId, string menuIds)
+        {
+            try
+            {
+                var ids = menuIds.Split(',').Select(id => int.Parse(id)).ToArray();
+                _app.AssignForUser(userId, ids);
+            }
+            catch (Exception e)
+            {
+                _bjuiResponse.statusCode = "300";
+                _bjuiResponse.message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(_bjuiResponse);
+        }
+
+        public string LoadForUser(int userId, int orgId)
+        {
+            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("UserElement", userId, orgId));
         }
         #endregion
     }

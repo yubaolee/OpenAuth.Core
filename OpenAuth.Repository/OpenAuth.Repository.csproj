@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
-    <Compile Include="Models\Mapping\ModuleElementGrantMap.cs" />
     <Compile Include="Models\Mapping\ModuleElementMap.cs" />
     <Compile Include="Models\Mapping\ModuleMap.cs" />
     <Compile Include="Models\Mapping\OrgMap.cs" />

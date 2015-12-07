@@ -4,12 +4,16 @@
     var _gridId = _prefix + "Grid";
     var _treeDetail = _prefix + "Detail";
 }
-<div class="bjui-pageContent">
+
+@{ Html.RenderAction("MenuHeader", "Home");}
+
+<div class="bjui-pageContent tableContent">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
             <ul id="@_treeId" class="ztree"></ul>
         </div>
 
+      
         <div id="@_treeDetail" style="margin-left: 225px;">
         </div>
     </div>
@@ -27,27 +31,11 @@
     function loadDataGrid() {
         //b-jui的datagrid需要重新处理HTML
         $('#@_treeDetail').empty()
-            .append('<table id="@_gridId" class="table table-bordered"></table>');
-
-        @{
-             string strBtns = string.Empty;
-              foreach (var element in ViewBag.Module.Elements)
-                {
-                    strBtns +="<button type=\"button\" class =\"btn btn-green\">"+element.Name +"</button>";
-
-                }
-        }
+            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
 
         grid = $(gridid).datagrid({
-            gridTitle: '用户列表',
-            showToolbar: true,
+            showToolbar: false,
             filterThead: false,
-            toolbarItem: 'refresh, |, del',
-            toolbarCustom: '<a href="/UserManager/Add" class="btn btn-green" data-icon ="plus"  ' +
-                'data-toggle="dialog" data-id="dialog-mask" data-mask="true" data-on-close="refreshGrid">添加</a>' +
-                '<button class=" btn-green" onclick="editOrg()" data-icon="pencil" type="button">编辑</button>' +
-                '<button type="button" class="btn btn-green" onclick="openModuleAccess(this)">为用户分配模块</button>' +
-                '<button type="button" class ="btn btn-green" onclick="openRoleAccess(this)">为用户分配角色</button>' + '@strBtns',
             columns: [
                 {
                     name: 'Id',
@@ -95,24 +83,14 @@
                     pattern: 'yyyy-MM-dd HH:mm:ss'
                 }
             ],
-            //  data: data,
             dataUrl: 'UserManager/Load?orgId=' + selectedId,
-            delUrl: 'UserManager/Delete',
-            delPK: "Id",
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
             paging: true,
             filterMult: false,
             showTfoot: true,
-            height: '700',
-            delCallback: function (delResult) {
-                if (delResult.statusCode == "200")
-                    loadDataGrid();
-                else {
-                    $(this).alertmsg('warn', delResult.message);
-                }
-            }
+            height: '700'
         });
     }
 
@@ -144,30 +122,25 @@
         });
     }
 
-    //获取勾选的值
-    //column:为从0开始的列标识
-    function getSelected(column) {
-        var selected = $(gridid).data('selectedTrs');
-        if (selected == null || selected.length == 0) {
-            $(this).alertmsg('warn', '至少选择一个对象', {
-                displayMode: 'slide',
-                title: '重要提示'
-            });
-            return null;
-        }
+   
 
-        //todo：下面这段只能chrome有效
-        var records = new Array();
-        selected.each(function () {
-            records[records.length] = this.children[column].innerText;
+    //删除
+    function del() {
+        var selected = getSelected(gridid,2);
+        if (selected == null) return;
+        
+        $.getJSON('UserManager/Delete?Id=' + selected, function (data) {
+            if (data.statusCode == "200")
+                refreshGrid();
+            else {
+                $(this).alertmsg('warn', data.message);
+            }
         });
-
-        return records[0];
     }
 
     //自定义的编辑按钮
     function editOrg() {
-        var selected = getSelected(2);
+        var selected = getSelected(gridid,2);
         if (selected == null) return;
 
         $(this).dialog({
@@ -183,13 +156,12 @@
 
     function refreshGrid() {
         $('#@_gridId').datagrid('refresh');
-        // loadDataGrid();
     }
 
     //用户模块授权按钮
     function openModuleAccess(obj) {
 
-        var selected = getSelected(2);
+        var selected = getSelected(gridid,2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -204,7 +176,7 @@
 
     //用户角色授权
     function openRoleAccess(obj) {
-        var selected = getSelected(2);
+        var selected = getSelected(gridid,2);
         if (selected == null) return;
 
         $(obj).dialog({

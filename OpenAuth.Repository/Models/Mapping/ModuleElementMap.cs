@@ -20,9 +20,25 @@ namespace OpenAuth.Repository.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(255);
 
+            this.Property(t => t.Attr)
+                .IsRequired()
+                .HasMaxLength(500);
+
+            this.Property(t => t.Script)
+                .IsRequired()
+                .HasMaxLength(500);
+
+            this.Property(t => t.Icon)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            this.Property(t => t.Class)
+                .IsRequired()
+                .HasMaxLength(255);
+
             this.Property(t => t.Remark)
                 .IsRequired()
-                .HasMaxLength(4000);
+                .HasMaxLength(200);
 
             // Table & Column Mappings
             this.ToTable("ModuleElement");
@@ -31,7 +47,12 @@ namespace OpenAuth.Repository.Models.Mapping
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Type).HasColumnName("Type");
             this.Property(t => t.ModuleId).HasColumnName("ModuleId");
+            this.Property(t => t.Attr).HasColumnName("Attr");
+            this.Property(t => t.Script).HasColumnName("Script");
+            this.Property(t => t.Icon).HasColumnName("Icon");
+            this.Property(t => t.Class).HasColumnName("Class");
             this.Property(t => t.Remark).HasColumnName("Remark");
+            this.Property(t => t.Sort).HasColumnName("Sort");
         }
     }
 }

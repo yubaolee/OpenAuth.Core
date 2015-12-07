@@ -4,7 +4,7 @@
 
 当然，如果你想学习完整的DDD框架，可以参考我的另一个项目（[BestQ&A--开源中国推荐项目/集`CQRS` `AES`等DDD高级特性于一体的问答系统](http://git.oschina.net/yubaolee/BestQA)）
 
-详情请查看>> [领域驱动设计实战—基于DDDLite的权限管理](http://www.cnblogs.com/yubaolee/p/OpenAuth.html)
+项目详细描述：http://www.cnblogs.com/yubaolee/p/OpenAuth.html 
 
 `秀外`
 

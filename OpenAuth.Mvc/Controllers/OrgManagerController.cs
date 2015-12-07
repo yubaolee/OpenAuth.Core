@@ -10,7 +10,6 @@ namespace OpenAuth.Mvc.Controllers
     public class OrgManagerController : BaseController
     {
         private OrgManagerApp _orgApp;
-       
 
         public OrgManagerController()
         {
@@ -77,7 +76,7 @@ namespace OpenAuth.Mvc.Controllers
         public string LoadOrg()
         {
             var orgs = _orgApp.GetAll();
-           //添加根节点
+            //添加根节点
             orgs.Add(new Org
             {
                 Id = 0,
@@ -98,14 +97,11 @@ namespace OpenAuth.Mvc.Controllers
         /// <para>Id为逗号分开的字符串</para>
         /// </summary>
         /// <returns>System.String.</returns>
-        public string DelOrg(string Id)
+        public string DelOrg(int Id)
         {
             try
             {
-                foreach (var obj in Id.Split(','))
-                {
-                    _orgApp.DelOrg(int.Parse(obj));
-                }
+                _orgApp.DelOrg(Id);
             }
             catch (Exception e)
             {

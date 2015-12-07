@@ -53,14 +53,15 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
         }
 
-        public string Delete(string Id)
+        public string Delete(int Id)
         {
             try
             {
-                foreach (var obj in Id.Split(','))
-                {
-                    _app.Delete(int.Parse(obj));
-                }
+                _app.Delete(Id);
+                //foreach (var obj in Id.Split(','))
+                //{
+                //    _app.Delete(int.Parse(obj));
+                //}
             }
             catch (Exception e)
             {

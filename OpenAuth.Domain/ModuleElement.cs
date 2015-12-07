@@ -29,10 +29,10 @@ namespace OpenAuth.Domain
 		public string Name { get; set; }
 
 		/// <summary>
-		/// 组织类型
+		/// 元素的类型(如：button/a）
 		/// </summary>
 		/// <returns></returns>
-		public int Type { get; set; }
+		public string Type { get; set; }
 
 		/// <summary>
 		/// 功能模块Id
@@ -41,10 +41,36 @@ namespace OpenAuth.Domain
 		public int ModuleId { get; set; }
 
 		/// <summary>
+		/// 元素附加属性
+		/// </summary>
+		/// <returns></returns>
+		public string Attr { get; set; }
+
+		/// <summary>
+		/// 元素调用脚本
+		/// </summary>
+		/// <returns></returns>
+		public string Script { get; set; }
+
+		/// <summary>
+		/// 元素图标
+		/// </summary>
+		/// <returns></returns>
+		public string Icon { get; set; }
+
+		/// <summary>
+		/// 元素样式
+		/// </summary>
+		/// <returns></returns>
+		public string Class { get; set; }
+
+		/// <summary>
 		/// 备注
 		/// </summary>
 		/// <returns></returns>
 		public string Remark { get; set; }
+
+        public int Sort { get; set; }
 
 
 		public ModuleElement()
@@ -52,10 +78,15 @@ namespace OpenAuth.Domain
 		 	this.Id= 0;
 		  	this.DomId= string.Empty;
 		   	this.Name= string.Empty;
-		   	this.Type= 0;
+		    this.Type = string.Empty;
 		  	this.ModuleId= 0;
-		  	this.Remark= string.Empty;
-		   }
+		  	this.Attr= string.Empty;
+		   	this.Script= string.Empty;
+		   	this.Icon= string.Empty;
+		   	this.Class= string.Empty;
+		   	this.Remark= string.Empty;
+		    this.Sort = 0;
+		}
 		
 	
 

@@ -19,7 +19,6 @@ namespace OpenAuth.Repository.Models
 
         public DbSet<Module> Modules { get; set; }
         public DbSet<ModuleElement> ModuleElements { get; set; }
-        public DbSet<ModuleElementGrant> ModuleElementGrants { get; set; }
         public DbSet<Org> Orgs { get; set; }
         public DbSet<Relevance> Relevances { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -31,7 +30,6 @@ namespace OpenAuth.Repository.Models
         {
             modelBuilder.Configurations.Add(new ModuleMap());
             modelBuilder.Configurations.Add(new ModuleElementMap());
-            modelBuilder.Configurations.Add(new ModuleElementGrantMap());
             modelBuilder.Configurations.Add(new OrgMap());
             modelBuilder.Configurations.Add(new RelevanceMap());
             modelBuilder.Configurations.Add(new RoleMap());

@@ -10,7 +10,7 @@
 
 基于B-JUI酷炫（[炫不炫，你说了算](http://demo2.hzqianqi.com/)）的动态效果：
 
-![输入图片说明](http://git.oschina.net/uploads/images/2015/1113/231203_47024574_362401.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2015/1208/003425_cc164edc_362401.jpeg "在这里输入图片标题")
 
 `慧中`
 

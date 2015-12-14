@@ -6,9 +6,9 @@ using System.Linq;
 namespace OpenAuth.Domain
 {
 	/// <summary>
-	/// 角色
+	/// 资源表ID
 	/// </summary>
-	public partial class Role
+	public partial class Resource
 	{
 		/// <summary>
 		/// 资源表ID
@@ -17,10 +17,28 @@ namespace OpenAuth.Domain
 		public int Id { get; set; }
 
 		/// <summary>
+		/// 节点语义ID
+		/// </summary>
+		/// <returns></returns>
+		public string CascadeId { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public string Key { get; set; }
+
+		/// <summary>
 		/// 组织名称
 		/// </summary>
 		/// <returns></returns>
 		public string Name { get; set; }
+
+		/// <summary>
+		/// 父节点流水号
+		/// </summary>
+		/// <returns></returns>
+		public int ParentId { get; set; }
 
 		/// <summary>
 		/// 资源分类标识
@@ -29,53 +47,35 @@ namespace OpenAuth.Domain
 		public int Status { get; set; }
 
 		/// <summary>
-		/// 组织类型
+		/// 排序号
 		/// </summary>
 		/// <returns></returns>
-		public int Type { get; set; }
+		public int SortNo { get; set; }
 
 		/// <summary>
-		/// 创建时间
+		/// 资源分类标识
 		/// </summary>
 		/// <returns></returns>
-		public System.DateTime CreateTime { get; set; }
+		public int CategoryId { get; set; }
 
 		/// <summary>
-		/// 创建人ID
+		/// 描述
 		/// </summary>
 		/// <returns></returns>
-		public string CreateId { get; set; }
-
-		/// <summary>
-		/// 所属部门流水号
-		/// </summary>
-		/// <returns></returns>
-		public int OrgId { get; set; }
-
-		/// <summary>
-		/// 所属部门节点语义ID
-		/// </summary>
-		/// <returns></returns>
-		public string OrgCascadeId { get; set; }
-
-		/// <summary>
-		/// 所属部门名称
-		/// </summary>
-		/// <returns></returns>
-		public string OrgName { get; set; }
+		public string Description { get; set; }
 
 
-		public Role()
+		public Resource()
 		{
 		 	this.Id= 0;
-		  	this.Name= string.Empty;
-		   	this.Status= 0;
-		  	this.Type= 0;
-		  	this.CreateTime= DateTime.Now;
-		  	this.CreateId= string.Empty;
-		   	this.OrgId= 0;
-		  	this.OrgCascadeId= string.Empty;
-		   	this.OrgName= string.Empty;
+		  	this.CascadeId= string.Empty;
+		   	this.Key= string.Empty;
+		   	this.Name= string.Empty;
+		   	this.ParentId= 0;
+		  	this.Status= 0;
+		  	this.SortNo= 0;
+		  	this.CategoryId= 0;
+		  	this.Description= string.Empty;
 		   }
 		
 	

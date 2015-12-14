@@ -6,39 +6,33 @@ using System.Linq;
 namespace OpenAuth.Domain
 {
 	/// <summary>
-	/// 多对多映射
+	/// 分类列表
 	/// </summary>
-	public partial class Relevance
+	public partial class Category
 	{
 		/// <summary>
-		/// ID
+		/// 分类ID
 		/// </summary>
 		/// <returns></returns>
 		public int Id { get; set; }
 
 		/// <summary>
-		/// 第一个表主键ID
+		/// 节点语义ID
 		/// </summary>
 		/// <returns></returns>
-		public int FirstId { get; set; }
+		public string CascadeId { get; set; }
 
 		/// <summary>
-		/// 第二个表主键ID
+		/// 组织名称
 		/// </summary>
 		/// <returns></returns>
-		public int SecondId { get; set; }
+		public string Name { get; set; }
 
 		/// <summary>
-		/// 描述
+		/// 父节点流水号
 		/// </summary>
 		/// <returns></returns>
-		public string Description { get; set; }
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public string Key { get; set; }
+		public int ParentId { get; set; }
 
 		/// <summary>
 		/// 资源分类标识
@@ -47,29 +41,35 @@ namespace OpenAuth.Domain
 		public int Status { get; set; }
 
 		/// <summary>
-		/// 授权时间
+		/// 排序号
 		/// </summary>
 		/// <returns></returns>
-		public System.DateTime OperateTime { get; set; }
+		public int SortNo { get; set; }
 
 		/// <summary>
-		/// 授权人
+		/// 资源分类标识
 		/// </summary>
 		/// <returns></returns>
-		public int OperatorId { get; set; }
+		public string RootKey { get; set; }
+
+		/// <summary>
+		/// 资源分类
+		/// </summary>
+		/// <returns></returns>
+		public string RootName { get; set; }
 
 
-		public Relevance()
+		public Category()
 		{
 		 	this.Id= 0;
-		  	this.FirstId= 0;
-		  	this.SecondId= 0;
-		  	this.Description= string.Empty;
-		   	this.Key= string.Empty;
-		   	this.Status= 0;
-		  	this.OperateTime= DateTime.Now;
-		  	this.OperatorId= 0;
-		  }
+		  	this.CascadeId= string.Empty;
+		   	this.Name= string.Empty;
+		   	this.ParentId= 0;
+		  	this.Status= 0;
+		  	this.SortNo= 0;
+		  	this.RootKey= string.Empty;
+		   	this.RootName= string.Empty;
+		   }
 		
 	
 

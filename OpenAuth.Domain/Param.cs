@@ -6,9 +6,9 @@ using System.Linq;
 namespace OpenAuth.Domain
 {
 	/// <summary>
-	/// 多对多映射
+	/// 键值
 	/// </summary>
-	public partial class Relevance
+	public partial class Param
 	{
 		/// <summary>
 		/// ID
@@ -17,22 +17,10 @@ namespace OpenAuth.Domain
 		public int Id { get; set; }
 
 		/// <summary>
-		/// 第一个表主键ID
+		/// 名称
 		/// </summary>
 		/// <returns></returns>
-		public int FirstId { get; set; }
-
-		/// <summary>
-		/// 第二个表主键ID
-		/// </summary>
-		/// <returns></returns>
-		public int SecondId { get; set; }
-
-		/// <summary>
-		/// 描述
-		/// </summary>
-		/// <returns></returns>
-		public string Description { get; set; }
+		public string Value { get; set; }
 
 		/// <summary>
 		/// 
@@ -44,32 +32,37 @@ namespace OpenAuth.Domain
 		/// 资源分类标识
 		/// </summary>
 		/// <returns></returns>
+		public int CategoryId { get; set; }
+
+		/// <summary>
+		/// 排序号
+		/// </summary>
+		/// <returns></returns>
+		public int SortNo { get; set; }
+
+		/// <summary>
+		/// 资源分类标识
+		/// </summary>
+		/// <returns></returns>
 		public int Status { get; set; }
 
 		/// <summary>
-		/// 授权时间
+		/// 描述
 		/// </summary>
 		/// <returns></returns>
-		public System.DateTime OperateTime { get; set; }
-
-		/// <summary>
-		/// 授权人
-		/// </summary>
-		/// <returns></returns>
-		public int OperatorId { get; set; }
+		public string Description { get; set; }
 
 
-		public Relevance()
+		public Param()
 		{
 		 	this.Id= 0;
-		  	this.FirstId= 0;
-		  	this.SecondId= 0;
-		  	this.Description= string.Empty;
+		  	this.Value= string.Empty;
 		   	this.Key= string.Empty;
-		   	this.Status= 0;
-		  	this.OperateTime= DateTime.Now;
-		  	this.OperatorId= 0;
-		  }
+		   	this.CategoryId= 0;
+		  	this.SortNo= 0;
+		  	this.Status= 0;
+		  	this.Description= string.Empty;
+		   }
 		
 	
 

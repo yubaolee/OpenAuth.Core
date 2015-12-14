@@ -6,12 +6,12 @@ using System.Linq;
 namespace OpenAuth.Domain
 {
 	/// <summary>
-	/// 用户ID
+	/// 组织
 	/// </summary>
 	public partial class Org
 	{
 		/// <summary>
-		/// 用户ID
+		/// ID
 		/// </summary>
 		/// <returns></returns>
 		public int Id { get; set; }
@@ -65,7 +65,7 @@ namespace OpenAuth.Domain
 		public string IconName { get; set; }
 
 		/// <summary>
-		/// 状态
+		/// 资源分类标识
 		/// </summary>
 		/// <returns></returns>
 		public int Status { get; set; }

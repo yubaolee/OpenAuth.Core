@@ -20,6 +20,10 @@ namespace OpenAuth.Repository.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(255);
 
+            this.Property(t => t.Type)
+                .IsRequired()
+                .HasMaxLength(50);
+
             this.Property(t => t.Attr)
                 .IsRequired()
                 .HasMaxLength(500);

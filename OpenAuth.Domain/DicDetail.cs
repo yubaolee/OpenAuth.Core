@@ -6,9 +6,9 @@ using System.Linq;
 namespace OpenAuth.Domain
 {
 	/// <summary>
-	/// 多对多映射
+	/// 数据字典详情
 	/// </summary>
-	public partial class Relevance
+	public partial class DicDetail
 	{
 		/// <summary>
 		/// ID
@@ -17,28 +17,28 @@ namespace OpenAuth.Domain
 		public int Id { get; set; }
 
 		/// <summary>
-		/// 第一个表主键ID
+		/// 名称
 		/// </summary>
 		/// <returns></returns>
-		public int FirstId { get; set; }
-
-		/// <summary>
-		/// 第二个表主键ID
-		/// </summary>
-		/// <returns></returns>
-		public int SecondId { get; set; }
-
-		/// <summary>
-		/// 描述
-		/// </summary>
-		/// <returns></returns>
-		public string Description { get; set; }
+		public string Value { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public string Key { get; set; }
+		public string Text { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public int DicId { get; set; }
+
+		/// <summary>
+		/// 排序号
+		/// </summary>
+		/// <returns></returns>
+		public int SortNo { get; set; }
 
 		/// <summary>
 		/// 资源分类标识
@@ -47,29 +47,22 @@ namespace OpenAuth.Domain
 		public int Status { get; set; }
 
 		/// <summary>
-		/// 授权时间
+		/// 描述
 		/// </summary>
 		/// <returns></returns>
-		public System.DateTime OperateTime { get; set; }
-
-		/// <summary>
-		/// 授权人
-		/// </summary>
-		/// <returns></returns>
-		public int OperatorId { get; set; }
+		public string Description { get; set; }
 
 
-		public Relevance()
+		public DicDetail()
 		{
 		 	this.Id= 0;
-		  	this.FirstId= 0;
-		  	this.SecondId= 0;
+		  	this.Value= string.Empty;
+		   	this.Text= string.Empty;
+		   	this.DicId= 0;
+		  	this.SortNo= 0;
+		  	this.Status= 0;
 		  	this.Description= string.Empty;
-		   	this.Key= string.Empty;
-		   	this.Status= 0;
-		  	this.OperateTime= DateTime.Now;
-		  	this.OperatorId= 0;
-		  }
+		   }
 		
 	
 

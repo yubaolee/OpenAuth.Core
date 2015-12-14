@@ -6,56 +6,56 @@ using System.Linq;
 namespace OpenAuth.Domain
 {
 	/// <summary>
-	/// 用户配置
+	/// 数据字典
 	/// </summary>
-	public partial class UserCfg
+	public partial class DicIndex
 	{
 		/// <summary>
-		/// 资源表ID
+		/// ID
 		/// </summary>
 		/// <returns></returns>
 		public int Id { get; set; }
 
 		/// <summary>
-		/// 用户界面主题
+		/// 组织名称
 		/// </summary>
 		/// <returns></returns>
-		public string Theme { get; set; }
+		public string Name { get; set; }
 
 		/// <summary>
-		/// 用户界面皮肤
+		/// 
 		/// </summary>
 		/// <returns></returns>
-		public string Skin { get; set; }
+		public string Key { get; set; }
 
 		/// <summary>
-		/// 导航条按钮风格
+		/// 排序号
 		/// </summary>
 		/// <returns></returns>
-		public string NavBarStyle { get; set; }
+		public int SortNo { get; set; }
 
 		/// <summary>
-		/// Tab高亮颜色
+		/// 资源分类标识
 		/// </summary>
 		/// <returns></returns>
-		public string TabFocusColor { get; set; }
+		public int CategoryId { get; set; }
 
 		/// <summary>
-		/// 导航缺省活动页
+		/// 描述
 		/// </summary>
 		/// <returns></returns>
-		public int NavTabIndex { get; set; }
+		public string Description { get; set; }
 
 
-		public UserCfg()
+		public DicIndex()
 		{
 		 	this.Id= 0;
-		  	this.Theme= string.Empty;
-		   	this.Skin= string.Empty;
-		   	this.NavBarStyle= string.Empty;
-		   	this.TabFocusColor= string.Empty;
-		   	this.NavTabIndex= 0;
-		  }
+		  	this.Name= string.Empty;
+		   	this.Key= string.Empty;
+		   	this.SortNo= 0;
+		  	this.CategoryId= 0;
+		  	this.Description= string.Empty;
+		   }
 		
 	
 

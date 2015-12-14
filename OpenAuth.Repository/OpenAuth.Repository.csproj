@@ -54,10 +54,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="Models\Mapping\CategoryMap.cs" />
+    <Compile Include="Models\Mapping\DicDetailMap.cs" />
+    <Compile Include="Models\Mapping\DicIndexMap.cs" />
     <Compile Include="Models\Mapping\ModuleElementMap.cs" />
     <Compile Include="Models\Mapping\ModuleMap.cs" />
     <Compile Include="Models\Mapping\OrgMap.cs" />
+    <Compile Include="Models\Mapping\ParamMap.cs" />
     <Compile Include="Models\Mapping\RelevanceMap.cs" />
+    <Compile Include="Models\Mapping\ResourceMap.cs" />
     <Compile Include="Models\Mapping\RoleMap.cs" />
     <Compile Include="Models\Mapping\UserCfgMap.cs" />
     <Compile Include="Models\Mapping\UserExtMap.cs" />

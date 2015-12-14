@@ -6,12 +6,12 @@ using System.Linq;
 namespace OpenAuth.Domain
 {
 	/// <summary>
-	/// 用户ID
+	/// 用户扩展信息
 	/// </summary>
 	public partial class UserExt
 	{
 		/// <summary>
-		/// 用户ID
+		/// 资源表ID
 		/// </summary>
 		/// <returns></returns>
 		public int Id { get; set; }

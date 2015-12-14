@@ -6,12 +6,12 @@ using System.Linq;
 namespace OpenAuth.Domain
 {
 	/// <summary>
-	/// 用户ID
+	/// 模块元素
 	/// </summary>
 	public partial class ModuleElement
 	{
 		/// <summary>
-		/// 用户ID
+		/// ID
 		/// </summary>
 		/// <returns></returns>
 		public int Id { get; set; }
@@ -29,7 +29,7 @@ namespace OpenAuth.Domain
 		public string Name { get; set; }
 
 		/// <summary>
-		/// 元素的类型(如：button/a）
+		/// 组织类型
 		/// </summary>
 		/// <returns></returns>
 		public string Type { get; set; }
@@ -70,7 +70,11 @@ namespace OpenAuth.Domain
 		/// <returns></returns>
 		public string Remark { get; set; }
 
-        public int Sort { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public int Sort { get; set; }
 
 
 		public ModuleElement()
@@ -78,15 +82,15 @@ namespace OpenAuth.Domain
 		 	this.Id= 0;
 		  	this.DomId= string.Empty;
 		   	this.Name= string.Empty;
-		    this.Type = string.Empty;
-		  	this.ModuleId= 0;
+		   	this.Type= string.Empty;
+		   	this.ModuleId= 0;
 		  	this.Attr= string.Empty;
 		   	this.Script= string.Empty;
 		   	this.Icon= string.Empty;
 		   	this.Class= string.Empty;
 		   	this.Remark= string.Empty;
-		    this.Sort = 0;
-		}
+		   	this.Sort= 0;
+		  }
 		
 	
 

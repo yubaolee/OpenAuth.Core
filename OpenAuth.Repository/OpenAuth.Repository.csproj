@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ModuleRepository.cs" />
     <Compile Include="RoleRepository.cs" />
+    <Compile Include="CategoryRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="RelevanceRepository.cs" />
   </ItemGroup>

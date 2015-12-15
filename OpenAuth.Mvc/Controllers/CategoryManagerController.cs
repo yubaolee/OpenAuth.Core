@@ -1,41 +1,19 @@
-﻿<%-- 
-Name: Database Table Properties
-Author: Paul Welter
-Description: Create a list of properties from a database table
---%>
-<%@ CodeTemplate Language="C#" Encoding="utf-8" TargetLanguage="C#" Debug="False" Description="控制器" %>
-<%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
-<%@ Property Name="NeedViewModel" Type="Boolean" Category="Context" Default="False" Description="是否需要ViewModel" %>
-<%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
-<%@ Assembly Name="SchemaExplorer" %>
-<%@ Import Namespace="SchemaExplorer" %>
-<script runat="template">
-public String GetModelName()
-{
-    if(NeedViewModel)
-        return ModuleName +"View";
-    else
-        return ModuleName;
-}
-</script>
 
 using System;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
-<%if(NeedViewModel){ %>
-using OpenAuth.App.ViewModel;
-<%} %>
+using OpenAuth.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
- public class <%=ModuleName%>ManagerController : BaseController
+ public class CategoryManagerController : BaseController
     {
-        private <%=ModuleName%>ManagerApp _app;
+        private CategoryManagerApp _app;
 
-        public <%=ModuleName%>ManagerController()
+        public CategoryManagerController()
         {
-            _app = (<%=ModuleName%>ManagerApp)DependencyResolver.Current.GetService(typeof(<%=ModuleName%>ManagerApp));
+            _app = (CategoryManagerApp)DependencyResolver.Current.GetService(typeof(CategoryManagerApp));
         }
 
         //
@@ -50,9 +28,9 @@ namespace OpenAuth.Mvc.Controllers
             return View(_app.Find(id));
         }
 
-        //添加或修改<%=ModuleName %>
+        //添加或修改Category
         [HttpPost]
-        public string Add(<%=GetModelName()%> model)
+        public string Add(Category model)
         {
             try
             {

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryManagerApp.cs" />
     <Compile Include="LoginApp.cs" />
     <Compile Include="ModuleElementManagerApp.cs" />
     <Compile Include="ModuleManagerApp.cs" />

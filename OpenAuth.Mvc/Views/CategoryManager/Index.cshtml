@@ -1,17 +1,5 @@
-﻿<%-- 
-Name: Database Table Properties
-Author: Paul Welter
-Description: Create a list of properties from a database table
---%>
-<%@ CodeTemplate Language="C#" Encoding="utf-8" TargetLanguage="C#" Debug="True" Description="Create a list of properties from database table." %>
-<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the object is based on." %>
-<%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
-<%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
-<%@ Assembly Name="SchemaExplorer" %>
-<%@ Import Namespace="SchemaExplorer" %>
-
-@{
-    string _prefix = "<%=ModuleName%>";
+﻿@{
+    string _prefix = "Category";
     var _treeId = _prefix + "Tree";
     var _gridId = _prefix + "Grid";
     var _treeDetail = _prefix + "Detail";
@@ -46,32 +34,58 @@ Description: Create a list of properties from a database table
             showToolbar: false,
             filterThead: false,
            columns: [
-            <% foreach (ColumnSchema column in this.SourceTable.Columns) {  %>
                {
-                    name: '<%=column.Name%>',
-                    label: '<%=column.Description%>',
+                    name: 'Id',
+                    label: '资源表ID',
                      width: 100
-                    <%if(column.IsPrimaryKeyMember){ %>
                     , hide: true
-                    <%} %>
-                    <%else if(CSharpAlias[column.SystemType.FullName] == "System.DateTime") {%>
-                    , type: 'date',
-                    pattern: 'yyyy-MM-dd HH:mm:ss'
-                    <%} %>     
-                    <%else if(CSharpAlias[column.SystemType.FullName] == "bool") {%>
-                     ,type: 'select',
-                    align: 'center',
-                    items: [{ '0': '否' }, { '1': '是' }],
-                    <%} %>  
-                      <%else if(CSharpAlias[column.SystemType.FullName] == "int") {%>
+               },    
+               {
+                    name: 'CascadeId',
+                    label: '节点语义ID',
+                     width: 100
+               },    
+               {
+                    name: 'Name',
+                    label: '名称',
+                     width: 100
+               },    
+               {
+                    name: 'ParentId',
+                    label: '父节点流水号',
+                     width: 100
                      ,type: 'select',
                     align: 'center',
                     items: [{ '0': '默认' }, { '1': '状态1' }],
-                    <%} %>  
                },    
-             <% } %>
+               {
+                    name: 'Status',
+                    label: '当前状态',
+                     width: 100
+                     ,type: 'select',
+                    align: 'center',
+                    items: [{ '0': '默认' }, { '1': '状态1' }],
+               },    
+               {
+                    name: 'SortNo',
+                    label: '排序号',
+                     width: 100
+                     ,type: 'select',
+                    align: 'center',
+                    items: [{ '0': '默认' }, { '1': '状态1' }],
+               },    
+               {
+                    name: 'RootKey',
+                    label: '根节点',
+                     width: 100
+               },    
+               {
+                    name: 'RootName',
+                    label: '根节点名称',
+                     width: 100
+               },    
             ],
-            dataUrl: '<%=ModuleName%>Manager/Load?orgId=' + selectedId,
+            dataUrl: 'CategoryManager/Load?orgId=' + selectedId,
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
@@ -104,18 +118,18 @@ Description: Create a list of properties from a database table
             },
             callback: {onClick: zTreeOnClick}
         };
-        $.getJSON('<%=ModuleName%>Manager/LoadModuleWithRoot', function (json) {
+        $.getJSON('CategoryManager/LoadModuleWithRoot', function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });
     }
 
     //删除
-    function del<%=ModuleName%>() {
+    function delCategory() {
         var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
         
-        $.get('<%=ModuleName%>Manager/Delete?Id=' + selected, function (data) {
+        $.get('CategoryManager/Delete?Id=' + selected, function (data) {
             if (data.statusCode == "200")
                 loadDataGrid();
             else {
@@ -125,13 +139,13 @@ Description: Create a list of properties from a database table
     }
 
     //自定义的编辑按钮
-    function edit<%=ModuleName%>() {
+    function editCategory() {
         var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
 
         $(this).dialog({
             id: 'editDialog',
-            url: '/<%=ModuleName%>Manager/Add?id=' + selected,
+            url: '/CategoryManager/Add?id=' + selected,
             title: '编辑',
             onClose:function() {
                 refreshModuleGrid();
@@ -140,9 +154,9 @@ Description: Create a list of properties from a database table
 
     }
 
-    function refresh<%=ModuleName%>Grid() {
+    function refreshCategoryGrid() {
         $('#@_gridId').datagrid('refresh');
        // loadDataGrid();
     }
-    //@@ sourceURL=<%=ModuleName%>ManagerIndex.js
+    //@@ sourceURL=CategoryManagerIndex.js
 </script>

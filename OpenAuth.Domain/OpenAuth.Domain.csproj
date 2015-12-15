@@ -46,6 +46,7 @@
     <Compile Include="Core\User.cs" />
     <Compile Include="DicDetail.cs" />
     <Compile Include="DicIndex.cs" />
+    <Compile Include="Interface\ICategoryRepository.cs" />
     <Compile Include="Interface\IModuleRepository.cs" />
     <Compile Include="Interface\IOrgRepository.cs" />
     <Compile Include="Interface\IRepository.cs" />

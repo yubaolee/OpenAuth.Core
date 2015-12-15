@@ -1,0 +1,143 @@
+@model OpenAuth.Domain.Category
+@{
+    ViewBag.Title = "Category编辑界面";
+    Layout = null;
+}
+
+<div class="bjui-pageContent">
+    <form action="/CategoryManager/Add" class="pageForm" data-toggle="validate">
+        <table class="table table-condensed table-hover">
+            <tbody>
+                   <tr>
+                    <td>
+                        @Html.HiddenFor(m =>m.Id)
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>
+                        <label for="CascadeId" class="control-label x90">节点语义ID：</label>
+                        <input type="text" name="CascadeId" id="CascadeId" value="@Model.CascadeId"
+                               data-rule="required" size="20">
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>
+                        <label for="Name" class="control-label x90">名称：</label>
+                        <input type="text" name="Name" id="Name" value="@Model.Name"
+                               data-rule="required" size="20">
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>
+                                <label for="ParentId" class="control-label x85">父节点流水号：</label>
+                                <input id="ParentId" name="ParentId" value="" style="display: none"/>
+                                  <input type="text" name="ParentName" id="ParentName"
+                              data-toggle="selectztree" size="20" data-tree="#j_select_tree1" value="@Model.ParentName">
+                           <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
+                      
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>
+                                <label for="Status" class="control-label x85">当前状态：</label>
+                                <select name="Status" id="Status" data-toggle="selectpicker" data-rule="required">
+                                    <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>  }>默认</option>
+                                    <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>  }>状态1</option>
+                                </select>
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>
+                                <label for="SortNo" class="control-label x85">排序号：</label>
+                                <select name="SortNo" id="SortNo" data-toggle="selectpicker" data-rule="required">
+                                    <option value="0" @if (Model.SortNo == 0) { <text> selected="selected" </text>  }>默认</option>
+                                    <option value="1" @if (Model.SortNo == 1) { <text> selected="selected" </text>  }>状态1</option>
+                                </select>
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>
+                        <label for="RootKey" class="control-label x90">资源分类标识：</label>
+                        <input type="text" name="RootKey" id="RootKey" value="@Model.RootKey"
+                               data-rule="required" size="20">
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>
+                        <label for="RootName" class="control-label x90">资源分类：</label>
+                        <input type="text" name="RootName" id="RootName" value="@Model.RootName"
+                               data-rule="required" size="20">
+                    </td>
+                   </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">关闭</button></li>
+        <li><button type="submit" class="btn-green">保存</button></li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+    function Init() {
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+            },
+            data: {
+                key: {
+                    name: 'Name',
+                    title: 'Name'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: 'Id',
+                    pIdKey: 'ParentId',
+                    rootPId: 'null'
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick,
+                onCheck: zTreeCheck
+            }
+        };
+        $.getJSON('OrgManager/LoadOrg', function (json) {
+            var zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
+            zTreeObj.expandAll(true);
+        });
+    }
+
+    function zTreeCheck(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj(treeId),
+            nodes = zTree.getCheckedNodes(true);
+        var ids = '', names = '';
+        for (var i = 0; i < nodes.length; i++) {
+            ids += ',' + nodes[i].Id;
+            names += ',' + nodes[i].Name;
+        }
+        if (ids.length > 0) {  //去掉第一个逗号
+            ids = ids.substr(1);
+            names = names.substr(1);
+        }
+
+        var $from = $('#' + treeId).data('fromObj');
+        if ($from && $from.length) $from.val(names);
+
+        $('#ParentId').val(ids);
+    }
+    function zTreeOnClick(event, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj(treeId);
+        zTree.checkNode(treeNode, !treeNode.checked, true, true);
+        event.preventDefault();
+    }
+</script>

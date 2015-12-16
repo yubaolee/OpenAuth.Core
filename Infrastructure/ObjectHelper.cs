@@ -9,7 +9,9 @@
 // <copyright file="ObjectHelper.cs" company="">
 //     Copyright (c) . All rights reserved.
 // </copyright>
-// <summary>对象COPY/初始化帮助</summary>
+// <summary>
+//对象COPY/初始化帮助，通常是防止从视图中传过来的对象属性为空，这其赋初始值
+//</summary>
 // ***********************************************************************
 
 using System;

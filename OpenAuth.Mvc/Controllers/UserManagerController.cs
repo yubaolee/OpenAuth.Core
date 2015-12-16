@@ -13,7 +13,7 @@ namespace OpenAuth.Mvc.Controllers
 
         public UserManagerController()
         {
-            _app = (UserManagerApp)DependencyResolver.Current.GetService(typeof(UserManagerApp));
+            _app = AutofacExt.GetFromFac<UserManagerApp>();
         }
 
         //

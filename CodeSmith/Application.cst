@@ -53,9 +53,14 @@ namespace OpenAuth.App
                 return _repository.Get<%=GetModelName()%>CntInOrgs(GetSubOrgIds(orgId));
             }
         }
+        
+        public List<<%=GetModelName()%>> LoadAll()
+        {
+            return _repository.Find(null).ToList();
+        }
 
         /// <summary>
-        /// 加载一个部门及子部门全部<%=GetModelName()%>s
+        /// 加载一个节点下面的一个或全部<%=GetModelName()%>s
         /// </summary>
         public dynamic Load(int orgId, int pageindex, int pagesize)
         {
@@ -90,7 +95,7 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// 获取当前组织的所有下级组织
+        /// 获取当前节点的所有下级节点
         /// </summary>
         private int[] GetSubOrgIds(int orgId)
         {
@@ -114,7 +119,9 @@ namespace OpenAuth.App
 
         public void AddOrUpdate(<%=GetModelName()%> model)
         {
-            <%=ModuleName%> <%=ModuleName.ToLower()%> = model;
+            <%=ModuleName%> <%=ModuleName.ToLower()%>  = new  <%=ModuleName%>();
+            model.CopyTo(<%=ModuleName.ToLower()%>);
+            
             if (<%=ModuleName.ToLower()%>.Id == 0)
             {
                 _repository.Add(<%=ModuleName.ToLower()%>);

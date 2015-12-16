@@ -13,7 +13,7 @@ namespace OpenAuth.Mvc.Controllers
 
         public CategoryManagerController()
         {
-            _app = (CategoryManagerApp)DependencyResolver.Current.GetService(typeof(CategoryManagerApp));
+            _app = AutofacExt.GetFromFac<CategoryManagerApp>();
         }
 
         //
@@ -22,6 +22,28 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 加载组织下面的所有用户
+        /// </summary>
+        public string Load(int orgId, int pageCurrent = 1, int pageSize = 30)
+        {
+            return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
+        }
+
+     public string LoadForTree()
+     {
+         var models = _app.LoadAll();
+         //添加根节点
+         models.Add(new Category
+         {
+             Id = 0,
+             ParentId = -1,
+             Name = "根结点",
+             CascadeId = "0"
+         });
+         return JsonHelper.Instance.Serialize(models);
+     }
 
         public ActionResult Add(int id = 0)
         {
@@ -43,14 +65,6 @@ namespace OpenAuth.Mvc.Controllers
                 BjuiResponse.message = ex.Message;
             }
             return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
-
-        /// <summary>
-        /// 加载组织下面的所有用户
-        /// </summary>
-        public string Load(int orgId, int pageCurrent = 1, int pageSize = 30)
-        {
-            return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
         }
 
         public string Delete(int Id)

@@ -40,6 +40,7 @@ namespace OpenAuth.Mvc
             builder.RegisterType<RoleManagerApp>();
             builder.RegisterType<ModuleManagerApp>();
             builder.RegisterType<ModuleElementManagerApp>();
+            builder.RegisterType<CategoryManagerApp>();
 
            
 
@@ -62,6 +63,15 @@ namespace OpenAuth.Mvc
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+
+        /// <summary>
+        /// 从依赖容器里面获取
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public static T GetFromFac<T>()
+        {
+            return (T)DependencyResolver.Current.GetService(typeof(T));
         }
     }
 }

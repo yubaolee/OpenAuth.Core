@@ -32,7 +32,7 @@ namespace OpenAuth.Mvc.Controllers
 
         public ModuleElementManagerController()
         {
-            _app = (ModuleElementManagerApp) DependencyResolver.Current.GetService(typeof (ModuleElementManagerApp));
+            _app = AutofacExt.GetFromFac<ModuleElementManagerApp>();
         }
 
         public ActionResult Index(int id = 0)
@@ -46,9 +46,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var newbtn = new ModuleElement();
-                button.CopyTo(newbtn);
-                _app.AddOrUpdate(newbtn);
+                _app.AddOrUpdate(button);
             }
             catch (DbEntityValidationException e)
             {

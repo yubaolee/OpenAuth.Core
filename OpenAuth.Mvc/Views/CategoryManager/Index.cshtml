@@ -118,7 +118,7 @@
             },
             callback: {onClick: zTreeOnClick}
         };
-        $.getJSON('CategoryManager/LoadModuleWithRoot', function (json) {
+        $.getJSON('CategoryManager/LoadForTree', function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });

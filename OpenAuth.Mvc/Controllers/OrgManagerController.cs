@@ -13,7 +13,7 @@ namespace OpenAuth.Mvc.Controllers
 
         public OrgManagerController()
         {
-            _orgApp = (OrgManagerApp)DependencyResolver.Current.GetService(typeof(OrgManagerApp));
+            _orgApp = AutofacExt.GetFromFac<OrgManagerApp>();
         }
 
         //

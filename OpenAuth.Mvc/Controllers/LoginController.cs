@@ -14,7 +14,7 @@ namespace OpenAuth.Mvc.Controllers
 
         public LoginController()
         {
-            _app = (LoginApp)DependencyResolver.Current.GetService(typeof(LoginApp));
+            _app = AutofacExt.GetFromFac<LoginApp>();
         }
         // GET: Login
         public ActionResult Index()

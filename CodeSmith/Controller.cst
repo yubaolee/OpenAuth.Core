@@ -35,7 +35,7 @@ namespace OpenAuth.Mvc.Controllers
 
         public <%=ModuleName%>ManagerController()
         {
-            _app = (<%=ModuleName%>ManagerApp)DependencyResolver.Current.GetService(typeof(<%=ModuleName%>ManagerApp));
+            _app = AutofacExt.GetFromFac<<%=ModuleName%>ManagerApp>();
         }
 
         //

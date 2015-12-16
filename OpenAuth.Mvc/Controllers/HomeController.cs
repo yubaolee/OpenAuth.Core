@@ -11,8 +11,8 @@ namespace OpenAuth.Mvc.Controllers
          private ModuleManagerApp _app;
 
          public HomeController()
-        {
-            _app = (ModuleManagerApp)DependencyResolver.Current.GetService(typeof(ModuleManagerApp));
+         {
+             _app = AutofacExt.GetFromFac<ModuleManagerApp>();
         }
 
         public string GetModules(int parentId = 0)

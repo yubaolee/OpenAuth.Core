@@ -1,9 +1,9 @@
-
+using System;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Infrastructure;
 
 namespace OpenAuth.App
 {
@@ -31,6 +31,11 @@ namespace OpenAuth.App
             }
         }
 
+        public List<Category> LoadAll()
+        {
+            return _repository.Find(null).ToList();
+        }
+
         /// <summary>
         /// 加载一个部门及子部门全部Categorys
         /// </summary>
@@ -45,11 +50,11 @@ namespace OpenAuth.App
             }
             else
             {
-                Categorys = _repository.LoadInOrgs(pageindex, pagesize,GetSubOrgIds(orgId));
+                Categorys = _repository.LoadInOrgs(pageindex, pagesize, GetSubOrgIds(orgId));
                 total = _repository.GetCategoryCntInOrgs(orgId);
             }
 
-            return new 
+            return new
             {
                 total = total,
                 list = Categorys,
@@ -82,18 +87,53 @@ namespace OpenAuth.App
 
         public void AddOrUpdate(Category model)
         {
-            Category category = model;
+            Category category  = new Category();
+            model.CopyTo(category);
             if (category.Id == 0)
             {
+                ChangeModuleCascade(category);
                 _repository.Add(category);
             }
             else
             {
                 _repository.Update(category);
             }
-           
         }
 
-       
+        #region 私有方法
+
+        //修改对象的级联ID，生成类似XXX.XXX.X.XX
+        private void ChangeModuleCascade(Category org)
+        {
+            string cascadeId;
+            int currentCascadeId = 1;  //当前结点的级联节点最后一位
+            var sameLevels = _repository.Find(o => o.ParentId == org.ParentId && o.Id != org.Id);
+            foreach (var obj in sameLevels)
+            {
+                int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
+                if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
+            }
+
+            if (org.ParentId != 0)
+            {
+                var parentOrg = _repository.FindSingle(o => o.Id == org.ParentId);
+                if (parentOrg != null)
+                {
+                    cascadeId = parentOrg.CascadeId + "." + currentCascadeId;
+                }
+                else
+                {
+                    throw new Exception("未能找到该组织的父节点信息");
+                }
+            }
+            else
+            {
+                cascadeId = "0." + currentCascadeId;
+            }
+
+            org.CascadeId = cascadeId;
+        }
+
+        #endregion 私有方法
     }
 }

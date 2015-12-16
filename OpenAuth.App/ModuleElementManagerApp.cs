@@ -38,6 +38,8 @@ namespace OpenAuth.App
 
         public void AddOrUpdate(ModuleElement model)
         {
+            var newbtn = new ModuleElement();
+            model.CopyTo(newbtn);
             if (model.Id == 0)
             {
                 _repository.Add(model);

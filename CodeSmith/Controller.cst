@@ -68,12 +68,26 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 加载组织下面的所有用户
+        /// 加载节点下面的所有<%=ModuleName %>s
         /// </summary>
-        public string Load(int orgId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(int parentidId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(parentidId, pageCurrent, pageSize));
         }
+        
+         public string LoadForTree()
+         {
+             var models = _app.LoadAll();
+             //添加根节点
+             models.Add(new <%=ModuleName %>
+             {
+                 Id = 0,
+                 ParentId = -1,
+                 Name = "根结点",
+                 CascadeId = "0"
+             });
+             return JsonHelper.Instance.Serialize(models);
+         }
 
         public string Delete(int Id)
         {

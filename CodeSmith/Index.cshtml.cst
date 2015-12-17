@@ -71,7 +71,7 @@ Description: Create a list of properties from a database table
                },    
              <% } %>
             ],
-            dataUrl: '<%=ModuleName%>Manager/Load?orgId=' + selectedId,
+            dataUrl: '<%=ModuleName%>Manager/Load?parentId=' + selectedId,
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
@@ -104,7 +104,7 @@ Description: Create a list of properties from a database table
             },
             callback: {onClick: zTreeOnClick}
         };
-        $.getJSON('<%=ModuleName%>Manager/LoadModuleWithRoot', function (json) {
+        $.getJSON('<%=ModuleName%>Manager/LoadForTree', function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });
@@ -115,7 +115,7 @@ Description: Create a list of properties from a database table
         var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
         
-        $.get('<%=ModuleName%>Manager/Delete?Id=' + selected, function (data) {
+        $.getJSON('<%=ModuleName%>Manager/Delete?Id=' + selected, function (data) {
             if (data.statusCode == "200")
                 loadDataGrid();
             else {

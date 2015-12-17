@@ -129,7 +129,7 @@
         var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
         
-        $.get('CategoryManager/Delete?Id=' + selected, function (data) {
+        $.getJSON('CategoryManager/Delete?Id=' + selected, function (data) {
             if (data.statusCode == "200")
                 loadDataGrid();
             else {

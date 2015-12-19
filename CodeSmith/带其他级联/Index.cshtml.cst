@@ -1,0 +1,148 @@
+﻿<%-- 
+Name: Database Table Properties
+Author: Paul Welter
+Description: Create a list of properties from a database table
+--%>
+<%@ CodeTemplate Language="C#" Encoding="utf-8" TargetLanguage="C#" Debug="True" Description="Create a list of properties from database table." %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the object is based on." %>
+<%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
+<%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+
+@{
+    string _prefix = "<%=ModuleName%>";
+    var _treeId = _prefix + "Tree";
+    var _gridId = _prefix + "Grid";
+    var _treeDetail = _prefix + "Detail";
+}
+
+@{ Html.RenderAction("MenuHeader", "Home");}
+<div class="bjui-pageContent tableContent">
+    <div class="clearfix">
+        <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
+            <ul id="@_treeId" class="ztree"></ul>
+        </div>
+
+        <div id="@_treeDetail" style="margin-left: 225px;">
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var selectedId = 0;
+    $(document).ready(function () {
+        initZtree();
+        loadDataGrid();
+    });
+    //加载数据到datagrid
+    function loadDataGrid() {
+        //b-jui的datagrid需要重新处理HTML
+        $('#@_treeDetail').empty()
+            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
+
+        $('#@_gridId').datagrid({
+            showToolbar: false,
+            filterThead: false,
+           columns: [
+            <% foreach (ColumnSchema column in this.SourceTable.Columns) {  %>
+               {
+                    name: '<%=column.Name%>',
+                    label: '<%=column.Description%>',
+                     width: 100
+                    <%if(column.IsPrimaryKeyMember){ %>
+                    , hide: true
+                    <%} %>
+                    <%else if(CSharpAlias[column.SystemType.FullName] == "System.DateTime") {%>
+                    , type: 'date',
+                    pattern: 'yyyy-MM-dd HH:mm:ss'
+                    <%} %>     
+                    <%else if(CSharpAlias[column.SystemType.FullName] == "bool") {%>
+                     ,type: 'select',
+                    align: 'center',
+                    items: [{ '0': '否' }, { '1': '是' }],
+                    <%} %>  
+                      <%else if(CSharpAlias[column.SystemType.FullName] == "int") {%>
+                     ,type: 'select',
+                    align: 'center',
+                    items: [{ '0': '默认' }, { '1': '状态1' }],
+                    <%} %>  
+               },    
+             <% } %>
+            ],
+            dataUrl: '<%=ModuleName%>Manager/Load?parentId=' + selectedId,
+            fullGrid: true,
+            showLinenumber: true,
+            showCheckboxcol: true,
+            paging: true,
+            filterMult: false,
+            showTfoot: true,
+            height: '700'
+        });
+    }
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        selectedId = treeNode.Id;
+        loadDataGrid();
+    }
+
+    function initZtree() {
+        var setting = {
+            view: {selectedMulti: false},
+            data: {
+                key: {
+                    name: 'Name',
+                    title: 'Name'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: 'Id',
+                    pIdKey: 'ParentId',
+                    rootPId: 'null'
+                }
+            },
+            callback: {onClick: zTreeOnClick}
+        };
+        $.getJSON('<%=ModuleName%>Manager/LoadForTree', function (json) {
+            var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
+            zTreeObj.expandAll(true);
+        });
+    }
+
+    //删除
+    function del<%=ModuleName%>() {
+        var selected = getSelected('#@_gridId',2);
+        if (selected == null) return;
+        
+        $.getJSON('<%=ModuleName%>Manager/Delete?Id=' + selected, function (data) {
+            if (data.statusCode == "200")
+                loadDataGrid();
+            else {
+                $(this).alertmsg('warn', data.message);
+            }
+        });
+    }
+
+    //自定义的编辑按钮
+    function edit<%=ModuleName%>() {
+        var selected = getSelected('#@_gridId',2);
+        if (selected == null) return;
+
+        $(this).dialog({
+            id: 'editDialog',
+            url: '/<%=ModuleName%>Manager/Add?id=' + selected,
+            title: '编辑',
+            onClose:function() {
+                refreshModuleGrid();
+            }
+        });
+
+    }
+
+    function refresh<%=ModuleName%>Grid() {
+        $('#@_gridId').datagrid('refresh');
+       // loadDataGrid();
+    }
+    //@@ sourceURL=<%=ModuleName%>ManagerIndex.js
+</script>

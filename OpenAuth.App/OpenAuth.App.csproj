@@ -47,6 +47,7 @@
     <Compile Include="LoginApp.cs" />
     <Compile Include="ModuleElementManagerApp.cs" />
     <Compile Include="ModuleManagerApp.cs" />
+    <Compile Include="ResourceManagerApp.cs" />
     <Compile Include="RoleManagerApp.cs" />
     <Compile Include="UserManagerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

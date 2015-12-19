@@ -50,6 +50,7 @@
     <Compile Include="Interface\IModuleRepository.cs" />
     <Compile Include="Interface\IOrgRepository.cs" />
     <Compile Include="Interface\IRepository.cs" />
+    <Compile Include="Interface\IResourceRepository.cs" />
     <Compile Include="Interface\IRoleRepository.cs" />
     <Compile Include="Interface\IRelevanceRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />

@@ -41,8 +41,7 @@ namespace OpenAuth.Mvc
             builder.RegisterType<ModuleManagerApp>();
             builder.RegisterType<ModuleElementManagerApp>();
             builder.RegisterType<CategoryManagerApp>();
-
-           
+            builder.RegisterType<ResourceManagerApp>();       
 
             // Register your MVC controllers.
             builder.RegisterControllers(typeof(MvcApplication).Assembly);

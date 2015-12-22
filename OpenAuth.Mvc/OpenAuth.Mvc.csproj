@@ -575,6 +575,8 @@
     <Content Include="Views\ResourceManager\Add.cshtml" />
     <Content Include="Views\ResourceManager\Index.cshtml" />
     <Content Include="Views\RoleManager\LookupMulti.cshtml" />
+    <Content Include="Views\ResourceManager\LookupMultiForUser.cshtml" />
+    <Content Include="Views\ResourceManager\LookupMultiForRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

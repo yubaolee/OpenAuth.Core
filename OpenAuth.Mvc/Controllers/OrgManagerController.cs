@@ -32,11 +32,6 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ActionResult LookupMulti()
-        {
-            return View();
-        }
-
         public ActionResult AddOrg()
         {
             return View();

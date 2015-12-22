@@ -68,20 +68,7 @@ namespace OpenAuth.App
         public List<ModuleElementVM> LoadWithAccess(string accessType, int firstId, int moduleId)
         {
             //TODO:多个Repository使用的是不同的Context不能进行联表查询，要用UnitOfWork处理
-            //var results = from element in _repository.Find(u => u.ModuleId == moduleId)
-            //    join module in _moduleRepository.Find(null) on element.ModuleId equals module.Id
-            //    join relev in _relevanceRepository.Find(u => u.Key == accessType && u.FirstId == firstId)
-            //        on element.Id equals relev.SecondId into temp
-            //    from t in temp.DefaultIfEmpty()
-            //    select new ModuleElementVM
-            //    {
-            //        DomId = element.DomId,
-            //        Id = element.Id,
-            //        ModuleId = element.ModuleId,
-            //        ModuleName = module.Name,
-            //        Name = element.Name,
-            //        Accessed = t != null
-            //    };
+          
             var listVms = new List<ModuleElementVM>();
             if (moduleId == 0) return listVms;
             string modulename = _moduleRepository.FindSingle(u => u.Id == moduleId).Name;

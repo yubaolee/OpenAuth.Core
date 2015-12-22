@@ -169,6 +169,23 @@
         });
     }
 
+    //为角色分配资源
+    function openRoleReourceAccess(obj) {
+        var selected = getSelected('#@_gridId', 2);
+        if (selected == null) return;
+
+        $(obj).dialog({
+            id: 'accessUserRole',
+            url: '/ResourceManager/LookupMultiForRole',
+            title: '为角色分配资源',
+            width: 600,
+            height: 380,
+            data: {
+                roleId: selected
+            }
+        });
+    }
+
     //为角色分配菜单
     function assignRoleElement(obj) {
         var selected = getSelected('#@_gridId', 2);

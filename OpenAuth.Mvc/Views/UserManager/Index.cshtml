@@ -190,6 +190,23 @@
         });
     }
 
+    //为用户分配资源
+    function openUserReourceAccess(obj) {
+        var selected = getSelected('#@_gridId', 2);
+        if (selected == null) return;
+
+        $(obj).dialog({
+            id: 'accessUserRole',
+            url: '/ResourceManager/LookupMultiForUser',
+            title: '为用户分配资源',
+            width: 600,
+            height: 380,
+            data: {
+                userId: selected
+            }
+        });
+    }
+
     //分配菜单
     function openAssignUserElement(obj) {
         var selected = getSelected('#@_gridId', 2);

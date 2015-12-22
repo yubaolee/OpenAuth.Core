@@ -55,6 +55,7 @@
     <Compile Include="ViewModel\LoginUserVM.cs" />
     <Compile Include="ViewModel\ModuleElementVM.cs" />
     <Compile Include="ViewModel\ModuleView.cs" />
+    <Compile Include="ViewModel\ResourceVM.cs" />
     <Compile Include="ViewModel\RoleVM.cs" />
     <Compile Include="ViewModel\UserView.cs" />
   </ItemGroup>

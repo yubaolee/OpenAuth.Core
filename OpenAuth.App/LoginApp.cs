@@ -14,17 +14,20 @@ namespace OpenAuth.App
         private IUserRepository _repository;
         private IModuleRepository _moduleRepository;
         private IRelevanceRepository _relevanceRepository;
-        private IRepository<ModuleElement> _moduleElementRepository; 
+        private IRepository<ModuleElement> _moduleElementRepository;
+        private IResourceRepository _resourceRepository;
 
         public LoginApp(IUserRepository repository,
             IModuleRepository moduleRepository,
             IRelevanceRepository relevanceRepository,
-            IRepository<ModuleElement>  moduleElementRepository )
+            IRepository<ModuleElement>  moduleElementRepository,
+            IResourceRepository resourceRepository)
         {
             _repository = repository;
             _moduleRepository = moduleRepository;
             _relevanceRepository = relevanceRepository;
             _moduleElementRepository = moduleElementRepository;
+            _resourceRepository = resourceRepository;
         }
 
         public LoginUserVM Login(string userName, string password)
@@ -64,8 +67,15 @@ namespace OpenAuth.App
             {
                 module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id && elementIds.Contains( u.Id)).ToList();
             }
-            
-           return loginVM;
+
+            //用户角色与自己分配到的资源ID
+            var resourceIds = _relevanceRepository.Find(
+                    u =>
+                        (u.FirstId == user.Id && u.Key == "UserResource") ||
+                        (u.Key == "RoleResource" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+            loginVM.Resources = _resourceRepository.Find(u => resourceIds.Contains(u.Id)).ToList();
+
+            return loginVM;
         }
 
         /// <summary>
@@ -86,6 +96,8 @@ namespace OpenAuth.App
             {
                 module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id).ToList();
             }
+
+            loginUser.Resources = _resourceRepository.Find(null).ToList();
             return loginUser;
         }
     }

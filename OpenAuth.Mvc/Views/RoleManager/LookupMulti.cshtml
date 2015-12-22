@@ -1,77 +1,126 @@
-﻿@model List<OpenAuth.App.ViewModel.RoleVM>
-@{
-    ViewBag.Title = "title";
-    Layout = null;
+﻿@{
+    string _prefix = "assignRoleForUser";
+    var _treeId = _prefix + "Tree";
+    var _gridId = _prefix + "Grid";
+    var _treeDetail = _prefix + "Detail";
 }
-@*<div class="bjui-pageHeader">
-        <div class="bjui-searchBar">
-            <label>名称：</label><input type="text" value="" name="code" size="10" />&nbsp;
-            <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
-            <a class="btn btn-orange" href="javascript:;" data-toggle="reloadsearch" data-clear-query="true" data-icon="undo">清空查询</a>&nbsp;
-            <div class="pull-right">
-                <input type="checkbox" name="lookupType" value="1" data-toggle="icheck" data-label="追加" checked>
-                <button type="button" class="btn-blue" data-toggle="lookupback" data-lookupid="ids" data-warn="请至少选择一项职业" data-icon="check-square-o">选择选中</button>
-            </div>
+<div class="bjui-pageHeader">
+    <div class="bjui-searchBar">
+        <input style="display: none" id="userId" value="@ViewBag.UserId" />
+        <div class="pull-right">
+            <div class="alert alert-info search-inline">
+                <i class="fa fa-info-circle"></i> 点击行为单选，点击复选框可多选统一授权
+            </div>&nbsp;
+            <button type="button" class="btn-green" data-num="1" data-icon="plus" onclick="assign()">
+                授权选中项目
+            </button>&nbsp;
         </div>
-    </div>*@
-
-<div class="bjui-pageContent">
-    <input style="display: none" id="userId" value="@ViewBag.UserId" />
-    <table data-selected-multi="true" class="table table-bordered" data-toggle="tablefixed" data-width="100%">
-        <thead>
-            <tr>
-                <th data-order-field="id">ID</th>
-                <th data-order-field="name">名称</th>
-                <th data-order-field="note">所属部门</th>
-                <th class="orderby asc" data-order-field="date">部门级联ID</th>
-                <th >是否已经分配</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var role in Model)
-            {
-                <tr data-id="@role.Id">
-                    <td>@role.Id</td>
-                    <td>@role.Name</td>
-                    <td>@role.OrgName</td>
-                    <td>@role.OrgCascadeId</td>
-                    <td><input type="checkbox" disabled data-toggle="icheck" 
-                               @if (role.IsBelongUser) { <text> checked </text>  }></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    </div>
 </div>
-<div class="bjui-pageFooter">
-    <ul>
-        <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
-        <li>
-            <button type="button" class="btn-blue"
-                    data-url="RoleManager/AccessRoles?userid={#userId}&ids={#bjui-selected}"
-                    data-toggle="doajax" data-icon="check-square-o">
-                设置权限
-            </button>
-        </li>
-    </ul>
+
+<div class="bjui-pageContent tableContent">
+    <div class="clearfix">
+        <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
+            <ul id="@_treeId" class="ztree"></ul>
+        </div>
+
+        <div id="@_treeDetail" style="margin-left: 225px;">
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
-    var moduleIds;
+    var selectedId = 0;
     $(document).ready(function () {
-
+        initZtree();
+        loadDataGrid();
     });
+    //加载数据到datagrid
+    function loadDataGrid() {
+        //b-jui的datagrid需要重新处理HTML
+        $('#@_treeDetail').empty()
+            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
 
-    function save() {
-        $.post('UserManager/AccessModule', { userId: $('#userId').val(), moduleIds: moduleIds },
-            function (json) {
-                var rel = $.parseJSON(json);
-                if (rel.statusCode == "200") {
-                    $(this).alertmsg('ok', rel.message);
-                } else {
-                    $(this).alertmsg('error', rel.message);
+        $('#@_gridId').datagrid({
+            showToolbar: false,
+            filterThead: false,
+            columns: [
+                  {
+                      name: 'Id',
+                      label: '角色ID',
+                      hide: true
+                  },
+               {
+                   name: 'Name',
+                   label: '角色名称',
+                   width: 100
+               },
+               
+               {
+                   name: 'IsBelongUser',
+                   label: '是否已经授权',
+                   type: 'select',
+                   align: 'center',
+                   items: [{ 'false': '未授权', 'true': '已授权' }],
+                   width: 100
+               }
+            ],
+            dataUrl: 'RoleManager/LoadForOrgAndUser?orgId=' + selectedId + '&userId=' + $('#userId').val(),
+            fullGrid: true,
+            showLinenumber: true,
+            showCheckboxcol: true,
+            paging: true,
+            filterMult: false,
+            showTfoot: true
+        });
+    }
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        selectedId = treeNode.Id;
+        loadDataGrid();
+    }
+
+    function initZtree() {
+        var setting = {
+            view: { selectedMulti: false },
+            data: {
+                key: {
+                    name: 'Name',
+                    title: 'Name'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: 'Id',
+                    pIdKey: 'ParentId',
+                    rootPId: 'null'
                 }
+            },
+            callback: { onClick: zTreeOnClick }
+        };
+         $.getJSON('OrgManager/LoadOrg', function (json) {
+            var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
+            zTreeObj.expandAll(true);
+        });
+    }
+
+    //授权选中的
+    function assign() {
+        var selected = getSelectedMany('#@_gridId', 2);
+        if (selected == null) return;
+
+        $.post('RoleManager/AccessRoles', {
+            userId: $('#userId').val(),
+            ids: selected
+            },
+            function (json) {
+             //   var rel = $.parseJSON(json);
+                refreshGrid();
             });
     }
 
-    //@@ sourceURL=lookupMulti.js
+    function refreshGrid() {
+        $('#@_gridId').datagrid('refresh');
+        // loadDataGrid();
+    }
+    //@@ sourceURL=RoleLookup.js
 </script>

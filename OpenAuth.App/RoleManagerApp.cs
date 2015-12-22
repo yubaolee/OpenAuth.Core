@@ -96,9 +96,9 @@ namespace OpenAuth.App
             }
         }
 
-        public List<RoleVM> LoadWithUser(int userId)
+        public List<RoleVM> LoadForOrgAndUser(int orgId, int userId)
         {
-            var roleIds = _repository.Find(null).ToList();
+            var roleIds = _repository.Find(u =>u.OrgId == orgId).ToList();
             var rolevms = new List<RoleVM>();
             foreach (var role in roleIds)
             {

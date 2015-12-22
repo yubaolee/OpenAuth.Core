@@ -71,10 +71,16 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         #region 为用户设置角色界面
-        public ActionResult LookUpMulti(int userId)
+
+        public ActionResult LookupMulti(int userId)
         {
             ViewBag.UserId = userId;
-            return View(_app.LoadWithUser(userId));
+            return View();
+        }
+
+        public string LoadForOrgAndUser(int orgId, int userId)
+        {
+            return JsonHelper.Instance.Serialize(_app.LoadForOrgAndUser(orgId, userId));
         }
 
         public string AccessRoles(int userId, string ids)
@@ -83,6 +89,7 @@ namespace OpenAuth.Mvc.Controllers
             _app.AccessRole(userId, roleids);
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
-        #endregion
+
+        #endregion 为用户设置角色界面
     }
 }

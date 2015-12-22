@@ -574,6 +574,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ResourceManager\Add.cshtml" />
     <Content Include="Views\ResourceManager\Index.cshtml" />
+    <Content Include="Views\RoleManager\LookupMulti.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -640,7 +641,6 @@
     <Content Include="Views\UserManager\Add.cshtml" />
     <Content Include="Views\RoleManager\Add.cshtml" />
     <Content Include="Views\RoleManager\Index.cshtml" />
-    <Content Include="Views\RoleManager\LookupMulti.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

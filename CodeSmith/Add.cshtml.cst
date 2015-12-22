@@ -1,0 +1,140 @@
+﻿<%-- 
+Name: 添加界面
+Author: yubaolee
+Description: 任务对象界面
+--%>
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Debug="False" Encoding="utf-8" Description="添加模块" %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context"
+Description="连接的数据库" %>
+<%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
+<%@ Property Name="NeedViewModel" Type="Boolean" Category="Context" Default="False" Description="是否需要ViewModel" %>
+<%@ Property Name="CascadeId" Type="String" Category="" Default="ParentId" Description="级联字段" %>
+<%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<script runat="template">
+public String GetModelName() {
+    if (NeedViewModel)
+        return ModuleName + "View";
+    else
+        return ModuleName;
+}
+</script>
+<%if(NeedViewModel){ %>
+@model OpenAuth.App.ViewModel.<%=GetModelName()%>
+<%} else{ %>
+@model OpenAuth.Domain.<%=GetModelName()%>
+<%} %>
+@{
+    ViewBag.Title = "<%=GetModelName()%>编辑界面";
+    Layout = null;
+}
+<div class="bjui-pageContent">
+    <form action="/<%=ModuleName%>Manager/Add" class="pageForm" data-toggle="validate">
+        <table class="table table-condensed table-hover">
+            <tbody>
+                  <% foreach (ColumnSchema column in this.SourceTable.Columns) {  
+                      if(column.Name == "CascadeId") continue;  //cascadeId字段需要程序控制
+                  %>
+                   <tr>
+                    <td>
+                        <%if(column.IsPrimaryKeyMember){ %>
+                        @Html.HiddenFor(m =>m.<%=column.Name%>)
+                        <% }  else if(column.Name == CascadeId) {%>
+                         @Html.HiddenFor(m =>m.<%=CascadeId %>)
+                @if (Model.Id == 0)  //添加
+                {
+                           //这个只用于显示使用，并不会进行提交处理，真正提交的是cascadeId
+                            <label for="CascadeName" class="control-label x120">父节点流水号：</label>
+                            <input type="text" name="CascadeName" id="CascadeName"
+                                   data-toggle="selectztree" size="20" data-tree="#j_select_tree1" value="">
+                            <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            Init();
+                        });
+                        function Init() {
+                            var setting = {
+                                view: {
+                                    selectedMulti: false
+                                },
+                                check: {
+                                    enable: true,
+                                    chkStyle: "radio",
+                                    radioType: "all"
+                                },
+                                data: {
+                                    key: {
+                                        name: 'Name',
+                                        title: 'Name'
+                                    },
+                                    simpleData: {
+                                        enable: true,
+                                        idKey: 'Id',
+                                        pIdKey: 'ParentId',
+                                        rootPId: 'null'
+                                    }
+                                },
+                                callback: {
+                                    onClick: zTreeOnClick,
+                                    onCheck: zTreeCheck
+                                }
+                            };
+                            $.getJSON('CategoryManager/LoadForTree', function (json) {
+                                var zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
+                                zTreeObj.expandAll(true);
+                            });
+                        }
+                        function zTreeCheck(e, treeId, treeNode) {
+                            var zTree = $.fn.zTree.getZTreeObj(treeId),
+                                nodes = zTree.getCheckedNodes(true);
+                            var ids = '', names = '';
+                            for (var i = 0; i < nodes.length; i++) {
+                                ids += ',' + nodes[i].Id;
+                                names += ',' + nodes[i].Name;
+                            }
+                            if (ids.length > 0) {  //去掉第一个逗号
+                                ids = ids.substr(1);
+                                names = names.substr(1);
+                            }
+                            var $from = $('#' + treeId).data('fromObj');
+                            if ($from && $from.length) $from.val(names);
+                             $('#<%=CascadeId%>').val(ids);
+                        }
+                        function zTreeOnClick(event, treeId, treeNode) {
+                            var zTree = $.fn.zTree.getZTreeObj(treeId);
+                            zTree.checkNode(treeNode, !treeNode.checked, true, true);
+                            event.preventDefault();
+                        }
+                    </script>
+                }
+                else  //编辑
+                {
+                            <label for="CascadeId" class="control-label x120">节点语义ID：</label>
+                            <input type="text" name="CascadeId" id="CascadeId" value="@Model.CascadeId"
+                                   data-rule="required" size="20">
+                }
+                        <% }  else if(CSharpAlias[column.SystemType.FullName] == "bool") {%>
+                                <label for="<%=column.Name%>" class="control-label x120"><%=column.Description%>：</label>
+                                <select name="<%=column.Name%>" id="<%=column.Name%>" data-toggle="selectpicker" data-rule="required">
+                                    <option value="0" @if (Model.<%=column.Name%>) { <text> selected="selected" </text>  }>否</option>
+                                    <option value="1" @if (!Model.<%=column.Name%>) { <text> selected="selected" </text>  }>是</option>
+                                </select>
+                       <%} else{%>  
+                        <label for="<%=column.Name%>" class="control-label x120"><%=column.Description%>：</label>
+                        <input type="text" name="<%=column.Name%>" id="<%=column.Name%>" value="@Model.<%=column.Name%>"
+                               data-rule="required" size="20">
+                       <%} %>
+                    </td>
+                   </tr>
+             <% } %>
+            </tbody>
+        </table>
+    </form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">关闭</button></li>
+        <li><button type="submit" class="btn-green">保存</button></li>
+    </ul>
+</div>

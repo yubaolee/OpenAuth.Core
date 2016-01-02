@@ -1,4 +1,4 @@
-using OpenAuth.Domain.Interface;
+ï»¿using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +35,7 @@ namespace OpenAuth.App
             var user = _repository.FindSingle(u => u.Account == userName);
             if (user == null)
             {
-                throw new Exception("ÓÃ»§ÕÊºÅ²»´æÔÚ");
+                throw new Exception("ç”¨æˆ·å¸å·ä¸å­˜åœ¨");
             }
             user.CheckPassword(password);
 
@@ -43,32 +43,32 @@ namespace OpenAuth.App
             {
                 User = user
             };
-            //ÓÃ»§½ÇÉ«
+            //ç”¨æˆ·è§’è‰²
             var userRoleIds =
                 _relevanceRepository.Find(u => u.FirstId == user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
 
-            //ÓÃ»§½ÇÉ«Óë×Ô¼º·ÖÅäµ½µÄÄ£¿éID
+            //ç”¨æˆ·è§’è‰²ä¸è‡ªå·±åˆ†é…åˆ°çš„æ¨¡å—ID
             var moduleIds =
                 _relevanceRepository.Find(
                     u =>
                         (u.FirstId == user.Id && u.Key == "UserModule") ||
                         (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u =>u.SecondId).ToList();
-            //ÓÃ»§½ÇÉ«Óë×Ô¼º·ÖÅäµ½µÄ²Ëµ¥ID
+            //ç”¨æˆ·è§’è‰²ä¸è‡ªå·±åˆ†é…åˆ°çš„èœå•ID
             var elementIds =
                _relevanceRepository.Find(
                    u =>
                        (u.FirstId == user.Id && u.Key == "UserElement") ||
                        (u.Key == "RoleElement" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
-            //µÃ³ö×îÖÕÓÃ»§ÓµÓĞµÄÄ£¿é
+            //å¾—å‡ºæœ€ç»ˆç”¨æˆ·æ‹¥æœ‰çš„æ¨¡å—
             loginVM.Modules = _moduleRepository.Find(u => moduleIds.Contains(u.Id)).MapToList<ModuleView>();
 
-            //Ä£¿é²Ëµ¥È¨ÏŞ
+            //æ¨¡å—èœå•æƒé™
             foreach (var module in loginVM.Modules)
             {
                 module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id && elementIds.Contains( u.Id)).ToList();
             }
 
-            //ÓÃ»§½ÇÉ«Óë×Ô¼º·ÖÅäµ½µÄ×ÊÔ´ID
+            //ç”¨æˆ·è§’è‰²ä¸è‡ªå·±åˆ†é…åˆ°çš„èµ„æºID
             var resourceIds = _relevanceRepository.Find(
                     u =>
                         (u.FirstId == user.Id && u.Key == "UserResource") ||
@@ -79,7 +79,7 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// ¿ª·¢ÕßµÇÂ½
+        /// å¼€å‘è€…ç™»é™†
         /// </summary>
         public LoginUserVM LoginByDev()
         {
@@ -87,11 +87,11 @@ namespace OpenAuth.App
             {
                 User = new User
                 {
-                    Name = "¿ª·¢ÕßÕËºÅ"
+                    Name = "å¼€å‘è€…è´¦å·"
                 }
             };
             loginUser.Modules = _moduleRepository.Find(null).MapToList<ModuleView>();
-            //Ä£¿é°üº¬µÄ²Ëµ¥
+            //æ¨¡å—åŒ…å«çš„èœå•
             foreach (var module in loginUser.Modules)
             {
                 module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id).ToList();

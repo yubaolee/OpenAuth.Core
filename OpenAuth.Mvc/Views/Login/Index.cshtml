@@ -1,7 +1,8 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@model OpenAuth.Mvc.Models.BjuiResponse
+<!DOCTYPE html>
+<html lang="zh">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
     <title>系统登录</title>
     <script src="~/BJUI/js/jquery-1.7.2.min.js"></script>
     <script src="~/BJUI/js/jquery.cookie.js"></script>
@@ -161,7 +162,7 @@
                     $.cookie(COOKIE_NAME, null, { path: '/' });  //删除cookie
                 }
                 $("#login_ok").attr("disabled", true).val('登陆中..');
-           //     window.location.href = '/Home/Index'; /*注意：生产环境时请删除此行*/
+                //     window.location.href = '/Home/Index'; /*注意：生产环境时请删除此行*/
                 return true;
             });
         });
@@ -189,33 +190,36 @@
     <div id="errorie"><div>您还在使用老掉牙的IE，请升级您的浏览器到 IE8以上版本 <a target="_blank" href="http://windows.microsoft.com/zh-cn/internet-explorer/ie-8-worldwide-languages">点击升级</a>&nbsp;&nbsp;强烈建议您更改换浏览器：<a href="http://down.tech.sina.com.cn/content/40975.html" target="_blank">谷歌 Chrome</a></div></div>
     <![endif]-->
     <div class="main_box">
-        <div class="setting"><a href="javascript:;" onclick=" choose_bg(); " title="更换背景">
-            <span class="glyphicon glyphicon-th-large"></span>
-        </a></div>
+        <div class="setting">
+            <a href="javascript:;" onclick=" choose_bg(); " title="更换背景">
+                <span class="glyphicon glyphicon-th-large"></span>
+            </a>
+        </div>
         <div class="login_box">
             <div class="login_logo">
                 <img src="/BJUI/images/logo.png">
             </div>
-            <!--
-            <c:if test="${!empty message}">
+            @if (Model != null && Model.statusCode == "300")
+            {
                 <div class="login_msg">
-                    <font color="red">${message }</font>
+                    <font color="red">@Model.message</font>
                 </div>
-            </c:if>
-            -->
+            }
+
+
             <div class="login_form">
                 <input type="hidden" value="${randomKey }" id="j_randomKey" />
                 <form action="/Login/Index" id="login_form" method="post">
                     <input type="hidden" name="jfinal_token" value="${jfinal_token }" />
                     <div class="form-group">
-                        <label for="j_username" class="t">用户名：</label> 
+                        <label for="j_username" class="t">用户名：</label>
                         <input id="j_username" value="" name="username" type="text" class="form-control x319 in" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="j_password" class="t">密 码：</label> 
+                        <label for="j_password" class="t">密 码：</label>
                         <input id="j_password" value="" name="password" type="password" class="form-control x319 in">
                     </div>
-                
+
                     <div class="form-group">
                         <label class="t"></label>
                         <label for="j_remember" class="m"><input id="j_remember" type="checkbox" value="true">&nbsp;记住登陆账号!</label>

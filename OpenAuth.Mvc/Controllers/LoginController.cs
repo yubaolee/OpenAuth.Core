@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Infrastructure.Helper;
 using OpenAuth.App;
+using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -33,7 +34,12 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception e)
             {
-                return View(e.Message);
+                var response = new BjuiResponse
+                {
+                    statusCode = "300",
+                    message = e.Message
+                };
+                return View(response);
             }
         }
 

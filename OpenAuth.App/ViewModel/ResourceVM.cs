@@ -1,4 +1,4 @@
-﻿namespace OpenAuth.App.ViewModel
+namespace OpenAuth.App.ViewModel
 {
     public  class ResourceVM
     {

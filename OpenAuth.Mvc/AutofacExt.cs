@@ -9,7 +9,7 @@
 // <copyright file="AutofacExt.cs" company="www.cnblogs.com/yubaolee">
 //     Copyright (c) www.cnblogs.com/yubaolee. All rights reserved.
 // </copyright>
-// <summary>IOC³õÊ¼»¯</summary>
+// <summary>IOCæ‰©å±•</summary>
 // ***********************************************************************
 
 using Autofac;
@@ -29,10 +29,10 @@ namespace OpenAuth.Mvc
         {
             var builder = new ContainerBuilder();
 
-            //·ºÐÍ×¢²á
+            //ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
 
-            //Ó¦ÓÃ²ã×¢²á
+            //Ó¦ï¿½Ã²ï¿½×¢ï¿½ï¿½
             builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
             builder.RegisterType<LoginApp>();
             builder.RegisterType<OrgManagerApp>();
@@ -65,7 +65,7 @@ namespace OpenAuth.Mvc
         }
 
         /// <summary>
-        /// ´ÓÒÀÀµÈÝÆ÷ÀïÃæ»ñÈ¡
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡
         /// </summary>
         /// <typeparam name="T"></typeparam>
         public static T GetFromFac<T>()

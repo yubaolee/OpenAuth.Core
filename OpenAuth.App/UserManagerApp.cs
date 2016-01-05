@@ -1,4 +1,4 @@
-﻿using OpenAuth.App.ViewModel;
+using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 using System;

@@ -1,4 +1,4 @@
-namespace OpenAuth.App.ViewModel
+﻿namespace OpenAuth.App.ViewModel
 {
     /// <summary>
     /// 用户ID

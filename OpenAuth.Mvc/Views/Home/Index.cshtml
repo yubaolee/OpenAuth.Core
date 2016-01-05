@@ -1,8 +1,8 @@
-@model List<OpenAuth.App.ViewModel.ModuleView>
+﻿@model List<OpenAuth.App.ViewModel.ModuleView>
 <!DOCTYPE html>
-<html lang="zh">
+<html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>OpenAuth.net 基于经典DDD框架的权限管理</title>
     <meta name="Keywords" content="OpenAuth,DDD权限管理,yubaolee" />
@@ -177,8 +177,10 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的账户 <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="changepwd.html" data-toggle="dialog" data-id="changepwd_page" data-mask="true" 
-                                   data-width="400" data-height="260">&nbsp;<span class="glyphicon glyphicon-lock"></span> 修改密码&nbsp;</a></li>
+                            <li>
+                                <a href="changepwd.html" data-toggle="dialog" data-id="changepwd_page" data-mask="true"
+                                   data-width="400" data-height="260">&nbsp;<span class="glyphicon glyphicon-lock"></span>修改密码&nbsp;</a>
+                            </li>
                             <li><a href="#">&nbsp;<span class="glyphicon glyphicon-user"></span> 我的资料</a></li>
                             <li class="divider"></li>
                             <li><a href="/Login/Logout" class="red">&nbsp;<span class="glyphicon glyphicon-off"></span> 注销登陆</a></li>
@@ -209,20 +211,14 @@
 
                                     @foreach (var module in Model)
                                     {
-                                        
+
                                         <li data-id="@module.Id" data-pid="@module.ParentId"
-                                            @if (string.IsNullOrWhiteSpace(module.Url.Trim()))
-                                            {
-                                                @:data - faicon = "folder-open-o"
-                                                @:data - faicon - close = "folder-o"
-                                            }
-                                            else
-                                            {
-                                                @:data-faicon="caret-right"
-                                                @:data-url="@module.Url"
-                                                @:data-tabid="@module.Id"
-                                            }
-                                            >@module.Name</li>
+                                            @if (string.IsNullOrWhiteSpace(module.Url.Trim())) { @: data - faicon="folder-open-o"
+                                                                                            @: data - faicon - close="folder-o"
+                                                                                        } else { @: data-faicon="caret-right"
+                                                                                            @: data-url="@module.Url"
+                                                                                            @: data-tabid="@module.Id"
+                                                                                        }>@module.Name</li>
                                     }
                                 </ul>
                             </div>
@@ -257,7 +253,8 @@
                 </div>
             </div>
             <div id="bjui-navtab" class="tabsPage">
-                <div class="tabsPageHeader"><!--标签头-->
+                <div class="tabsPageHeader">
+                    <!--标签头-->
                     <div class="tabsPageHeaderContent">
                         <ul class="navtab-tab nav nav-tabs">
                             <li data-url="Home/Main">
@@ -276,7 +273,8 @@
                 <ul class="tabsMoreList">
                     <li><a href="javascript:;">#maintab#</a></li>
                 </ul>
-                <div class="navtab-panel tabsPageContent"> <!--标签内容-->
+                <div class="navtab-panel tabsPageContent">
+                    <!--标签内容-->
                     <div class="navtabPage unitBox">
                         <div class="bjui-pageContent" style="background:#FFF;">
                             Loading...

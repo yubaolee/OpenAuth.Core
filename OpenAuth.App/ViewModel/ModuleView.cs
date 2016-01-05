@@ -1,4 +1,4 @@
-using Infrastructure;
+﻿using Infrastructure;
 using OpenAuth.Domain;
 using System.Collections.Generic;
 

@@ -1,4 +1,4 @@
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using OpenAuth.Domain;
 using OpenAuth.Repository.Models.Mapping;

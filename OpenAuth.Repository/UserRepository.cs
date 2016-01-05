@@ -1,4 +1,4 @@
-using OpenAuth.Domain.Interface;
+﻿using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

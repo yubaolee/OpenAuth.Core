@@ -34,7 +34,12 @@ namespace OpenAuth.App.ViewModel
         /// <summary>
         ///  用户所属机构
         /// </summary>
-        public List<Org> Orgs { get; set; }  
+        public List<Org> Orgs { get; set; }
+
+        /// <summary>
+        /// 用户可访问的机构
+        /// </summary>
+        public List<Org> AccessedOrgs { get; set; }
     }
 
 }

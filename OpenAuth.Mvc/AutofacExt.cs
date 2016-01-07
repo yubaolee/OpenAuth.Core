@@ -41,7 +41,8 @@ namespace OpenAuth.Mvc
             builder.RegisterType<ModuleManagerApp>();
             builder.RegisterType<ModuleElementManagerApp>();
             builder.RegisterType<CategoryManagerApp>();
-            builder.RegisterType<ResourceManagerApp>();       
+            builder.RegisterType<ResourceManagerApp>();
+            builder.RegisterType<StockManagerApp>();      
 
             // Register your MVC controllers.
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
@@ -65,7 +66,7 @@ namespace OpenAuth.Mvc
         }
 
         /// <summary>
-        /// ���������������ȡ
+        /// 从容器中获取对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
         public static T GetFromFac<T>()

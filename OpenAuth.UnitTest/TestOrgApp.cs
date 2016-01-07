@@ -17,7 +17,7 @@ namespace OpenAuth.UnitTest
     {
 
         private TestContext testContextInstance;
-        private OrgManagerApp _app = new OrgManagerApp(new OrgRepository());
+        private OrgManagerApp _app = new OrgManagerApp(new OrgRepository(), new RelevanceRepository());
 
         
 

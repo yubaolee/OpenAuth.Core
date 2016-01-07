@@ -31,6 +31,8 @@ namespace OpenAuth.Repository.Models
         public DbSet<UserCfg> UserCfgs { get; set; }
         public DbSet<UserExt> UserExts { get; set; }
 
+        public DbSet<Stock> Stocks { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new CategoryMap());
@@ -46,6 +48,8 @@ namespace OpenAuth.Repository.Models
             modelBuilder.Configurations.Add(new UserMap());
             modelBuilder.Configurations.Add(new UserCfgMap());
             modelBuilder.Configurations.Add(new UserExtMap());
+
+            modelBuilder.Configurations.Add(new StockMap());
         }
     }
 }

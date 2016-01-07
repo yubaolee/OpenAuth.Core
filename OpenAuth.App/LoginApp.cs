@@ -1,11 +1,9 @@
-﻿using OpenAuth.Domain.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Infrastructure;
-using Infrastructure.Helper;
+﻿using Infrastructure;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
+using OpenAuth.Domain.Interface;
+using System;
+using System.Linq;
 
 namespace OpenAuth.App
 {
@@ -16,18 +14,21 @@ namespace OpenAuth.App
         private IRelevanceRepository _relevanceRepository;
         private IRepository<ModuleElement> _moduleElementRepository;
         private IResourceRepository _resourceRepository;
+        private IOrgRepository _orgRepository;
 
         public LoginApp(IUserRepository repository,
             IModuleRepository moduleRepository,
             IRelevanceRepository relevanceRepository,
-            IRepository<ModuleElement>  moduleElementRepository,
-            IResourceRepository resourceRepository)
+            IRepository<ModuleElement> moduleElementRepository,
+            IResourceRepository resourceRepository,
+            IOrgRepository orgRepository)
         {
             _repository = repository;
             _moduleRepository = moduleRepository;
             _relevanceRepository = relevanceRepository;
             _moduleElementRepository = moduleElementRepository;
             _resourceRepository = resourceRepository;
+            _orgRepository = orgRepository;
         }
 
         public LoginUserVM Login(string userName, string password)
@@ -52,7 +53,7 @@ namespace OpenAuth.App
                 _relevanceRepository.Find(
                     u =>
                         (u.FirstId == user.Id && u.Key == "UserModule") ||
-                        (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u =>u.SecondId).ToList();
+                        (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
             //用户角色与自己分配到的菜单ID
             var elementIds =
                _relevanceRepository.Find(
@@ -60,12 +61,12 @@ namespace OpenAuth.App
                        (u.FirstId == user.Id && u.Key == "UserElement") ||
                        (u.Key == "RoleElement" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
             //得出最终用户拥有的模块
-            loginVM.Modules = _moduleRepository.Find(u => moduleIds.Contains(u.Id)).MapToList<ModuleView>();
+            loginVM.Modules = _moduleRepository.Find(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo).MapToList<ModuleView>();
 
             //模块菜单权限
             foreach (var module in loginVM.Modules)
             {
-                module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id && elementIds.Contains( u.Id)).ToList();
+                module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id && elementIds.Contains(u.Id)).OrderBy(u => u.Sort).ToList();
             }
 
             //用户角色与自己分配到的资源ID
@@ -74,6 +75,13 @@ namespace OpenAuth.App
                         (u.FirstId == user.Id && u.Key == "UserResource") ||
                         (u.Key == "RoleResource" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
             loginVM.Resources = _resourceRepository.Find(u => resourceIds.Contains(u.Id)).ToList();
+
+            //用户角色与自己分配到的机构ID
+            var orgids = _relevanceRepository.Find(
+                    u =>
+                        (u.FirstId == user.Id && u.Key == "UserAccessedOrg") ||
+                        (u.Key == "RoleAccessdOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+            loginVM.AccessedOrgs = _orgRepository.Find(u => orgids.Contains(u.Id)).ToList();
 
             return loginVM;
         }
@@ -94,10 +102,12 @@ namespace OpenAuth.App
             //模块包含的菜单
             foreach (var module in loginUser.Modules)
             {
-                module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id).ToList();
+                module.Elements = _moduleElementRepository.Find(u => u.ModuleId == module.Id).OrderBy(u => u.Sort).ToList();
             }
 
-            loginUser.Resources = _resourceRepository.Find(null).ToList();
+            loginUser.Resources = _resourceRepository.Find(null).OrderBy(u => u.SortNo).ToList();
+
+            loginUser.AccessedOrgs = _orgRepository.Find(null).OrderBy(u => u.SortNo).ToList();
             return loginUser;
         }
     }

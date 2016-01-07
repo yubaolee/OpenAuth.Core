@@ -1,4 +1,4 @@
-<%-- 
+﻿<%-- 
 Name: Database Table Properties
 Author: yubaolee
 Description: Create a list of properties from a database table
@@ -134,7 +134,7 @@ Description: Create a list of properties from a database table
             url: '/<%=ModuleName%>Manager/Add?id=' + selected,
             title: '编辑',
             onClose:function() {
-                refreshModuleGrid();
+                refresh<%=ModuleName%>Grid();
             }
         });
 

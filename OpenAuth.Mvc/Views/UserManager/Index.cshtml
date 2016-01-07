@@ -173,6 +173,22 @@
         });
     }
 
+    //用户可见组织授权按钮
+    function openUserOrgAccess(obj) {
+
+        var selected = getSelected('#@_gridId', 2);
+        if (selected == null) return;
+
+        $(obj).dialog({
+            id: 'accessUserOrg',
+            url: '/OrgManager/LookupMultiForUser',
+            title: '为用户分配可见部门',
+            data: {
+                userId: selected
+            }
+        });
+    }
+
     //用户角色授权
     function openUserRoleAccess(obj) {
         var selected = getSelected('#@_gridId', 2);

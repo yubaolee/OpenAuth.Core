@@ -16,7 +16,7 @@ namespace OpenAuth.Repository.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(255);
 
-            this.Property(t => t.Phone_)
+            this.Property(t => t.Phone)
                 .IsRequired()
                 .HasMaxLength(255);
 
@@ -40,7 +40,7 @@ namespace OpenAuth.Repository.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(255);
 
-            this.Property(t => t.QQ)
+            this.Property(t => t.Qq)
                 .IsRequired()
                 .HasMaxLength(255);
 
@@ -68,13 +68,13 @@ namespace OpenAuth.Repository.Models.Mapping
             this.ToTable("UserExt");
             this.Property(t => t.Id).HasColumnName("Id");
             this.Property(t => t.Email).HasColumnName("Email");
-            this.Property(t => t.Phone_).HasColumnName("Phone_");
+            this.Property(t => t.Phone).HasColumnName("Phone_");
             this.Property(t => t.Mobile).HasColumnName("Mobile");
             this.Property(t => t.Address).HasColumnName("Address");
             this.Property(t => t.Zip).HasColumnName("Zip");
             this.Property(t => t.Birthday).HasColumnName("Birthday");
             this.Property(t => t.IdCard).HasColumnName("IdCard");
-            this.Property(t => t.QQ).HasColumnName("QQ");
+            this.Property(t => t.Qq).HasColumnName("QQ");
             this.Property(t => t.DynamicField).HasColumnName("DynamicField");
             this.Property(t => t.ByteArrayId).HasColumnName("ByteArrayId");
             this.Property(t => t.Remark).HasColumnName("Remark");

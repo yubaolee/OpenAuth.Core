@@ -53,6 +53,7 @@
     <Compile Include="Interface\IResourceRepository.cs" />
     <Compile Include="Interface\IRoleRepository.cs" />
     <Compile Include="Interface\IRelevanceRepository.cs" />
+    <Compile Include="Interface\IStockRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="ModuleElement.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Relevance.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="Stock.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserCfg.cs" />
     <Compile Include="UserExt.cs" />

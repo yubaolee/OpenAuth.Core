@@ -52,7 +52,7 @@ namespace OpenAuth.App
 
         public IEnumerable<ModuleElement> LoadByModuleId(int id)
         {
-            var modules = _repository.Find(u => u.ModuleId == id);
+            var modules = _repository.Find(u => u.ModuleId == id).OrderBy(u =>u.Sort);
             return modules;
         }
 

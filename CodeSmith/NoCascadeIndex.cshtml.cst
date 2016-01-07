@@ -1,4 +1,4 @@
-<%-- 
+﻿<%-- 
 Name: Database Table Properties
 Author: yubaolee
 Description: 没有树状导航的datagrid
@@ -98,7 +98,7 @@ Description: 没有树状导航的datagrid
             url: '/<%=ModuleName%>Manager/Add?id=' + selected,
             title: '编辑',
             onClose:function() {
-                refreshModuleGrid();
+                refresh<%=ModuleName%>Grid();
             }
         });
 

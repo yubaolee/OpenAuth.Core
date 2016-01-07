@@ -3,7 +3,10 @@ using OpenAuth.App;
 using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
 using System;
+using System.Linq;
 using System.Web.Mvc;
+using Infrastructure.Helper;
+using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -23,6 +26,20 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        //用于选择模块时使用
+        public ActionResult LookUpMultiForUser(int userId)
+        {
+            ViewBag.UserId = userId;
+            return View();
+        }
+
+        //为角色分配模块
+        public ActionResult LookupMultiForRole(int roleId)
+        {
+            ViewBag.RoleId = roleId;
+            return View();
+        }
+
         /// <summary>
         /// 选择上级机构页面
         /// </summary>
@@ -35,6 +52,86 @@ namespace OpenAuth.Mvc.Controllers
         public ActionResult AddOrg()
         {
             return View();
+        }
+
+        public string LoadForTree()
+        {
+            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs;
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        public string LoadOrgWithRoot()
+        {
+            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs;
+            //添加根节点
+            orgs.Add(new Org
+            {
+                Id = 0,
+                ParentId = -1,
+                Name = "根节点",
+                CascadeId = "0"
+            });
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        public string LoadForUser(int userId)
+        {
+            var orgs = _orgApp.LoadForUser(userId);
+            //添加根节点
+            orgs.Add(new Org
+            {
+                Id = 0,
+                ParentId = -1,
+                Name = "用户及角色可访问的部门",
+                CascadeId = "0"
+            });
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        public string LoadForRole(int roleId)
+        {
+            var orgs = _orgApp.LoadForRole(roleId);
+            //添加根节点
+            orgs.Add(new Org
+            {
+                Id = 0,
+                ParentId = -1,
+                Name = "已为角色分配的可访问部门",
+                CascadeId = "0"
+            });
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        public string AssignOrgForRole(int roleId, string moduleIds)
+        {
+            try
+            {
+                var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
+                _orgApp.AssignModuleForRole(roleId, ids);
+            }
+            catch (Exception e)
+            {
+                BjuiResponse.message = e.Message;
+                BjuiResponse.statusCode = "300";
+            }
+
+            return JsonHelper.Instance.Serialize(BjuiResponse);
+        }
+
+        public string AssignOrgForUser(int userId, string moduleIds)
+        {
+            try
+            {
+                var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
+                _orgApp.AssignModuleForUser(userId, ids);
+            }
+            catch (Exception e)
+            {
+                BjuiResponse.message = e.Message;
+                BjuiResponse.statusCode = "300";
+            }
+
+            return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
         //添加组织提交

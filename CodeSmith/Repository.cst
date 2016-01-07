@@ -1,4 +1,4 @@
-<%-- 
+﻿<%-- 
 Name: 数据访问
 Author: yubaolee
 Description: 
@@ -20,7 +20,7 @@ namespace OpenAuth.Repository
 
         public IEnumerable<<%=ModuleName%>> Load<%=ModuleName%>s(int pageindex, int pagesize)
         {
-            return Context.Categories.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
+            return Context.<%=ModuleName%>s.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
         public IEnumerable<<%=ModuleName%>> LoadInOrgs(params int[] orgId)

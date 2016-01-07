@@ -1,0 +1,309 @@
+﻿<%@ Template Language="C#" TargetLanguage="Text" Debug="True" OutputType="None"  %>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="CodeSmith.CustomProperties" %>
+
+<%@ Assembly Name="Mono.Cecil" Path="..\Common" %>
+<%@ Assembly Name="ICSharpCode.NRefactory" Path="..\Common" %>
+<%@ Assembly Name="ICSharpCode.NRefactory.CSharp" Path="..\Common" %>
+
+<%@ Assembly Src="Internal\Model.cs" %>
+<%@ Assembly Src="Internal\Extensions.cs" %>
+<%@ Assembly Src="Internal\Generator.cs" %>
+<%@ Assembly Src="Internal\Parser.cs" %>
+
+<%@ Import Namespace="System.Collections.Generic" %>
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="System.Linq" %>
+<%@ Import Namespace="System.Text" %>
+<%@ Import Namespace="System.Text.RegularExpressions" %>
+
+<%@ Import Namespace="SchemaMapper" %>
+
+<%@ Property Name="SourceDatabase"
+             Type="SchemaExplorer.DatabaseSchema"
+             Category="1.Database"
+             OnChanged="OnSourceDatabaseChanged"
+             Description="The source database." %>
+
+<%@ Property Name="ContextNamespace"
+             Type="System.String"
+             Category="2.Class"
+             OnChanged="OnContextNamespaceChanged"
+             Description="The namespace to use for the data context class files."%>
+<%@ Property Name="EntityNamespace"
+             Type="System.String"
+             Category="2.Class"
+             Description="The namespace to use for the entity class files."%>
+<%@ Property Name="MappingNamespace"
+             Type="System.String"
+             Category="2.Class"
+             Description="The namespace to use for the mapping class files."%>
+
+<%@ Property Name="ContextDirectory"
+             Category="3.Output"
+             Type="System.String"
+             Default=".\"
+             Optional="True"
+             Description="The folder to save the generated context files."
+             Editor="System.Windows.Forms.Design.FolderNameEditor, System.Design, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" %>
+<%@ Property Name="EntityDirectory"
+             Category="3.Output"
+             Type="System.String"
+             Default=".\Entities"
+             Optional="True"
+             Description="The folder to save the generated entity files."
+             Editor="System.Windows.Forms.Design.FolderNameEditor, System.Design, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" %>
+<%@ Property Name="MappingDirectory"
+             Category="3.Output"
+             Type="System.String"
+             Default=".\Mapping"
+             Optional="True"
+             Description="The folder to save the generated mapping files."
+             Editor="System.Windows.Forms.Design.FolderNameEditor, System.Design, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" %>
+
+<%@ Property Name="TableNaming"
+             Type="SchemaMapper.TableNaming"
+             Category="4.Hints"
+             Default="Singular"
+             Description="Provide generator a hint as to how the tables are named." %>
+<%@ Property Name="EntityNaming"
+             Type="SchemaMapper.EntityNaming"
+             Category="4.Hints"
+             Default="Singular"
+             Description="Tell generator how the entities are to be named." %>
+<%@ Property Name="RelationshipNaming"
+             Type="SchemaMapper.RelationshipNaming"
+             Category="4.Hints"
+             Default="Plural"
+             Description="Tell generator how the relationships are to be named." %>
+<%@ Property Name="ContextNaming"
+             Type="SchemaMapper.ContextNaming"
+             Category="4.Hints"
+             Default="Plural"
+             Description="Tell generator how the context properties are to be named." %>
+
+<%@ Property Name="IgnoreList"
+             Type="CodeSmith.CustomProperties.StringCollection"
+             Category="5.Customization"
+             Default="sysdiagrams$"
+             Optional="True"
+             Description="List of regular expressions to ignore tables, views and commands when generating mapping." %>
+<%@ Property Name="InclusionMode"
+             Type="Boolean"
+             Category="5.Customization"
+             Default="False"
+             Optional="True"
+             Description="Change the IgnoreList to be a list of table to include instead of ignore." %>
+<%@ Property Name="CleanExpressions"
+             Type="CodeSmith.CustomProperties.StringCollection"
+             Category="5.Customization"
+             Default="^(sp|tbl|udf|vw)_"
+             Optional="True"
+             Description="List of regular expressions to clean table, view and column names." %>
+<%@ Property Name="InterfaceMode"
+             Type="Boolean"
+             Category="5.Customization"
+             Default="False"
+             Optional="True"
+             Description="Use interfaces for DbContext." %>
+
+
+
+<%@ Register Name="ContextGeneratedClass"
+             Template="Internal\Context.Generated.cst"
+             MergeProperties="False" %>
+
+<%@ Register Name="EntityGeneratedClass"
+             Template="Internal\Entity.Generated.cst"
+             MergeProperties="False" %>
+
+<%@ Register Name="MappingGeneratedClass"
+             Template="Internal\Mapping.Generated.cst"
+             MergeProperties="False" %>
+
+Generating Entities ...
+<% Generate(); %>
+
+<script runat="template">
+    public void Generate()
+    {
+        Stopwatch watch = Stopwatch.StartNew();
+        string outputDirectory = Path.GetFullPath(ContextDirectory);
+
+        if (!Directory.Exists(outputDirectory))
+            Directory.CreateDirectory(outputDirectory);
+
+        if (SourceDatabase != null)
+        {
+            this.Progress.MaximumValue = (SourceDatabase.Tables.Count * 3) + 1;
+            this.Progress.Step = 1;
+        }
+
+        Generator generator = new Generator();
+        generator.Settings.TableNaming = TableNaming;
+        generator.Settings.EntityNaming = EntityNaming;
+        generator.Settings.RelationshipNaming = RelationshipNaming;
+        generator.Settings.ContextNaming = ContextNaming;
+
+        foreach(string s in IgnoreList)
+          if (!string.IsNullOrEmpty(s))
+            generator.Settings.IgnoreExpressions.Add(s);
+
+        foreach(string s in CleanExpressions)
+          if (!string.IsNullOrEmpty(s))
+            generator.Settings.CleanExpressions.Add(s);
+
+        generator.SchemaItemProcessed += OnSchemaItemProcessed;
+        
+        // generate from database
+        EntityContext context = generator.Generate(SourceDatabase);
+        
+        // update model from source files
+        Synchronizer.UpdateFromSource(context, ContextDirectory, MappingDirectory);
+        
+        CreateContextClass(context);
+        CreateMappingClasses(context);
+        CreateEntityClasses(context);
+        
+        this.RegisterReference("System.Configuration");
+        this.RegisterReference("System.Data");
+        this.RegisterReference("System.Data.Entity");
+        this.RegisterReference("System.Runtime.Serialization");
+        this.RegisterReference("EntityFramework");
+
+        watch.Stop();
+        Response.WriteLine("Generate Time: " + watch.ElapsedMilliseconds + " ms");
+    }
+
+
+    public void CreateContextClass(EntityContext entityContext)
+    {
+        ContextGeneratedClass generatedClass = this.Create<ContextGeneratedClass>();
+        this.CopyPropertiesTo(generatedClass);
+
+
+        string rootDirectory = Path.GetFullPath(ContextDirectory);
+        string className = entityContext.ClassName;
+
+        string generatedFile = className + ".cs";
+        generatedFile = Path.Combine(rootDirectory, generatedFile);
+
+        generatedClass.EntityContext = entityContext;
+
+        Response.WriteLine(generatedFile);
+        generatedClass.RenderToFile(generatedFile, generatedFile, true);
+    }
+
+
+    public void CreateMappingClasses(EntityContext entityContext)
+    {
+        MappingGeneratedClass generatedClass = this.Create<MappingGeneratedClass>();
+        this.CopyPropertiesTo(generatedClass);
+
+        foreach(Entity entity in entityContext.Entities)
+        {
+            Stopwatch watch = Stopwatch.StartNew();
+
+             Debug.WriteLine(string.Format(
+                "Creating Mapping Class '{0}' ...",
+                entity.ClassName));
+
+            string rootDirectory = Path.GetFullPath(MappingDirectory);
+            CreateMapping(generatedClass, entity, rootDirectory);
+
+            Debug.WriteLine(string.Format(
+                "Created Mapping Class '{0}' in {1} ms.",
+                entity.ClassName,
+                watch.Elapsed.TotalMilliseconds.ToString()));
+
+            this.Progress.PerformStep();
+        }
+    }
+
+    public void CreateMapping(MappingGeneratedClass generatedClass, Entity entity, string rootDirectory)
+    {
+        string className = entity.MappingName;
+
+        
+        string generatedFile = className + ".cs";
+        generatedFile = Path.Combine(rootDirectory, generatedFile);
+
+        generatedClass.Entity = entity;
+
+        Response.WriteLine(generatedFile);
+        generatedClass.RenderToFile(generatedFile, generatedFile, true);
+    }
+
+
+    public void CreateEntityClasses(EntityContext entityContext)
+    {
+        EntityGeneratedClass generatedClass = this.Create<EntityGeneratedClass>();
+        this.CopyPropertiesTo(generatedClass);
+
+        foreach(Entity entity in entityContext.Entities)
+        {
+            Stopwatch watch = Stopwatch.StartNew();
+
+             Debug.WriteLine(string.Format(
+                "Creating Entity Class '{0}' ...",
+                entity.ClassName));
+
+            string rootDirectory = Path.GetFullPath(EntityDirectory);
+            CreateEntity(generatedClass, entity, rootDirectory);
+
+            Debug.WriteLine(string.Format(
+                "Created Entity Class '{0}' in {1} ms.",
+                entity.ClassName,
+                watch.Elapsed.TotalMilliseconds.ToString()));
+
+            this.Progress.PerformStep();
+        }
+    }
+
+    public void CreateEntity(EntityGeneratedClass generatedClass, Entity entity, string rootDirectory)
+    {
+        string className = entity.ClassName;
+
+        string generatedFile = className + ".cs";
+        generatedFile = Path.Combine(rootDirectory, generatedFile);
+
+        generatedClass.Entity = entity;
+
+        Response.WriteLine(generatedFile);
+        generatedClass.RenderToFile(generatedFile, generatedFile, true);
+    }
+    
+    private void OnSchemaItemProcessed(object sender, SchemaItemProcessedEventArgs e)
+    {
+        this.Progress.PerformStep();
+        Response.WriteLine(e.Name);
+    }
+
+    private void OnSourceDatabaseChanged(object sender, EventArgs e)
+    {
+        if (SourceDatabase == null)
+            return;
+
+        string name = StringUtil.ToPascalCase(SourceDatabase.Database.Name);
+
+        if (string.IsNullOrEmpty(ContextNamespace))
+            ContextNamespace = name + ".Data";
+
+    }
+
+    private void OnContextNamespaceChanged(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(ContextNamespace))
+            return;
+
+        if (string.IsNullOrEmpty(EntityNamespace))
+            EntityNamespace = ContextNamespace + ".Entities";
+
+        if (string.IsNullOrEmpty(MappingNamespace))
+            MappingNamespace = ContextNamespace + ".Mapping";
+        
+
+    }
+
+</script>

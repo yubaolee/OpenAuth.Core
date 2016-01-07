@@ -23,7 +23,8 @@ namespace OpenAuth.UnitTest
                 new ModuleRepository(), 
                 new RelevanceRepository(),
                 new BaseRepository<ModuleElement>(),
-                new ResourceRepository()
+                new ResourceRepository(),
+                new OrgRepository()
                 );
             var user = login.Login("admin", "admin");
             foreach (var module in user.Modules)

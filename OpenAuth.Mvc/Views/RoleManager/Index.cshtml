@@ -38,12 +38,12 @@
                     name: 'Id',
                     label: '流水号'
                     , hide: true
-               },    
+               },
                {
                     name: 'Name',
                     label: '角色名称',
                    width:100
-               },    
+               },
                {
                     name: 'Status',
                     label: '当前状态',
@@ -51,7 +51,7 @@
                     align: 'center',
                    items:[{'0':'正常','1':'禁用'}],
                    width:50
-               },    
+               },
                {
                     name: 'Type',
                     label: '角色类型',
@@ -59,28 +59,28 @@
                     align: 'center',
                     items: [{ '0': '管理员','1':'普通角色' }],
                    width:50
-               },    
+               },
                {
                     name: 'CreateTime',
                     label: '创建时间'
                     , type: 'date',
                     width: 150,
                     pattern: 'yyyy-MM-dd HH:mm:ss'
-               },       
-              
+               },
+
                {
                     name: 'OrgCascadeId',
                     label: '所属部门节点语义ID',
                    width:100
-               },    
+               },
                {
                     name: 'OrgName',
                     label: '所属部门名称',
                    width:100
-               }   
+               }
             ],
             dataUrl: 'RoleManager/Load?orgId=' + selectedId,
-           
+
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
@@ -163,6 +163,21 @@
             id: 'accessRoleModule',
             url: '/ModuleManager/LookupMultiForRole',
             title: '为角色分配模块',
+            data: {
+                roleid: selected
+            }
+        });
+    }
+
+    //为角色分配可见机构
+    function assignRoleOrg(obj) {
+        var selected = getSelected('#@_gridId', 2);
+        if (selected == null) return;
+
+        $(obj).dialog({
+            id: 'accessRoleOrg',
+            url: '/OrgManager/LookupMultiForRole',
+            title: '为角色分配可见机构',
             data: {
                 roleid: selected
             }

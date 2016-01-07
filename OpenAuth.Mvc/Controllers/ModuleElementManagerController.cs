@@ -77,13 +77,21 @@ namespace OpenAuth.Mvc.Controllers
             ViewBag.RoleId = roleId;
             return View();
         }
+
+        /// <summary>
+        /// 为角色分配菜单
+        /// </summary>
+        /// <param name="roleId">角色ID</param>
+        /// <param name="moduleId">模块ID</param>
+        /// <param name="menuIds">菜单ID列表</param>
+        /// <returns></returns>
         [HttpPost]
-        public string AssignForRole(int roleId, string menuIds)
+        public string AssignForRole(int roleId,int moduleId, string menuIds)
         {
             try
             {
                 var ids = menuIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AssignForRole(roleId, ids);
+                _app.AssignForRole(roleId,moduleId, ids);
             }
             catch (Exception e)
             {
@@ -106,13 +114,20 @@ namespace OpenAuth.Mvc.Controllers
             ViewBag.UserId = userId;
             return View();
         }
+        /// <summary>
+        /// 为用户分配菜单
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <param name="moduleId">模块ID</param>
+        /// <param name="menuIds">菜单ID列表</param>
+        /// <returns></returns>
         [HttpPost]
-        public string AssignForUser(int userId, string menuIds)
+        public string AssignForUser(int userId,int moduleId, string menuIds)
         {
             try
             {
                 var ids = menuIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AssignForUser(userId, ids);
+                _app.AssignForUser(userId,moduleId, ids);
             }
             catch (Exception e)
             {

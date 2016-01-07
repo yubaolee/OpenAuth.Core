@@ -3,6 +3,7 @@ using OpenAuth.App;
 using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Infrastructure.Helper;
@@ -59,16 +60,15 @@ namespace OpenAuth.Mvc.Controllers
             var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs;
             return JsonHelper.Instance.Serialize(orgs);
         }
-
-        public string LoadOrgWithRoot()
+        public string LoadOrg()
         {
-            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs;
+            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs.MapToList<Org>();
             //添加根节点
             orgs.Add(new Org
             {
                 Id = 0,
                 ParentId = -1,
-                Name = "根节点",
+                Name = "根结点",
                 CascadeId = "0"
             });
             return JsonHelper.Instance.Serialize(orgs);
@@ -164,21 +164,7 @@ namespace OpenAuth.Mvc.Controllers
             }
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
-
-        public string LoadOrg()
-        {
-            var orgs = _orgApp.GetAll();
-            //添加根节点
-            orgs.Add(new Org
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "根结点",
-                CascadeId = "0"
-            });
-            return JsonHelper.Instance.Serialize(orgs);
-        }
-
+        
         public string LoadChildren(int id)
         {
             return JsonHelper.Instance.Serialize(_orgApp.LoadAllChildren(id));

@@ -115,6 +115,7 @@
         $.post("ModuleElementManager/AssignForUser",
         {
             userId: $('#userId').val(),
+            moduleId:selectedId,
             menuIds: selected
         },
        function (data) {

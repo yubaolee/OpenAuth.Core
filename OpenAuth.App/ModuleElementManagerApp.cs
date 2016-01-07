@@ -96,15 +96,17 @@ namespace OpenAuth.App
             _repository.Delete(u =>u.Id ==id);
         }
 
-        public void AssignForRole(int roleId, int[] menuIds)
+        public void AssignForRole(int roleId,int moduleId, int[] menuIds)
         {
-            _relevanceRepository.DeleteBy("RoleElement", roleId);
+            var elements = _repository.Find(u => u.ModuleId == moduleId).Select(u =>u.Id);
+            _relevanceRepository.Delete(u =>elements.Contains(u.SecondId) &&u.Key =="RoleElement" && u.FirstId == roleId);
             _relevanceRepository.AddRelevance("RoleElement", menuIds.ToLookup(u => roleId));
         }
 
-        public void AssignForUser(int userId, int[] ids)
+        public void AssignForUser(int userId, int moduleId, int[] ids)
         {
-            _relevanceRepository.DeleteBy("UserElement", userId);
+            var elements = _repository.Find(u => u.ModuleId == moduleId).Select(u => u.Id);
+            _relevanceRepository.Delete(u => elements.Contains(u.SecondId) && u.Key == "UserElement" && u.FirstId == userId);
             _relevanceRepository.AddRelevance("UserElement", ids.ToLookup(u => userId));
         }
     }

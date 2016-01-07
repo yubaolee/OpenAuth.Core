@@ -117,7 +117,8 @@
       
         $.post("ModuleElementManager/AssignForRole",
         {
-            roleId:$('#roleId').val(),
+            roleId: $('#roleId').val(),
+            moduleId: selectedId,
             menuIds: selected
         },
        function (data) {

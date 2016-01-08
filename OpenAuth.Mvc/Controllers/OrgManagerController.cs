@@ -60,6 +60,7 @@ namespace OpenAuth.Mvc.Controllers
             var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs;
             return JsonHelper.Instance.Serialize(orgs);
         }
+        [Anonymous]
         public string LoadOrg()
         {
             var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs.MapToList<Org>();

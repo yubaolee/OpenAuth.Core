@@ -15,7 +15,9 @@
 using Infrastructure.Helper;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;
+using System;
 using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
@@ -36,8 +38,15 @@ namespace OpenAuth.Mvc.Controllers
 
             if (controllername != "home")  //主页控制器无需权限控制
             {
+                var actionname = Request.RequestContext.RouteData.Values["action"].ToString();
+                var function = this.GetType().GetMethods().FirstOrDefault(u => u.Name == actionname);
+                if (function == null)
+                    throw new Exception("未能找到Action");
+
+                var anonymous = function.GetCustomAttribute(typeof(AnonymousAttribute));
+
                 var module = loginUser.Modules.FirstOrDefault(u => u.Url.ToLower().Contains(controllername));
-                if (module == null)
+                if (module == null && anonymous == null)
                 {
                     filterContext.Result = new RedirectResult("/Login/Index");
                     return;

@@ -71,9 +71,9 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载节点下面的所有<%=ModuleName %>s
         /// </summary>
-        public string Load(int parentidId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(int parentId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(parentidId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(parentId, pageCurrent, pageSize));
         }
         
          public string LoadForTree()

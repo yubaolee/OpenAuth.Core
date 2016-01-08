@@ -3,6 +3,8 @@ using OpenAuth.App;
 using OpenAuth.Domain;
 using System;
 using System.Web.Mvc;
+using Infrastructure.Helper;
+using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -33,7 +35,10 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.AddOrUpdate(model);
+               var newmodel =  new Stock();
+                model.CopyTo(newmodel);
+                newmodel.User = SessionHelper.GetSessionUser<LoginUserVM>().User.Account;
+                _app.AddOrUpdate(newmodel);
             }
             catch (Exception ex)
             {
@@ -46,24 +51,11 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载节点下面的所有Stocks
         /// </summary>
-        public string Load(int parentidId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(int parentId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(parentidId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(parentId, pageCurrent, pageSize));
         }
-
-        public string LoadForTree()
-        {
-            var models = _app.LoadAll();
-            //添加根节点
-            models.Add(new Stock
-            {
-                Id = 0,
-                OrgId = -1,
-                Name = "根结点",
-            });
-            return JsonHelper.Instance.Serialize(models);
-        }
-
+        
         public string Delete(int Id)
         {
             try

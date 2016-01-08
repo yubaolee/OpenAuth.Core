@@ -39,16 +39,7 @@ namespace OpenAuth.App
         /// </summary>
         public IList<Org> LoadAllChildren(int orgId)
         {
-            string cascadeId = "0.";
-            if (orgId != 0)
-            {
-                var org = _repository.FindSingle(u => u.Id == orgId);
-                if (org == null)
-                    throw new Exception("未能找到指定对象信息");
-                cascadeId = org.CascadeId;
-            }
-
-            return _repository.Find(u => u.CascadeId.Contains(cascadeId) && u.Id != orgId).ToList();
+            return _repository.GetSubOrgs(orgId).ToList();
         }
 
         /// <summary>

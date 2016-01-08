@@ -80,7 +80,7 @@ namespace OpenAuth.App
             var orgids = _relevanceRepository.Find(
                     u =>
                         (u.FirstId == user.Id && u.Key == "UserAccessedOrg") ||
-                        (u.Key == "RoleAccessdOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                        (u.Key == "RoleAccessedOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
             loginVM.AccessedOrgs = _orgRepository.Find(u => orgids.Contains(u.Id)).ToList();
 
             return loginVM;
@@ -95,7 +95,8 @@ namespace OpenAuth.App
             {
                 User = new User
                 {
-                    Name = "开发者账号"
+                    Name = "开发者账号",
+                    Account = "System"
                 }
             };
             loginUser.Modules = _moduleRepository.Find(null).MapToList<ModuleView>();

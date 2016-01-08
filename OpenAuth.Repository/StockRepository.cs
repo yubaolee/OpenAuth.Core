@@ -15,7 +15,7 @@ namespace OpenAuth.Repository
 
         public IEnumerable<Stock> LoadInOrgs(params int[] orgId)
         {
-            var result = from stock in Context.Stocks where orgId.Contains(stock.Id)
+            var result = from stock in Context.Stocks where orgId.Contains(stock.OrgId)
                 select stock;
             return result;
 

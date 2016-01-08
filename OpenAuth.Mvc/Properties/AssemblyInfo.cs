@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息是通过以下项进行控制的
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("OpenAuth.Mvc")]
+[assembly: AssemblyTitle("基于DDDLite的权限管理系统")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("www.cnblogs.com/yubaolee")]
 [assembly: AssemblyProduct("OpenAuth.Mvc")]
-[assembly: AssemblyCopyright("版权所有(C)  2015")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("版权所有(C) 2015")]
+[assembly: AssemblyTrademark("OpenAuth.Net")]
 [assembly: AssemblyCulture("")]
 
 // 将 ComVisible 设置为 false 将使此程序集中的类型

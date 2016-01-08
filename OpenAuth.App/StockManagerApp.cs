@@ -1,10 +1,11 @@
 ﻿
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
+using Infrastructure.Helper;
+using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.App
 {
@@ -20,39 +21,38 @@ namespace OpenAuth.App
             _orgRepository = orgRepository;
         }
 
-        public int GetStockCntInOrg(int orgId)
-        {
-            if (orgId == 0)
-            {
-                return _repository.Find(null).Count();
-            }
-            else
-            {
-                return _repository.GetStockCntInOrgs(GetSubOrgIds(orgId));
-            }
-        }
-        
-        public List<Stock> LoadAll()
-        {
-            return _repository.Find(null).ToList();
-        }
-
         /// <summary>
-        /// 加载一个节点下面的一个或全部Stocks
+        /// 根据部门ID得到进出库信息
         /// </summary>
         public dynamic Load(int orgId, int pageindex, int pagesize)
         {
             IEnumerable<Stock> Stocks;
-            int total = 0;
+            var user = SessionHelper.GetSessionUser<LoginUserVM>();
+            var loginOrgs = user.AccessedOrgs.Select(u => u.Id).ToArray();
+
+            int total;
             if (orgId == 0)
             {
-                Stocks = _repository.LoadStocks(pageindex, pagesize);
-                total = _repository.GetCount();
+               
+                if (loginOrgs.Length == 0)  //改用户没有任何可见机构
+                {
+                    Stocks = _repository.Find(pageindex, pagesize, "", u => u.User == user.User.Account);
+                    total = _repository.GetCount(u =>u.User ==user.User.Account);
+                }
+                else
+                {
+                    Stocks = _repository.LoadInOrgs(pageindex, pagesize, loginOrgs);
+                    total = _repository.GetStockCntInOrgs(loginOrgs);
+                }
+              
             }
-            else
+            else  //加载选择的机构及用户可访问的所有子机构
             {
-                Stocks = _repository.LoadInOrgs(pageindex, pagesize,GetSubOrgIds(orgId));
-                total = _repository.GetStockCntInOrgs(orgId);
+                var orgs = _orgRepository.GetSubOrgs(orgId).Where(u =>loginOrgs.Contains(u.Id));
+                List<int> orgIds = orgs.Select(u => u.Id).ToList();
+                orgIds.Add(orgId);
+                Stocks = _repository.LoadInOrgs(pageindex, pagesize, orgIds.ToArray());
+                total = _repository.GetStockCntInOrgs(orgIds.ToArray());
             }
 
             return new 
@@ -61,16 +61,6 @@ namespace OpenAuth.App
                 list = Stocks,
                 pageCurrent = pageindex
             };
-        }
-
-        /// <summary>
-        /// 获取当前节点的所有下级节点
-        /// </summary>
-        private int[] GetSubOrgIds(int orgId)
-        {
-            var org = _orgRepository.FindSingle(u => u.Id == orgId);
-            var orgs = _orgRepository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
-            return orgs;
         }
 
         public Stock Find(int id)

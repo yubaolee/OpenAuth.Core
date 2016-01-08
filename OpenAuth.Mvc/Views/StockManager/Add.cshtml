@@ -40,13 +40,7 @@
                                data-rule="required" size="20">
                     </td>
                    </tr>
-                   <tr>
-                    <td>
-                        <label for="User" class="control-label x120">：</label>
-                        <input type="text" name="User" id="User" value="@Model.User"
-                               data-rule="required" size="20">
-                    </td>
-                   </tr>
+                  
                    <tr>
                     <td>
                         <label for="Time" class="control-label x120">操作时间：</label>
@@ -59,9 +53,9 @@
                          @Html.HiddenFor(m =>m.OrgId)
                 @if (Model.Id == 0)  //添加
                 {
-                           //这个只用于显示使用，并不会进行提交处理，真正提交的是cascadeId
-                            <label for="CascadeName" class="control-label x120">父节点流水号：</label>
-                            <input type="text" name="CascadeName" id="CascadeName"
+                           //这个只用于显示使用，并不会进行提交处理，真正提交的是OrgId
+                            <label for="OrgName" class="control-label x120">所属部门：</label>
+                            <input type="text" name="OrgName" id="OrgName"
                                    data-toggle="selectztree" size="20" data-tree="#j_select_tree1" value="">
                             <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
                     <script type="text/javascript">
@@ -95,7 +89,7 @@
                                     onCheck: zTreeCheck
                                 }
                             };
-                            $.getJSON('CategoryManager/LoadForTree', function (json) {
+                            $.getJSON('OrgManager/LoadForTree', function (json) {
                                 var zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
                                 zTreeObj.expandAll(true);
                             });

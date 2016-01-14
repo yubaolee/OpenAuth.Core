@@ -42,11 +42,11 @@ namespace OpenAuth.App
             model.CopyTo(newbtn);
             if (model.Id == 0)
             {
-                _repository.Add(model);
+                _repository.Add(newbtn);
             }
             else
             {
-                _repository.Update(model);
+                _repository.Update(newbtn);
             }
         }
 

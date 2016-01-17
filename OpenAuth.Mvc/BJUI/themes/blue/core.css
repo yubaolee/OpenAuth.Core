@@ -91,6 +91,7 @@ fieldset{border-color:#c3ced5;}
 #bjui-navtab > .tabsPageHeader > .tabsPageHeaderContent > .nav > li > a{color:#222; background-color:#f3f8fc; border-color:#eee; border-bottom-color:#c3ced5;}
 #bjui-navtab > .tabsPageHeader > .tabsPageHeaderContent > .nav > li > a:hover{color:#222; background:#d9e7f2; border-color:#c3ced5; border-bottom-color:transparent;}
 #bjui-navtab > .tabsPageHeader > .tabsPageHeaderContent > .nav > li.active > a{color:#222; font-weight:bold; background:#fff; border-color:#c3ced5; border-bottom-color:transparent;}
+#bjui-navtab > .tabsPageHeader > .tabsPageHeaderContent > .nav > li.navtab-drag > a{background:#d9e7f2;}
 #bjui-navtab > .tabsMoreList{background:#f3f8fc; border-color:#c3ced5;}
 #bjui-navtab > .tabsMoreList > li > a:hover{color:#222; background:#d9e7f2;}
 #bjui-navtab > .tabsMoreList > li.active > a{font-weight:bold; background:#d9e7f2;}
@@ -131,8 +132,9 @@ fieldset{border-color:#c3ced5;}
 .bjui-datagrid .datagrid-box-h{background-color:#f9f9f9; border-bottom-color:#c3ced5;}
 .bjui-datagrid .datagrid-box-f{background-color:#f3f8fc;}
 .bjui-datagrid .datagrid-box-f .table > thead > tr > th .datagrid-calcbox{color:#16669e; background-color:#d9e7f2;}
+.bjui-datagrid .table > tbody > tr > td.datagrid-child-td,
 .bjui-datagrid .table > tbody > tr > td.datagrid-linenumber-td{color:#16669e;}
-.bjui-datagrid .table.table-hover > tbody > tr:hover > td.datagrid-linenumber-td{background-color:#d9e7f2;}
+.bjui-datagrid .table > tbody > tr > td.datagrid-child-td:hover{background-color:#d9e7f2;}
 .bjui-datagrid .table > tbody > tr.datagrid-hover > td{background-color:#ecf1f5;}
 .bjui-datagrid .table > thead > tr > th > div > .datagrid-cell > .datagrid-column-menu-btn > .btn.active,
 .bjui-datagrid .table > thead > tr > th > div > .datagrid-cell > .datagrid-column-menu-btn > .btn:hover,

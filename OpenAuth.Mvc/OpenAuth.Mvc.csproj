@@ -184,7 +184,7 @@
     <Content Include="BJUI\js\bjui-theme.js" />
     <Content Include="BJUI\js\bjui-upload.js" />
     <Content Include="BJUI\js\bjui-util.date.js" />
-    <Content Include="BJUI\js\jquery-1.7.2.min.js" />
+    <Content Include="BJUI\js\jquery-1.11.3.min.js" />
     <Content Include="BJUI\js\jquery.cookie.js" />
     <Content Include="BJUI\js\sha256.js" />
     <Content Include="BJUI\myextension.js" />

@@ -280,6 +280,7 @@ td[align=right] input{text-align:right;}
 #bjui-navtab > .tabsPageHeader > .tabsPageHeaderContent > .nav > li > a > span > em{font-size:14px; font-style:normal;}
 #bjui-navtab > .tabsPageHeader > .tabsPageHeaderContent > ul > li span.close{position:absolute; right:5px; top:1px; font-size:12px;}
 #bjui-navtab > .tabsPageHeader > .tabsPageHeaderContent > ul > li span.close:hover{color:#FF0000;}
+#bjui-navtab > .tabsPageHeader > .tabsPageHeaderContent > ul > li.navtab-drag > a{opacity:.8;}
 #bjui-navtab > .tabsPageHeader > .tabsLeft,
 #bjui-navtab > .tabsPageHeader > .tabsRight,
 #bjui-navtab > .tabsPageHeader > .tabsMore{position:absolute; display:block; width:20px; height:26px; font-size:16px; line-height:1.5; text-align:center; overflow:hidden; cursor:pointer;}
@@ -293,7 +294,7 @@ td[align=right] input{text-align:right;}
 #bjui-navtab > .tabsMoreList > li a{display:block; padding:0 10px; height:21px; white-space:nowrap; line-height:21px;}
 #bjui-navtab > .tabsMoreList > li a:hover{text-decoration:none;}
 #bjui-navtab > .tabsPageContent{position:relative; display:block; overflow:hidden; border-style:solid; border-width:0 1px 1px 1px;}
-#bjui-navtab > .tabsPageContent > .navtabPage{height:100%; overflow:hidden;}
+#bjui-navtab > .tabsPageContent > .navtabPage{position:absolute; top:0; right:0; bottom:0; left:0; z-index:0; height:100%; overflow:hidden;}
 /* Dialog */
 .bjui-dialog{position:absolute; display:block; text-align:left; border-radius:3px; box-shadow:0 2px 2px rgba(0, 0, 0, 0.3);}
 .bjui-dialog > .dialogHeader{position:relative; padding:0 5px; cursor:move;}
@@ -345,11 +346,11 @@ td[align=right] input{text-align:right;}
 .bjui-datagrid .datagrid-title{height:30px; line-height:30px; text-indent:5px; font-weight:bold; border-bottom:1px #ddd solid;}
 .bjui-datagrid .datagrid-toolbar{padding:5px 0; min-height:34px; border-bottom:1px #ccc solid;}
 .bjui-datagrid .datagrid-toolbar .btn-group{margin:0 5px;}
-.bjui-datagrid .table{max-width:auto !important; table-layout:fixed; border-top-width:0; border-left-width:0 !important;}
-.bjui-datagrid .table > thead > tr > th{padding:0 1px; height:100%;}
-.bjui-datagrid .table > thead > tr > th.single-row{height:25px;}
+.bjui-datagrid .table{max-width:auto !important; table-layout:fixed !important; border-top-width:0; border-left-width:0 !important;}
+.bjui-datagrid .table > thead > tr > th{padding:0 1px;}
 .bjui-datagrid .table > tbody > tr > td:first-child{border-left-color:transparent;}
 .bjui-datagrid .table > tbody > tr > td{padding-left:1px; padding-right:1px; overflow-x:hidden;}
+.bjui-datagrid .table > tbody > tr > td > div{word-wrap: break-word;}
 .bjui-datagrid .datagrid-box-h,
 .bjui-datagrid .datagrid-box-b,
 .bjui-datagrid .datagrid-box-f{position:relative;}
@@ -358,7 +359,7 @@ td[align=right] input{text-align:right;}
 .bjui-datagrid .datagrid-box-f thead > tr > th{border-bottom-color:#ddd;}
 .bjui-datagrid .datagrid-box-b{overflow:auto;}
 .bjui-datagrid .datagrid-box-h .table > thead > tr:first-child > th{border-top-width:0;}
-.bjui-datagrid .datagrid-box-h .table > thead > tr > th{overflow:hidden; border-bottom-width:0; white-space:nowrap;}
+.bjui-datagrid .datagrid-box-h .table > thead > tr > th{overflow:hidden; border-bottom-width:0; /*white-space:nowrap;*/}
 .bjui-datagrid .datagrid-box-h .table{border-bottom-width:0;}
 .bjui-datagrid .datagrid-box-h .table > thead > tr > th:last-child{border-right-color:#ddd;}
 .bjui-datagrid .datagrid-box-b .table > tbody > tr:first-child > td{border-top-color:#f1f1f1;}
@@ -374,12 +375,18 @@ td[align=right] input{text-align:right;}
 .bjui-datagrid .datagrid-box-m{position:absolute; left:0; display:none; width:100%;}
 .bjui-datagrid .datagrid-hidden{display:none;}
 .bjui-datagrid .table > thead > tr > th.datagrid-checkbox{width:27px;}
+.bjui-datagrid .table > thead > tr > th.datagrid-child-td,
 .bjui-datagrid .table > thead > tr > th.datagrid-linenumber-td,
+.bjui-datagrid .table > tbody > tr > td.datagrid-child-td,
 .bjui-datagrid .table > tbody > tr > td.datagrid-linenumber-td{background-color:#f0f0f0;}
-.bjui-datagrid .table > thead > tr > th > div{height:100%;}
+.bjui-datagrid .table > tbody > tr > td.datagrid-child-td{cursor:pointer; vertical-align:middle;}
+.bjui-datagrid .table > tbody > tr > td.datagrid-child-td div {display:table; width:100%; height:100%;}
+.bjui-datagrid .table > tbody > tr > td.datagrid-child-td span{display:table-cell; vertical-align:middle;}
+.bjui-datagrid .table > tbody > tr.datagrid-child-tr{display:none;}
+.bjui-datagrid .table > thead > tr > th > div{display:block; width:100%; height:100%; min-height:24px;}
 .bjui-datagrid .table > thead > tr > th > div > .datagrid-cell{position:relative; float:right; width:0px; height:100%; overflow:visible;}
 .bjui-datagrid .table > thead > tr > th > div > .datagrid-space{display:inline-block; height:100%; vertical-align:middle;}
-.bjui-datagrid .table > thead > tr > th > div > .datagrid-label{display:inline-block; width:100%; vertical-align:middle; overflow:hidden;}
+.bjui-datagrid .table > thead > tr > th > div > .datagrid-label{display:inline-block; width:100%; vertical-align:middle; line-height:1.2;}
 .bjui-datagrid .table > thead > tr > th > div > .datagrid-cell > .datagrid-column-resizemark{position:absolute; top:0; right:-3px; display:block; width:6px; height:100%; cursor:col-resize;}
 .bjui-datagrid .table > thead > tr > th > div > .datagrid-cell > .datagrid-column-menu-btn{position:absolute; top:50%; left:-20px; margin-top:-10px; height:20px;}
 .bjui-datagrid .table > thead > tr > th.single-row > div > .datagrid-cell > .datagrid-column-menu-btn{margin-top:-9px;}
@@ -548,7 +555,7 @@ td[align=right] input{text-align:right;}
 .bjui-alert > .alertContent > .confirm > .alertInner > h1{color:#FF6600; background-color:#FFEDE1; border-bottom:1px #FFAF7A solid;}
 /* Masks */
 .bjui-maskBackground{position:absolute; top:0; left:0; z-index:2000; display:block; width:100%; height:100%; opacity:0.4; filter:alpha(opacity=40); background:#FFF;}
-.bjui-maskProgress{position:absolute; top:50%; left:50%; z-index:2001; display:block; margin-left:-130px; margin-top:-14px; width:260px; height:40px; text-align:center; font-size:14px; line-height:30px; font-weight:bold; border-radius:3px; box-shadow:0 3px 7px rgba(0,0,0,0.2);}
+.bjui-maskProgress{position:absolute; top:50%; left:50%; z-index:2001; display:block; margin-left:-130px; margin-top:-30px; width:260px; height:40px; text-align:center; font-size:14px; line-height:30px; font-weight:bold; border-radius:3px; box-shadow:0 3px 7px rgba(0,0,0,0.2);}
 .bjui-maskProgress > .progressBg{position:absolute; left:7px; bottom:5px; padding:0 2px; width:240px; height:3px; background-color:#ccc; overflow:hidden;}
 .bjui-maskProgress > .progressBg > .progress{position:absolute; left:0; width:0%; height:3px; background-color:#ff0000; background-image:-moz-linear-gradient(left, #fe8900, #ff0000); background-image:-webkit-linear-gradient(left, #fe8900, #ff0000); background-image:linear-gradient(left, #fe8900, #ff0000);}
 .bjui-maskProgress > .progressBg > .progress::after{content:''; opacity:0; position:absolute; top:0; right:0; bottom:0; left:0; height:3px; background:#fff; -webkit-animation:animate-shine 2s ease-out infinite; -moz-animation:animate-shine 2s ease-out infinite;}
@@ -668,8 +675,8 @@ span.tmpzTreeMove_arrow,.ztree .tree_add, .ztree .tree_del,
 .ztree li span.button.chk{margin:0 3px 0 0; width:18px; height:20px; cursor:auto;}
 .ztree li span.button.chk.checkbox_false_full{background-position:0 -2px;}
 .ztree li span.button.chk.checkbox_false_full_focus{background-position:0 -24px;}
-.ztree li span.button.chk.checkbox_false_part{/* background-position:-19px -46px; */background-position:0 -2px;}
-.ztree li span.button.chk.checkbox_false_part_focus{/*background-position:-19px -24px;*/background-position:0 -2px;}
+.ztree li span.button.chk.checkbox_false_part{background-position:-19px -46px;}
+.ztree li span.button.chk.checkbox_false_part_focus{background-position:-19px -24px;}
 .ztree li span.button.chk.checkbox_false_disable{background-position:0 -68px;}
 .ztree li span.button.chk.checkbox_true_full{background-position:-19px -2px;}
 .ztree li span.button.chk.checkbox_true_full_focus{background-position:-19px -24px;}

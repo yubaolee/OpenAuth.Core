@@ -28,7 +28,7 @@
     function loadDataGrid() {
         //b-jui的datagrid需要重新处理HTML
         $('#@_treeDetail').empty()
-            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
+            .append('<table id="@_gridId" class="table table-hover table-striped table-top"></table>');
 
         $('#@_gridId').datagrid({
             showToolbar: false,
@@ -93,7 +93,7 @@
             showCheckboxcol: true,
             paging: true,
             filterMult: false,
-            showTfoot: true,
+            showTfoot: false,
             height: '700'
         });
     }

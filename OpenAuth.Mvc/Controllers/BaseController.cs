@@ -20,6 +20,7 @@ using Infrastructure.Helper;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
@@ -39,8 +40,9 @@ namespace OpenAuth.Mvc.Controllers
                 return;
             }
             var controllername = Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
-            var actionname = filterContext.ActionDescriptor.ActionName;
-            var function = this.GetType().GetMethods().FirstOrDefault(u => u.Name == actionname);
+            var actionname = filterContext.ActionDescriptor.ActionName.ToLower();
+
+            var function = this.GetType().GetMethods().FirstOrDefault(u => u.Name.ToLower() == actionname);
             if (function == null)
                 throw new Exception("未能找到Action");
 

@@ -1,4 +1,7 @@
 ﻿@{
+    Layout = "~/Views/Shared/_BjuiLayout.cshtml";
+}
+@{
     string _prefix = "org";
     var _treeId = _prefix + "Tree";
     var _gridId = _prefix + "Grid";
@@ -6,7 +9,7 @@
 }
 @{ Html.RenderAction("MenuHeader", "Home");}
 
-<div class="bjui-pageContent tableContent">
+<div class="bjui-pageContent tableContent" style="position:relative">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
             <ul id="@_treeId" class="ztree"></ul>
@@ -32,6 +35,7 @@
        grid = $('#@_gridId').datagrid({
             showToolbar: false,
             filterThead: false,
+            target: $(this),
             columns: [
             {
                 name: 'Id',
@@ -74,7 +78,7 @@
                   pattern: 'yyyy-MM-dd HH:mm:ss'
               }
             ],
-            dataUrl: 'OrgManager/LoadChildren?Id=' + selectedId,
+            dataUrl: '/OrgManager/LoadChildren?Id=' + selectedId,
             editUrl: 'OrgManager/EditOrg',
             editMode: 'dialog',
             fullGrid: true,
@@ -119,7 +123,7 @@
                 onClick: zTreeOnClick
             }
         };
-        $.getJSON('OrgManager/LoadOrg', function (json) {
+        $.getJSON('/OrgManager/LoadOrg', function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });
@@ -134,7 +138,7 @@
         var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
 
-        $.getJSON('OrgManager/DelOrg?Id=' + selected, function (data) {
+        $.getJSON('/OrgManager/DelOrg?Id=' + selected, function (data) {
             if (data.statusCode == "200")
                 refreshOrgGrid();
             else {

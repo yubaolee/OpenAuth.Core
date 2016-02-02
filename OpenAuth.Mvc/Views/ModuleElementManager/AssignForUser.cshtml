@@ -69,7 +69,7 @@
                    width: 80
                }
             ],
-            dataUrl: 'ModuleElementManager/LoadForUser?orgId=' + selectedId + '&userId=' + $('#userId').val(),
+            dataUrl: '/ModuleElementManager/LoadForUser?orgId=' + selectedId + '&userId=' + $('#userId').val(),
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
@@ -101,7 +101,7 @@
             },
             callback: { onClick: zTreeOnClick }
         };
-        $.getJSON('ModuleManager/LoadForUser?userId=' + $('#userId').val(), function (json) {
+        $.getJSON('/ModuleManager/LoadForUser?userId=' + $('#userId').val(), function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });
@@ -112,7 +112,7 @@
         var selected = getSelectedMany('#@_gridId', 2);
         if (selected == null) return;
 
-        $.post("ModuleElementManager/AssignForUser",
+        $.post("/ModuleElementManager/AssignForUser",
         {
             userId: $('#userId').val(),
             moduleId:selectedId,

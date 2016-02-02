@@ -1,4 +1,7 @@
-﻿@model IEnumerable<OpenAuth.Domain.ModuleElement>
+﻿@{
+    Layout = "~/Views/Shared/_BjuiLayout.cshtml";
+}
+@model IEnumerable<OpenAuth.Domain.ModuleElement>
 
 <script type="text/javascript">
 
@@ -17,7 +20,7 @@ $('#tableButtons').on('afterdelete.bjui.tabledit', function(e) {
             </button>&nbsp;
         </div>
 </div>
-<div class="bjui-pageContent tableContent">
+<div class="bjui-pageContent tableContent" style="position:relative">
     <form id="j_custom_form" class="pageForm" data-toggle="validate" method="post">
         <table id="tableButtons" class="table table-bordered table-hover table-striped table-top"
                data-toggle="tabledit" data-initnum="0" data-action="/ModuleElementManager/AddOrEditButton" 

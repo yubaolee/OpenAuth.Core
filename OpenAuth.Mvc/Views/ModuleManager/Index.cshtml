@@ -1,4 +1,7 @@
 ﻿@{
+    Layout = "~/Views/Shared/_BjuiLayout.cshtml";
+}
+@{
     string _prefix = "Module";
     var _treeId = _prefix + "Tree";
     var _gridId = _prefix + "Grid";
@@ -6,7 +9,7 @@
 }
 
 @{ Html.RenderAction("MenuHeader", "Home");}
-<div class="bjui-pageContent tableContent">
+<div class="bjui-pageContent tableContent" style="position:relative">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
             <ul id="@_treeId" class="ztree"></ul>
@@ -33,6 +36,7 @@
         $('#@_gridId').datagrid({
             showToolbar: false,
             filterThead: false,
+            target: $(this),
             columns: [
                {
                     name: 'Id',
@@ -87,7 +91,7 @@
                     label: '排序号'
                },    
             ],
-            dataUrl: 'ModuleManager/Load?orgId=' + selectedId,
+            dataUrl: '/ModuleManager/Load?orgId=' + selectedId,
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
@@ -120,7 +124,7 @@
             },
             callback: {onClick: zTreeOnClick}
         };
-        $.getJSON('ModuleManager/LoadModuleWithRoot', function (json) {
+        $.getJSON('/ModuleManager/LoadModuleWithRoot', function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
             zTreeObj.expandAll(true);
         });
@@ -131,7 +135,7 @@
         var selected = getSelected('#@_gridId',2);
         if (selected == null) return;
         
-        $.getJSON('ModuleManager/Delete?Id=' + selected, function (data) {
+        $.getJSON('/ModuleManager/Delete?Id=' + selected, function (data) {
             if (data.statusCode == "200")
                 loadDataGrid();
             else {

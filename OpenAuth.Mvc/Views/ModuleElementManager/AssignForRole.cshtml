@@ -70,7 +70,7 @@
                    width: 80
                }
             ],
-            dataUrl: 'ModuleElementManager/LoadForRole?orgId=' + selectedId +'&roleId='+$('#roleId').val(),
+            dataUrl: '/ModuleElementManager/LoadForRole?orgId=' + selectedId +'&roleId='+$('#roleId').val(),
             fullGrid: true,
             showLinenumber: true,
             showCheckboxcol: true,
@@ -102,7 +102,7 @@
             },
             callback: { onClick: zTreeOnClick }
         };
-        $.getJSON('ModuleManager/LoadForRole',
+        $.getJSON('/ModuleManager/LoadForRole',
             { roleId: $('#roleId').val() },
             function (json) {
             var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
@@ -115,7 +115,7 @@
         var selected = getSelectedMany(gridid, 2);
         if (selected == null) return;
       
-        $.post("ModuleElementManager/AssignForRole",
+        $.post("/ModuleElementManager/AssignForRole",
         {
             roleId: $('#roleId').val(),
             moduleId: selectedId,

@@ -7653,6 +7653,7 @@
                 }
                 
                 BJUI.ajax('doajax', {
+                    target: options.target,
                     url       : url,
                     data      : data || {},
                     type      : options.loadType,

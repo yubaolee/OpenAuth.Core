@@ -157,33 +157,7 @@
     <Content Include="BJUI\images\loginbg_03.jpg" />
     <Content Include="BJUI\images\loginbg_04.jpg" />
     <Content Include="BJUI\images\logo.png" />
-    <Content Include="BJUI\js\bjui-ajax.js" />
-    <Content Include="BJUI\js\bjui-ajaxtab.js" />
-    <Content Include="BJUI\js\bjui-alertmsg.js" />
     <Content Include="BJUI\js\bjui-all.js" />
-    <Content Include="BJUI\js\bjui-basedrag.js" />
-    <Content Include="BJUI\js\bjui-contextmenu.js" />
-    <Content Include="BJUI\js\bjui-core.js" />
-    <Content Include="BJUI\js\bjui-datagrid.js" />
-    <Content Include="BJUI\js\bjui-datepicker.js" />
-    <Content Include="BJUI\js\bjui-dialog.js" />
-    <Content Include="BJUI\js\bjui-extends.js" />
-    <Content Include="BJUI\js\bjui-frag.js" />
-    <Content Include="BJUI\js\bjui-initui.js" />
-    <Content Include="BJUI\js\bjui-lookup.js" />
-    <Content Include="BJUI\js\bjui-navtab.js" />
-    <Content Include="BJUI\js\bjui-pagination.js" />
-    <Content Include="BJUI\js\bjui-plugins.js" />
-    <Content Include="BJUI\js\bjui-regional.zh-CN.js" />
-    <Content Include="BJUI\js\bjui-slidebar.js" />
-    <Content Include="BJUI\js\bjui-spinner.js" />
-    <Content Include="BJUI\js\bjui-tabledit.js" />
-    <Content Include="BJUI\js\bjui-tablefixed.js" />
-    <Content Include="BJUI\js\bjui-tags.js" />
-    <Content Include="BJUI\js\bjui-taskbar.js" />
-    <Content Include="BJUI\js\bjui-theme.js" />
-    <Content Include="BJUI\js\bjui-upload.js" />
-    <Content Include="BJUI\js\bjui-util.date.js" />
     <Content Include="BJUI\js\jquery-1.11.3.min.js" />
     <Content Include="BJUI\js\jquery.cookie.js" />
     <Content Include="BJUI\js\sha256.js" />
@@ -580,6 +554,7 @@
     <Content Include="Views\StockManager\Add.cshtml" />
     <Content Include="Views\OrgManager\LookupMultiForRole.cshtml" />
     <Content Include="Views\OrgManager\LookupMultiForUser.cshtml" />
+    <Content Include="Views\Shared\_BjuiLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

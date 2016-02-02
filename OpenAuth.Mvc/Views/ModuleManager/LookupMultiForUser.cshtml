@@ -55,7 +55,7 @@
                 onCheck: zTreeCheck
             }
         };
-        $.getJSON('ModuleManager/LoadForTree', function (json) {
+        $.getJSON('/ModuleManager/LoadForTree', function (json) {
             var zTreeObj = $.fn.zTree.init($('#lookupTree'), setting, json);
             zTreeObj.expandAll(true);
         });
@@ -81,7 +81,7 @@
                 onCheck: zTreeCheck
             }
         };
-        $.post('ModuleManager/LoadForUser', { userId: $('#userId').val() },
+        $.post('/ModuleManager/LoadForUser', { userId: $('#userId').val() },
             function (json) {
                 var zTreeObj = $.fn.zTree.init($('#selected'), setting, eval(json));
                 zTreeObj.expandAll(true);
@@ -89,7 +89,7 @@
     }
 
     function save() {
-        $.post('ModuleManager/AssignModuleForUser', { userId: $('#userId').val(), moduleIds: moduleIds },
+        $.post('/ModuleManager/AssignModuleForUser', { userId: $('#userId').val(), moduleIds: moduleIds },
             function (json) {
                 var rel = $.parseJSON(json);
                 if (rel.statusCode == "200") {

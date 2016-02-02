@@ -1,21 +1,16 @@
 ﻿@{
     Layout = "~/Views/Shared/_BjuiLayout.cshtml";
 }
-@{
-    string _prefix = "org";
-    var _treeId = _prefix + "Tree";
-    var _gridId = _prefix + "Grid";
-    var _treeDetail = _prefix + "Detail";
-}
+
 @{ Html.RenderAction("MenuHeader", "Home");}
 
 <div class="bjui-pageContent tableContent" style="position:relative">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="@_treeId" class="ztree"></ul>
+            <ul id="maintree" class="ztree"></ul>
         </div>
 
-        <div id="@_treeDetail" style="margin-left: 225px; ">
+        <div id="detail" style="margin-left: 225px; ">
         </div>
     </div>
 </div>
@@ -30,9 +25,9 @@
     //加载数据到datagrid
     function LoadOrg() {
         //b-jui的datagrid需要重新处理HTML
-        $('#@_treeDetail').empty()
-            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
-       grid = $('#@_gridId').datagrid({
+        $('#detail').empty()
+            .append('<table id="maingrid" class="table table-bordered table-hover table-striped table-top"></table>');
+       grid = $('#maingrid').datagrid({
             showToolbar: false,
             filterThead: false,
             target: $(this),
@@ -124,18 +119,18 @@
             }
         };
         $.getJSON('/OrgManager/LoadOrg', function (json) {
-            var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
+            var zTreeObj = $.fn.zTree.init($('#maintree'), setting, json);
             zTreeObj.expandAll(true);
         });
     }
 
     function refreshOrgGrid() {
-        $('#@_gridId').datagrid('refresh');
+        $('#maingrid').datagrid('refresh');
     }
 
     //删除
     function delOrg() {
-        var selected = getSelected('#@_gridId',2);
+        var selected = getSelected('#maingrid',2);
         if (selected == null) return;
 
         $.getJSON('/OrgManager/DelOrg?Id=' + selected, function (data) {
@@ -146,6 +141,4 @@
             }
         });
     }
-
-    //@@ sourceURL=orgIndex.js
 </script>

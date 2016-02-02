@@ -1,8 +1,5 @@
 ﻿@{
-    string _prefix = "user";
-    var _treeId = _prefix + "Tree";
-    var _gridId = _prefix + "Grid";
-    var _treeDetail = _prefix + "Detail";
+    Layout = "~/Views/Shared/_BjuiLayout.cshtml";
 }
 
 @{ Html.RenderAction("MenuHeader", "Home");}
@@ -10,11 +7,11 @@
 <div class="bjui-pageContent tableContent" style="position:relative">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="@_treeId" class="ztree"></ul>
+            <ul id="maintree" class="ztree"></ul>
         </div>
 
       
-        <div id="@_treeDetail" style="margin-left: 225px;">
+        <div id="detail" style="margin-left: 225px;">
         </div>
     </div>
 </div>
@@ -29,12 +26,13 @@
     //加载数据到datagrid
     function loadDataGrid() {
         //b-jui的datagrid需要重新处理HTML
-        $('#@_treeDetail').empty()
-            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
+        $('#detail').empty()
+            .append('<table id="maingrid" class="table table-bordered table-hover table-striped table-top"></table>');
 
-        $('#@_gridId').datagrid({
+        $('#maingrid').datagrid({
             showToolbar: false,
             filterThead: false,
+            target: $(this),
             columns: [
                 {
                     name: 'Id',
@@ -116,7 +114,7 @@
             callback: { onClick: zTreeOnClick }
         };
         $.getJSON('/OrgManager/LoadOrg', function (json) {
-            var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
+            var zTreeObj = $.fn.zTree.init($('#maintree'), setting, json);
             zTreeObj.expandAll(true);
         });
     }
@@ -125,7 +123,7 @@
 
     //删除
     function delUser() {
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $.getJSON('/UserManager/Delete?Id=' + selected, function (data) {
@@ -139,7 +137,7 @@
 
     //自定义的编辑按钮
     function editUser() {
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $(this).dialog({
@@ -154,13 +152,13 @@
     }
 
     function refreshUserGrid() {
-        $('#@_gridId').datagrid('refresh');
+        $('#maingrid').datagrid('refresh');
     }
 
     //用户模块授权按钮
     function openUserModuleAccess(obj) {
 
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -176,7 +174,7 @@
     //用户可见组织授权按钮
     function openUserOrgAccess(obj) {
 
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -191,7 +189,7 @@
 
     //用户角色授权
     function openUserRoleAccess(obj) {
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -208,7 +206,7 @@
 
     //为用户分配资源
     function openUserReourceAccess(obj) {
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -225,7 +223,7 @@
 
     //分配菜单
     function openAssignUserElement(obj) {
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -236,5 +234,4 @@
             height: 380
         });
     }
-    //@@ sourceURL=userManagerIndex.js
 </script>

@@ -47,7 +47,7 @@
                 onClick: zTreeOnClick
             }
         };
-        $.getJSON('OrgManager/LoadOrg', function (json) {
+        $.getJSON('/OrgManager/LoadOrg', function (json) {
             var zTreeObj = $.fn.zTree.init($('#lookupTree'), setting, json);
             zTreeObj.expandAll(true);
         });

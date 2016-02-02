@@ -1,21 +1,16 @@
 ﻿@{
     Layout = "~/Views/Shared/_BjuiLayout.cshtml";
 }
-@{
-    string _prefix = "Role";
-    var _treeId = _prefix + "Tree";
-    var _gridId = _prefix + "Grid";
-    var _treeDetail = _prefix + "Detail";
-}
+
 @{ Html.RenderAction("MenuHeader", "Home");}
 
 <div class="bjui-pageContent tableContent" style="position:relative">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="@_treeId" class="ztree"></ul>
+            <ul id="maintree" class="ztree"></ul>
         </div>
 
-        <div id="@_treeDetail" style="margin-left: 225px;">
+        <div id="detail" style="margin-left: 225px;">
         </div>
     </div>
 </div>
@@ -30,10 +25,10 @@
     //加载数据到datagrid
     function loadDataGrid() {
         //b-jui的datagrid需要重新处理HTML
-        $('#@_treeDetail').empty()
-            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
+        $('#detail').empty()
+            .append('<table id="maingrid" class="table table-bordered table-hover table-striped table-top"></table>');
 
-        $('#@_gridId').datagrid({
+        $('#maingrid').datagrid({
             showToolbar:false,
             filterThead: false,
             columns: [
@@ -117,14 +112,14 @@
             callback: {onClick: zTreeOnClick}
         };
         $.getJSON('/OrgManager/LoadOrg', function (json) {
-            var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
+            var zTreeObj = $.fn.zTree.init($('#maintree'), setting, json);
             zTreeObj.expandAll(true);
         });
     }
 
     //删除
     function delRole() {
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $.getJSON('/RoleManager/Delete?Id=' + selected, function (data) {
@@ -138,7 +133,7 @@
 
     //自定义的编辑按钮
     function editRole() {
-        var selected = getSelected('#@_gridId',2);
+        var selected = getSelected('#maingrid',2);
         if (selected == null) return;
 
         $(this).dialog({
@@ -152,14 +147,14 @@
     }
 
     function refreshRoleGrid() {
-        $('#@_gridId').datagrid('refresh');
+        $('#maingrid').datagrid('refresh');
        // loadDataGrid();
     }
 
     //为角色分配模块
     function assignRoleModule(obj) {
 
-        var selected = getSelected('#@_gridId',2);
+        var selected = getSelected('#maingrid',2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -174,7 +169,7 @@
 
     //为角色分配可见机构
     function assignRoleOrg(obj) {
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -189,7 +184,7 @@
 
     //为角色分配资源
     function openRoleReourceAccess(obj) {
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $(obj).dialog({
@@ -206,7 +201,7 @@
 
     //为角色分配菜单
     function assignRoleElement(obj) {
-        var selected = getSelected('#@_gridId', 2);
+        var selected = getSelected('#maingrid', 2);
         if (selected == null) return;
 
         $(obj).dialog({

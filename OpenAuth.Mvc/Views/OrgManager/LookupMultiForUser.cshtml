@@ -55,7 +55,7 @@
                 onCheck: zTreeCheck
             }
         };
-        $.getJSON('OrgManager/LoadForTree', function (json) {
+        $.getJSON('/OrgManager/LoadForTree', function (json) {
             var zTreeObj = $.fn.zTree.init($('#lookupTree'), setting, json);
             zTreeObj.expandAll(true);
         });
@@ -81,7 +81,7 @@
                 onCheck: zTreeCheck
             }
         };
-        $.post('OrgManager/LoadForUser', { userId: $('#userId').val() },
+        $.post('/OrgManager/LoadForUser', { userId: $('#userId').val() },
             function (json) {
                 var zTreeObj = $.fn.zTree.init($('#selected'), setting, eval(json));
                 zTreeObj.expandAll(true);
@@ -89,7 +89,7 @@
     }
 
     function save() {
-        $.post('OrgManager/AssignOrgForUser', { userId: $('#userId').val(), moduleIds: moduleIds },
+        $.post('/OrgManager/AssignOrgForUser', { userId: $('#userId').val(), moduleIds: moduleIds },
             function (json) {
                 var rel = $.parseJSON(json);
                 if (rel.statusCode == "200") {

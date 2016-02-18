@@ -51,13 +51,15 @@ namespace OpenAuth.UnitTest
             //    module.CascadeId += module1.CascadeId;
             //}
             //moduleRep.Update(module);
+            
 
-            var module2 = new Module
+            moduleRep.Update(u =>u.Id, new Module
             {
-                Id = 14,
-                CascadeId = DateTime.Now.ToShortTimeString()
-            };
-            moduleRep.Update(module2);
+                Id = 15,
+                Name = "test",
+                CascadeId = DateTime.Now.ToShortTimeString(),
+                Url = "ssss"
+            });
         }
     }
 }

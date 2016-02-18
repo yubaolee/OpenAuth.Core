@@ -41,7 +41,7 @@ namespace OpenAuth.Domain.Interface
         /// <summary>
         /// 批量更新
         /// </summary>
-        void Update(Expression<Func<T, bool>> exp, T entity);
+        void Update(Expression<Func<T, object>> exp, T entity);
 
         /// <summary>
         /// 批量删除

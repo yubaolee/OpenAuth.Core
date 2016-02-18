@@ -75,10 +75,12 @@ namespace OpenAuth.Repository
            Save();
        }
 
-       public void Update(Expression<Func<T, bool>> exp, T entity)
+       public void Update(Expression<Func<T, object>> identityExp, T entity)
        {
            //TODO: 暂时有问题，EntityFramework.Extension的Update必须有new操作
-           Context.Set<T>().Where(exp).Update(u => entity);
+          // Context.Set<T>().Where(exp).Update(u => entity);
+           Context.Set<T>().AddOrUpdate(identityExp, entity);
+            Save();
        }
 
        public void Delete(Expression<Func<T, bool>> exp)

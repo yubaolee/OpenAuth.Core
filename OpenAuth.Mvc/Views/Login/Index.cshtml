@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>系统登录</title>
-    <script src="~/BJUI/js/jquery-1.11.3.min.js"></script>
-    <script src="~/BJUI/js/jquery.cookie.js"></script>
-    <script src="~/BJUI/js/sha256.js"></script>
-    <link href="~/BJUI/themes/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/Content/BJUI/js/jquery-1.11.3.min.js"></script>
+    <script src="/Content/BJUI/js/jquery.cookie.js"></script>
+    <script src="/Content/BJUI/js/sha256.js"></script>
+    <link href="/Content/BJUI/themes/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         * {
             font-family: "Verdana", "Tahoma", "Lucida Grande", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
         }
 
         body {
-            background: url(/BJUI/images/loginbg_01.jpg) no-repeat center center fixed;
+            background: url(/Content/BJUI/images/loginbg_01.jpg) no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -175,7 +175,7 @@
         }
         function choose_bg() {
             var bg = Math.floor(Math.random() * 4 + 1);
-            $('body').css('background-image', 'url(/BJUI/images/loginbg_0' + bg + '.jpg)');
+            $('body').css('background-image', 'url(/Content/BJUI/images/loginbg_0' + bg + '.jpg)');
         }
     </script>
 </head>
@@ -197,7 +197,7 @@
         </div>
         <div class="login_box">
             <div class="login_logo">
-                <img src="/BJUI/images/logo.png">
+                <img src="/Content/BJUI/images/logo.png">
             </div>
             @if (Model != null && Model.statusCode == "300")
             {

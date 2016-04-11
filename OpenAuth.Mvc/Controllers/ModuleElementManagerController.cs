@@ -35,10 +35,15 @@ namespace OpenAuth.Mvc.Controllers
             _app = AutofacExt.GetFromFac<ModuleElementManagerApp>();
         }
 
-        public ActionResult Index(int id = 0)
+        public ActionResult Index(int id)
         {
             ViewBag.ModuleId = id;
-            return View(_app.LoadByModuleId(id));
+            return View();
+        }
+
+        public ActionResult Get(int moduleId = 0)
+        {
+            return Json(_app.LoadByModuleId(moduleId));
         }
 
         [HttpPost]
@@ -56,11 +61,12 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_bjuiResponse);
         }
 
-        public string DelButton(int id)
+        public string Del(string moduleElements)
         {
             try
             {
-                _app.Delete(id);
+                var delObjs = JsonHelper.Instance.Deserialize<ModuleElement[]>(moduleElements);
+                _app.Delete(delObjs);
             }
             catch (Exception e)
             {

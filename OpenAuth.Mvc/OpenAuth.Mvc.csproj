@@ -150,6 +150,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BllScripts\moduleElementMan.js" />
     <Content Include="BllScripts\modulemanager.js" />
     <Content Include="Content\BJUI\images\captcha.jpeg" />
     <Content Include="Content\BJUI\images\datagrid\AU.gif" />

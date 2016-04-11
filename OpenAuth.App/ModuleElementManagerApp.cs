@@ -91,9 +91,10 @@ namespace OpenAuth.App
             return listVms;
         }
 
-        public void Delete(int id)
+        public void Delete(ModuleElement[] objs)
         {
-            _repository.Delete(u =>u.Id ==id);
+            var delIds = objs.Select(u => u.Id).ToList();
+            _repository.Delete(u =>delIds.Contains(u.Id));
         }
 
         public void AssignForRole(int roleId,int moduleId, int[] menuIds)

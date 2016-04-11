@@ -3,8 +3,8 @@
 }
 
 
-<div id="moduleElementManager" class="bjui-dialog">
-    <div class="bjui-pageHeader">
+<div id="moduleElementManager" >
+    <div class="bjui-pageHeader" style="z-index: 100">
         <button type="button" class="btn-green" data-icon="plus" id="btnAddElement">
             添加
         </button>
@@ -15,7 +15,7 @@
             删除
         </button>
     </div>
-    <div class="bjui-pageContent">
+    <div class="bjui-pageContent" style="padding-top: 30px">
         <input id="selectedModuleId" value="@ViewBag.ModuleId" style="display: none" />
         <table id="maingrid" class="table table-bordered"></table>
     </div>

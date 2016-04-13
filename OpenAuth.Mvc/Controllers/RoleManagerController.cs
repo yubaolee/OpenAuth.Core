@@ -85,8 +85,15 @@ namespace OpenAuth.Mvc.Controllers
 
         public string AccessRoles(int userId, string ids)
         {
-            var roleids = ids.Split(',').Select(id => int.Parse(id)).ToArray();
+            var roleids = JsonHelper.Instance.Deserialize<int[]>(ids);
             _app.AccessRole(userId, roleids);
+            return JsonHelper.Instance.Serialize(BjuiResponse);
+        }
+
+        public string DelAccessRoles(int userId, string ids)
+        {
+            var roleids = JsonHelper.Instance.Deserialize<int[]>(ids);
+            _app.DelAccessRole(userId, roleids);
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 

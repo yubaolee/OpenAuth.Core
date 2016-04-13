@@ -39,7 +39,7 @@ namespace OpenAuth.App
         /// </summary>
         public dynamic Load(int orgId, int pageindex, int pagesize)
         {
-            if (pageindex < 1) pageindex = 1;  //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
+            if (pageindex < 1) pageindex = 1; //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
             IEnumerable<Role> roles;
             int total = 0;
             if (orgId == 0)
@@ -98,15 +98,15 @@ namespace OpenAuth.App
 
         public List<RoleVM> LoadForOrgAndUser(int orgId, int userId)
         {
-            var roleIds = _repository.Find(u =>u.OrgId == orgId).ToList();
+            var roleIds = _repository.Find(u => orgId == 0 || u.OrgId == orgId).ToList();
             var rolevms = new List<RoleVM>();
             foreach (var role in roleIds)
             {
                 RoleVM rolevm = role;
                 rolevm.IsBelongUser = (_relevanceRepository.FindSingle(u => u.SecondId == role.Id
-                    && u.FirstId == userId
-                    && u.Key == "UserRole")
-                    != null);
+                                                                            && u.FirstId == userId
+                                                                            && u.Key == "UserRole")
+                                       != null);
                 rolevms.Add(rolevm);
             }
             return rolevms;
@@ -114,9 +114,12 @@ namespace OpenAuth.App
 
         public void AccessRole(int userId, int[] roleIds)
         {
-            _relevanceRepository.DeleteBy("UserRole", userId);
-
             _relevanceRepository.AddRelevance("UserRole", roleIds.ToLookup(roleId => userId));
+        }
+
+        public void DelAccessRole(int userId, int[] roleids)
+        {
+            _relevanceRepository.DeleteBy("UserRole", roleids.ToLookup(roleId => userId));
         }
     }
 }

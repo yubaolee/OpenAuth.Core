@@ -357,7 +357,7 @@ td[align=right] input{text-align:right;}
 .bjui-datagrid .datagrid-box-h{overflow:hidden; border-bottom-style:solid; border-bottom-width:1px;}
 .bjui-datagrid .datagrid-box-f{overflow:hidden; border-top:1px #ddd solid; border-bottom:1px #ddd solid;}
 .bjui-datagrid .datagrid-box-f thead > tr > th{border-bottom-color:#ddd;}
-.bjui-datagrid .datagrid-box-b{overflow:auto;}
+.bjui-datagrid .datagrid-box-b{/* overflow:auto; */}
 .bjui-datagrid .datagrid-box-h .table > thead > tr:first-child > th{border-top-width:0;}
 .bjui-datagrid .datagrid-box-h .table > thead > tr > th{overflow:hidden; border-bottom-width:0; /*white-space:nowrap;*/}
 .bjui-datagrid .datagrid-box-h .table{border-bottom-width:0;}

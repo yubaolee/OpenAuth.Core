@@ -150,8 +150,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BllScripts\grid.js" />
     <Content Include="BllScripts\moduleElementMan.js" />
     <Content Include="BllScripts\modulemanager.js" />
+    <Content Include="BllScripts\usermanager.js" />
+    <Content Include="BllScripts\userRoleManager.js" />
     <Content Include="Content\BJUI\images\captcha.jpeg" />
     <Content Include="Content\BJUI\images\datagrid\AU.gif" />
     <Content Include="Content\BJUI\images\datagrid\BR.gif" />

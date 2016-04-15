@@ -8,11 +8,11 @@
     <form action="/UserManager/Add" class="pageForm" data-toggle="validate">
         <table class="table table-condensed table-hover">
             <tbody>
-             
+
                 <tr>
                     <td>
-                        @Html.HiddenFor(m =>m.CreateTime)
-                        @Html.HiddenFor(m =>m.Id)
+                        @Html.HiddenFor(m => m.CreateTime)
+                        @Html.HiddenFor(m => m.Id)
                         <label for="Account" class="control-label x90">用户账号：</label>
                         <input type="text" name="Account" id="Account" value="@Model.Account"
                                data-rule="required" size="20">
@@ -28,10 +28,9 @@
                     <td>
                         <label for="Organizations" class="control-label x90">所属机构：</label>
                         <input id="OrganizationIds" name="OrganizationIds" value="@Model.OrganizationIds" style="display: none" />
-                        <input type="text" name="Organizations" id="Organizations" 
+                        <input type="text" name="Organizations" id="Organizations"
                                data-toggle="selectztree" size="20" data-tree="#j_select_tree1" value="@Model.Organizations">
-                        <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree" >
-                        </ul>
+                        <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
                     </td>
                 </tr>
                 <tr>
@@ -39,8 +38,8 @@
                         <label for="Status" class="control-label x85">设置状态：</label>
 
                         <select name="Status" id="Status" data-toggle="selectpicker" data-rule="required">
-                            <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>    }>正常</option>
-                            <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>    }>禁用</option>
+                            <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>     }>正常</option>
+                            <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>     }>禁用</option>
                         </select>
                     </td>
                 </tr>
@@ -49,8 +48,8 @@
                         <label for="Sex" class="control-label x85">性别：</label>
 
                         <select name="Sex" id="Sex" data-toggle="selectpicker" data-rule="required">
-                            <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>     }>男</option>
-                            <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>     }>女</option>
+                            <option value="0" @if (Model.Status == 0) { <text> selected="selected" </text>      }>男</option>
+                            <option value="1" @if (Model.Status == 1) { <text> selected="selected" </text>      }>女</option>
                         </select>
                     </td>
                 </tr>
@@ -66,10 +65,11 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        Init();
-    });
-    function Init() {
+
+    var ztree = function () {
+        var orgName = $("#Organizations");
+        var orgIds = $("#OrganizationIds");
+        var zTreeObj;
         var setting = {
             view: {
                 selectedMulti: false
@@ -96,33 +96,33 @@
                 onCheck: zTreeCheck
             }
         };
+
+        function zTreeCheck(event, treeId, treeNode) {
+            var nodes = zTreeObj.getCheckedNodes(true);
+            var ids = nodes.map(function (e) { return e.Id; }).join(",");
+            var names = nodes.map(function (e) { return e.Name; }).join(",");
+
+            orgName.val(names);
+            orgIds.val(ids);
+        }
+        function zTreeOnClick(event, treeId, treeNode) {
+            zTreeObj.checkNode(treeNode, !treeNode.checked, true, true);
+            event.preventDefault();
+        }
+
         $.getJSON('/OrgManager/LoadOrg', function (json) {
-            var zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
+            zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
+            var orgstr = orgIds.val();
+            if (orgstr != '') {
+                var nodeIds = orgstr.split(',');
+                $.each(nodeIds, function () {
+                    var node = zTreeObj.getNodeByParam("Id", this, null);
+                    zTreeObj.checkNode(node, true, true);
+                });
+            }
             zTreeObj.expandAll(true);
         });
-    }
+    }();
 
-    function zTreeCheck(e, treeId, treeNode) {
-        var zTree = $.fn.zTree.getZTreeObj(treeId),
-            nodes = zTree.getCheckedNodes(true);
-        var ids = '', names = '';
-        for (var i = 0; i < nodes.length; i++) {
-            ids += ',' + nodes[i].Id;
-            names += ',' + nodes[i].Name;
-        }
-        if (ids.length > 0) {  //去掉第一个逗号
-            ids = ids.substr(1);
-            names = names.substr(1);
-        }
 
-        var $from = $('#' + treeId).data('fromObj');
-        if ($from && $from.length) $from.val(names);
-
-        $('#OrganizationIds').val(ids);
-    }
-    function zTreeOnClick(event, treeId, treeNode) {
-        var zTree = $.fn.zTree.getZTreeObj(treeId);
-        zTree.checkNode(treeNode, !treeNode.checked, true, true);
-        event.preventDefault();
-    }
 </script>

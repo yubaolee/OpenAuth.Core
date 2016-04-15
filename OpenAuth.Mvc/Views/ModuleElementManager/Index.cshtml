@@ -17,7 +17,7 @@
     </div>
     <div class="bjui-pageContent" style="padding-top: 30px">
         <input id="selectedModuleId" value="@ViewBag.ModuleId" style="display: none" />
-        <table id="maingrid" class="table table-bordered"></table>
+        <table id="moduleEleList" class="table table-bordered"></table>
     </div>
     <div class="bjui-pageFooter">
         <ul>
@@ -27,12 +27,12 @@
 </div>
 
 <!--编辑对话框-->
-<div class="bjui-dialog hidden bjui-dialog-container" id="editDlg" data-noinit="true">
+<div class="bjui-dialog hidden bjui-dialog-container" id="editEleDlg" data-noinit="true">
     <div class="bjui-pageContent">
 
         <form class="pageForm" data-toggle="validate" id="editElementForm" 
               action="/ModuleElementManager/AddOrEditButton">
-            <input type="text" id="Id" value="" class="hidden" />
+            <input type="text" id="Id" name="Id" value="" class="hidden" />
             <input id="ModuleId" name="ModuleId" class="hidden" />
             <table class="table table-condensed table-hover">
                 <tbody>
@@ -83,7 +83,7 @@
                     <tr>
                         <td>
                             <label for="Remark" class="control-label x120">备注：</label>
-                            <input type="text" id="Remark" name="Remark" value="" data-rule="required" size="20"/>
+                            <input type="text" id="Remark" name="Remark" value="" size="20"/>
                         </td>
                     </tr>
                     <tr>
@@ -109,7 +109,7 @@
     <div class="bjui-pageFooter">
         <ul>
             <li><button type="button" class="btn-close">关闭</button></li>
-            <li><button type="submit" class="btn-primary">保存</button></li>
+            <li><button type="button" class="btn-primary" id="btnEleChange">保存</button></li>
         </ul>
     </div>
 </div>

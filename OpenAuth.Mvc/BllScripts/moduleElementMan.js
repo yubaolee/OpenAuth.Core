@@ -16,7 +16,7 @@ var moduleId = $.CurrentDialog.find("#selectedModuleId").val();  //外部传递�
 
 $(document).ready(function () {
     $.CurrentDialog.find('#btnAddElement').on('click', function () {
-        editDlg.add();
+        editEleDlg.add();
     });
 
     $.CurrentDialog.find('#btnEditElement').on('click', function () {
@@ -24,7 +24,7 @@ $(document).ready(function () {
         if (selected == null) {
             return;
         }
-        editDlg.update(selected);
+        editEleDlg.update(selected);
     });
 
     $.CurrentDialog.find('#btnDelElement').on('click', function () {
@@ -48,32 +48,67 @@ $(document).ready(function () {
 
 //本对话框
 var thisDlg = function () {
-    var maingrid = $.CurrentDialog.find('#maingrid').datagrid({
+    var maingrid = $('#moduleEleList').datagrid({
         showToolbar: false,
         filterThead: false,
         target: $(this),
         columns: [
-            {
-                name: 'Id',
-                label: '功能模块流水号',
-                hide: true
-            },
-            {
-                name: 'DomId',
-                label: 'DOM标识',
-            },
-            {
-                name: 'Name',
-                label: '功能模块名称',
-            },
-            {
-                name: 'Icon',
-                label: '图标',
-            },
-            {
-                name: 'SortNo',
-                label: '排序号'
-            }
+                          {
+                              name: 'Id',
+                              label: '流水号',
+                              width: 100
+                    , hide: true
+                          },
+               {
+                   name: 'DomId',
+                   label: 'DOM ID',
+                   width: 100
+               },
+               {
+                   name: 'Name',
+                   label: '名称',
+                   width: 100
+               },
+               {
+                   name: 'Type',
+                   label: '类型',
+                   width: 100
+               },
+               {
+                   name: 'ModuleId',
+                   label: '功能模块Id',
+                   width: 100
+               },
+               {
+                   name: 'Attr',
+                   label: '元素附加属性',
+                   width: 100
+               },
+               {
+                   name: 'Script',
+                   label: '元素调用脚本',
+                   width: 100
+               },
+               {
+                   name: 'Icon',
+                   label: '元素图标',
+                   width: 100
+               },
+               {
+                   name: 'Class',
+                   label: '元素样式',
+                   width: 100
+               },
+               {
+                   name: 'Remark',
+                   label: '备注',
+                   width: 100
+               },
+               {
+                   name: 'Sort',
+                   label: '排序字段',
+                   width: 100
+               }
         ],
         dataUrl: '/ModuleElementManager/Get?moduleId=' + moduleId,
         fullGrid: true,
@@ -82,7 +117,7 @@ var thisDlg = function () {
         paging: false,
         filterMult: false,
         showTfoot: false,
-        height: 'auto'
+        height: '100%'
     });
 
     var getSelectDatas = function () {
@@ -110,36 +145,50 @@ var thisDlg = function () {
     };
 }();
 
-var editDlg = function () {
+//添加（编辑）对话框
+var editEleDlg = function () {
     var update = false;
-    //在B-JUI中，不能在这里获取DOM，否则下面赋值会不成功
-    //只能直接 $("#Id").val(ret.Id);
-    // Id = $("#Id");     
     var show = function () {
-        BJUI.dialog({ id: 'editDlg', title: '菜单编辑', target: '#editDlg' });
+        BJUI.dialog({ id: 'editEleDlg', title: '菜单编辑', target: '#editEleDlg' });
+        $("#btnEleChange").on("click", function () {
+            editEleDlg.save();
+        });
     }
     return {
-        add: function () {
+        add: function () {  //弹出添加
+            update = false;
             show();
             $("#editElementForm")[0].reset();  //reset方法只能通过dom调用
-            $("#Id").val(0);
-            $("#Sort").val('0');
-            $("#ModuleId").val(moduleId);
+            $.CurrentDialog.find("#Id").val(0);
+            $.CurrentDialog.find("#Sort").val('0');
+            $.CurrentDialog.find("#ModuleId").val(moduleId);
+
         },
-        update: function (ret) {
+        update: function (ret) {  //弹出编辑框
             update = true;
             show();
-            $("#Id").val(ret.Id);
-            $("#DomId").val(ret.DomId);
-            $("#Name").val(ret.Name);
-            $("#Type").val(ret.Type);
-            $("#ModuleId").val(ret.ModuleId);
-            $("#Attr").val(ret.Attr);
-            $("#Script").val(ret.Script);
-            $("#Icon").val(ret.Icon);
-            $("#Class").val(ret.Class);
-            $("#Remark").val(ret.Remark);
-            $("#Sort").val(ret.Sort);
+            $.CurrentDialog.find('#Id').val(ret.Id);
+            $.CurrentDialog.find('#DomId').val(ret.DomId);
+            $.CurrentDialog.find('#Name').val(ret.Name);
+            $.CurrentDialog.find('#Type').selectpicker('val', ret.Type);
+            $.CurrentDialog.find('#ModuleId').val(ret.ModuleId);
+            $.CurrentDialog.find('#Attr').val(ret.Attr);
+            $.CurrentDialog.find('#Script').val(ret.Script);
+            $.CurrentDialog.find('#Icon').selectpicker('val', ret.Icon);
+            $.CurrentDialog.find('#Class').selectpicker('val', ret.Class);
+            $.CurrentDialog.find('#Remark').val(ret.Remark);
+            $.CurrentDialog.find('#Sort').val(ret.Sort);
+        },
+        save: function () {  //编辑-->保存
+            $('#editElementForm').isValid(function (v) {
+                if (!v) return;  //验证没通过
+                $("#editElementForm").bjuiajax('ajaxForm', {
+                    reload: false,
+                    callback: function (json) {
+                        thisDlg.reload();
+                    }
+                });
+            });
         }
     };
 }();

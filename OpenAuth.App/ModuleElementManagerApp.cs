@@ -97,18 +97,24 @@ namespace OpenAuth.App
             _repository.Delete(u =>delIds.Contains(u.Id));
         }
 
-        public void AssignForRole(int roleId,int moduleId, int[] menuIds)
+        public void AssignForRole(int roleId, int[] menuIds)
         {
-            var elements = _repository.Find(u => u.ModuleId == moduleId).Select(u =>u.Id).ToArray();
-            _relevanceRepository.Delete(u =>elements.Contains(u.SecondId) &&u.Key =="RoleElement" && u.FirstId == roleId);
             _relevanceRepository.AddRelevance("RoleElement", menuIds.ToLookup(u => roleId));
         }
 
-        public void AssignForUser(int userId, int moduleId, int[] ids)
+        public void CancelForRole(int roleId, int[] ids)
         {
-            var elements = _repository.Find(u => u.ModuleId == moduleId).Select(u => u.Id).ToArray();
-            _relevanceRepository.Delete(u => elements.Contains(u.SecondId) && u.Key == "UserElement" && u.FirstId == userId);
+            _relevanceRepository.Delete(u => ids.Contains(u.SecondId) && u.Key == "RoleElement" && u.FirstId == roleId);
+        }
+
+        public void AssignForUser(int userId, int[] ids)
+        {
             _relevanceRepository.AddRelevance("UserElement", ids.ToLookup(u => userId));
+        }
+
+        public void CancelForUser(int userId, int[] ids)
+        {
+            _relevanceRepository.Delete(u => ids.Contains(u.SecondId) && u.Key == "UserElement" && u.FirstId == userId);
         }
     }
 }

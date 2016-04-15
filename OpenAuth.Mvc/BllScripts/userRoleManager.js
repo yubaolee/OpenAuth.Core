@@ -1,4 +1,19 @@
-﻿$(document).ready(function () {
+﻿// ***********************************************************************
+// Assembly         : OpenAuth.Mvc
+// Author           : yubaolee
+// Created          : 04-13-2016
+//
+// Last Modified By : yubaolee
+// Last Modified On : 04-13-2016
+// ***********************************************************************
+// <copyright file="userRoleManager.js" company="www.cnblogs.com/yubaolee">
+//     版权所有(C) 2015
+// </copyright>
+// <summary>用户分配角色模块</summary>
+// ***********************************************************************
+
+
+$(document).ready(function () {
     $.CurrentDialog.find("#btnAccess").on("click", function () {
         var ids = userRolesList.getSelectedProperties('Id');
         if (ids == null) return;
@@ -62,7 +77,7 @@ function UserRolesList() {
         paging: true,
         filterMult: false,
         showTfoot: false,
-        height: 'auto'
+        height: '100%'
     });
     this.reload = function (id) {
         if (id != undefined) selectedId = id;
@@ -97,4 +112,4 @@ var ztree = function () {
 function zTreeOnClick(event, treeId, treeNode) {
     userRolesList.reload(treeNode.Id);
 }
-//@@ sourceURL=RoleLookup.js
+//@@ sourceURL=userRoleManager.js

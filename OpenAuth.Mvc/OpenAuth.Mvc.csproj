@@ -150,10 +150,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BllScripts\categoryManager.js" />
     <Content Include="BllScripts\grid.js" />
     <Content Include="BllScripts\moduleElementMan.js" />
     <Content Include="BllScripts\modulemanager.js" />
     <Content Include="BllScripts\usermanager.js" />
+    <Content Include="BllScripts\roleModuleElement.js" />
+    <Content Include="BllScripts\userModuleElement.js" />
     <Content Include="BllScripts\userRoleManager.js" />
     <Content Include="Content\BJUI\images\captcha.jpeg" />
     <Content Include="Content\BJUI\images\datagrid\AU.gif" />
@@ -586,7 +589,6 @@
     <Content Include="Content\BJUI\themes\purple\zTreeStandard.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Views\CategoryManager\Add.cshtml" />
     <Content Include="Views\CategoryManager\Index.cshtml" />
     <None Include="Views\Error\NoAccess.cshtml" />
     <None Include="Views\Home\git.cshtml" />
@@ -666,7 +668,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ModuleManager\Index.cshtml" />
-    <Content Include="Views\ModuleManager\Add.cshtml" />
     <Content Include="Views\ModuleManager\LookupMultiForUser.cshtml" />
     <Content Include="Views\ModuleManager\LookupMultiForRole.cshtml" />
     <None Include="Views\Home\MenuHeader.cshtml" />

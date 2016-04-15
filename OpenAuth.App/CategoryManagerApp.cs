@@ -27,7 +27,7 @@ namespace OpenAuth.App
             }
             else
             {
-                return _repository.GetCategoryCntInOrgs(GetSubOrgIds(orgId));
+                return _repository.GetCategoryCntInOrgs(GetSubCategories(orgId));
             }
         }
 
@@ -39,19 +39,19 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个部门及子部门全部Categorys
         /// </summary>
-        public dynamic Load(int orgId, int pageindex, int pagesize)
+        public dynamic Load(int parentId, int pageindex, int pagesize)
         {
             IEnumerable<Category> Categorys;
             int total = 0;
-            if (orgId == 0)
+            if (parentId == 0)
             {
                 Categorys = _repository.LoadCategorys(pageindex, pagesize);
                 total = _repository.GetCount();
             }
             else
             {
-                Categorys = _repository.LoadInOrgs(pageindex, pagesize, GetSubOrgIds(orgId));
-                total = _repository.GetCategoryCntInOrgs(orgId);
+                Categorys = _repository.LoadInOrgs(pageindex, pagesize, GetSubCategories(parentId));
+                total = _repository.GetCategoryCntInOrgs(parentId);
             }
 
             return new
@@ -65,11 +65,11 @@ namespace OpenAuth.App
         /// <summary>
         /// 获取当前组织的所有下级组织
         /// </summary>
-        private int[] GetSubOrgIds(int orgId)
+        private int[] GetSubCategories(int orgId)
         {
-            var org = _orgRepository.FindSingle(u => u.Id == orgId);
-            var orgs = _orgRepository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
-            return orgs;
+            var category  = Find(orgId);
+            var categories = _repository.Find(u => u.CascadeId.Contains(category.CascadeId)).Select(u => u.Id).ToArray();
+            return categories;
         }
 
         public Category Find(int id)
@@ -89,9 +89,10 @@ namespace OpenAuth.App
         {
             Category category  = new Category();
             model.CopyTo(category);
+            ChangeModuleCascade(category);
+
             if (category.Id == 0)
             {
-                ChangeModuleCascade(category);
                 _repository.Add(category);
             }
             else

@@ -92,9 +92,9 @@ namespace OpenAuth.App
         {
             Module model = new Module();
             vm.CopyTo(model);  //copy一次，防止成员为null的情况
+            ChangeModuleCascade(model);
             if (model.Id == 0)
             {
-                ChangeModuleCascade(model);
                 _repository.Add(model);
             }
             else

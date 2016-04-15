@@ -675,12 +675,12 @@ span.tmpzTreeMove_arrow,.ztree .tree_add, .ztree .tree_del,
 .ztree li span.button.chk{margin:0 3px 0 0; width:18px; height:20px; cursor:auto;}
 .ztree li span.button.chk.checkbox_false_full{background-position:0 -2px;}
 .ztree li span.button.chk.checkbox_false_full_focus{background-position:0 -24px;}
-.ztree li span.button.chk.checkbox_false_part{background-position:-19px -46px;}
-.ztree li span.button.chk.checkbox_false_part_focus{background-position:-19px -24px;}
+.ztree li span.button.chk.checkbox_false_part{background-position: 0px -46px;}
+.ztree li span.button.chk.checkbox_false_part_focus{background-position:0px -46px;}
 .ztree li span.button.chk.checkbox_false_disable{background-position:0 -68px;}
 .ztree li span.button.chk.checkbox_true_full{background-position:-19px -2px;}
 .ztree li span.button.chk.checkbox_true_full_focus{background-position:-19px -24px;}
-.ztree li span.button.chk.checkbox_true_part{background-position:-19px -46px;}
+.ztree li span.button.chk.checkbox_true_part{background-position: -19px -24px;}
 .ztree li span.button.chk.checkbox_true_part_focus{background-position:-19px -24px;}
 .ztree li span.button.chk.checkbox_true_disable{background-position:-19px -68px;}
 .ztree li span.button.chk.radio_false_full{background-position:-40px -2px;}

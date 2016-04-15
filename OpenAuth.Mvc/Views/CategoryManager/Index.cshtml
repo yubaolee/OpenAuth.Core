@@ -3,154 +3,79 @@
 }
 
 @{ Html.RenderAction("MenuHeader", "Home");}
-<div class="bjui-pageContent tableContent" style="position:relative">
+<div class="bjui-pageContent tableContent" style="position: relative">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="maintree" class="ztree"></ul>
+            <ul id="tree" class="ztree"></ul>
         </div>
 
         <div id="detail" style="margin-left: 225px;">
+            <table id="maingrid" class="table table-bordered"></table>
         </div>
     </div>
 </div>
 
+<!--编辑对话框-->
+<div class="bjui-dialog hidden bjui-dialog-container" id="editDlg" data-noinit="true">
+    <div class="bjui-pageContent">
+        <form action="/CategoryManager/Add" class="pageForm" data-toggle="validate" data-reload="false" id="editForm">
+            <input type="text" id="Id" name="Id" value="" class="hidden" />
+            <table class="table table-condensed table-hover">
+                <tbody>
+                <tr>
+                    <td>
+                        <label for="Name" class="control-label x120">名称：</label>
+                        <input type="text" name="Name" id="Name" data-rule="required" size="20">
+                    </td>
+                </tr>
+                    <tr>
+                        <td>
+                            <label for="ParentName" class="control-label x120">上级分类：</label>
+                            <input id="ParentId" name="ParentId" style="display: none" />
+                            <input type="text" name="ParentName" id="ParentName"
+                                   data-toggle="selectztree" size="20" data-tree="#j_select_tree1">
+                            <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
+                        </td>
+                    </tr>
 
-<script type="text/javascript">
-    var selectedId = 0;
-    $(document).ready(function () {
-        initZtree();
-        loadDataGrid();
-    });
-    //加载数据到datagrid
-    function loadDataGrid() {
-        //b-jui的datagrid需要重新处理HTML
-        $('#detail').empty()
-            .append('<table id="maingrid" class="table table-bordered table-hover table-striped table-top"></table>');
+                    <tr>
+                        <td>
+                            <label for="Status" class="control-label x120">当前状态：</label>
+                            <select name="Status" id="Status" data-toggle="selectpicker" data-rule="required">
+                                <option value="0">默认</option>
+                                <option value="1">禁用</option>
+                            </select>
+                        </td>
+                    </tr>
+                <tr>
+                    <td>
+                        <label for="SortNo" class="control-label x120">排序号：</label>
+                        <input type="text" name="SortNo" id="SortNo" data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="RootName" class="control-label x120">从属行业(应用)：</label>
+                        <input type="text" name="RootName" id="RootName"  size="20">
+                    </td>
+                </tr>
+                    <tr>
+                        <td>
+                            <label for="RootKey" class="control-label x120">从属行业(应用)标识：</label>
+                            <input type="text" name="RootKey" id="RootKey" size="20">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="bjui-pageFooter">
+        <ul>
+            <li><button type="button" class="btn btn-close">关闭</button></li>
+            <li><button type="button" class="btn btn-primary" id="btnSave">保存</button></li>
+        </ul>
+    </div>
+</div>
 
-        $('#maingrid').datagrid({
-            showToolbar: false,
-            filterThead: false,
-            target:$(this),
-           columns: [
-               {
-                    name: 'Id',
-                    label: '资源表ID',
-                     width: 100
-                    , hide: true
-               },    
-               {
-                    name: 'CascadeId',
-                    label: '节点语义ID',
-                     width: 100
-               },    
-               {
-                    name: 'Name',
-                    label: '名称',
-                     width: 100
-               },    
-               {
-                    name: 'ParentId',
-                    label: '父节点流水号',
-                     width: 100
-               },    
-               {
-                    name: 'Status',
-                    label: '当前状态',
-                     width: 100
-                     ,type: 'select',
-                    align: 'center',
-                    items: [{ '0': '默认' }, { '1': '状态1' }],
-               },    
-               {
-                    name: 'SortNo',
-                    label: '排序号',
-                     width: 100
-                     ,type: 'select',
-                    align: 'center',
-                    items: [{ '0': '默认' }, { '1': '状态1' }],
-               },    
-               {
-                    name: 'RootKey',
-                    label: '根节点',
-                     width: 100
-               },    
-               {
-                    name: 'RootName',
-                    label: '根节点名称',
-                     width: 100
-               },    
-            ],
-            dataUrl: '/CategoryManager/Load?orgId=' + selectedId,
-            fullGrid: true,
-            showLinenumber: true,
-            showCheckboxcol: true,
-            paging: true,
-            filterMult: false,
-            showTfoot: false,
-            height: '100%'
-        });
-    }
-
-    function zTreeOnClick(event, treeId, treeNode) {
-        selectedId = treeNode.Id;
-        loadDataGrid();
-    }
-
-    function initZtree() {
-        var setting = {
-            view: {selectedMulti: false},
-            data: {
-                key: {
-                    name: 'Name',
-                    title: 'Name'
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: 'Id',
-                    pIdKey: 'ParentId',
-                    rootPId: 'null'
-                }
-            },
-            callback: {onClick: zTreeOnClick}
-        };
-        $.getJSON('/CategoryManager/LoadForTree', function (json) {
-            var zTreeObj = $.fn.zTree.init($('#maintree'), setting, json);
-            zTreeObj.expandAll(true);
-        });
-    }
-
-    //删除
-    function delCategory() {
-        var selected = getSelected('#maingrid',2);
-        if (selected == null) return;
-        
-        $.getJSON('/CategoryManager/Delete?Id=' + selected, function (data) {
-            if (data.statusCode == "200")
-                loadDataGrid();
-            else {
-                $(this).alertmsg('warn', data.message);
-            }
-        });
-    }
-
-    //自定义的编辑按钮
-    function editCategory() {
-        var selected = getSelected('#maingrid',2);
-        if (selected == null) return;
-
-        $(this).dialog({
-            id: 'editDialog',
-            url: '/CategoryManager/Add?id=' + selected,
-            title: '编辑',
-            onClose:function() {
-                refreshModuleGrid();
-            }
-        });
-
-    }
-
-    function refreshCategoryGrid() {
-        $('#maingrid').datagrid('refresh');
-       // loadDataGrid();
-    }
-</script>
+<script src="~/BllScripts/grid.js"></script>
+<script src="~/BllScripts/categoryManager.js"></script>

@@ -92,12 +92,12 @@ namespace OpenAuth.Mvc.Controllers
         /// <param name="menuIds">菜单ID列表</param>
         /// <returns></returns>
         [HttpPost]
-        public string AssignForRole(int roleId,int moduleId, string menuIds)
+        public string AssignForRole(int roleId, string menuIds)
         {
             try
             {
-                var ids = menuIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AssignForRole(roleId,moduleId, ids);
+                var ids = JsonHelper.Instance.Deserialize<int[]>(menuIds);
+                _app.AssignForRole(roleId, ids);
             }
             catch (Exception e)
             {
@@ -107,9 +107,25 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_bjuiResponse);
         }
 
-        public string LoadForRole(int roleId, int orgId)
+        [HttpPost]
+        public string CancelForRole(int roleId, string menuIds)
         {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("RoleElement", roleId, orgId));
+            try
+            {
+                var ids = JsonHelper.Instance.Deserialize<int[]>(menuIds);
+                _app.CancelForRole(roleId, ids);
+            }
+            catch (Exception e)
+            {
+                _bjuiResponse.statusCode = "300";
+                _bjuiResponse.message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(_bjuiResponse);
+        }
+
+        public string LoadForRole(int roleId, int moduleId)
+        {
+            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("RoleElement", roleId, moduleId));
         }
         #endregion
 
@@ -124,16 +140,30 @@ namespace OpenAuth.Mvc.Controllers
         /// 为用户分配菜单
         /// </summary>
         /// <param name="userId">用户ID</param>
-        /// <param name="moduleId">模块ID</param>
         /// <param name="menuIds">菜单ID列表</param>
         /// <returns></returns>
         [HttpPost]
-        public string AssignForUser(int userId,int moduleId, string menuIds)
+        public string AssignForUser(int userId, string menuIds)
         {
             try
             {
-                var ids = menuIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AssignForUser(userId,moduleId, ids);
+                var ids = JsonHelper.Instance.Deserialize<int[]>(menuIds);
+                _app.AssignForUser(userId, ids);
+            }
+            catch (Exception e)
+            {
+                _bjuiResponse.statusCode = "300";
+                _bjuiResponse.message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(_bjuiResponse);
+        }
+        [HttpPost]
+        public string CancelForUser(int userId, string menuIds)
+        {
+            try
+            {
+                var ids = JsonHelper.Instance.Deserialize<int[]>(menuIds);
+                _app.CancelForUser(userId, ids);
             }
             catch (Exception e)
             {
@@ -143,9 +173,9 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_bjuiResponse);
         }
 
-        public string LoadForUser(int userId, int orgId)
+        public string LoadForUser(int userId, int moduleId)
         {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("UserElement", userId, orgId));
+            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("UserElement", userId, moduleId));
         }
         #endregion
     }

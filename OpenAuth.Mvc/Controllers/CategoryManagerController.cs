@@ -24,11 +24,11 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 加载组织下面的所有用户
+        /// 加载分类下面的所有分类
         /// </summary>
-        public string Load(int orgId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(int parentId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(parentId, pageCurrent, pageSize));
         }
 
      public string LoadForTree()

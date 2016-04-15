@@ -1,148 +1,93 @@
 ﻿<%-- 
-Name: Database Table Properties
+Name: 列表页面
 Author: yubaolee
-Description: Create a list of properties from a database table
+Description: 列表页面
 --%>
-<%@ CodeTemplate Language="C#" Encoding="utf-8" TargetLanguage="C#" Debug="True" Description="Create a list of properties from database table." %>
-<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the object is based on." %>
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Debug="False" Encoding="utf-8" Description="添加模块" %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context"
+Description="连接的数据库" %>
 <%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
 <%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
 <%@ Assembly Name="SchemaExplorer" %>
 <%@ Import Namespace="SchemaExplorer" %>
-
+<%@ Assembly Src="Util.cs" %>
+<%@ Import Namespace="Util" %>
 @{
-    string _prefix = "<%=ModuleName%>";
-    var _treeId = _prefix + "Tree";
-    var _gridId = _prefix + "Grid";
-    var _treeDetail = _prefix + "Detail";
+    Layout = "~/Views/Shared/_BjuiLayout.cshtml";
 }
 
 @{ Html.RenderAction("MenuHeader", "Home");}
-<div class="bjui-pageContent tableContent">
+<div class="bjui-pageContent tableContent" style="position: relative">
     <div class="clearfix">
         <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="@_treeId" class="ztree"></ul>
+            <ul id="tree" class="ztree"></ul>
         </div>
 
-        <div id="@_treeDetail" style="margin-left: 225px;">
+        <div id="detail" style="margin-left: 225px;">
+            <table id="maingrid" class="table table-bordered"></table>
         </div>
     </div>
 </div>
 
-
-<script type="text/javascript">
-    var selectedId = 0;
-    $(document).ready(function () {
-        initZtree();
-        loadDataGrid();
-    });
-    //加载数据到datagrid
-    function loadDataGrid() {
-        //b-jui的datagrid需要重新处理HTML
-        $('#@_treeDetail').empty()
-            .append('<table id="@_gridId" class="table table-bordered table-hover table-striped table-top"></table>');
-
-        $('#@_gridId').datagrid({
-            showToolbar: false,
-            filterThead: false,
-           columns: [
-            <% foreach (ColumnSchema column in this.SourceTable.Columns) {  %>
-               {
-                    name: '<%=column.Name%>',
-                    label: '<%=column.Description%>',
-                     width: 100
-                    <%if(column.IsPrimaryKeyMember){ %>
-                    , hide: true
+<!--编辑对话框-->
+<div class="bjui-dialog hidden bjui-dialog-container" id="editDlg" data-noinit="true">
+    <div class="bjui-pageContent">
+        <form action="/<%=ModuleName%>/Add" class="pageForm" data-toggle="validate" data-reload="false" id="editForm">
+           
+            <table class="table table-condensed table-hover">
+                <tbody>
+                 <% foreach (ColumnSchema column in this.SourceTable.Columns) {
+                        if(column.IsPrimaryKeyMember){%>
+                              <input type="text" id="<%=column.Name%>" name="<%=column.Name%>" value="" class="hidden" />
+                      <%}else if(CSharpAlias[column.SystemType.FullName] == "bool"
+                          ||(CSharpAlias[column.SystemType.FullName] == "int" && Tools.GetDescription(column).Contains("下拉选择"))) {%>
+                          <tr>
+                                <td>
+                                    <label for="<%=column.Name%>" class="control-label x120"><%=Tools.GetDescription(column)%>：</label>
+                                    <select name="<%=column.Name%>" id="<%=column.Name%>" data-toggle="selectpicker" data-rule="required">
+                                        <option value="0">默认</option>
+                                        <option value="1">禁用</option>
+                                    </select>
+                                </td>
+                          </tr>
+                      <%}else if(CSharpAlias[column.SystemType.FullName].Contains("DateTime")) {%>
+                        <tr>
+                            <td>
+                                <label for="<%=column.Name%>" class="control-label x120"><%=Tools.GetDescription(column)%>：</label>
+                                <input type="text" id="<%=column.Name%>" name="<%=column.Name%>" value="" data-toggle="datepicker"/>
+                            </td>
+                        </tr>
+                      <%} else {%>
+                       <tr>
+                            <td>
+                                <label for="<%=column.Name%>" class="control-label x120"><%=Tools.GetDescription(column)%>：</label>
+                                <input type="text" id="<%=column.Name%>" name="<%=column.Name%>" value=""/>
+                            </td>
+                        </tr>
+                      <%} %>
+                 <%} %>
+                 <%if(Tools.NeedCascade(SourceTable)){ %>
+                    <tr>
+                        <td>
+                            <label for="ParentName" class="control-label x120">上级分类：</label>
+                            <input id="ParentId" name="ParentId" style="display: none" />
+                            <input type="text" name="ParentName" id="ParentName"
+                                   data-toggle="selectztree" data-tree="#j_select_tree1">
+                            <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
+                        </td>
+                    </tr>
                     <%} %>
-                    <%else if(CSharpAlias[column.SystemType.FullName] == "System.DateTime") {%>
-                    , type: 'date',
-                    pattern: 'yyyy-MM-dd HH:mm:ss'
-                    <%} %>     
-                    <%else if(CSharpAlias[column.SystemType.FullName] == "bool") {%>
-                     ,type: 'select',
-                    align: 'center',
-                    items: [{ '0': '否' }, { '1': '是' }],
-                    <%} %>  
-                      <%else if(CSharpAlias[column.SystemType.FullName] == "int") {%>
-                     ,type: 'select',
-                    align: 'center',
-                    items: [{ '0': '默认' }, { '1': '状态1' }],
-                    <%} %>  
-               },    
-             <% } %>
-            ],
-            dataUrl: '<%=ModuleName%>Manager/Load?parentId=' + selectedId,
-            fullGrid: true,
-            showLinenumber: true,
-            showCheckboxcol: true,
-            paging: true,
-            filterMult: false,
-            showTfoot: true,
-            height: '700'
-        });
-    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="bjui-pageFooter">
+        <ul>
+            <li><button type="button" class="btn btn-close">关闭</button></li>
+            <li><button type="button" class="btn btn-primary" id="btnSave">保存</button></li>
+        </ul>
+    </div>
+</div>
 
-    function zTreeOnClick(event, treeId, treeNode) {
-        selectedId = treeNode.Id;
-        loadDataGrid();
-    }
-
-    function initZtree() {
-        var setting = {
-            view: {selectedMulti: false},
-            data: {
-                key: {
-                    name: 'Name',
-                    title: 'Name'
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: 'Id',
-                    pIdKey: 'ParentId',
-                    rootPId: 'null'
-                }
-            },
-            callback: {onClick: zTreeOnClick}
-        };
-        $.getJSON('<%=ModuleName%>Manager/LoadForTree', function (json) {
-            var zTreeObj = $.fn.zTree.init($('#@_treeId'), setting, json);
-            zTreeObj.expandAll(true);
-        });
-    }
-
-    //删除
-    function del<%=ModuleName%>() {
-        var selected = getSelected('#@_gridId',2);
-        if (selected == null) return;
-        
-        $.getJSON('<%=ModuleName%>Manager/Delete?Id=' + selected, function (data) {
-            if (data.statusCode == "200")
-                loadDataGrid();
-            else {
-                $(this).alertmsg('warn', data.message);
-            }
-        });
-    }
-
-    //自定义的编辑按钮
-    function edit<%=ModuleName%>() {
-        var selected = getSelected('#@_gridId',2);
-        if (selected == null) return;
-
-        $(this).dialog({
-            id: 'editDialog',
-            url: '/<%=ModuleName%>Manager/Add?id=' + selected,
-            title: '编辑',
-            onClose:function() {
-                refresh<%=ModuleName%>Grid();
-            }
-        });
-
-    }
-
-    function refresh<%=ModuleName%>Grid() {
-        $('#@_gridId').datagrid('refresh');
-       // loadDataGrid();
-    }
-    //@@ sourceURL=<%=ModuleName%>ManagerIndex.js
-</script>
+<script src="~/BllScripts/grid.js"></script>
+<script src="~/BllScripts/<%=ModuleName%>.js"></script>

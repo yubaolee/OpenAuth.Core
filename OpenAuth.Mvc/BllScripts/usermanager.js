@@ -104,7 +104,7 @@ var grid = function () {
         paging: true,
         filterMult: false,
         showTfoot: false,
-        height: 'auto'
+        height: '100%'
     });
 
     return {

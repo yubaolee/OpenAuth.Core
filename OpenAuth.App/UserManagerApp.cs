@@ -56,7 +56,9 @@ namespace OpenAuth.App
             foreach (var user in users)
             {
                 UserView uv = user;
-                uv.Organizations = string.Join(",", _orgRepository.LoadByUser(user.Id).Select(u => u.Name).ToList());
+                var orgs = _orgRepository.LoadByUser(user.Id);
+                uv.Organizations = string.Join(",", orgs.Select(u => u.Name).ToList());
+                uv.OrganizationIds = string.Join(",", orgs.Select(u => u.Id).ToList());
                 userviews.Add(uv);
             }
 
@@ -105,16 +107,17 @@ namespace OpenAuth.App
         public void AddOrUpdate(UserView view)
         {
             User user = view;
+            user.CreateTime = DateTime.Now;
             if (user.Id == 0)
             {
-                user.CreateTime = DateTime.Now;
+                
                 user.Password = user.Account; //初始密码与账号相同
                 _repository.Add(user);
                 view.Id = user.Id;   //要把保存后的ID存入view
             }
             else
             {
-                _repository.Update(user);
+                _repository.Update(u=>u.Id, user);
             }
             int[] orgIds = view.OrganizationIds.Split(',').Select(id => int.Parse(id)).ToArray();
 

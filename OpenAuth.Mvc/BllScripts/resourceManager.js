@@ -1,46 +1,51 @@
-﻿<%-- 
-Name: 编辑修改JS
-Author: yubaolee
-Description: 编辑修改JS
---%>
-<%@ CodeTemplate Language="C#" TargetLanguage="C#" Debug="False" Encoding="utf-8" Description="添加模块" %>
-<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context"
-Description="连接的数据库" %>
-<%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
-<%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
-<%@ Assembly Name="SchemaExplorer" %>
-<%@ Import Namespace="SchemaExplorer" %>
-<%@ Assembly Src="Util.cs" %>
-<%@ Import Namespace="Util" %>
-
-
+﻿
 //grid列表模块
 function MainGrid() {
-    var url = '/<%=ModuleName%>/Load?parentId=';
+    var url = '/ResourceManager/Load?categoryId=';
     var selectedId = 0; //ztree选中的模块
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
         filterThead: false,
         target: $(this),
         columns: [
-        <% foreach (ColumnSchema column in this.SourceTable.Columns) {  %>
                {
-                    name: '<%=column.Name%>',
-                    label: '<%=Tools.GetDescription(column)%>',
-                     width: 100
-                    <%if(column.IsPrimaryKeyMember){ %>
+                   name: 'Id',
+                   label: '资源表ID',
+                   width: 100
                     , hide: true
-                    <%} %>
-                    <%else if(CSharpAlias[column.SystemType.FullName] == "bool") {%>
-                     ,align: 'center',
-                    items: [{ 'false': '否' }, { 'true': '是' }],
-                    <%} %>  
-                      <%else if(CSharpAlias[column.SystemType.FullName] == "int") {%>
+               },
+           
+               {
+                   name: 'Key',
+                   label: 'Key',
+                   width: 100
+               },
+               {
+                   name: 'Name',
+                   label: '名称',
+                   width: 100
+               },
+              
+               {
+                   name: 'Status',
+                   label: '当前状态',
+                   width: 100
                      , align: 'center',
-                    items: [{ '0': '默认' }, { '1': '状态1' }],
-                    <%} %>  
-               },    
-             <% } %>
+                   items: [{ '0': '默认' }, { '1': '状态1' }],
+               },
+               {
+                   name: 'SortNo',
+                   label: '排序号',
+                   width: 100
+                     , align: 'center',
+                   items: [{ '0': '默认' }, { '1': '状态1' }],
+               },
+              
+               {
+                   name: 'Description',
+                   label: '描述',
+                   width: 100
+               },
         ],
         dataUrl: url + selectedId,
         fullGrid: true,
@@ -53,7 +58,7 @@ function MainGrid() {
     });
     this.reload = function (id) {
         if (id != undefined) selectedId = id;
-        this.maingrid.datagrid('reload', { dataUrl: url+ selectedId });
+        this.maingrid.datagrid('reload', { dataUrl: url + selectedId });
     };
 };
 MainGrid.prototype = new Grid();
@@ -61,7 +66,7 @@ var list = new MainGrid();
 
 //左边分类导航树
 var ztree = function () {
-    var url = '/<%=ModuleName%>/LoadForTree';
+    var url = '/CategoryManager/LoadForTree';
     var setting = {
         view: { selectedMulti: false },
         data: {
@@ -86,19 +91,18 @@ var ztree = function () {
     }
 
     return {
-        reload:function() {
+        reload: function () {
             $.getJSON(url, function (json) {
-                 $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
+                $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
             });
         }
     }
 }();
 
-<%if(Tools.NeedCascade(SourceTable)){ %>
 //编辑时，选择上级弹出的树
 var parentTree = function () {
-    var nameDom = "#ParentName";
-    var idDom = "#ParentId";
+    var nameDom = "#CategoryName";
+    var idDom = "#CategoryId";
     var zTreeObj;
     var setting = {
         view: {
@@ -141,8 +145,8 @@ var parentTree = function () {
     }
 
     return {
-        show:function() {
-            $.getJSON('/<%=ModuleName%>/LoadForTree', function (json) {
+        show: function () {
+            $.getJSON('/CategoryManager/LoadForTree', function (json) {
                 zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
                 var orgstr = $(idDom).val();
                 var name = '';
@@ -160,14 +164,13 @@ var parentTree = function () {
         }
     };
 }();
-<%} %>
 
 //添加（编辑）对话框
 var editDlg = function () {
     var update = false;
     var show = function () {
         BJUI.dialog({ id: 'editDlg', title: '编辑对话框', target: '#editDlg' });
-        $("#btnSave").on("click", function() {
+        $("#btnSave").on("click", function () {
             editDlg.save();
         });
     }
@@ -177,35 +180,27 @@ var editDlg = function () {
             show();
             $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
             $("#Id").val(0);
-            
-             <%if(Tools.NeedCascade(SourceTable)){ 
-                Response.WriteLine("parentTree.show();");
-            }%>
+
+            parentTree.show();
         },
         update: function (ret) {  //弹出编辑框
             update = true;
             show();
-     <% foreach (ColumnSchema column in this.SourceTable.Columns) {  %>
-            <%if(column.IsPrimaryKeyMember){%>
-            $('#<%=column.Name%>').val(ret.<%=column.Name%>);         
-            <%}else if(CSharpAlias[column.SystemType.FullName] == "bool") {%>
-            $('#<%=column.Name%>').selectpicker('val', ret.<%=column.Name%>?"true":"false");
-             <%}else if(CSharpAlias[column.SystemType.FullName] == "int") {%>
-            $('#<%=column.Name%>').selectpicker('val', ret.<%=column.Name%>);
-            <%} else{ %>   
-             $('#<%=column.Name%>').val(ret.<%=column.Name%>);
-            <%} %>
-     <% } %>
-            <%if(Tools.NeedCascade(SourceTable)){ 
-                Response.WriteLine("parentTree.show();");
-            }%>
+            $('#Id').val(ret.Id);
+            $('#Key').val(ret.Key);
+            $('#Name').val(ret.Name);
+            $('#Status').selectpicker('val', ret.Status);
+            $('#SortNo').val(ret.SortNo);
+            $('#CategoryId').val(ret.CategoryId);
+            $('#Description').val(ret.Description);
+            parentTree.show();
         },
-        save: function() {  //编辑-->保存
+        save: function () {  //编辑-->保存
             $('#editForm').isValid(function (v) {
                 if (!v) return;  //验证没通过
                 $("#editForm").bjuiajax('ajaxForm', {
                     reload: false,
-                    callback:function(json) {
+                    callback: function (json) {
                         list.reload();
                         ztree.reload();
                     }
@@ -220,7 +215,7 @@ function del() {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $.getJSON('/<%=ModuleName%>/Delete?Id=' + selected.Id, function (data) {
+    $.getJSON('/ResourceManager/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
             ztree.reload();
@@ -248,4 +243,4 @@ function refresh() {
     list.reload();
 }
 
-//@@ sourceURL=<%=ModuleName%>.js
+//@@ sourceURL=ResourceManager.js

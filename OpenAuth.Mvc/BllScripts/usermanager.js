@@ -1,22 +1,72 @@
-﻿// ***********************************************************************
-// Assembly         : OpenAuth.Mvc
-// Author           : yubaolee
-// Created          : 04-12-2016
-//
-// Last Modified By : yubaolee
-// Last Modified On : 04-12-2016
-// ***********************************************************************
-// <copyright file="usermanager.js" company="www.cnblogs.com/yubaolee">
-//     版权所有(C) 2015
-// </copyright>
-// <summary>用户管理前端模块</summary>
-// ***********************************************************************
+﻿
+//grid列表模块
+function MainGrid() {
+    var url = '/UserManager/Load?orgId=';
+    var selectedId = 0; //ztree选中的模块
+    this.maingrid = $('#maingrid').datagrid({
+        showToolbar: false,
+        filterThead: false,
+        target: $(this),
+        columns: [
+               {
+                   name: 'Id',
+                   label: 'Id',
+                   width: 100
+                    , hide: true
+               },
+               {
+                   name: 'Account',
+                   label: '账号',
+                   width: 100
+               },
+               {
+                   name: 'Name',
+                   label: '名称',
+                   width: 100
+               },
+               {
+                   name: 'Sex',
+                   label: '性别',
+                   width: 100
+                     , align: 'center',
+                   items: [{ '0': '男' }, { '1': '女' }],
+               },
+               {
+                   name: 'Status',
+                   label: '状态',
+                   width: 100
+                     , align: 'center',
+                   items: [{ '0': '默认' }, { '1': '状态1' }],
+               },
+               {
+                   name: 'Type',
+                   label: '用户类型',
+                   width: 100
+                     , align: 'center',
+                   items: [{ '0': '默认' }, { '1': '类型' }],
+               }
+             
+        ],
+        dataUrl: url + selectedId,
+        fullGrid: true,
+        showLinenumber: true,
+        showCheckboxcol: true,
+        paging: true,
+        filterMult: false,
+        showTfoot: false,
+        height: '100%'
+    });
+    this.reload = function (id) {
+        if (id != undefined) selectedId = id;
+        this.maingrid.datagrid('reload', { dataUrl: url + selectedId });
+    };
+};
+MainGrid.prototype = new Grid();
+var list = new MainGrid();
 
-$(function () {
-});
-
-//ztree模块
+//左边分类导航树
 var ztree = function () {
+    var url = '/OrgManager/LoadOrg';
     var setting = {
         view: { selectedMulti: false },
         data: {
@@ -31,112 +81,147 @@ var ztree = function () {
                 rootPId: 'null'
             }
         },
-        callback: {
-            onClick: function (event, treeId, treeNode) {
-                grid.reload(treeNode.Id);
-            }
-        }
+        callback: { onClick: zTreeOnClick }
     };
-    $.getJSON('/OrgManager/LoadOrg', function (json) {
-        var zTreeObj = $.fn.zTree.init($('#maintree'), setting, json);
-        zTreeObj.expandAll(true);
+    $.getJSON(url, function (json) {
+        $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
     });
-}();
-
-//grid列表模块
-var grid = function () {
-    var selectedId = 0;  //选中的ID
-    var maingrid = $('#maingrid', '#detail').datagrid({
-        showToolbar: false,
-        filterThead: false,
-        target: $(this),
-        columns: [
-            {
-                name: 'Id',
-                label: 'Id',
-                attrs: { readonly: 'readonly' },
-                hide: true
-            },
-            {
-                name: 'Account',
-                label: '用户账号',
-                width: 142,
-                attrs: { readonly: 'readonly' }
-            },
-            {
-                name: 'Name',
-                label: '姓名/昵称',
-                width: 226
-            },
-            {
-                name: 'Organizations',
-                label: '所属机构',
-                width: 150
-            },
-            {
-                name: 'Status',
-                label: '状态',
-                type: 'select',
-                align: 'center',
-                width: 80,
-                items: [{ '0': '正常' }, { '1': '禁用' }]
-            },
-            {
-                name: 'Sex',
-                label: '性别',
-                type: 'select',
-                align: 'center',
-                width: 80,
-                items: [{ '0': '男' }, { '1': '女' }]
-            },
-            {
-                name: 'CreateTime',
-                label: '登记日期',
-                type: 'date',
-                width: 180,
-                pattern: 'yyyy-MM-dd HH:mm:ss'
-            }
-        ],
-        dataUrl: '/UserManager/Load?orgId=' + selectedId,
-        fullGrid: true,
-        showLinenumber: true,
-        showCheckboxcol: true,
-        paging: true,
-        filterMult: false,
-        showTfoot: false,
-        height: '100%'
-    });
+    function zTreeOnClick(event, treeId, treeNode) {
+        list.reload(treeNode.Id);
+    }
 
     return {
-        reload: function (id) {
-            if (id != undefined) selectedId = id;
-            maingrid.datagrid('reload', { dataUrl: '/UserManager/Load?orgId=' + selectedId });
+        reload: function () {
+            $.getJSON(url, function (json) {
+                $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
+            });
+        }
+    }
+}();
+
+//编辑时，选择上级弹出的树
+var parentTree = function () {
+    var nameDom = "#Organizations";
+    var idDom = "#OrganizationIds";
+    var zTreeObj;
+    var setting = {
+        view: {
+            selectedMulti: false
         },
-        getSelectedObj: function () {  //选择单行
-            var selectedDatas = maingrid.data('selectedDatas');
-            if (selectedDatas == undefined || selectedDatas.length == 0) {
-                $(this).alertmsg('warn', '至少选择一个对象', {
-                    displayMode: 'slide',
-                    title: '重要提示'
-                });
-                return null;
+        check: {
+            enable: true,
+            chkStyle: "checkbox",
+            chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+        },
+        data: {
+            key: {
+                name: 'Name',
+                title: 'Name'
+            },
+            simpleData: {
+                enable: true,
+                idKey: 'Id',
+                pIdKey: 'ParentId',
+                rootPId: 'null'
             }
-            return selectedDatas[0];
         },
-        getSelectedMany: function () {  //选择多行
-            return maingrid.data('selectedDatas');
+        callback: {
+            onClick: zTreeOnClick,
+            onCheck: zTreeCheck
+        }
+    };
+
+
+    function zTreeCheck(event, treeId, treeNode) {
+        var nodes = zTreeObj.getCheckedNodes(true);
+        var ids = nodes.map(function (e) { return e.Id; }).join(",");
+        var names = nodes.map(function (e) { return e.Name; }).join(",");
+
+        $(nameDom).val(names);
+        $(idDom).val(ids);
+    }
+    function zTreeOnClick(event, treeId, treeNode) {
+        zTreeObj.checkNode(treeNode, !treeNode.checked, true, true);
+        event.preventDefault();
+    }
+
+    return {
+        show: function () {
+            $.getJSON('/OrgManager/LoadOrg', function (json) {
+                zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
+                var orgstr = $(idDom).val();
+                var name = '';
+                if (orgstr != '') {
+                    var nodeIds = orgstr.split(',');
+                    $.each(nodeIds, function () {
+                        var node = zTreeObj.getNodeByParam("Id", this, null);
+                        name += ',' + node.Name;
+                        zTreeObj.checkNode(node, true, true);
+                    });
+                    $(nameDom).val(name.substr(1));  //显示名称
+                }
+                zTreeObj.expandAll(true);
+            });
+        }
+    };
+}();
+
+//添加（编辑）对话框
+var editDlg = function () {
+    var update = false;
+    var show = function () {
+        BJUI.dialog({ id: 'editDlg', title: '编辑对话框', target: '#editDlg' });
+        $("#btnSave").on("click", function () {
+            editDlg.save();
+        });
+    }
+    return {
+        add: function () {  //弹出添加
+            update = false;
+            show();
+            $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
+            $("#Id").val(0);
+            parentTree.show();
+
         },
+        update: function (ret) {  //弹出编辑框
+            update = true;
+            show();
+            $('#Id').val(ret.Id);
+            $('#Account').val(ret.Account);
+            $('#Password').val(ret.Password);
+            $('#Name').val(ret.Name);
+            $('#Sex').selectpicker('val', ret.Sex);
+            $('#Status').selectpicker('val', ret.Status);
+            $('#Type').selectpicker('val', ret.Type);
+            $("#OrganizationIds").val(ret.OrganizationIds);
+            parentTree.show();
+        },
+        save: function () {  //编辑-->保存
+            $('#editForm').isValid(function (v) {
+                if (!v) return;  //验证没通过
+                $("#editForm").bjuiajax('ajaxForm', {
+                    reload: false,
+                    callback: function (json) {
+                        list.reload();
+                        ztree.reload();
+                    }
+                });
+            });
+        }
     };
 }();
 
 //删除
-function delUser() {
-    var selected = grid.getSelectedObj();
+function del() {
+    var selected = list.getSelectedObj();
     if (selected == null) return;
 
     $.getJSON('/UserManager/Delete?Id=' + selected.Id, function (data) {
-        if (data.statusCode == "200")
-            grid.reload();
+        if (data.statusCode == "200") {
+            list.reload();
+            ztree.reload();
+        }
         else {
             $(this).alertmsg('warn', data.message);
         }
@@ -144,27 +229,26 @@ function delUser() {
 }
 
 //自定义的编辑按钮
-function editUser() {
-    var selected = grid.getSelectedObj();
-    if (selected == null) return;
-
-    $(this).dialog({
-        id: 'editDialog',
-        url: '/UserManager/Add?id=' + selected.Id,
-        title: '编辑',
-        onClose: function () {
-            grid.reload();
-        }
-    });
+function edit() {
+    var selected = list.getSelectedObj();
+    if (selected == null) {
+        return;
+    }
+    editDlg.update(selected);
 }
 
-function refreshUserGrid() {
-    grid.reload();
+function add() {
+    editDlg.add();
 }
+
+function refresh() {
+    list.reload();
+}
+
 
 //用户模块授权按钮
 function openUserModuleAccess(obj) {
-    var selected = grid.getSelectedObj();
+    var selected = list.getSelectedObj();
     if (selected == null) return;
 
     $(obj).dialog({
@@ -179,7 +263,7 @@ function openUserModuleAccess(obj) {
 
 //用户可见组织授权按钮
 function openUserOrgAccess(obj) {
-    var selected = grid.getSelectedObj();
+    var selected = list.getSelectedObj();
     if (selected == null) return;
 
     $(obj).dialog({
@@ -194,7 +278,7 @@ function openUserOrgAccess(obj) {
 
 //用户角色授权
 function openUserRoleAccess(obj) {
-    var selected = grid.getSelectedObj();
+    var selected = list.getSelectedObj();
     if (selected == null) return;
 
     $(obj).dialog({
@@ -211,7 +295,7 @@ function openUserRoleAccess(obj) {
 
 //为用户分配资源
 function openUserReourceAccess(obj) {
-    var selected = grid.getSelectedObj();
+    var selected = list.getSelectedObj();
     if (selected == null) return;
 
     $(obj).dialog({
@@ -228,7 +312,7 @@ function openUserReourceAccess(obj) {
 
 //分配菜单
 function openAssignUserElement(obj) {
-    var selected = grid.getSelectedObj();
+    var selected = list.getSelectedObj();
     if (selected == null) return;
 
     $(obj).dialog({
@@ -239,3 +323,5 @@ function openAssignUserElement(obj) {
         height: 380
     });
 }
+
+//@@ sourceURL=UserManager.js

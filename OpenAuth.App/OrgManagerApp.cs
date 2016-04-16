@@ -50,9 +50,9 @@ namespace OpenAuth.App
         /// <exception cref="System.Exception">未能找到该组织的父节点信息</exception>
         public int AddOrUpdate(Org org)
         {
+            ChangeModuleCascade(org);
             if (org.Id == 0)
             {
-                ChangeModuleCascade(org);
                 _repository.Add(org);
             }
             else

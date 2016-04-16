@@ -15,11 +15,11 @@
 var moduleId = $.CurrentDialog.find("#selectedModuleId").val();  //外部传递的moduleId
 
 $(document).ready(function () {
-    $.CurrentDialog.find('#btnAddElement').on('click', function () {
+    $.CurrentDialog.find('#btnAddElement').on('click', function () {  //添加菜单
         editEleDlg.add();
     });
 
-    $.CurrentDialog.find('#btnEditElement').on('click', function () {
+    $.CurrentDialog.find('#btnEditElement').on('click', function () {  //编辑菜单
         var selected = thisDlg.getSelectedObj();
         if (selected == null) {
             return;
@@ -27,7 +27,7 @@ $(document).ready(function () {
         editEleDlg.update(selected);
     });
 
-    $.CurrentDialog.find('#btnDelElement').on('click', function () {
+    $.CurrentDialog.find('#btnDelElement').on('click', function () {  //删除菜单
         var selected = thisDlg.getSelectedMany(); //可以一次删除多个
         if (selected == null) {
             return;

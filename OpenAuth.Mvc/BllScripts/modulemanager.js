@@ -42,19 +42,7 @@ function MainGrid() {
                    label: '主页面URL',
                    width: 100
                },
-               {
-                   name: 'HotKey',
-                   label: '热键',
-                   width: 100
-               },
-               {
-                   name: 'ParentId',
-                   label: '父节点流水号',
-                   width: 100
-                     , type: 'select',
-                   align: 'center',
-                   items: [{ '0': '默认' }, { '1': '状态1' }],
-               },
+
                {
                    name: 'IsLeaf',
                    label: '是否叶子节点',
@@ -70,11 +58,6 @@ function MainGrid() {
                      , type: 'select',
                    align: 'center',
                    items: [{ 'false': '否' }, { 'true': '是' }],
-               },
-               {
-                   name: 'IconName',
-                   label: '节点图标文件名称',
-                   width: 100
                },
                {
                    name: 'Status',

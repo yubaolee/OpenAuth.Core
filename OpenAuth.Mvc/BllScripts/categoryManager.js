@@ -241,7 +241,7 @@ function del() {
     });
 }
 
-//自定义的编辑按钮
+//编辑
 function edit() {
     var selected = list.getSelectedObj();
     if (selected == null) {
@@ -250,10 +250,12 @@ function edit() {
     editDlg.update(selected);
 }
 
+//添加
 function add() {
     editDlg.add();
 }
 
+//刷新
 function refresh() {
     list.reload();
 }

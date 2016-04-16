@@ -87,5 +87,22 @@ namespace OpenAuth.UnitTest
             Console.WriteLine(user.Name + " \t用户ID：" + user.Id);
             return user;
         }
+        [TestMethod]
+        public void TestEditExist()
+        {
+            var user = new UserView
+            {
+                Id = 1,
+
+                Account = "admin",
+                Name = "管理员",
+                OrganizationIds = "1,2",
+                Organizations = "集团总部,研发部",
+                Status = 1
+
+            };
+            _app.AddOrUpdate(user);
+            Console.WriteLine(user.Name + " \t用户ID：" + user.Id);
+        }
     }
 }

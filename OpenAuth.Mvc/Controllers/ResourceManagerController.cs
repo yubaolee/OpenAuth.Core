@@ -23,11 +23,6 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ActionResult Add(int id = 0)
-        {
-            return View(_app.Find(id));
-        }
-
         //添加或修改Resource
         [HttpPost]
         public string Add(Resource model)

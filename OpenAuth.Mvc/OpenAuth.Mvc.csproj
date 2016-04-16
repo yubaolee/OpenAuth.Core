@@ -154,6 +154,10 @@
     <Content Include="BllScripts\grid.js" />
     <Content Include="BllScripts\moduleElementMan.js" />
     <Content Include="BllScripts\modulemanager.js" />
+    <Content Include="BllScripts\orgManager.js" />
+    <Content Include="BllScripts\resourceManager.js" />
+    <Content Include="BllScripts\roleManager.js" />
+    <Content Include="BllScripts\stockManager.js" />
     <Content Include="BllScripts\usermanager.js" />
     <Content Include="BllScripts\roleModuleElement.js" />
     <Content Include="BllScripts\userModuleElement.js" />
@@ -603,13 +607,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\ResourceManager\Add.cshtml" />
     <Content Include="Views\ResourceManager\Index.cshtml" />
     <Content Include="Views\RoleManager\LookupMulti.cshtml" />
     <Content Include="Views\ResourceManager\LookupMultiForUser.cshtml" />
     <Content Include="Views\ResourceManager\LookupMultiForRole.cshtml" />
     <Content Include="Views\StockManager\Index.cshtml" />
-    <Content Include="Views\StockManager\Add.cshtml" />
     <Content Include="Views\OrgManager\LookupMultiForRole.cshtml" />
     <Content Include="Views\OrgManager\LookupMultiForUser.cshtml" />
     <Content Include="Views\Shared\_BjuiLayout.cshtml" />
@@ -674,11 +676,8 @@
     <Content Include="Views\ModuleElementManager\AssignForUser.cshtml" />
     <None Include="Views\ModuleElementManager\Index.cshtml" />
     <Content Include="Views\ModuleElementManager\AssignForRole.cshtml" />
-    <None Include="Views\OrgManager\AddOrg.cshtml" />
     <Content Include="Views\OrgManager\LookupParent.cshtml" />
     <Content Include="Views\UserManager\Index.cshtml" />
-    <Content Include="Views\UserManager\Add.cshtml" />
-    <Content Include="Views\RoleManager\Add.cshtml" />
     <Content Include="Views\RoleManager\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>

@@ -55,11 +55,20 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 返回当前登录用户可访问到的部门
+        /// </summary>
+        /// <returns>System.String.</returns>
         public string LoadForTree()
         {
             var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs;
             return JsonHelper.Instance.Serialize(orgs);
         }
+        /// <summary>
+        /// 返回带有根节点的全部部门，不受用户权限影响
+        /// <para>可以匿名访问</para>
+        /// </summary>
+        /// <returns>System.String.</returns>
         [Anonymous]
         public string LoadOrg()
         {
@@ -141,21 +150,6 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _orgApp.AddOrUpdate(org);
-            }
-            catch (Exception ex)
-            {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
-            }
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
-
-        public string EditOrg(string json)
-        {
-            try
-            {
-                var org = JsonHelper.Instance.Deserialize<Org>(json);
                 _orgApp.AddOrUpdate(org);
             }
             catch (Exception ex)

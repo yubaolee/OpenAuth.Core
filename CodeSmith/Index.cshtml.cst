@@ -39,14 +39,24 @@ Description="连接的数据库" %>
                  <% foreach (ColumnSchema column in this.SourceTable.Columns) {
                         if(column.IsPrimaryKeyMember){%>
                               <input type="text" id="<%=column.Name%>" name="<%=column.Name%>" value="" class="hidden" />
-                      <%}else if(CSharpAlias[column.SystemType.FullName] == "bool"
-                          ||(CSharpAlias[column.SystemType.FullName] == "int" && Tools.GetDescription(column).Contains("下拉选择"))) {%>
+                        <%}else if(CSharpAlias[column.SystemType.FullName] == "bool") {%>
+                          <tr>
+                                <td>
+                                    <label for="<%=column.Name%>" class="control-label x120"><%=Tools.GetDescription(column)%>：</label>
+                                    <select name="<%=column.Name%>" id="<%=column.Name%>" data-toggle="selectpicker" data-rule="required">
+                                        <option value="false">否</option>
+                                        <option value="true">是</option>
+                                    </select>
+                                </td>
+                          </tr>
+                      <%}else if(CSharpAlias[column.SystemType.FullName] == "int" ) {%>
                           <tr>
                                 <td>
                                     <label for="<%=column.Name%>" class="control-label x120"><%=Tools.GetDescription(column)%>：</label>
                                     <select name="<%=column.Name%>" id="<%=column.Name%>" data-toggle="selectpicker" data-rule="required">
                                         <option value="0">默认</option>
-                                        <option value="1">禁用</option>
+                                        <option value="1">状态1</option>
+                                        <option value="2">状态2</option>
                                     </select>
                                 </td>
                           </tr>

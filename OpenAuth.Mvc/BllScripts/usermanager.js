@@ -300,12 +300,13 @@ function openUserReourceAccess(obj) {
 
     $(obj).dialog({
         id: 'accessUserRole',
-        url: '/ResourceManager/LookupMultiForUser',
+        url: '/ResourceManager/AssignRes',
         title: '为用户分配资源',
         width: 600,
         height: 380,
         data: {
-            userId: selected.Id
+            firstId: selected.Id,
+            key:"UserResource"
         }
     });
 }

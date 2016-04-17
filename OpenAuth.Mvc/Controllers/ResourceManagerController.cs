@@ -76,63 +76,31 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
-        #region 为用户分配资源
-
-        public ActionResult LookupMultiForUser(int userId)
+        /// <summary>
+        /// 为用户或角色分配权限
+        /// </summary>
+        /// <param name="firstId">关联表中的firstId.</param>
+        /// <param name="key">关联表中的Key
+        /// <para>如：UserResource/RoleResource</para>
+        /// </param>
+        /// <returns>ActionResult.</returns>
+        public ActionResult AssignRes(int firstId, string key)
         {
-            ViewBag.UserId = userId;
+            ViewBag.FirstId = firstId;
+            ViewBag.ModuleType = key;
             return View();
         }
 
-        public string LoadWithUserAccess(int cId, int userId)
+        /// <summary>
+        /// 加载带有授权的资源信息
+        /// </summary>
+        /// <param name="cId">分类ID</param>
+        /// <param name="firstId">关联表中的firstId</param>
+        /// <param name="key">关联表中的key</param>
+        /// <returns>System.String.</returns>
+        public string LoadWithAccess(int cId, int firstId, string key)
         {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("UserResource",userId, cId));
+            return JsonHelper.Instance.Serialize(_app.LoadWithAccess(key,firstId, cId));
         }
-
-        public string AccessForUser(int userId, string ids)
-        {
-            try
-            {
-                var resIds = ids.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AssignResForUser(userId, resIds);
-            }
-            catch (Exception e)
-            {
-                BjuiResponse.message = e.Message;
-                BjuiResponse.statusCode = "300";
-            }
-
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
-        #endregion 为用户分配资源
-
-        #region 为角色分配资源
-        public ActionResult LookupMultiForRole(int roleId)
-        {
-            ViewBag.RoleId = roleId;
-            return View();
-        }
-
-        public string LoadWithRoleAccess(int cId, int roleId)
-        {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("RoleResource", roleId, cId));
-        }
-
-        public string AccessForRole(int roleId, string ids)
-        {
-            try
-            {
-                var resIds = ids.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AssignResForRole(roleId, resIds);
-            }
-            catch (Exception e)
-            {
-                BjuiResponse.message = e.Message;
-                BjuiResponse.statusCode = "300";
-            }
-
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
-        #endregion
     }
 }

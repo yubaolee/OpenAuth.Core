@@ -42,9 +42,10 @@ namespace OpenAuth.Mvc
             builder.RegisterType<ModuleElementManagerApp>();
             builder.RegisterType<CategoryManagerApp>();
             builder.RegisterType<ResourceManagerApp>();
-            builder.RegisterType<StockManagerApp>();      
+            builder.RegisterType<StockManagerApp>();
+            builder.RegisterType<RevelanceManagerApp>();
 
-            // Register your MVC controllers.
+                // Register your MVC controllers.
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             // OPTIONAL: Register model binders that require DI.

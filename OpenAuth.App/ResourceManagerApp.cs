@@ -118,7 +118,7 @@ namespace OpenAuth.App
         public List<ResourceVM> LoadWithAccess(string accessType, int firstId, int cId)
         {
             var listVms = new List<ResourceVM>();
-            if (cId == 0) return listVms;
+           // if (cId == 0) return listVms;
 
             foreach (var element in _repository.LoadInOrgs(cId))
             {
@@ -138,25 +138,18 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// 为用户分配资源
-        /// </summary>
-        /// <param name="userId">用户ID</param>
-        /// <param name="resIds">资源ID数组</param>
-        public void AssignResForUser(int userId, int[] resIds)
-        {
-            _relevanceRepository.DeleteBy("UserResource", resIds);
-            _relevanceRepository.AddRelevance("UserResource", resIds.ToLookup(u => userId));
-        }
-
-        /// <summary>
         /// 为角色分配资源
         /// </summary>
         /// <param name="roleId">角色ID</param>
         /// <param name="resIds">资源ID数组</param>
         public void AssignResForRole(int roleId, int[] resIds)
         {
-            _relevanceRepository.DeleteBy("RoleResource", resIds);
             _relevanceRepository.AddRelevance("RoleResource", resIds.ToLookup(u => roleId));
+        }
+
+        public void DelResForRole(int roleId, int[] resIds)
+        {
+            _relevanceRepository.DeleteBy("RoleResource", resIds.ToLookup(u =>roleId));
         }
     }
 }

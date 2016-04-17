@@ -48,6 +48,7 @@
     <Compile Include="ModuleElementManagerApp.cs" />
     <Compile Include="ModuleManagerApp.cs" />
     <Compile Include="ResourceManagerApp.cs" />
+    <Compile Include="RevelanceManagerApp.cs" />
     <Compile Include="RoleManagerApp.cs" />
     <Compile Include="StockManagerApp.cs" />
     <Compile Include="UserManagerApp.cs" />

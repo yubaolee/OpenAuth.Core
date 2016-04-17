@@ -272,12 +272,13 @@ function openRoleReourceAccess(obj) {
 
     $(obj).dialog({
         id: 'accessUserRole',
-        url: '/ResourceManager/LookupMultiForRole',
+        url: '/ResourceManager/AssignRes',
         title: '为角色分配资源',
         width: 600,
         height: 380,
         data: {
-            roleId: selected.Id
+            firstId: selected.Id,
+            key:"RoleResource"
         }
     });
 }

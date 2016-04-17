@@ -19,7 +19,9 @@ namespace OpenAuth.Repository
 
         public IEnumerable<Resource> LoadInOrgs(params int[] orgId)
         {
-            var result = from resource in Context.Resources.Where(u => orgId.Contains(u.CategoryId)) select resource;
+            bool isZero = orgId.Length == 1 && orgId[0] == 0;  //判断传进来的是否为0
+            var result = from resource in Context.Resources.Where(u =>isZero 
+                         || orgId.Contains(u.CategoryId)) select resource;
 
             return result;
         }

@@ -41,15 +41,6 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 选择上级机构页面
-        /// </summary>
-        /// <returns>ActionResult.</returns>
-        public ActionResult LookupParent()
-        {
-            return View();
-        }
-
         public ActionResult AddOrg()
         {
             return View();

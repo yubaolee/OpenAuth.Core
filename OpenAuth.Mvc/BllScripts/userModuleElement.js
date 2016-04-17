@@ -15,7 +15,7 @@
 
 $(document).ready(function () {
     $.CurrentDialog.find("#btnAccess").on("click", function () {
-        var ids = list.getSelectedProperties('Id');
+        var ids = userMenuList.getSelectedProperties('Id');
         if (ids == null) return;
 
         $.post("/ModuleElementManager/AssignForUser",
@@ -23,18 +23,18 @@ $(document).ready(function () {
                 userId: $('#userId').val(),
                 menuIds: ids,
             }, function (json) {
-                list.reload();
+                userMenuList.reload();
             });
     });
     $.CurrentDialog.find("#btnDelAccess").on("click", function () {
-        var ids = list.getSelectedProperties('Id');
+        var ids = userMenuList.getSelectedProperties('Id');
         if (ids == null) return;
 
         $.post("/ModuleElementManager/CancelForUser",{
             userId: $('#userId').val(),
             menuIds: ids,
         }, function (json) {
-            list.reload();
+            userMenuList.reload();
         });
     });
 });
@@ -78,7 +78,7 @@ function UserMEGrid() {
         paging: true,
         filterMult: false,
         showTfoot: false,
-        height: '100%'
+      
     });
     this.reload = function(id) {
         if (id != undefined) selectedId = id;
@@ -86,7 +86,7 @@ function UserMEGrid() {
     };
 };
 UserMEGrid.prototype = new Grid();
-var list = new UserMEGrid();
+var userMenuList = new UserMEGrid();
 
 var ztree = function () {
     var setting = {
@@ -111,6 +111,6 @@ var ztree = function () {
     });
 }();
 function zTreeOnClick(event, treeId, treeNode) {
-    list.reload(treeNode.Id);
+    userMenuList.reload(treeNode.Id);
 }
 //@@ sourceURL=userModuleElement.js

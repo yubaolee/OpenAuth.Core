@@ -1,20 +1,7 @@
-﻿// ***********************************************************************
-// Assembly         : OpenAuth.Mvc
-// Author           : yubaolee
-// Created          : 04-06-2016
-//
-// Last Modified By : yubaolee
-// Last Modified On : 04-06-2016
-// ***********************************************************************
-// <copyright file="modulemanager.js" company="www.cnblogs.com/yubaolee">
-//     版权所有(C) 2015
-// </copyright>
-// <summary>模块管理脚本</summary>
-// ***********************************************************************
-
+﻿
 //grid列表模块
 function MainGrid() {
-    var url = '/ModuleManager/Load?orgId=';
+    var url = '/StockManager/Load?parentId=';
     var selectedId = 0; //ztree选中的模块
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
@@ -23,63 +10,45 @@ function MainGrid() {
         columns: [
                {
                    name: 'Id',
-                   label: '功能模块流水号',
+                   label: '数据ID',
                    width: 100
                     , hide: true
                },
                {
-                   name: 'CascadeId',
-                   label: '节点语义ID',
-                   width: 100
-               },
-               {
                    name: 'Name',
-                   label: '功能模块名称',
+                   label: '产品名称',
                    width: 100
                },
                {
-                   name: 'Url',
-                   label: '主页面URL',
+                   name: 'Number',
+                   label: '产品数量',
                    width: 100
                },
-
                {
-                   name: 'IsLeaf',
-                   label: '是否叶子节点',
+                   name: 'Price',
+                   label: '产品单价',
                    width: 100
-                     , type: 'select',
-                   align: 'center',
-                   items: [{ 'false': '否' }, { 'true': '是' }],
-               },
-               {
-                   name: 'IsAutoExpand',
-                   label: '是否自动展开',
-                   width: 100
-                     , type: 'select',
-                   align: 'center',
-                   items: [{ 'false': '否' }, { 'true': '是' }],
                },
                {
                    name: 'Status',
-                   label: '当前状态',
+                   label: '出库/入库',
                    width: 100
-                     , type: 'select',
-                   align: 'center',
-                   items: [{ '0': '默认' }, { '1': '状态1' }],
+                     , align: 'center',
+                   items: [{ '0': '出库' }, { '1': '入库' }],
                },
                {
-                   name: 'ParentName',
-                   label: '父节点名称',
-                   width: 100
-               },
-               {
-                   name: 'Vector',
-                   label: '矢量图标',
+                   name: 'User',
+                   label: '操作人',
                    width: 100
                },
                {
-                   name: 'SortNo',
-                   label: '排序号',
+                   name: 'Time',
+                   label: '操作时间',
+                   width: 100
+               },
+               {
+                   name: 'OrgId',
+                   label: '组织ID',
                    width: 100
                },
         ],
@@ -102,7 +71,7 @@ var list = new MainGrid();
 
 //左边分类导航树
 var ztree = function () {
-    var url = '/ModuleManager/LoadModuleWithRoot';
+    var url = '/OrgManager/LoadOrg';
     var setting = {
         view: { selectedMulti: false },
         data: {
@@ -138,7 +107,7 @@ var ztree = function () {
 //编辑时，选择上级弹出的树
 var parentTree = function () {
     var nameDom = "#ParentName";
-    var idDom = "#ParentId";
+    var idDom = "#OrgId";
     var zTreeObj;
     var setting = {
         view: {
@@ -182,7 +151,7 @@ var parentTree = function () {
 
     return {
         show: function () {
-            $.getJSON('/moduleManager/LoadForTree', function (json) {
+            $.getJSON('/OrgManager/LoadForTree', function (json) {
                 zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
                 var orgstr = $(idDom).val();
                 var name = '';
@@ -201,11 +170,12 @@ var parentTree = function () {
     };
 }();
 
+
 //添加（编辑）对话框
 var editDlg = function () {
     var update = false;
     var show = function () {
-        BJUI.dialog({ id: 'editDlg', title: '编辑', target: '#editDlg' });
+        BJUI.dialog({ id: 'editDlg', title: '编辑对话框', target: '#editDlg' });
         $("#btnSave").on("click", function () {
             editDlg.save();
         });
@@ -216,26 +186,20 @@ var editDlg = function () {
             show();
             $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
             $("#Id").val(0);
-
-            parentTree.show()
+            parentTree.show();
         },
         update: function (ret) {  //弹出编辑框
             update = true;
             show();
             $('#Id').val(ret.Id);
-            $('#CascadeId').val(ret.CascadeId);
             $('#Name').val(ret.Name);
-            $('#Url').val(ret.Url);
-            $('#HotKey').val(ret.HotKey);
-            $('#ParentId').val(ret.ParentId);
-            $('#IsLeaf').selectpicker('val', ret.IsLeaf?"true":"false");
-            $('#IsAutoExpand').selectpicker('val', ret.IsAutoExpand?"true":"false");
-            $('#IconName').val(ret.IconName);
-            $('#Status').val(ret.Status);
-            $('#ParentName').val(ret.ParentName);
-            $('#Vector').val(ret.Vector);
-            $('#SortNo').val(ret.SortNo);
-            parentTree.show()
+            $('#Number').selectpicker('val', ret.Number);
+            $('#Price').val(ret.Price);
+            $('#Status').selectpicker('val', ret.Status);
+            $('#User').val(ret.User);
+            $('#Time').val(ret.Time);
+            $('#OrgId').val(ret.OrgId);
+            parentTree.show();
         },
         save: function () {  //编辑-->保存
             $('#editForm').isValid(function (v) {
@@ -252,13 +216,12 @@ var editDlg = function () {
     };
 }();
 
-
 //删除
 function del() {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $.getJSON('/moduleManager/Delete?Id=' + selected.Id, function (data) {
+    $.getJSON('/StockManager/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
             ztree.reload();
@@ -286,21 +249,4 @@ function refresh() {
     list.reload();
 }
 
-//为模块分配按钮
-function assignButton() {
-    var selected = list.getSelectedObj();
-    if (selected == null) return;
-
-    //BJUI.dialog({ id: 'assignDialog', title: '菜单编辑', target: '#moduleElementManager' });
-
-    BJUI.dialog({
-        id: 'assignDialog',
-        mask: true,
-        url: '/ModuleElementManager/Index?id=' + selected.Id,
-        title: '为模块分配按钮',
-        width: '800',
-        height:'600'
-    });
-}
-
-//@@ sourceURL=moduleManager.js
+//@@ sourceURL=StockManager.js

@@ -15,7 +15,7 @@
 
 $(document).ready(function () {
     $.CurrentDialog.find("#btnAccess").on("click", function () {
-        var ids = list.getSelectedProperties('Id');
+        var ids = roleMenuList.getSelectedProperties('Id');
         if (ids == null) return;
 
         $.post("/ModuleElementManager/AssignForRole",
@@ -23,18 +23,18 @@ $(document).ready(function () {
                 RoleId: $('#roleId').val(),
                 menuIds: ids,
             }, function (json) {
-                list.reload();
+                roleMenuList.reload();
             });
     });
     $.CurrentDialog.find("#btnDelAccess").on("click", function () {
-        var ids = list.getSelectedProperties('Id');
+        var ids = roleMenuList.getSelectedProperties('Id');
         if (ids == null) return;
 
         $.post("/ModuleElementManager/CancelForRole",{
             RoleId: $('#roleId').val(),
             menuIds: ids,
         }, function (json) {
-            list.reload();
+            roleMenuList.reload();
         });
     });
 });
@@ -77,8 +77,7 @@ function RoleMEGrid() {
         showCheckboxcol: true,
         paging: true,
         filterMult: false,
-        showTfoot: false,
-        height: '100%'
+        showTfoot: false
     });
     this.reload = function(id) {
         if (id != undefined) selectedId = id;
@@ -86,7 +85,7 @@ function RoleMEGrid() {
     };
 };
 RoleMEGrid.prototype = new Grid();
-var list = new RoleMEGrid();
+var roleMenuList = new RoleMEGrid();
 
 var ztree = function () {
     var setting = {
@@ -111,6 +110,6 @@ var ztree = function () {
     });
 }();
 function zTreeOnClick(event, treeId, treeNode) {
-    list.reload(treeNode.Id);
+    roleMenuList.reload(treeNode.Id);
 }
 //@@ sourceURL=RoleModuleElement.js

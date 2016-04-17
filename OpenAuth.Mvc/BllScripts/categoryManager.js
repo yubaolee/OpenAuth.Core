@@ -67,7 +67,7 @@ function MainGrid() {
         paging: true,
         filterMult: false,
         showTfoot: false,
-        height: '100%'
+      
     });
     this.reload = function (id) {
         if (id != undefined) selectedId = id;

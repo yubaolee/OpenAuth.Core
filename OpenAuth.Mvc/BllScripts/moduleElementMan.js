@@ -117,7 +117,7 @@ var thisDlg = function () {
         paging: false,
         filterMult: false,
         showTfoot: false,
-        height: '100%'
+      
     });
 
     var getSelectDatas = function () {

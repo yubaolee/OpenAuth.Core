@@ -317,11 +317,15 @@ function openAssignUserElement(obj) {
     if (selected == null) return;
 
     $(obj).dialog({
-        id: 'assignElement',
-        url: '/ModuleElementManager/AssignForUser?userId=' + selected.Id,
-        title: '为用户分配菜单',
-        width: 700,
-        height: 380
+        id: 'accessUserElement',
+        url: '/ModuleElementManager/AssignModuleElement',
+        title: '为用户分配资源',
+        width: 600,
+        height: 380,
+        data: {
+            firstId: selected.Id,
+            key: "UserElement"
+        }
     });
 }
 

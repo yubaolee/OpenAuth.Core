@@ -12,16 +12,13 @@
 // <summary>模块元素管理，无需权限控制</summary>
 // ***********************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.Linq;
-using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
-using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
+using System;
+using System.Data.Entity.Validation;
+using System.Web.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -76,107 +73,23 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_bjuiResponse);
         }
 
-        #region 为角色分配菜单
-
-        public ActionResult AssignForRole(int roleId)
+        /// <summary>
+        /// 分配模块菜单（按钮）界面
+        /// <para>可以为用户/角色分配，同过key（UserElement/RoleElement）区分</para>
+        /// </summary>
+        /// <param name="firstId">The first identifier.</param>
+        /// <param name="key">The key.</param>
+        /// <returns>ActionResult.</returns>
+        public ActionResult AssignModuleElement(int firstId, string key)
         {
-            ViewBag.RoleId = roleId;
+            ViewBag.FirstId = firstId;
+            ViewBag.ModuleType = key;
             return View();
         }
 
-        /// <summary>
-        /// 为角色分配菜单
-        /// </summary>
-        /// <param name="roleId">角色ID</param>
-        /// <param name="moduleId">模块ID</param>
-        /// <param name="menuIds">菜单ID列表</param>
-        /// <returns></returns>
-        [HttpPost]
-        public string AssignForRole(int roleId, string menuIds)
+        public string LoadWithAccess(int tId, int firstId, string key)
         {
-            try
-            {
-                var ids = JsonHelper.Instance.Deserialize<int[]>(menuIds);
-                _app.AssignForRole(roleId, ids);
-            }
-            catch (Exception e)
-            {
-                _bjuiResponse.statusCode = "300";
-                _bjuiResponse.message = e.Message;
-            }
-            return JsonHelper.Instance.Serialize(_bjuiResponse);
+            return JsonHelper.Instance.Serialize(_app.LoadWithAccess(key, firstId, tId));
         }
-
-        [HttpPost]
-        public string CancelForRole(int roleId, string menuIds)
-        {
-            try
-            {
-                var ids = JsonHelper.Instance.Deserialize<int[]>(menuIds);
-                _app.CancelForRole(roleId, ids);
-            }
-            catch (Exception e)
-            {
-                _bjuiResponse.statusCode = "300";
-                _bjuiResponse.message = e.Message;
-            }
-            return JsonHelper.Instance.Serialize(_bjuiResponse);
-        }
-
-        public string LoadForRole(int roleId, int moduleId)
-        {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("RoleElement", roleId, moduleId));
-        }
-        #endregion
-
-        #region 为用户分配菜单
-
-        public ActionResult AssignForUser(int userId)
-        {
-            ViewBag.UserId = userId;
-            return View();
-        }
-        /// <summary>
-        /// 为用户分配菜单
-        /// </summary>
-        /// <param name="userId">用户ID</param>
-        /// <param name="menuIds">菜单ID列表</param>
-        /// <returns></returns>
-        [HttpPost]
-        public string AssignForUser(int userId, string menuIds)
-        {
-            try
-            {
-                var ids = JsonHelper.Instance.Deserialize<int[]>(menuIds);
-                _app.AssignForUser(userId, ids);
-            }
-            catch (Exception e)
-            {
-                _bjuiResponse.statusCode = "300";
-                _bjuiResponse.message = e.Message;
-            }
-            return JsonHelper.Instance.Serialize(_bjuiResponse);
-        }
-        [HttpPost]
-        public string CancelForUser(int userId, string menuIds)
-        {
-            try
-            {
-                var ids = JsonHelper.Instance.Deserialize<int[]>(menuIds);
-                _app.CancelForUser(userId, ids);
-            }
-            catch (Exception e)
-            {
-                _bjuiResponse.statusCode = "300";
-                _bjuiResponse.message = e.Message;
-            }
-            return JsonHelper.Instance.Serialize(_bjuiResponse);
-        }
-
-        public string LoadForUser(int userId, int moduleId)
-        {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess("UserElement", userId, moduleId));
-        }
-        #endregion
     }
 }

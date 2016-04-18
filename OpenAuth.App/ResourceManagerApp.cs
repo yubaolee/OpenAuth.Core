@@ -137,19 +137,5 @@ namespace OpenAuth.App
             return listVms;
         }
 
-        /// <summary>
-        /// 为角色分配资源
-        /// </summary>
-        /// <param name="roleId">角色ID</param>
-        /// <param name="resIds">资源ID数组</param>
-        public void AssignResForRole(int roleId, int[] resIds)
-        {
-            _relevanceRepository.AddRelevance("RoleResource", resIds.ToLookup(u => roleId));
-        }
-
-        public void DelResForRole(int roleId, int[] resIds)
-        {
-            _relevanceRepository.DeleteBy("RoleResource", resIds.ToLookup(u =>roleId));
-        }
     }
 }

@@ -151,6 +151,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BllScripts\assignModuleElement.js" />
     <Content Include="BllScripts\categoryManager.js" />
     <Content Include="BllScripts\grid.js" />
     <Content Include="BllScripts\moduleElementMan.js" />
@@ -160,8 +161,6 @@
     <Content Include="BllScripts\roleManager.js" />
     <Content Include="BllScripts\stockManager.js" />
     <Content Include="BllScripts\usermanager.js" />
-    <Content Include="BllScripts\roleModuleElement.js" />
-    <Content Include="BllScripts\userModuleElement.js" />
     <Content Include="BllScripts\assignRes.js" />
     <Content Include="BllScripts\userRoleManager.js" />
     <Content Include="Content\BJUI\images\captcha.jpeg" />
@@ -674,9 +673,8 @@
     <Content Include="Views\ModuleManager\LookupMultiForUser.cshtml" />
     <Content Include="Views\ModuleManager\LookupMultiForRole.cshtml" />
     <None Include="Views\Home\MenuHeader.cshtml" />
-    <Content Include="Views\ModuleElementManager\AssignForUser.cshtml" />
     <None Include="Views\ModuleElementManager\Index.cshtml" />
-    <Content Include="Views\ModuleElementManager\AssignForRole.cshtml" />
+    <Content Include="Views\ModuleElementManager\AssignModuleElement.cshtml" />
     <Content Include="Views\UserManager\Index.cshtml" />
     <Content Include="Views\RoleManager\Index.cshtml" />
   </ItemGroup>

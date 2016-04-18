@@ -78,6 +78,29 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
+        /// <summary>
+        /// 分配菜单页面的树
+        /// <para>todo:key要用UserElement/RoleElement，会造成迷惑，后期优化</para>
+        /// </summary>
+        public string LoadTree(int firstId, string key)
+        {
+            var orgs = _app.LoadTree(firstId, key);
+            //添加根节点
+            orgs.Add(new Module
+            {
+                Id = 0,
+                ParentId = -1,
+                Name = "已拥有的模块",
+                CascadeId = "0"
+            });
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        /// <summary>
+        /// 加载用户模块
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>System.String.</returns>
         public string LoadForUser(int userId)
         {
             var orgs = _app.LoadForUser(userId);
@@ -92,6 +115,11 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
+        /// <summary>
+        /// 加载角色模块
+        /// </summary>
+        /// <param name="roleId">The role identifier.</param>
+        /// <returns>System.String.</returns>
         public string LoadForRole(int roleId)
         {
             var orgs = _app.LoadForRole(roleId);

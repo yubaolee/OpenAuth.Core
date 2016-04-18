@@ -271,7 +271,7 @@ function openRoleReourceAccess(obj) {
     if (selected == null) return;
 
     $(obj).dialog({
-        id: 'accessUserRole',
+        id: 'assignRes',
         url: '/ResourceManager/AssignRes',
         title: '为角色分配资源',
         width: 600,
@@ -289,11 +289,15 @@ function assignRoleElement(obj) {
     if (selected == null) return;
 
     $(obj).dialog({
-        id: 'assignElement',
-        url: '/ModuleElementManager/AssignForRole?roleId=' + selected.Id,
+        id: 'accessRoleElement',
+        url: '/ModuleElementManager/AssignModuleElement',
         title: '为角色分配菜单',
-        width: 700,
-        height: 380
+        width: 600,
+        height: 380,
+        data: {
+            firstId: selected.Id,
+            key: "RoleElement"
+        }
     });
 }
 

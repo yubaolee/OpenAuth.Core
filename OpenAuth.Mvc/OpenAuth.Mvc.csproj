@@ -151,6 +151,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BllScripts\assignModule.js" />
+    <Content Include="BllScripts\assignOrg.js" />
     <Content Include="BllScripts\assignModuleElement.js" />
     <Content Include="BllScripts\categoryManager.js" />
     <Content Include="BllScripts\grid.js" />
@@ -612,8 +614,7 @@
     <Content Include="Views\RoleManager\LookupMulti.cshtml" />
     <Content Include="Views\ResourceManager\AssignRes.cshtml" />
     <Content Include="Views\StockManager\Index.cshtml" />
-    <Content Include="Views\OrgManager\LookupMultiForRole.cshtml" />
-    <Content Include="Views\OrgManager\LookupMultiForUser.cshtml" />
+    <Content Include="Views\OrgManager\Assign.cshtml" />
     <Content Include="Views\Shared\_BjuiLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -670,8 +671,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ModuleManager\Index.cshtml" />
-    <Content Include="Views\ModuleManager\LookupMultiForUser.cshtml" />
-    <Content Include="Views\ModuleManager\LookupMultiForRole.cshtml" />
+    <Content Include="Views\ModuleManager\Assign.cshtml" />
     <None Include="Views\Home\MenuHeader.cshtml" />
     <None Include="Views\ModuleElementManager\Index.cshtml" />
     <Content Include="Views\ModuleElementManager\AssignModuleElement.cshtml" />

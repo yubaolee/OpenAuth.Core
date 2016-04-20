@@ -98,17 +98,6 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// 为特定的用户分配角色
-        /// </summary>
-        /// <param name="userId">The user unique identifier.</param>
-        /// <param name="ids">角色ID</param>
-        public void AssignModuleForUser(int userId, int[] ids)
-        {
-            _relevanceRepository.DeleteBy("UserAccessedOrg", userId);
-            _relevanceRepository.AddRelevance("UserAccessedOrg", ids.ToLookup(u => userId));
-        }
-
-        /// <summary>
         /// 加载特定角色的角色
         /// </summary>
         /// <param name="roleId">The role unique identifier.</param>
@@ -120,17 +109,6 @@ namespace OpenAuth.App
                     .ToList();
             if (!moduleIds.Any()) return new List<Org>();
             return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
-        }
-
-        /// <summary>
-        /// 为特定的角色分配角色
-        /// </summary>
-        /// <param name="roleId">The user unique identifier.</param>
-        /// <param name="ids">角色ID</param>
-        public void AssignModuleForRole(int roleId, int[] ids)
-        {
-            _relevanceRepository.DeleteBy("RoleAccessedOrg", roleId);
-            _relevanceRepository.AddRelevance("RoleAccessedOrg", ids.ToLookup(u => roleId));
         }
 
         #region 私有方法

@@ -25,17 +25,10 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        //用于选择模块时使用
-        public ActionResult LookUpMultiForUser(int userId)
+        public ActionResult Assign(int firstId, string key)
         {
-            ViewBag.UserId = userId;
-            return View();
-        }
-
-        //为角色分配模块
-        public ActionResult LookupMultiForRole(int roleId)
-        {
-            ViewBag.RoleId = roleId;
+            ViewBag.FirstId = firstId;
+            ViewBag.ModuleType = key;
             return View();
         }
 
@@ -53,14 +46,6 @@ namespace OpenAuth.Mvc.Controllers
         public string LoadForTree()
         {
             var orgs = SessionHelper.GetSessionUser<LoginUserVM>().Modules;
-            //添加根节点
-            //orgs.Add(new Module
-            //{
-            //    Id = 0,
-            //    ParentId = -1,
-            //    Name = "根节点",
-            //    CascadeId = "0"
-            //});
             return JsonHelper.Instance.Serialize(orgs);
         }
 
@@ -79,99 +64,29 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 分配菜单页面的树
-        /// <para>todo:key要用UserElement/RoleElement，会造成迷惑，后期优化</para>
-        /// </summary>
-        public string LoadTree(int firstId, string key)
-        {
-            var orgs = _app.LoadTree(firstId, key);
-            //添加根节点
-            orgs.Add(new Module
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "已拥有的模块",
-                CascadeId = "0"
-            });
-            return JsonHelper.Instance.Serialize(orgs);
-        }
-
-        /// <summary>
         /// 加载用户模块
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
+        /// <param name="firstId">The user identifier.</param>
         /// <returns>System.String.</returns>
-        public string LoadForUser(int userId)
+        public string LoadForUser(int firstId)
         {
-            var orgs = _app.LoadForUser(userId);
-            //添加根节点
-            orgs.Add(new Module
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "用户及角色拥有的模块",
-                CascadeId = "0"
-            });
+            var orgs = _app.LoadForUser(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
 
         /// <summary>
         /// 加载角色模块
         /// </summary>
-        /// <param name="roleId">The role identifier.</param>
+        /// <param name="firstId">The role identifier.</param>
         /// <returns>System.String.</returns>
-        public string LoadForRole(int roleId)
+        public string LoadForRole(int firstId)
         {
-            var orgs = _app.LoadForRole(roleId);
-            //添加根节点
-            orgs.Add(new Module
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "已为角色分配的模块",
-                CascadeId = "0"
-            });
+            var orgs = _app.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string AssignModuleForRole(int roleId, string moduleIds)
-        {
-            try
-            {
-                var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AssignModuleForRole(roleId, ids);
-            }
-            catch (Exception e)
-            {
-                BjuiResponse.message = e.Message;
-                BjuiResponse.statusCode = "300";
-            }
-
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
-
-        public string AssignModuleForUser(int userId, string moduleIds)
-        {
-            try
-            {
-                var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _app.AssignModuleForUser(userId, ids);
-            }
-            catch (Exception e)
-            {
-                BjuiResponse.message = e.Message;
-                BjuiResponse.statusCode = "300";
-            }
-
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
 
         #region 添加编辑模块
-        public ActionResult Add(int id = 0)
-        {
-            return View(_app.Find(id));
-        }
-
         //添加或修改模块
         [HttpPost]
         public string Add(Module model)

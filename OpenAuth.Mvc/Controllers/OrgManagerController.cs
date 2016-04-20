@@ -27,22 +27,10 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        //用于选择模块时使用
-        public ActionResult LookUpMultiForUser(int userId)
+        public ActionResult Assign(int firstId, string key)
         {
-            ViewBag.UserId = userId;
-            return View();
-        }
-
-        //为角色分配模块
-        public ActionResult LookupMultiForRole(int roleId)
-        {
-            ViewBag.RoleId = roleId;
-            return View();
-        }
-
-        public ActionResult AddOrg()
-        {
+            ViewBag.FirstId = firstId;
+            ViewBag.ModuleType = key;
             return View();
         }
 
@@ -75,65 +63,20 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string LoadForUser(int userId)
+        public string LoadForUser(int firstId)
         {
-            var orgs = _orgApp.LoadForUser(userId);
+            var orgs = _orgApp.LoadForUser(firstId);
             //添加根节点
-            orgs.Add(new Org
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "用户及角色可访问的部门",
-                CascadeId = "0"
-            });
+           
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string LoadForRole(int roleId)
+        public string LoadForRole(int firstId)
         {
-            var orgs = _orgApp.LoadForRole(roleId);
-            //添加根节点
-            orgs.Add(new Org
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "已为角色分配的可访问部门",
-                CascadeId = "0"
-            });
+            var orgs = _orgApp.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string AssignOrgForRole(int roleId, string moduleIds)
-        {
-            try
-            {
-                var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _orgApp.AssignModuleForRole(roleId, ids);
-            }
-            catch (Exception e)
-            {
-                BjuiResponse.message = e.Message;
-                BjuiResponse.statusCode = "300";
-            }
-
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
-
-        public string AssignOrgForUser(int userId, string moduleIds)
-        {
-            try
-            {
-                var ids = moduleIds.Split(',').Select(id => int.Parse(id)).ToArray();
-                _orgApp.AssignModuleForUser(userId, ids);
-            }
-            catch (Exception e)
-            {
-                BjuiResponse.message = e.Message;
-                BjuiResponse.statusCode = "300";
-            }
-
-            return JsonHelper.Instance.Serialize(BjuiResponse);
-        }
 
         //添加组织提交
         [HttpPost]

@@ -241,11 +241,14 @@ function assignRoleModule(obj) {
     if (selected == null) return;
 
     $(obj).dialog({
-        id: 'accessRoleModule',
-        url: '/ModuleManager/LookupMultiForRole',
+        id: 'accessUserOrg',
+        url: '/ModuleManager/Assign',
         title: '为角色分配模块',
+        width: 620,
+        height: 500,
         data: {
-            roleid: selected.Id
+            firstId: selected.Id,
+            key: "RoleModule"
         }
     });
 }
@@ -257,10 +260,13 @@ function assignRoleOrg(obj) {
 
     $(obj).dialog({
         id: 'accessRoleOrg',
-        url: '/OrgManager/LookupMultiForRole',
-        title: '为角色分配可见机构',
+        url: '/OrgManager/Assign',
+        title: '为角色分配可见部门',
+        width: 620,
+        height: 500,
         data: {
-            roleid: selected.Id
+            firstId: selected.Id,
+            key: "RoleAccessedOrg"
         }
     });
 }

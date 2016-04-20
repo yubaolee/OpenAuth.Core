@@ -1,0 +1,34 @@
+﻿<div class="bjui-pageHeader">
+    <div class="bjui-searchBar">
+        <input style="display: none" id="firstId" value="@ViewBag.FirstId" />
+        <input style="display: none" id="moduleType" , value="@ViewBag.ModuleType" />
+        <div class="pull-right">
+            <div class="alert alert-info search-inline">
+                <i class="fa fa-info-circle"></i>用户可访问的模块=其角色的模块+本身可访问的模块
+            </div>&nbsp;
+            <button type="button" class="btn btn-green" data-num="1" data-icon="plus" id="btnAccess">
+                授权选中
+            </button>&nbsp;
+            <button type="button" class="btn btn-danger" data-num="1" data-icon="trash" id="btnDelAccess">
+                取消授权
+            </button>&nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="bjui-pageContent">
+    <fieldset style="height: auto; float: left; width: 280px;">
+        <legend>系统的模块</legend>
+        <ul id="tree" class="ztree"></ul>
+    </fieldset>
+
+    <!--已经选中的列表-->
+    <fieldset style="height: auto;margin-left: 310px; width: 280px">
+        <legend>已分配的模块</legend>
+        <ul id="selected" class="ztree"></ul>
+    </fieldset>
+</div>
+
+<script src="~/BllScripts/grid.js"></script>
+<script src="~/BllScripts/assignModule.js"></script>
+

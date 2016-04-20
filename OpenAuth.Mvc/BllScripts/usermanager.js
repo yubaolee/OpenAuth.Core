@@ -252,11 +252,14 @@ function openUserModuleAccess(obj) {
     if (selected == null) return;
 
     $(obj).dialog({
-        id: 'accessUserModule',
-        url: '/ModuleManager/LookupMultiForUser',
-        title: '为用户分配模块',
+        id: 'accessUserOrg',
+        url: '/ModuleManager/Assign',
+        title: '为用户分配可见部门',
+        width: 620,
+        height: 500,
         data: {
-            userId: selected.Id
+            firstId: selected.Id,
+            key: "UserModule"
         }
     });
 }
@@ -268,10 +271,13 @@ function openUserOrgAccess(obj) {
 
     $(obj).dialog({
         id: 'accessUserOrg',
-        url: '/OrgManager/LookupMultiForUser',
+        url: '/OrgManager/Assign',
         title: '为用户分配可见部门',
+        width: 620,
+        height: 500,
         data: {
-            userId: selected.Id
+            firstId: selected.Id,
+            key: "UserAccessedOrg"
         }
     });
 }

@@ -106,7 +106,16 @@ var ztree = function () {
         },
         callback: { onClick: zTreeOnClick }
     };
-    $.getJSON('/ModuleManager/LoadTree?firstId=' + $('#firstId').val()+ '&key=' + $('#moduleType').val() , function (json) {
+
+    var url;
+    var type = $("#moduleType");
+    if (type == "UserElement") {
+        url = '/ModuleManager/LoadForUser';
+    } else {
+        url = '/ModuleManager/LoadForRole';
+    }
+
+    $.getJSON(url, { firstId: $("#firstId").val() }, function(json) {
         var zTreeObj = $.fn.zTree.init($.CurrentDialog.find("#tree"), setting, json);
         zTreeObj.expandAll(true);
     });

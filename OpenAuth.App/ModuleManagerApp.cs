@@ -54,18 +54,6 @@ namespace OpenAuth.App
             return _repository.Find(null).ToList();
         }
 
-        public List<Module> LoadTree(int firstId, string key)
-        {
-            if (key == "UserElement") //todo:因为在分配菜单页面出现的树，只能收到这个值，蛋疼
-            {
-                return LoadForUser(firstId);
-            }
-            else
-            {
-                return LoadForRole(firstId);
-            }
-        }
-
         /// <summary>
         /// 以组合的方式显示所有的模块信息
         /// </summary>

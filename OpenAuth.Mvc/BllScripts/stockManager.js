@@ -38,8 +38,9 @@ function MainGrid() {
                },
                {
                    name: 'User',
-                   label: '操作人',
-                   width: 100
+                   label: '可见范围（测试资源使用）',
+                   width: 100,
+                   items: [{ '': '全部可见' }, { 'ADMIN': '管理员可见' },{'DEV':'开发可见'}],
                },
                {
                    name: 'Time',
@@ -193,10 +194,10 @@ var editDlg = function () {
             show();
             $('#Id').val(ret.Id);
             $('#Name').val(ret.Name);
-            $('#Number').selectpicker('val', ret.Number);
+            $('#Number').val(ret.Number);
             $('#Price').val(ret.Price);
             $('#Status').selectpicker('val', ret.Status);
-            $('#User').val(ret.User);
+            $('#User').selectpicker('val', ret.User);
             $('#Time').val(ret.Time);
             $('#OrgId').val(ret.OrgId);
             parentTree.show();

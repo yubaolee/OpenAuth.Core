@@ -109,6 +109,7 @@ namespace OpenAuth.Domain.Service
             }
             else
             {
+                _user = _repository.FindSingle(u => u.Account == name);
                 //用户角色
                 var userRoleIds = _relevanceRepository.Find(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
 

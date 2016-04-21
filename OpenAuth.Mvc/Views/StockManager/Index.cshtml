@@ -52,8 +52,12 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="User" class="control-label x120">操作人：</label>
-                            <input type="text" id="User" name="User" value="" />
+                            <label for="User" class="control-label x120">可见范围：</label>
+                            <select name="User" id="User" data-toggle="selectpicker">
+                                <option value="" selected="selected">全部可见</option>
+                                <option value="ADMIN">管理员可见</option>
+                                <option value="DEV">开发可见</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>

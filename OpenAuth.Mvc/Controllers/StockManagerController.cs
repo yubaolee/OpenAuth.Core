@@ -3,11 +3,13 @@ using OpenAuth.App;
 using OpenAuth.Domain;
 using System;
 using System.Web.Mvc;
-using Infrastructure.Helper;
-using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
 {
+    /// <summary>
+    /// 进出库管理
+    /// <para>本示例主要演示如何使用用户拥有的机构/资源</para>
+    /// </summary>
     public class StockManagerController : BaseController
     {
         private StockManagerApp _app;
@@ -24,11 +26,6 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ActionResult Add(int id = 0)
-        {
-            return View(_app.Find(id));
-        }
-
         //添加或修改Stock
         [HttpPost]
         public string Add(Stock model)
@@ -37,7 +34,6 @@ namespace OpenAuth.Mvc.Controllers
             {
                var newmodel =  new Stock();
                 model.CopyTo(newmodel);
-                newmodel.User = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().User.Account;
                 _app.AddOrUpdate(newmodel);
             }
             catch (Exception ex)
@@ -53,7 +49,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(int parentId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(parentId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(User.Identity.Name, parentId, pageCurrent, pageSize));
         }
         
         public string Delete(int Id)

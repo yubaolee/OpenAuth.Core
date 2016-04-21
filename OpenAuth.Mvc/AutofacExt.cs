@@ -46,6 +46,7 @@ namespace OpenAuth.Mvc
             builder.RegisterType<StockManagerApp>();
             builder.RegisterType<RevelanceManagerApp>();
             builder.RegisterType<AuthoriseService>();
+            builder.RegisterType<StockManagerService>();
 
                 // Register your MVC controllers.
             builder.RegisterControllers(typeof(MvcApplication).Assembly);

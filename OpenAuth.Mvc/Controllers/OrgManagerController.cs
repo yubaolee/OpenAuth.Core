@@ -40,7 +40,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadForTree()
         {
-            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs;
+            var orgs = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().AccessedOrgs;
             return JsonHelper.Instance.Serialize(orgs);
         }
         /// <summary>
@@ -51,7 +51,7 @@ namespace OpenAuth.Mvc.Controllers
         [Anonymous]
         public string LoadOrg()
         {
-            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().AccessedOrgs.MapToList<Org>();
+            var orgs = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().AccessedOrgs.MapToList<Org>();
             //添加根节点
             orgs.Add(new Org
             {

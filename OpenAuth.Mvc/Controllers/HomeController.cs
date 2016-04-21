@@ -25,7 +25,7 @@ namespace OpenAuth.Mvc.Controllers
         [Anonymous]
         public ActionResult Index()
         {
-            var user = SessionHelper.GetSessionUser<LoginUserVM>();
+            var user = AutofacExt.GetFromFac<LoginApp>().GetLoginUser();
             return View(user.Modules);
         }
         

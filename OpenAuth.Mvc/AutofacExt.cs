@@ -19,6 +19,7 @@ using OpenAuth.App;
 using System.Reflection;
 using System.Web.Mvc;
 using OpenAuth.Domain.Interface;
+using OpenAuth.Domain.Service;
 using OpenAuth.Repository;
 
 namespace OpenAuth.Mvc
@@ -44,6 +45,7 @@ namespace OpenAuth.Mvc
             builder.RegisterType<ResourceManagerApp>();
             builder.RegisterType<StockManagerApp>();
             builder.RegisterType<RevelanceManagerApp>();
+            builder.RegisterType<AuthoriseService>();
 
                 // Register your MVC controllers.
             builder.RegisterControllers(typeof(MvcApplication).Assembly);

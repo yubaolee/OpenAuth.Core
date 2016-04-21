@@ -37,7 +37,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                var newmodel =  new Stock();
                 model.CopyTo(newmodel);
-                newmodel.User = SessionHelper.GetSessionUser<LoginUserVM>().User.Account;
+                newmodel.User = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().User.Account;
                 _app.AddOrUpdate(newmodel);
             }
             catch (Exception ex)

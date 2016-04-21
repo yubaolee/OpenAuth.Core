@@ -296,6 +296,8 @@
     <Content Include="Content\jqGrid\i18n\grid.locale-ua.js" />
     <Content Include="Content\jqGrid\i18n\grid.locale-vi.js" />
     <Content Include="Content\jqGrid\jquery.jqGrid.src.js" />
+    <Content Include="Content\js\purl.js" />
+    <Content Include="Content\js\util.js" />
     <Content Include="Content\kindeditor_4.1.10\attached\test.txt" />
     <Content Include="Content\kindeditor_4.1.10\editor-content.css" />
     <Content Include="Content\kindeditor_4.1.10\kindeditor-all-min.js" />

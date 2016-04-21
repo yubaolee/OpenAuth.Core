@@ -29,7 +29,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                SessionHelper.AddSessionUser( _app.Login(username, password));
+                _app.Login(username, password);
                 return RedirectToAction("Index", "Home");
                 
             }
@@ -51,19 +51,20 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                SessionHelper.AddSessionUser(_app.LoginByDev());
+                _app.LoginByDev();
                 return RedirectToAction("Index", "Home");
 
             }
             catch (Exception e)
             {
-                return View(e.Message);
+                return RedirectToAction("Index", "Login");
             }
         }
 
         public ActionResult Logout()
         {
-            SessionHelper.Clear();
+
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Login");
         }
     }

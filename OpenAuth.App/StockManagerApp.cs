@@ -27,38 +27,38 @@ namespace OpenAuth.App
         public dynamic Load(int orgId, int pageindex, int pagesize)
         {
             IEnumerable<Stock> Stocks;
-            var user = SessionHelper.GetSessionUser<LoginUserVM>();
-            var loginOrgs = user.AccessedOrgs.Select(u => u.Id).ToArray();
+            //var user = AutofacExt.GetFromFac<LoginApp>().GetLoginUser();
+            //var loginOrgs = user.AccessedOrgs.Select(u => u.Id).ToArray();
 
-            int total;
-            if (orgId == 0)
-            {
+            //int total;
+            //if (orgId == 0)
+            //{
                
-                if (loginOrgs.Length == 0)  //改用户没有任何可见机构
-                {
-                    Stocks = _repository.Find(pageindex, pagesize, "", u => u.User == user.User.Account);
-                    total = _repository.GetCount(u =>u.User ==user.User.Account);
-                }
-                else
-                {
-                    Stocks = _repository.LoadInOrgs(pageindex, pagesize, loginOrgs);
-                    total = _repository.GetStockCntInOrgs(loginOrgs);
-                }
+            //    if (loginOrgs.Length == 0)  //改用户没有任何可见机构
+            //    {
+            //        Stocks = _repository.Find(pageindex, pagesize, "", u => u.User == user.User.Account);
+            //        total = _repository.GetCount(u =>u.User ==user.User.Account);
+            //    }
+            //    else
+            //    {
+            //        Stocks = _repository.LoadInOrgs(pageindex, pagesize, loginOrgs);
+            //        total = _repository.GetStockCntInOrgs(loginOrgs);
+            //    }
               
-            }
-            else  //加载选择的机构及用户可访问的所有子机构
-            {
-                var orgs = _orgRepository.GetSubOrgs(orgId).Where(u =>loginOrgs.Contains(u.Id));
-                List<int> orgIds = orgs.Select(u => u.Id).ToList();
-                orgIds.Add(orgId);
-                Stocks = _repository.LoadInOrgs(pageindex, pagesize, orgIds.ToArray());
-                total = _repository.GetStockCntInOrgs(orgIds.ToArray());
-            }
+            //}
+            //else  //加载选择的机构及用户可访问的所有子机构
+            //{
+            //    var orgs = _orgRepository.GetSubOrgs(orgId).Where(u =>loginOrgs.Contains(u.Id));
+            //    List<int> orgIds = orgs.Select(u => u.Id).ToList();
+            //    orgIds.Add(orgId);
+            //    Stocks = _repository.LoadInOrgs(pageindex, pagesize, orgIds.ToArray());
+            //    total = _repository.GetStockCntInOrgs(orgIds.ToArray());
+            //}
 
             return new 
             {
-                total = total,
-                list = Stocks,
+               // total = total,
+            //    list = Stocks,
                 pageCurrent = pageindex
             };
         }

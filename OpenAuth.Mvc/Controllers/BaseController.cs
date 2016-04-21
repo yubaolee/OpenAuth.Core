@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using OpenAuth.App;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -33,8 +34,8 @@ namespace OpenAuth.Mvc.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var loginUser = SessionHelper.GetSessionUser<LoginUserVM>();
-            if (loginUser == null)
+            var loginUser = AutofacExt.GetFromFac<LoginApp>().GetLoginUser();
+            if (!User.Identity.IsAuthenticated)
             {
                 filterContext.Result = new RedirectResult("/Login/Index");
                 return;

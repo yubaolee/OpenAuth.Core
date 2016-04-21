@@ -45,13 +45,13 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string LoadForTree()
         {
-            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().Modules;
+            var orgs = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().Modules;
             return JsonHelper.Instance.Serialize(orgs);
         }
 
         public string LoadModuleWithRoot()
         {
-            var orgs = SessionHelper.GetSessionUser<LoginUserVM>().Modules.MapToList<ModuleView>();
+            var orgs = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().Modules.MapToList<ModuleView>();
             //添加根节点
             orgs.Add(new Module
             {

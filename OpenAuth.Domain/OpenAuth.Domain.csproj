@@ -63,6 +63,7 @@
     <Compile Include="Relevance.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="Service\AuthoriseService.cs" />
     <Compile Include="Stock.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserCfg.cs" />

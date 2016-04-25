@@ -4,9 +4,19 @@
 
 当然，如果你想学习完整的DDD框架，可以参考我的另一个项目（[BestQ&A--开源中国推荐项目/集`CQRS` `AES`等DDD高级特性于一体的问答系统](http://git.oschina.net/yubaolee/BestQA)）
 
-项目详细描述：http://www.cnblogs.com/yubaolee/p/OpenAuth.html 
+`项目详细描述`  http://www.cnblogs.com/yubaolee/p/OpenAuth.html 
+
+`官方QQ交流群`  484498493
+
+`在线演示地址`  http://115.28.10.123:1314
 
 ####项目最新进度
+
+`1.0 正式版(2016-4-21)` 
+
+* 修复beta出现的BUG；
+* 大幅优化前端代码，实现HTML/JS/后端完全分离；
+* 改session为Identity登录；
 
 `1.0 beta版(2016-1-8)` 
 

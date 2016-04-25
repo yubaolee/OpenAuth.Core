@@ -201,6 +201,10 @@ var editDlg = function () {
                 $("#editForm").bjuiajax('ajaxForm', {
                     reload: false,
                     callback: function (json) {
+                        if (json.statusCode != "200") {
+                            $(this).alertmsg('warn', json.message);
+                            return;
+                        }
                         list.reload();
                         ztree.reload();
                     }

@@ -39,9 +39,12 @@ $(document).ready(function () {
         },
        function (data) {
            data = $.parseJSON(data);
-           if (data.statusCode == "200") {
-               thisDlg.reload();
+           if (data.statusCode != "200") {
+               $(this).alertmsg('warn', json.message);
+               return;
            }
+
+           thisDlg.reload();
        });
     });
 });
@@ -185,6 +188,10 @@ var editEleDlg = function () {
                 $("#editElementForm").bjuiajax('ajaxForm', {
                     reload: false,
                     callback: function (json) {
+                        if (json.statusCode != "200") {
+                            $(this).alertmsg('warn', json.message);
+                            return;
+                        }
                         thisDlg.reload();
                     }
                 });

@@ -45,11 +45,6 @@ namespace OpenAuth.Mvc.Controllers
          return JsonHelper.Instance.Serialize(models);
      }
 
-        public ActionResult Add(int id = 0)
-        {
-            return View(_app.Find(id));
-        }
-
         //添加或修改Category
         [HttpPost]
         public string Add(Category model)

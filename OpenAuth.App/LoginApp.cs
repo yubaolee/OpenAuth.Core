@@ -38,7 +38,7 @@ namespace OpenAuth.App
         {
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                throw new Exception("未登录");
+                throw new HttpException(401,"未登录");
             }
             string username = HttpContext.Current.User.Identity.Name;
             _service.GetUserAccessed(username);

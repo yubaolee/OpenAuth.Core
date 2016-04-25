@@ -16,13 +16,12 @@
 // </summary>
 // ***********************************************************************
 
-using Infrastructure.Helper;
-using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;
 using System;
-using System.Diagnostics;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.Mvc;
 using OpenAuth.App;
 
@@ -60,6 +59,16 @@ namespace OpenAuth.Mvc.Controllers
                 ViewBag.Module = module;  //为View显示服务，主要是为了显示按钮
             }
 
+            var version = ConfigurationManager.AppSettings["version"];
+            if (version == "demo")
+            {
+                HttpPostAttribute hobbyAttr = (HttpPostAttribute)Attribute.GetCustomAttribute(function, typeof(HttpPostAttribute));
+                if (actionname.Contains("del") || hobbyAttr != null)  //客户端提交数据
+                {
+                    throw new HttpException(400, "演示版本，不能进行该操作，当前模块:" + controllername +"/" +actionname);
+                }
+            }
+            
             base.OnActionExecuting(filterContext);
         }
     }

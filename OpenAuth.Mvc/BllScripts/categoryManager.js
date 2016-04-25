@@ -214,7 +214,11 @@ var editDlg = function () {
                 if (!v) return;  //验证没通过
                 $("#editForm").bjuiajax('ajaxForm', {
                     reload: false,
-                    callback:function(json) {
+                    callback: function (json) {
+                        if (json.statusCode == "400") {
+                            $(this).alertmsg('warn', json.message);
+                            return null;
+                        }
                         list.reload();
                         ztree.reload();
                     }

@@ -23,6 +23,11 @@ $(document).ready(function () {
             firstId: $('#firstId').val(),
             secIds: ids
         }, function (json) {
+            if (json.statusCode != "200") {
+                json = $.parseJSON(json);
+                $(this).alertmsg('warn', json.message);
+                return;
+            }
             selected.reLoad();
         });
     });
@@ -35,6 +40,11 @@ $(document).ready(function () {
             firstId: $('#firstId').val(),
             secIds: ids
         }, function (json) {
+            if (json.statusCode != "200") {
+                json = $.parseJSON(json);
+                $(this).alertmsg('warn', json.message);
+                return;
+            }
             selected.reLoad();
         });
     });

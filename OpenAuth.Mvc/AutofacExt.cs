@@ -32,21 +32,17 @@ namespace OpenAuth.Mvc
 
             //����ע��
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
+            builder.RegisterType(typeof (UnitWork)).As(typeof (IUnitWork));
 
             //Ӧ�ò�ע��
             builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
-            builder.RegisterType<LoginApp>();
-            builder.RegisterType<OrgManagerApp>();
-            builder.RegisterType<UserManagerApp>();
-            builder.RegisterType<RoleManagerApp>();
-            builder.RegisterType<ModuleManagerApp>();
-            builder.RegisterType<ModuleElementManagerApp>();
-            builder.RegisterType<CategoryManagerApp>();
-            builder.RegisterType<ResourceManagerApp>();
-            builder.RegisterType<StockManagerApp>();
-            builder.RegisterType<RevelanceManagerApp>();
-            builder.RegisterType<AuthoriseService>();
-            builder.RegisterType<StockManagerService>();
+
+            //注册app层
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (LoginApp)));
+
+            //注册领域服务
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(AuthoriseService)))
+                .Where(u =>u.Namespace== "OpenAuth.Domain.Service");
 
                 // Register your MVC controllers.
             builder.RegisterControllers(typeof(MvcApplication).Assembly);

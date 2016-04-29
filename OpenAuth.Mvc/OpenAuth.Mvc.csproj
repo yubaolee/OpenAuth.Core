@@ -602,7 +602,9 @@
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <None Include="Views\Error\NoAccess.cshtml" />
     <Content Include="Views\Home\git.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

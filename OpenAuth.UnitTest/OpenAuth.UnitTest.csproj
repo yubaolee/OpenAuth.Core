@@ -29,6 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,7 +62,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -72,6 +75,7 @@
     <Compile Include="TestModuleApp.cs" />
     <Compile Include="TestRepository.cs" />
     <Compile Include="TestRoleApp.cs" />
+    <Compile Include="TestUnitWork.cs" />
     <Compile Include="TestUserApp.cs" />
     <Compile Include="TestOrgApp.cs" />
   </ItemGroup>

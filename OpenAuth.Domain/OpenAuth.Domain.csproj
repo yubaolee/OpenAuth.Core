@@ -54,6 +54,7 @@
     <Compile Include="Interface\IRoleRepository.cs" />
     <Compile Include="Interface\IRelevanceRepository.cs" />
     <Compile Include="Interface\IStockRepository.cs" />
+    <Compile Include="Interface\IUnitWork.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="ModuleElement.cs" />

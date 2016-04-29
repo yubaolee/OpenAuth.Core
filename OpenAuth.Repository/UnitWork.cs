@@ -63,7 +63,6 @@ namespace OpenAuth.Repository
         public void Add<T>(T entity) where T : class
         {
             Context.Set<T>().Add(entity);
-            Save();
         }
 
         /// <summary>
@@ -73,7 +72,6 @@ namespace OpenAuth.Repository
         public void BatchAdd<T>(T[] entities) where T : class
         {
             Context.Set<T>().AddRange(entities);
-            Save();
         }
 
         public void Update<T>(T entity) where T:class
@@ -82,13 +80,11 @@ namespace OpenAuth.Repository
             //todo:如果状态没有任何更改，会报错
             entry.State = EntityState.Modified;
 
-            Save();
         }
 
         public void Delete<T>(T entity) where T:class
         {
             Context.Set<T>().Remove(entity);
-            Save();
         }
 
         /// <summary>
@@ -99,7 +95,6 @@ namespace OpenAuth.Repository
         public void Update<T>(Expression<Func<T, object>> identityExp, T entity) where T:class
         {
             Context.Set<T>().AddOrUpdate(identityExp, entity);
-            Save();
         }
 
         /// <summary>

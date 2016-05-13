@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.Domain;
@@ -31,7 +32,7 @@ namespace OpenAuth.UnitTest
 
             foreach (var user in usersInOrg)
             {
-                Debug.WriteLine($"{user.Name} :{user.OrgName}");
+                Debug.WriteLine("{0} :{1}", user.Name, user.OrgName);
             }
         }
     }

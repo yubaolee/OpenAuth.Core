@@ -30,11 +30,11 @@ namespace OpenAuth.Mvc
         {
             var builder = new ContainerBuilder();
 
-            //����ע��
+            //注册数据库基础操作和工作单元
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
             builder.RegisterType(typeof (UnitWork)).As(typeof (IUnitWork));
 
-            //Ӧ�ò�ע��
+            //注册WebConfig中的配置
             builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
 
             //注册app层

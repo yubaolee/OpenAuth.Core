@@ -46,7 +46,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(int categoryId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(categoryId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(User.Identity.Name, categoryId, pageCurrent, pageSize));
         }
 
         public string LoadForTree()
@@ -94,7 +94,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadWithAccess(int cId, int firstId, string key)
         {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess(key,firstId, cId));
+            return JsonHelper.Instance.Serialize(_app.LoadWithAccess(User.Identity.Name,key,firstId, cId));
         }
     }
 }

@@ -65,7 +65,7 @@ MainGrid.prototype = new Grid();
 var list = new MainGrid();
 
 //左边分类导航树
-var ztree = function () {
+var maintree = function () {
     var url = '/OrgManager/LoadOrg';
     var setting = {
         view: { selectedMulti: false },
@@ -81,19 +81,20 @@ var ztree = function () {
                 rootPId: 'null'
             }
         },
-        callback: { onClick: zTreeOnClick }
+        callback: { 
+            onClick: function(event, treeId, treeNode) {
+            list.reload(treeNode.Id);
+            } 
+        }
     };
     $.getJSON(url, function (json) {
-        $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
+        $.fn.zTree.init($("#orgtree"), setting, json).expandAll(true);
     });
-    function zTreeOnClick(event, treeId, treeNode) {
-        list.reload(treeNode.Id);
-    }
 
     return {
         reload: function () {
             $.getJSON(url, function (json) {
-                $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
+                $.fn.zTree.init($("#orgtree"), setting, json).expandAll(true);
             });
         }
     }
@@ -207,6 +208,7 @@ var editDlg = function () {
                             return;
                         }
                         list.reload();
+                        maintree.reload();
                     }
                 });
             });
@@ -222,7 +224,7 @@ function del() {
     $.getJSON('/UserManager/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
-            ztree.reload();
+            maintree.reload();
         }
         else {
             $(this).alertmsg('warn', data.message);
@@ -254,7 +256,7 @@ function openUserModuleAccess(obj) {
     if (selected == null) return;
 
     $(obj).dialog({
-        id: 'accessUserOrg',
+        id: 'accessUserModule',
         url: '/ModuleManager/Assign',
         title: '为用户分配可见部门',
         width: 620,
@@ -307,7 +309,7 @@ function openUserReourceAccess(obj) {
     if (selected == null) return;
 
     $(obj).dialog({
-        id: 'accessUserRole',
+        id: 'accessUserResource',
         url: '/ResourceManager/AssignRes',
         title: '为用户分配资源',
         width: 600,

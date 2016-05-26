@@ -2,7 +2,7 @@
 //grid列表模块
 function MainGrid() {
     var url = '/RoleManager/Load?orgId=';
-    var selectedId = 0; //ztree选中的模块
+    var selectedId = 0; //orgtree选中的模块
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
         filterThead: false,
@@ -57,7 +57,7 @@ MainGrid.prototype = new Grid();
 var list = new MainGrid();
 
 //左边分类导航树
-var ztree = function () {
+var orgtree = function () {
     var url = '/OrgManager/LoadOrg';
     var setting = {
         view: { selectedMulti: false },
@@ -76,7 +76,7 @@ var ztree = function () {
         callback: { onClick: zTreeOnClick }
     };
     $.getJSON(url, function (json) {
-        $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
+        $.fn.zTree.init($("#orgtree"), setting, json).expandAll(true);
     });
     function zTreeOnClick(event, treeId, treeNode) {
         list.reload(treeNode.Id);
@@ -85,7 +85,7 @@ var ztree = function () {
     return {
         reload: function () {
             $.getJSON(url, function (json) {
-                $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
+                $.fn.zTree.init($("#orgtree"), setting, json).expandAll(true);
             });
         }
     }
@@ -197,7 +197,7 @@ var editDlg = function () {
                             return;
                         }
                         list.reload();
-                        ztree.reload();
+                        orgtree.reload();
                     }
                 });
             });
@@ -213,7 +213,7 @@ function del() {
     $.getJSON('/RoleManager/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
-            ztree.reload();
+            orgtree.reload();
         }
         else {
             $(this).alertmsg('warn', data.message);

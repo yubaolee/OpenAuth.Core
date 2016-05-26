@@ -119,7 +119,7 @@ var ztree = function () {
 
     var url;
     var type = $("#moduleType");
-    if (type == "UserElement") {
+    if (type.val() == "UserElement") {
         url = '/ModuleManager/LoadForUser';
     } else {
         url = '/ModuleManager/LoadForRole';

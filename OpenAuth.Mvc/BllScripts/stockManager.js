@@ -1,5 +1,5 @@
 ﻿//左边分类导航树
-var tree = function () {
+var ztree = function () {
     var url = '/OrgManager/LoadOrg';
     var setting = {
         view: { selectedMulti: false },
@@ -214,6 +214,10 @@ var editDlg = function () {
                 $("#editForm").bjuiajax('ajaxForm', {
                     reload: false,
                     callback: function (json) {
+                        if (json.statusCode != "200") {
+                            $(this).alertmsg('warn', json.message);
+                            return;
+                        }
                         list.reload();
                         ztree.reload();
                     }

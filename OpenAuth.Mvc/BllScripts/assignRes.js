@@ -25,7 +25,6 @@ $(document).ready(function () {
         }, function (json) {
             json = $.parseJSON(json);
             if (json.statusCode != "200") {
-                json = $.parseJSON(json);
                 $(this).alertmsg('warn', json.message);
                 return;
             }
@@ -43,7 +42,6 @@ $(document).ready(function () {
         }, function (json) {
             json = $.parseJSON(json);
             if (json.statusCode != "200") {
-                json = $.parseJSON(json);
                 $(this).alertmsg('warn', json.message);
                 return;
             }

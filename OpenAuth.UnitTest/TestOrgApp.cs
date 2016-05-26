@@ -99,5 +99,11 @@ namespace OpenAuth.UnitTest
             };
             _app.AddOrUpdate(org1);
         }
+
+        [TestMethod]
+        public void TestLoadByUser()
+        {
+            var user = _app.LoadForUser(5);
+        }
     }
 }

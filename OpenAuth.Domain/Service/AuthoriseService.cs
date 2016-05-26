@@ -22,12 +22,7 @@ namespace OpenAuth.Domain.Service
     /// </summary>
     public class AuthoriseService
     {
-        private IUserRepository _repository;
-        private IModuleRepository _moduleRepository;
-        private IRelevanceRepository _relevanceRepository;
-        private IRepository<ModuleElement> _moduleElementRepository;
-        private IResourceRepository _resourceRepository;
-        private IOrgRepository _orgRepository;
+        private IUnitWork _unitWork;
 
         private User _user;
         private List<Module> _modules;   //用户可访问的模块
@@ -35,19 +30,9 @@ namespace OpenAuth.Domain.Service
         private List<Resource> _resources;  //用户可访问的资源
         private List<Org> _orgs;    //用户可访问的机构
 
-        public AuthoriseService(IUserRepository repository,
-            IModuleRepository moduleRepository,
-            IRelevanceRepository relevanceRepository,
-            IRepository<ModuleElement> moduleElementRepository,
-            IResourceRepository resourceRepository,
-            IOrgRepository orgRepository)
+        public AuthoriseService(IUnitWork unitWork)
         {
-            _repository = repository;
-            _moduleRepository = moduleRepository;
-            _relevanceRepository = relevanceRepository;
-            _moduleElementRepository = moduleElementRepository;
-            _resourceRepository = resourceRepository;
-            _orgRepository = orgRepository;
+            _unitWork = unitWork;
         }
 
         public List<Module> Modules
@@ -77,7 +62,7 @@ namespace OpenAuth.Domain.Service
 
         public void Check(string userName, string password)
         {
-            var _user = _repository.FindSingle(u => u.Account == userName);
+            var _user = _unitWork.FindSingle<User>(u => u.Account == userName);
             if (_user == null)
             {
                 throw new Exception("用户帐号不存在");
@@ -100,48 +85,48 @@ namespace OpenAuth.Domain.Service
         {
             if (name == "System")
             {
-                _modules = _moduleRepository.Find(null).ToList();
-                _moduleElements = _moduleElementRepository.Find(null).ToList();
+                _modules = _unitWork.Find<Module>(null).ToList();
+                _moduleElements = _unitWork.Find<ModuleElement>(null).ToList();
 
-                _resources = _resourceRepository.Find(null).OrderBy(u => u.SortNo).ToList();
+                _resources = _unitWork.Find<Resource>(null).OrderBy(u => u.SortNo).ToList();
 
-                _orgs = _orgRepository.Find(null).OrderBy(u => u.SortNo).ToList();
+                _orgs = _unitWork.Find<Org>(null).OrderBy(u => u.SortNo).ToList();
             }
             else
             {
-                _user = _repository.FindSingle(u => u.Account == name);
+                _user = _unitWork.FindSingle<User>(u => u.Account == name);
                 //用户角色
-                var userRoleIds = _relevanceRepository.Find(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
+                var userRoleIds = _unitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
 
                 //用户角色与自己分配到的模块ID
-                var moduleIds = _relevanceRepository.Find(
+                var moduleIds = _unitWork.Find<Relevance>(
                         u =>
                             (u.FirstId == _user.Id && u.Key == "UserModule") ||
-                            (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                            (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                //得出最终用户拥有的模块
+                _modules = _unitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo).ToList();
+
                 //用户角色与自己分配到的菜单ID
-                var elementIds = _relevanceRepository.Find(
+                var elementIds = _unitWork.Find<Relevance>(
                        u =>
                            (u.FirstId == _user.Id && u.Key == "UserElement") ||
-                           (u.Key == "RoleElement" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
-                //得出最终用户拥有的模块
-                _modules = _moduleRepository.Find(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo).ToList();
-
+                           (u.Key == "RoleElement" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
                 //模块菜单权限
-                _moduleElements = _moduleElementRepository.Find(u => elementIds.Contains(u.Id)).ToList();
+                _moduleElements = _unitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id)).ToList();
 
                 //用户角色与自己分配到的资源ID
-                var resourceIds = _relevanceRepository.Find(
+                var resourceIds = _unitWork.Find<Relevance>(
                         u =>
                             (u.FirstId == _user.Id && u.Key == "UserResource") ||
-                            (u.Key == "RoleResource" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
-                _resources = _resourceRepository.Find(u => resourceIds.Contains(u.Id)).ToList();
+                            (u.Key == "RoleResource" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                _resources = _unitWork.Find<Resource>(u => resourceIds.Contains(u.Id)).ToList();
 
                 //用户角色与自己分配到的机构ID
-                var orgids = _relevanceRepository.Find(
+                var orgids = _unitWork.Find<Relevance>(
                         u =>
                             (u.FirstId == _user.Id && u.Key == "UserAccessedOrg") ||
-                            (u.Key == "RoleAccessedOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
-                _orgs = _orgRepository.Find(u => orgids.Contains(u.Id)).ToList();
+                            (u.Key == "RoleAccessedOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                _orgs = _unitWork.Find<Org>(u => orgids.Contains(u.Id)).ToList();
             }
         }
     }

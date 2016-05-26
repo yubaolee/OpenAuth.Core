@@ -49,7 +49,7 @@ namespace OpenAuth.App
             }
             else
             {
-                users = _repository.LoadInOrgs(pageindex, pagesize,GetSubOrgIds(orgId));
+                users = _repository.LoadInOrgs(pageindex, pagesize, GetSubOrgIds(orgId));
                 total = _repository.GetUserCntInOrgs(orgId);
             }
             var userviews = new List<UserView>();
@@ -62,7 +62,7 @@ namespace OpenAuth.App
                 userviews.Add(uv);
             }
 
-            return new 
+            return new
             {
                 total = total,
                 list = userviews,
@@ -98,7 +98,7 @@ namespace OpenAuth.App
 
         public void Delete(int id)
         {
-            _repository.Delete(u =>u.Id == id);
+            _repository.Delete(u => u.Id == id);
             _relevanceRepository.DeleteBy("UserOrg", id);
             _relevanceRepository.DeleteBy("UserModule", id);
             _relevanceRepository.DeleteBy("UserRole", id);
@@ -107,22 +107,30 @@ namespace OpenAuth.App
         public void AddOrUpdate(UserView view)
         {
             User user = view;
-            user.CreateTime = DateTime.Now;
             if (user.Id == 0)
             {
-                
+                user.CreateTime = DateTime.Now;
                 user.Password = user.Account; //初始密码与账号相同
                 _repository.Add(user);
                 view.Id = user.Id;   //要把保存后的ID存入view
             }
             else
             {
-                _repository.Update(u=>u.Id, user);
+                _repository.Update(u => u.Id == view.Id, u => new User
+                {
+                    Account = user.Account,
+                    BizCode = user.BizCode,
+                    CreateId = user.CreateId,
+                    Name = user.Name,
+                    Sex = user.Sex,
+                    Status = user.Status,
+                    Type = user.Type
+                });
             }
             int[] orgIds = view.OrganizationIds.Split(',').Select(id => int.Parse(id)).ToArray();
 
             _relevanceRepository.DeleteBy("UserOrg", user.Id);
-            _relevanceRepository.AddRelevance("UserOrg", orgIds.ToLookup(u =>user.Id));
+            _relevanceRepository.AddRelevance("UserOrg", orgIds.ToLookup(u => user.Id));
         }
 
     }

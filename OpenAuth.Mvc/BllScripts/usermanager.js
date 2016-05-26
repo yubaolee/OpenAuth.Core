@@ -189,7 +189,6 @@ var editDlg = function () {
             show();
             $('#Id').val(ret.Id);
             $('#Account').val(ret.Account);
-            $('#Password').val(ret.Password);
             $('#Name').val(ret.Name);
             $('#Sex').selectpicker('val', ret.Sex);
             $('#Status').selectpicker('val', ret.Status);
@@ -208,7 +207,6 @@ var editDlg = function () {
                             return;
                         }
                         list.reload();
-                        ztree.reload();
                     }
                 });
             });

@@ -78,6 +78,7 @@
     <Compile Include="TestUnitWork.cs" />
     <Compile Include="TestUserApp.cs" />
     <Compile Include="TestOrgApp.cs" />
+    <Compile Include="TestAuthen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

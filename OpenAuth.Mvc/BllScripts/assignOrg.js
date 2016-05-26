@@ -23,6 +23,7 @@ $(document).ready(function () {
             firstId: $('#firstId').val(),
             secIds: ids
         }, function (json) {
+            json = $.parseJSON(json);
             if (json.statusCode != "200") {
                 json = $.parseJSON(json);
                 $(this).alertmsg('warn', json.message);
@@ -40,6 +41,7 @@ $(document).ready(function () {
             firstId: $('#firstId').val(),
             secIds: ids
         }, function (json) {
+            json = $.parseJSON(json);
             if (json.statusCode != "200") {
                 json = $.parseJSON(json);
                 $(this).alertmsg('warn', json.message);

@@ -1,4 +1,46 @@
-﻿
+﻿//左边分类导航树
+var maintree = function () {
+    var url = '/OrgManager/LoadOrg';
+    var setting = {
+        view: { selectedMulti: false },
+        data: {
+            key: {
+                name: 'Name',
+                title: 'Name'
+            },
+            simpleData: {
+                enable: true,
+                idKey: 'Id',
+                pIdKey: 'ParentId',
+                rootPId: 'null'
+            }
+        },
+        callback: {
+            onClick: function (event, treeId, treeNode) {
+                list.reload(treeNode.Id);
+            }
+        }
+    };
+    var load = function () {
+        $.getJSON(url, function (json) {
+            var zTreeObj = $.fn.zTree.init($("#orgtree"), setting, json);
+            var firstId;  //tree的第一个ID
+            if (json.length > 0) {
+                firstId = json[0].Id;
+            } else {
+                firstId = -1;
+            }
+            list.reload(firstId);
+            zTreeObj.expandAll(true);
+        });
+    };
+    load();
+
+    return {
+        reload: load
+    }
+}();
+
 //grid列表模块
 function MainGrid() {
     var url = '/UserManager/Load?orgId=';
@@ -47,7 +89,7 @@ function MainGrid() {
                }
              
         ],
-        dataUrl: url + selectedId,
+        data:[],
         fullGrid: true,
         showLinenumber: true,
         showCheckboxcol: true,
@@ -56,6 +98,7 @@ function MainGrid() {
         showTfoot: false,
       
     });
+
     this.reload = function (id) {
         if (id != undefined) selectedId = id;
         this.maingrid.datagrid('reload', { dataUrl: url + selectedId });
@@ -63,42 +106,6 @@ function MainGrid() {
 };
 MainGrid.prototype = new Grid();
 var list = new MainGrid();
-
-//左边分类导航树
-var maintree = function () {
-    var url = '/OrgManager/LoadOrg';
-    var setting = {
-        view: { selectedMulti: false },
-        data: {
-            key: {
-                name: 'Name',
-                title: 'Name'
-            },
-            simpleData: {
-                enable: true,
-                idKey: 'Id',
-                pIdKey: 'ParentId',
-                rootPId: 'null'
-            }
-        },
-        callback: { 
-            onClick: function(event, treeId, treeNode) {
-            list.reload(treeNode.Id);
-            } 
-        }
-    };
-    $.getJSON(url, function (json) {
-        $.fn.zTree.init($("#orgtree"), setting, json).expandAll(true);
-    });
-
-    return {
-        reload: function () {
-            $.getJSON(url, function (json) {
-                $.fn.zTree.init($("#orgtree"), setting, json).expandAll(true);
-            });
-        }
-    }
-}();
 
 //编辑时，选择上级弹出的树
 var parentTree = function () {

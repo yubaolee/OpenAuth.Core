@@ -36,7 +36,7 @@ namespace OpenAuth.Repository
                 cascadeId = org.CascadeId;
             }
 
-            return Find(u => u.CascadeId.Contains(cascadeId) && u.Id != orgId);
+            return Find(u => u.CascadeId.Contains(cascadeId));
         }
 
         public IEnumerable<Org> GetSubWithOwn(int orgId)

@@ -22,11 +22,11 @@ namespace OpenAuth.Mvc.Controllers
 
         //
         // GET: /OrgManager/
+        [Authenticate]
         public ActionResult Index()
         {
             return View();
         }
-
         public ActionResult Assign(int firstId, string key)
         {
             ViewBag.FirstId = firstId;
@@ -34,40 +34,14 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 返回当前登录用户可访问到的部门
-        /// </summary>
-        /// <returns>System.String.</returns>
-        public string LoadForTree()
-        {
-            var orgs = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().AccessedOrgs;
-            return JsonHelper.Instance.Serialize(orgs);
-        }
-        /// <summary>
-        /// 返回带有根节点的全部部门，不受用户权限影响
-        /// <para>可以匿名访问</para>
-        /// </summary>
-        /// <returns>System.String.</returns>
-        [Anonymous]
         public string LoadOrg()
         {
-            var orgs = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().AccessedOrgs.MapToList<Org>();
-            //添加根节点
-            orgs.Add(new Org
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "根结点",
-                CascadeId = "0"
-            });
-            return JsonHelper.Instance.Serialize(orgs);
+            return JsonHelper.Instance.Serialize(AutofacExt.GetFromFac<LoginApp>().GetLoginUser().AccessedOrgs);
         }
 
         public string LoadForUser(int firstId)
         {
             var orgs = _orgApp.LoadForUser(firstId);
-            //添加根节点
-           
             return JsonHelper.Instance.Serialize(orgs);
         }
 

@@ -49,8 +49,9 @@ namespace OpenAuth.App
             }
             else
             {
-                users = _repository.LoadInOrgs(pageindex, pagesize, GetSubOrgIds(orgId));
-                total = _repository.GetUserCntInOrgs(orgId);
+                var ids = GetSubOrgIds(orgId);
+                users = _repository.LoadInOrgs(pageindex, pagesize, ids);
+                total = _repository.GetUserCntInOrgs(ids);
             }
             var userviews = new List<UserView>();
             foreach (var user in users)

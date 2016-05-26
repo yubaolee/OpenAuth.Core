@@ -20,7 +20,6 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         [HttpPost]
-        [Anonymous]
         public string Assign(string type, int firstId, string secIds)
         {
             try
@@ -36,7 +35,6 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
         [HttpPost]
-        [Anonymous]
         public string UnAssign(string type, int firstId, string secIds)
         {
             try

@@ -4,6 +4,7 @@ using OpenAuth.Domain;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -18,6 +19,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //
         // GET: /UserManager/
+        [Authenticate]
         public ActionResult Index()
         {
             return View();
@@ -50,14 +52,6 @@ namespace OpenAuth.Mvc.Controllers
         public string LoadForTree()
         {
             var models = _app.LoadAll();
-            //添加根节点
-            models.Add(new Resource
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "根结点",
-                CascadeId = "0"
-            });
             return JsonHelper.Instance.Serialize(models);
         }
 

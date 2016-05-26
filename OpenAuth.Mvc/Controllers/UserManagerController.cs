@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.ViewModel;
+using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -18,6 +19,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //
         // GET: /UserManager/
+        [Authenticate]
         public ActionResult Index()
         {
             return View();

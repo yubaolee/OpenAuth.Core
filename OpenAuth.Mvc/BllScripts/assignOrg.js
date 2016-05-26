@@ -97,7 +97,7 @@ var ztree = function () {
         event.preventDefault();
     }
 
-    $.getJSON('/OrgManager/LoadForTree', function (json) {
+    $.getJSON('/OrgManager/LoadOrg', function (json) {
         zTreeObj = $.fn.zTree.init($.CurrentDialog.find("#tree"), setting, json);
         zTreeObj.expandAll(true);
     });

@@ -1,4 +1,46 @@
-﻿
+﻿//左边分类导航树
+var ztree = function () {
+    var url = '/OrgManager/LoadOrg';
+    var setting = {
+        view: { selectedMulti: false },
+        data: {
+            key: {
+                name: 'Name',
+                title: 'Name'
+            },
+            simpleData: {
+                enable: true,
+                idKey: 'Id',
+                pIdKey: 'ParentId',
+                rootPId: 'null'
+            }
+        },
+        callback: {
+            onClick: function (event, treeId, treeNode) {
+                list.reload(treeNode.Id);
+            }
+        }
+    };
+    var load = function () {
+        $.getJSON(url, function (json) {
+            var zTreeObj = $.fn.zTree.init($("#orgtree"), setting, json);
+            var firstId;  //tree的第一个ID
+            if (json.length > 0) {
+                firstId = json[0].Id;
+            } else {
+                firstId = -1;
+            }
+            list.reload(firstId);
+            zTreeObj.expandAll(true);
+        });
+    };
+    load();
+
+    return {
+        reload: load
+    }
+}();
+
 //grid列表模块
 function MainGrid() {
     var url = '/OrgManager/LoadChildren?Id=';
@@ -57,7 +99,7 @@ function MainGrid() {
                    align: 'center'
                },
         ],
-        dataUrl: url + selectedId,
+        data: [],
         fullGrid: true,
         showLinenumber: true,
         showCheckboxcol: true,
@@ -73,41 +115,6 @@ function MainGrid() {
 };
 MainGrid.prototype = new Grid();
 var list = new MainGrid();
-
-//左边分类导航树
-var ztree = function () {
-    var url = '/OrgManager/LoadOrg';
-    var setting = {
-        view: { selectedMulti: false },
-        data: {
-            key: {
-                name: 'Name',
-                title: 'Name'
-            },
-            simpleData: {
-                enable: true,
-                idKey: 'Id',
-                pIdKey: 'ParentId',
-                rootPId: 'null'
-            }
-        },
-        callback: { onClick: zTreeOnClick }
-    };
-    $.getJSON(url, function (json) {
-        $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
-    });
-    function zTreeOnClick(event, treeId, treeNode) {
-        list.reload(treeNode.Id);
-    }
-
-    return {
-        reload: function () {
-            $.getJSON(url, function (json) {
-                $.fn.zTree.init($("#tree"), setting, json).expandAll(true);
-            });
-        }
-    }
-}();
 
 //编辑时，选择上级弹出的树
 var parentTree = function () {
@@ -156,7 +163,7 @@ var parentTree = function () {
 
     return {
         show: function () {
-            $.getJSON('/OrgManager/LoadForTree', function (json) {
+            $.getJSON('/OrgManager/LoadOrg', function (json) {
                 zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
                 var orgstr = $(idDom).val();
                 var name = '';

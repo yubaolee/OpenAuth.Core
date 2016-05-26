@@ -16,26 +16,22 @@ namespace OpenAuth.Mvc.Controllers
              _app = AutofacExt.GetFromFac<ModuleManagerApp>();
         }
         
-        [Anonymous]
         public string GetModules(int parentId = 0)
         {
             return JsonHelper.Instance.Serialize(_app.LoadByParent(parentId));
         }
         
-        [Anonymous]
         public ActionResult Index()
         {
             var user = AutofacExt.GetFromFac<LoginApp>().GetLoginUser();
             return View(user.Modules);
         }
         
-        [Anonymous]
         public ActionResult Main()
         {
             return View();
         }
         
-        [Anonymous]
         public ActionResult Git()
         {
             return View();
@@ -46,7 +42,6 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <returns>ActionResult.</returns>
         [ChildActionOnly]
-        [Anonymous]
         public ActionResult MenuHeader()
         {
             return View();

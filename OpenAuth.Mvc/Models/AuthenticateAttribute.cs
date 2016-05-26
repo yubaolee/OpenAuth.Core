@@ -5,10 +5,12 @@ using System.Web;
 
 namespace OpenAuth.Mvc.Models
 {
+
     /// <summary>
-    /// 允许匿名访问
+    /// 必须认证
     /// </summary>
-    public class AnonymousAttribute :Attribute
+    public class AuthenticateAttribute : Attribute
     {
+        
     }
 }

@@ -46,10 +46,10 @@ namespace OpenAuth.Mvc.Controllers
             if (function == null)
                 throw new Exception("未能找到Action");
 
-            var anonymous = function.GetCustomAttribute(typeof(AnonymousAttribute));
+            var authorize = function.GetCustomAttribute(typeof(AuthenticateAttribute));
             var module = loginUser.Modules.FirstOrDefault(u => u.Url.ToLower().Contains(controllername));
             //当前登录用户没有Action记录&&Action没有anonymous标识
-            if (module == null && anonymous == null)
+            if (authorize != null && module == null)
             {
                 filterContext.Result = new RedirectResult("/Login/Index");
                 return;

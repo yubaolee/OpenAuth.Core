@@ -70,7 +70,7 @@ function UserRolesList() {
                 width: 100
             }
         ],
-        dataUrl: '/RoleManager/LoadForOrgAndUser?orgId=' + selectedId + '&userId=' + $('#userId').val(),
+        data:[],
         fullGrid: true,
         showLinenumber: true,
         showCheckboxcol: true,
@@ -105,8 +105,16 @@ var ztree = function () {
         callback: { onClick: zTreeOnClick }
     };
     $.getJSON('/OrgManager/LoadOrg', function (json) {
-        var zTreeObj = $.fn.zTree.init($.CurrentDialog.find("#tree"), setting, json);
+        var zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
+        var firstId;  //tree的第一个ID
+        if (json.length > 0) {
+            firstId = json[0].Id;
+        } else {
+            firstId = -1;
+        }
+        userRolesList.reload(firstId);
         zTreeObj.expandAll(true);
+
     });
 }();
 function zTreeOnClick(event, treeId, treeNode) {

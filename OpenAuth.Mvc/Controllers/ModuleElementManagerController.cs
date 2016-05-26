@@ -31,18 +31,15 @@ namespace OpenAuth.Mvc.Controllers
         {
             _app = AutofacExt.GetFromFac<ModuleElementManagerApp>();
         }
-        [Anonymous]
         public ActionResult Index(int id)
         {
             ViewBag.ModuleId = id;
             return View();
         }
-        [Anonymous]
         public ActionResult Get(int moduleId = 0)
         {
             return Json(_app.LoadByModuleId(moduleId));
         }
-        [Anonymous]
         [HttpPost]
         public string AddOrEditButton(ModuleElement button)
         {
@@ -57,7 +54,6 @@ namespace OpenAuth.Mvc.Controllers
             }
             return JsonHelper.Instance.Serialize(_bjuiResponse);
         }
-        [Anonymous]
         public string Del(string moduleElements)
         {
             try
@@ -80,14 +76,12 @@ namespace OpenAuth.Mvc.Controllers
         /// <param name="firstId">The first identifier.</param>
         /// <param name="key">The key.</param>
         /// <returns>ActionResult.</returns>
-        [Anonymous]
         public ActionResult AssignModuleElement(int firstId, string key)
         {
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
             return View();
         }
-        [Anonymous]
         public string LoadWithAccess(int tId, int firstId, string key)
         {
             return JsonHelper.Instance.Serialize(_app.LoadWithAccess(key, firstId, tId));

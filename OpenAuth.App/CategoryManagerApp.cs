@@ -50,8 +50,9 @@ namespace OpenAuth.App
             }
             else
             {
-                Categorys = _repository.LoadInOrgs(pageindex, pagesize, GetSubCategories(parentId));
-                total = _repository.GetCategoryCntInOrgs(parentId);
+                var ids = GetSubCategories(parentId);
+                Categorys = _repository.LoadInOrgs(pageindex, pagesize, ids);
+                total = _repository.GetCategoryCntInOrgs(ids);
             }
 
             return new

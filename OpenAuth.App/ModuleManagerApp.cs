@@ -34,8 +34,9 @@ namespace OpenAuth.App
             }
             else
             {
-                Modules = _repository.LoadInOrgs(pageindex, pagesize, GetSubOrgIds(parentId));
-                total = _repository.GetModuleCntInOrgs(parentId);
+                var ids = GetSubOrgIds(parentId);
+                Modules = _repository.LoadInOrgs(pageindex, pagesize, ids);
+                total = _repository.GetModuleCntInOrgs(ids);
             }
 
             return new

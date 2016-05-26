@@ -4,6 +4,7 @@ using OpenAuth.Domain;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -18,6 +19,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //
         // GET: /RoleManager/
+        [Authenticate]
         public ActionResult Index()
         {
             return View();
@@ -66,7 +68,6 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         #region 为用户设置角色界面
-
         public ActionResult LookupMulti(int userId)
         {
             ViewBag.UserId = userId;

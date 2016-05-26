@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Infrastructure.Helper;
 using OpenAuth.App.ViewModel;
+using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -18,8 +19,8 @@ namespace OpenAuth.Mvc.Controllers
             _app = AutofacExt.GetFromFac<ModuleManagerApp>();
         }
 
-        //
         // GET: /ModuleManager/
+        [Authenticate]
         public ActionResult Index()
         {
             return View();
@@ -52,14 +53,6 @@ namespace OpenAuth.Mvc.Controllers
         public string LoadModuleWithRoot()
         {
             var orgs = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().Modules.MapToList<ModuleView>();
-            //添加根节点
-            orgs.Add(new Module
-            {
-                Id = 0,
-                ParentId = -1,
-                Name = "根节点",
-                CascadeId = "0"
-            });
             return JsonHelper.Instance.Serialize(orgs);
         }
 

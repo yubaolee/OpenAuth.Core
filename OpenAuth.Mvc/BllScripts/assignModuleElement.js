@@ -1,17 +1,14 @@
 ﻿// ***********************************************************************
 // Assembly         : OpenAuth.Mvc
 // Author           : yubaolee
-// Created          : 04-16-2016
+// Created          : 04-19-2016
 //
 // Last Modified By : yubaolee
-// Last Modified On : 04-16-2016
+// Last Modified On : 05-26-2016
+// Contact : www.cnblogs.com/yubaolee
+// File: assignModuleElement.js
+//Description: 分配模块菜单（按钮）
 // ***********************************************************************
-// <copyright file="userRes.js" company="www.cnblogs.com/yubaolee">
-//     版权所有(C) 2015
-// </copyright>
-// <summary>分配模块菜单（按钮）</summary>
-// ***********************************************************************
-
 
 $(document).ready(function () {
     $.CurrentDialog.find("#btnAccess").on("click", function () {

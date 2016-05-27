@@ -14,46 +14,35 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using Infrastructure;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
+using OpenAuth.Domain.Service;
 
 namespace OpenAuth.App
 {
     public class ModuleElementManagerApp
     {
-        private readonly IRepository<ModuleElement> _repository;
-        private IModuleRepository _moduleRepository;
-        private IRelevanceRepository _relevanceRepository;
+        private ModuleEleManService _moduleEleManService;
 
-        public ModuleElementManagerApp(IRepository<ModuleElement> repository,
-            IRelevanceRepository relevanceRepository,
-            IModuleRepository  moduleRepository )
+        public ModuleElementManagerApp(ModuleEleManService moduleEleManService)
         {
-            _repository = repository;
-            _moduleRepository = moduleRepository;
-            _relevanceRepository = relevanceRepository;
+            _moduleEleManService = moduleEleManService;
         }
 
         public void AddOrUpdate(ModuleElement model)
         {
             var newbtn = new ModuleElement();
             model.CopyTo(newbtn);
-            if (model.Id == 0)
-            {
-                _repository.Add(newbtn);
-            }
-            else
-            {
-                _repository.Update(newbtn);
-            }
+            _moduleEleManService.AddOrUpdate(newbtn);
         }
 
         public IEnumerable<ModuleElement> LoadByModuleId(int id)
         {
-            var modules = _repository.Find(u => u.ModuleId == id).OrderBy(u =>u.Sort);
-            return modules;
+            string username = HttpContext.Current.User.Identity.Name;
+            return _moduleEleManService.LoadByModuleId(username, id);
         }
 
         /// <summary>
@@ -65,56 +54,15 @@ namespace OpenAuth.App
         /// 当为UserElement时，表示UserId
         /// </param>
         /// <param name="moduleId">模块ID</param>
-        public List<ModuleElementVM> LoadWithAccess(string accessType, int firstId, int moduleId)
+        public List<dynamic> LoadWithAccess(string accessType, int firstId, int moduleId)
         {
-            //TODO:多个Repository使用的是不同的Context不能进行联表查询，要用UnitOfWork处理
-          
-            var listVms = new List<ModuleElementVM>();
-            if (moduleId == 0) return listVms;
-            string modulename = _moduleRepository.FindSingle(u => u.Id == moduleId).Name;
-           
-            foreach (var element in LoadByModuleId(moduleId))
-            {
-                var accessed = _relevanceRepository.FindSingle(u =>u.Key == accessType 
-                    && u.FirstId == firstId && u.SecondId == element.Id);
-                ModuleElementVM vm = new ModuleElementVM
-                {
-                    Id = element.Id,
-                    Name = element.Name,
-                    ModuleId = element.ModuleId,
-                    DomId = element.DomId,
-                    ModuleName = modulename,
-                    Accessed = accessed != null
-                };
-                listVms.Add(vm);
-            }
-            return listVms;
+            string username = HttpContext.Current.User.Identity.Name;
+           return _moduleEleManService.LoadWithAccess(username, accessType, firstId, moduleId);
         }
 
         public void Delete(ModuleElement[] objs)
         {
-            var delIds = objs.Select(u => u.Id).ToList();
-            _repository.Delete(u =>delIds.Contains(u.Id));
-        }
-
-        public void AssignForRole(int roleId, int[] menuIds)
-        {
-            _relevanceRepository.AddRelevance("RoleElement", menuIds.ToLookup(u => roleId));
-        }
-
-        public void CancelForRole(int roleId, int[] ids)
-        {
-            _relevanceRepository.Delete(u => ids.Contains(u.SecondId) && u.Key == "RoleElement" && u.FirstId == roleId);
-        }
-
-        public void AssignForUser(int userId, int[] ids)
-        {
-            _relevanceRepository.AddRelevance("UserElement", ids.ToLookup(u => userId));
-        }
-
-        public void CancelForUser(int userId, int[] ids)
-        {
-            _relevanceRepository.Delete(u => ids.Contains(u.SecondId) && u.Key == "UserElement" && u.FirstId == userId);
+            _moduleEleManService.Delete(objs);
         }
     }
 }

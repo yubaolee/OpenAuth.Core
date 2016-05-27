@@ -16,11 +16,6 @@ namespace OpenAuth.Mvc.Controllers
              _app = AutofacExt.GetFromFac<ModuleManagerApp>();
         }
         
-        public string GetModules(int parentId = 0)
-        {
-            return JsonHelper.Instance.Serialize(_app.LoadByParent(parentId));
-        }
-        
         public ActionResult Index()
         {
             var user = AutofacExt.GetFromFac<LoginApp>().GetLoginUser();

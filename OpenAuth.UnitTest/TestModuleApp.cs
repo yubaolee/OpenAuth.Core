@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
 using OpenAuth.Domain;
+using OpenAuth.Domain.Service;
 using OpenAuth.Repository;
 
 namespace OpenAuth.UnitTest
@@ -17,7 +18,7 @@ namespace OpenAuth.UnitTest
         
 
         private TestContext testContextInstance;
-        private ModuleManagerApp _app = new ModuleManagerApp(new ModuleRepository(), new RelevanceRepository());
+        private ModuleManagerApp _app ;
         private string _time = DateTime.Now.ToString("HH_mm_ss_ms");
       
 
@@ -98,12 +99,7 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void TestLoad()
         {
-            var modules = _app.LoadByParent(0);
-            foreach (var module in modules)
-            {
-                
-                Console.WriteLine(module.Name);
-            }
+           
         }
 
         public Module Add(int parent = 0)

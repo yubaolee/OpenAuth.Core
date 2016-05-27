@@ -11,6 +11,11 @@
 `在线演示地址`  http://115.28.10.123:1314
 
 ####项目最新进度
+`1.1 正式版(2016-5-27)` 
+
+* 实现分级授权，用户只能在自己拥有的资源/部门/角色基础上操作；
+* 简化app层代码，核心逻辑向领域服务转移；
+* 去掉MVC控制器的Anonymous特性，采用AuthenticateAttribute进行控制；
 
 `1.0 正式版(2016-4-21)` 
 
@@ -29,7 +34,7 @@
 
 `秀外`
 
-基于B-JUI酷炫（[炫不炫，你说了算](http://demo.b-jui.com/index_tree.html/)）的动态效果：
+基于B-JUI酷炫（[炫不炫，你说了算](http://b-jui.com/)）的动态效果：
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2015/1208/005100_5849eec8_362401.jpeg "在这里输入图片标题")
 ![输入图片说明](http://git.oschina.net/uploads/images/2015/1208/003425_cc164edc_362401.jpeg "在这里输入图片标题")

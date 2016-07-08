@@ -80,8 +80,10 @@
     <Compile Include="RevelanceManagerApp.cs" />
     <Compile Include="RoleManagerApp.cs" />
     <Compile Include="SSO\AuthUtil.cs" />
+    <Compile Include="SSO\SSOController.cs" />
     <Compile Include="SSO\LoginResult.cs" />
     <Compile Include="SSO\SSOAuthAttribute.cs" />
+    <Compile Include="SSO\UserAuthSession.cs" />
     <Compile Include="StockManagerApp.cs" />
     <Compile Include="UserManagerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using OpenAuth.App;
+using OpenAuth.App.SSO;
 using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
@@ -28,8 +25,18 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.Login(username, password);
-                return RedirectToAction("Index", "Home");
+                var token = AuthUtil.Login("670b14728ad9902aecba32e22fa4f6bd", username, password);
+                if (!string.IsNullOrEmpty(token))
+                    return Redirect("/home/index?Token=" + token);
+                else
+                {
+                    var response = new BjuiResponse
+                    {
+                        statusCode = "300",
+                        message = "登陆失败"
+                    };
+                    return View(response);
+                }
                 
             }
             catch (Exception e)
@@ -50,8 +57,14 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.LoginByDev();
-                return RedirectToAction("Index", "Home");
+                var token = AuthUtil.Login("670b14728ad9902aecba32e22fa4f6bd", "System","");
+                if (!string.IsNullOrEmpty(token))
+                    return Redirect("/home/index?Token=" + token);
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+
+                }
 
             }
             catch (Exception e)
@@ -63,7 +76,7 @@ namespace OpenAuth.Mvc.Controllers
         public ActionResult Logout()
         {
 
-            FormsAuthentication.SignOut();
+            AuthUtil.Logout();
             return RedirectToAction("Index", "Login");
         }
     }

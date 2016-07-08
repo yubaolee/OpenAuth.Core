@@ -150,7 +150,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\SSO\Controllers\LoginController.cs" />
-    <Compile Include="Areas\SSO\Controllers\PassportController.cs" />
+    <Compile Include="Areas\SSO\Controllers\CheckController.cs" />
     <Compile Include="Areas\SSO\Models\AppInfo.cs" />
     <Compile Include="Areas\SSO\Models\AppUser.cs" />
     <Compile Include="Areas\SSO\Models\PassportLoginRequest.cs" />
@@ -159,7 +159,6 @@
     <Compile Include="Areas\SSO\Models\Services\AppUserService.cs" />
     <Compile Include="Areas\SSO\Models\Services\UserAuthSessionService.cs" />
     <Compile Include="Areas\SSO\Models\StringExtensions.cs" />
-    <Compile Include="Areas\SSO\Models\UserAuthSession.cs" />
     <Compile Include="Areas\SSO\SSOAreaRegistration.cs" />
     <Compile Include="AutofacExt.cs" />
     <Compile Include="Global.asax.cs">

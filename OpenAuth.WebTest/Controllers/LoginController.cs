@@ -18,13 +18,19 @@ namespace OpenAuth.WebTest.Controllers
         [HttpPost]
         public ActionResult Index(string username, string password)
         {
-            var token = AuthUtil.Login("670b14728ad9902aecba32e22fa4f6bd", username, "123");
+            var token = AuthUtil.Login("670b14728ad9902aecba32e22fa4f6bd", username, password);
             if (!string.IsNullOrEmpty(token))
                 return Redirect("/home/index?Token=" + token);
             else
             {
                 return View();
             }
+        }
+
+        public ActionResult Logout()
+        {
+            AuthUtil.Logout();
+            return Redirect("/Home/Index");
         }
     }
 }

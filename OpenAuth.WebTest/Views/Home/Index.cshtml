@@ -1,62 +1,51 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "OpenAuth.net 测试页面";
 }
 
 <div class="jumbotron">
     <h1>OpenAuth.NET</h1>
     <p class="lead">这是OpenAuth.Net的测试站点，模拟一个第三方网站如何使用OpenAuth.net提供的权限功能！</p>
-    <p><a href="https://git.oschina.net/yubaolee/OpenAuth.Net" class="btn btn-primary btn-lg">Learn more &raquo;</a>
+    <p>
+        <a href="https://git.oschina.net/yubaolee/OpenAuth.Net" class="btn btn-default btn-lg">Learn more &raquo;</a>
     </p>
 </div>
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script type="text/javascript">
-    $(function() {
-        $("#btnGetValue").click(function() {
-            $.get("/Values/index", function(data) {
-                console.log(data);
-            });
-        });
-    });
-</script>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>登录</h2>
-        <p>
-            @if (ViewBag.CurrentUser != null)
-            {
-                <span> 当前登录用户:@ViewBag.CurrentUser.User.Account</span>
-                <a href="/home/logout">退出</a>
-                <button class="button alert-danger" id="btnGetValue">获取值</button>
-            }
-            else
-            {
-                <a href="/home/login">点击这里登陆</a>
-            }
-        </p>
-        <form class="form-group">
-            
-        </form>
-    </div>
     <div class="col-md-8">
-      @if (ViewBag.CurrentUser != null)
-      {
-        <h2>可访问的机构</h2>
-            <ul>
-                @foreach (var org in ViewBag.CurrentUser.AccessedOrgs)
+        @if (ViewBag.CurrentUser != null)
+            {
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading">@ViewBag.CurrentUser.User.Account ,您好！</h4>
+                    <p>因为使用了SSO，所以您可以直接进入OpenAuth.Net，而不用重复登陆</p>
+                    <p>
+                        <a href="/Home/Admin" class="btn btn-primary">直接进入OpenAuth.Net</a>
+                        <a href="/login/logout" class="btn btn-danger">注销</a>
+                    </p>
+                </div>
+            </div>
+            
+        }
+    </div>
+    <div class="col-md-4">
+        @if (ViewBag.CurrentUser != null)
+            {
+            <h2>可访问的机构</h2>
+                <ul>
+                    @foreach (var org in ViewBag.CurrentUser.AccessedOrgs)
                 {
-                    <li>@org.Name</li>
-                }
-            </ul>
+                        <li>@org.Name</li>
+                    }
+                </ul>
 
-            <h2>可访问的资源</h2>
-            <ul>
-                @foreach (var resource in ViewBag.CurrentUser.Resources)
+                <h2>可访问的资源</h2>
+                <ul>
+                    @foreach (var resource in ViewBag.CurrentUser.Resources)
                 {
-                    <li>@resource.Name</li>
-                }
-            </ul>
-      }
+                        <li>@resource.Name</li>
+                    }
+                </ul>
+        }
 
     </div>
 </div>

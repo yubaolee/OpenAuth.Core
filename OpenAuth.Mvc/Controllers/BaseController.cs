@@ -24,21 +24,20 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
 {
-    public class BaseController : Controller
+    public class BaseController : SSOController
     {
         protected BjuiResponse BjuiResponse = new BjuiResponse();
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            base.OnActionExecuting(filterContext);
+
             var loginUser = AutofacExt.GetFromFac<LoginApp>().GetLoginUser();
-            if (!User.Identity.IsAuthenticated)
-            {
-                filterContext.Result = new RedirectResult("/Login/Index");
-                return;
-            }
+           
             var controllername = Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
             var actionname = filterContext.ActionDescriptor.ActionName.ToLower();
 
@@ -69,7 +68,6 @@ namespace OpenAuth.Mvc.Controllers
                 }
             }
             
-            base.OnActionExecuting(filterContext);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Web;
 using Infrastructure;
 using OpenAuth.App.ViewModel;
 using System.Web.Security;
+using OpenAuth.App.SSO;
 using OpenAuth.Domain.Service;
 
 namespace OpenAuth.App
@@ -17,31 +18,14 @@ namespace OpenAuth.App
             _service = service;
         }
 
-        public void Login(string userName, string password)
-        {
-            _service.Check(userName, password);
-            FormsAuthentication.SetAuthCookie(userName, true);
-
-        }
-
-        /// <summary>
-        /// 开发者登陆
-        /// </summary>
-        public void LoginByDev()
-        {
-            _service.SetSysUser();
-            FormsAuthentication.SetAuthCookie("System", true);
-         
-        }
-
         public LoginUserVM GetLoginUser()
         {
-            if (!HttpContext.Current.User.Identity.IsAuthenticated)
+            if (!AuthUtil.CheckLogin())
             {
                 throw new HttpException(401,"未登录");
             }
-            string username = HttpContext.Current.User.Identity.Name;
-            return GetLoginUser(username);
+
+            return AuthUtil.GetCurrentUser();
         }
 
         public LoginUserVM GetLoginUser(string username)
@@ -53,7 +37,6 @@ namespace OpenAuth.App
                 AccessedOrgs = _service.Orgs,
                 Modules = _service.Modules.MapToList<ModuleView>(),
                 Resources = _service.Resources,
-                Token = GenerateId.GetGuidHash()
             };
 
             foreach (var moduleView in user.Modules)

@@ -2,6 +2,7 @@
 using OpenAuth.Domain;
 using System.Collections.Generic;
 using System.Web;
+using OpenAuth.App.SSO;
 using OpenAuth.Domain.Service;
 
 namespace OpenAuth.App
@@ -20,8 +21,7 @@ namespace OpenAuth.App
         /// </summary>
         public dynamic Load(int parentId, int pageindex, int pagesize)
         {
-            string loginuser = HttpContext.Current.User.Identity.Name;
-            return _moduleManService.Load(loginuser, parentId, pageindex, pagesize);
+            return _moduleManService.Load(AuthUtil.GetCurrentUser().User.Account, parentId, pageindex, pagesize);
         }
 
         public void Delete(int id)

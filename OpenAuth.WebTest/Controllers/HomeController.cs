@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Configuration;
+using System.Web.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
 
@@ -17,7 +18,7 @@ namespace OpenAuth.WebTest.Controllers
 
         public ActionResult Admin()
         {
-            return Redirect("http://localhost:56813?token=" + Request.Cookies["Token"].Value);
+            return Redirect(ConfigurationManager.AppSettings["OpenAuthURL"] + "?token=" + Request.Cookies["Token"].Value);
         }
        
     }

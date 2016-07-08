@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using Infrastructure;
-using Infrastructure.Helper;
 using OpenAuth.App;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;

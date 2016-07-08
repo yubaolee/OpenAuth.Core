@@ -41,6 +41,11 @@ namespace OpenAuth.App
                 throw new HttpException(401,"未登录");
             }
             string username = HttpContext.Current.User.Identity.Name;
+            return GetLoginUser(username);
+        }
+
+        public LoginUserVM GetLoginUser(string username)
+        {
             _service.GetUserAccessed(username);
             var user = new LoginUserVM
             {
@@ -48,11 +53,13 @@ namespace OpenAuth.App
                 AccessedOrgs = _service.Orgs,
                 Modules = _service.Modules.MapToList<ModuleView>(),
                 Resources = _service.Resources,
+                Token = GenerateId.GetGuidHash()
             };
 
             foreach (var moduleView in user.Modules)
             {
-                moduleView.Elements = _service.ModuleElements.Where(u => u.ModuleId == moduleView.Id).OrderBy(u => u.Sort).ToList();
+                moduleView.Elements =
+                    _service.ModuleElements.Where(u => u.ModuleId == moduleView.Id).OrderBy(u => u.Sort).ToList();
             }
 
             return user;

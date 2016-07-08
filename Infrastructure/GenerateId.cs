@@ -13,11 +13,17 @@
 // ***********************************************************************
 
 using System;
+using System.Security.Cryptography;
 
 namespace Infrastructure
 {
     public class GenerateId
     {
+        public static string GetGuidHash()
+        {
+            return Guid.NewGuid().ToString().GetHashCode().ToString("x");
+        }
+
         /// <summary>
         /// 生成一个长整型，可以转成19字节长的字符串
         /// </summary>
@@ -40,7 +46,16 @@ namespace Infrastructure
                 i *= ((int)b + 1);
             }
 
-            return string.Format("{0:x}", i - DateTime.Now.Ticks);
+            return String.Format("{0:x}", i - DateTime.Now.Ticks);
+        }
+
+        /// <summary>
+        /// 创建11位的英文与数字组合
+        /// </summary>
+        /// <returns>System.String.</returns>
+        public static string ShortStr()
+        {
+            return Convert(GenerateLong());
         }
 
         /// <summary>
@@ -55,6 +70,8 @@ namespace Infrastructure
             return strDateTimeNumber + strRandomResult;
         }
 
+        #region private
+
         /// <summary>
         /// 参考：msdn上的RNGCryptoServiceProvider例子
         /// </summary>
@@ -66,46 +83,44 @@ namespace Infrastructure
             // Create a byte array to hold the random value.
             byte[] randomNumber = new byte[length];
             // Create a new instance of the RNGCryptoServiceProvider.
-            System.Security.Cryptography.RNGCryptoServiceProvider rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             // Fill the array with a random value.
             rng.GetBytes(randomNumber);
             // Convert the byte to an uint value to make the modulus operation easier.
             uint randomResult = 0x0;
             for (int i = 0; i < length; i++)
             {
-                randomResult |= ((uint)randomNumber[i] << ((length - 1 - i) * 8));
+                randomResult |= ((uint) randomNumber[i] << ((length - 1 - i)*8));
             }
 
-            return (int)(randomResult % numSeeds) + 1;
+            return (int) (randomResult%numSeeds) + 1;
         }
 
-        /// <summary>
-        /// 创建11位的英文与数字组合
-        /// </summary>
-        /// <returns>System.String.</returns>
-        public static string ShortStr()
-        {
-            return Convert(GenerateLong());
-        }
+
 
         static string Seq = "s9LFkgy5RovixI1aOf8UhdY3r4DMplQZJXPqebE0WSjBn7wVzmN2Gc6THCAKut";
+
         /// <summary>
         /// 10进制转换为62进制
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        
-        private  static string Convert(long id)
+
+        private static string Convert(long id)
         {
             if (id < 62)
             {
-                return Seq[(int)id].ToString();
+                return Seq[(int) id].ToString();
             }
-            int y = (int)(id % 62);
-            long x = (long)(id / 62);
+            int y = (int) (id%62);
+            long x = (long) (id/62);
 
             return Convert(x) + Seq[y];
         }
 
+        #endregion
+
+
+     
     }
 }

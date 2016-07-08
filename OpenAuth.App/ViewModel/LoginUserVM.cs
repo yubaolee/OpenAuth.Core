@@ -22,6 +22,7 @@ namespace OpenAuth.App.ViewModel
     /// </summary>
     public class LoginUserVM 
     {
+        public string Token { get; set; }
         public User User { get; set; }
         /// <summary>
         /// 用户可以访问到的模块（包括所属角色与自己的所有模块）

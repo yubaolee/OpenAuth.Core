@@ -4,7 +4,6 @@ using OpenAuth.Domain;
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using Infrastructure.Helper;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;
 

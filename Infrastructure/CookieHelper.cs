@@ -13,7 +13,7 @@
 using System;
 using System.Web;
 
-namespace Infrastructure.Helper
+namespace Infrastructure
 {
     /// <summary>
     /// Cookie帮助类
@@ -67,6 +67,46 @@ namespace Infrastructure.Helper
                 return HttpContext.Current.Request.Cookies[strName].Value.ToString();
             }
             return "";
+        }
+
+        /// <summary>
+        /// Get cookie expiry date that was set in the cookie value 
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
+        public static DateTime GetExpirationDate(HttpCookie cookie)
+        {
+            if (String.IsNullOrEmpty(cookie.Value))
+            {
+                return DateTime.MinValue;
+            }
+            string strDateTime = cookie.Value.Substring(cookie.Value.IndexOf("|") + 1);
+            return Convert.ToDateTime(strDateTime);
+        }
+
+        /// <summary>
+        /// Set cookie value using the token and the expiry date
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="minutes"></param>
+        /// <returns></returns>
+        public static string BuildCookueValue(string value, int minutes)
+        {
+            return String.Format("{0}|{1}", value, DateTime.Now.AddMinutes(minutes).ToString());
+        }
+
+        /// <summary>
+        /// Reads cookie value from the cookie
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
+        public static string GetCookieValue(HttpCookie cookie)
+        {
+            if (String.IsNullOrEmpty(cookie.Value))
+            {
+                return cookie.Value;
+            }
+            return cookie.Value.Substring(0, cookie.Value.IndexOf("|"));
         }
     }
 }

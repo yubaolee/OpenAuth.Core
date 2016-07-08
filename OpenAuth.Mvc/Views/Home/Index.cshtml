@@ -126,18 +126,21 @@
 
                                 <ul id="bjui-doc-tree-base" class="ztree ztree_main" data-toggle="ztree" data-on-click="MainMenuClick"
                                     data-expand-all="true" data-faicon="star-o" data-tit="控制台">
-
-                                    @foreach (var module in Model)
+                                    @if (Model != null)
                                     {
+                                        foreach (var module in Model)
+                                        {
 
-                                        <li data-id="@module.Id" data-pid="@module.ParentId"
-                                            @if (string.IsNullOrWhiteSpace(module.Url.Trim())) { @: data - faicon="folder-open-o"
-                                                                                            @: data - faicon - close="folder-o"
-                                                                                        } else { @: data-faicon="caret-right"
-                                                                                            @: data-url="@module.Url"
-                                                                                            @: data-tabid="@module.Id"
-                                                                                        }>@module.Name</li>
+                                            <li data-id="@module.Id" data-pid="@module.ParentId"
+                                                @if (string.IsNullOrWhiteSpace(module.Url.Trim())) { @: data - faicon="folder-open-o"
+                                                                                                                                            @: data - faicon - close="folder-o"
+                                                                                                                                        } else { @: data-faicon="caret-right"
+                                                                                                                                            @: data-url="@module.Url"
+                                                                                                                                            @: data-tabid="@module.Id"
+                                                                                                                                        }>@module.Name</li>
+                                        }
                                     }
+                                  
                                 </ul>
                             </div>
                         </li>
@@ -175,7 +178,7 @@
                     <!--标签头-->
                     <div class="tabsPageHeaderContent">
                         <ul class="navtab-tab nav nav-tabs">
-                            <li data-url="Home/Main" @*class="external"  <!--该class标识在iframe中打开-->*@>
+                            <li data-url="/Home/Main" @*class="external"  <!--该class标识在iframe中打开-->*@>
                                 <a href="javascript:;">
                                     <span>
                                         <i class="fa fa-home"></i> #maintab#

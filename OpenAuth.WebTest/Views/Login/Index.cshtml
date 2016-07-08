@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "title";
+}
+
+<h2>Login</h2>
+
+<form class="form-horizontal" method="POST">
+    <div class="control-group">
+        <label class="control-label" for="username">Email</label>
+        <div class="controls">
+            <input type="text" id="username" name="username" value="admin">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">
+            <input type="password" id="password" name="password" value="admin">
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                <input type="checkbox"> Remember me
+            </label>
+            <button type="submit" class="btn">Sign in</button>
+        </div>
+    </div>
+</form>

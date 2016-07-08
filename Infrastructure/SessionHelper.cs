@@ -15,7 +15,7 @@
 using System;
 using System.Web;
 
-namespace Infrastructure.Helper
+namespace Infrastructure
 {
     /// <summary>
     /// Session 帮助类

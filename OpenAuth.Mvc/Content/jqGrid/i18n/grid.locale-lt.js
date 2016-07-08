@@ -83,7 +83,7 @@ $.extend($.jgrid,{
 	},
 	errors : {
 		errcap : "Klaida",
-		nourl : "Url reikšmė turi būti perduota",
+		nourl : "url reikšmė turi būti perduota",
 		norecords: "Nėra įrašų, kuriuos būtų galima apdoroti",
 		model : "colNames skaičius <> colModel skaičiui!"
 	},

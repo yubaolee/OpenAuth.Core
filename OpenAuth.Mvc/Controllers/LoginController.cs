@@ -57,7 +57,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var token = AuthUtil.Login("670b14728ad9902aecba32e22fa4f6bd", "System","");
+                var token = AuthUtil.Login("670b14728ad9902aecba32e22fa4f6bd", "System","123456");
                 if (!string.IsNullOrEmpty(token))
                     return Redirect("/home/index?Token=" + token);
                 else

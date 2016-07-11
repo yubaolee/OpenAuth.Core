@@ -16,6 +16,9 @@ namespace OpenAuth.WebTest.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 跳转到后台管理页面
+        /// </summary>
         public ActionResult Admin()
         {
             return Redirect(ConfigurationManager.AppSettings["OpenAuthURL"] + "?token=" + Request.Cookies["Token"].Value);

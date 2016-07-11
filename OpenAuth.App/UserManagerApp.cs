@@ -22,6 +22,11 @@ namespace OpenAuth.App
             _relevanceRepository = relevanceRepository;
         }
 
+        public User Get(string  account)
+        {
+            return _repository.FindSingle(u => u.Account == account);
+        }
+
         public int GetUserCntInOrg(int orgId)
         {
             if (orgId == 0)

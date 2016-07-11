@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using OpenAuth.App;
 using OpenAuth.App.SSO;
 using OpenAuth.Mvc.Models;
 
@@ -8,12 +7,8 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class LoginController : Controller
     {
-        private LoginApp _app;
+        private const string AppKey = "670b14728ad9902aecba32e22fa4f6bd";
 
-        public LoginController()
-        {
-            _app = AutofacExt.GetFromFac<LoginApp>();
-        }
         // GET: Login
         public ActionResult Index()
         {
@@ -25,9 +20,9 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var token = AuthUtil.Login("670b14728ad9902aecba32e22fa4f6bd", username, password);
-                if (!string.IsNullOrEmpty(token))
-                    return Redirect("/home/index?Token=" + token);
+                var result = AuthUtil.Login(AppKey, username, password);
+                if (result.Success)
+                    return Redirect("/home/index?Token=" + result.Token);
                 else
                 {
                     var response = new BjuiResponse
@@ -57,9 +52,9 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var token = AuthUtil.Login("670b14728ad9902aecba32e22fa4f6bd", "System","123456");
-                if (!string.IsNullOrEmpty(token))
-                    return Redirect("/home/index?Token=" + token);
+                var result = AuthUtil.Login(AppKey, "System","123456");
+                if (result.Success)
+                    return Redirect("/home/index?Token=" + result.Token);
                 else
                 {
                     return RedirectToAction("Index", "Login");

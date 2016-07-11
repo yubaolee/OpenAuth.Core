@@ -77,7 +77,7 @@ namespace OpenAuth.App.SSO
         /// <param name="username">”√ªß√˚</param>
         /// <param name="pwd">√‹¬Î</param>
         /// <returns>System.String.</returns>
-        public static string Login(string appKey, string username, string pwd)
+        public static LoginResult Login(string appKey, string username, string pwd)
         {
             var requestUri = "/SSO/Login/Check";
 
@@ -91,18 +91,12 @@ namespace OpenAuth.App.SSO
                 }, requestUri);
 
                 var result = JsonHelper.Instance.Deserialize<LoginResult>(value);
-                if (result.Success)
-                {
-                    return result.Token;
-                }
-                else
-                {
-                    return string.Empty;
-                }
+                return result;
+               
             }
             catch (Exception ex)
             {
-                return string.Empty;
+                return null;
             }
         }
 

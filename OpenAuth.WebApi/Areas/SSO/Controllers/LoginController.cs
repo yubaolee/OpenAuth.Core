@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using OpenAuth.App;
 using OpenAuth.App.SSO;
 using OpenAuth.WebApi.Areas.SSO.Models;
 using OpenAuth.WebApi.Areas.SSO.Models.Services;
@@ -15,8 +16,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     public class LoginController : Controller
     {
         private readonly AppInfoService _appInfoService = new AppInfoService();
-        private readonly AppUserService _appUserService = new AppUserService();
-
+        private  UserManagerApp _useraApp = AutofacExt.GetFromFac<UserManagerApp>();
         private const string AppInfo = "AppInfo";
 
         //默认登录界面
@@ -77,45 +77,50 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
 
             var result = new LoginResult();
 
-            //获取应用信息
-            var appInfo = _appInfoService.Get(model.AppKey);
-            if (appInfo == null)
+            try
+            {
+                //获取应用信息
+                var appInfo = _appInfoService.Get(model.AppKey);
+                if (appInfo == null)
+                {
+                    throw  new Exception("应用不存在");
+                }
+                TempData[AppInfo] = appInfo;
+
+                //获取用户信息
+                var userInfo = _useraApp.Get(model.UserName);
+                if (userInfo == null)
+                {
+                    throw new Exception("用户不存在");
+                }
+                if (userInfo.Password != model.Password)
+                {
+                    throw new Exception("密码错误");
+                }
+
+                var currentSession = new UserAuthSession
+                {
+                    UserName = model.UserName,
+                    Token = Guid.NewGuid().ToString().ToMd5(),
+                    InvalidTime = DateTime.Now.AddMinutes(10),
+                    AppKey = model.AppKey,
+                    CreateTime = DateTime.Now,
+                    IpAddress = Request.UserHostAddress
+                };
+
+                //创建Session
+                new UserAuthSessionService().Create(currentSession);
+
+                result.Success = true;
+                result.ReturnUrl = appInfo.ReturnUrl;
+                result.Token = currentSession.Token;
+            }
+            catch (Exception ex)
             {
                 result.Success = false;
-                result.ErrorMsg = "应用不存在";
-            }
-            TempData[AppInfo] = appInfo;
-
-            //获取用户信息
-            var userInfo = _appUserService.Get(model.UserName);
-            if (userInfo == null)
-            {
-                result.Success = false;
-                result.ErrorMsg = "用户不存在";
+                result.ErrorMsg = ex.Message;
             }
 
-            //if (userInfo.UserPwd != model.Password.ToMd5())
-            //{
-            //    //密码不正确
-            //    return View(model);
-            //}
-
-            var currentSession = new UserAuthSession
-            {
-                UserName = model.UserName,
-                Token = Guid.NewGuid().ToString().ToMd5(),
-                InvalidTime = DateTime.Now.AddMinutes(10),
-                AppKey = model.AppKey,
-                CreateTime = DateTime.Now,
-                IpAddress = Request.UserHostAddress
-            };
-
-            //创建Session
-            new UserAuthSessionService().Create(currentSession);
-
-            result.Success = true;
-            result.ReturnUrl = appInfo.ReturnUrl;
-            result.Token = currentSession.Token;
             return result;
         }
     }

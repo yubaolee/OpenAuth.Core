@@ -18,6 +18,15 @@ using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.App.SSO
 {
+    /// <summary>
+    /// 第三方网站登录验证类
+    /// <para>登录时：</para>
+    /// <code>
+    ///  var result = AuthUtil.Login(AppKey, username, password);
+    ///  if (result.Success)
+    ///       return Redirect("/home/index?Token=" + result.Token);
+    /// </code>
+    /// </summary>
     public class AuthUtil
     {
         static HttpHelper _helper = new HttpHelper(ConfigurationManager.AppSettings["SSOPassport"]);
@@ -25,23 +34,23 @@ namespace OpenAuth.App.SSO
         private static string GetToken()
         {
             string token = HttpContext.Current.Request.QueryString["Token"];
-            if (!string.IsNullOrEmpty(token)) return token;
+            if (!String.IsNullOrEmpty(token)) return token;
 
             var cookie = HttpContext.Current.Request.Cookies["Token"];
-            return cookie == null ? string.Empty : cookie.Value;
+            return cookie == null ? String.Empty : cookie.Value;
         }
 
         public static bool CheckLogin(string token, string remark = "")
         {
-            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(GetToken()))
+            if (String.IsNullOrEmpty(token) || String.IsNullOrEmpty(GetToken()))
                 return false;
 
-            var requestUri = string.Format("/SSO/Check/GetStatus?token={0}&requestid={1}", token, remark);
+            var requestUri = String.Format("/SSO/Check/GetStatus?token={0}&requestid={1}", token, remark);
 
             try
             {
                 var value = _helper.Get(null, requestUri);
-                return bool.Parse(value);
+                return Boolean.Parse(value);
             }
             catch (Exception ex)
             {
@@ -49,15 +58,26 @@ namespace OpenAuth.App.SSO
             }
         }
 
+        /// <summary>
+        /// 检查用户登录状态
+        /// <para>通过URL中的Token参数或Cookie中的Token</para>
+        /// </summary>
+        /// <param name="remark">备注信息</param>
         public static bool CheckLogin(string remark="")
         {
             return CheckLogin(GetToken(), remark);
         }
 
+        /// <summary>
+        /// 获取当前登录的用户信息
+        /// <para>通过URL中的Token参数或Cookie中的Token</para>
+        /// </summary>
+        /// <param name="remark">The remark.</param>
+        /// <returns>LoginUserVM.</returns>
         public static LoginUserVM GetCurrentUser(string remark = "")
         {
 
-            var requestUri = string.Format("/SSO/Check/GetUser?token={0}&requestid={1}", GetToken(), remark);
+            var requestUri = String.Format("/SSO/Check/GetUser?token={0}&requestid={1}", GetToken(), remark);
 
             try
             {
@@ -79,7 +99,7 @@ namespace OpenAuth.App.SSO
         /// <returns>System.String.</returns>
         public static LoginResult Login(string appKey, string username, string pwd)
         {
-            var requestUri = "/SSO/Login/Check";
+            var requestUri = "/SSO/Check/Login";
 
             try
             {
@@ -106,9 +126,9 @@ namespace OpenAuth.App.SSO
         public static bool Logout()
         {
             var token = GetToken();
-            if (string.IsNullOrEmpty(token)) return true;
+            if (String.IsNullOrEmpty(token)) return true;
 
-            var requestUri = string.Format("/SSO/Login/Logout?token={0}&requestid={1}", token, "");
+            var requestUri = String.Format("/SSO/Login/Logout?token={0}&requestid={1}", token, "");
 
             try
             {

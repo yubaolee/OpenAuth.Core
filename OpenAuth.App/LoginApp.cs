@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using Infrastructure;
 using OpenAuth.App.ViewModel;
-using System.Web.Security;
 using OpenAuth.App.SSO;
 using OpenAuth.Domain.Service;
 

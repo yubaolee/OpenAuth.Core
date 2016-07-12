@@ -2,7 +2,7 @@
 using System.Globalization;
 using Infrastructure.Cache;
 
-namespace OpenAuth.WebApi.Areas.SSO.Models
+namespace OpenAuth.App.SSO
 {
     public abstract class ServiceContext : IDisposable
     {

@@ -7,7 +7,7 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class LoginController : Controller
     {
-        private const string AppKey = "670b14728ad9902aecba32e22fa4f6bd";
+        private const string AppKey = "openauth";
 
         // GET: Login
         public ActionResult Index()

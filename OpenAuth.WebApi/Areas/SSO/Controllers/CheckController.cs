@@ -1,11 +1,26 @@
-﻿using System.Web.Http;
+﻿// ***********************************************************************
+// Assembly         : OpenAuth.WebApi
+// Author           : yubaolee
+// Created          : 07-11-2016
+//
+// Last Modified By : yubaolee
+// Last Modified On : 07-11-2016
+// Contact : 
+// File: CheckController.cs
+// ***********************************************************************
+
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
-using OpenAuth.WebApi.Areas.SSO.Models.Services;
+using OpenAuth.App.SSO;
 
 namespace OpenAuth.WebApi.Areas.SSO.Controllers
 {
+    /// <summary>
+    ///  sso验证
+    /// <para>其他站点通过后台Post来认证</para>
+    /// <para>或使用静态类OpenAuth.App.SSO.AuthUtil访问</para>
+    /// </summary>
     public class CheckController : Controller
     {
         private LoginApp _app;
@@ -33,6 +48,12 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             }
 
             return string.Empty;
+        }
+
+        [HttpPost]
+        public string Login(PassportLoginRequest request)
+        {
+            return JsonHelper.Instance.Serialize(SSOAuthUtil.Parse(request));
         }
     }
 }

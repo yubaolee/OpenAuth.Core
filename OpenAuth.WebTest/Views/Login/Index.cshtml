@@ -5,12 +5,16 @@
 }
 
 <h2>OpenAuth.net测试站点登陆</h2>
-<div class="col-lg-12">
-    @if (Model != null && !Model.Success)
-    {
-        <span class="alert alert-danger">@Model.ErrorMsg</span>
-    }
-</div>
+
+
+@if (Model != null && !Model.Success)
+{
+    <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Warning!</strong>  @Model.ErrorMsg
+    </div>
+}
+
 <div class="col-lg-12">
     <form class="form-horizontal" method="POST">
         <div class="control-group">
@@ -31,6 +35,7 @@
                     <input type="checkbox"> Remember me
                 </label>
                 <button type="submit" class="btn btn-primary">登陆</button>
+                <a href="http://localhost:52789/SSO/Login?appkey=openauthtest">或者使用OpenAuth.net第三方登陆功能</a>
             </div>
         </div>
     </form>

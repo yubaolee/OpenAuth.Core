@@ -79,11 +79,17 @@
     <Compile Include="ResourceManagerApp.cs" />
     <Compile Include="RevelanceManagerApp.cs" />
     <Compile Include="RoleManagerApp.cs" />
+    <Compile Include="SSO\AppInfo.cs" />
+    <Compile Include="SSO\AppInfoService.cs" />
     <Compile Include="SSO\AuthUtil.cs" />
+    <Compile Include="SSO\PassportLoginRequest.cs" />
+    <Compile Include="SSO\ServiceContext.cs" />
+    <Compile Include="SSO\SSOAuthUtil.cs" />
     <Compile Include="SSO\SSOController.cs" />
     <Compile Include="SSO\LoginResult.cs" />
     <Compile Include="SSO\SSOAuthAttribute.cs" />
     <Compile Include="SSO\UserAuthSession.cs" />
+    <Compile Include="SSO\UserAuthSessionService.cs" />
     <Compile Include="StockManagerApp.cs" />
     <Compile Include="UserManagerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

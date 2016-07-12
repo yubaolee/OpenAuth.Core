@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using OpenAuth.App;
 using OpenAuth.App.SSO;
-using OpenAuth.WebApi.Areas.SSO.Models;
-using OpenAuth.WebApi.Areas.SSO.Models.Services;
 
 namespace OpenAuth.WebApi.Areas.SSO.Controllers
 {
+
     /// <summary>
-    ///  公钥：AppKey
-    ///  私钥：AppSecret
-    ///  会话：Token
+    ///  SSO自带的登录处理
+    /// <para>第三方网站如果自己不开发登录界面，可直接跳转到本界面进行登录</para>
     /// </summary>
     public class LoginController : Controller
     {
-        private readonly AppInfoService _appInfoService = new AppInfoService();
-        private  UserManagerApp _useraApp = AutofacExt.GetFromFac<UserManagerApp>();
+        private AppInfoService _appInfoService;
+
+        public LoginController()
+        {
+            _appInfoService = new AppInfoService();
+        }
+
         private const string AppInfo = "AppInfo";
 
-        //默认登录界面
+        //加载登录界面
         public ActionResult Index(string appKey = "", string username = "")
         {
             TempData[AppInfo] = _appInfoService.Get(appKey);
@@ -37,7 +38,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         [HttpPost]
         public ActionResult Index(PassportLoginRequest model)
         {
-            var result = Parse(model);
+            var result = SSOAuthUtil.Parse(model);
 
             if (result.Success)
             {
@@ -47,14 +48,11 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
                 return Redirect(redirectUrl);
             }
 
+            TempData[AppInfo] = _appInfoService.Get(model.AppKey);
             return View(model);
         }
 
-        [HttpPost]
-        public string Check(PassportLoginRequest request)
-        {
-            return JsonConvert.SerializeObject(Parse(request));
-        }
+
 
         [HttpPost]
         public bool Logout(string token, string requestid)
@@ -68,60 +66,6 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             {
                 return false;
             }
-        }
-
-        private LoginResult Parse(PassportLoginRequest model)
-        {
-            //过滤字段无效字符
-            model.Trim();
-
-            var result = new LoginResult();
-
-            try
-            {
-                //获取应用信息
-                var appInfo = _appInfoService.Get(model.AppKey);
-                if (appInfo == null)
-                {
-                    throw  new Exception("应用不存在");
-                }
-                TempData[AppInfo] = appInfo;
-
-                //获取用户信息
-                var userInfo = _useraApp.Get(model.UserName);
-                if (userInfo == null)
-                {
-                    throw new Exception("用户不存在");
-                }
-                if (userInfo.Password != model.Password)
-                {
-                    throw new Exception("密码错误");
-                }
-
-                var currentSession = new UserAuthSession
-                {
-                    UserName = model.UserName,
-                    Token = Guid.NewGuid().ToString().ToMd5(),
-                    InvalidTime = DateTime.Now.AddMinutes(10),
-                    AppKey = model.AppKey,
-                    CreateTime = DateTime.Now,
-                    IpAddress = Request.UserHostAddress
-                };
-
-                //创建Session
-                new UserAuthSessionService().Create(currentSession);
-
-                result.Success = true;
-                result.ReturnUrl = appInfo.ReturnUrl;
-                result.Token = currentSession.Token;
-            }
-            catch (Exception ex)
-            {
-                result.Success = false;
-                result.ErrorMsg = ex.Message;
-            }
-
-            return result;
         }
     }
 }

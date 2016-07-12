@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenAuth.WebApi.Areas.SSO.Models
+namespace OpenAuth.App.SSO
 {
     [Serializable]
     public class UserAuthSession

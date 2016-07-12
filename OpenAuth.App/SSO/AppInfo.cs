@@ -11,7 +11,7 @@
 
 using System;
 
-namespace OpenAuth.WebApi.Areas.SSO.Models
+namespace OpenAuth.App.SSO
 {
     /// <summary>
     /// 应用程序信息

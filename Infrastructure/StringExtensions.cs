@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace OpenAuth.WebApi.Areas.SSO.Models
+namespace Infrastructure
 {
     public static class StringExtensions
     {

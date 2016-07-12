@@ -143,20 +143,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\SSO\Models\Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\SSO\Controllers\LoginController.cs" />
     <Compile Include="Areas\SSO\Controllers\CheckController.cs" />
-    <Compile Include="Areas\SSO\Models\AppInfo.cs" />
-    <Compile Include="Areas\SSO\Models\PassportLoginRequest.cs" />
-    <Compile Include="Areas\SSO\Models\ServiceContext.cs" />
-    <Compile Include="Areas\SSO\Models\Services\AppInfoService.cs" />
-    <Compile Include="Areas\SSO\Models\Services\UserAuthSessionService.cs" />
-    <Compile Include="Areas\SSO\Models\StringExtensions.cs" />
     <Compile Include="Areas\SSO\SSOAreaRegistration.cs" />
     <Compile Include="AutofacExt.cs" />
     <Compile Include="Global.asax.cs">
@@ -165,21 +159,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Areas\SSO\Content\bootstrap.min.css" />
+    <Content Include="Areas\SSO\Content\images\logo.png" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\SSO\Scripts\bootstrap.js" />
+    <Content Include="Areas\SSO\Scripts\bootstrap.min.js" />
     <Content Include="Areas\SSO\Views\web.config" />
     <Content Include="Areas\SSO\Views\Login\Index.cshtml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
+    <None Include="Areas\SSO\Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Areas\SSO\Scripts\jquery-1.10.2.js" />
+    <Content Include="Areas\SSO\Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Areas\SSO\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Areas\SSO\Scripts\respond.js" />
+    <Content Include="Areas\SSO\Scripts\respond.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -187,8 +180,8 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="Areas\SSO\Content\Site.css" />
+    <Content Include="Areas\SSO\Scripts\_references.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
@@ -209,11 +202,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Areas\SSO\Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

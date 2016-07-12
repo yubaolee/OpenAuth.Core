@@ -29,7 +29,8 @@ namespace OpenAuth.App.SSO
                     userInfo = new User
                     {
                         Account = "System",
-                        Name ="超级管理员"
+                        Name ="超级管理员",
+                        Password = "123456"
                     };
                 }
                 else

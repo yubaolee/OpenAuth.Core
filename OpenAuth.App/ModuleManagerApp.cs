@@ -21,7 +21,7 @@ namespace OpenAuth.App
         /// </summary>
         public dynamic Load(int parentId, int pageindex, int pagesize)
         {
-            return _moduleManService.Load(AuthUtil.GetCurrentUser().User.Account, parentId, pageindex, pagesize);
+            return _moduleManService.Load(AuthUtil.GetUserName(), parentId, pageindex, pagesize);
         }
 
         public void Delete(int id)

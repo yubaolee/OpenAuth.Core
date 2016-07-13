@@ -41,10 +41,21 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
 
         public string GetUser(string token = "", string requestid = "")
         {
+            string userName = GetUserName(token, requestid);
+            if (!string.IsNullOrEmpty(userName))
+            {
+                return JsonHelper.Instance.Serialize(_app.GetLoginUser(userName));
+            }
+
+            return string.Empty;
+        }
+
+        public string GetUserName(string token, string requestid = "")
+        {
             var user = new UserAuthSessionService().Get(token);
             if (user != null)
             {
-                return JsonHelper.Instance.Serialize(_app.GetLoginUser(user.UserName));
+                return user.UserName;
             }
 
             return string.Empty;

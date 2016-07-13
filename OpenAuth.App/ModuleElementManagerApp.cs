@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Infrastructure;
+using OpenAuth.App.SSO;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
@@ -41,11 +42,11 @@ namespace OpenAuth.App
 
         public IEnumerable<ModuleElement> LoadByModuleId(int id)
         {
-            string username = HttpContext.Current.User.Identity.Name;
+            string username = AuthUtil.GetUserName();
             return _moduleEleManService.LoadByModuleId(username, id);
         }
 
-        /// <summary>
+        /// <summary> 
         /// 获取带有授权状态的菜单列表
         /// </summary>
         /// <param name="accessType">授权类型，当前有RoleElement/UserElement</param>
@@ -56,7 +57,7 @@ namespace OpenAuth.App
         /// <param name="moduleId">模块ID</param>
         public List<dynamic> LoadWithAccess(string accessType, int firstId, int moduleId)
         {
-            string username = HttpContext.Current.User.Identity.Name;
+            string username = AuthUtil.GetUserName();
            return _moduleEleManService.LoadWithAccess(username, accessType, firstId, moduleId);
         }
 

@@ -4,6 +4,7 @@ using OpenAuth.Domain;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using OpenAuth.App.SSO;
 using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
@@ -46,7 +47,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(int categoryId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(User.Identity.Name, categoryId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(AuthUtil.GetUserName(), categoryId, pageCurrent, pageSize));
         }
 
         public string LoadForTree()
@@ -94,7 +95,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadWithAccess(int cId, int firstId, string key)
         {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess(User.Identity.Name,key,firstId, cId));
+            return JsonHelper.Instance.Serialize(_app.LoadWithAccess(AuthUtil.GetUserName(),key,firstId, cId));
         }
     }
 }

@@ -3,6 +3,7 @@ using OpenAuth.App;
 using OpenAuth.Domain;
 using System;
 using System.Web.Mvc;
+using OpenAuth.App.SSO;
 using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
@@ -51,7 +52,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(int parentId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(User.Identity.Name, parentId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(AuthUtil.GetUserName(), parentId, pageCurrent, pageSize));
         }
         
         public string Delete(int Id)

@@ -90,6 +90,28 @@ namespace OpenAuth.App.SSO
             }
         }
 
+
+        /// <summary>
+        /// 获取当前登录的用户名
+        /// <para>通过URL中的Token参数或Cookie中的Token</para>
+        /// </summary>
+        /// <param name="remark">The remark.</param>
+        /// <returns>System.String.</returns>
+        public static string GetUserName(string remark = "")
+        {
+            var requestUri = String.Format("/SSO/Check/GetUserName?token={0}&requestid={1}", GetToken(), remark);
+
+            try
+            {
+                var value = _helper.Get(null, requestUri);
+                return value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         /// <summary>
         /// 登陆接口
         /// </summary>

@@ -41,6 +41,8 @@ namespace OpenAuth.Domain.Service
             {
                 _unitWork.Update(model);
             }
+
+            _unitWork.Save();
         }
 
         public IEnumerable<ModuleElement> LoadByModuleId(string loginuser, int id)

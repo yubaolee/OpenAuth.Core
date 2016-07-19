@@ -89,7 +89,7 @@ function MainGrid() {
                }
              
         ],
-        data:[],
+        dataUrl: url + selectedId,  //todo:这里如果配置data:[]的话，不会自动加载，但在分页的下拉中会有undefined
         fullGrid: true,
         showLinenumber: true,
         showCheckboxcol: true,

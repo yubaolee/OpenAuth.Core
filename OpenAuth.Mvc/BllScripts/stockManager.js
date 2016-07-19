@@ -94,7 +94,7 @@ function MainGrid() {
                    width: 100
                },
         ],
-        data:[],
+        dataUrl: url + selectedId,
         fullGrid: true,
         showLinenumber: true,
         showCheckboxcol: true,

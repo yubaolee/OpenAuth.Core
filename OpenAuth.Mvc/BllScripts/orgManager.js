@@ -99,7 +99,7 @@ function MainGrid() {
                    align: 'center'
                },
         ],
-        data: [],
+        dataUrl: url + selectedId,
         fullGrid: true,
         showLinenumber: true,
         showCheckboxcol: true,

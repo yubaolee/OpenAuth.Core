@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Web.Mvc;
 using OpenAuth.App.SSO;
 using OpenAuth.Mvc.Models;
@@ -7,11 +8,12 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class LoginController : Controller
     {
-        private const string AppKey = "openauth";
+        private string _appKey = ConfigurationManager.AppSettings["SSOAppKey"];
 
         // GET: Login
         public ActionResult Index()
         {
+            ViewBag.AppKey = _appKey;
             return View();
         }
 
@@ -20,7 +22,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var result = AuthUtil.Login(AppKey, username, password);
+                var result = AuthUtil.Login(_appKey, username, password);
                 if (result.Success)
                     return Redirect("/home/index?Token=" + result.Token);
                 else
@@ -52,7 +54,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var result = AuthUtil.Login(AppKey, "System","123456");
+                var result = AuthUtil.Login(_appKey, "System","123456");
                 if (result.Success)
                     return Redirect("/home/index?Token=" + result.Token);
                 else

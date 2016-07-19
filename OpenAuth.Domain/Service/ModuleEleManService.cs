@@ -47,7 +47,7 @@ namespace OpenAuth.Domain.Service
 
         public IEnumerable<ModuleElement> LoadByModuleId(string loginuser, int id)
         {
-            _authoriseService.GetUserAccessed(loginuser);
+            _authoriseService.LoadAuthControls(loginuser);
             if (_authoriseService.ModuleElements.Count == 0) //用户没有任何资源
             {
                 return new List<ModuleElement>();
@@ -70,7 +70,7 @@ namespace OpenAuth.Domain.Service
         public List<dynamic> LoadWithAccess(string username, string accessType, int firstId, int moduleId)
         {
             var listVms = new List<dynamic>();
-            _authoriseService.GetUserAccessed(username);
+            _authoriseService.LoadAuthControls(username);
             if (_authoriseService.ModuleElements.Count == 0) //用户没有任何资源
             {
                return listVms;

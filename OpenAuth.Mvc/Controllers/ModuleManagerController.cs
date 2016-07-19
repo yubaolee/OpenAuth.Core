@@ -4,6 +4,7 @@ using OpenAuth.Domain;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using OpenAuth.App.SSO;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;
 
@@ -45,13 +46,13 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string LoadForTree()
         {
-            var orgs = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().Modules;
+            var orgs = AuthUtil.GetCurrentUser().Modules;
             return JsonHelper.Instance.Serialize(orgs);
         }
 
         public string LoadModuleWithRoot()
         {
-            var orgs = AutofacExt.GetFromFac<LoginApp>().GetLoginUser().Modules.MapToList<ModuleView>();
+            var orgs = AuthUtil.GetCurrentUser().Modules.MapToList<ModuleView>();
             return JsonHelper.Instance.Serialize(orgs);
         }
 

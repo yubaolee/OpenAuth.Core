@@ -29,7 +29,7 @@ namespace OpenAuth.Domain.Service
         public dynamic Load(string username, int orgId, int pageindex, int pagesize)
         {
 
-            _authoriseService.GetUserAccessed(username);
+            _authoriseService.LoadAuthControls(username);
             if (_authoriseService.Orgs.Count == 0) //用户没有任何可见机构
             {
                 return new

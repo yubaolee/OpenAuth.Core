@@ -70,64 +70,83 @@ namespace OpenAuth.Domain.Service
             _user.CheckPassword(password);
         }
 
-        /// <summary>
-        /// 设置开发者账号
-        /// </summary>
-        public void SetSysUser()
-        {
-            _user = new User
-            {
-                Account = "System"
-            };
-        }
 
-        public void GetUserAccessed(string name)
+        /// <summary>
+        /// 加载用户可访问的所有机构/资源/菜单
+        /// <para>李玉宝于2016-07-19 10:32:19</para>
+        /// </summary>
+        /// <param name="name">The name.</param>
+        public void LoadAuthControls(string name)
         {
             if (name == "System")
             {
-                _modules = _unitWork.Find<Module>(null).ToList();
-                _moduleElements = _unitWork.Find<ModuleElement>(null).ToList();
-
-                _resources = _unitWork.Find<Resource>(null).OrderBy(u => u.SortNo).ToList();
-
-                _orgs = _unitWork.Find<Org>(null).OrderBy(u => u.SortNo).ToList();
+                _user = new User{Account = "System"};
+                LoadForSystem();
             }
             else
             {
                 _user = _unitWork.FindSingle<User>(u => u.Account == name);
-                //用户角色
-                var userRoleIds = _unitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
-
-                //用户角色与自己分配到的模块ID
-                var moduleIds = _unitWork.Find<Relevance>(
-                        u =>
-                            (u.FirstId == _user.Id && u.Key == "UserModule") ||
-                            (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-                //得出最终用户拥有的模块
-                _modules = _unitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo).ToList();
-
-                //用户角色与自己分配到的菜单ID
-                var elementIds = _unitWork.Find<Relevance>(
-                       u =>
-                           (u.FirstId == _user.Id && u.Key == "UserElement") ||
-                           (u.Key == "RoleElement" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-                //模块菜单权限
-                _moduleElements = _unitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id)).ToList();
-
-                //用户角色与自己分配到的资源ID
-                var resourceIds = _unitWork.Find<Relevance>(
-                        u =>
-                            (u.FirstId == _user.Id && u.Key == "UserResource") ||
-                            (u.Key == "RoleResource" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-                _resources = _unitWork.Find<Resource>(u => resourceIds.Contains(u.Id)).ToList();
-
-                //用户角色与自己分配到的机构ID
-                var orgids = _unitWork.Find<Relevance>(
-                        u =>
-                            (u.FirstId == _user.Id && u.Key == "UserAccessedOrg") ||
-                            (u.Key == "RoleAccessedOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-                _orgs = _unitWork.Find<Org>(u => orgids.Contains(u.Id)).ToList();
+                if (_user != null)
+                {
+                    LoadForUser();
+                }
             }
+        }
+
+        /// <summary>
+        /// 加载用户权限
+        /// <para>李玉宝于2016-07-19 10:20:16</para>
+        /// </summary>
+        /// <param name="name">The name.</param>
+        private void LoadForUser()
+        {
+            //用户角色
+            var userRoleIds =
+                _unitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
+
+            //用户角色与自己分配到的模块ID
+            var moduleIds = _unitWork.Find<Relevance>(
+                u =>
+                    (u.FirstId == _user.Id && u.Key == "UserModule") ||
+                    (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+            //得出最终用户拥有的模块
+            _modules = _unitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo).ToList();
+
+            //用户角色与自己分配到的菜单ID
+            var elementIds = _unitWork.Find<Relevance>(
+                u =>
+                    (u.FirstId == _user.Id && u.Key == "UserElement") ||
+                    (u.Key == "RoleElement" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+            //模块菜单权限
+            _moduleElements = _unitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id)).ToList();
+
+            //用户角色与自己分配到的资源ID
+            var resourceIds = _unitWork.Find<Relevance>(
+                u =>
+                    (u.FirstId == _user.Id && u.Key == "UserResource") ||
+                    (u.Key == "RoleResource" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+            _resources = _unitWork.Find<Resource>(u => resourceIds.Contains(u.Id)).ToList();
+
+            //用户角色与自己分配到的机构ID
+            var orgids = _unitWork.Find<Relevance>(
+                u =>
+                    (u.FirstId == _user.Id && u.Key == "UserAccessedOrg") ||
+                    (u.Key == "RoleAccessedOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+            _orgs = _unitWork.Find<Org>(u => orgids.Contains(u.Id)).ToList();
+        }
+
+        /// <summary>
+        /// 加载系统管理员权限
+        /// <para>李玉宝于2016-07-19 10:19:31</para>
+        /// </summary>
+        private void LoadForSystem()
+        {
+            _modules = _unitWork.Find<Module>(null).ToList();
+            _moduleElements = _unitWork.Find<ModuleElement>(null).ToList();
+
+            _resources = _unitWork.Find<Resource>(null).OrderBy(u => u.SortNo).ToList();
+
+            _orgs = _unitWork.Find<Org>(null).OrderBy(u => u.SortNo).ToList();
         }
     }
 }

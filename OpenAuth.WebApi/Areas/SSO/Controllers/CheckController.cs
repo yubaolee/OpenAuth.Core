@@ -23,10 +23,10 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// </summary>
     public class CheckController : Controller
     {
-        private LoginApp _app;
+        private AuthorizeApp _app;
         public CheckController()
         {
-            _app = AutofacExt.GetFromFac<LoginApp>();
+            _app = AutofacExt.GetFromFac<AuthorizeApp>();
         }
 
         public bool GetStatus(string token = "", string requestid = "")
@@ -44,7 +44,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             string userName = GetUserName(token, requestid);
             if (!string.IsNullOrEmpty(userName))
             {
-                return JsonHelper.Instance.Serialize(_app.GetLoginUser(userName));
+                return JsonHelper.Instance.Serialize(_app.GetAccessedControls(userName));
             }
 
             return string.Empty;

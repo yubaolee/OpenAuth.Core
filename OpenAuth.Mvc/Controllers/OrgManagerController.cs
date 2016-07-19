@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenAuth.App.SSO;
 using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
@@ -35,7 +36,7 @@ namespace OpenAuth.Mvc.Controllers
 
         public string LoadOrg()
         {
-            return JsonHelper.Instance.Serialize(AutofacExt.GetFromFac<LoginApp>().GetLoginUser().AccessedOrgs);
+            return JsonHelper.Instance.Serialize(AuthUtil.GetCurrentUser().AccessedOrgs);
         }
 
         public string LoadForUser(int firstId)

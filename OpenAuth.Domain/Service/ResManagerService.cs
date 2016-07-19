@@ -48,7 +48,7 @@ namespace OpenAuth.Domain.Service
         /// </summary>
         public dynamic Load(string username, int categoryId, int pageindex, int pagesize)
         {
-            _authoriseService.GetUserAccessed(username);
+            _authoriseService.LoadAuthControls(username);
             if (_authoriseService.Resources.Count == 0) //用户没有任何资源
             {
                 return new
@@ -122,7 +122,7 @@ namespace OpenAuth.Domain.Service
         public List<dynamic> LoadWithAccess(string username, string accessType, int firstId, int cId)
         {
             var listVms = new List<dynamic>();
-            _authoriseService.GetUserAccessed(username);
+            _authoriseService.LoadAuthControls(username);
             if (_authoriseService.Resources.Count == 0) //用户没有任何资源
             {
                 return listVms;

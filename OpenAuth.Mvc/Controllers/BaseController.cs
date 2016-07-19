@@ -1,20 +1,14 @@
 ﻿// ***********************************************************************
 // Assembly         : OpenAuth.Mvc
-// Author           : Administrator
-// Created          : 09-22-2015
+// Author           : yubaolee
+// Created          : 07-11-2016
 //
-// Last Modified By : Administrator
-// Last Modified On : 09-22-2015
+// Last Modified By : yubaolee
+// Last Modified On : 07-19-2016
+// Contact : www.cnblogs.com/yubaolee
+// File: BaseController.cs
 // ***********************************************************************
-// <copyright file="BaseController.cs" company="">
-//     Copyright (c) . All rights reserved.
-// </copyright>
-// <summary>
-// 基础控制器
-// 继承该控制器可以防止未登录查看
-// 继承该控制器后，如果想访问控制器中存在，但模块配置里面没有的Action（如：Home/Git），请使用AnonymousAttribute
-// </summary>
-// ***********************************************************************
+
 
 using OpenAuth.Mvc.Models;
 using System;
@@ -23,11 +17,15 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using OpenAuth.App;
 using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
 {
+    /// <summary>
+    /// 基础控制器
+    /// <para>用于控制登录用户是否有权限访问指定的Action</para>
+    /// <para>李玉宝新增于2016-07-19 11:12:09</para>
+    /// </summary>
     public class BaseController : SSOController
     {
         protected BjuiResponse BjuiResponse = new BjuiResponse();
@@ -36,8 +34,8 @@ namespace OpenAuth.Mvc.Controllers
         {
             base.OnActionExecuting(filterContext);
 
-            var loginUser = AutofacExt.GetFromFac<LoginApp>().GetLoginUser();
-           
+            if (!AuthUtil.CheckLogin())  return;
+
             var controllername = Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
             var actionname = filterContext.ActionDescriptor.ActionName.ToLower();
 
@@ -46,8 +44,8 @@ namespace OpenAuth.Mvc.Controllers
                 throw new Exception("未能找到Action");
 
             var authorize = function.GetCustomAttribute(typeof(AuthenticateAttribute));
-            var module = loginUser.Modules.FirstOrDefault(u => u.Url.ToLower().Contains(controllername));
-            //当前登录用户没有Action记录&&Action没有anonymous标识
+            var module = AuthUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(controllername));
+            //当前登录用户没有Action记录&&Action有authenticate标识
             if (authorize != null && module == null)
             {
                 filterContext.Result = new RedirectResult("/Login/Index");

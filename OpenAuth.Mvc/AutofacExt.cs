@@ -38,7 +38,7 @@ namespace OpenAuth.Mvc
             builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
 
             //注册app层
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (LoginApp)));
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (UserManagerApp)));
 
             //注册领域服务
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(AuthoriseService)))

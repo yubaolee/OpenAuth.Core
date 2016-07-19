@@ -74,14 +74,14 @@ namespace OpenAuth.App.SSO
         /// </summary>
         /// <param name="remark">The remark.</param>
         /// <returns>LoginUserVM.</returns>
-        public static LoginUserVM GetCurrentUser(string remark = "")
+        public static UserWithAccessedCtrls GetCurrentUser(string remark = "")
         {
 
             var requestUri = String.Format("/SSO/Check/GetUser?token={0}&requestid={1}", GetToken(), remark);
 
             try
             {
-                var value = _helper.Get<LoginUserVM>(null, requestUri);
+                var value = _helper.Get<UserWithAccessedCtrls>(null, requestUri);
                 return value;
             }
             catch (Exception ex)

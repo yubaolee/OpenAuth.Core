@@ -73,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryManagerApp.cs" />
-    <Compile Include="LoginApp.cs" />
+    <Compile Include="AuthorizeApp.cs" />
     <Compile Include="ModuleElementManagerApp.cs" />
     <Compile Include="ModuleManagerApp.cs" />
     <Compile Include="ResourceManagerApp.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="UserManagerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrgManagerApp.cs" />
-    <Compile Include="ViewModel\LoginUserVM.cs" />
+    <Compile Include="ViewModel\UserWithAccessedCtrls.cs" />
     <Compile Include="ViewModel\ModuleElementVM.cs" />
     <Compile Include="ViewModel\ModuleView.cs" />
     <Compile Include="ViewModel\RoleVM.cs" />

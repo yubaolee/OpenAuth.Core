@@ -15,7 +15,7 @@ namespace OpenAuth.UnitTest
         public void TestMethod1()
         {
             AuthoriseService _service = new AuthoriseService(new UnitWork() );
-            _service.GetUserAccessed("test");
+            _service.LoadAuthControls("test");
 
             var orgs = _service.Orgs;
         }

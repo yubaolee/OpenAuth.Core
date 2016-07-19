@@ -57,7 +57,8 @@ namespace OpenAuth.App.SSO
             if (string.IsNullOrEmpty(token))
             {
                 //直接登录
-                filterContext.Result = SsoLoginResult(cookieSessionUserName);
+                filterContext.Result = LoginResult(cookieSessionUserName);
+                return;
             }
             else
             {
@@ -65,14 +66,15 @@ namespace OpenAuth.App.SSO
                 if (AuthUtil.CheckLogin(token, request.RawUrl) == false)
                 {
                     //会话丢失，跳转到登录页面
-                    filterContext.Result = SsoLoginResult(cookieSessionUserName);
+                    filterContext.Result = LoginResult(cookieSessionUserName);
+                    return;
                 }
             }
 
             base.OnActionExecuting(filterContext);
         }
 
-        private static ActionResult SsoLoginResult(string username)
+        private static ActionResult LoginResult(string username)
         {
             //跳转到SSO站点登陆
             //return new RedirectResult(string.Format("{0}/sso/login?appkey={1}&username={2}",

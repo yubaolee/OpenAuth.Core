@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
+using OpenAuth.App.SSO;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;
 
@@ -17,7 +18,7 @@ namespace OpenAuth.Mvc.Controllers
         
         public ActionResult Index()
         {
-            var user = AutofacExt.GetFromFac<LoginApp>().GetLoginUser();
+            var user = AuthUtil.GetCurrentUser();
             return View(user.Modules);
         }
         

@@ -40,7 +40,7 @@ namespace OpenAuth.Domain.Service
         public dynamic Load(string loginuser, int parentId, int pageindex, int pagesize)
         {
 
-            _authoriseService.GetUserAccessed(loginuser);
+            _authoriseService.LoadAuthControls(loginuser);
             if (_authoriseService.Modules.Count == 0) //用户不能访问任何模块
             {
                 return new

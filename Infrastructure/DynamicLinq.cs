@@ -63,6 +63,11 @@ namespace Infrastructure
             {
                 right = Expression.Constant(filterObj.Value.Equals("1"));
             }
+            else if (property.PropertyType == typeof(Guid?))
+            {
+                left = Expression.Property(left, "Value");
+                right = Expression.Constant(Guid.Parse(filterObj.Value));
+            }
             else
             {
                 throw new Exception("暂不能解析该Key的类型");

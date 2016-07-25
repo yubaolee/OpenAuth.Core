@@ -1,17 +1,5 @@
-﻿// ***********************************************************************
-// Assembly         : Infrastructure
-// Author           : yubaolee
-// Created          : 06-21-2016
-//
-// Last Modified By : yubaolee
-// Last Modified On : 06-21-2016
-// Contact : 
-// File: HttpHelper.cs
-// ***********************************************************************
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -20,139 +8,62 @@ using System.Text;
 namespace Infrastructure
 {
     /// <summary>
-    /// WebApi请求帮助类
+    /// http请求类
     /// </summary>
     public class HttpHelper
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _baseUriAddress;
+        private HttpClient _httpClient;
+        private string _baseIPAddress;
 
-        #region 构造
-
-        /// <summary>
-        /// </summary>
-        /// <param name="baseAddress">请求的基地址</param>
-        public HttpHelper(string baseAddress = "")
+        /// <param name="ipaddress">请求的基础IP，例如：http://192.168.0.33:8080/ </param>
+        public HttpHelper(string ipaddress = "")
         {
-            if (string.IsNullOrEmpty(baseAddress))
-            {
-                this._baseUriAddress = ConfigurationManager.AppSettings["CommonApiUriString"];
-            }
-            else
-            {
-                this._baseUriAddress = baseAddress;
-            }
-            _httpClient = new HttpClient {BaseAddress = new Uri(_baseUriAddress)};
-
-
+            this._baseIPAddress = ipaddress;
+            _httpClient = new HttpClient { BaseAddress = new Uri(_baseIPAddress) };
         }
 
         /// <summary>
-        /// 创建带用户信息的请求客户端 
+        /// 创建带用户信息的请求客户端
         /// </summary>
         /// <param name="userName">用户账号</param>
         /// <param name="pwd">用户密码，当WebApi端不要求密码验证时，可传空串</param>
-        /// <param name="baseAddress">The URI string.</param>
-        public HttpHelper(string userName, string pwd = "", string baseAddress = "")
-            : this(baseAddress)
+        /// <param name="uriString">The URI string.</param>
+        public HttpHelper(string userName, string pwd = "", string uriString = "")
+            : this(uriString)
         {
             if (!string.IsNullOrEmpty(userName))
             {
                 _httpClient.DefaultRequestHeaders.Authorization = CreateBasicCredentials(userName, pwd);
-
             }
         }
 
-        #endregion
-
-        public string Post(string requestUrl)
-        {
-            var result = _httpClient.PostAsync(requestUrl, new StringContent(""));
-            return result.Result.Content.ReadAsStringAsync().Result;
-        }
-
-
         /// <summary>
-        /// Post数据 返回string类型
+        /// Get请求数据
+        ///   /// <para>最终以url参数的方式提交</para>
+        /// <para>yubaolee 2016-3-3 重构与post同样异步调用</para>
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="entity">实体</param>
+        /// <param name="parameters">参数字典,可为空</param>
         /// <param name="requestUri">例如/api/Files/UploadFile</param>
         /// <returns></returns>
-        public string Post<T>(T entity, string requestUri)
+        public string Get(Dictionary<string, string> parameters, string requestUri)
         {
-            HttpResponseMessage respsonse = RequestPost(entity, requestUri);           
-            return respsonse.Content.ReadAsStringAsync().Result;
-        }
-        /// <summary>
-        /// Post数据 返回byte[]类型 用于批量下载的时候请求接口就直接返回文件字节以供下载
-        /// </summary>
-        /// <returns></returns>
-        public byte[] PostGetByte<T>(T entity, string requestUri)
-        {
-            HttpResponseMessage respsonse = RequestPost(entity, requestUri);
-            return respsonse.Content.ReadAsByteArrayAsync().Result;
-        }
+            if (parameters != null)
+            {
+                var strParam = string.Join("&", parameters.Select(o => o.Key + "=" + o.Value));
+                requestUri = string.Concat(ConcatURL(requestUri), '?', strParam);
+            }
+            else
+            {
+                requestUri = ConcatURL(requestUri);
+            }
 
-        /// <summary>
-        /// 以Post方式请求数据 返回HttpResponseMessage 
-        /// </summary>
-        /// <typeparam name="T">请求传入的对象类型</typeparam>
-        /// <param name="entity">请求传入的对象</param>
-        /// <param name="requestUri">请求地址</param>
-        /// <returns></returns>
-        private HttpResponseMessage RequestPost<T>(T entity, string requestUri)
-        {
-            string request = string.Empty;
-            if (entity != null)
-                request = JsonHelper.Instance.Serialize(entity);
-            HttpContent httpContent = new StringContent(request);
-            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            requestUri = string.Concat(_baseUriAddress, requestUri);
-            var result = _httpClient.PostAsync(requestUri, httpContent);
+            var result = _httpClient.GetStringAsync(requestUri);
             return result.Result;
         }
 
         /// <summary>
         /// Get请求数据
-        /// <para>yubaolee 2016-3-3 重构与post同样异步调用</para>
-        /// </summary>
-        /// <param name="parameters">参数字典</param>
-        /// <param name="requestUri">例如/api/Files/UploadFile</param>
-        /// <returns></returns>
-        public string Get(Dictionary<string, string> parameters, string requestUri)
-        {
-            string strParam = String.Empty;
-            if (parameters != null)
-            {
-                strParam = string.Join("&", parameters.Select(o => o.Key + "=" + o.Value));
-                requestUri = string.Concat(_baseUriAddress, requestUri, '?', strParam);
-            }
-            else
-            {
-                requestUri = string.Concat(_baseUriAddress, requestUri);
-            }
-
-            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri))
-            {
-                return _httpClient.SendAsync(request).Result.Content.ReadAsStringAsync().Result;
-
-            }
-
-
-        }
-        /// <summary>
-        /// 发送一个没有参数的HTTP请求
-        /// <para>yubaolee 2016-3-3 重构引用现有的get方法</para>
-        /// </summary>
-        /// <param name="requestUri">The request URI.</param>
-        /// <returns>System.String.</returns>
-        public string Get(string requestUri)
-        {
-            return Get(null, requestUri);
-        }
-        /// <summary>
-        /// Get请求数据
+        /// <para>最终以url参数的方式提交</para>
         /// </summary>
         /// <param name="parameters">参数字典</param>
         /// <param name="requestUri">例如/api/Files/UploadFile</param>
@@ -164,6 +75,88 @@ namespace Infrastructure
                 return null;
 
             return JsonHelper.Instance.Deserialize<T>(jsonString);
+        }
+
+        /// <summary>
+        /// 以json的方式Post数据 返回string类型
+        /// <para>最终以json的方式放置在http体中</para>
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="requestUri">例如/api/Files/UploadFile</param>
+        /// <returns></returns>
+        public string Post(object entity, string requestUri)
+        {
+            string request = string.Empty;
+            if (entity != null)
+                request = JsonHelper.Instance.Serialize(entity);
+            HttpContent httpContent = new StringContent(request);
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return Post(requestUri, httpContent);
+        }
+
+        /// <summary>
+        /// 提交字典类型的数据
+        /// <para>最终以formurlencode的方式放置在http体中</para>
+        /// <para>李玉宝于2016-07-20 19:01:59</para>
+        /// </summary>
+        /// <returns>System.String.</returns>
+        public string PostDicObj(Dictionary<string, object> para, string requestUri)
+        {
+            Dictionary<string, string> temp = new Dictionary<string, string>();
+            foreach (var item in para)
+            {
+                if (item.Value != null)
+                {
+                    if (item.Value.GetType().Name.ToLower() != "string")
+                    {
+                        temp.Add(item.Key, JsonHelper.Instance.Serialize(item.Value));
+                    }
+                    else
+                    {
+                        temp.Add(item.Key, item.Value.ToString());
+                    }
+                }
+                else {
+                    temp.Add(item.Key, "");
+                }
+            }
+
+            return PostDic(temp, requestUri);
+        }
+
+        /// <summary>
+        /// Post Dic数据
+        /// <para>最终以formurlencode的方式放置在http体中</para>
+        /// <para>李玉宝于2016-07-15 15:28:41</para>
+        /// </summary>
+        /// <returns>System.String.</returns>
+        public string PostDic(Dictionary<string, string> temp, string requestUri)
+        {
+            HttpContent httpContent = new FormUrlEncodedContent(temp);
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            return Post(requestUri, httpContent);
+        }
+
+        public string PostByte(byte[] bytes, string requestUrl)
+        {
+            HttpContent content = new ByteArrayContent(bytes);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            return Post(requestUrl, content);
+        }
+
+        private string Post(string requestUrl, HttpContent content)
+        {
+            var result = _httpClient.PostAsync(ConcatURL(requestUrl), content);
+            return result.Result.Content.ReadAsStringAsync().Result;
+        }
+
+        /// <summary>
+        /// 把请求的URL相对路径组合成绝对路径
+        /// <para>李玉宝于2016-07-21 9:54:07</para>
+        /// </summary>
+        private string ConcatURL(string requestUrl)
+        {
+            return new Uri(_httpClient.BaseAddress, requestUrl).OriginalString;
         }
 
         private AuthenticationHeaderValue CreateBasicCredentials(string userName, string password)

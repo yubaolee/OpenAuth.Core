@@ -154,7 +154,7 @@ namespace OpenAuth.App.SSO
 
             try
             {
-                var value = _helper.Post(requestUri);
+                var value = _helper.Post(null, requestUri);
 
                 return true;
             }

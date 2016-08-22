@@ -115,6 +115,10 @@ namespace OpenAuth.App
             User user = view;
             if (user.Id == 0)
             {
+                if (_repository.IsExist(u => u.Account == view.Account))
+                {
+                    throw new Exception("用户账号已存在");
+                }
                 user.CreateTime = DateTime.Now;
                 user.Password = user.Account; //初始密码与账号相同
                 _repository.Add(user);

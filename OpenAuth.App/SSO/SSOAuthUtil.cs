@@ -51,7 +51,7 @@ namespace OpenAuth.App.SSO
                 var currentSession = new UserAuthSession
                 {
                     UserName = model.UserName,
-                    Token = Guid.NewGuid().ToString().ToMd5(),
+                    Token = Guid.NewGuid().ToString().GetHashCode().ToString("x"),
                     InvalidTime = DateTime.Now.AddMinutes(10),
                     AppKey = model.AppKey,
                     CreateTime = DateTime.Now,

@@ -16,6 +16,7 @@
 // </summary>
 // ***********************************************************************
 
+using System;
 using System.Web;
 using System.Web.Mvc;
 
@@ -36,7 +37,11 @@ namespace OpenAuth.App.SSO
             if (request.QueryString[Token] != null)
             {
                 token = request.QueryString[Token];
-                filterContext.HttpContext.Response.Cookies.Add(new HttpCookie(Token, token));
+                var cookie = new HttpCookie(Token, token)
+                {
+                    Expires = DateTime.Now.AddDays(1)
+                };
+                filterContext.HttpContext.Response.Cookies.Add(cookie);
             }
             else if (request.Cookies[Token] != null)  //从Cookie读取Token
             {

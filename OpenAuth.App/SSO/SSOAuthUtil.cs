@@ -52,7 +52,7 @@ namespace OpenAuth.App.SSO
                 {
                     UserName = model.UserName,
                     Token = Guid.NewGuid().ToString().GetHashCode().ToString("x"),
-                    InvalidTime = DateTime.Now.AddMinutes(10),
+                    InvalidTime = DateTime.Now.AddDays(1),
                     AppKey = model.AppKey,
                     CreateTime = DateTime.Now,
                     IpAddress = HttpContext.Current.Request.UserHostAddress

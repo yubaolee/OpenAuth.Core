@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.4.1.0\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
@@ -58,7 +62,16 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,11 +79,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth\CacheKey.cs" />
+    <Compile Include="Auth\CacheSession.cs" />
+    <Compile Include="Auth\FormsAuthenticationService.cs" />
+    <Compile Include="Auth\IAuthenticationService.cs" />
+    <Compile Include="Auth\UserContext.cs" />
     <Compile Include="AutoMapperExt.cs" />
     <Compile Include="Cache\CacheContext.cs" />
     <Compile Include="Cache\EnyimMemcachedContext.cs" />
+    <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Cache\RuntimeMemoryCache.cs" />
     <Compile Include="Cache\SessionContext.cs" />
     <Compile Include="CookieHelper.cs" />
+    <Compile Include="DIContainer.cs" />
     <Compile Include="DynamicLinq.cs" />
     <Compile Include="DynamicQueryable.cs" />
     <Compile Include="Filter.cs" />
@@ -79,6 +100,11 @@
     <Compile Include="JsonConverter.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="LogHelper.cs" />
+    <Compile Include="MVC\AuthenticationAttribute.cs" />
+    <Compile Include="MVC\JsonExceptionAttribute.cs" />
+    <Compile Include="MVC\LogExceptionAttribute.cs" />
+    <Compile Include="MVC\NoFilterAttribute.cs" />
+    <Compile Include="MVC\UiResponse.cs" />
     <Compile Include="ObjectHelper.cs" />
     <Compile Include="PredicateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +112,7 @@
     <Compile Include="SessionHelper.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="UriUtil.cs" />
+    <Compile Include="WebUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

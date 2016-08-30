@@ -41,7 +41,6 @@ $(document).ready(function () {
 //grid列表模块
 function UserRolesList() {
     var selectedId = 0; //选中的ID
-    var url = '/RoleManager/LoadForOrgAndUser?orgId=' + selectedId + '&userId=' + $('#userId').val();
     this.maingrid = $.CurrentDialog.find('#maingrid').datagrid({
         showToolbar: false,
         filterThead: false,
@@ -71,7 +70,7 @@ function UserRolesList() {
                 width: 100
             }
         ],
-        dataUrl: url,
+        data: [],
         fullGrid: true,
         showLinenumber: true,
         showCheckboxcol: true,
@@ -82,7 +81,8 @@ function UserRolesList() {
     });
     this.reload = function (id) {
         if (id != undefined) selectedId = id;
-        this.maingrid.datagrid('reload', { dataUrl: url });
+        console.log(id);
+        this.maingrid.datagrid('reload', { dataUrl: '/RoleManager/LoadForOrgAndUser?orgId=' + selectedId + '&userId=' + $('#userId').val() });
     }
 };
 UserRolesList.prototype = new Grid();

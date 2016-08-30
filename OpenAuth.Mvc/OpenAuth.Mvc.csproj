@@ -710,13 +710,6 @@
     <Content Include="Scripts\mode-json.js" />
     <Content Include="Scripts\theme-monokai.js" />
     <Content Include="Scripts\workflowdesigner.min.js" />
-    <Content Include="SQL\CreatePersistenceObjects.sql" />
-    <Content Include="SQL\CreatePersistenceObjectsForAzureSQL.sql" />
-    <Content Include="SQL\DropPersistenceObjects.sql" />
-    <Content Include="SQL\update_1_3_to_1_4.sql" />
-    <Content Include="SQL\update_1_4_5_to_1_5.sql" />
-    <Content Include="SQL\update_1_4_to_1_4_3.sql" />
-    <Content Include="SQL\update_1_4_to_1_4_4.sql" />
     <Content Include="Views\CategoryManager\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

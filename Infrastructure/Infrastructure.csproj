@@ -79,11 +79,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Auth\CacheKey.cs" />
-    <Compile Include="Auth\CacheSession.cs" />
-    <Compile Include="Auth\FormsAuthenticationService.cs" />
-    <Compile Include="Auth\IAuthenticationService.cs" />
-    <Compile Include="Auth\UserContext.cs" />
     <Compile Include="AutoMapperExt.cs" />
     <Compile Include="Cache\CacheContext.cs" />
     <Compile Include="Cache\EnyimMemcachedContext.cs" />
@@ -91,7 +86,6 @@
     <Compile Include="Cache\RuntimeMemoryCache.cs" />
     <Compile Include="Cache\SessionContext.cs" />
     <Compile Include="CookieHelper.cs" />
-    <Compile Include="DIContainer.cs" />
     <Compile Include="DynamicLinq.cs" />
     <Compile Include="DynamicQueryable.cs" />
     <Compile Include="Filter.cs" />
@@ -100,11 +94,6 @@
     <Compile Include="JsonConverter.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="LogHelper.cs" />
-    <Compile Include="MVC\AuthenticationAttribute.cs" />
-    <Compile Include="MVC\JsonExceptionAttribute.cs" />
-    <Compile Include="MVC\LogExceptionAttribute.cs" />
-    <Compile Include="MVC\NoFilterAttribute.cs" />
-    <Compile Include="MVC\UiResponse.cs" />
     <Compile Include="ObjectHelper.cs" />
     <Compile Include="PredicateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,7 +101,6 @@
     <Compile Include="SessionHelper.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="UriUtil.cs" />
-    <Compile Include="WebUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

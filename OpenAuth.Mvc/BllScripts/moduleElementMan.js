@@ -56,12 +56,16 @@ var thisDlg = function () {
         filterThead: false,
         target: $(this),
         columns: [
-                          {
-                              name: 'Id',
-                              label: '流水号',
-                              width: 100
-                    , hide: true
-                          },
+                {
+                    name: 'Id',
+                    label: '流水号',
+                    hide: true
+                },
+                {
+                    name: 'ModuleId',
+                    label: '功能模块Id',
+                    hide: true
+                },
                {
                    name: 'DomId',
                    label: 'DOM ID',
@@ -77,11 +81,7 @@ var thisDlg = function () {
                    label: '类型',
                    width: 100
                },
-               {
-                   name: 'ModuleId',
-                   label: '功能模块Id',
-                   width: 100
-               },
+
                {
                    name: 'Attr',
                    label: '元素附加属性',
@@ -120,7 +120,7 @@ var thisDlg = function () {
         paging: false,
         filterMult: false,
         showTfoot: false,
-      
+
     });
 
     var getSelectDatas = function () {
@@ -162,10 +162,9 @@ var editEleDlg = function () {
             update = false;
             show();
             $("#editElementForm")[0].reset();  //reset方法只能通过dom调用
-            $.CurrentDialog.find("#Id").val(0);
+            $.CurrentDialog.find("#Id").val('00000000-0000-0000-0000-000000000000');
             $.CurrentDialog.find("#Sort").val('0');
             $.CurrentDialog.find("#ModuleId").val(moduleId);
-
         },
         update: function (ret) {  //弹出编辑框
             update = true;
@@ -175,7 +174,6 @@ var editEleDlg = function () {
             $.CurrentDialog.find('#Name').val(ret.Name);
             $.CurrentDialog.find('#Type').selectpicker('val', ret.Type);
             $.CurrentDialog.find('#ModuleId').val(ret.ModuleId);
-            $.CurrentDialog.find('#Attr').val(ret.Attr);
             $.CurrentDialog.find('#Script').val(ret.Script);
             $.CurrentDialog.find('#Icon').selectpicker('val', ret.Icon);
             $.CurrentDialog.find('#Class').selectpicker('val', ret.Class);

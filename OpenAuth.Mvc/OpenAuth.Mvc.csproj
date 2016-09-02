@@ -142,6 +142,7 @@
     <Compile Include="Controllers\CategoryManagerController.cs" />
     <Compile Include="Controllers\DesignerController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\GoodsAppliesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleElementManagerController.cs" />
@@ -152,6 +153,9 @@
     <Compile Include="Controllers\RoleManagerController.cs" />
     <Compile Include="Controllers\StockManagerController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
+    <Compile Include="Controllers\WorkflowActionProvider.cs" />
+    <Compile Include="Controllers\WorkflowInit.cs" />
+    <Compile Include="Controllers\WorkflowRuleProvider.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,6 +174,7 @@
     <Content Include="BllScripts\orgManager.js" />
     <Content Include="BllScripts\resourceManager.js" />
     <Content Include="BllScripts\roleManager.js" />
+    <Content Include="BllScripts\goodsApply.js" />
     <Content Include="BllScripts\stockManager.js" />
     <Content Include="BllScripts\usermanager.js" />
     <Content Include="BllScripts\assignRes.js" />
@@ -737,6 +742,7 @@
     <Content Include="Views\StockManager\Index.cshtml" />
     <Content Include="Views\OrgManager\Assign.cshtml" />
     <Content Include="Views\Shared\_BjuiLayout.cshtml" />
+    <Content Include="Views\GoodsApplies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

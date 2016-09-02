@@ -7,7 +7,7 @@ namespace OpenAuth.Repository
 {
     public class RelevanceRepository : BaseRepository<Relevance>, IRelevanceRepository
     {
-        public void DeleteBy(string key, params int[] firstIds)
+        public void DeleteBy(string key, params Guid[] firstIds)
         {
             Delete(u => firstIds.Contains(u.FirstId) && u.Key == key);
         }
@@ -17,7 +17,7 @@ namespace OpenAuth.Repository
         /// </summary>
         /// <param name="key">关联标识</param>
         /// <param name="idMaps">关联的&lt;firstId, secondId&gt;数组</param>
-        public void DeleteBy(string key, ILookup<int, int> idMaps)
+        public void DeleteBy(string key, ILookup<Guid, Guid> idMaps)
         {
             foreach (var sameVals in idMaps)
             {
@@ -33,7 +33,7 @@ namespace OpenAuth.Repository
         /// </summary>
         /// <param name="key">关联标识</param>
         /// <param name="idMaps">关联的&lt;firstId, secondId&gt;数组</param>
-        public void AddRelevance(string key, ILookup<int, int> idMaps)
+        public void AddRelevance(string key, ILookup<Guid, Guid> idMaps)
         {
             foreach (var sameVals in idMaps)
             {

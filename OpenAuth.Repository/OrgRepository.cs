@@ -15,7 +15,7 @@ namespace OpenAuth.Repository
             return Find();
         }
 
-        public IEnumerable<Org> LoadByUser(int userId)
+        public IEnumerable<Org> LoadByUser(Guid userId)
         {
             var result = from userorg in Context.Relevances
                 join org in Context.Orgs on userorg.SecondId equals org.Id
@@ -25,10 +25,10 @@ namespace OpenAuth.Repository
 
         }
 
-        public IEnumerable<Org> GetSubOrgs(int orgId)
+        public IEnumerable<Org> GetSubOrgs(Guid orgId)
         {
             string cascadeId = "0.";
-            if (orgId != 0)
+            if (orgId != Guid.Empty)
             {
                 var org = FindSingle(u => u.Id == orgId);
                 if (org == null)
@@ -39,10 +39,10 @@ namespace OpenAuth.Repository
             return Find(u => u.CascadeId.Contains(cascadeId));
         }
 
-        public IEnumerable<Org> GetSubWithOwn(int orgId)
+        public IEnumerable<Org> GetSubWithOwn(Guid orgId)
         {
             string cascadeId = "0.";
-            if (orgId != 0)
+            if (orgId != Guid.Empty)
             {
                 var org = FindSingle(u => u.Id == orgId);
                 if (org == null)

@@ -40,7 +40,7 @@ $(document).ready(function () {
 
 //grid列表模块
 function UserRolesList() {
-    var selectedId = 0; //选中的ID
+    var selectedId = '00000000-0000-0000-0000-000000000000'; //ztree选中的模块
     this.maingrid = $.CurrentDialog.find('#maingrid').datagrid({
         showToolbar: false,
         filterThead: false,

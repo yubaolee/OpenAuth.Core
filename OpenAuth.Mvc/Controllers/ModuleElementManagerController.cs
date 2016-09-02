@@ -31,12 +31,12 @@ namespace OpenAuth.Mvc.Controllers
         {
             _app = AutofacExt.GetFromFac<ModuleElementManagerApp>();
         }
-        public ActionResult Index(int id)
+        public ActionResult Index(Guid id)
         {
             ViewBag.ModuleId = id;
             return View();
         }
-        public ActionResult Get(int moduleId = 0)
+        public ActionResult Get(Guid moduleId)
         {
             return Json(_app.LoadByModuleId(moduleId));
         }
@@ -76,13 +76,13 @@ namespace OpenAuth.Mvc.Controllers
         /// <param name="firstId">The first identifier.</param>
         /// <param name="key">The key.</param>
         /// <returns>ActionResult.</returns>
-        public ActionResult AssignModuleElement(int firstId, string key)
+        public ActionResult AssignModuleElement(Guid firstId, string key)
         {
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
             return View();
         }
-        public string LoadWithAccess(int tId, int firstId, string key)
+        public string LoadWithAccess(Guid tId, Guid firstId, string key)
         {
             return JsonHelper.Instance.Serialize(_app.LoadWithAccess(key, firstId, tId));
         }

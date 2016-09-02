@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
@@ -13,7 +14,7 @@ namespace OpenAuth.Repository
             return Context.Categories.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
-        public IEnumerable<Category> LoadInOrgs(params int[] orgId)
+        public IEnumerable<Category> LoadInOrgs(params Guid[] orgId)
         {
             var result = from category in Context.Categories where orgId.Contains(category.Id)
                 select category;
@@ -21,17 +22,17 @@ namespace OpenAuth.Repository
 
         }
 
-        public int GetCategoryCntInOrgs(params int[] orgIds)
+        public int GetCategoryCntInOrgs(params Guid[] orgIds)
         {
             return LoadInOrgs(orgIds).Count();
         }
 
-        public IEnumerable<Category> LoadInOrgs(int pageindex, int pagesize, params int[] orgIds)
+        public IEnumerable<Category> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds)
         {
             return LoadInOrgs(orgIds).OrderBy(u =>u.Id).Skip((pageindex -1)*pagesize).Take(pagesize);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             Delete(u =>u.Id == id);
         }

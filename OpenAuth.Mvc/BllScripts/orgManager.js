@@ -44,7 +44,7 @@ var ztree = function () {
 //grid列表模块
 function MainGrid() {
     var url = '/OrgManager/LoadChildren?Id=';
-    var selectedId = 0; //ztree选中的模块
+    var selectedId = '00000000-0000-0000-0000-000000000000';  //ztree选中的模块
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
         filterThead: false,
@@ -196,7 +196,7 @@ var editDlg = function () {
             update = false;
             show();
             $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
-            $("#Id").val(0);
+            $("#Id").val('00000000-0000-0000-0000-000000000000');
 
             parentTree.show()
         },

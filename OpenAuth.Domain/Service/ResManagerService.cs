@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.Domain.Interface;
 
@@ -26,9 +27,9 @@ namespace OpenAuth.Domain.Service
             _authoriseService = authoriseService;
         }
 
-        public int GetResourceCntInOrg(int orgId)
+        public int GetResourceCntInOrg(Guid orgId)
         {
-            if (orgId == 0)
+            if (orgId == Guid.Empty)
             {
                 return _repository.Find(null).Count();
             }
@@ -46,7 +47,7 @@ namespace OpenAuth.Domain.Service
         /// <summary>
         /// 加载用户一个节点下面的一个或全部Resources
         /// </summary>
-        public dynamic Load(string username, int categoryId, int pageindex, int pagesize)
+        public dynamic Load(string username, Guid categoryId, int pageindex, int pagesize)
         {
             _authoriseService.LoadAuthControls(username);
             if (_authoriseService.Resources.Count == 0) //用户没有任何资源
@@ -58,7 +59,8 @@ namespace OpenAuth.Domain.Service
                 };
             }
             var subIds = GetSubOrgIds(categoryId);
-            var query = _authoriseService.Resources.Where(u => categoryId == 0 || subIds.Contains(u.CategoryId));
+            var query = _authoriseService.Resources.Where(u => categoryId == Guid.Empty ||
+            (u.CategoryId != null && subIds.Contains(u.CategoryId.Value)));
             var Resources = query.Skip((pageindex - 1) * pagesize).Take(pagesize);
             int total = query.Count();
 
@@ -73,9 +75,9 @@ namespace OpenAuth.Domain.Service
         /// <summary>
         /// 获取当前节点的所有下级节点
         /// </summary>
-        private int[] GetSubOrgIds(int orgId)
+        private Guid[] GetSubOrgIds(Guid orgId)
         {
-            if (orgId == 0)
+            if (orgId == Guid.Empty)
             {
                 return _categoryRepository.Find(null).Select(u => u.Id).ToArray();
             }
@@ -84,7 +86,7 @@ namespace OpenAuth.Domain.Service
             return orgs;
         }
 
-        public Resource Find(int id)
+        public Resource Find(Guid id)
         {
             var resource = _repository.FindSingle(u => u.Id == id);
             if (resource == null) return new Resource();
@@ -92,14 +94,14 @@ namespace OpenAuth.Domain.Service
             return resource;
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             _repository.Delete(id);
         }
 
         public void AddOrUpdate(Resource resource)
         {
-            if (resource.Id == 0)
+            if (resource.Id == Guid.Empty)
             {
                 _repository.Add(resource);
             }
@@ -119,7 +121,7 @@ namespace OpenAuth.Domain.Service
         /// 当为UserResource时，表示UserId
         /// </param>
         /// <param name="cId">分类ID</param>
-        public List<dynamic> LoadWithAccess(string username, string accessType, int firstId, int cId)
+        public List<dynamic> LoadWithAccess(string username, string accessType, Guid firstId, Guid cId)
         {
             var listVms = new List<dynamic>();
             _authoriseService.LoadAuthControls(username);
@@ -129,7 +131,7 @@ namespace OpenAuth.Domain.Service
             }
 
             var subIds = GetSubOrgIds(cId);
-            var query = _authoriseService.Resources.Where(u => cId == 0 || subIds.Contains(u.CategoryId));
+            var query = _authoriseService.Resources.Where(u => cId == Guid.Empty || (u.CategoryId != null &&subIds.Contains(u.CategoryId.Value)));
 
             foreach (var element in query)
             {

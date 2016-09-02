@@ -2,7 +2,6 @@
 using OpenAuth.App;
 using OpenAuth.Domain;
 using System;
-using System.Linq;
 using System.Web.Mvc;
 using OpenAuth.App.SSO;
 using OpenAuth.App.ViewModel;
@@ -26,7 +25,7 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ActionResult Assign(int firstId, string key)
+        public ActionResult Assign(Guid firstId, string key)
         {
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
@@ -36,7 +35,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载模块下面的所有模块
         /// </summary>
-        public string Load(int orgId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(Guid orgId, int pageCurrent = 1, int pageSize = 30)
         {
             return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
         }
@@ -61,7 +60,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <param name="firstId">The user identifier.</param>
         /// <returns>System.String.</returns>
-        public string LoadForUser(int firstId)
+        public string LoadForUser(Guid firstId)
         {
             var orgs = _app.LoadForUser(firstId);
             return JsonHelper.Instance.Serialize(orgs);
@@ -72,7 +71,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <param name="firstId">The role identifier.</param>
         /// <returns>System.String.</returns>
-        public string LoadForRole(int firstId)
+        public string LoadForRole(Guid firstId)
         {
             var orgs = _app.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(orgs);
@@ -102,7 +101,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 foreach (var obj in Id.Split(','))
                 {
-                    _app.Delete(int.Parse(obj));
+                    _app.Delete(Guid.Parse(obj));
                 }
             }
             catch (Exception e)

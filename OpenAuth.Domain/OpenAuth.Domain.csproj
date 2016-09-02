@@ -46,6 +46,8 @@
     <Compile Include="Core\User.cs" />
     <Compile Include="DicDetail.cs" />
     <Compile Include="DicIndex.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="GoodsApply.cs" />
     <Compile Include="Interface\ICategoryRepository.cs" />
     <Compile Include="Interface\IModuleRepository.cs" />
     <Compile Include="Interface\IOrgRepository.cs" />
@@ -59,7 +61,6 @@
     <Compile Include="Module.cs" />
     <Compile Include="ModuleElement.cs" />
     <Compile Include="Org.cs" />
-    <Compile Include="Param.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Relevance.cs" />
     <Compile Include="Resource.cs" />
@@ -71,8 +72,6 @@
     <Compile Include="Service\StockManagerService.cs" />
     <Compile Include="Stock.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="UserCfg.cs" />
-    <Compile Include="UserExt.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

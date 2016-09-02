@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenAuth.Domain.Interface
@@ -7,9 +8,9 @@ namespace OpenAuth.Domain.Interface
     {
         IEnumerable<User> LoadUsers(int pageindex, int pagesize);
 
-        IEnumerable<User> LoadInOrgs(params int[] orgId);
-        int GetUserCntInOrgs(params int[] orgIds);
-        IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params int[] orgIds);
+        IEnumerable<User> LoadInOrgs(params Guid[] orgId);
+        int GetUserCntInOrgs(params Guid[] orgIds);
+        IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds);
 
     }
 }

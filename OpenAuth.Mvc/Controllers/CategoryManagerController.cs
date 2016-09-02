@@ -28,7 +28,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载分类下面的所有分类
         /// </summary>
-        public string Load(int parentId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(Guid parentId, int pageCurrent = 1, int pageSize = 30)
         {
             return JsonHelper.Instance.Serialize(_app.Load(parentId, pageCurrent, pageSize));
         }
@@ -55,7 +55,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
-        public string Delete(int Id)
+        public string Delete(Guid Id)
         {
             try
             {

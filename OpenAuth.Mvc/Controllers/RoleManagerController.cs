@@ -44,7 +44,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载角色下面的所有用户
         /// </summary>
-        public string Load(int orgId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(Guid orgId, int pageCurrent = 1, int pageSize = 30)
         {
             return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
         }
@@ -55,7 +55,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 foreach (var obj in Id.Split(','))
                 {
-                    _app.Delete(int.Parse(obj));
+                    _app.Delete(Guid.Parse(obj));
                 }
             }
             catch (Exception e)
@@ -68,28 +68,26 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         #region 为用户设置角色界面
-        public ActionResult LookupMulti(int userId)
+        public ActionResult LookupMulti(Guid userId)
         {
             ViewBag.UserId = userId;
             return View();
         }
 
-        public string LoadForOrgAndUser(int orgId, int userId)
+        public string LoadForOrgAndUser(Guid orgId, Guid userId)
         {
             return JsonHelper.Instance.Serialize(_app.LoadForOrgAndUser(orgId, userId));
         }
 
-        public string AccessRoles(int userId, string ids)
+        public string AccessRoles(Guid userId, Guid[] ids)
         {
-            var roleids = JsonHelper.Instance.Deserialize<int[]>(ids);
-            _app.AccessRole(userId, roleids);
+            _app.AccessRole(userId, ids);
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
-        public string DelAccessRoles(int userId, string ids)
+        public string DelAccessRoles(Guid userId, Guid[] ids)
         {
-            var roleids = JsonHelper.Instance.Deserialize<int[]>(ids);
-            _app.DelAccessRole(userId, roleids);
+            _app.DelAccessRole(userId, ids);
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 

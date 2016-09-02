@@ -1,4 +1,5 @@
-﻿using OpenAuth.Domain;
+﻿using System;
+using OpenAuth.Domain;
 using Infrastructure;
 using OpenAuth.Domain.Service;
 
@@ -16,12 +17,12 @@ namespace OpenAuth.App
         /// <summary>
         /// 根据部门ID得到进出库信息
         /// </summary>
-        public dynamic Load(string username, int orgId, int pageindex, int pagesize)
+        public dynamic Load(string username, Guid orgId, int pageindex, int pagesize)
         {
             return _service.Load(username, orgId, pageindex, pagesize);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             _service.Delete(id);
         }

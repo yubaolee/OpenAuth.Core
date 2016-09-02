@@ -5,8 +5,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using EntityFramework.Extensions;
 using OpenAuth.Domain.Interface;
-using OpenAuth.Repository.Models;
 using Infrastructure;
+using OpenAuth.Domain;
+using OpenAuth.Repository.Models;
 
 namespace OpenAuth.Repository
 {
@@ -19,7 +20,7 @@ namespace OpenAuth.Repository
         /// 根据过滤条件，获取记录
         /// </summary>
         /// <param name="exp">The exp.</param>
-        public IQueryable<T> Find<T>(Expression<Func<T, bool>> exp = null) where T : class
+        public IQueryable<T> Find<T>(Expression<Func<T, bool>> exp = null) where T : class 
         {
             return Filter(exp);
         }
@@ -60,8 +61,9 @@ namespace OpenAuth.Repository
             return Filter(exp).Count();
         }
 
-        public void Add<T>(T entity) where T : class
+        public void Add<T>(T entity) where T : Domain.Entity
         {
+            entity.Id = Guid.NewGuid();
             Context.Set<T>().Add(entity);
         }
 
@@ -69,8 +71,12 @@ namespace OpenAuth.Repository
         /// 批量添加
         /// </summary>
         /// <param name="entities">The entities.</param>
-        public void BatchAdd<T>(T[] entities) where T : class
+        public void BatchAdd<T>(T[] entities) where T : Domain.Entity
         {
+            foreach (var entity in entities)
+            {
+                entity.Id = Guid.NewGuid();
+            }
             Context.Set<T>().AddRange(entities);
         }
 

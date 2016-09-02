@@ -10,6 +10,7 @@
 // ***********************************************************************
 
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.Domain.Interface;
@@ -33,7 +34,7 @@ namespace OpenAuth.Domain.Service
 
         public void AddOrUpdate(ModuleElement model)
         {
-            if (model.Id == 0)
+            if (model.Id == Guid.Empty)
             {
                 _unitWork.Add(model);
             }
@@ -45,7 +46,7 @@ namespace OpenAuth.Domain.Service
             _unitWork.Save();
         }
 
-        public IEnumerable<ModuleElement> LoadByModuleId(string loginuser, int id)
+        public IEnumerable<ModuleElement> LoadByModuleId(string loginuser, Guid id)
         {
             _authoriseService.LoadAuthControls(loginuser);
             if (_authoriseService.ModuleElements.Count == 0) //用户没有任何资源
@@ -67,7 +68,7 @@ namespace OpenAuth.Domain.Service
         /// 当为UserElement时，表示UserId
         /// </param>
         /// <param name="moduleId">模块ID</param>
-        public List<dynamic> LoadWithAccess(string username, string accessType, int firstId, int moduleId)
+        public List<dynamic> LoadWithAccess(string username, string accessType, Guid firstId, Guid moduleId)
         {
             var listVms = new List<dynamic>();
             _authoriseService.LoadAuthControls(username);
@@ -76,7 +77,7 @@ namespace OpenAuth.Domain.Service
                return listVms;
             }
            
-            if (moduleId == 0) return listVms;
+            if (moduleId == Guid.Empty) return listVms;
             string modulename = _authoriseService.Modules.SingleOrDefault(u => u.Id == moduleId).Name;
            
             foreach (var element in _authoriseService.ModuleElements.Where(u =>u.ModuleId ==moduleId))

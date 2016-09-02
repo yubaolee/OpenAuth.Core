@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using System;
+using Infrastructure;
 using OpenAuth.Domain;
 using System.Collections.Generic;
 using System.Web;
@@ -19,12 +20,12 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个节点下面的所有
         /// </summary>
-        public dynamic Load(int parentId, int pageindex, int pagesize)
+        public dynamic Load(Guid parentId, int pageindex, int pagesize)
         {
             return _moduleManService.Load(AuthUtil.GetUserName(), parentId, pageindex, pagesize);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             _moduleManService.Delete(id);
         }
@@ -43,7 +44,7 @@ namespace OpenAuth.App
         /// TODO:这里会加载用户及用户角色的所有模块，“为用户分配模块”功能会给人一种混乱的感觉，但可以接受
         /// </summary>
         /// <param name="userId">The user unique identifier.</param>
-        public List<Module> LoadForUser(int userId)
+        public List<Module> LoadForUser(Guid userId)
         {
             return _moduleManService.LoadForUser(userId);
         }
@@ -52,7 +53,7 @@ namespace OpenAuth.App
         /// 加载特定角色的模块
         /// </summary>
         /// <param name="roleId">The role unique identifier.</param>
-        public List<Module> LoadForRole(int roleId)
+        public List<Module> LoadForRole(Guid roleId)
         {
             return _moduleManService.LoadForRole(roleId);
         }

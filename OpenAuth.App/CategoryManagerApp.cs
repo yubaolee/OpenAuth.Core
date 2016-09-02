@@ -19,9 +19,9 @@ namespace OpenAuth.App
             _orgRepository = orgRepository;
         }
 
-        public int GetCategoryCntInOrg(int orgId)
+        public int GetCategoryCntInOrg(Guid orgId)
         {
-            if (orgId == 0)
+            if (orgId == Guid.Empty)
             {
                 return _repository.Find(null).Count();
             }
@@ -39,11 +39,11 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个部门及子部门全部Categorys
         /// </summary>
-        public dynamic Load(int parentId, int pageindex, int pagesize)
+        public dynamic Load(Guid parentId, int pageindex, int pagesize)
         {
             IEnumerable<Category> Categorys;
             int total = 0;
-            if (parentId == 0)
+            if (parentId == Guid.Empty)
             {
                 Categorys = _repository.LoadCategorys(pageindex, pagesize);
                 total = _repository.GetCount();
@@ -66,14 +66,14 @@ namespace OpenAuth.App
         /// <summary>
         /// 获取当前组织的所有下级组织
         /// </summary>
-        private int[] GetSubCategories(int orgId)
+        private Guid[] GetSubCategories(Guid orgId)
         {
             var category  = Find(orgId);
             var categories = _repository.Find(u => u.CascadeId.Contains(category.CascadeId)).Select(u => u.Id).ToArray();
             return categories;
         }
 
-        public Category Find(int id)
+        public Category Find(Guid id)
         {
             var category = _repository.FindSingle(u => u.Id == id);
             if (category == null) return new Category();
@@ -81,7 +81,7 @@ namespace OpenAuth.App
             return category;
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             _repository.Delete(id);
         }
@@ -92,7 +92,7 @@ namespace OpenAuth.App
             model.CopyTo(category);
             ChangeModuleCascade(category);
 
-            if (category.Id == 0)
+            if (category.Id == Guid.Empty)
             {
                 _repository.Add(category);
             }
@@ -116,7 +116,7 @@ namespace OpenAuth.App
                 if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
-            if (org.ParentId != 0)
+            if (org.ParentId != Guid.Empty)
             {
                 var parentOrg = _repository.FindSingle(o => o.Id == org.ParentId);
                 if (parentOrg != null)

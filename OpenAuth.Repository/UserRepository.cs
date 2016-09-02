@@ -8,6 +8,7 @@ using System.Transactions;
 using EntityFramework.Extensions;
 using OpenAuth.Domain;
 
+
 namespace OpenAuth.Repository
 {
     public class UserRepository :BaseRepository<User>, IUserRepository
@@ -17,7 +18,7 @@ namespace OpenAuth.Repository
             return Context.Users.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
-        public IEnumerable<User> LoadInOrgs(params int[] orgId)
+        public IEnumerable<User> LoadInOrgs(params Guid[] orgId)
         {
             var result = from user in Context.Users
                      where (
@@ -31,12 +32,12 @@ namespace OpenAuth.Repository
 
         }
 
-        public int GetUserCntInOrgs(params int[] orgIds)
+        public int GetUserCntInOrgs(params Guid[] orgIds)
         {
             return LoadInOrgs(orgIds).Count();
         }
 
-        public IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params int[] orgIds)
+        public IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds)
         {
             return LoadInOrgs(orgIds).OrderBy(u =>u.Id).Skip((pageindex -1)*pagesize).Take(pagesize);
         }

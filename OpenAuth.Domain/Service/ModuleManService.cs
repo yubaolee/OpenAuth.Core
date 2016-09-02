@@ -37,7 +37,7 @@ namespace OpenAuth.Domain.Service
         /// <summary>
         /// 加载一个节点下面的所有
         /// </summary>
-        public dynamic Load(string loginuser, int parentId, int pageindex, int pagesize)
+        public dynamic Load(string loginuser, Guid parentId, int pageindex, int pagesize)
         {
 
             _authoriseService.LoadAuthControls(loginuser);
@@ -51,7 +51,7 @@ namespace OpenAuth.Domain.Service
                 };
             }
             var ids = GetSubIds(parentId);
-            var query = _authoriseService.Modules.Where(u => parentId == 0 || ids.Contains(u.ParentId));
+            var query = _authoriseService.Modules.Where(u => parentId == Guid.Empty || (u.ParentId != null&&ids.Contains(u.ParentId.Value)));
 
             int total = query.Count();
             var modules = query.OrderBy(u=>u.CascadeId).Skip((pageindex - 1)*pagesize).Take(pagesize);
@@ -64,7 +64,7 @@ namespace OpenAuth.Domain.Service
             };
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             var del = _repository.FindSingle(u => u.Id == id);
             if (del == null) return;
@@ -75,7 +75,7 @@ namespace OpenAuth.Domain.Service
         public void AddOrUpdate(Module model)
         {
             ChangeModuleCascade(model);
-            if (model.Id == 0)
+            if (model.Id == Guid.Empty)
             {
                 _repository.Add(model);
             }
@@ -91,7 +91,7 @@ namespace OpenAuth.Domain.Service
         /// 加载特定用户的模块
         /// </summary>
         /// <param name="userId">The user unique identifier.</param>
-        public List<Module> LoadForUser(int userId)
+        public List<Module> LoadForUser(Guid userId)
         {
             //用户角色
             var userRoleIds =
@@ -116,7 +116,7 @@ namespace OpenAuth.Domain.Service
         /// 加载特定角色的模块
         /// </summary>
         /// <param name="roleId">The role unique identifier.</param>
-        public List<Module> LoadForRole(int roleId)
+        public List<Module> LoadForRole(Guid roleId)
         {
             var moduleIds =
                 _relevanceRepository.Find(u => u.FirstId == roleId && u.Key == "RoleModule")
@@ -132,9 +132,9 @@ namespace OpenAuth.Domain.Service
 
         //根据同一级中最大的语义ID
 
-        private int[] GetSubIds(int parentId)
+        private Guid[] GetSubIds(Guid parentId)
         {
-            if (parentId == 0) return _repository.Find(null).Select(u => u.Id).ToArray();
+            if (parentId == Guid.Empty) return _repository.Find(null).Select(u => u.Id).ToArray();
             var parent = _repository.FindSingle(u => u.Id == parentId);
             var orgs = _repository.Find(u => u.CascadeId.Contains(parent.CascadeId)).Select(u => u.Id).ToArray();
             return orgs;
@@ -152,7 +152,7 @@ namespace OpenAuth.Domain.Service
                 if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
-            if (module.ParentId != 0)
+            if (module.ParentId != null)
             {
                 var parentOrg = _repository.FindSingle(o => o.Id == module.ParentId);
                 if (parentOrg != null)

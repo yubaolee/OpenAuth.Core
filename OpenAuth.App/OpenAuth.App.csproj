@@ -90,6 +90,7 @@
     <Compile Include="SSO\SSOAuthAttribute.cs" />
     <Compile Include="SSO\UserAuthSession.cs" />
     <Compile Include="SSO\UserAuthSessionService.cs" />
+    <Compile Include="GoodsApplyApp.cs" />
     <Compile Include="StockManagerApp.cs" />
     <Compile Include="UserManagerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

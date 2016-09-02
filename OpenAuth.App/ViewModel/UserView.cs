@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Infrastructure;
 using OpenAuth.Domain;
 
+
 namespace OpenAuth.App.ViewModel
 {
     public  class UserView
@@ -11,7 +12,7 @@ namespace OpenAuth.App.ViewModel
         /// 用户ID
         /// </summary>
         /// <returns></returns>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
 
         /// <summary>

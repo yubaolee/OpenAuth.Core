@@ -33,9 +33,9 @@ namespace OpenAuth.Domain.Interface
 
         int GetCount<T>(Expression<Func<T, bool>> exp = null) where T:class;
 
-        void Add<T>(T entity) where T:class;
+        void Add<T>(T entity) where T:Entity;
 
-        void BatchAdd<T>(T[] entities) where T:class;
+        void BatchAdd<T>(T[] entities) where T:Entity;
 
         /// <summary>
         /// 更新一个实体的所有属性

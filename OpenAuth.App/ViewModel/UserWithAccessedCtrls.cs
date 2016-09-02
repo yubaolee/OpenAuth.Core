@@ -15,6 +15,7 @@
 using System.Collections.Generic;
 using OpenAuth.Domain;
 
+
 namespace OpenAuth.App.ViewModel
 {
     /// <summary>

@@ -53,7 +53,7 @@ $(document).ready(function () {
 
 //待选的树
 var ztree = function () {
-    var moduleIds;
+    var moduleIds = new Array();
     var zTreeObj;
     var setting = {
         view: {
@@ -84,10 +84,8 @@ var ztree = function () {
 
     function zTreeCheck(e, treeId, treeNode) {
         var nodes = zTreeObj.getCheckedNodes(true);
-        if (nodes.length == 0) {
-            moduleIds = null;
-        } else {
-            moduleIds = '[' + nodes.map(function (e) { return e.Id; }).join(",") + ']';
+        if (nodes.length != 0) {
+            moduleIds = nodes.map(function (e) { return e.Id; });
         }
     }
     function zTreeOnClick(event, treeId, treeNode) {
@@ -110,7 +108,7 @@ var ztree = function () {
 
 //已分配的机构
 var selected = function () {
-    var moduleIds;
+    var moduleIds = new Array();
     var zTreeObj;
     var setting = {
         view: {
@@ -141,10 +139,8 @@ var selected = function () {
 
     function zTreeCheck(e, treeId, treeNode) {
         var nodes = zTreeObj.getCheckedNodes(true);
-        if (nodes.length == 0) {
-            moduleIds = null;
-        } else {
-            moduleIds = '[' + nodes.map(function (e) { return e.Id; }).join(",") + ']';
+        if (nodes.length != 0) {
+            moduleIds = nodes.map(function (e) { return e.Id; });
         }
     }
     function zTreeOnClick(event, treeId, treeNode) {

@@ -5,12 +5,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using EntityFramework.Extensions;
 using OpenAuth.Domain.Interface;
-using OpenAuth.Repository.Models;
 using Infrastructure;
+using OpenAuth.Domain;
+using OpenAuth.Repository.Models;
 
 namespace OpenAuth.Repository
 {
-   public  class BaseRepository<T> :IRepository<T> where T :class
+   public  class BaseRepository<T> :IRepository<T> where T :Domain.Entity
    {
        protected OpenAuthDBContext Context = new OpenAuthDBContext();
 
@@ -62,6 +63,7 @@ namespace OpenAuth.Repository
 
         public void Add(T entity)
         {
+            entity.Id = Guid.NewGuid();
             Context.Set<T>().Add(entity);
             Save();
         }
@@ -72,6 +74,10 @@ namespace OpenAuth.Repository
         /// <param name="entities">The entities.</param>
         public void BatchAdd(T[] entities)
         {
+            foreach (var entity in entities)
+            {
+                entity.Id = Guid.NewGuid();
+            }
             Context.Set<T>().AddRange(entities);
             Save();
         }

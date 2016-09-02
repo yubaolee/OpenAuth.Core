@@ -20,12 +20,11 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         [HttpPost]
-        public string Assign(string type, int firstId, string secIds)
+        public string Assign(string type, Guid firstId, Guid[] secIds)
         {
             try
             {
-                var secIdList = JsonHelper.Instance.Deserialize<int[]>(secIds);
-                _app.Assign(type, firstId, secIdList);
+                _app.Assign(type, firstId, secIds);
             }
             catch (Exception ex)
             {
@@ -35,12 +34,11 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
         [HttpPost]
-        public string UnAssign(string type, int firstId, string secIds)
+        public string UnAssign(string type, Guid firstId, Guid[] secIds)
         {
             try
             {
-                var secIdList = JsonHelper.Instance.Deserialize<int[]>(secIds);
-                _app.UnAssign(type, firstId, secIdList);
+                _app.UnAssign(type, firstId, secIds);
             }
             catch (Exception ex)
             {

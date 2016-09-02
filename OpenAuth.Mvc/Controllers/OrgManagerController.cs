@@ -3,11 +3,8 @@ using OpenAuth.App;
 using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using OpenAuth.App.SSO;
-using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -27,7 +24,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
-        public ActionResult Assign(int firstId, string key)
+        public ActionResult Assign(Guid firstId, string key)
         {
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
@@ -39,13 +36,13 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(AuthUtil.GetCurrentUser().AccessedOrgs);
         }
 
-        public string LoadForUser(int firstId)
+        public string LoadForUser(Guid firstId)
         {
             var orgs = _orgApp.LoadForUser(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string LoadForRole(int firstId)
+        public string LoadForRole(Guid firstId)
         {
             var orgs = _orgApp.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(orgs);
@@ -68,7 +65,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
         
-        public string LoadChildren(int id)
+        public string LoadChildren(Guid id)
         {
             return JsonHelper.Instance.Serialize(_orgApp.LoadAllChildren(id));
         }
@@ -78,7 +75,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <para>Id为逗号分开的字符串</para>
         /// </summary>
         /// <returns>System.String.</returns>
-        public string DelOrg(int Id)
+        public string DelOrg(Guid Id)
         {
             try
             {

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace OpenAuth.App
 {
     public class UserManagerApp
@@ -27,9 +28,9 @@ namespace OpenAuth.App
             return _repository.FindSingle(u => u.Account == account);
         }
 
-        public int GetUserCntInOrg(int orgId)
+        public int GetUserCntInOrg(Guid orgId)
         {
-            if (orgId == 0)
+            if (orgId == Guid.Empty)
             {
                 return _repository.Find(null).Count();
             }
@@ -42,12 +43,12 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个部门及子部门全部用户
         /// </summary>
-        public dynamic Load(int orgId, int pageindex, int pagesize)
+        public dynamic Load(Guid orgId, int pageindex, int pagesize)
         {
             if (pageindex < 1) pageindex = 1;  //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
             IEnumerable<User> users;
             int total = 0;
-            if (orgId == 0)
+            if (orgId ==Guid.Empty)
             {
                 users = _repository.LoadUsers(pageindex, pagesize);
                 total = _repository.GetCount();
@@ -79,14 +80,14 @@ namespace OpenAuth.App
         /// <summary>
         /// 获取当前组织的所有下级组织
         /// </summary>
-        private int[] GetSubOrgIds(int orgId)
+        private Guid[] GetSubOrgIds(Guid orgId)
         {
             var org = _orgRepository.FindSingle(u => u.Id == orgId);
             var orgs = _orgRepository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
             return orgs;
         }
 
-        public UserView Find(int id)
+        public UserView Find(Guid id)
         {
             var user = _repository.FindSingle(u => u.Id == id);
             if (user == null) return new UserView();
@@ -102,7 +103,7 @@ namespace OpenAuth.App
             return view;
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             _repository.Delete(u => u.Id == id);
             _relevanceRepository.DeleteBy("UserOrg", id);
@@ -113,7 +114,7 @@ namespace OpenAuth.App
         public void AddOrUpdate(UserView view)
         {
             User user = view;
-            if (user.Id == 0)
+            if (user.Id == Guid.Empty)
             {
                 if (_repository.IsExist(u => u.Account == view.Account))
                 {
@@ -130,14 +131,13 @@ namespace OpenAuth.App
                 {
                     Account = user.Account,
                     BizCode = user.BizCode,
-                    CreateId = user.CreateId,
                     Name = user.Name,
                     Sex = user.Sex,
                     Status = user.Status,
                     Type = user.Type
                 });
             }
-            int[] orgIds = view.OrganizationIds.Split(',').Select(id => int.Parse(id)).ToArray();
+            Guid[] orgIds = view.OrganizationIds.Split(',').Select(id => Guid.Parse(id)).ToArray();
 
             _relevanceRepository.DeleteBy("UserOrg", user.Id);
             _relevanceRepository.AddRelevance("UserOrg", orgIds.ToLookup(u => user.Id));

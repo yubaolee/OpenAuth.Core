@@ -52,7 +52,7 @@ $(document).ready(function () {
 
 //grid列表模块
 function DialogList() {
-    var selectedId = 0; //选中的ID
+    var selectedId = '00000000-0000-0000-0000-000000000000';  //选中的ID
     var url = '/ResourceManager/LoadWithAccess?cId=';
     this.maingrid = $.CurrentDialog.find('#maingrid').datagrid({
         showToolbar: false,

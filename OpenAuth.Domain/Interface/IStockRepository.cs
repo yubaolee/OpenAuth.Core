@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenAuth.Domain.Interface
@@ -7,11 +8,11 @@ namespace OpenAuth.Domain.Interface
     {
         IEnumerable<Stock> LoadStocks(int pageindex, int pagesize);
 
-        IEnumerable<Stock> LoadInOrgs(params int[] orgId);
-        int GetStockCntInOrgs(params int[] orgIds);
-        IEnumerable<Stock> LoadInOrgs(int pageindex, int pagesize, params int[] orgIds);
+        IEnumerable<Stock> LoadInOrgs(params Guid[] orgId);
+        int GetStockCntInOrgs(params Guid[] orgIds);
+        IEnumerable<Stock> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds);
         
-        void Delete(int id);
+        void Delete(Guid id);
 
     }
 }

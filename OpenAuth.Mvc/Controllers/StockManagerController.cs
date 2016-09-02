@@ -50,12 +50,12 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载节点下面的所有Stocks
         /// </summary>
-        public string Load(int parentId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(Guid parentId, int pageCurrent = 1, int pageSize = 30)
         {
             return JsonHelper.Instance.Serialize(_app.Load(AuthUtil.GetUserName(), parentId, pageCurrent, pageSize));
         }
         
-        public string Delete(int Id)
+        public string Delete(Guid Id)
         {
             try
             {

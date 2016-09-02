@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.Domain;
 
+
+
 namespace OpenAuth.App.SSO
 {
     public class SSOAuthUtil
@@ -28,6 +30,7 @@ namespace OpenAuth.App.SSO
                 {
                     userInfo = new User
                     {
+                        Id = Guid.Empty,
                         Account = "System",
                         Name ="超级管理员",
                         Password = "123456"

@@ -36,9 +36,9 @@ Grid.prototype.getSelectedMany = function () {
 //返回选择多行的属性JSON，默认选择id属性，如果选择其他属性，可重写
 Grid.prototype.getSelectedProperties = function (propName) {
     var selected = this.selectObjs();
-    if (selected == null) return null;
-
-    var ids = selected.map(function (elem) { return elem[propName]; }).join(",");
-    ids = '[' + ids + ']'; //拼成一个JSON
-    return ids;
+    var result = new Array();
+    if (selected != null) {
+        result = selected.map(function (elem) { return  elem[propName] ; });
+    }
+    return result;
 };

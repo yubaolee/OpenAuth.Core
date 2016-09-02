@@ -25,7 +25,7 @@ namespace OpenAuth.App
         /// <para>比如给用户分配资源，那么firstId就是用户ID，secIds就是资源ID列表</para>
         /// </summary>
         /// <param name="type">关联的类型，如"UserResource"</param>
-        public void Assign(string type, int firstId, int[] secIds)
+        public void Assign(string type, Guid firstId, Guid[] secIds)
         {
             _relevanceRepository.AddRelevance(type, secIds.ToLookup(u => firstId));
         }
@@ -36,7 +36,7 @@ namespace OpenAuth.App
         /// <param name="type">关联的类型，如"UserResource"</param>
         /// <param name="firstId">The first identifier.</param>
         /// <param name="secIds">The sec ids.</param>
-        public void UnAssign(string type, int firstId, int[] secIds)
+        public void UnAssign(string type, Guid firstId, Guid[] secIds)
         {
             _relevanceRepository.DeleteBy(type, secIds.ToLookup(u =>firstId));
         }

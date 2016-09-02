@@ -43,7 +43,7 @@ var ztree = function () {
 //grid列表模块
 function MainGrid() {
     var url = '/StockManager/Load?parentId=';
-    var selectedId = 0; //ztree选中的模块
+    var selectedId = '00000000-0000-0000-0000-000000000000';  //ztree选中的模块
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
         filterThead: false,
@@ -52,8 +52,12 @@ function MainGrid() {
                {
                    name: 'Id',
                    label: '数据ID',
-                   width: 100
-                    , hide: true
+                   hide: true
+               },
+               {
+                   name: 'OrgId',
+                   label: '组织ID',
+                   hide:true
                },
                {
                    name: 'Name',
@@ -78,7 +82,7 @@ function MainGrid() {
                    items: [{ '0': '出库' }, { '1': '入库' }],
                },
                {
-                   name: 'User',
+                   name: 'Viewable',
                    label: '可见范围（测试资源使用）',
                    width: 100,
                    items: [{ '': '全部可见' }, { 'ADMIN': '管理员可见' },{'DEV':'开发可见'}],
@@ -87,12 +91,7 @@ function MainGrid() {
                    name: 'Time',
                    label: '操作时间',
                    width: 100
-               },
-               {
-                   name: 'OrgId',
-                   label: '组织ID',
-                   width: 100
-               },
+               }
         ],
         dataUrl: url + selectedId,
         fullGrid: true,
@@ -192,7 +191,7 @@ var editDlg = function () {
             update = false;
             show();
             $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
-            $("#Id").val(0);
+            $("#Id").val('00000000-0000-0000-0000-000000000000');
             parentTree.show();
         },
         update: function (ret) {  //弹出编辑框
@@ -203,7 +202,7 @@ var editDlg = function () {
             $('#Number').val(ret.Number);
             $('#Price').val(ret.Price);
             $('#Status').selectpicker('val', ret.Status);
-            $('#User').selectpicker('val', ret.User);
+            $('#Viewable').selectpicker('val', ret.Viewable);
             $('#Time').val(ret.Time);
             $('#OrgId').val(ret.OrgId);
             parentTree.show();

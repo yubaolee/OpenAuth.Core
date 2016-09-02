@@ -15,24 +15,24 @@ namespace OpenAuth.Repository
             return Context.Roles.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
-        public int GetRoleCntInOrgs(params int[] orgIds)
+        public int GetRoleCntInOrgs(params Guid[] orgIds)
         {
             return LoadInOrgs(orgIds).Count();
         }
 
-        public IEnumerable<Role> LoadInOrgs(int pageindex, int pagesize, params int[] orgIds)
+        public IEnumerable<Role> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds)
         {
             return LoadInOrgs(orgIds).OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             Delete(u =>u.Id == id);
         }
 
-        public IEnumerable<Role> LoadInOrgs(params int[] orgId)
+        public IEnumerable<Role> LoadInOrgs(params Guid[] orgId)
         {
-            var result = from role in Context.Roles.Where(u => orgId.Contains(u.OrgId)) select role;
+            var result = from role in Context.Roles.Where(u =>u.OrgId != null && orgId.Contains(u.OrgId.Value)) select role;
                         
             return result;
 

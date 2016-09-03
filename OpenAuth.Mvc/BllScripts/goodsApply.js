@@ -51,9 +51,7 @@ function MainGrid() {
         columns: [
                {
                    name: 'Id',
-                   label: '数据ID',
-                   width: 100
-                    , hide: true
+                   hide: true
                },
                {
                    name: 'Name',
@@ -65,34 +63,16 @@ function MainGrid() {
                    label: '产品数量',
                    width: 100
                },
+               
                {
-                   name: 'Price',
-                   label: '产品单价',
+                   name: 'StateName',
+                   label: '当前流程',
                    width: 100
                },
                {
-                   name: 'Status',
-                   label: '出库/入库',
-                   width: 100
-                     , align: 'center',
-                   items: [{ '0': '出库' }, { '1': '入库' }],
-               },
-               {
-                   name: 'User',
-                   label: '可见范围（测试资源使用）',
-                   width: 100,
-                   items: [{ '': '全部可见' }, { 'ADMIN': '管理员可见' },{'DEV':'开发可见'}],
-               },
-               {
-                   name: 'Time',
-                   label: '操作时间',
-                   width: 100
-               },
-               {
-                   name: 'OrgId',
-                   label: '组织ID',
-                   width: 100
-               },
+                   name: 'State',
+                   hide:true
+               }
         ],
         dataUrl: url + selectedId,
         fullGrid: true,
@@ -114,7 +94,6 @@ var list = new MainGrid();
 
 //添加（编辑）对话框
 var editDlg = function () {
-    var update = false;
     var show = function () {
         BJUI.dialog({ id: 'editDlg', title: '编辑对话框', target: '#editDlg' });
         $("#btnSave").on("click", function () {
@@ -123,13 +102,11 @@ var editDlg = function () {
     }
     return {
         add: function () {  //弹出添加
-            update = false;
             show();
             $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
             $("#Id").val('00000000-0000-0000-0000-000000000000');
         },
         update: function (ret) {  //弹出编辑框
-            update = true;
             show();
             $('#Id').val(ret.Id);
             $('#Name').val(ret.Name);
@@ -177,6 +154,21 @@ function edit() {
         return;
     }
     editDlg.update(selected);
+}
+
+//进度详情
+function detail() {
+    var selected = list.getSelectedObj();
+    if (selected == null) {
+        return;
+    }
+    $(this).dialog({ 
+        id: 'detailDlg',
+        url: '/GoodsApplies/Detail?id=' + selected.Id,
+        title: '进度详情',
+        width: 800,
+        height:600
+    });
 }
 
 function add() {

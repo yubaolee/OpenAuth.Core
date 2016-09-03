@@ -46,7 +46,7 @@ namespace OpenAuth.App.SSO
             if (cache.InvalidTime > DateTime.Now)
             {
                 //延长
-                cache.InvalidTime = DateTime.Now.AddMinutes(5);
+                cache.InvalidTime = DateTime.Now.AddDays(1);
                 //设置缓存
                 CacheContext.Set(cache.Token, cache);
 

@@ -153,9 +153,9 @@
     <Compile Include="Controllers\RoleManagerController.cs" />
     <Compile Include="Controllers\StockManagerController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
-    <Compile Include="Controllers\WorkflowActionProvider.cs" />
-    <Compile Include="Controllers\WorkflowInit.cs" />
-    <Compile Include="Controllers\WorkflowRuleProvider.cs" />
+    <Compile Include="Models\WorkflowActionProvider.cs" />
+    <Compile Include="Models\WorkflowInit.cs" />
+    <Compile Include="Models\WorkflowRuleProvider.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -168,10 +168,12 @@
     <Content Include="BllScripts\assignOrg.js" />
     <Content Include="BllScripts\assignModuleElement.js" />
     <Content Include="BllScripts\categoryManager.js" />
+    <Content Include="BllScripts\processDetail.js" />
     <Content Include="BllScripts\grid.js" />
     <Content Include="BllScripts\moduleElementMan.js" />
     <Content Include="BllScripts\modulemanager.js" />
     <Content Include="BllScripts\orgManager.js" />
+    <Content Include="BllScripts\queryString.js" />
     <Content Include="BllScripts\resourceManager.js" />
     <Content Include="BllScripts\roleManager.js" />
     <Content Include="BllScripts\goodsApply.js" />
@@ -721,6 +723,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <Content Include="Views\Designer\Index.cshtml" />
+    <Content Include="Views\GoodsApplies\Detail.cshtml" />
     <None Include="Views\Error\NoAccess.cshtml" />
     <Content Include="Views\Home\git.cshtml" />
     <Content Include="Web.config">

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using OpenAuth.Mvc.Models;
 using OptimaJet.Workflow;
 using OptimaJet.Workflow.Core.Builder;
 using OptimaJet.Workflow.Core.Bus;
@@ -21,7 +22,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
-        
+
         public ActionResult API()
         {
             Stream filestream = null;
@@ -30,8 +31,8 @@ namespace OpenAuth.Mvc.Controllers
 
             var pars = new NameValueCollection();
             pars.Add(Request.Params);
-            
-            if(Request.HttpMethod.Equals("POST", StringComparison.InvariantCultureIgnoreCase))
+
+            if (Request.HttpMethod.Equals("POST", StringComparison.InvariantCultureIgnoreCase))
             {
                 var parsKeys = pars.AllKeys;
                 foreach (var key in Request.Form.AllKeys)
@@ -49,8 +50,7 @@ namespace OpenAuth.Mvc.Controllers
             return Content(res);
         }
 
-          }
+    }
 }
 
 
- 

@@ -95,6 +95,7 @@
     <Compile Include="UserManagerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrgManagerApp.cs" />
+    <Compile Include="ViewModel\GridData.cs" />
     <Compile Include="ViewModel\UserWithAccessedCtrls.cs" />
     <Compile Include="ViewModel\ModuleElementVM.cs" />
     <Compile Include="ViewModel\ModuleView.cs" />

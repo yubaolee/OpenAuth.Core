@@ -5,6 +5,7 @@ using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
 using OpenAuth.Domain;
+using OpenAuth.Mvc.Models;
 using OptimaJet.Workflow.Core.Runtime;
 using ProcessStatus = OptimaJet.Workflow.Core.Persistence.ProcessStatus;
 
@@ -12,11 +13,11 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class GoodsAppliesController : BaseController
     {
-         private GoodsApplyApp _app;
+        private GoodsApplyApp _app;
 
-         public GoodsAppliesController()
-         {
-             _app = AutofacExt.GetFromFac<GoodsApplyApp>();
+        public GoodsAppliesController()
+        {
+            _app = AutofacExt.GetFromFac<GoodsApplyApp>();
         }
 
         public ActionResult Index()
@@ -45,15 +46,20 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
-        public dynamic Get(Guid id)
+        public ActionResult Detail(Guid id)
         {
+            try
+            {
                 var apply = _app.Get(id);
                 CreateWorkflowIfNotExists(id);
-            
-            return new
+                return View(apply);
+            }
+            catch (Exception e)
             {
-                Apply=apply
-            };
+                Console.WriteLine(e);
+            }
+
+            return View();
         }
 
 

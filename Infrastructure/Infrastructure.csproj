@@ -91,7 +91,6 @@
     <Compile Include="Filter.cs" />
     <Compile Include="GenerateId.cs" />
     <Compile Include="HttpHelper.cs" />
-    <Compile Include="JQData.cs" />
     <Compile Include="JsonConverter.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="LogHelper.cs" />

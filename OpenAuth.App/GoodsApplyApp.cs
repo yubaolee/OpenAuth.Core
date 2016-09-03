@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 
@@ -32,14 +33,34 @@ namespace OpenAuth.App
 
         }
 
+        /// <summary>
+        /// 更改流程状态
+        /// </summary>
+        public void ChangeState(Guid id,string state,  string statename)
+        {
+            _repository.Update(u =>u.Id == id, u =>new GoodsApply
+            {
+                State = state,
+                StateName = statename
+            });
+        }
+
         public GoodsApply Get(Guid value)
         {
             return _repository.FindSingle(u =>u.Id == value);
         }
 
-        public IEnumerable<GoodsApply> Load(Guid userid, Guid parentId, int pageCurrent, int pageSize)
+        public GridData Load(Guid userid, Guid parentId, int pageCurrent, int pageSize)
         {
-            return _repository.Find( pageCurrent, pageSize);
+            var result = new GridData
+            {
+                pageCurrent = pageCurrent
+            };
+
+            result.list= _repository.Find( pageCurrent, pageSize);
+            result.total = _repository.GetCount(null);
+
+            return result;
         }
     }
 }

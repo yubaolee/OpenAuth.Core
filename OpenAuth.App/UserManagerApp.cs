@@ -43,7 +43,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个部门及子部门全部用户
         /// </summary>
-        public dynamic Load(Guid orgId, int pageindex, int pagesize)
+        public GridData Load(Guid orgId, int pageindex, int pagesize)
         {
             if (pageindex < 1) pageindex = 1;  //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
             IEnumerable<User> users;
@@ -69,7 +69,7 @@ namespace OpenAuth.App
                 userviews.Add(uv);
             }
 
-            return new
+            return new GridData
             {
                 total = total,
                 list = userviews,

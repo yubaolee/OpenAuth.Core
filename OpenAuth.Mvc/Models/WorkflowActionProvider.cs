@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using OpenAuth.App;
 using OptimaJet.Workflow.Core.Model;
 using OptimaJet.Workflow.Core.Runtime;
 
-namespace OpenAuth.Mvc.Controllers
+namespace OpenAuth.Mvc.Models
 {
     public class WorkflowActionProvider :IWorkflowActionProvider
     {

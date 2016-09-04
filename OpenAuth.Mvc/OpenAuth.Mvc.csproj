@@ -23,6 +23,7 @@
     <UseGlobalApplicationHostFile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -82,6 +83,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -90,6 +95,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -132,6 +141,10 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -153,6 +166,7 @@
     <Compile Include="Controllers\RoleManagerController.cs" />
     <Compile Include="Controllers\StockManagerController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
+    <Compile Include="Models\JobjectModelBinder.cs" />
     <Compile Include="Models\WorkflowActionProvider.cs" />
     <Compile Include="Models\WorkflowInit.cs" />
     <Compile Include="Models\WorkflowRuleProvider.cs" />
@@ -165,7 +179,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BllScripts\assignModule.js" />
-    <Content Include="BllScripts\assignOrg.js" />
     <Content Include="BllScripts\assignModuleElement.js" />
     <Content Include="BllScripts\categoryManager.js" />
     <Content Include="BllScripts\processDetail.js" />
@@ -743,7 +756,6 @@
     <Content Include="Views\RoleManager\LookupMulti.cshtml" />
     <Content Include="Views\ResourceManager\AssignRes.cshtml" />
     <Content Include="Views\StockManager\Index.cshtml" />
-    <Content Include="Views\OrgManager\Assign.cshtml" />
     <Content Include="Views\Shared\_BjuiLayout.cshtml" />
     <Content Include="Views\GoodsApplies\Index.cshtml" />
   </ItemGroup>

@@ -15,12 +15,28 @@ namespace OpenAuth.Repository
             return Find();
         }
 
+        /// <summary>
+        /// 加载用户的所有机构
+        /// </summary>
         public IEnumerable<Org> LoadByUser(Guid userId)
         {
             var result = from userorg in Context.Relevances
                 join org in Context.Orgs on userorg.SecondId equals org.Id
                 where userorg.FirstId == userId && userorg.Key =="UserOrg"
                 select org;
+            return result;
+
+        }
+
+        /// <summary>
+        /// 加载角色的所有机构
+        /// </summary>
+        public IEnumerable<Org> LoadByRole(Guid roleId)
+        {
+            var result = from userorg in Context.Relevances
+                         join org in Context.Orgs on userorg.SecondId equals org.Id
+                         where userorg.FirstId == roleId && userorg.Key == "RoleOrg"
+                         select org;
             return result;
 
         }

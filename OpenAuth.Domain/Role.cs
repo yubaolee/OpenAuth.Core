@@ -24,8 +24,6 @@ namespace OpenAuth.Domain
           this.Type= 0;
           this.CreateTime= DateTime.Now;
           this.CreateId= string.Empty;
-          this.OrgCascadeId= string.Empty;
-          this.OrgName= string.Empty;
         }
 
         /// <summary>
@@ -48,18 +46,6 @@ namespace OpenAuth.Domain
 	    /// 创建人ID
 	    /// </summary>
         public string CreateId { get; set; }
-        /// <summary>
-	    /// 所属部门节点语义ID
-	    /// </summary>
-        public string OrgCascadeId { get; set; }
-        /// <summary>
-	    /// 所属部门名称
-	    /// </summary>
-        public string OrgName { get; set; }
-        /// <summary>
-	    /// 所属部门流水号
-	    /// </summary>
-        public System.Guid? OrgId { get; set; }
 
     }
 }

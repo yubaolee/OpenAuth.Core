@@ -32,18 +32,25 @@ namespace OpenAuth.App.ViewModel
         /// <returns></returns>
         public string Name { get; set; }
 
+        /// <summary>
+        /// 当前状态
+        /// </summary>
+        public int Status { get; set; }
+        /// <summary>
+	    /// 角色类型
+	    /// </summary>
+        public int Type { get; set; }
+
 
         /// <summary>
-        /// 所属部门节点语义ID
+        /// 所属组织名称，多个可用，分隔
         /// </summary>
-        /// <returns></returns>
-        public string OrgCascadeId { get; set; }
+        public string Organizations { get; set; }
 
         /// <summary>
-        /// 所属部门名称
+        /// 所属组织ID，多个可用，分隔
         /// </summary>
-        /// <returns></returns>
-        public string OrgName { get; set; }
+        public string OrganizationIds { get; set; }
 
         /// <summary>
         ///是否属于某用户 

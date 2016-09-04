@@ -57,7 +57,7 @@ function UserRolesList() {
                 width: 100
             },
               {
-                  name: 'OrgName',
+                  name: 'Organizations',
                   label: '所属组织',
                   width: 100
               },

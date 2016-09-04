@@ -4,7 +4,9 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Infrastructure;
+using Newtonsoft.Json.Linq;
 using OpenAuth.Mvc.Controllers;
+using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc
 {
@@ -19,6 +21,8 @@ namespace OpenAuth.Mvc
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ModelBinders.Binders.Add(typeof(JObject), new JobjectModelBinder());
 
             LogHelper.Log("启动Web");
         }

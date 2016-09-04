@@ -3,7 +3,9 @@ using OpenAuth.App;
 using OpenAuth.Domain;
 using System;
 using System.Linq;
+using System.Web.Http;
 using System.Web.Mvc;
+using Newtonsoft.Json.Linq;
 using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
@@ -26,12 +28,12 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         //添加或修改角色
-        [HttpPost]
-        public string Add(Role role)
+        [System.Web.Mvc.HttpPost]
+        public string Add([FromBody]JObject obj)
         {
             try
             {
-                _app.AddOrUpdate(role);
+                _app.AddOrUpdate(obj);
             }
             catch (Exception ex)
             {

@@ -12,6 +12,8 @@ namespace OpenAuth.Domain.Interface
 
         IEnumerable<Org> LoadByUser(Guid userId);
 
+        IEnumerable<Org> LoadByRole(Guid roleId);
+
         /// <summary>
         /// 得到全部子部门
         /// </summary>

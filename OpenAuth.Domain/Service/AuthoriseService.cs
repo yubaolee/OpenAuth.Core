@@ -130,8 +130,8 @@ namespace OpenAuth.Domain.Service
             //用户角色与自己分配到的机构ID
             var orgids = _unitWork.Find<Relevance>(
                 u =>
-                    (u.FirstId == _user.Id && u.Key == "UserAccessedOrg") ||
-                    (u.Key == "RoleAccessedOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                    (u.FirstId == _user.Id && u.Key == "UserOrg") ||
+                    (u.Key == "RoleOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
             _orgs = _unitWork.Find<Org>(u => orgids.Contains(u.Id)).ToList();
         }
 

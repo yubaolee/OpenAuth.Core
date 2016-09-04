@@ -90,8 +90,8 @@ namespace OpenAuth.App
             var moduleIds =
                 _relevanceRepository.Find(
                     u =>
-                        (u.FirstId == userId && u.Key == "UserAccessedOrg") ||
-                        (u.Key == "RoleAccessedOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                        (u.FirstId == userId && u.Key == "UserOrg") ||
+                        (u.Key == "RoleOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
 
             if (!moduleIds.Any()) return new List<Org>();
             return _repository.Find(u => moduleIds.Contains(u.Id)).ToList();
@@ -104,7 +104,7 @@ namespace OpenAuth.App
         public List<Org> LoadForRole(Guid roleId)
         {
             var moduleIds =
-                _relevanceRepository.Find(u => u.FirstId == roleId && u.Key == "RoleAccessedOrg")
+                _relevanceRepository.Find(u => u.FirstId == roleId && u.Key == "RoleOrg")
                     .Select(u => u.SecondId)
                     .ToList();
             if (!moduleIds.Any()) return new List<Org>();

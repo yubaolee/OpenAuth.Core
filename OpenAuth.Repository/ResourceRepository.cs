@@ -32,7 +32,10 @@ namespace OpenAuth.Repository
 
         public IEnumerable<Role> LoadInOrgs(params Guid[] orgId)
         {
-            var result = from role in Context.Roles.Where(u =>u.OrgId != null && orgId.Contains(u.OrgId.Value)) select role;
+            var roles = Context.Relevances.Where(u => u.Key == "RoleOrg"
+           && orgId.Contains(u.SecondId)).Select(u => u.FirstId);   //机构关联的角色
+
+            var result = from role in Context.Roles.Where(u =>roles.Contains(u.Id)) select role;
                         
             return result;
 

@@ -275,24 +275,6 @@ function openUserModuleAccess(obj) {
     });
 }
 
-//用户可见组织授权按钮
-function openUserOrgAccess(obj) {
-    var selected = list.getSelectedObj();
-    if (selected == null) return;
-
-    $(obj).dialog({
-        id: 'accessUserOrg',
-        url: '/OrgManager/Assign',
-        title: '为用户分配可见部门',
-        width: 620,
-        height: 500,
-        data: {
-            firstId: selected.Id,
-            key: "UserAccessedOrg"
-        }
-    });
-}
-
 //用户角色授权
 function openUserRoleAccess(obj) {
     var selected = list.getSelectedObj();

@@ -43,18 +43,6 @@ namespace OpenAuth.Repository.Models.Mapping
                 .HasColumnName("CreateId")
                 .HasMaxLength(64)
                 .IsRequired();
-            Property(t => t.OrgCascadeId)
-                .HasColumnName("OrgCascadeId")
-                .HasMaxLength(255)
-                .IsRequired();
-            Property(t => t.OrgName)
-                .HasColumnName("OrgName")
-                .HasMaxLength(255)
-                .IsRequired();
-            Property(t => t.OrgId)
-                .HasColumnName("OrgId")
-                .IsOptional();
-
             // Relationships
         }
     }

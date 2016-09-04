@@ -76,7 +76,7 @@ function MainGrid() {
                    items: [{ '0': '默认' }, { '1': '状态1' }],
                },
                {
-                   name: 'OrgName',
+                   name: 'Organizations',
                    label: '所属部门名称',
                    width: 100
                },
@@ -100,8 +100,8 @@ var list = new MainGrid();
 
 //编辑时，选择上级弹出的树
 var parentTree = function () {
-    var nameDom = "#OrgName";
-    var idDom = "#OrgId";
+    var nameDom = "#Organizations";
+    var idDom = "#OrganizationIds";
     var zTreeObj;
     var setting = {
         view: {
@@ -109,8 +109,8 @@ var parentTree = function () {
         },
         check: {
             enable: true,
-            chkStyle: "radio",  //单选
-            radioType: "all"
+            chkStyle: "checkbox",
+            chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
         },
         data: {
             key: {
@@ -129,6 +129,7 @@ var parentTree = function () {
             onCheck: zTreeCheck
         }
     };
+
 
     function zTreeCheck(event, treeId, treeNode) {
         var nodes = zTreeObj.getCheckedNodes(true);
@@ -189,8 +190,7 @@ var editDlg = function () {
             $('#Name').val(ret.Name);
             $('#Status').selectpicker('val', ret.Status);
             $('#Type').selectpicker('val', ret.Type);
-            $('#OrgId').val(ret.OrgId);
-            $('#OrgName').val(ret.OrgName);
+            $("#OrganizationIds").val(ret.OrganizationIds);
             parentTree.show();
         },
         save: function () {  //编辑-->保存
@@ -260,24 +260,6 @@ function assignRoleModule(obj) {
         data: {
             firstId: selected.Id,
             key: "RoleModule"
-        }
-    });
-}
-
-//为角色分配可见机构
-function assignRoleOrg(obj) {
-    var selected =  list.getSelectedObj();
-    if (selected == null) return;
-
-    $(obj).dialog({
-        id: 'accessRoleOrg',
-        url: '/OrgManager/Assign',
-        title: '为角色分配可见部门',
-        width: 620,
-        height: 500,
-        data: {
-            firstId: selected.Id,
-            key: "RoleAccessedOrg"
         }
     });
 }

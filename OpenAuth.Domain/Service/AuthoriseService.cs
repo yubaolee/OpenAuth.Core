@@ -29,6 +29,7 @@ namespace OpenAuth.Domain.Service
         private List<ModuleElement> _moduleElements; //用户可访问的菜单
         private List<Resource> _resources;  //用户可访问的资源
         private List<Org> _orgs;    //用户可访问的机构
+        private List<Role> _roles;   //用户角色
 
         public AuthoriseService(IUnitWork unitWork)
         {
@@ -38,6 +39,11 @@ namespace OpenAuth.Domain.Service
         public List<Module> Modules
         {
             get { return _modules; }
+        }
+
+        public List<Role> Roles
+        {
+            get { return _roles;}
         }
 
         public List<ModuleElement> ModuleElements
@@ -80,7 +86,7 @@ namespace OpenAuth.Domain.Service
         {
             if (name == "System")
             {
-                _user = new User{Account = "System"};
+                _user = new User{Account = "System", Id = Guid.Empty};
                 LoadForSystem();
             }
             else
@@ -104,6 +110,7 @@ namespace OpenAuth.Domain.Service
             var userRoleIds =
                 _unitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
 
+            _roles = _unitWork.Find<Role>(u => userRoleIds.Contains(u.Id)).ToList();
             //用户角色与自己分配到的模块ID
             var moduleIds = _unitWork.Find<Relevance>(
                 u =>
@@ -143,9 +150,8 @@ namespace OpenAuth.Domain.Service
         {
             _modules = _unitWork.Find<Module>(null).ToList();
             _moduleElements = _unitWork.Find<ModuleElement>(null).ToList();
-
+            _roles = _unitWork.Find<Role>(null).ToList();
             _resources = _unitWork.Find<Resource>(null).OrderBy(u => u.SortNo).ToList();
-
             _orgs = _unitWork.Find<Org>(null).OrderBy(u => u.SortNo).ToList();
         }
     }

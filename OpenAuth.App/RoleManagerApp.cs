@@ -80,8 +80,7 @@ namespace OpenAuth.App
         /// </summary>
         private Guid[] GetSubOrgIds(Guid orgId)
         {
-            var org = _orgRepository.FindSingle(u => u.Id == orgId);
-            var orgs = _orgRepository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
+            var orgs = _orgRepository.GetSubOrgs(orgId).Select(u => u.Id).ToArray();
             return orgs;
         }
 
@@ -116,22 +115,21 @@ namespace OpenAuth.App
             _relevanceRepository.AddRelevance("RoleOrg", orgIds.ToLookup(u => role.Id));
         }
 
+        public List<Role> LoadForUser(Guid userId)
+        {
+            return _repository.LoadForUser(userId).ToList();
+        }
+
         public List<RoleVM> LoadForOrgAndUser(Guid orgId, Guid userId)
         {
-            var allorgs = GetSubOrgIds(orgId);
-            var roles = _relevanceRepository.Find(u => u.Key == "RoleOrg" 
-            && allorgs.Contains(u.SecondId)).Select(u =>u.FirstId).ToList();   //机构关联的角色
+            var userroles = LoadForUser(userId);
+            var orgroles = _repository.LoadInOrgs(GetSubOrgIds(orgId)).ToList();
 
-            var roleIds = _repository.Find(u => orgId == Guid.Empty 
-            || (roles.Contains(u.Id))).ToList();   //从角色表里获取
             var rolevms = new List<RoleVM>();
-            foreach (var role in roleIds)
+            foreach (var role in orgroles)
             {
                 RoleVM rolevm = role;
-                rolevm.IsBelongUser = (_relevanceRepository.FindSingle(u => u.SecondId == role.Id
-                                                                            && u.FirstId == userId
-                                                                            && u.Key == "UserRole")
-                                       != null);
+                rolevm.IsBelongUser = userroles.Any(u => u.Id == role.Id);
                 var orgs = _orgRepository.LoadByRole(role.Id);
                 rolevm.Organizations = string.Join(",", orgs.Select(u => u.Name).ToList());
                 rolevm.OrganizationIds = string.Join(",", orgs.Select(u => u.Id).ToList());

@@ -15,16 +15,9 @@ namespace OpenAuth.Domain.Interface
         IEnumerable<Org> LoadByRole(Guid roleId);
 
         /// <summary>
-        /// 得到全部子部门
+        ///  获取包括自己在内的全部子部门
         /// </summary>
         /// <param name="orgId">部门ID</param>
         IEnumerable<Org> GetSubOrgs(Guid orgId);
-
-        /// <summary>
-        /// 获取包括自己在内的全部子部门
-        /// </summary>
-        /// <param name="orgId">The org identifier.</param>
-        /// <returns>IEnumerable&lt;Org&gt;.</returns>
-        IEnumerable<Org> GetSubWithOwn(Guid orgId);
     }
 }

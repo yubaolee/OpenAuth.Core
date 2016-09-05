@@ -10,6 +10,8 @@ namespace OpenAuth.Domain.Interface
 
         int GetRoleCntInOrgs(params Guid[] orgIds);
         IEnumerable<Role> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds);
+        IEnumerable<Role> LoadInOrgs(params Guid[] orgId);
+        IEnumerable<Role> LoadForUser(Guid userId);
 
         void Delete(Guid id);
 

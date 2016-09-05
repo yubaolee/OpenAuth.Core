@@ -33,7 +33,7 @@ namespace OpenAuth.Mvc.Controllers
 
         public string LoadOrg()
         {
-            return JsonHelper.Instance.Serialize(AuthUtil.GetCurrentUser().AccessedOrgs);
+            return JsonHelper.Instance.Serialize(AuthUtil.GetCurrentUser().Orgs);
         }
 
         public string LoadForUser(Guid firstId)

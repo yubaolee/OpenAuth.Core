@@ -41,7 +41,7 @@ namespace OpenAuth.Domain.Service
 
             var orgIds = _authoriseService.Orgs.Select(u => u.Id).ToArray();  //用户可访问的机构ID
 
-            var orgs = _orgRepository.GetSubWithOwn(orgId)   //点击的节点与用户可访问的机构合并
+            var orgs = _orgRepository.GetSubOrgs(orgId)   //点击的节点与用户可访问的机构合并
                 .Where(u => orgIds.Contains(u.Id))
                 .Select(u => u.Id).ToArray();
 

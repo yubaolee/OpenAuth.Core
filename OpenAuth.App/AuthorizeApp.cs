@@ -24,9 +24,10 @@ namespace OpenAuth.App
             var user = new UserWithAccessedCtrls
             {
                 User = _service.User,
-                AccessedOrgs = _service.Orgs,
+                Orgs = _service.Orgs,
                 Modules = _service.Modules.MapToList<ModuleView>(),
                 Resources = _service.Resources,
+                Roles = _service.Roles
             };
 
             foreach (var moduleView in user.Modules)

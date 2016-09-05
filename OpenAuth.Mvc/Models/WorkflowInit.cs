@@ -34,7 +34,7 @@ namespace OpenAuth.Mvc.Models
 
                             _runtime = new WorkflowRuntime(new Guid("{8D38DB8F-F3D5-4F26-A989-4FDD40F32D9D}"))
                                 .WithBuilder(builder)
-                                //  .WithRuleProvider(new WorkflowRuleProvider())
+                                .WithRuleProvider(new WorkflowRuleProvider())
                                 // .WithActionProvider(new WorkflowActionProvider())
                                 .WithPersistenceProvider(new MSSQLProvider(connectionString))
                                 .WithTimerManager(new TimerManager())
@@ -62,12 +62,7 @@ namespace OpenAuth.Mvc.Models
             var nextState = WorkflowInit.Runtime.GetLocalizedStateName(e.ProcessId, e.ProcessInstance.CurrentState);
 
             var _app = AutofacExt.GetFromFac<GoodsApplyApp>();
-            var goodsapply = _app.Get(e.ProcessId);
-            if (goodsapply != null)
-            {
-                goodsapply.StateName = nextState;
-            }
-            _app.ChangeState(goodsapply.Id, e.ProcessInstance.CurrentState, nextState);
+            _app.ChangeState(e.ProcessId, e.ProcessInstance.CurrentState, nextState);
            
         }
     }

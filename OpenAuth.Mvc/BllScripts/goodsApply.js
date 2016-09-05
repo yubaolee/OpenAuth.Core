@@ -139,7 +139,6 @@ function del() {
     $.getJSON('/GoodsApplies/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
-            ztree.reload();
         }
         else {
             $(this).alertmsg('warn', data.message);
@@ -179,4 +178,4 @@ function refresh() {
     list.reload();
 }
 
-//@@ sourceURL=StockManager.js
+//@@ sourceURL=goodsApply.js

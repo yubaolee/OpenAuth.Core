@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
@@ -61,6 +60,11 @@ namespace OpenAuth.App
             result.total = _repository.GetCount(null);
 
             return result;
+        }
+
+        public void Del(Guid id)
+        {
+            _repository.Delete(u =>u.Id == id);
         }
     }
 }

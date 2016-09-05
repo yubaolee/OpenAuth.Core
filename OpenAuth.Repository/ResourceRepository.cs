@@ -40,5 +40,18 @@ namespace OpenAuth.Repository
             return result;
 
         }
+
+        public IEnumerable<Role> LoadForUser(Guid userId)
+        {
+
+            if (userId == Guid.Empty)
+                return Find(null);
+
+            var userRoleIds =
+               Context.Relevances.Where(u => u.FirstId == userId && u.Key == "UserRole")
+               .Select(u => u.SecondId).ToList();
+
+            return Find(u => userRoleIds.Contains(u.Id));
+        }
     }
 }

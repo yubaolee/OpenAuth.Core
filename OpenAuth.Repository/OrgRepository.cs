@@ -54,19 +54,5 @@ namespace OpenAuth.Repository
 
             return Find(u => u.CascadeId.Contains(cascadeId));
         }
-
-        public IEnumerable<Org> GetSubWithOwn(Guid orgId)
-        {
-            string cascadeId = "0.";
-            if (orgId != Guid.Empty)
-            {
-                var org = FindSingle(u => u.Id == orgId);
-                if (org == null)
-                    throw new Exception("未能找到指定对象信息");
-                cascadeId = org.CascadeId;
-            }
-
-            return Find(u => u.CascadeId.Contains(cascadeId));
-        }
     }
 }

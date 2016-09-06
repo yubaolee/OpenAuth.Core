@@ -39,9 +39,8 @@ $(function () {
     $(".btn-cmd")
         .on("click", function () {   //执行命令
             $.post("/GoodsApplies/ExeCmd?id=" +$("#processId").val() +"&cmd=" +$(this).val() ,
-                { name: "John", time: "2pm" },
                function (data) {
-                   console.log("Data Loaded: " + data);
+                   BJUI.dialog('refresh', 'detailDlg');
                });
         });
 });

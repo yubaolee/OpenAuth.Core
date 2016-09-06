@@ -65,6 +65,9 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 删除申请
+        /// </summary>
         public string Delete(Guid id)
         {
             try
@@ -81,6 +84,9 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
+        /// <summary>
+        /// 执行命令
+        /// </summary>
         [HttpPost]
         public string ExeCmd(Guid id, string cmd)
         {
@@ -125,7 +131,10 @@ namespace OpenAuth.Mvc.Controllers
             foreach (var workflowCommand in commands)  //去除相同的
             {
                 if (result.Count(c => c.Key == workflowCommand.CommandName) == 0)
-                    result.Add(new CommandModel() { Key = workflowCommand.CommandName, Value = workflowCommand.LocalizedName, Classifier = workflowCommand.Classifier });
+                    result.Add(new CommandModel {
+                        Key = workflowCommand.CommandName,
+                        Value = workflowCommand.LocalizedName,
+                        Classifier = workflowCommand.Classifier });
             }
             return result.ToArray();
         }

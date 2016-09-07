@@ -145,8 +145,8 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <param name="id">流程实例ID</param>
         /// <param name="commandName">命令名称</param>
-        /// <param name="goodsApply">申请实体</param>
-        private void ExecuteCommand(Guid id, string commandName, CommonApply goodsApply)
+        /// <param name="apply">申请实体</param>
+        private void ExecuteCommand(Guid id, string commandName, CommonApply apply)
         {
             var currentUser =AuthUtil.GetCurrentUser().User.Id.ToString();
 

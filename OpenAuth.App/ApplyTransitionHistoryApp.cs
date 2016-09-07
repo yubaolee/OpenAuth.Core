@@ -26,7 +26,7 @@ namespace OpenAuth.App
 
         public void Update(ApplyTransitionHistory historyItem)
         {
-            _repository.Update(historyItem);
+            _repository.Update(u =>u.Id, historyItem);
         }
 
         public void DeleteByProcess(Guid processId)

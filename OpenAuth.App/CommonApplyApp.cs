@@ -22,8 +22,8 @@ namespace OpenAuth.App
         {
             if (model.Id == Guid.Empty)
             {
-                var obj = model.CopyTo<CommonApply>();
-                _repository.Add(obj);
+               model.ApplyTime = DateTime.Now;
+                _repository.Add(model);
             }
             else
             {
@@ -31,6 +31,7 @@ namespace OpenAuth.App
                 {
                     UserId = model.UserId,
                     Name = model.Name,
+                    Comment = model.Comment
                 });
             }
 

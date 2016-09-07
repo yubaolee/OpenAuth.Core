@@ -43,7 +43,7 @@
 `秀外`
 
 基于B-JUI酷炫（[炫不炫，你说了算](http://b-jui.com/)）的动态效果：
-
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0907/081554_7dd20640_362401.png "在这里输入图片标题")
 ![输入图片说明](http://git.oschina.net/uploads/images/2015/1208/005100_5849eec8_362401.jpeg "在这里输入图片标题")
 ![输入图片说明](http://git.oschina.net/uploads/images/2015/1208/003425_cc164edc_362401.jpeg "在这里输入图片标题")
 

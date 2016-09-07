@@ -41,7 +41,7 @@ function MainGrid() {
                },
                {
                    name: 'Comment',
-                   label: '产品数量',
+                   label: '申请描述',
                    width: 100
                },
                

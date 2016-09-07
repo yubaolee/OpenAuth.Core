@@ -1,6 +1,5 @@
 ﻿var schemecode = 'SimpleWF';
 var wfdesigner = undefined;
-console.log("detail");
 
 function wfdesignerRedraw() {
     var data;
@@ -9,7 +8,6 @@ function wfdesignerRedraw() {
         data = wfdesigner.data;
         wfdesigner.destroy();
     }
-    console.log(QueryString.id);  //取不到值？？
     var processid = $("#processId").val();
 
     wfdesigner = new WorkflowDesigner({
@@ -18,7 +16,7 @@ function wfdesignerRedraw() {
         renderTo: 'wfdesigner',
         imagefolder: '/images/',
         graphwidth: 800,
-        graphheight: 600
+        graphheight: 500
     });
 
     if (data == undefined) {

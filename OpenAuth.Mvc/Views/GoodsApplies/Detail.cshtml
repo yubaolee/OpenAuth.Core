@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null;
 }
+@using OptimaJet.Workflow.Core.Model
 @model OpenAuth.App.ViewModel.GoodsApplyVM
 
 <script src="/Scripts/jquery-ui.js"></script>
@@ -11,18 +12,39 @@
 <script src="/Scripts/ace.js"></script>
 <script src="/Scripts/json5.js"></script>
 
-<div class="bjui-pageContent">
-    <input value="@Model.Id" id="processId" class="hidden"/>
-    <span class="h1">@Model.Name</span>
-    <span class="alert-info">数量：@Model.Number</span>
-    <span class="label label-default">你可以：</span>
-    @foreach (var cmd in Model.Commands)
-    {
-       <button type="button" class="btn btn-default btn-cmd" value="@cmd.Key">@cmd.Value</button>
-    }
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <input value="@Model.Id" id="processId" class="hidden" />
+                    <h3 class="panel-title">
+                        @Model.Name
+                    </h3>
+                </div>
 
-    <br/>
-    <div id="wfdesigner"></div>
-</div>
+                @if (Model.Commands.Length > 0)
+                {
+                <div class="panel-body">
+                    <span class="label label-default">你可以执行：</span>
+                    @foreach (var cmd in Model.Commands)
+                    {
+                    if (cmd.Classifier == TransitionClassifier.Reverse)
+                    {
+                    <button type="button" class="btn btn-danger btn-cmd" value="@cmd.Key">@cmd.Value</button>
+                    }
+                    else
+                    {
+                    <button type="button" class="btn btn-primary btn-cmd" value="@cmd.Key">@cmd.Value</button>
+                    }
+                    }
+                </div>
+                }
+                <div class="panel-body">
+                    <div id="wfdesigner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <script src="/BllScripts/queryString.js"></script>
 <script src="/BllScripts/processDetail.js"></script>

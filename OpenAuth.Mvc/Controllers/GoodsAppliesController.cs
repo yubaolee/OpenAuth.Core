@@ -39,6 +39,8 @@ namespace OpenAuth.Mvc.Controllers
             {
                 apply.UserId = AuthUtil.GetCurrentUser().User.Id;
                 _app.AddOrUpdate(apply);
+                CreateWorkflowIfNotExists(apply.Id);
+
             }
             catch (Exception ex)
             {
@@ -53,7 +55,6 @@ namespace OpenAuth.Mvc.Controllers
             try
             {
                 GoodsApplyVM apply = _app.Get(id);
-                CreateWorkflowIfNotExists(id);
                 apply.Commands = GetCommands(id);
                 return View(apply);
             }
@@ -160,5 +161,6 @@ namespace OpenAuth.Mvc.Controllers
 
             WorkflowInit.Runtime.ExecuteCommand(id, currentUser, currentUser, command);
         }
+
     }
 }

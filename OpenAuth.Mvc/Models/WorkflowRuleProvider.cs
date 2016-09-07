@@ -57,7 +57,15 @@ namespace OpenAuth.Mvc.Models
 
         public IEnumerable<string> GetIdentities(ProcessInstance processInstance, WorkflowRuntime runtime, string ruleName, string parameter)
         {
-            throw new NotImplementedException();
+            var userids = _app.GetUsersInRole(ruleName);
+            if (userids == null) return null;
+            var userstrs = new List<string>();
+            foreach (var userid in userids)
+            {
+                userstrs.Add(userid.ToString());
+            }
+            
+            return userstrs;
         }
     }
 }

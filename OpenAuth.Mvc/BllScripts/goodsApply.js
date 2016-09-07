@@ -165,18 +165,13 @@ function detail() {
         id: 'detailDlg',
         url: '/GoodsApplies/Detail?id=' + selected.Id,
         title: '进度详情',
-        width: 800,
-        height: 600,
+        width: 900,
+        height: 700,
         mask:true
     });
-    $(document)
-        .on('bjui.beforeCloseDialog',
-            function(e) {
-                var $dialog = $(e.target);
-                if ($dialog.id == "detailDlg") {
+    $(document).on('bjui.beforeCloseDialog',function(e) {
                     list.reload();
-                }
-            });
+   });
 }
 
 function add() {

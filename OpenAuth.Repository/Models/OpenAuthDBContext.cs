@@ -11,7 +11,6 @@ using System.Data.Entity;
 using OpenAuth.Domain;
 using OpenAuth.Repository.Models.Mapping;
 
-
 namespace OpenAuth.Repository.Models
 {
     public partial class OpenAuthDBContext: DbContext
@@ -40,6 +39,9 @@ namespace OpenAuth.Repository.Models
         public System.Data.Entity.DbSet<Role> Roles { get; set; }
         public System.Data.Entity.DbSet<Stock> Stocks { get; set; }
         public System.Data.Entity.DbSet<User> Users { get; set; }
+        public System.Data.Entity.DbSet<WorkflowInbox> WorkflowInboxes { get; set; }
+
+        public DbSet<ApplyTransitionHistory> ApplyTransitionHistories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -55,6 +57,9 @@ namespace OpenAuth.Repository.Models
             modelBuilder.Configurations.Add(new RoleMap());
             modelBuilder.Configurations.Add(new StockMap());
             modelBuilder.Configurations.Add(new UserMap());
+            modelBuilder.Configurations.Add(new WorkflowInboxMap());
+            modelBuilder.Configurations.Add(new ApplyTransitionHistoryMap());
+
         }
     }
 }

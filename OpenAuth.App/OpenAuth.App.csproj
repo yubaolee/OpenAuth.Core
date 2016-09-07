@@ -80,8 +80,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplyTransitionHistoryApp.cs" />
     <Compile Include="CategoryManagerApp.cs" />
     <Compile Include="AuthorizeApp.cs" />
+    <Compile Include="WorkflowInboxApp.cs" />
     <Compile Include="ModuleElementManagerApp.cs" />
     <Compile Include="ModuleManagerApp.cs" />
     <Compile Include="ResourceManagerApp.cs" />

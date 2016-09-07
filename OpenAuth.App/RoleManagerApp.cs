@@ -147,5 +147,14 @@ namespace OpenAuth.App
         {
             _relevanceRepository.DeleteBy("UserRole", roleids.ToLookup(roleId => userId));
         }
+
+        public List<Guid> GetUsersInRole(string ruleName)
+        {
+            var role = _repository.FindSingle(u => u.Name == ruleName);
+            if (role == null) return null;
+
+            return _relevanceRepository.Find(u => u.Key == "UserRole" 
+                       && u.SecondId == role.Id).Select(u => u.FirstId).ToList();
+        }
     }
 }

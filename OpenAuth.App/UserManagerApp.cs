@@ -143,5 +143,9 @@ namespace OpenAuth.App
             _relevanceRepository.AddRelevance("UserOrg", orgIds.ToLookup(u => user.Id));
         }
 
+        public IEnumerable<User> GetUsers(IEnumerable<Guid> userids)
+        {
+            return _repository.Find(u => userids.Contains(u.Id));
+        }
     }
 }

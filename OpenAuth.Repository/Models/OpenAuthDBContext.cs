@@ -30,7 +30,7 @@ namespace OpenAuth.Repository.Models
         public System.Data.Entity.DbSet<Category> Categories { get; set; }
         public System.Data.Entity.DbSet<DicDetail> DicDetails { get; set; }
         public System.Data.Entity.DbSet<DicIndex> DicIndices { get; set; }
-        public System.Data.Entity.DbSet<GoodsApply> GoodsApplies { get; set; }
+        public System.Data.Entity.DbSet<CommonApply> GoodsApplies { get; set; }
         public System.Data.Entity.DbSet<Module> Modules { get; set; }
         public System.Data.Entity.DbSet<ModuleElement> ModuleElements { get; set; }
         public System.Data.Entity.DbSet<Org> Orgs { get; set; }
@@ -39,7 +39,6 @@ namespace OpenAuth.Repository.Models
         public System.Data.Entity.DbSet<Role> Roles { get; set; }
         public System.Data.Entity.DbSet<Stock> Stocks { get; set; }
         public System.Data.Entity.DbSet<User> Users { get; set; }
-        public System.Data.Entity.DbSet<WorkflowInbox> WorkflowInboxes { get; set; }
 
         public DbSet<ApplyTransitionHistory> ApplyTransitionHistories { get; set; }
 
@@ -48,7 +47,7 @@ namespace OpenAuth.Repository.Models
             modelBuilder.Configurations.Add(new CategoryMap());
             modelBuilder.Configurations.Add(new DicDetailMap());
             modelBuilder.Configurations.Add(new DicIndexMap());
-            modelBuilder.Configurations.Add(new GoodsApplyMap());
+            modelBuilder.Configurations.Add(new CommonApplyMap());
             modelBuilder.Configurations.Add(new ModuleMap());
             modelBuilder.Configurations.Add(new ModuleElementMap());
             modelBuilder.Configurations.Add(new OrgMap());
@@ -57,7 +56,6 @@ namespace OpenAuth.Repository.Models
             modelBuilder.Configurations.Add(new RoleMap());
             modelBuilder.Configurations.Add(new StockMap());
             modelBuilder.Configurations.Add(new UserMap());
-            modelBuilder.Configurations.Add(new WorkflowInboxMap());
             modelBuilder.Configurations.Add(new ApplyTransitionHistoryMap());
 
         }

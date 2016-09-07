@@ -2,7 +2,7 @@
     Layout = null;
 }
 @using OptimaJet.Workflow.Core.Model
-@model OpenAuth.App.ViewModel.GoodsApplyVM
+@model OpenAuth.App.ViewModel.CommonApplyVM
 
 <script src="/Scripts/jquery-ui.js"></script>
 <link href="/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
@@ -25,7 +25,7 @@
                 @if (Model.Commands.Length > 0)
                 {
                 <div class="panel-body">
-                    <span class="label label-default">你可以执行：</span>
+                    <span class="label label-default">下图蓝色为当前状态，你可以执行：</span>
                     @foreach (var cmd in Model.Commands)
                     {
                     if (cmd.Classifier == TransitionClassifier.Reverse)
@@ -39,9 +39,7 @@
                     }
                 </div>
                 }
-                <div class="panel-body">
-                    <div id="wfdesigner"></div>
-                </div>
+               <div id="wfdesigner"></div>
             </div>
         </div>
     </div>

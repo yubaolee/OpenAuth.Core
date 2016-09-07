@@ -25,6 +25,12 @@ namespace Infrastructure
 {
     public static class ObjectHelper
     {
+        public static T CopyTo<T>(this object source) where T:class, new()
+        {
+            var result = new T();
+            source.CopyTo(result);
+            return result;
+        }
       
         public static void CopyTo<T>(this object source, T target)
             where T : class,new()

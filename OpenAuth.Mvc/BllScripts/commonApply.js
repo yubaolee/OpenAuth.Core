@@ -1,49 +1,30 @@
 ﻿//左边分类导航树
 var ztree = function () {
-    var url = '/OrgManager/LoadOrg';
+    var nodes = [
+     {
+         name: "流程处理", children: [
+             { name: "我的申请",value:'me' },
+            { name: "待办事项",value:'inbox' },
+            { name: "已办事项",value:'outbox' }
+         ],
+         value:'me'
+     }
+    ];
     var setting = {
         view: { selectedMulti: false },
-        data: {
-            key: {
-                name: 'Name',
-                title: 'Name'
-            },
-            simpleData: {
-                enable: true,
-                idKey: 'Id',
-                pIdKey: 'ParentId',
-                rootPId: 'null'
-            }
-        },
         callback: {
             onClick: function (event, treeId, treeNode) {
-                list.reload(treeNode.Id);
+                list.reload(treeNode.value);
             }
         }
     };
-    var load = function () {
-        $.getJSON(url, function (json) {
-            var zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
-            var firstId;  //tree的第一个ID
-            if (json.length > 0) {
-                firstId = json[0].Id;
-            } else {
-                firstId = -1;
-            }
-            list.reload(firstId);
-            zTreeObj.expandAll(true);
-        });
-    };
-    load();
-
-    return {
-        reload: load
-    }
+    var zTreeObj = $.fn.zTree.init($("#tree"), setting, nodes);
+    zTreeObj.expandAll(true);
 }();
 //grid列表模块
 function MainGrid() {
-    var url = '/GoodsApplies/Load?parentId=';
-    var selectedId = '00000000-0000-0000-0000-000000000000';  //ztree选中的模块
+    var url = '/CommonApplies/Load?type=';
+    var selectedNode = 'me';  
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
         filterThead: false,
@@ -55,18 +36,18 @@ function MainGrid() {
                },
                {
                    name: 'Name',
-                   label: '产品名称',
+                   label: '申请名称',
                    width: 100
                },
                {
-                   name: 'Number',
+                   name: 'Comment',
                    label: '产品数量',
                    width: 100
                },
                
                {
                    name: 'StateName',
-                   label: '当前流程',
+                   label: '流程状态',
                    width: 100
                },
                {
@@ -74,18 +55,17 @@ function MainGrid() {
                    hide:true
                }
         ],
-        dataUrl: url + selectedId,
+        dataUrl: url + selectedNode,
         fullGrid: true,
         showLinenumber: true,
         showCheckboxcol: true,
         paging: true,
         filterMult: false,
-        showTfoot: false,
-      
+        showTfoot: false
     });
-    this.reload = function (id) {
-        if (id != undefined) selectedId = id;
-        this.maingrid.datagrid('reload', { dataUrl: url + selectedId });
+    this.reload = function (selected) {
+        if (selected != undefined) selectedNode = selected;
+        this.maingrid.datagrid('reload', { dataUrl: url + selectedNode });
     };
 };
 MainGrid.prototype = new Grid();
@@ -110,7 +90,7 @@ var editDlg = function () {
             show();
             $('#Id').val(ret.Id);
             $('#Name').val(ret.Name);
-            $('#Number').val(ret.Number);
+            $('#Comment').val(ret.Comment);
         },
         save: function () {  //编辑-->保存
             $('#editForm').isValid(function (v) {
@@ -123,7 +103,6 @@ var editDlg = function () {
                             return;
                         }
                         list.reload();
-                        ztree.reload();
                     }
                 });
             });
@@ -136,7 +115,7 @@ function del() {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $.getJSON('/GoodsApplies/Delete?Id=' + selected.Id, function (data) {
+    $.getJSON('/CommonApplies/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
         }
@@ -163,10 +142,10 @@ function detail() {
     }
     BJUI.dialog({ 
         id: 'detailDlg',
-        url: '/GoodsApplies/Detail?id=' + selected.Id,
+        url: '/CommonApplies/Detail?id=' + selected.Id,
         title: '进度详情',
         width: 900,
-        height: 700,
+        height: 600,
         mask:true
     });
     $(document).on('bjui.beforeCloseDialog',function(e) {

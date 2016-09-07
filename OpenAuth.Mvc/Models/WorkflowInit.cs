@@ -77,7 +77,7 @@ namespace OpenAuth.Mvc.Models
         {
             var nextState = WorkflowInit.Runtime.GetLocalizedStateName(e.ProcessId, e.ProcessInstance.CurrentState);
 
-            var _app = AutofacExt.GetFromFac<GoodsApplyApp>();
+            var _app = AutofacExt.GetFromFac<CommonApplyApp>();
             _app.ChangeState(e.ProcessId, e.ProcessInstance.CurrentState, nextState);
         }
 
@@ -94,11 +94,12 @@ namespace OpenAuth.Mvc.Models
                 var newActors = Runtime.GetAllActorsForDirectCommandTransitions(e.ProcessId);
                 foreach (var newActor in newActors)
                 {
-                    var newInboxItem = new WorkflowInbox()
+                    var newInboxItem = new Relevance()
                     {
                         Id = Guid.NewGuid(),
-                        IdentityId = new Guid(newActor),
-                        ProcessId = e.ProcessId
+                        SecondId = new Guid(newActor),
+                        FirstId = e.ProcessId,
+                        Key = "ProcessUser"
                     };
 
                     inboxApp.Add(newInboxItem);

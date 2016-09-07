@@ -20,7 +20,6 @@ namespace OpenAuth.Domain
         public ApplyTransitionHistory()
         {
           this.AllowedToUserNames= string.Empty;
-          this.TransitionTime= DateTime.Now;
           this.InitialState= string.Empty;
           this.DestinationState= string.Empty;
           this.Command= string.Empty;

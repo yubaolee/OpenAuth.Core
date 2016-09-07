@@ -15,8 +15,8 @@ function wfdesignerRedraw() {
         apiurl: '/Designer/API',
         renderTo: 'wfdesigner',
         imagefolder: '/images/',
-        graphwidth: 800,
-        graphheight: 500
+        graphwidth: 850,
+        graphheight: 450
     });
 
     if (data == undefined) {
@@ -36,7 +36,7 @@ wfdesignerRedraw();
 $(function () {
     $(".btn-cmd")
         .on("click", function () {   //执行命令
-            $.post("/GoodsApplies/ExeCmd?id=" +$("#processId").val() +"&cmd=" +$(this).val() ,
+            $.post("/CommonApplies/ExeCmd?id=" +$("#processId").val() +"&cmd=" +$(this).val() ,
                function (data) {
                    BJUI.dialog('refresh', 'detailDlg');
                });

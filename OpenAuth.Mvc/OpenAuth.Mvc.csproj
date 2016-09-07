@@ -155,7 +155,7 @@
     <Compile Include="Controllers\CategoryManagerController.cs" />
     <Compile Include="Controllers\DesignerController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\GoodsAppliesController.cs" />
+    <Compile Include="Controllers\CommonAppliesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleElementManagerController.cs" />
@@ -189,7 +189,7 @@
     <Content Include="BllScripts\queryString.js" />
     <Content Include="BllScripts\resourceManager.js" />
     <Content Include="BllScripts\roleManager.js" />
-    <Content Include="BllScripts\goodsApply.js" />
+    <Content Include="BllScripts\commonApply.js" />
     <Content Include="BllScripts\stockManager.js" />
     <Content Include="BllScripts\usermanager.js" />
     <Content Include="BllScripts\assignRes.js" />
@@ -736,7 +736,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <Content Include="Views\Designer\Index.cshtml" />
-    <Content Include="Views\GoodsApplies\Detail.cshtml" />
+    <Content Include="Views\CommonApplies\Detail.cshtml" />
     <None Include="Views\Error\NoAccess.cshtml" />
     <Content Include="Views\Home\git.cshtml" />
     <Content Include="Web.config">
@@ -757,7 +757,7 @@
     <Content Include="Views\ResourceManager\AssignRes.cshtml" />
     <Content Include="Views\StockManager\Index.cshtml" />
     <Content Include="Views\Shared\_BjuiLayout.cshtml" />
-    <Content Include="Views\GoodsApplies\Index.cshtml" />
+    <Content Include="Views\CommonApplies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

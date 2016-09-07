@@ -18,21 +18,21 @@
 <!--编辑对话框-->
 <div class="bjui-dialog hidden bjui-dialog-container" id="editDlg" data-noinit="true">
     <div class="bjui-pageContent">
-        <form action="/GoodsApplies/Edit" class="pageForm" data-toggle="validate" data-reload="false" id="editForm">
+        <form action="/CommonApplies/Edit" class="pageForm" data-toggle="validate" data-reload="false" id="editForm">
 
             <table class="table table-condensed table-hover">
                 <tbody>
                     <input type="text" id="Id" name="Id" value="" class="hidden" />
                     <tr>
                         <td>
-                            <label for="Name" class="control-label x120">产品名称：</label>
+                            <label for="Name" class="control-label x120">申请名称：</label>
                             <input type="text" id="Name" name="Name" value="" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="Number" class="control-label x120">产品数量：</label>
-                            <input type="text" id="Number" name="Number" value="" />
+                            <label for="Comment" class="control-label x120">申请描述：</label>
+                            <input type="text" id="Comment" name="Comment" value="" />
                         </td>
                     </tr>
                 </tbody>
@@ -48,4 +48,4 @@
 </div>
 
 <script src="~/BllScripts/grid.js"></script>
-<script src="~/BllScripts/goodsApply.js"></script>
+<script src="~/BllScripts/commonApply.js"></script>

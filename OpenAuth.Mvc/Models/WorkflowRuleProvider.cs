@@ -8,7 +8,7 @@ using OptimaJet.Workflow.Core.Runtime;
 namespace OpenAuth.Mvc.Models
 {
     /// <summary>
-    /// 判断角色
+    /// 流程角色处理
     /// </summary>
     public class WorkflowRuleProvider : IWorkflowRuleProvider
     {
@@ -59,13 +59,7 @@ namespace OpenAuth.Mvc.Models
         {
             var userids = _app.GetUsersInRole(ruleName);
             if (userids == null) return null;
-            var userstrs = new List<string>();
-            foreach (var userid in userids)
-            {
-                userstrs.Add(userid.ToString());
-            }
-            
-            return userstrs;
+            return userids.Select(u => u.ToString());
         }
     }
 }

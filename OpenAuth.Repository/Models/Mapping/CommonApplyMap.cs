@@ -12,13 +12,13 @@ using OpenAuth.Domain;
 
 namespace OpenAuth.Repository.Models.Mapping
 {
-    public partial class GoodsApplyMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<GoodsApply>
+    public partial class CommonApplyMap
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<CommonApply>
     {
-        public GoodsApplyMap()
+        public CommonApplyMap()
         {
             // table
-            ToTable("GoodsApply", "dbo");
+            ToTable("CommonApply", "dbo");
 
             // keys
             HasKey(t => t.Id);
@@ -31,8 +31,8 @@ namespace OpenAuth.Repository.Models.Mapping
                 .HasColumnName("Sort")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
                 .IsRequired();
-            Property(t => t.Number)
-                .HasColumnName("Number")
+            Property(t => t.ApplyTime)
+                .HasColumnName("ApplyTime")
                 .IsRequired();
             Property(t => t.Name)
                 .HasColumnName("Name")

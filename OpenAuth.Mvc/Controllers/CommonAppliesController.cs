@@ -13,13 +13,13 @@ using ProcessStatus = OptimaJet.Workflow.Core.Persistence.ProcessStatus;
 
 namespace OpenAuth.Mvc.Controllers
 {
-    public class GoodsAppliesController : BaseController
+    public class CommonAppliesController : BaseController
     {
-        private GoodsApplyApp _app;
+        private CommonApplyApp _app;
 
-        public GoodsAppliesController()
+        public CommonAppliesController()
         {
-            _app = AutofacExt.GetFromFac<GoodsApplyApp>();
+            _app = AutofacExt.GetFromFac<CommonApplyApp>();
         }
 
         public ActionResult Index()
@@ -27,13 +27,13 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public string Load(Guid parentId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(string type, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(AuthUtil.GetCurrentUser().User.Id, parentId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(AuthUtil.GetCurrentUser().User.Id, type, pageCurrent, pageSize));
         }
 
         [HttpPost]
-        public string Edit(GoodsApply apply)
+        public string Edit(CommonApply apply)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                GoodsApplyVM apply = _app.Get(id);
+                CommonApplyVM apply = _app.Get(id);
                 apply.Commands = GetCommands(id);
                 return View(apply);
             }
@@ -146,7 +146,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <param name="id">流程实例ID</param>
         /// <param name="commandName">命令名称</param>
         /// <param name="goodsApply">申请实体</param>
-        private void ExecuteCommand(Guid id, string commandName, GoodsApply goodsApply)
+        private void ExecuteCommand(Guid id, string commandName, CommonApply goodsApply)
         {
             var currentUser =AuthUtil.GetCurrentUser().User.Id.ToString();
 

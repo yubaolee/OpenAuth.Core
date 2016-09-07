@@ -7,9 +7,9 @@ namespace OpenAuth.App
 {
     public class WorkflowInboxApp
     {
-        private IRepository<WorkflowInbox> _repository;
+        private IRepository<Relevance> _repository;
 
-        public WorkflowInboxApp(IRepository<WorkflowInbox> repository)
+        public WorkflowInboxApp(IRepository<Relevance> repository)
         {
             _repository = repository;
         }
@@ -17,10 +17,10 @@ namespace OpenAuth.App
 
         public void DeleteAllByProcess(Guid processId)
         {
-            _repository.Delete(u =>u.ProcessId == processId);
+            _repository.Delete(u =>u.FirstId == processId && u.Key=="ProcessUser");
         }
 
-        public void Add(WorkflowInbox newInboxItem)
+        public void Add(Relevance newInboxItem)
         {
             _repository.Add(newInboxItem);
         }

@@ -182,6 +182,7 @@
     </Content>
     <Content Include="Areas\SSO\Content\Site.css" />
     <Content Include="Areas\SSO\Scripts\_references.js" />
+    <None Include="Properties\PublishProfiles\webapi.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">

@@ -56,6 +56,7 @@ function DialogList() {
     var url = '/ResourceManager/LoadWithAccess?cId=';
     this.maingrid = $.CurrentDialog.find('#maingrid').datagrid({
         showToolbar: false,
+        loadType: 'GET',
         filterThead: false,
         target: $(this),
         columns: [

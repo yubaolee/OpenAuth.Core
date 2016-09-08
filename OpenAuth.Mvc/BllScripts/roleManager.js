@@ -48,6 +48,7 @@ function MainGrid() {
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
         filterThead: false,
+        loadType: 'GET',
         target: $(this),
         columns: [
                {
@@ -217,7 +218,7 @@ function del() {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $.getJSON('/RoleManager/Delete?Id=' + selected.Id, function (data) {
+    $.post('/RoleManager/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
             orgtree.reload();
@@ -225,7 +226,7 @@ function del() {
         else {
             $(this).alertmsg('warn', data.message);
         }
-    });
+    }, "json");
 }
 
 //自定义的编辑按钮

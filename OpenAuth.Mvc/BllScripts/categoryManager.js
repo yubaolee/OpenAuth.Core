@@ -17,6 +17,7 @@ function MainGrid() {
     var selectedId = '00000000-0000-0000-0000-000000000000';  //ztree选中的模块
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
+        loadType: 'GET',
         filterThead: false,
         target: $(this),
         columns: [
@@ -234,7 +235,7 @@ function del() {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $.getJSON('/CategoryManager/Delete?Id=' + selected.Id, function (data) {
+    $.post('/CategoryManager/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
             ztree.reload();
@@ -242,7 +243,7 @@ function del() {
         else {
             $(this).alertmsg('warn', data.message);
         }
-    });
+    }, "json");
 }
 
 //编辑

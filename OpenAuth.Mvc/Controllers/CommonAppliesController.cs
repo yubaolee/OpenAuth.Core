@@ -13,6 +13,10 @@ using ProcessStatus = OptimaJet.Workflow.Core.Persistence.ProcessStatus;
 
 namespace OpenAuth.Mvc.Controllers
 {
+    /// <summary>
+    /// 通用申请流程处理
+    /// <para>李玉宝新增于2016-09-08 19:21:59</para>
+    /// </summary>
     public class CommonAppliesController : BaseController
     {
         private CommonApplyApp _app;

@@ -38,8 +38,13 @@ $(function () {
         .on("click", function () {   //执行命令
             $.post("/CommonApplies/ExeCmd?id=" +$("#processId").val() +"&cmd=" +$(this).val() ,
                function (data) {
-                   BJUI.dialog('refresh', 'detailDlg');
-               });
+                   if (data.statusCode == "200") {
+                       BJUI.dialog('refresh', 'detailDlg');
+                   }
+                   else {
+                       $(this).alertmsg('warn', data.message);
+                   }
+               },'json');
         });
 });
 

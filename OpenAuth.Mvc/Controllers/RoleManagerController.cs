@@ -81,12 +81,14 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_app.LoadForOrgAndUser(orgId, userId));
         }
 
+        [System.Web.Mvc.HttpPost]
         public string AccessRoles(Guid userId, Guid[] ids)
         {
             _app.AccessRole(userId, ids);
             return JsonHelper.Instance.Serialize(BjuiResponse);
         }
 
+        [System.Web.Mvc.HttpPost]
         public string DelAccessRoles(Guid userId, Guid[] ids)
         {
             _app.DelAccessRole(userId, ids);

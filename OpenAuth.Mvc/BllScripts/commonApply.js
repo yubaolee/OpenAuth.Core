@@ -27,6 +27,7 @@ function MainGrid() {
     var selectedNode = 'me';  
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
+        loadType:'GET',
         filterThead: false,
         target: $(this),
         columns: [
@@ -115,14 +116,14 @@ function del() {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $.getJSON('/CommonApplies/Delete?Id=' + selected.Id, function (data) {
+    $.post('/CommonApplies/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
         }
         else {
             $(this).alertmsg('warn', data.message);
         }
-    });
+    }, "json");
 }
 
 //自定义的编辑按钮

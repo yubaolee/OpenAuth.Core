@@ -53,6 +53,7 @@ function DialogList() {
     var url = '/ModuleElementManager/LoadWithAccess?tId=';
     this.maingrid = $.CurrentDialog.find('#maingrid').datagrid({
         showToolbar: false,
+        loadType: 'GET',
         filterThead: false,
         target: $(this),
         columns: [

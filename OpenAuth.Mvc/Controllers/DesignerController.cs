@@ -16,7 +16,7 @@ using WorkflowRuntime = OptimaJet.Workflow.Core.Runtime.WorkflowRuntime;
 
 namespace OpenAuth.Mvc.Controllers
 {
-    public class DesignerController : Controller
+    public class DesignerController : BaseController
     {
         public ActionResult Index(string schemeName)
         {

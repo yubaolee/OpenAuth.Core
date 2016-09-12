@@ -1,6 +1,7 @@
 ﻿using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenAuth.Repository
@@ -35,20 +36,16 @@ namespace OpenAuth.Repository
         /// <param name="idMaps">关联的&lt;firstId, secondId&gt;数组</param>
         public void AddRelevance(string key, ILookup<Guid, Guid> idMaps)
         {
-            foreach (var sameVals in idMaps)
-            {
-                foreach (var value in sameVals)
+            DeleteBy(key, idMaps);
+            BatchAdd((from sameVals in idMaps
+                from value in sameVals
+                select new Relevance
                 {
-                    Add(new Relevance
-                     {
-                         Key = key,
-                         FirstId = sameVals.Key,
-                         SecondId = value,
-                         OperateTime = DateTime.Now
-                     });
-                }
-            }
-            Save();
+                    Key = key,
+                    FirstId = sameVals.Key,
+                    SecondId = value,
+                    OperateTime = DateTime.Now
+                }).ToArray());
         }
     }
 }

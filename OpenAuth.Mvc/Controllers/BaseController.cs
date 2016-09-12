@@ -34,7 +34,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             base.OnActionExecuting(filterContext);
 
-            if (!AuthUtil.CheckLogin())  return;
+            if (!AuthUtil.CheckLogin()) return;
 
             var controllername = Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
             var actionname = filterContext.ActionDescriptor.ActionName.ToLower();
@@ -57,15 +57,11 @@ namespace OpenAuth.Mvc.Controllers
             }
 
             var version = ConfigurationManager.AppSettings["version"];
-            if (version == "demo")
+            if (version == "demo" && Request.HttpMethod == "POST")
             {
-                HttpPostAttribute hobbyAttr = (HttpPostAttribute)Attribute.GetCustomAttribute(function, typeof(HttpPostAttribute));
-                if (actionname.Contains("del") || hobbyAttr != null)  //客户端提交数据
-                {
-                    throw new HttpException(400, "演示版本，不能进行该操作，当前模块:" + controllername +"/" +actionname);
-                }
+                throw new HttpException(400, "演示版本，不能进行该操作，当前模块:" + controllername + "/" + actionname);
             }
-            
+
         }
     }
 }

@@ -49,6 +49,7 @@ function MainGrid() {
         showToolbar: false,
         filterThead: false,
         target: $(this),
+        loadType: 'GET',
         columns: [
                {
                    name: 'Id',
@@ -228,7 +229,7 @@ function del() {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $.getJSON('/UserManager/Delete?Id=' + selected.Id, function (data) {
+    $.post('/UserManager/Delete?Id=' + selected.Id, function (data) {
         if (data.statusCode == "200") {
             list.reload();
             maintree.reload();
@@ -236,8 +237,10 @@ function del() {
         else {
             $(this).alertmsg('warn', data.message);
         }
-    });
+    }, "json");
 }
+
+
 
 //自定义的编辑按钮
 function edit() {

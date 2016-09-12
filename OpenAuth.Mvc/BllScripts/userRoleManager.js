@@ -43,6 +43,7 @@ function UserRolesList() {
     var selectedId = '00000000-0000-0000-0000-000000000000'; //ztree选中的模块
     this.maingrid = $.CurrentDialog.find('#maingrid').datagrid({
         showToolbar: false,
+        loadType: 'GET',
         filterThead: false,
         target: $(this),
         columns: [

@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Models\Mapping\ApplyTransitionHistoryMap.cs" />
     <Compile Include="Models\Mapping\CommonApplyMap.cs" />
+    <Compile Include="Workflow\Mapping\WorkflowSchemeMap.cs" />
     <Compile Include="UnitWork.cs" />
     <Compile Include="BaseRepository.cs" />
     <Compile Include="Models\Mapping\CategoryMap.cs" />
@@ -80,6 +81,9 @@
     <Compile Include="StockRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="RelevanceRepository.cs" />
+    <Compile Include="Workflow\WorkflowSchemeRepository.cs" />
+    <Compile Include="Workflow\WorkflowBaseRepository.cs" />
+    <Compile Include="Workflow\WorkflowContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">

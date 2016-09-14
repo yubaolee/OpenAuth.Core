@@ -8,7 +8,7 @@
                     清空查询
                 </a></li>*@
             <div class="pull-right">
-                @{
+                @if(ViewBag.Module != null){
                     var sb = new StringBuilder();
                     foreach (var element in ViewBag.Module.Elements)
                     {

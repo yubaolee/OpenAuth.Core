@@ -153,6 +153,7 @@
     <Compile Include="AutofacExt.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryManagerController.cs" />
+    <Compile Include="Controllers\WorkflowSchemasController.cs" />
     <Compile Include="Controllers\DesignerController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\CommonAppliesController.cs" />
@@ -190,6 +191,7 @@
     <Content Include="BllScripts\resourceManager.js" />
     <Content Include="BllScripts\roleManager.js" />
     <Content Include="BllScripts\commonApply.js" />
+    <Content Include="BllScripts\workflowSchemaManager.js" />
     <Content Include="BllScripts\stockManager.js" />
     <Content Include="BllScripts\usermanager.js" />
     <Content Include="BllScripts\assignRes.js" />
@@ -758,6 +760,7 @@
     <Content Include="Views\StockManager\Index.cshtml" />
     <Content Include="Views\Shared\_BjuiLayout.cshtml" />
     <Content Include="Views\CommonApplies\Index.cshtml" />
+    <Content Include="Views\WorkflowSchemas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

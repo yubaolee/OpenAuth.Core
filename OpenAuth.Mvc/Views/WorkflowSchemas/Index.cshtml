@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Shared/_BjuiLayout.cshtml";
+}
+
+@{ Html.RenderAction("MenuHeader", "Home");}
+<div class="bjui-pageContent tableContent" style="position: relative">
+    <div class="clearfix">
+        
+        <div id="detail">
+            <table id="maingrid" class="table table-bordered"></table>
+        </div>
+    </div>
+</div>
+
+<script src="~/BllScripts/grid.js"></script>
+<script src="~/BllScripts/workflowSchemaManager.js"></script>

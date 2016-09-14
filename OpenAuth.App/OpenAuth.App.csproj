@@ -113,6 +113,7 @@
     <Compile Include="ViewModel\ModuleView.cs" />
     <Compile Include="ViewModel\RoleVM.cs" />
     <Compile Include="ViewModel\UserView.cs" />
+    <Compile Include="WorkflowSchemasManagerApp.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">

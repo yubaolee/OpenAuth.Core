@@ -11,26 +11,8 @@
 <script src="/Scripts/workflowdesigner.min.js"></script>
 <script src="/Scripts/ace.js"></script>
 <script src="/Scripts/json5.js"></script>
+<script src="/BllScripts/queryString.js"></script>
 
-
-<form action="" id="uploadform" method="post" enctype="multipart/form-data" onsubmit="tmp()">
-    <table>
-        <tr>
-            <td></td>
-            <td>
-                <a href='javascript:DownloadScheme()'>下载流程模板</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="file" name="uploadFile" id="uploadFile" style="width:350px">
-            </td>
-            <td>
-                <a href='javascript:UploadScheme()'>上传流程模板</a>
-            </td>
-        </tr>
-    </table>
-</form>
 <table>
     <tr>
         <td>大小:</td>
@@ -39,16 +21,24 @@
         <td>
             |
         </td>
-        <td><button onclick="OnNew()">新建</button></td>
-        <td><button onclick="OnSave()">保存</button></td>
-
+        <td><label class="msg-wrap">*模板名称</label></td>
+        <td><input value="" id="schemeName" /></td>
+        <td><button class="btn btn-primary" onclick="OnSave()">保存</button></td>
+        <td><button class="btn btn-red" onclick="javascript: window.history.go(-1)">返回</button></td>
     </tr>
 </table>
 <br />
 <div id="wfdesigner"></div>
 
 <script>
-    var schemecode = 'SimpleWF';
+    var schemecode = QueryString["schemeName"];
+    var inputScheme = $("#schemeName");
+    var add = schemecode == "" ? true : false;
+    if (!add) {
+        inputScheme.val(schemecode);
+        inputScheme.attr("readonly", "readonly");
+    }
+
     var wfdesigner = undefined;
 
     function wfdesignerRedraw() {
@@ -68,52 +58,37 @@
             graphheight: $('#graphheight').val()
         });
 
-        if (data == undefined) {
-            var isreadonly = false;
-            var p = { schemecode: schemecode, readonly: isreadonly };
-            if (wfdesigner.exists(p))
-                wfdesigner.load(p);
-            else
-                wfdesigner.create();
+        if (add) {
+            wfdesigner.create();
         } else {
-            wfdesigner.data = data;
-            wfdesigner.render();
+            if (data == undefined) {
+                var isreadonly = false;
+                var p = { schemecode: schemecode, readonly: isreadonly };
+                if (wfdesigner.exists(p))   //如果已经存在
+                    wfdesigner.load(p);
+            } else {
+                wfdesigner.data = data;
+                wfdesigner.render();
+            }
         }
+
     }
 
     wfdesignerRedraw();
 
-    function DownloadScheme() {
-        wfdesigner.downloadscheme({ schemecode: schemecode });
-    }
-
-    function UploadScheme() {
-        var file = $('#uploadFile');
-        if (file == undefined || file.val().length == 0) {
-            alert('You did not select a file to upload!');
-            return false;
-        }
-
-        wfdesigner.uploadscheme($('#uploadform')[0],
-            function() {
-                alert('The file is uploaded!');
-            });
-    }
-
     function OnSave() {
-        wfdesigner.schemecode = schemecode;
-
+        if (inputScheme.val().length == 0) {
+            alert("请输入模板名称");
+            return;
+        }
+        wfdesigner.schemecode = inputScheme.val();
         var err = wfdesigner.validate();
         if (err != undefined && err.length > 0) {
             alert(err);
         } else {
-            wfdesigner.save(function() {
-                alert('The scheme is saved!');
+            wfdesigner.save(function () {
+                alert('保存成功');
             });
         }
-    }
-
-    function OnNew() {
-        wfdesigner.create();
     }
 </script>

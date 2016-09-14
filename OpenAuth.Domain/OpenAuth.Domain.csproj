@@ -49,6 +49,7 @@
     <Compile Include="DicIndex.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="CommonApply.cs" />
+    <Compile Include="Interface\IWorkflowSchemeRepository.cs" />
     <Compile Include="Interface\ICategoryRepository.cs" />
     <Compile Include="Interface\IModuleRepository.cs" />
     <Compile Include="Interface\IOrgRepository.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Service\StockManagerService.cs" />
     <Compile Include="Stock.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="WorkflowScheme.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

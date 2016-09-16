@@ -72,11 +72,26 @@ function MainGrid() {
 MainGrid.prototype = new Grid();
 var list = new MainGrid();
 
+var selectScheme = function(val) {
+    $("#WorkflowName").empty();
+    $.getJSON('/workflowschemas/Load',
+        function (data) {
+            $.each(data.list, function (i, n) {
+                $("#WorkflowName").append("<option value='" + this.Code + "'>" + this.Code + "</option>");
+            });
+
+            if (val != undefined) {
+                $('#WorkflowName').val(val);
+            }
+        });
+}
+
 
 //添加（编辑）对话框
 var editDlg = function () {
     var show = function () {
         BJUI.dialog({ id: 'editDlg', title: '编辑对话框', target: '#editDlg' });
+
         $("#btnSave").on("click", function () {
             editDlg.save();
         });
@@ -84,6 +99,7 @@ var editDlg = function () {
     return {
         add: function () {  //弹出添加
             show();
+            selectScheme();
             $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
             $("#Id").val('00000000-0000-0000-0000-000000000000');
         },
@@ -92,6 +108,7 @@ var editDlg = function () {
             $('#Id').val(ret.Id);
             $('#Name').val(ret.Name);
             $('#Comment').val(ret.Comment);
+            selectScheme(ret.WorkflowName);
         },
         save: function () {  //编辑-->保存
             $('#editForm').isValid(function (v) {

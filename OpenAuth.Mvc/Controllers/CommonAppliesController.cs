@@ -43,7 +43,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 apply.UserId = AuthUtil.GetCurrentUser().User.Id;
                 _app.AddOrUpdate(apply);
-                CreateWorkflowIfNotExists(apply.Id);
+                CreateWorkflowIfNotExists(apply.Id,apply.WorkflowName);
 
             }
             catch (Exception ex)
@@ -110,14 +110,14 @@ namespace OpenAuth.Mvc.Controllers
         }
 
 
-        private void CreateWorkflowIfNotExists(Guid id)
+        private void CreateWorkflowIfNotExists(Guid id, string schemecode)
         {
             if (WorkflowInit.Runtime.IsProcessExists(id))
                 return;
 
             using (var sync = new WorkflowSync(WorkflowInit.Runtime, id))
             {
-                WorkflowInit.Runtime.CreateInstance("SimpleWF", id);
+                WorkflowInit.Runtime.CreateInstance(schemecode, id);
 
                 sync.StatrtWaitingFor(new List<ProcessStatus> { ProcessStatus.Initialized, ProcessStatus.Initialized });
 

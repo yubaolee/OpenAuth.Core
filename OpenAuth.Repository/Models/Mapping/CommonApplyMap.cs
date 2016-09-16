@@ -45,6 +45,10 @@ namespace OpenAuth.Repository.Models.Mapping
                 .HasColumnName("State")
                 .HasMaxLength(1024)
                 .IsRequired();
+            Property(t => t.WorkflowName)
+              .HasColumnName("WorkflowName")
+              .HasMaxLength(1024)
+              .IsRequired();
             Property(t => t.StateName)
                 .HasColumnName("StateName")
                 .HasMaxLength(1024)

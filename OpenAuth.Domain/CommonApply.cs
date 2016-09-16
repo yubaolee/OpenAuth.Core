@@ -60,5 +60,7 @@ namespace OpenAuth.Domain
 	    /// </summary>
         public System.Guid? ControllerUserId { get; set; }
 
+
+        public string WorkflowName { get; set; }
     }
 }

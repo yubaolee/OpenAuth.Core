@@ -31,7 +31,8 @@ namespace OpenAuth.App
                 {
                     UserId = model.UserId,
                     Name = model.Name,
-                    Comment = model.Comment
+                    Comment = model.Comment,
+                    WorkflowName =  model.WorkflowName
                 });
             }
 

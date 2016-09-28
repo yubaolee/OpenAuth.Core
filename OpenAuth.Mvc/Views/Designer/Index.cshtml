@@ -31,7 +31,7 @@
 <div id="wfdesigner"></div>
 
 <script>
-    var schemecode = QueryString["schemeName"];
+    var schemecode = decodeURI(QueryString["schemeName"]);
     var inputScheme = $("#schemeName");
     var add = schemecode == "" ? true : false;
     if (!add) {

@@ -1,4 +1,4 @@
-﻿var schemecode = 'SimpleWF';
+﻿
 var wfdesigner = undefined;
 
 function wfdesignerRedraw() {
@@ -9,6 +9,7 @@ function wfdesignerRedraw() {
         wfdesigner.destroy();
     }
     var processid = $("#processId").val();
+    var schemecode = $("#schemeCode").val();
 
     wfdesigner = new WorkflowDesigner({
         name: 'simpledesigner',

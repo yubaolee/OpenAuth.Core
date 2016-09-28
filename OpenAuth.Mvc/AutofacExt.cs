@@ -24,8 +24,10 @@ using OpenAuth.Repository;
 
 namespace OpenAuth.Mvc
 {
-    internal static  class AutofacExt
+    public static  class AutofacExt
     {
+        private static IContainer _container;
+
         public static void InitAutofac()
         {
             var builder = new ContainerBuilder();
@@ -61,8 +63,8 @@ namespace OpenAuth.Mvc
             builder.RegisterFilterProvider();
 
             // Set the dependency resolver to be Autofac.
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            _container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(_container));
         }
 
         /// <summary>
@@ -71,7 +73,8 @@ namespace OpenAuth.Mvc
         /// <typeparam name="T"></typeparam>
         public static T GetFromFac<T>()
         {
-            return (T)DependencyResolver.Current.GetService(typeof(T));
+            return _container.Resolve<T>();
+            //   return (T)DependencyResolver.Current.GetService(typeof(T));
         }
     }
 }

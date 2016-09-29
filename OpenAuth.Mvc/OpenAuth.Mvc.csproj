@@ -724,6 +724,7 @@
     <Content Include="Images\loading.gif" />
     <Content Include="Images\x.png" />
     <Content Include="Scripts\ace.js" />
+    <Content Include="Scripts\designerconstants.js" />
     <Content Include="Scripts\ext-searchbox.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.js" />

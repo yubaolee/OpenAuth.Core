@@ -47,38 +47,38 @@
             </div>
         </div>
     </div>
-
-    <!--编辑对话框-->
-    <div id="editDlg" style="display: none">
-        <div class="col-xs-12">
-            <form class="form-horizontal" id="editForm">
-                <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" for=""> 组织名称 </label>
-                    <div class="col-sm-9">
-                        <input type="text" id="Name" check-type="required" v-model="Name"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" for=""> 排序号 </label>
-                    <div class="col-sm-9">
-                        <input type="text" id="SortNo" check-type="required" v-model="SortNo" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" for=""> 上级机构</label>
-                    <div class="col-sm-9">
-                        <input id="ParentName" type="text" v-model="ParentName" />
-                        <input id="ParentId"  type="hidden" v-model="ParentId"/>
-                        <div id="menuContent" class="menuContent" style="display: none;">
-                            <ul id="org" class="ztree"></ul>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
 </div><!-- /.page-content -->
+
+   <!--编辑对话框-->
+<div id="editDlg" style="display: none">
+    <div class="col-xs-12">
+        <form class="form-horizontal" id="editForm">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for=""> 组织名称 </label>
+                <div class="col-sm-9">
+                    <input type="text" id="Name" v-model="Name" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for=""> 排序号 </label>
+                <div class="col-sm-9">
+                    <input type="text" id="SortNo" v-model="SortNo" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for=""> 上级机构</label>
+                <div class="col-sm-9">
+                    <input id="ParentName" type="text" v-model="ParentName" />
+                    <input id="ParentId" type="hidden" v-model="ParentId" />
+                    <div id="menuContent" class="menuContent" style="display: none;">
+                        <ul id="org" class="ztree"></ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <!--组织修改对话框-->
 <script src="~/BllScripts/grid.js"></script>
 <script src="~/BllScripts/OrgManager.js"></script>

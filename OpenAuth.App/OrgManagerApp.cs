@@ -134,7 +134,7 @@ namespace OpenAuth.App
                 if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
-            if (org.ParentId != Guid.Empty)
+            if (org.ParentId != null && org.ParentId != Guid.Empty)
             {
                 var parentOrg = _repository.FindSingle(o => o.Id == org.ParentId);
                 if (parentOrg != null)

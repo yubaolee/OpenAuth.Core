@@ -125,6 +125,7 @@
     <Compile Include="TestLogin.cs" />
     <Compile Include="TestAuthen.cs" />
     <Compile Include="TestCommonApply.cs" />
+    <Compile Include="TestOrg.cs" />
     <Compile Include="TestUser.cs" />
   </ItemGroup>
   <ItemGroup>

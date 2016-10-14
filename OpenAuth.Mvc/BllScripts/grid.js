@@ -13,16 +13,17 @@
 // ***********************************************************************
 
 function Grid() {
-    this.maingrid = undefined;
+   
     this.selectObjs = function () {
         var ids = this.maingrid.jqGrid('getGridParam', 'selarrrow');
         if (ids.length == 0) {
             return null;
         }
         var ret = new Array();
+        var maingrid = this.maingrid;
         $(ids).each(function () {
-            var obj = this.maingrid.jqGrid('getRowData', this);
-            ret.push(obj.Account);
+            var obj =maingrid.jqGrid('getRowData', this);
+            ret.push(obj);
         });
         return ret;
     };

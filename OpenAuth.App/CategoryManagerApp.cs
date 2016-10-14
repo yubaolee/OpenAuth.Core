@@ -1,22 +1,23 @@
-﻿using System;
+﻿using Infrastructure;
+using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Infrastructure;
 
 namespace OpenAuth.App
 {
     public class CategoryManagerApp
     {
         private ICategoryRepository _repository;
-        private IOrgRepository _orgRepository;
+        private IUnitWork _unitWork;
 
         public CategoryManagerApp(ICategoryRepository repository,
-            IOrgRepository orgRepository)
+            IUnitWork unitWork)
         {
             _repository = repository;
-            _orgRepository = orgRepository;
+            _unitWork = unitWork;
         }
 
         public int GetCategoryCntInOrg(Guid orgId)
@@ -37,29 +38,45 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// 加载一个部门及子部门全部Categorys
+        /// 加载一个分类及子分类全部Categorys
         /// </summary>
-        public dynamic Load(Guid parentId, int pageindex, int pagesize)
+        public GridData Load(Guid parentId, int pageindex, int pagesize)
         {
-            IEnumerable<Category> Categorys;
+            IQueryable<Category> categories;
             int total = 0;
             if (parentId == Guid.Empty)
             {
-                Categorys = _repository.LoadCategorys(pageindex, pagesize);
+                categories = _unitWork.Find<Category>(pageindex, pagesize);
                 total = _repository.GetCount();
             }
             else
             {
                 var ids = GetSubCategories(parentId);
-                Categorys = _repository.LoadInOrgs(pageindex, pagesize, ids);
+                categories = _unitWork.Find<Category>(pageindex, pagesize, "SortNo", u => ids.Contains(u.Id));
                 total = _repository.GetCategoryCntInOrgs(ids);
             }
 
-            return new
+            var query = from c in categories
+                        join category in _unitWork.Find<Category>(null) on c.ParentId equals category.Id into temp
+                        from category in temp.DefaultIfEmpty()
+                        select new
+                        {
+                            c.CascadeId,
+                            c.Name,
+                            c.ParentId,
+                            ParentName = category.Name,
+                            c.SortNo,
+                            c.RootName,
+                            c.RootKey,
+                            c.Status,
+                            c.Id
+                        };
+            return new GridData()
             {
-                total = total,
-                list = Categorys,
-                pageCurrent = pageindex
+                records = total,
+                total = (int)Math.Ceiling((double)total/pagesize),
+                rows = query.ToList(),
+                page = pageindex
             };
         }
 
@@ -68,7 +85,7 @@ namespace OpenAuth.App
         /// </summary>
         private Guid[] GetSubCategories(Guid orgId)
         {
-            var category  = Find(orgId);
+            var category = Find(orgId);
             var categories = _repository.Find(u => u.CascadeId.Contains(category.CascadeId)).Select(u => u.Id).ToArray();
             return categories;
         }
@@ -81,14 +98,14 @@ namespace OpenAuth.App
             return category;
         }
 
-        public void Delete(Guid id)
+        public void Delete(Guid[] ids)
         {
-            _repository.Delete(id);
+            _repository.Delete(u =>ids.Contains(u.Id));
         }
 
         public void AddOrUpdate(Category model)
         {
-            Category category  = new Category();
+            Category category = new Category();
             model.CopyTo(category);
             ChangeModuleCascade(category);
 
@@ -116,7 +133,7 @@ namespace OpenAuth.App
                 if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
-            if (org.ParentId != Guid.Empty)
+            if (org.ParentId != null && org.ParentId != Guid.Empty)
             {
                 var parentOrg = _repository.FindSingle(o => o.Id == org.ParentId);
                 if (parentOrg != null)

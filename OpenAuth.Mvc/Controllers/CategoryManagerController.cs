@@ -54,12 +54,12 @@ namespace OpenAuth.Mvc.Controllers
             }
             return JsonHelper.Instance.Serialize(Result);
         }
-
-        public string Delete(Guid Id)
+        [HttpPost]
+        public string Delete(Guid[] ids)
         {
             try
             {
-                _app.Delete(Id);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {

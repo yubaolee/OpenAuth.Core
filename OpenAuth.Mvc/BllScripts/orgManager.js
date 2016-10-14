@@ -4,7 +4,7 @@
     });
 });
 
-//左边分类导航树
+//左边导航
 var ztree = function () {
     var url = '/OrgManager/LoadOrg';
     var setting = {
@@ -212,6 +212,7 @@ var editDlg = function () {
             show();
             vm.$set('$data', null);
             vm.$set('Id', '00000000-0000-0000-0000-000000000000');
+            vm.$set('SortNo', 0);
         },
         update: function (ret) {  //弹出编辑框
             update = true;
@@ -253,5 +254,3 @@ function add() {
 function refresh() {
     list.reload();
 }
-
-//@@ sourceURL=OrgManager.js

@@ -106,7 +106,7 @@ function MainGrid() {
 
     this.reload = function (id) {
         if (id != undefined) selectedId = id;
-        this.maingrid.jqGrid("setGridParam", {url: url + selectedId })
+        this.maingrid.jqGrid("setGridParam", { url: url + selectedId })
             .trigger("reloadGrid", [{ page: 1 }]);  //重载JQGrid
 
     };
@@ -224,10 +224,11 @@ var editDlg = function () {
 
 //删除
 function del() {
-    var selected = list.getSelectedObj();
+    var selected = list.getSelectedProperties("Id");
     if (selected == null) return;
 
-    $.post('/OrgManager/DelOrg?Id=' + selected.Id, function (data) {
+    $.post('/OrgManager/DelOrg',
+    { ids: selected }, function (data) {
         if (data.Status) {
             list.reload();
             ztree.reload();

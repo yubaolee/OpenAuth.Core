@@ -75,11 +75,12 @@ namespace OpenAuth.Mvc.Controllers
         /// <para>Id为逗号分开的字符串</para>
         /// </summary>
         /// <returns>System.String.</returns>
-        public string DelOrg(Guid Id)
+        [HttpPost]
+        public string DelOrg(Guid[] ids)
         {
             try
             {
-                _orgApp.DelOrg(Id);
+                _orgApp.DelOrg(ids);
             }
             catch (Exception e)
             {

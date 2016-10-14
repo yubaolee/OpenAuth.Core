@@ -210,9 +210,11 @@ var editDlg = function () {
         add: function () {  //弹出添加
             update = false;
             show();
-            vm.$set('$data', null);
-            vm.$set('Id', '00000000-0000-0000-0000-000000000000');
-            vm.$set('SortNo', 0);
+            vm.$set('$data',
+           {
+               Id: '00000000-0000-0000-0000-000000000000',
+               SortNo: 0
+           });
         },
         update: function (ret) {  //弹出编辑框
             update = true;

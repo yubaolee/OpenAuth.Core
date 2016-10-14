@@ -94,9 +94,9 @@ namespace OpenAuth.Domain.Service
             return resource;
         }
 
-        public void Delete(Guid id)
+        public void Delete(Guid[] ids)
         {
-            _repository.Delete(id);
+            _repository.Delete(u =>ids.Contains(u.Id));
         }
 
         public void AddOrUpdate(Resource resource)

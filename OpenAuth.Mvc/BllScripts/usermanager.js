@@ -1,5 +1,11 @@
-﻿//左边分类导航树
-var maintree = function () {
+﻿$(function () {
+    $("#Organizations").on("click", function () {
+        parent.reload();
+    });
+});
+
+//左边导航
+var ztree = function () {
     var url = '/OrgManager/LoadOrg';
     var setting = {
         view: { selectedMulti: false },
@@ -24,13 +30,7 @@ var maintree = function () {
     var load = function () {
         $.getJSON(url, function (json) {
             var zTreeObj = $.fn.zTree.init($("#orgtree"), setting, json);
-            var firstId;  //tree的第一个ID
-            if (json.length > 0) {
-                firstId = json[0].Id;
-            } else {
-                firstId = -1;
-            }
-            list.reload(firstId);
+            list.reload();
             zTreeObj.expandAll(true);
         });
     };
@@ -44,79 +44,83 @@ var maintree = function () {
 //grid列表模块
 function MainGrid() {
     var url = '/UserManager/Load?orgId=';
-    var selectedId ='00000000-0000-0000-0000-000000000000'; //ztree选中的模块
-    this.maingrid = $('#maingrid').datagrid({
-        showToolbar: false,
-        filterThead: false,
-        target: $(this),
-        loadType: 'GET',
-        columns: [
-               {
-                   name: 'Id',
-                   label: 'Id',
-                   width: 100
-                    , hide: true
-               },
-               {
-                   name: 'Account',
-                   label: '账号',
-                   width: 100
-               },
-               {
-                   name: 'Name',
-                   label: '名称',
-                   width: 100
-               },
-               {
-                   name: 'Sex',
-                   label: '性别',
-                   width: 100
-                     , align: 'center',
-                   items: [{ '0': '男' }, { '1': '女' }],
-               },
-               {
-                   name: 'Status',
-                   label: '状态',
-                   width: 100
-                     , align: 'center',
-                   items: [{ '0': '默认' }, { '1': '状态1' }],
-               },
-               {
-                   name: 'Type',
-                   label: '用户类型',
-                   width: 100
-                     , align: 'center',
-                   items: [{ '0': '默认' }, { '1': '类型' }],
-               }
-             
-        ],
-        dataUrl: url + selectedId,  //todo:这里如果配置data:[]的话，不会自动加载，但在分页的下拉中会有undefined
-        fullGrid: true,
-        showLinenumber: true,
-        showCheckboxcol: true,
-        paging: true,
-        filterMult: false,
-        showTfoot: false,
-      
-    });
+    var selectedId = '00000000-0000-0000-0000-000000000000';  //ztree选中的模块
+    this.maingrid = $('#maingrid')
+        .jqGrid({
+            colModel: [
+                {
+                    name: 'Id',
+                    index: 'Id',
+                    hidden: true
+                },
+                {
+                    index: 'Name',
+                    name: 'Name',
+                    label: '姓名'
+                },
+                {
+                    index: 'Account',
+                    name: 'Account',
+                    label: '账号'
+                },
+                {
+                    index: 'Sex',
+                    name: 'Sex',
+                    label: '性别'
+
+                },
+                {
+                    index: 'OrganizationIds',
+                    name: 'OrganizationIds',
+                    hidden:true
+                },
+                {
+                    index: 'Organizations',
+                    name: 'Organizations',
+                    label: '所属机构'
+
+                }
+            ],
+            url: url + selectedId,
+            datatype: "json",
+
+            viewrecords: true,
+            rowNum: 18,
+            pager: "#grid-pager",
+            altRows: true,
+            height: 'auto',
+            multiselect: true,
+            multiboxonly: true,
+
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                },
+                    0);
+            }
+        }).jqGrid('navGrid', "#grid-pager", {
+            edit: false, add: false, del: false, refresh: false, search: false
+        });
 
     this.reload = function (id) {
         if (id != undefined) selectedId = id;
-        this.maingrid.datagrid('reload', { dataUrl: url + selectedId });
+        this.maingrid.jqGrid("setGridParam", { url: url + selectedId })
+            .trigger("reloadGrid", [{ page: 1 }]);  //重载JQGrid
+
     };
 };
 MainGrid.prototype = new Grid();
 var list = new MainGrid();
+var vm = new Vue({
+    el: '#editDlg'
+});
 
-//编辑时，选择上级弹出的树
-var parentTree = function () {
-    var nameDom = "#Organizations";
-    var idDom = "#OrganizationIds";
+//上级机构选择框
+var parent = function () {   //ztree搜索框
     var zTreeObj;
     var setting = {
-        view: {
-            selectedMulti: false
-        },
+        view: { selectedMulti: true },
         check: {
             enable: true,
             chkStyle: "checkbox",
@@ -135,111 +139,125 @@ var parentTree = function () {
             }
         },
         callback: {
-            onClick: zTreeOnClick,
-            onCheck: zTreeCheck
+            onClick: onClick,
+            onCheck: onCheck
         }
     };
+    var showMenu = function () {
+        $("#menuContent").css({ left: "10px", top: $("#Organizations").outerHeight() + "px" }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+    function onClick(e, treeId, treeNode) {
+        var nodes = zTreeObj.getSelectedNodes();
 
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            vm.$set('Organizations', nodes[i].Name);
+            vm.$set('OrganizationIds', nodes[i].Id);
+            break;
+        }
+        hideMenu();
+    }
 
-    function zTreeCheck(event, treeId, treeNode) {
+    function onCheck(e, treeId, treeNode) {
         var nodes = zTreeObj.getCheckedNodes(true);
+
         var ids = nodes.map(function (e) { return e.Id; }).join(",");
         var names = nodes.map(function (e) { return e.Name; }).join(",");
 
-        $(nameDom).val(names);
-        $(idDom).val(ids);
+        vm.$set('Organizations', names);
+        vm.$set('OrganizationIds', ids);
     }
-    function zTreeOnClick(event, treeId, treeNode) {
-        zTreeObj.checkNode(treeNode, !treeNode.checked, true, true);
-        event.preventDefault();
+    function onBodyDown(event) {
+        if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+            hideMenu();
+        }
     }
-
+    function hideMenu() {
+        $("#menuContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
     return {
-        show: function () {
-            $.getJSON('/OrgManager/LoadOrg', function (json) {
-                zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
-                var orgstr = $(idDom).val();
-                var name = '';
-                if (orgstr != '') {
-                    var nodeIds = orgstr.split(',');
-                    $.each(nodeIds, function () {
-                        var node = zTreeObj.getNodeByParam("Id", this, null);
-                        name += ',' + node.Name;
-                        zTreeObj.checkNode(node, true, true);
-                    });
-                    $(nameDom).val(name.substr(1));  //显示名称
+        reload: function () {
+            var index = layer.load();
+            $.getJSON("/OrgManager/LoadOrg", {
+                page: 1, rows: 10000
+            }, function (json) {
+                layer.close(index);
+                if (json.length == 0) {
+                    vm.$set('Organizations', '');
+                    vm.$set('OrganizationIds', '');
+                    return;
                 }
+                zTreeObj = $.fn.zTree.init($("#org"), setting, json);
                 zTreeObj.expandAll(true);
+                showMenu();
             });
         }
-    };
+    }
 }();
 
 //添加（编辑）对话框
 var editDlg = function () {
     var update = false;
     var show = function () {
-        BJUI.dialog({ id: 'editDlg', title: '编辑对话框', target: '#editDlg' });
-        $("#btnSave").on("click", function () {
-            editDlg.save();
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            title: "用户管理", //不显示标题
+            area: ['400px', '300px'], //宽高
+            content: $('#editDlg'), //捕获的元素
+            btn: ['保存', '关闭'],
+            yes: function (index, layero) {
+                $.post("/UserManager/Add", vm.$data, function (data) {
+                    layer.msg(data.Message);
+                    if (data.Status) {
+                        list.reload();
+                        ztree.reload();
+                    }
+                }, "json");
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
         });
     }
     return {
         add: function () {  //弹出添加
             update = false;
             show();
-            $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
-            $("#Id").val('00000000-0000-0000-0000-000000000000');
-            parentTree.show();
-
+            vm.$set('$data',
+            {
+                Id:'00000000-0000-0000-0000-000000000000',
+                Sex:0
+            });
         },
         update: function (ret) {  //弹出编辑框
             update = true;
             show();
-            $('#Id').val(ret.Id);
-            $('#Account').val(ret.Account);
-            $('#Name').val(ret.Name);
-            $('#Sex').selectpicker('val', ret.Sex);
-            $('#Status').selectpicker('val', ret.Status);
-            $('#Type').selectpicker('val', ret.Type);
-            $("#OrganizationIds").val(ret.OrganizationIds);
-            parentTree.show();
-        },
-        save: function () {  //编辑-->保存
-            $('#editForm').isValid(function (v) {
-                if (!v) return;  //验证没通过
-                $("#editForm").bjuiajax('ajaxForm', {
-                    reload: false,
-                    callback: function (json) {
-                        if (json.statusCode != "200") {
-                            $(this).alertmsg('warn', json.message);
-                            return;
-                        }
-                        list.reload();
-                        maintree.reload();
-                    }
-                });
-            });
+            vm.$set('$data', ret);
         }
     };
 }();
 
+
+
 //删除
 function del() {
-    var selected = list.getSelectedObj();
+    var selected = list.getSelectedProperties("Id");
     if (selected == null) return;
 
-    $.post('/UserManager/Delete?Id=' + selected.Id, function (data) {
-        if (data.statusCode == "200") {
+    $.post('/UserManager/Delete',
+    { ids: selected },
+    function (data) {
+        if (data.Status) {
             list.reload();
-            maintree.reload();
+            ztree.reload();
         }
         else {
-            $(this).alertmsg('warn', data.message);
+            layer.msg(data.Message);
         }
     }, "json");
 }
-
 
 
 //自定义的编辑按钮
@@ -330,5 +348,3 @@ function openAssignUserElement(obj) {
         }
     });
 }
-
-//@@ sourceURL=UserManager.js

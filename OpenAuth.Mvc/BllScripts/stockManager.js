@@ -233,7 +233,7 @@ function del() {
     if (selected == null) return;
 
     $.post('/StockManager/Delete?Id=' + selected.Id, function (data) {
-        if (data.statusCode == "200") {
+        if (data.Status) {
             list.reload();
             ztree.reload();
         }

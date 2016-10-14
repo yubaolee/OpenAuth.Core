@@ -47,17 +47,17 @@ namespace OpenAuth.App
         {
             if (pageindex < 1) pageindex = 1;  //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
             IEnumerable<User> users;
-            int total = 0;
+            int records = 0;
             if (orgId ==Guid.Empty)
             {
                 users = _repository.LoadUsers(pageindex, pagesize);
-                total = _repository.GetCount();
+                records = _repository.GetCount();
             }
             else
             {
                 var ids = GetSubOrgIds(orgId);
                 users = _repository.LoadInOrgs(pageindex, pagesize, ids);
-                total = _repository.GetUserCntInOrgs(ids);
+                records = _repository.GetUserCntInOrgs(ids);
             }
             var userviews = new List<UserView>();
             foreach (var user in users)
@@ -71,7 +71,8 @@ namespace OpenAuth.App
 
             return new GridData
             {
-                total = total,
+                records = records,
+                total = (int)Math.Ceiling((double)records / pagesize),
                 rows = userviews,
                 page = pageindex
             };
@@ -103,12 +104,12 @@ namespace OpenAuth.App
             return view;
         }
 
-        public void Delete(Guid id)
+        public void Delete(Guid[] ids)
         {
-            _repository.Delete(u => u.Id == id);
-            _relevanceRepository.DeleteBy("UserOrg", id);
-            _relevanceRepository.DeleteBy("UserModule", id);
-            _relevanceRepository.DeleteBy("UserRole", id);
+            _repository.Delete(u => ids.Contains(u.Id));
+            _relevanceRepository.DeleteBy("UserOrg", ids);
+            _relevanceRepository.DeleteBy("UserModule", ids);
+            _relevanceRepository.DeleteBy("UserRole", ids);
         }
 
         public void AddOrUpdate(UserView view)

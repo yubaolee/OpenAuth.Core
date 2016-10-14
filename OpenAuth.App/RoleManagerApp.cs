@@ -68,8 +68,8 @@ namespace OpenAuth.App
             var result = new GridData
             {
                 total = total,
-                list = rolevms.ToList(),
-                pageCurrent = pageindex
+                rows = rolevms.ToList(),
+                page = pageindex
             };
 
             return result;

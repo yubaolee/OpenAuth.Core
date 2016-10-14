@@ -12,12 +12,15 @@
 
 using OpenAuth.Mvc.Models;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using Infrastructure;
 using OpenAuth.App.SSO;
+using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -28,7 +31,8 @@ namespace OpenAuth.Mvc.Controllers
     /// </summary>
     public class BaseController : SSOController
     {
-        protected BjuiResponse BjuiResponse = new BjuiResponse();
+        protected Response Result = new Response();
+        protected ModuleView CurrentModule;
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -44,16 +48,12 @@ namespace OpenAuth.Mvc.Controllers
                 throw new Exception("未能找到Action");
 
             var authorize = function.GetCustomAttribute(typeof(AuthenticateAttribute));
-            var module = AuthUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(controllername));
+            CurrentModule = AuthUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(controllername));
             //当前登录用户没有Action记录&&Action有authenticate标识
-            if (authorize != null && module == null)
+            if (authorize != null && CurrentModule == null)
             {
                 filterContext.Result = new RedirectResult("/Login/Index");
                 return;
-            }
-            else
-            {
-                ViewBag.Module = module;  //为View显示服务，主要是为了显示按钮
             }
 
             var version = ConfigurationManager.AppSettings["version"];

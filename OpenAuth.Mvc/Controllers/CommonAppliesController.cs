@@ -48,10 +48,10 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
+                 Result.Status = false;
+                Result.Message = ex.Message;
             }
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
 
         public ActionResult Detail(Guid id)
@@ -81,12 +81,12 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
+                 Result.Status = false;
+                Result.Message = ex.Message;
                 throw;
             }
 
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
 
         /// <summary>
@@ -101,12 +101,12 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
+                 Result.Status = false;
+                Result.Message = ex.Message;
                 throw;
             }
 
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
 
 

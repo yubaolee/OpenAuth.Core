@@ -1,4 +1,10 @@
-﻿//左边分类导航树
+﻿$(function () {
+    $("#ParentName").on("click", function () {
+        parent.reload();
+    });
+});
+
+//左边分类导航树
 var ztree = function () {
     var url = '/OrgManager/LoadOrg';
     var setting = {
@@ -24,13 +30,7 @@ var ztree = function () {
     var load = function () {
         $.getJSON(url, function (json) {
             var zTreeObj = $.fn.zTree.init($("#orgtree"), setting, json);
-            var firstId;  //tree的第一个ID
-            if (json.length > 0) {
-                firstId = json[0].Id;
-            } else {
-                firstId = -1;
-            }
-            list.reload(firstId);
+            list.reload();
             zTreeObj.expandAll(true);
         });
     };
@@ -45,92 +45,83 @@ var ztree = function () {
 function MainGrid() {
     var url = '/OrgManager/LoadChildren?Id=';
     var selectedId = '00000000-0000-0000-0000-000000000000';  //ztree选中的模块
-    this.maingrid = $('#maingrid').datagrid({
-        showToolbar: false,
-        filterThead: false,
-        loadType: 'GET',
-        target: $(this),
-        columns: [
-               {
-                   name: 'Id',
-                   label: '流水号',
-                   width: 100
-                    , hide: true
-               },
-               {
-                   name: 'CascadeId',
-                   label: '节点语义ID',
-                   width: 100
-               },
-               {
-                   name: 'Name',
-                   label: '组织名称',
-                   width: 100
-               },
-               {
-                   name: 'ParentName',
-                   label: '父节点名称',
-                   width: 100
-               },
-               {
-                   name: 'IsLeaf',
-                   label: '是否叶子节点',
-                   width: 100
-                     , 
-                   align: 'center',
-                   items: [{ 'false': '否' }, { 'true': '是' }],
-               },
-               {
-                   name: 'IsAutoExpand',
-                   label: '是否自动展开',
-                   width: 100
-                     , 
-                   align: 'center',
-                   items: [{ 'false': '否' }, { 'true': '是' }],
-               },
-               {
-                   name: 'IconName',
-                   label: '节点图标文件名称',
-                   width: 100
-               },
-               {
-                   name: 'SortNo',
-                   label: '排序号',
-                   width: 100 , 
-                   align: 'center'
-               },
-        ],
-        dataUrl: url + selectedId,
-        fullGrid: true,
-        showLinenumber: true,
-        showCheckboxcol: true,
-        paging: true,
-        filterMult: false,
-        showTfoot: false,
-      
-    });
+    this.maingrid = $('#maingrid')
+        .jqGrid({
+            colModel: [
+                {
+                    name: 'Id',
+                    index: 'Id',
+                    label: '流水号',
+                    hidden: true
+                },
+                {
+                    index: 'CascadeId',
+                    name: 'CascadeId',
+                    label: '节点语义ID'
+                },
+                {
+                    index: 'Name',
+                    name: 'Name',
+                    label: '组织名称'
+                },
+                {
+                    index: 'ParentName',
+                    name: 'ParentName',
+                    label: '父节点名称'
+                },
+                 {
+                     index: 'ParentId',
+                     name: 'ParentId',
+                     hidden: true
+                 },
+
+                {
+                    index: 'SortNo',
+                    name: 'SortNo',
+                    label: '排序号'
+
+                }
+            ],
+            url: url + selectedId,
+            datatype: "json",
+
+            viewrecords: true,
+            rowNum: 18,
+            pager: "#grid-pager",
+            altRows: true,
+            height: 'auto',
+            multiselect: true,
+            multiboxonly: true,
+
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                },
+                    0);
+            }
+        }).jqGrid('navGrid', "#grid-pager", {
+            edit: false, add: false, del: false, refresh: false, search: false
+        });
+
     this.reload = function (id) {
         if (id != undefined) selectedId = id;
-        this.maingrid.datagrid('reload', { dataUrl: url + selectedId });
+        this.maingrid.jqGrid("setGridParam", {url: url + selectedId })
+            .trigger("reloadGrid", [{ page: 1 }]);  //重载JQGrid
+
     };
 };
 MainGrid.prototype = new Grid();
 var list = new MainGrid();
+var vm = new Vue({
+    el: '#editDlg'
+});
 
-//编辑时，选择上级弹出的树
-var parentTree = function () {
-    var nameDom = "#ParentName";
-    var idDom = "#ParentId";
+//上级机构选择框
+var parent = function () {   //ztree搜索框
     var zTreeObj;
     var setting = {
-        view: {
-            selectedMulti: false
-        },
-        check: {
-            enable: true,
-            chkStyle: "radio",  //单选
-            radioType: "all"
-        },
+        view: { selectedMulti: false },
         data: {
             key: {
                 name: 'Name',
@@ -144,90 +135,88 @@ var parentTree = function () {
             }
         },
         callback: {
-            onClick: zTreeOnClick,
-            onCheck: zTreeCheck
+            onClick: onClick
         }
     };
+    var showMenu = function () {
+        $("#menuContent").css({ left: "10px", top: $("#ParentName").outerHeight() + "px" }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+    function onClick(e, treeId, treeNode) {
+        var nodes = zTreeObj.getSelectedNodes();
 
-    function zTreeCheck(event, treeId, treeNode) {
-        var nodes = zTreeObj.getCheckedNodes(true);
-        var ids = nodes.map(function (e) { return e.Id; }).join(",");
-        var names = nodes.map(function (e) { return e.Name; }).join(",");
-
-        $(nameDom).val(names);
-        $(idDom).val(ids);
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            vm.$set('ParentName', nodes[i].Name);
+            vm.$set('ParentId', nodes[i].Id);
+            break;
+        }
+        hideMenu();
     }
-    function zTreeOnClick(event, treeId, treeNode) {
-        zTreeObj.checkNode(treeNode, !treeNode.checked, true, true);
-        event.preventDefault();
+    function onBodyDown(event) {
+        if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+            hideMenu();
+        }
     }
-
+    function hideMenu() {
+        $("#menuContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
     return {
-        show: function () {
-            $.getJSON('/OrgManager/LoadOrg', function (json) {
-                zTreeObj = $.fn.zTree.init($('#j_select_tree1'), setting, json);
-                var orgstr = $(idDom).val();
-                var name = '';
-                if (orgstr != '') {
-                    var nodeIds = orgstr.split(',');
-                    $.each(nodeIds, function () {
-                        var node = zTreeObj.getNodeByParam("Id", this, null);
-                        name += ',' + node.Name;
-                        zTreeObj.checkNode(node, true, true);
-                    });
-                    $(nameDom).val(name.substr(1));  //显示名称
+        reload: function () {
+            var index = layer.load();
+            $.getJSON("/OrgManager/LoadOrg", {
+                page: 1, rows: 10000
+            }, function (json) {
+                layer.close(index);
+                if (json.length == 0) {
+                    vm.$set('ParentName', '');
+                    vm.$set('ParentId', '');
+                    return;
                 }
+                zTreeObj = $.fn.zTree.init($("#org"), setting, json);
                 zTreeObj.expandAll(true);
+                showMenu();
             });
         }
-    };
+    }
 }();
 
 //添加（编辑）对话框
 var editDlg = function () {
     var update = false;
     var show = function () {
-        BJUI.dialog({ id: 'editDlg', title: '编辑对话框', target: '#editDlg' });
-        $("#btnSave").on("click", function () {
-            editDlg.save();
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            title: "用户管理", //不显示标题
+            area: ['400px', '300px'], //宽高
+            content: $('#editDlg'), //捕获的元素
+            btn: ['保存', '关闭'],
+            yes: function (index, layero) {
+                $.post("/OrgManager/AddOrg", vm.$data, function (data) {
+                    layer.msg(data.Message);
+                    if (data.Status) {
+                        list.reload();
+                        ztree.reload();
+                    }
+                }, "json");
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
         });
     }
     return {
         add: function () {  //弹出添加
             update = false;
             show();
-            $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
-            $("#Id").val('00000000-0000-0000-0000-000000000000');
-
-            parentTree.show()
+            vm.$set('$data', null);
+            vm.$set('Id', '00000000-0000-0000-0000-000000000000');
         },
         update: function (ret) {  //弹出编辑框
             update = true;
             show();
-            $('#Id').val(ret.Id);
-            $('#Name').val(ret.Name);
-            $('#ParentId').val(ret.ParentId);
-            $('#ParentName').val(ret.ParentName);
-            $('#IsLeaf').selectpicker('val', ret.IsLeaf?"true":"false");
-            $('#IsAutoExpand').selectpicker('val', ret.IsAutoExpand?"true":"false");
-            $('#SortNo').val(ret.SortNo);
-            parentTree.show();
-        },
-        save: function () {  //编辑-->保存
-            $('#editForm').isValid(function (v) {
-                if (!v) return;  //验证没通过
-                $("#editForm").bjuiajax('ajaxForm', {
-                    reload: false,
-                    callback: function (json) {
-                        if (json.statusCode != "200") {
-                            $(this).alertmsg('warn', json.message);
-                            return;
-                        }
-                        list.reload();
-                        ztree.reload();
-                    }
-                });
-            });
+            vm.$set('$data', ret);
         }
     };
 }();
@@ -238,12 +227,12 @@ function del() {
     if (selected == null) return;
 
     $.post('/OrgManager/DelOrg?Id=' + selected.Id, function (data) {
-        if (data.statusCode == "200") {
+        if (data.Status) {
             list.reload();
             ztree.reload();
         }
         else {
-            $(this).alertmsg('warn', data.message);
+            layer.msg(data.Message);
         }
     }, "json");
 }

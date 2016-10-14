@@ -21,9 +21,9 @@ namespace OpenAuth.App
         {
             var result = new GridData
             {
-                pageCurrent = pageCurrent,
+                page = pageCurrent,
                 total = _repository.GetCount(),
-                list = _repository.Find(pageCurrent, pageSize, "Code", null).ToList()
+                rows = _repository.Find(pageCurrent, pageSize, "Code", null).ToList()
             };
 
             return result;

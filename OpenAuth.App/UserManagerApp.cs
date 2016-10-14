@@ -72,8 +72,8 @@ namespace OpenAuth.App
             return new GridData
             {
                 total = total,
-                list = userviews,
-                pageCurrent = pageindex
+                rows = userviews,
+                page = pageindex
             };
         }
 

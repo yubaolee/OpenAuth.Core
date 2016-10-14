@@ -24,7 +24,6 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class ModuleElementManagerController : BaseController
     {
-        private readonly BjuiResponse _bjuiResponse = new BjuiResponse();
         private ModuleElementManagerApp _app;
 
         public ModuleElementManagerController()
@@ -49,10 +48,11 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (DbEntityValidationException e)
             {
-                _bjuiResponse.statusCode = "300";
-                _bjuiResponse.message = e.Message;
+                
+                 Result.Status=false;
+                 Result.Message = e.Message;
             }
-            return JsonHelper.Instance.Serialize(_bjuiResponse);
+            return JsonHelper.Instance.Serialize( Result);
         }
         public string Del(string moduleElements)
         {
@@ -63,10 +63,10 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception e)
             {
-                _bjuiResponse.statusCode = "300";
-                _bjuiResponse.message = e.Message;
+                 Result.Status=false;
+                 Result.Message = e.Message;
             }
-            return JsonHelper.Instance.Serialize(_bjuiResponse);
+            return JsonHelper.Instance.Serialize( Result);
         }
 
         /// <summary>

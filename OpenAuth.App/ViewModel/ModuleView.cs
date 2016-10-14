@@ -38,11 +38,6 @@ namespace OpenAuth.App.ViewModel
         public string IconName { get; set; }
 
         /// <summary>
-        /// 子节点
-        /// </summary>
-        public List<ModuleView> Childern = new List<ModuleView>();
-
-        /// <summary>
         /// 模块中的元素
         /// </summary>
         public List<ModuleElement> Elements = new List<ModuleElement>();

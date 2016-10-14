@@ -1,77 +1,85 @@
 ﻿@{
-    Layout = "~/Views/Shared/_BjuiLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ Html.RenderAction("MenuHeader", "Home");}
-<div class="bjui-pageContent tableContent" style="position: relative">
-    <div class="clearfix">
-        <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="orgtree" class="ztree"></ul>
-        </div>
-
-        <div id="detail" style="margin-left: 225px;">
-            <table id="maingrid" class="table table-bordered"></table>
-        </div>
-    </div>
+<!-- #section:basics/content.breadcrumbs -->
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">机构管理</a>
+        </li>
+        <li class="active">列表</li>
+    </ul><!-- /.breadcrumb -->
 </div>
 
-<!--编辑对话框-->
-<div class="bjui-dialog hidden bjui-dialog-container" id="editDlg" data-noinit="true">
-    <div class="bjui-pageContent">
-        <form action="/OrgManager/AddOrg" class="pageForm" data-toggle="validate" data-reload="false" id="editForm">
-            <table class="table table-condensed table-hover">
-                <tbody>
-                    <input type="text" id="Id" name="Id" value="" class="hidden" />
-                    <tr>
-                        <td>
-                            <label for="Name" class="control-label x120">组织名称：</label>
-                            <input type="text" id="Name" name="Name" value="" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="IsLeaf" class="control-label x120">是否叶子节点：</label>
-                            <select name="IsLeaf" id="IsLeaf" data-toggle="selectpicker" data-rule="required">
-                                <option value="false">否</option>
-                                <option value="true">是</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="IsAutoExpand" class="control-label x120">是否自动展开：</label>
-                            <select name="IsAutoExpand" id="IsAutoExpand" data-toggle="selectpicker" data-rule="required">
-                                <option value="false">否</option>
-                                <option value="true">是</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="SortNo" class="control-label x120">排序号：</label>
-                            <input type="text" id="SortNo" name="SortNo" value="" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="ParentName" class="control-label x120">上级机构：</label>
-                            <input id="ParentId" name="ParentId" style="display: none" />
-                            <input type="text" name="ParentName" id="ParentName"
-                                   data-toggle="selectztree" data-tree="#j_select_tree1">
-                            <ul id="j_select_tree1" class="ztree hide" data-toggle="ztree"></ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
+<!-- /section:basics/content.breadcrumbs -->
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="widget-box widget-color-blue">
+                    <div class="widget-header">
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <ul id="orgtree" class="ztree" style="width: 100%"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="widget-box widget-color-blue">
+                    <div class="widget-header">
+                        @Html.Action("MenuHeader", "Home")
+                    </div>
+                    <div class="widget-body gridwidth">
+                        <div class="widget-main">
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <table id="maingrid"></table>
+                                    <div id="grid-pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="bjui-pageFooter">
-        <ul>
-            <li><button type="button" class="btn btn-close">关闭</button></li>
-            <li><button type="button" class="btn btn-primary" id="btnSave">保存</button></li>
-        </ul>
-    </div>
-</div>
 
+    <!--编辑对话框-->
+    <div id="editDlg" style="display: none">
+        <div class="col-xs-12">
+            <form class="form-horizontal" id="editForm">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" for=""> 组织名称 </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="Name" check-type="required" v-model="Name"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" for=""> 排序号 </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="SortNo" check-type="required" v-model="SortNo" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" for=""> 上级机构</label>
+                    <div class="col-sm-9">
+                        <input id="ParentName" type="text" v-model="ParentName" />
+                        <input id="ParentId"  type="hidden" v-model="ParentId"/>
+                        <div id="menuContent" class="menuContent" style="display: none;">
+                            <ul id="org" class="ztree"></ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- /.page-content -->
+<!--组织修改对话框-->
 <script src="~/BllScripts/grid.js"></script>
 <script src="~/BllScripts/OrgManager.js"></script>
+<script src="~/BllScripts/jqEvent.js"></script>

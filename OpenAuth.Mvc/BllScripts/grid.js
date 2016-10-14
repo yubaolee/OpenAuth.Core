@@ -6,28 +6,37 @@
 // Last Modified By : yubaolee
 // Last Modified On : 04-12-2016
 // ***********************************************************************
-// <copyright file="grid.js" company="www.cnblogs.com/yubaolee">
+// <copyright file="maingrid.js" company="www.cnblogs.com/yubaolee">
 //     版权所有(C) 2015
 // </copyright>
-// <summary>grid基类</summary>
+// <summary>maingrid基类</summary>
 // ***********************************************************************
 
 function Grid() {
     this.maingrid = undefined;
     this.selectObjs = function () {
-        var selectedDatas = this.maingrid.data('selectedDatas');
-        if (selectedDatas == undefined || selectedDatas.length == 0) {
-            $(this).alertmsg('warn', '至少选择一个对象');
+        var ids = this.maingrid.jqGrid('getGridParam', 'selarrrow');
+        if (ids.length == 0) {
             return null;
         }
-        return selectedDatas;
+        var ret = new Array();
+        $(ids).each(function () {
+            var obj = this.maingrid.jqGrid('getRowData', this);
+            ret.push(obj.Account);
+        });
+        return ret;
     };
 }
 
 //选择单行对象
 Grid.prototype.getSelectedObj = function () {
-    var selectedDatas = this.selectObjs();
-    return selectedDatas == null ? null : selectedDatas[0];
+    var row = this.maingrid.jqGrid('getGridParam', 'selrow');
+    if (row) {
+        var ret = this.maingrid.jqGrid('getRowData', row);
+        return ret;
+    } else {
+        return null;
+    }
 };
 //选择多行对象
 Grid.prototype.getSelectedMany = function () {
@@ -38,7 +47,7 @@ Grid.prototype.getSelectedProperties = function (propName) {
     var selected = this.selectObjs();
     var result = new Array();
     if (selected != null) {
-        result = selected.map(function (elem) { return  elem[propName] ; });
+        result = selected.map(function (elem) { return elem[propName]; });
     }
     return result;
 };

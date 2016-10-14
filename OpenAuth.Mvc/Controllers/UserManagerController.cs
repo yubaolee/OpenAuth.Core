@@ -36,10 +36,10 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
+                 Result.Status = false;
+                Result.Message = ex.Message;
             }
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception e)
             {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = e.Message;
+                 Result.Status = false;
+                Result.Message = e.Message;
             }
 
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
 
         

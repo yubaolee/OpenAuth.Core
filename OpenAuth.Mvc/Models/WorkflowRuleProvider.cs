@@ -24,7 +24,7 @@ namespace OpenAuth.Mvc.Models
         /// </summary>
         public List<string> GetRules()
         {
-            var roles = _app.Load(Guid.Empty, 1, 100).list;
+            var roles = _app.Load(Guid.Empty, 1, 100).rows;
             var rolestrs = new List<string>();
             foreach (var role in roles)
             {

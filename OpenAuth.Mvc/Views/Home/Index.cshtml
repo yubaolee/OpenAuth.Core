@@ -1,210 +1,77 @@
 ﻿@{
-    Layout = "~/Views/Shared/_BjuiLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model List<OpenAuth.App.ViewModel.ModuleView>
 
-    <!-- init -->
-    <script type="text/javascript">
-        $(function () {
-           // main - menu
-            $('#bjui-accordionmenu')
-                .collapse()
-                .on('hidden.bs.collapse', function (e) {
-                    $(this).find('> .panel > .panel-heading').each(function () {
-                        var $heading = $(this), $a = $heading.find('> h4 > a');
-                        if ($a.hasClass('collapsed')) $heading.removeClass('active');
-                    });
-                })
-                .on('shown.bs.collapse', function (e) {
-                    $(this).find('> .panel > .panel-heading').each(function () {
-                        var $heading = $(this), $a = $heading.find('> h4 > a');
-                        if (!$a.hasClass('collapsed')) $heading.addClass('active');
-                    });
-                });
-            $(document).on('click', 'ul.menu-items > li > a', function (e) {
-                var $a = $(this), $li = $a.parent(), options = $a.data('options').toObj();
-                var onClose = function () {
-                    $li.removeClass('active');
-                };
-                var onSwitch = function () {
-                    $('#bjui-accordionmenu').find('ul.menu-items > li').removeClass('switch');
-                    $li.addClass('switch');
-                };
-                $li.addClass('active');
-                if (options) {
-                    options.url = $a.attr('href');
-                    options.onClose = onClose;
-                    options.onSwitch = onSwitch;
-                    if (!options.title) options.title = $a.text();
-                    if (!options.target)
-                        $a.navtab(options);
-                    else
-                        $a.dialog(options);
-                }
 
-                e.preventDefault();
-            });
+<!-- #section:basics/content.breadcrumbs -->
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Home</a>
+        </li>
+        <li class="active">Project Info</li>
+    </ul><!-- /.breadcrumb -->
+</div>
 
-            //时钟
-            var today = new Date(), time = today.getTime();
-            $('#bjui-date').html(today.formatDate('yyyy/MM/dd'));
-            setInterval(function () {
-                today = new Date(today.setSeconds(today.getSeconds() + 1));
-                $('#bjui-clock').html(today.formatDate('HH:mm:ss'));
-            }, 1000);
-
-        });
-
-        //菜单-事件
-        function MainMenuClick(event, treeId, treeNode) {
-            event.preventDefault();
-            if (treeNode.isParent) {
-                var zTree = $.fn.zTree.getZTreeObj(treeId);
-                zTree.expandNode(treeNode, !treeNode.open, false, true, true);
-                return;
-            }
-
-            if (treeNode.target && treeNode.target == 'dialog')
-                $(event.target).dialog({ id: treeNode.tabid, url: treeNode.url, title: treeNode.name });
-            else
-                $(event.target).navtab({
-                    id: treeNode.tabid,
-                    url: treeNode.url,
-                    title: treeNode.name,
-                    fresh: treeNode.fresh,
-                    external: 'iframe'  //如果为空则直接在本页面里加载，否则使用iframe
-                });
-        }
-    </script>
-
-    <!--[if lte IE 7]>
-        <div id="errorie"><div>您还在使用老掉牙的IE，正常使用系统前请升级您的浏览器到 IE8以上版本 <a target="_blank" href="http://windows.microsoft.com/zh-cn/internet-explorer/ie-8-worldwide-languages">点击升级</a>&nbsp;&nbsp;强烈建议您更改换浏览器：<a href="http://down.tech.sina.com.cn/content/40975.html" target="_blank">谷歌 Chrome</a></div></div>
-    <![endif]-->
-    <div id="bjui-window">
-        <header id="bjui-header">
-            <div class="bjui-navbar-header">
-                <button type="button" class="bjui-navbar-toggle btn-default" data-toggle="collapse" data-target="#bjui-navbar-collapse">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="bjui-navbar-logo" href="#"><img src="/Content/BJUI/images/logo.png"></a>
-            </div>
-            <nav id="bjui-navbar-collapse">
-                <ul class="bjui-navbar-right">
-                    <li class="datetime"><div><span id="bjui-date"></span> <span id="bjui-clock"></span></div></li>
-                    <li><a href="#">消息 <span class="badge">4</span></a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的账户 <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="changepwd.html" data-toggle="dialog" data-id="changepwd_page" data-mask="true"
-                                   data-width="400" data-height="260">&nbsp;<span class="glyphicon glyphicon-lock"></span>修改密码&nbsp;</a>
-                            </li>
-                            <li><a href="#">&nbsp;<span class="glyphicon glyphicon-user"></span> 我的资料</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/Login/Logout" class="red">&nbsp;<span class="glyphicon glyphicon-off"></span> 注销登陆</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle theme blue" data-toggle="dropdown" title="切换皮肤"><i class="fa fa-tree"></i></a>
-                        <ul class="dropdown-menu" role="menu" id="bjui-themes">
-                            <li><a href="javascript:;" class="theme_default" data-toggle="theme" data-theme="default">&nbsp;<i class="fa fa-tree"></i> 黑白分明&nbsp;&nbsp;</a></li>
-                            <li><a href="javascript:;" class="theme_orange" data-toggle="theme" data-theme="orange">&nbsp;<i class="fa fa-tree"></i> 橘子红了</a></li>
-                            <li><a href="javascript:;" class="theme_purple" data-toggle="theme" data-theme="purple">&nbsp;<i class="fa fa-tree"></i> 紫罗兰</a></li>
-                            <li class="active"><a href="javascript:;" class="theme_blue" data-toggle="theme" data-theme="blue">&nbsp;<i class="fa fa-tree"></i> 天空蓝</a></li>
-                            <li><a href="javascript:;" class="theme_green" data-toggle="theme" data-theme="green">&nbsp;<i class="fa fa-tree"></i> 绿草如茵</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-            <div id="bjui-hnav">
-                <button type="button" class="btn-default bjui-hnav-more-left" title="导航菜单左移"><i class="fa fa-angle-double-left"></i></button>
-                <div id="bjui-hnav-navbar-box">
-                    <ul id="bjui-hnav-navbar">
-                        <li class="active">
-                            <a href="javascript:;" data-toggle="slidebar"><i class="fa fa-check-square-o"></i> 应用管理</a>
-                            <div class="items hide" data-noinit="true" id="navTree">
-
-                                <ul id="bjui-doc-tree-base" class="ztree ztree_main" data-toggle="ztree" data-on-click="MainMenuClick"
-                                    data-expand-all="true" data-faicon="star-o" data-tit="控制台">
-                                    @if (Model != null)
-                                    {
-                                        foreach (var module in Model)
-                                        {
-
-                                            <li data-id="@module.Id" data-pid="@module.ParentId"
-                                                @if (string.IsNullOrWhiteSpace(module.Url.Trim())) { @: data - faicon="folder-open-o"
-                                                                                                                                            @: data - faicon - close="folder-o"
-                                                                                                                                        } else { @: data-faicon="caret-right"
-                                                                                                                                            @: data-url="@module.Url"
-                                                                                                                                            @: data-tabid="@module.Id"
-                                                                                                                                        }>@module.Name</li>
-                                        }
-                                    }
-                                  
+<!-- /section:basics/content.breadcrumbs -->
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <div style="margin-top: 5px; margin-right: 300px; overflow: hidden;">
+                <div class="row" style="padding: 0 8px;">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    社区信息>>
+                                </h3>
+                            </div>
+                            <div class="panel-body bjui-doc" style="padding: 0;">
+                                <ul>
+                                    <li>QQ群：484498493</li>
+                                    <li>官方博客：<a href="http://www.cnblogs.com/yubaolee/" target="_blank">http://www.cnblogs.com/yubaolee/</a></li>
                                 </ul>
                             </div>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-cog"></i> 系统设置 <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="https://git.oschina.net/yubaolee/OpenAuth.Net" target="_blank">关于OpenAuth.Net</a></li>
-                                <li class="divider"></li>
-                                <li><a href="http://www.cnblogs.com/yubaolee" target="_blank">官方博客</a></li>
-                                <li><a href="http://b-jui.com" target="_blank">友情链接</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <button type="button" class="btn-default bjui-hnav-more-right" title="导航菜单右移">
-                    <i class="fa fa-angle-double-right"></i>
-                </button>
-            </div>
-        </header>
-        <div id="bjui-container">
-            <div id="bjui-leftside">
-                <div id="bjui-sidebar-s">
-                    <div class="collapse"></div>
-                </div>
-                <div id="bjui-sidebar">
-                    <div class="toggleCollapse"><h2><i class="fa fa-bars"></i> 导航栏 <i class="fa fa-bars"></i></h2><a href="javascript:;" class="lock"><i class="fa fa-lock"></i></a></div>
-                    <div class="panel-group panel-main" data-toggle="accordion" id="bjui-accordionmenu" data-heightbox="#bjui-sidebar" data-offsety="26">
-                    </div>
-                </div>
-            </div>
-            <div id="bjui-navtab" class="tabsPage">
-                <div class="tabsPageHeader">
-                    <!--标签头-->
-                    <div class="tabsPageHeaderContent">
-                        <ul class="navtab-tab nav nav-tabs">
-                            <li data-url="/Home/Main" @*class="external"  <!--该class标识在iframe中打开-->*@>
-                                <a href="javascript:;">
-                                    <span>
-                                        <i class="fa fa-home"></i> #maintab#
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tabsLeft"><i class="fa fa-angle-double-left"></i></div>
-                    <div class="tabsRight"><i class="fa fa-angle-double-right"></i></div>
-                    <div class="tabsMore"><i class="fa fa-angle-double-down"></i></div>
-                </div>
-                <ul class="tabsMoreList">
-                    <li><a href="javascript:;">#maintab#</a></li>
-                </ul>
-                <div class="navtab-panel tabsPageContent">
-                    <!--标签内容-->
-                    <div class="navtabPage unitBox">
-                        <div class="bjui-pageContent" style="background:#FFF;">
-                            Loading...
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <footer id="bjui-footer">
-            Copyright &copy; 2015　yubaolee
-        </footer>
-    </div>
+            <div style="margin-top: 5px; margin-right: 300px; overflow: hidden;">
+                <div class="row" style="padding: 0 8px;">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    本在线演示说明>>
+                                </h3>
+                            </div>
+                            <div class="panel-body bjui-doc" style="padding: 0;">
+                                <ul>
+                                    <li>为安全起见，关闭了所有修改请求，如想体验完整功能可搭建本地环境</li>
+                                    <li>admin/test两个账号只分配了部分模块/部门，系统完整模块/部门情况请直接在登录界面点击“以开发者账号登陆”</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 5px; margin-right: 300px; overflow: hidden;">
+                <div class="row" style="padding: 0 8px;">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">项目最新动态>></h3>
+                            </div>
+                            <div class="panel-body">
+                                <iframe width="100%" height="300" class="share_self" frameborder="0" scrolling="no" src="/Home/Git"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div><!-- /.page-content -->

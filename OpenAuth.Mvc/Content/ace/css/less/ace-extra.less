@@ -1,0 +1,72 @@
+/**
+http://www.backalleycoder.com/2012/04/25/i-want-a-damnodeinserted/
+This CSS is used to raise an event when an element is inserted into DOM (Javascript code inside assets/js/ace-extra.js)
+*/
+//directly inserted into DOM inside ace-extra.js
+
+@keyframes nodeInserted {
+	from {
+		outline-color: #fff; 
+	}
+	to {  
+		outline-color: #000;
+	} 
+}
+
+@-moz-keyframes nodeInserted {  
+	from {  
+		outline-color: #fff; 
+	}
+	to {  
+		outline-color: #000;
+	}  
+}
+
+@-webkit-keyframes nodeInserted {
+	from {  
+		outline-color: #fff; 
+	}
+	to {  
+		outline-color: #000;
+	}  
+}
+
+@-ms-keyframes nodeInserted {  
+	from {  
+		outline-color: #fff; 
+	}
+	to {  
+		outline-color: #000;
+	} 
+}
+
+@-o-keyframes nodeInserted {  
+	from {  
+		outline-color: #fff; 
+	}
+	to {  
+		outline-color: #000;
+	}  
+} 
+
+.ace-save-state {
+	animation-duration: 0.01s;
+	-o-animation-duration: 0.01s;
+	-ms-animation-duration: 0.01s;
+	-moz-animation-duration: 0.01s;
+	-webkit-animation-duration: 0.01s;
+	
+	
+	animation-delay: 0s;
+	-o-animation-delay: 0s;
+	-ms-animation-delay: 0s;
+	-moz-animation-delay: 0s;
+	-webkit-animation-delay: 0s;
+	
+	
+	animation-name: nodeInserted;
+	-o-animation-name: nodeInserted;
+	-ms-animation-name: nodeInserted;		
+	-moz-animation-name: nodeInserted;
+	-webkit-animation-name: nodeInserted;
+}

@@ -22,15 +22,19 @@ namespace OpenAuth.App.ViewModel
         /// <summary>
         /// 页码
         /// </summary>
-        public int pageCurrent;
+        public int page;
         /// <summary>
         /// 总页数
         /// </summary>
         public int total;
+        /// <summary>
+        /// 总记录条数
+        /// </summary>
+        public int records;
 
         /// <summary>
         /// 数据内容
         /// </summary>
-        public dynamic list;
+        public dynamic rows;
     }
 }

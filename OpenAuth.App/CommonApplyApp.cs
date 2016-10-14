@@ -64,25 +64,25 @@ namespace OpenAuth.App
         {
             var result = new GridData
             {
-                pageCurrent = pageCurrent
+                page = pageCurrent
             };
 
             if (type == "inbox")   //待办事项
             {
                 var inboxes = GetInboxProcessIds(userid);
                 result.total = _unitWork.Find<CommonApply>(u => inboxes.Contains(u.Id)).Count();
-                result.list = _unitWork.Find<CommonApply>(pageCurrent, pageSize, "Sort descending",u => inboxes.Contains(u.Id)).ToList();
+                result.rows = _unitWork.Find<CommonApply>(pageCurrent, pageSize, "Sort descending",u => inboxes.Contains(u.Id)).ToList();
             }
             else if (type == "outbox")  //已办事项
             {
                 IQueryable<Guid> outboxes = GetOutboxProcessIds(userid);
                 result.total = _unitWork.Find<CommonApply>(u => outboxes.Contains(u.Id)).Count();
-                result.list = _unitWork.Find<CommonApply>(pageCurrent, pageSize, "Sort descending", u => outboxes.Contains(u.Id)).ToList();
+                result.rows = _unitWork.Find<CommonApply>(pageCurrent, pageSize, "Sort descending", u => outboxes.Contains(u.Id)).ToList();
             }
             else  //我的流程
             {
                 result.total = _unitWork.Find<CommonApply>(u => u.UserId == userid).Count();
-                result.list = _unitWork.Find<CommonApply>(pageCurrent, pageSize, "Sort descending", u => u.UserId == userid).ToList();
+                result.rows = _unitWork.Find<CommonApply>(pageCurrent, pageSize, "Sort descending", u => u.UserId == userid).ToList();
             }
 
             return result;

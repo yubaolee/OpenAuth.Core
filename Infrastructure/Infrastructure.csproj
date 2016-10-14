@@ -90,6 +90,7 @@
     <Compile Include="DynamicQueryable.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="GenerateId.cs" />
+    <Compile Include="GenericHelpers.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="JsonConverter.cs" />
     <Compile Include="JsonHelper.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Response.cs" />
     <Compile Include="SessionHelper.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="TreeItem.cs" />
     <Compile Include="UriUtil.cs" />
   </ItemGroup>
   <ItemGroup>

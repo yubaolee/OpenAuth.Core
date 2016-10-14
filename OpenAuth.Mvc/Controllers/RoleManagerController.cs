@@ -37,10 +37,10 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
+                 Result.Status = false;
+                Result.Message = ex.Message;
             }
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception e)
             {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = e.Message;
+                 Result.Status = false;
+                Result.Message = e.Message;
             }
 
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
 
         #region 为用户设置角色界面
@@ -85,14 +85,14 @@ namespace OpenAuth.Mvc.Controllers
         public string AccessRoles(Guid userId, Guid[] ids)
         {
             _app.AccessRole(userId, ids);
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
 
         [System.Web.Mvc.HttpPost]
         public string DelAccessRoles(Guid userId, Guid[] ids)
         {
             _app.DelAccessRole(userId, ids);
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
 
         #endregion 为用户设置角色界面

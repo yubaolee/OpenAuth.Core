@@ -22,10 +22,10 @@ namespace OpenAuth.Mvc.Controllers
         public string DemoError()
         {
             Response.Charset = "utf-8";
-            var response = new BjuiResponse
+            var response = new Response
             {
-                statusCode = "400",
-                message = "演示版本，不能进行此操作"
+                Status = false,
+                Message = "演示版本，不能进行此操作"
             };
             return JsonHelper.Instance.Serialize(response);
         }
@@ -43,10 +43,10 @@ namespace OpenAuth.Mvc.Controllers
         public string Http500()
         {
             Response.Charset = "utf-8";
-            var response = new BjuiResponse
+            var response = new Response
             {
-                statusCode = "500",
-                message = "服务器内部错误，请联系管理员"
+                Status = false,
+                Message = "内部错误"
             };
             return JsonHelper.Instance.Serialize(response);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Web.Mvc;
+using Infrastructure;
 using OpenAuth.App.SSO;
 using OpenAuth.Mvc.Models;
 
@@ -27,10 +28,10 @@ namespace OpenAuth.Mvc.Controllers
                     return Redirect("/home/index?Token=" + result.Token);
                 else
                 {
-                    var response = new BjuiResponse
+                    var response = new Response
                     {
-                        statusCode = "300",
-                        message = "登陆失败"
+                        Status = false,
+                        Message = "登陆失败"
                     };
                     return View(response);
                 }
@@ -38,10 +39,10 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception e)
             {
-                var response = new BjuiResponse
+                var response = new Response
                 {
-                    statusCode = "300",
-                    message = e.Message
+                    Status = false,
+                    Message = e.Message
                 };
                 return View(response);
             }

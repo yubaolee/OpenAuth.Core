@@ -28,10 +28,10 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
+                 Result.Status = false;
+                Result.Message = ex.Message;
             }
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
         [HttpPost]
         public string UnAssign(string type, Guid firstId, Guid[] secIds)
@@ -42,10 +42,10 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                BjuiResponse.statusCode = "300";
-                BjuiResponse.message = ex.Message;
+                 Result.Status = false;
+                Result.Message = ex.Message;
             }
-            return JsonHelper.Instance.Serialize(BjuiResponse);
+            return JsonHelper.Instance.Serialize(Result);
         }
     }
 }

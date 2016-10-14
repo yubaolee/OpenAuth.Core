@@ -13,6 +13,7 @@
 // ***********************************************************************
 
 using System.Collections.Generic;
+using Infrastructure;
 using OpenAuth.Domain;
 
 
@@ -31,6 +32,7 @@ namespace OpenAuth.App.ViewModel
         /// </summary>
         public List<ModuleView> Modules { get; set; }
 
+        public IEnumerable<TreeItem<ModuleView>> ModuleWithChildren { get; set; }
         //用户可以访问的资源
         public List<Resource> Resources { get; set; }
 

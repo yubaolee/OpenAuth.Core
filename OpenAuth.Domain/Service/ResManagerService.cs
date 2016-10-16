@@ -14,17 +14,17 @@ namespace OpenAuth.Domain.Service
         private IResourceRepository _repository;
         private readonly ICategoryRepository _categoryRepository;
         private IRelevanceRepository _relevanceRepository;
-        private AuthoriseService _authoriseService;
+        private AuthoriseFactory _factory;
 
         public ResManagerService(IResourceRepository repository,
             ICategoryRepository categoryRepository,
             IRelevanceRepository relevanceRepository,
-            AuthoriseService authoriseService)
+            AuthoriseFactory authoriseService)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
             _relevanceRepository = relevanceRepository;
-            _authoriseService = authoriseService;
+            _factory = authoriseService;
         }
 
         public int GetResourceCntInOrg(Guid orgId)
@@ -35,7 +35,7 @@ namespace OpenAuth.Domain.Service
             }
             else
             {
-                return _repository.GetResourceCntInOrgs(GetSubOrgIds(orgId));
+                return _repository.GetResourceCntInOrgs(_categoryRepository.GetSubIds(orgId));
             }
         }
 
@@ -49,42 +49,58 @@ namespace OpenAuth.Domain.Service
         /// </summary>
         public dynamic Load(string username, Guid categoryId, int pageindex, int pagesize)
         {
-            _authoriseService.LoadAuthControls(username);
-            if (_authoriseService.Resources.Count == 0) //用户没有任何资源
+            var service = _factory.Create(username);
+            if (!service.GetResourcesQuery().Any()) //用户没有任何资源
             {
                 return new
                 {
                     total = 0,
-                    pageCurrent = pageindex
+                    page = 0,
+                    records = 0
                 };
             }
-            var subIds = GetSubOrgIds(categoryId);
-            var query = _authoriseService.Resources.Where(u => categoryId == Guid.Empty ||
+            var subIds = _categoryRepository.GetSubIds(categoryId);
+
+
+            var query = service.GetResourcesQuery().Where(u => categoryId == Guid.Empty ||
             (u.CategoryId != null && subIds.Contains(u.CategoryId.Value)));
-            var Resources = query.Skip((pageindex - 1) * pagesize).Take(pagesize);
             int total = query.Count();
+
+            if (total <= 0)
+                return new
+                {
+                    total = 0,
+                    page = 0,
+                    records = 0
+                };
+
+            var listVms = new List<dynamic>();
+            var resources = query.OrderBy(u => u.SortNo).Skip((pageindex - 1) * pagesize).Take(pagesize);
+            foreach (var element in resources)
+            {
+                var accessed = _categoryRepository.FindSingle(u => u.Id == element.CategoryId);
+                listVms.Add(new
+                {
+                    element.Id,
+                    element.Name,
+                    element.Key,
+                    element.SortNo,
+                    element.CategoryId,
+                    element.Status,
+                    CategoryName = accessed != null ? accessed.Name : ""
+                });
+            }
 
             return new
             {
-                total = total,
-                list = Resources,
-                pageCurrent = pageindex
+                records = total,
+                total = (int)Math.Ceiling((double)total / pagesize),
+                rows = listVms,
+                page = pageindex
             };
         }
 
-        /// <summary>
-        /// 获取当前节点的所有下级节点
-        /// </summary>
-        private Guid[] GetSubOrgIds(Guid orgId)
-        {
-            if (orgId == Guid.Empty)
-            {
-                return _categoryRepository.Find(null).Select(u => u.Id).ToArray();
-            }
-            var org = _categoryRepository.FindSingle(u => u.Id == orgId);
-            var orgs = _categoryRepository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
-            return orgs;
-        }
+
 
         public Resource Find(Guid id)
         {
@@ -96,7 +112,7 @@ namespace OpenAuth.Domain.Service
 
         public void Delete(Guid[] ids)
         {
-            _repository.Delete(u =>ids.Contains(u.Id));
+            _repository.Delete(u => ids.Contains(u.Id));
         }
 
         public void AddOrUpdate(Resource resource)
@@ -124,14 +140,14 @@ namespace OpenAuth.Domain.Service
         public List<dynamic> LoadWithAccess(string username, string accessType, Guid firstId, Guid cId)
         {
             var listVms = new List<dynamic>();
-            _authoriseService.LoadAuthControls(username);
-            if (_authoriseService.Resources.Count == 0) //用户没有任何资源
+            var service = _factory.Create(username);
+            if (!service.GetResourcesQuery().Any()) //用户没有任何资源
             {
                 return listVms;
             }
 
-            var subIds = GetSubOrgIds(cId);
-            var query = _authoriseService.Resources.Where(u => cId == Guid.Empty || (u.CategoryId != null &&subIds.Contains(u.CategoryId.Value)));
+            var subIds = _categoryRepository.GetSubIds(cId);
+            var query = service.GetResourcesQuery().Where(u => cId == Guid.Empty || (u.CategoryId != null && subIds.Contains(u.CategoryId.Value)));
 
             foreach (var element in query)
             {

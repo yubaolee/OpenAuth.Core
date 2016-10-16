@@ -67,6 +67,8 @@
     <Compile Include="Relevance.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="Service\AuthoriseFactory.cs" />
+    <Compile Include="Service\SystemAuthService.cs" />
     <Compile Include="Service\AuthoriseService.cs" />
     <Compile Include="Service\ModuleEleManService.cs" />
     <Compile Include="Service\ModuleManService.cs" />

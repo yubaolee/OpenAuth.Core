@@ -22,14 +22,10 @@ namespace OpenAuth.Domain.Service
     /// </summary>
     public class AuthoriseService
     {
-        private IUnitWork _unitWork;
+        protected IUnitWork _unitWork;
+        protected User _user;
 
-        private User _user;
-        private List<Module> _modules;   //用户可访问的模块
-        private List<ModuleElement> _moduleElements; //用户可访问的菜单
-        private List<Resource> _resources;  //用户可访问的资源
-        private List<Org> _orgs;    //用户可访问的机构
-        private List<Role> _roles;   //用户角色
+        private List<Guid> _userRoleIds;    //用户角色GUID
 
         public AuthoriseService(IUnitWork unitWork)
         {
@@ -38,32 +34,37 @@ namespace OpenAuth.Domain.Service
 
         public List<Module> Modules
         {
-            get { return _modules; }
+            get { return GetModulesQuery().ToList(); }
         }
 
         public List<Role> Roles
         {
-            get { return _roles;}
+            get { return GetRolesQuery().ToList(); }
         }
 
         public List<ModuleElement> ModuleElements
         {
-            get { return _moduleElements; }
+            get { return GetModuleElementsQuery().ToList(); }
         }
 
         public List<Resource> Resources
         {
-            get { return _resources; }
+            get { return GetResourcesQuery().ToList(); }
         }
 
         public List<Org> Orgs
         {
-            get { return _orgs; }
+            get { return GetOrgsQuery().ToList(); }
         }
 
         public User User
         {
             get { return _user; }
+            set
+            {
+                _user = value;
+                _userRoleIds = _unitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
+            }
         }
 
         public void Check(string userName, string password)
@@ -76,83 +77,60 @@ namespace OpenAuth.Domain.Service
             _user.CheckPassword(password);
         }
 
-
         /// <summary>
-        /// 加载用户可访问的所有机构/资源/菜单
-        /// <para>李玉宝于2016-07-19 10:32:19</para>
+        /// 用户可访问的机构
         /// </summary>
-        /// <param name="name">The name.</param>
-        public void LoadAuthControls(string name)
+        /// <returns>IQueryable&lt;Org&gt;.</returns>
+        public virtual IQueryable<Org> GetOrgsQuery()
         {
-            if (name == "System")
-            {
-                _user = new User{Account = "System", Id = Guid.Empty};
-                LoadForSystem();
-            }
-            else
-            {
-                _user = _unitWork.FindSingle<User>(u => u.Account == name);
-                if (_user != null)
-                {
-                    LoadForUser();
-                }
-            }
-        }
-
-        /// <summary>
-        /// 加载用户权限
-        /// <para>李玉宝于2016-07-19 10:20:16</para>
-        /// </summary>
-        /// <param name="name">The name.</param>
-        private void LoadForUser()
-        {
-            //用户角色
-            var userRoleIds =
-                _unitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
-
-            _roles = _unitWork.Find<Role>(u => userRoleIds.Contains(u.Id)).ToList();
-            //用户角色与自己分配到的模块ID
-            var moduleIds = _unitWork.Find<Relevance>(
-                u =>
-                    (u.FirstId == _user.Id && u.Key == "UserModule") ||
-                    (u.Key == "RoleModule" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            //得出最终用户拥有的模块
-            _modules = _unitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo).ToList();
-
-            //用户角色与自己分配到的菜单ID
-            var elementIds = _unitWork.Find<Relevance>(
-                u =>
-                    (u.FirstId == _user.Id && u.Key == "UserElement") ||
-                    (u.Key == "RoleElement" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            //模块菜单权限
-            _moduleElements = _unitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id)).ToList();
-
-            //用户角色与自己分配到的资源ID
-            var resourceIds = _unitWork.Find<Relevance>(
-                u =>
-                    (u.FirstId == _user.Id && u.Key == "UserResource") ||
-                    (u.Key == "RoleResource" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            _resources = _unitWork.Find<Resource>(u => resourceIds.Contains(u.Id)).ToList();
-
-            //用户角色与自己分配到的机构ID
             var orgids = _unitWork.Find<Relevance>(
                 u =>
                     (u.FirstId == _user.Id && u.Key == "UserOrg") ||
-                    (u.Key == "RoleOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            _orgs = _unitWork.Find<Org>(u => orgids.Contains(u.Id)).ToList();
+                    (u.Key == "RoleOrg" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+            return _unitWork.Find<Org>(u => orgids.Contains(u.Id));
         }
 
         /// <summary>
-        /// 加载系统管理员权限
-        /// <para>李玉宝于2016-07-19 10:19:31</para>
+        /// 获取用户可访问的资源
         /// </summary>
-        private void LoadForSystem()
+        /// <returns>IQueryable&lt;Resource&gt;.</returns>
+        public virtual IQueryable<Resource> GetResourcesQuery()
         {
-            _modules = _unitWork.Find<Module>(null).ToList();
-            _moduleElements = _unitWork.Find<ModuleElement>(null).ToList();
-            _roles = _unitWork.Find<Role>(null).ToList();
-            _resources = _unitWork.Find<Resource>(null).OrderBy(u => u.SortNo).ToList();
-            _orgs = _unitWork.Find<Org>(null).OrderBy(u => u.SortNo).ToList();
+            var resourceIds = _unitWork.Find<Relevance>(
+                u =>
+                    (u.FirstId == _user.Id && u.Key == "UserResource") ||
+                    (u.Key == "RoleResource" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+            return _unitWork.Find<Resource>(u => resourceIds.Contains(u.Id));
+        }
+
+        /// <summary>
+        /// 模块菜单权限
+        /// </summary>
+        public virtual IQueryable<ModuleElement> GetModuleElementsQuery()
+        {
+            var elementIds = _unitWork.Find<Relevance>(
+                u =>
+                    (u.FirstId == _user.Id && u.Key == "UserElement") ||
+                    (u.Key == "RoleElement" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+            return _unitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
+        }
+
+        /// <summary>
+        /// 得出最终用户拥有的模块
+        /// </summary>
+        public virtual IQueryable<Module> GetModulesQuery()
+        {
+            var moduleIds = _unitWork.Find<Relevance>(
+                u =>
+                    (u.FirstId == _user.Id && u.Key == "UserModule") ||
+                    (u.Key == "RoleModule" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+            return _unitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo);
+        }
+
+        //用户角色
+        public virtual IQueryable<Role> GetRolesQuery()
+        {
+            return _unitWork.Find<Role>(u => _userRoleIds.Contains(u.Id));
         }
     }
 }

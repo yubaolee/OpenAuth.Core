@@ -13,14 +13,14 @@ namespace OpenAuth.Domain.Service
     {
         private IStockRepository _repository;
         private IOrgRepository _orgRepository;
-        private AuthoriseService _authoriseService;
+        private AuthoriseFactory _factory;
 
         public StockManagerService(IStockRepository repository,
-            IOrgRepository orgRepository, AuthoriseService service)
+            IOrgRepository orgRepository, AuthoriseFactory service)
         {
             _repository = repository;
             _orgRepository = orgRepository;
-            _authoriseService = service;
+            _factory = service;
         }
 
         /// <summary>
@@ -29,8 +29,8 @@ namespace OpenAuth.Domain.Service
         public dynamic Load(string username, Guid orgId, int pageindex, int pagesize)
         {
 
-            _authoriseService.LoadAuthControls(username);
-            if (_authoriseService.Orgs.Count == 0) //用户没有任何可见机构
+            var  service = _factory.Create(username);
+            if (service.Orgs.Count == 0) //用户没有任何可见机构
             {
                 return new
                 {
@@ -39,13 +39,13 @@ namespace OpenAuth.Domain.Service
                 };
             }
 
-            var orgIds = _authoriseService.Orgs.Select(u => u.Id).ToArray();  //用户可访问的机构ID
+            var orgIds = service.Orgs.Select(u => u.Id).ToArray();  //用户可访问的机构ID
 
             var orgs = _orgRepository.GetSubOrgs(orgId)   //点击的节点与用户可访问的机构合并
                 .Where(u => orgIds.Contains(u.Id))
                 .Select(u => u.Id).ToArray();
 
-            var keys = _authoriseService.Resources.Select(r => r.Key);    //用户可访问的资源的KEY列表
+            var keys = service.Resources.Select(r => r.Key);    //用户可访问的资源的KEY列表
 
             Expression<Func<Stock, bool>> exp = u => u.OrgId != null &&orgs.Contains(u.OrgId.Value) && (u.Viewable == "" || keys.Contains(u.Viewable));
             var stocks = _repository.Find(pageindex, pagesize, "", exp);

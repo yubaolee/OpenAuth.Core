@@ -24,12 +24,12 @@ namespace OpenAuth.Domain.Service
     public class ModuleEleManService
     {
         private readonly IUnitWork _unitWork;
-        private readonly AuthoriseService _authoriseService;
+        private readonly AuthoriseFactory _factory;
 
-        public ModuleEleManService(IUnitWork unitWork, AuthoriseService authoriseService)
+        public ModuleEleManService(IUnitWork unitWork, AuthoriseFactory authoriseService)
         {
             _unitWork = unitWork;
-            _authoriseService = authoriseService;
+            _factory = authoriseService;
         }
 
         public void AddOrUpdate(ModuleElement model)
@@ -48,13 +48,13 @@ namespace OpenAuth.Domain.Service
 
         public IEnumerable<ModuleElement> LoadByModuleId(string loginuser, Guid id)
         {
-            _authoriseService.LoadAuthControls(loginuser);
-            if (_authoriseService.ModuleElements.Count == 0) //用户没有任何资源
+            var service = _factory.Create(loginuser);
+            if (!service.GetModuleElementsQuery().Any()) //用户没有任何资源
             {
                 return new List<ModuleElement>();
             }
 
-            var modules = _authoriseService.ModuleElements.Where(u => u.ModuleId == id).OrderBy(u =>u.Sort);
+            var modules = service.GetModuleElementsQuery().Where(u => u.ModuleId == id).OrderBy(u =>u.Sort);
             return modules;
         }
 
@@ -71,16 +71,16 @@ namespace OpenAuth.Domain.Service
         public List<dynamic> LoadWithAccess(string username, string accessType, Guid firstId, Guid moduleId)
         {
             var listVms = new List<dynamic>();
-            _authoriseService.LoadAuthControls(username);
-            if (_authoriseService.ModuleElements.Count == 0) //用户没有任何资源
+            var service = _factory.Create(username);
+            if (!service.GetModuleElementsQuery().Any()) //用户没有任何资源
             {
                return listVms;
             }
            
             if (moduleId == Guid.Empty) return listVms;
-            string modulename = _authoriseService.Modules.SingleOrDefault(u => u.Id == moduleId).Name;
+            string modulename = service.GetModulesQuery().SingleOrDefault(u => u.Id == moduleId).Name;
            
-            foreach (var element in _authoriseService.ModuleElements.Where(u =>u.ModuleId ==moduleId))
+            foreach (var element in service.GetModuleElementsQuery().Where(u =>u.ModuleId ==moduleId))
             {
                 var accessed = _unitWork.FindSingle<Relevance>(u =>u.Key == accessType 
                     && u.FirstId == firstId && u.SecondId == element.Id);

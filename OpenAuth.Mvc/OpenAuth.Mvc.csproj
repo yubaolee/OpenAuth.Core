@@ -182,6 +182,7 @@
     <Content Include="BllScripts\assignModuleElement.js" />
     <Content Include="BllScripts\categoryManager.js" />
     <Content Include="BllScripts\jqEvent.js" />
+    <Content Include="BllScripts\parentTree.js" />
     <Content Include="BllScripts\processDetail.js" />
     <Content Include="BllScripts\grid.js" />
     <Content Include="BllScripts\moduleElementMan.js" />

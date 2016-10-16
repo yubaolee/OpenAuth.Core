@@ -14,10 +14,10 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            AuthoriseService _service = new AuthoriseService(new UnitWork() );
-            _service.LoadAuthControls("System");
+            AuthoriseFactory factory = new AuthoriseFactory(new UnitWork() );
+            var service=  factory.Create("System");
 
-            var orgs = _service.Orgs;
+            var orgs = service.Orgs;
         }
     }
 }

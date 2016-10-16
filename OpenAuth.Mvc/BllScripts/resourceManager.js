@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $("#ParentName").on("click", function () {
+    $("#CategoryName").on("click", function () {
         parent.reload();
     });
 });
@@ -117,68 +117,7 @@ var vm = new Vue({
 });
 
 //上级机构选择框
-var parent = function (name,id) {   //ztree搜索框
-    var zTreeObj;
-    var setting = {
-        view: { selectedMulti: false },
-        data: {
-            key: {
-                name: 'Name',
-                title: 'Name'
-            },
-            simpleData: {
-                enable: true,
-                idKey: 'Id',
-                pIdKey: 'ParentId',
-                rootPId: 'null'
-            }
-        },
-        callback: {
-            onClick: onClick
-        }
-    };
-    var showMenu = function () {
-        $("#menuContent").css({ left: "10px", top: $("#"+name).outerHeight() + "px" }).slideDown("fast");
-        $("body").bind("mousedown", onBodyDown);
-    };
-    function onClick(e, treeId, treeNode) {
-        var nodes = zTreeObj.getSelectedNodes();
-
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            vm.$set(name, nodes[i].Name);
-            vm.$set(id, nodes[i].Id);
-            break;
-        }
-        hideMenu();
-    }
-    function onBodyDown(event) {
-        if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
-            hideMenu();
-        }
-    }
-    function hideMenu() {
-        $("#menuContent").fadeOut("fast");
-        $("body").unbind("mousedown", onBodyDown);
-    }
-    return {
-        reload: function () {
-            var index = layer.load();
-            $.getJSON("/CategoryManager/LoadForTree", {
-                page: 1, rows: 10000
-            }, function (json) {
-                layer.close(index);
-                if (json.length == 0) {
-                    vm.$set(name, '');
-                    vm.$set(id, '');
-                    return;
-                }
-                zTreeObj = $.fn.zTree.init($("#org"), setting, json);
-                zTreeObj.expandAll(true);
-                showMenu();
-            });
-        }
-    }
-}("CategoryName","CategoryId");
+var parent = new ParentTree("/CategoryManager/LoadForTree", "CategoryName", "CategoryId");
 
 //添加（编辑）对话框
 var editDlg = function () {
@@ -192,7 +131,7 @@ var editDlg = function () {
             content: $('#editDlg'), //捕获的元素
             btn: ['保存', '关闭'],
             yes: function (index, layero) {
-                $.post("/CategoryManager/Add", vm.$data, function (data) {
+                $.post("/ResourceManager/Add", vm.$data, function (data) {
                     layer.msg(data.Message);
                     if (data.Status) {
                         list.reload();

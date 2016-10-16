@@ -95,13 +95,14 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
 
-        public string Delete(string Id)
+        [HttpPost]
+        public string Delete(Guid[] ids)
         {
             try
             {
-                foreach (var obj in Id.Split(','))
+                foreach (var obj in ids)
                 {
-                    _app.Delete(Guid.Parse(obj));
+                    _app.Delete(obj);
                 }
             }
             catch (Exception e)

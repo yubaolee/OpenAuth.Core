@@ -24,14 +24,14 @@ namespace OpenAuth.Domain.Service
     {
         private readonly IModuleRepository _repository;
         private readonly IRelevanceRepository _relevanceRepository;
-        private readonly AuthoriseService _authoriseService;
+        private readonly AuthoriseFactory _factory;
 
         public ModuleManService(IModuleRepository repository,
-            IRelevanceRepository relevanceRepository, AuthoriseService authoriseService)
+            IRelevanceRepository relevanceRepository, AuthoriseFactory authoriseService)
         {
             _repository = repository;
             _relevanceRepository = relevanceRepository;
-            _authoriseService = authoriseService;
+            _factory = authoriseService;
         }
 
         /// <summary>
@@ -40,27 +40,28 @@ namespace OpenAuth.Domain.Service
         public dynamic Load(string loginuser, Guid parentId, int pageindex, int pagesize)
         {
 
-            _authoriseService.LoadAuthControls(loginuser);
-            if (_authoriseService.Modules.Count == 0) //用户不能访问任何模块
+            var service= _factory.Create(loginuser);
+            if (!service.GetModulesQuery().Any()) //用户不能访问任何模块
             {
                 return new
                 {
                     total = 0,
-                    list = new List<Module>(),
-                    pageCurrent = pageindex
+                    records = 0,
+                    page = pageindex
                 };
             }
             var ids = GetSubIds(parentId);
-            var query = _authoriseService.Modules.Where(u => parentId == Guid.Empty || (u.ParentId != null&&ids.Contains(u.ParentId.Value)));
+            var query = service.GetModulesQuery().Where(u => parentId == Guid.Empty || (u.ParentId != null&&ids.Contains(u.ParentId.Value)));
 
             int total = query.Count();
             var modules = query.OrderBy(u=>u.CascadeId).Skip((pageindex - 1)*pagesize).Take(pagesize);
 
             return new
             {
-                total = total,
-                list = modules,
-                pageCurrent = pageindex
+                records = total,
+                total = Math.Ceiling((double)total/pagesize),
+                rows = modules,
+                page = pageindex
             };
         }
 
@@ -152,7 +153,7 @@ namespace OpenAuth.Domain.Service
                 if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
-            if (module.ParentId != null)
+            if (module.ParentId != null && module.ParentId != Guid.Empty)
             {
                 var parentOrg = _repository.FindSingle(o => o.Id == module.ParentId);
                 if (parentOrg != null)

@@ -36,5 +36,19 @@ namespace OpenAuth.Repository
         {
             Delete(u =>u.Id == id);
         }
+
+        /// <summary>
+        /// 获取当前节点的所有下级节点
+        /// </summary>
+        public Guid[] GetSubIds(Guid orgId)
+        {
+            if (orgId == Guid.Empty)
+            {
+                return Find(null).Select(u => u.Id).ToArray();
+            }
+            var org = FindSingle(u => u.Id == orgId);
+            var ids = Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
+            return ids;
+        }
     }
 }

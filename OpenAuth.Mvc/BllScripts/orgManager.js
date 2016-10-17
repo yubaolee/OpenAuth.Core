@@ -118,68 +118,7 @@ var vm = new Vue({
 });
 
 //上级机构选择框
-var parent = function () {   //ztree搜索框
-    var zTreeObj;
-    var setting = {
-        view: { selectedMulti: false },
-        data: {
-            key: {
-                name: 'Name',
-                title: 'Name'
-            },
-            simpleData: {
-                enable: true,
-                idKey: 'Id',
-                pIdKey: 'ParentId',
-                rootPId: 'null'
-            }
-        },
-        callback: {
-            onClick: onClick
-        }
-    };
-    var showMenu = function () {
-        $("#menuContent").css({ left: "10px", top: $("#ParentName").outerHeight() + "px" }).slideDown("fast");
-        $("body").bind("mousedown", onBodyDown);
-    };
-    function onClick(e, treeId, treeNode) {
-        var nodes = zTreeObj.getSelectedNodes();
-
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            vm.$set('ParentName', nodes[i].Name);
-            vm.$set('ParentId', nodes[i].Id);
-            break;
-        }
-        hideMenu();
-    }
-    function onBodyDown(event) {
-        if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
-            hideMenu();
-        }
-    }
-    function hideMenu() {
-        $("#menuContent").fadeOut("fast");
-        $("body").unbind("mousedown", onBodyDown);
-    }
-    return {
-        reload: function () {
-            var index = layer.load();
-            $.getJSON("/OrgManager/LoadOrg", {
-                page: 1, rows: 10000
-            }, function (json) {
-                layer.close(index);
-                if (json.length == 0) {
-                    vm.$set('ParentName', '');
-                    vm.$set('ParentId', '');
-                    return;
-                }
-                zTreeObj = $.fn.zTree.init($("#org"), setting, json);
-                zTreeObj.expandAll(true);
-                showMenu();
-            });
-        }
-    }
-}();
+var parent = new ParentTree("/OrgManager/LoadOrg","ParentName", "ParentId");
 
 //添加（编辑）对话框
 var editDlg = function () {
@@ -210,9 +149,11 @@ var editDlg = function () {
         add: function () {  //弹出添加
             update = false;
             show();
-            vm.$set('$data', null);
-            vm.$set('Id', '00000000-0000-0000-0000-000000000000');
-            vm.$set('SortNo', 0);
+            vm.$set('$data',
+           {
+               Id: '00000000-0000-0000-0000-000000000000',
+               SortNo: 0
+           });
         },
         update: function (ret) {  //弹出编辑框
             update = true;

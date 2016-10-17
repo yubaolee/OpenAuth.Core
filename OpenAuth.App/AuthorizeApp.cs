@@ -11,29 +11,29 @@ namespace OpenAuth.App
     /// </summary>
     public class AuthorizeApp
     {
-        private readonly AuthoriseService _service;
+        private readonly AuthoriseFactory _factory;
 
-        public AuthorizeApp(AuthoriseService service)
+        public AuthorizeApp(AuthoriseFactory service)
         {
-            _service = service;
+            _factory = service;
         }
 
         public UserWithAccessedCtrls GetAccessedControls(string username)
         {
-            _service.LoadAuthControls(username);
+            var service = _factory.Create(username);
             var user = new UserWithAccessedCtrls
             {
-                User = _service.User,
-                Orgs = _service.Orgs,
-                Modules = _service.Modules.MapToList<ModuleView>(),
-                Resources = _service.Resources,
-                Roles = _service.Roles
+                User = service.User,
+                Orgs = service.Orgs,
+                Modules = service.Modules.MapToList<ModuleView>(),
+                Resources = service.Resources,
+                Roles = service.Roles
             };
 
             foreach (var moduleView in user.Modules)
             {
                 moduleView.Elements =
-                    _service.ModuleElements.Where(u => u.ModuleId == moduleView.Id).OrderBy(u => u.Sort).ToList();
+                    service.ModuleElements.Where(u => u.ModuleId == moduleView.Id).OrderBy(u => u.Sort).ToList();
             }
 
            user.ModuleWithChildren = user.Modules.GenerateTree(c => c.Id, c => c.ParentId);

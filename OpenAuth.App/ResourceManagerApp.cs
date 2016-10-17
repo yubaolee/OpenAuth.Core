@@ -39,9 +39,9 @@ namespace OpenAuth.App
 
 
 
-        public void Delete(Guid id)
+        public void Delete(Guid[] ids)
         {
-            _resManagerService.Delete(id);
+            _resManagerService.Delete(ids);
         }
 
         public void AddOrUpdate(Resource model)

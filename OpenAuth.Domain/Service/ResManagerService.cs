@@ -47,7 +47,7 @@ namespace OpenAuth.Domain.Service
         /// <summary>
         /// 加载用户一个节点下面的一个或全部Resources
         /// </summary>
-        public dynamic Load(string username, Guid categoryId, int pageindex, int pagesize)
+        public dynamic Load(string username, Guid categoryId, int page, int rows)
         {
             var service = _factory.Create(username);
             if (!service.GetResourcesQuery().Any()) //用户没有任何资源
@@ -75,7 +75,7 @@ namespace OpenAuth.Domain.Service
                 };
 
             var listVms = new List<dynamic>();
-            var resources = query.OrderBy(u => u.SortNo).Skip((pageindex - 1) * pagesize).Take(pagesize);
+            var resources = query.OrderBy(u => u.SortNo).Skip((page - 1) * rows).Take(rows);
             foreach (var element in resources)
             {
                 var accessed = _categoryRepository.FindSingle(u => u.Id == element.CategoryId);
@@ -94,9 +94,9 @@ namespace OpenAuth.Domain.Service
             return new
             {
                 records = total,
-                total = (int)Math.Ceiling((double)total / pagesize),
+                total = (int)Math.Ceiling((double)total / rows),
                 rows = listVms,
-                page = pageindex
+                page = page
             };
         }
 

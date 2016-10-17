@@ -55,11 +55,11 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_app.Load(AuthUtil.GetUserName(), parentId, page, rows));
         }
         
-        public string Delete(Guid Id)
+        public string Delete(Guid[] ids)
         {
             try
             {
-                _app.Delete(Id);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {

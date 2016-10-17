@@ -35,7 +35,8 @@ namespace OpenAuth.Domain.Service
                 return new
                 {
                     total = 0,
-                    pageCurrent = pageindex
+                    records = 0,
+                    page = pageindex
                 };
             }
 
@@ -54,9 +55,10 @@ namespace OpenAuth.Domain.Service
 
             return new
             {
-                total = total,
-                list = stocks,
-                pageCurrent = pageindex
+                records = total,
+                total = (int)Math.Ceiling((double)total / pagesize),
+                rows = stocks,
+                page = pageindex
             };
         }
 
@@ -68,9 +70,9 @@ namespace OpenAuth.Domain.Service
             return stock;
         }
 
-        public void Delete(Guid id)
+        public void Delete(Guid[] id)
         {
-            _repository.Delete(id);
+            _repository.Delete(u =>id.Contains(u.Id));
         }
 
         public void AddOrUpdate(Stock stock)

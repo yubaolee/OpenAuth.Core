@@ -1,46 +1,68 @@
 ﻿//grid列表模块
 function MainGrid() {
     var url = '/workflowschemas/Load';
-    this.maingrid = $('#maingrid').datagrid({
-        showToolbar: false,
-        filterThead: false,
-        loadType: 'GET',
-        target: $(this),
-        columns: [
-               {
-                   name: 'Code',
-                   label: '模板名称'
-               }
-        ],
-        data:[],
-        fullGrid: true,
-        showLinenumber: true,
-        showCheckboxcol: true,
-        paging: true,
-        filterMult: false,
-        showTfoot: false,
-      
-    });
+    this.maingrid = $('#maingrid')
+        .jqGrid({
+            colModel: [
+                {
+                    name: 'Id',
+                    index: 'Id',
+                    hidden: true
+                },
+                {
+                    index: 'Code',
+                    name: 'Code',
+                    label: '模板名称'
+                }
+              
+            ],
+            url: url,
+            datatype: "json",
+
+            viewrecords: true,
+            rowNum: 18,
+            pager: "#grid-pager",
+            altRows: true,
+            height: 'auto',
+            multiselect: true,
+            multiboxonly: true,
+
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                },
+                    0);
+            }
+        }).jqGrid('navGrid', "#grid-pager", {
+            edit: false, add: false, del: false, refresh: false, search: false
+        });
+
     this.reload = function (id) {
-        this.maingrid.datagrid('reload', { dataUrl: url });
+        this.maingrid.jqGrid("setGridParam", { url: url })
+            .trigger("reloadGrid", [{ page: 1 }]);  //重载JQGrid
+
     };
 };
 MainGrid.prototype = new Grid();
 var list = new MainGrid();
-list.reload();
+var vm = new Vue({
+    el: '#editDlg'
+});
 
 //删除
 function del() {
-    var selected = list.getSelectedObj();
+    var selected = list.getSelectedProperties("Code");
     if (selected == null) return;
 
-    $.post('/StockManager/Delete?Id=' + selected.Id, function (data) {
+    $.post('/WorkflowSchemas/Delete',
+    { codes: selected },
+    function (data) {
         if (data.Status) {
             list.reload();
-            ztree.reload();
         }
         else {
-            $(this).alertmsg('warn', data.message);
+            layer.msg(data.Message);
         }
     }, "json");
 }
@@ -59,20 +81,5 @@ function add() {
     window.location = '/designer/index?schemeName=';
 }
 
-
-//删除
-function del() {
-    var selected = list.getSelectedObj();
-    if (selected == null) return;
-
-    $.post('/WorkflowSchemas/Del?code=' +selected.Code, function (data) {
-        if (data.Status) {
-            list.reload();
-        }
-        else {
-            $(this).alertmsg('warn', data.message);
-        }
-    }, "json");
-}
 
  

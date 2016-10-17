@@ -1,8 +1,6 @@
 ﻿using Infrastructure;
 using OpenAuth.App;
-using OpenAuth.Domain;
 using System;
-using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
 using Newtonsoft.Json.Linq;
@@ -51,13 +49,14 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
         }
 
-        public string Delete(string Id)
+        [System.Web.Mvc.HttpPost]
+        public string Delete(Guid[] ids)
         {
             try
             {
-                foreach (var obj in Id.Split(','))
+                foreach (var obj in ids)
                 {
-                    _app.Delete(Guid.Parse(obj));
+                    _app.Delete(obj);
                 }
             }
             catch (Exception e)

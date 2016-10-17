@@ -3,11 +3,11 @@ var ztree = function () {
     var nodes = [
      {
          name: "流程处理", children: [
-             { name: "我的申请",value:'me' },
-            { name: "待办事项",value:'inbox' },
-            { name: "已办事项",value:'outbox' }
+             { name: "我的申请", value: 'me' },
+            { name: "待办事项", value: 'inbox' },
+            { name: "已办事项", value: 'outbox' }
          ],
-         value:'me'
+         value: 'me'
      }
     ];
     var setting = {
@@ -18,65 +18,15 @@ var ztree = function () {
             }
         }
     };
-    var zTreeObj = $.fn.zTree.init($("#tree"), setting, nodes);
+    var zTreeObj = $.fn.zTree.init($("#orgtree"), setting, nodes);
     zTreeObj.expandAll(true);
 }();
-//grid列表模块
-function MainGrid() {
-    var url = '/CommonApplies/Load?type=';
-    var selectedNode = 'me';  
-    this.maingrid = $('#maingrid').datagrid({
-        showToolbar: false,
-        loadType:'GET',
-        filterThead: false,
-        target: $(this),
-        columns: [
-               {
-                   name: 'Id',
-                   hide: true
-               },
-               {
-                   name: 'Name',
-                   label: '申请名称',
-                   width: 100
-               },
-               {
-                   name: 'Comment',
-                   label: '产品数量',
-                   width: 100
-               },
-               
-               {
-                   name: 'StateName',
-                   label: '流程状态',
-                   width: 100
-               },
-               {
-                   name: 'State',
-                   hide:true
-               }
-        ],
-        dataUrl: url + selectedNode,
-        fullGrid: true,
-        showLinenumber: true,
-        showCheckboxcol: true,
-        paging: true,
-        filterMult: false,
-        showTfoot: false
-    });
-    this.reload = function (selected) {
-        if (selected != undefined) selectedNode = selected;
-        this.maingrid.datagrid('reload', { dataUrl: url + selectedNode });
-    };
-};
-MainGrid.prototype = new Grid();
-var list = new MainGrid();
 
-var selectScheme = function(val) {
+var selectScheme = function (val) {
     $("#WorkflowName").empty();
     $.getJSON('/workflowschemas/Load',
         function (data) {
-            $.each(data.list, function (i, n) {
+            $.each(data.rows, function (i, n) {
                 $("#WorkflowName").append("<option value='" + this.Code + "'>" + this.Code + "</option>");
             });
 
@@ -87,58 +37,131 @@ var selectScheme = function(val) {
 }
 
 
+//grid列表模块
+function MainGrid() {
+    var url = '/CommonApplies/Load?type=';
+    var selectedId = 'me';  //ztree选中的模块
+    this.maingrid = $('#maingrid')
+        .jqGrid({
+            colModel: [
+                {
+                    name: 'Id',
+                    index: 'Id',
+                    hidden: true
+                },
+                {
+                    index: 'Name',
+                    name: 'Name',
+                    label: '申请名称'
+                },
+                {
+                    index: 'Comment',
+                    name: 'Comment',
+                    label: '申请描述'
+                },
+                {
+                    index: 'StateName',
+                    name: 'StateName',
+                    label: '流程状态'
+                },
+                {
+                    index: 'WorkflowName',
+                    name: 'WorkflowName',
+                    label:'流程名称'
+                }
+            ],
+            url: url + selectedId,
+            datatype: "json",
+
+            viewrecords: true,
+            rowNum: 18,
+            pager: "#grid-pager",
+            altRows: true,
+            height: 'auto',
+            multiselect: true,
+            multiboxonly: true,
+
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                },
+                    0);
+            }
+        }).jqGrid('navGrid', "#grid-pager", {
+            edit: false, add: false, del: false, refresh: false, search: false
+        });
+
+    this.reload = function (id) {
+        if (id != undefined) selectedId = id;
+        this.maingrid.jqGrid("setGridParam", { url: url + selectedId })
+            .trigger("reloadGrid", [{ page: 1 }]);  //重载JQGrid
+
+    };
+};
+MainGrid.prototype = new Grid();
+var list = new MainGrid();
+var vm = new Vue({
+    el: '#editDlg'
+});
+
 //添加（编辑）对话框
 var editDlg = function () {
+    var update = false;
     var show = function () {
-        BJUI.dialog({ id: 'editDlg', title: '编辑对话框', target: '#editDlg' });
-
-        $("#btnSave").on("click", function () {
-            editDlg.save();
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            title: "用户管理", //不显示标题
+            area: ['400px', '300px'], //宽高
+            content: $('#editDlg'), //捕获的元素
+            btn: ['保存', '关闭'],
+            yes: function (index, layero) {
+                $.post("/CommonApplies/Add", vm.$data, function (data) {
+                    layer.msg(data.Message);
+                    if (data.Status) {
+                        list.reload();
+                        ztree.reload();
+                    }
+                }, "json");
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
         });
     }
     return {
         add: function () {  //弹出添加
-            show();
+            update = false;
             selectScheme();
-            $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
-            $("#Id").val('00000000-0000-0000-0000-000000000000');
+            show();
+            vm.$set('$data', {
+                Id: '00000000-0000-0000-0000-000000000000',
+            });
         },
         update: function (ret) {  //弹出编辑框
+            update = true;
             show();
-            $('#Id').val(ret.Id);
-            $('#Name').val(ret.Name);
-            $('#Comment').val(ret.Comment);
-            selectScheme(ret.WorkflowName);
-        },
-        save: function () {  //编辑-->保存
-            $('#editForm').isValid(function (v) {
-                if (!v) return;  //验证没通过
-                $("#editForm").bjuiajax('ajaxForm', {
-                    reload: false,
-                    callback: function (json) {
-                        if (json.statusCode != "200") {
-                            $(this).alertmsg('warn', json.message);
-                            return;
-                        }
-                        list.reload();
-                    }
-                });
-            });
+            vm.$set('$data', ret);
+            selectScheme(vm.WorkflowName);
         }
     };
 }();
 
 //删除
 function del() {
-    var selected = list.getSelectedObj();
+    var selected = list.getSelectedProperties("Id");
     if (selected == null) return;
 
-    $.post('/CommonApplies/Delete?Id=' + selected.Id, function (data) {
+    $.post('/CommonApplies/Delete',
+    { ids: selected },
+    function (data) {
         if (data.Status) {
             list.reload();
+            ztree.reload();
         }
         else {
-            $(this).alertmsg('warn', data.Message);
+            layer.msg(data.Message);
         }
     }, "json");
 }
@@ -179,4 +202,4 @@ function refresh() {
     list.reload();
 }
 
-//@@ sourceURL=goodsApply.js
+ 

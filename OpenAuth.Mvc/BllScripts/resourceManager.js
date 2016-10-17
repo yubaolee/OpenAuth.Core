@@ -195,4 +195,4 @@ function refresh() {
     list.reload();
 }
 
-//@@ sourceURL=ResourceManager.js
+ 

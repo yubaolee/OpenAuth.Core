@@ -45,9 +45,9 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载组织下面的所有用户
         /// </summary>
-        public string Load(Guid orgId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(Guid orgId, int page = 1, int rows = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(orgId, page, rows));
         }
 
         [HttpPost]

@@ -1,5 +1,5 @@
 ﻿//左边分类导航树
-var ztree = function () {
+var orgtree = function () {
     var url = '/OrgManager/LoadOrg';
     var setting = {
         view: { selectedMulti: false },
@@ -23,7 +23,7 @@ var ztree = function () {
     };
     var load = function () {
         $.getJSON(url, function (json) {
-            var zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
+            var zTreeObj = $.fn.zTree.init($("#orgtree"), setting, json);
             var firstId;  //tree的第一个ID
             if (json.length > 0) {
                 firstId = json[0].Id;
@@ -40,10 +40,11 @@ var ztree = function () {
         reload: load
     }
 }();
+
 //grid列表模块
 function MainGrid() {
-    var url = '/StockManager/Load?parentId=';
-    var selectedId = '00000000-0000-0000-0000-000000000000';  //ztree选中的模块
+    var url = '/RoleManager/Load?orgId=';
+    var selectedId = '00000000-0000-0000-0000-000000000000';  //orgtree选中的模块
     this.maingrid = $('#maingrid').datagrid({
         showToolbar: false,
         filterThead: false,
@@ -52,47 +53,34 @@ function MainGrid() {
         columns: [
                {
                    name: 'Id',
-                   label: '数据ID',
-                   hide: true
-               },
-               {
-                   name: 'OrgId',
-                   label: '组织ID',
-                   hide:true
+                   label: '流水号',
+                   width: 100
+                    , hide: true
                },
                {
                    name: 'Name',
-                   label: '产品名称',
-                   width: 100
-               },
-               {
-                   name: 'Number',
-                   label: '产品数量',
-                   width: 100
-               },
-               {
-                   name: 'Price',
-                   label: '产品单价',
+                   label: '角色名称',
                    width: 100
                },
                {
                    name: 'Status',
-                   label: '出库/入库',
+                   label: '当前状态',
                    width: 100
                      , align: 'center',
-                   items: [{ '0': '出库' }, { '1': '入库' }],
+                   items: [{ '0': '默认' }, { '1': '状态1' }],
                },
                {
-                   name: 'Viewable',
-                   label: '可见范围（测试资源使用）',
-                   width: 100,
-                   items: [{ '': '全部可见' }, { 'ADMIN': '管理员可见' },{'DEV':'开发可见'}],
-               },
-               {
-                   name: 'Time',
-                   label: '操作时间',
+                   name: 'Type',
+                   label: '角色类型',
                    width: 100
-               }
+                     , align: 'center',
+                   items: [{ '0': '默认' }, { '1': '状态1' }],
+               },
+               {
+                   name: 'Organizations',
+                   label: '所属部门名称',
+                   width: 100
+               },
         ],
         dataUrl: url + selectedId,
         fullGrid: true,
@@ -113,8 +101,8 @@ var list = new MainGrid();
 
 //编辑时，选择上级弹出的树
 var parentTree = function () {
-    var nameDom = "#ParentName";
-    var idDom = "#OrgId";
+    var nameDom = "#Organizations";
+    var idDom = "#OrganizationIds";
     var zTreeObj;
     var setting = {
         view: {
@@ -122,8 +110,8 @@ var parentTree = function () {
         },
         check: {
             enable: true,
-            chkStyle: "radio",  //单选
-            radioType: "all"
+            chkStyle: "checkbox",
+            chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
         },
         data: {
             key: {
@@ -142,6 +130,7 @@ var parentTree = function () {
             onCheck: zTreeCheck
         }
     };
+
 
     function zTreeCheck(event, treeId, treeNode) {
         var nodes = zTreeObj.getCheckedNodes(true);
@@ -177,7 +166,6 @@ var parentTree = function () {
     };
 }();
 
-
 //添加（编辑）对话框
 var editDlg = function () {
     var update = false;
@@ -194,18 +182,16 @@ var editDlg = function () {
             $.CurrentDialog.find("form")[0].reset();  //reset方法只能通过dom调用
             $("#Id").val('00000000-0000-0000-0000-000000000000');
             parentTree.show();
+
         },
         update: function (ret) {  //弹出编辑框
             update = true;
             show();
             $('#Id').val(ret.Id);
             $('#Name').val(ret.Name);
-            $('#Number').val(ret.Number);
-            $('#Price').val(ret.Price);
             $('#Status').selectpicker('val', ret.Status);
-            $('#Viewable').selectpicker('val', ret.Viewable);
-            $('#Time').val(ret.Time);
-            $('#OrgId').val(ret.OrgId);
+            $('#Type').selectpicker('val', ret.Type);
+            $("#OrganizationIds").val(ret.OrganizationIds);
             parentTree.show();
         },
         save: function () {  //编辑-->保存
@@ -219,7 +205,7 @@ var editDlg = function () {
                             return;
                         }
                         list.reload();
-                        ztree.reload();
+                        orgtree.reload();
                     }
                 });
             });
@@ -232,10 +218,10 @@ function del() {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $.post('/StockManager/Delete?Id=' + selected.Id, function (data) {
-        if (data.Status) {
+    $.post('/RoleManager/Delete?Id=' + selected.Id, function (data) {
+        if (data.statusCode == "200") {
             list.reload();
-            ztree.reload();
+            orgtree.reload();
         }
         else {
             $(this).alertmsg('warn', data.message);
@@ -260,4 +246,59 @@ function refresh() {
     list.reload();
 }
 
- 
+//为角色分配模块
+function assignRoleModule(obj) {
+
+    var selected =  list.getSelectedObj();
+    if (selected == null) return;
+
+    $(obj).dialog({
+        id: 'accessUserOrg',
+        url: '/ModuleManager/Assign',
+        title: '为角色分配模块',
+        width: 620,
+        height: 500,
+        data: {
+            firstId: selected.Id,
+            key: "RoleModule"
+        }
+    });
+}
+
+//为角色分配资源
+function openRoleReourceAccess(obj) {
+    var selected =  list.getSelectedObj();
+    if (selected == null) return;
+
+    $(obj).dialog({
+        id: 'assignRes',
+        url: '/ResourceManager/AssignRes',
+        title: '为角色分配资源',
+        width: 600,
+        height: 380,
+        data: {
+            firstId: selected.Id,
+            key:"RoleResource"
+        }
+    });
+}
+
+//为角色分配菜单
+function assignRoleElement(obj) {
+    var selected =  list.getSelectedObj();
+    if (selected == null) return;
+
+    $(obj).dialog({
+        id: 'accessRoleElement',
+        url: '/ModuleElementManager/AssignModuleElement',
+        title: '为角色分配菜单',
+        width: 600,
+        height: 380,
+        data: {
+            firstId: selected.Id,
+            key: "RoleElement"
+        }
+    });
+}
+
+//@@ sourceURL=RoleManager.js

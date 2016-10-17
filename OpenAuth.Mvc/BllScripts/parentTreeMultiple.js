@@ -9,10 +9,10 @@
 // <copyright file="parentTree.js" company="www.cnblogs.com/yubaolee">
 //     版权所有(C) 2015
 // </copyright>
-// <summary>单击文本框弹出的选择列表</summary>
+// <summary>单击文本框弹出的选择列表,可以多选</summary>
 // ***********************************************************************
 
-function ParentTree(url, name, id) {
+function ParentTreeMultiple(url, name, id) {
     var zTreeObj;
     var options = {
         text: 'Name',
@@ -22,7 +22,12 @@ function ParentTree(url, name, id) {
         idDOM: id   //隐藏的文本框，如："#categoryId"
     }
     var setting = {
-        view: { selectedMulti: false },
+        view: { selectedMulti: true },
+        check: {
+            enable: true,
+            chkStyle: "checkbox",
+            chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+        },
         data: {
             key: {
                 name: options.text,
@@ -36,7 +41,8 @@ function ParentTree(url, name, id) {
             }
         },
         callback: {
-            onClick: onClick
+            onClick: onClick,
+            onCheck: onCheck
         }
     };
     var showMenu = function () {
@@ -44,12 +50,20 @@ function ParentTree(url, name, id) {
         $("body").bind("mousedown", onBodyDown);
     };
 
-    var setCheck = function() {   //设置初始选中的值
+    var setCheck = function () {   //设置初始选中的值
+        zTreeObj.checkAllNodes(false);
+
         var value = vm.$get(options.idDOM);
-        var node = zTreeObj.getNodeByParam("Id", value, null);
-        if (node != null) {
-            zTreeObj.selectNode(node, false, false);
-        }
+        if (value == undefined) return;
+        var nodeids = value.split(",");
+        $.each(nodeids,
+            function() {
+                var node = zTreeObj.getNodeByParam("Id", this, null);
+                if (node != null) {
+                    zTreeObj.checkNode(node, true, false);
+                }
+            });
+       
     }
     function onClick(e, treeId, treeNode) {
         var nodes = zTreeObj.getSelectedNodes();
@@ -61,6 +75,16 @@ function ParentTree(url, name, id) {
         }
         hideMenu();
     }
+    function onCheck(e, treeId, treeNode) {
+        var nodes = zTreeObj.getCheckedNodes(true);
+
+        var ids = nodes.map(function (e) { return e.Id; }).join(",");
+        var names = nodes.map(function (e) { return e.Name; }).join(",");
+
+        vm.$set(options.nameDOM, names);
+        vm.$set(options.idDOM, ids);
+    }
+
     function onBodyDown(event) {
         if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
             hideMenu();

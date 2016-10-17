@@ -28,9 +28,9 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载分类下面的所有分类
         /// </summary>
-        public string Load(Guid parentId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(Guid parentId, int page = 1, int rows = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(parentId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(_app.Load(parentId, page, rows));
         }
 
      public string LoadForTree()

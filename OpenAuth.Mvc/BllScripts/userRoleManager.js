@@ -122,4 +122,4 @@ var ztree = function () {
 function zTreeOnClick(event, treeId, treeNode) {
     userRolesList.reload(treeNode.Id);
 }
-//@@ sourceURL=userRoleManager.js
+ 

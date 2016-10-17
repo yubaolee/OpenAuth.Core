@@ -2,56 +2,83 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ Html.RenderAction("MenuHeader", "Home");}
-<div class="bjui-pageContent tableContent" style="position: relative">
-    <div class="clearfix">
-        <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="tree" class="ztree"></ul>
-        </div>
-
-        <div id="detail" style="margin-left: 225px;">
-            <table id="maingrid" class="table table-bordered"></table>
-        </div>
-    </div>
+<!-- #section:basics/content.breadcrumbs -->
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">申请管理</a>
+        </li>
+        <li class="active">列表</li>
+    </ul><!-- /.breadcrumb -->
 </div>
 
+<!-- /section:basics/content.breadcrumbs -->
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="widget-box widget-color-blue">
+                    <div class="widget-header">
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <ul id="orgtree" class="ztree" style="width: 100%"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="widget-box widget-color-blue">
+                    <div class="widget-header">
+                        @Html.Action("MenuHeader", "Home")
+                    </div>
+                    <div class="widget-body gridwidth">
+                        <div class="widget-main">
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <table id="maingrid"></table>
+                                    <div id="grid-pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.page-content -->
 <!--编辑对话框-->
-<div class="bjui-dialog hidden bjui-dialog-container" id="editDlg" data-noinit="true">
-    <div class="bjui-pageContent">
-        <form action="/CommonApplies/Edit" class="pageForm" data-toggle="validate" data-reload="false" id="editForm">
+<div id="editDlg" style="display: none">
+    <div class="col-xs-12">
+        <form class="form-horizontal" id="editForm">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for=""> 申请名称 </label>
+                <div class="col-sm-9">
+                    <input type="text" id="Name" check-type="required" v-model="Name" />
+                </div>
+            </div>
 
-            <table class="table table-condensed table-hover">
-                <tbody>
-                    <input type="text" id="Id" name="Id" value="" class="hidden" />
-                    <tr>
-                        <td>
-                            <label for="Name" class="control-label x120">申请名称：</label>
-                            <input type="text" id="Name" name="Name" value="" />
-                        </td>
-                    </tr>
-                <tr>
-                    <td>
-                        <label for="Comment" class="control-label x120">申请描述：</label>
-                        <textarea type="text" id="Comment" name="Comment" value=""></textarea>
-                    </td>
-                </tr>
-                    <tr>
-                        <td>
-                            <label for="Comment" class="control-label x120">流程模板：</label>
-                            <select id="WorkflowName" name="WorkflowName"></select>
-                       </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for=""> 申请描述 </label>
+                <div class="col-sm-9">
+                    <input type="text" id="Comment" check-type="required" v-model="Comment" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for=""> 流程模板 </label>
+                <div class="col-sm-9">
+                    <select id="WorkflowName" name="WorkflowName"></select>
+                </div>
+            </div>
+
         </form>
     </div>
-    <div class="bjui-pageFooter">
-        <ul>
-            <li><button type="button" class="btn btn-close">关闭</button></li>
-            <li><button type="button" class="btn btn-primary" id="btnSave">保存</button></li>
-        </ul>
-    </div>
+
 </div>
 
 <script src="~/BllScripts/grid.js"></script>
 <script src="~/BllScripts/commonApply.js"></script>
+<script src="~/BllScripts/jqEvent.js"></script>
+
+

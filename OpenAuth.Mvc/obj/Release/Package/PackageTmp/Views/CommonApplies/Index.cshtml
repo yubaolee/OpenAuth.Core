@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/_BjuiLayout.cshtml";
+}
+
+@{ Html.RenderAction("MenuHeader", "Home");}
+<div class="bjui-pageContent tableContent" style="position: relative">
+    <div class="clearfix">
+        <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
+            <ul id="tree" class="ztree"></ul>
+        </div>
+
+        <div id="detail" style="margin-left: 225px;">
+            <table id="maingrid" class="table table-bordered"></table>
+        </div>
+    </div>
+</div>
+
+<!--编辑对话框-->
+<div class="bjui-dialog hidden bjui-dialog-container" id="editDlg" data-noinit="true">
+    <div class="bjui-pageContent">
+        <form action="/CommonApplies/Edit" class="pageForm" data-toggle="validate" data-reload="false" id="editForm">
+
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    <input type="text" id="Id" name="Id" value="" class="hidden" />
+                    <tr>
+                        <td>
+                            <label for="Name" class="control-label x120">申请名称：</label>
+                            <input type="text" id="Name" name="Name" value="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Comment" class="control-label x120">申请描述：</label>
+                            <textarea type="text" id="Comment" name="Comment" value=""></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="bjui-pageFooter">
+        <ul>
+            <li><button type="button" class="btn btn-close">关闭</button></li>
+            <li><button type="button" class="btn btn-primary" id="btnSave">保存</button></li>
+        </ul>
+    </div>
+</div>
+
+<script src="~/BllScripts/grid.js"></script>
+<script src="~/BllScripts/commonApply.js"></script>

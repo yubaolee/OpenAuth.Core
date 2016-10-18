@@ -205,17 +205,11 @@ function refresh() {
 function openUserModuleAccess(obj) {
     var selected = list.getSelectedObj();
     if (selected == null) return;
-
-    $(obj).dialog({
-        id: 'accessUserModule',
-        url: '/ModuleManager/Assign',
-        title: '为用户分配可见部门',
-        width: 620,
-        height: 500,
-        data: {
-            firstId: selected.Id,
-            key: "UserModule"
-        }
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['600px', '500px'], //宽高
+        content: '/ModuleManager/Assign?key=UserModule&firstId=' + selected.Id
     });
 }
 

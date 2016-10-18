@@ -37,6 +37,9 @@ namespace OpenAuth.App.ViewModel
         /// <returns></returns>
         public string IconName { get; set; }
 
+
+        public bool Checked { get; set; }
+
         /// <summary>
         /// 模块中的元素
         /// </summary>

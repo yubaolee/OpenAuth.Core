@@ -98,10 +98,9 @@ namespace OpenAuth.Domain.Service
             return listVms;
         }
 
-        public void Delete(ModuleElement[] objs)
+        public void Delete(Guid[] objs)
         {
-            var delIds = objs.Select(u => u.Id).ToList();
-            _unitWork.Delete<ModuleElement>(u =>delIds.Contains(u.Id));
+            _unitWork.Delete<ModuleElement>(u =>objs.Contains(u.Id));
         }
     }
 }

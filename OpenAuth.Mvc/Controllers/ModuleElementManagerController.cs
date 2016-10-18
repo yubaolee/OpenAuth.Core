@@ -37,7 +37,7 @@ namespace OpenAuth.Mvc.Controllers
         }
         public ActionResult Get(Guid moduleId)
         {
-            return Json(_app.LoadByModuleId(moduleId));
+            return Json(_app.LoadByModuleId(moduleId), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public string AddOrEditButton(ModuleElement button)
@@ -54,12 +54,11 @@ namespace OpenAuth.Mvc.Controllers
             }
             return JsonHelper.Instance.Serialize( Result);
         }
-        public string Del(string moduleElements)
+        public string Del(Guid[] ids)
         {
             try
             {
-                var delObjs = JsonHelper.Instance.Deserialize<ModuleElement[]>(moduleElements);
-                _app.Delete(delObjs);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {

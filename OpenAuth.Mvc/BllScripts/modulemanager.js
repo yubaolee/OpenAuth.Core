@@ -207,14 +207,10 @@ function assignButton() {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    //BJUI.dialog({ id: 'assignDialog', title: '菜单编辑', target: '#moduleElementManager' });
-
-    BJUI.dialog({
-        id: 'assignDialog',
-        mask: true,
-        url: '/ModuleElementManager/Index?id=' + selected.Id,
-        title: '为模块分配按钮',
-        width: '800',
-        height: '600'
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['600px', '500px'], //宽高
+        content: '/ModuleElementManager/Index?id=' + selected.Id
     });
 }

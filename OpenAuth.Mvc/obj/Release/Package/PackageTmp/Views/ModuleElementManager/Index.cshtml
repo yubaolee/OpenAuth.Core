@@ -1,0 +1,116 @@
+﻿@{
+    Layout = null;
+}
+
+
+<div id="moduleElementManager" >
+    <div class="bjui-pageHeader" style="z-index: 100">
+        <button type="button" class="btn-green" data-icon="plus" id="btnAddElement">
+            添加
+        </button>
+        <button type="button" class="btn-primary" data-icon="edit" id="btnEditElement">
+            编辑
+        </button>
+        <button type="button" class="btn-danger" data-icon="del" id="btnDelElement">
+            删除
+        </button>
+    </div>
+    <div class="bjui-pageContent" style="padding-top: 30px">
+        <input id="selectedModuleId" value="@ViewBag.ModuleId" style="display: none" />
+        <table id="moduleEleList" class="table table-bordered"></table>
+    </div>
+    <div class="bjui-pageFooter">
+        <ul>
+            <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+        </ul>
+    </div>
+</div>
+
+<!--编辑对话框-->
+<div class="bjui-dialog hidden bjui-dialog-container" id="editEleDlg" data-noinit="true">
+    <div class="bjui-pageContent">
+
+        <form class="pageForm" data-toggle="validate" id="editElementForm" 
+              action="/ModuleElementManager/AddOrEditButton">
+            <input type="text" id="Id" name="Id" value="" class="hidden" />
+            <input id="ModuleId" name="ModuleId" class="hidden" />
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="DomId" class="control-label x120">DOM ID：</label>
+                            <input type="text" id="DomId" name="DomId" data-rule="required" size="20"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Name" class="control-label x120">名称：</label>
+                            <input type="text" id="Name" name="Name" value="" data-rule="required" size="20"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Type" class="control-label x120">类型：</label>
+                            <select id="Type" name="Type" data-toggle="selectpicker">
+                                <option value="button" selected>按钮</option>
+                                <option value="link">超链接</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Script" class="control-label x120">元素调用脚本：</label>
+                            <input type="text" id="Script" name="Script" value="" size="20"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Class" class="control-label x120">元素样式：</label>
+                            <select id="Class" name="Class" data-toggle="selectpicker">
+                                <option value="btn-green" selected>绿色</option>
+                                <option value="btn-red">红色</option>
+                                <option value="btn-primary">默认</option>
+                                <option value="btn-danger">警告</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Remark" class="control-label x120">备注：</label>
+                            <input type="text" id="Remark" name="Remark" value="" size="20"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Sort" class="control-label x120">排序号：</label>
+                            <input type="text" id="Sort" name="Sort" value="" data-rule="required" size="20"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Icon" class="control-label x120">图标：</label>
+                            <select id="Icon" name="Icon" data-toggle="selectpicker">
+                                <option value="pencil" selected>pencil</option>
+                                <option value="plus">plus</option>
+                                <option value="trash">trash</option>
+                                <option value="bank">bank</option>
+                                <option value="bar">bar</option>
+                                <option value="refresh">refresh</option>
+                                <option value="user">user</option>
+                                <option value="key">key</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="bjui-pageFooter">
+        <ul>
+            <li><button type="button" class="btn-close">关闭</button></li>
+            <li><button type="button" class="btn-primary" id="btnEleChange">保存</button></li>
+        </ul>
+    </div>
+</div>
+
+<script src="~/BllScripts/moduleElementMan.js"></script>

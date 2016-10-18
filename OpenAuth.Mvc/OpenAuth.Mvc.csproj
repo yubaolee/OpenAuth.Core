@@ -1284,6 +1284,7 @@
     <Content Include="Views\WorkflowSchemas\Index.cshtml" />
     <Content Include="Views\Home\Navbar.cshtml" />
     <Content Include="Views\Shared\Blank.cshtml" />
+    <Content Include="Views\Shared\_LayoutNoHeader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

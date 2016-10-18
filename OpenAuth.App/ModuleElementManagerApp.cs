@@ -62,7 +62,7 @@ namespace OpenAuth.App
            return _moduleEleManService.LoadWithAccess(username, accessType, firstId, moduleId);
         }
 
-        public void Delete(ModuleElement[] objs)
+        public void Delete(Guid[] objs)
         {
             _moduleEleManService.Delete(objs);
         }

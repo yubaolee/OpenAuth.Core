@@ -150,7 +150,7 @@ var editDlg = function () {
             show();
             vm.$set('$data', {
                 Id: '00000000-0000-0000-0000-000000000000',
-                SortNo: 0
+                Number: 1
             });
         },
         update: function (ret) {  //弹出编辑框

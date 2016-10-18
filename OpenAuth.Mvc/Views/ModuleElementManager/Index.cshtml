@@ -37,14 +37,15 @@
 </div><!-- /.page-content -->
 <!--编辑对话框-->
 <div id="editDlg" style="display: none">
+    <input type="hidden" id="ModuleId" v-model="ModuleId" />
+
     <div class="col-xs-12">
         <form class="form-horizontal" id="editForm">
             <div class="form-group">
 
-                   <input type="hidden" id="ModuleId" v-model="ModuleId"/>
                 <label class="col-sm-3 control-label no-padding-right" for=""> DOM ID </label>
                 <div class="col-sm-9">
-                    <input type="text" id="DomId" check-type="required" v-model="DomId"/>
+                    <input type="text" id="DomId" check-type="required" v-model="DomId" />
                 </div>
             </div>
 
@@ -65,7 +66,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for=""> 排序号 </label>
                 <div class="col-sm-9">
-                    <input type="text" id="Sort" check-type="required" v-model="Sort"/>
+                    <input type="text" id="Sort" check-type="required" v-model="Sort" />
                 </div>
             </div>
 
@@ -104,10 +105,8 @@
                     </select>
                 </div>
             </div>
-
         </form>
     </div>
-
 </div>
 <script src="~/BllScripts/grid.js"></script>
 <script src="~/BllScripts/moduleElementMan.js"></script>

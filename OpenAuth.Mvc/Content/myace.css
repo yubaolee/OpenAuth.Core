@@ -57,3 +57,13 @@
       min-height: 0px;
       position: fixed;
   }
+
+
+  /*layer内部*/
+   .layui-layer-content .form-horizontal .form-group label {
+    width: 25%;
+    text-align: right;
+}
+     .layui-layer-content .form-horizontal .form-group div {
+      display: inline-block;
+  }

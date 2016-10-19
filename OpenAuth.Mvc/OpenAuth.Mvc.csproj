@@ -373,6 +373,7 @@
     <Content Include="Content\layui\lay\modules\tree.js" />
     <Content Include="Content\layui\lay\modules\upload.js" />
     <Content Include="Content\layui\lay\modules\util.js" />
+    <Content Include="Content\mylayer.css" />
     <Content Include="Content\myace.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap.min.css" />

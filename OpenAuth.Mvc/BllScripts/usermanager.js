@@ -208,7 +208,7 @@ function openUserModuleAccess(obj) {
     layer.open({
         type: 2,
         skin: 'layui-layer-rim', //加上边框
-        area: ['600px', '500px'], //宽高
+        area: ['410px', '390px'], //宽高
         content: '/ModuleManager/Assign?key=UserModule&firstId=' + selected.Id
     });
 }

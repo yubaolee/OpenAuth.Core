@@ -51,13 +51,12 @@ namespace OpenAuth.Mvc.Controllers
                 {
                     CheckModule(module.Children, modules);
                 }
-                else
+
+                if (modules.Select(u => u.Id).Contains(module.Item.Id))
                 {
-                    if (modules.Select(u => u.Id).Contains(module.Item.Id))
-                    {
-                        module.Item.Checked = true;
-                    }
+                    module.Item.Checked = true;
                 }
+
             }
         }
 
@@ -68,24 +67,38 @@ namespace OpenAuth.Mvc.Controllers
             {
                 if (moduleView.Children.Any())
                 {
-                    sb.Append("<div class=\"layui-form-item\">\r\n");
-                    sb.Append("<label class=\"layui-form-label\">" + moduleView.Item.Name + "</label>\r\n");
-                    sb.Append("<div class=\"layui-input-block\">\r\n");
+                    sb.Append("<fieldset class=\"layui-elem-field\">\r\n");
+                    sb.Append("<legend>");
+                              BuildCheckbox(sb, moduleView);
+                              sb.Append("</legend>\r\n");
+                    sb.Append("<div class=\"layui-field-box\">\r\n");
                     sb.Append(BuilderModules(moduleView.Children));
                     sb.Append("</div>\r\n");
-                    sb.Append("</div>\r\n");
+                    sb.Append("</fieldset>\r\n");
+
+                    //sb.Append("<div class=\"layui-form-item\">\r\n");
+                    //BuildCheckbox(sb, moduleView);
+                    //sb.Append("<div class=\"layui-input-block\">\r\n");
+                    //sb.Append(BuilderModules(moduleView.Children));
+                    //sb.Append("</div>\r\n");
+                    //sb.Append("</div>\r\n");
                 }
                 else
                 {
-                    sb.Append("<input type=\"checkbox\" name=\"like[dai]\" title=\"" + moduleView.Item.Name + "\"");
-                    if (moduleView.Item.Checked)
-                    {
-                        sb.Append(" checked");
-                    }
-                    sb.Append(">\r\n");
+                    BuildCheckbox(sb, moduleView);
                 }
             }
             return sb.ToString();
+        }
+
+        private void BuildCheckbox(StringBuilder sb, TreeItem<ModuleView> moduleView)
+        {
+            sb.Append("<input type=\"checkbox\" value=\"" + moduleView.Item.Id + "\" title=\"" + moduleView.Item.Name + "\"");
+            if (moduleView.Item.Checked)
+            {
+                sb.Append(" checked");
+            }
+            sb.Append(">\r\n");
         }
 
         /// <summary>

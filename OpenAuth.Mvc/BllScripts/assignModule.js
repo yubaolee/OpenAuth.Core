@@ -11,43 +11,32 @@
 // </copyright>
 // <summary>分配组织</summary>
 // ***********************************************************************
+layui.use(['layer', 'form'], function () {
+    var form = layui.form();
 
-
-$(document).ready(function () {
-    $.CurrentDialog.find("#btnAccess").on("click", function () {
-        var ids = ztree.getSelected();
-        if (ids == null) return;
-
-        $.post('/RelevanceManager/Assign', {
-            type: $("#moduleType").val(),
-            firstId: $('#firstId').val(),
-            secIds: ids
-        }, function (json) {
-            json = $.parseJSON(json);
-            if (json.statusCode != "200") {
-                $(this).alertmsg('warn', json.message);
-                return;
-            }
-            selected.reLoad();
-        });
-    });
-    $.CurrentDialog.find("#btnDelAccess").on("click", function () {
-        var ids = selected.getSelected();
-        if (ids == null) return;
-
-        $.post('/RelevanceManager/UnAssign', {
-            type: $("#moduleType").val(),
-            firstId: $('#firstId').val(),
-            secIds: ids
-        }, function (json) {
-            json = $.parseJSON(json);
-            if (json.statusCode != "200") {
-                $(this).alertmsg('warn', json.message);
-                return;
-            }
-            selected.reLoad();
-        });
+    form.on('checkbox', function (data) {
+        if (data.elem.checked)
+        {
+            $.post('/RelevanceManager/Assign', {
+                type: $("#moduleType").val(),
+                firstId: $('#firstId').val(),
+                secIds: data.value
+            }, function (json) {
+                json = $.parseJSON(json);
+                
+            });
+        }
+        else
+        {
+            $.post('/RelevanceManager/UnAssign', {
+                type: $("#moduleType").val(),
+                firstId: $('#firstId').val(),
+                secIds: data.value
+            }, function (json) {
+                json = $.parseJSON(json);
+               
+            });
+        }
     });
 });
-
  

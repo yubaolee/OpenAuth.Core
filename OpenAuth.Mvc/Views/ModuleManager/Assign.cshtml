@@ -2,7 +2,9 @@
     Layout = null;
 }
 <link href="~/Content/layui/css/layui.css" rel="stylesheet"/>
+<link href="~/Content/mylayer.css" rel="stylesheet" />
 <script src="~/Content/layui/layui.js"></script>
+<script src="~/Content/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 
 <script src="~/Content/layui/lay/modules/form.js"></script>
 <form class="layui-form " action="">
@@ -11,12 +13,7 @@
     @Html.Raw(ViewBag.Modules)
 </form>
 
-<script type="text/javascript">
-    layui.use(['layer', 'form'], function () {
-        var form = layui.form();
-        
-    });
-</script>
+<script src="~/BllScripts/assignModule.js"></script>
 
 
 

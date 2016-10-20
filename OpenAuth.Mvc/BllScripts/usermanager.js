@@ -253,15 +253,10 @@ function openAssignUserElement(obj) {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $(obj).dialog({
-        id: 'accessUserElement',
-        url: '/ModuleElementManager/AssignModuleElement',
-        title: '为用户分配资源',
-        width: 600,
-        height: 380,
-        data: {
-            firstId: selected.Id,
-            key: "UserElement"
-        }
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['600px', '300px'], //宽高
+        content: '/ModuleElementManager/AssignModuleElement?key=UserElement&firstId=' + selected.Id
     });
 }

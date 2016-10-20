@@ -1,0 +1,31 @@
+﻿<div class="bjui-pageHeader">
+    <div class="bjui-searchBar">
+        <input style="display: none" id="firstId" value="@ViewBag.FirstId" />
+        <input style="display: none" id="moduleType" , value="@ViewBag.ModuleType" />
+        <div class="pull-right">
+            <div class="alert alert-info search-inline">
+                <i class="fa fa-info-circle"></i> 点击行为单选，点击复选框可多选统一授权
+            </div>&nbsp;
+            <button type="button" class="btn btn-green" data-num="1" data-icon="plus" id="btnAccess">
+                授权选中
+            </button>&nbsp;
+            <button type="button" class="btn btn-danger" data-num="1" data-icon="trash" id="btnDelAccess">
+                取消授权
+            </button>&nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="bjui-pageContent tableContent">
+    <div class="clearfix">
+        <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
+            <ul id="tree" class="ztree"></ul>
+        </div>
+
+        <div style="margin-left: 225px;">
+            <table id="maingrid" class="table table-bordered table-hover table-striped table-top"></table>
+        </div>
+    </div>
+</div>
+<script src="~/BllScripts/grid.js"></script>
+<script src="~/BllScripts/assignModuleElement.js"></script>

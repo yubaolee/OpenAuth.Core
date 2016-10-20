@@ -194,16 +194,11 @@ function assignRoleModule(obj) {
     var selected =  list.getSelectedObj();
     if (selected == null) return;
 
-    $(obj).dialog({
-        id: 'accessUserOrg',
-        url: '/ModuleManager/Assign',
-        title: '为角色分配模块',
-        width: 620,
-        height: 500,
-        data: {
-            firstId: selected.Id,
-            key: "RoleModule"
-        }
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['410px', '390px'], //宽高
+        content: '/ModuleManager/Assign?key=RoleModule&firstId=' + selected.Id
     });
 }
 
@@ -230,16 +225,11 @@ function assignRoleElement(obj) {
     var selected =  list.getSelectedObj();
     if (selected == null) return;
 
-    $(obj).dialog({
-        id: 'accessRoleElement',
-        url: '/ModuleElementManager/AssignModuleElement',
-        title: '为角色分配菜单',
-        width: 600,
-        height: 380,
-        data: {
-            firstId: selected.Id,
-            key: "RoleElement"
-        }
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['600px', '400px'], //宽高
+        content: '/ModuleElementManager/AssignModuleElement?key=RoleElement&firstId=' + selected.Id
     });
 }
 

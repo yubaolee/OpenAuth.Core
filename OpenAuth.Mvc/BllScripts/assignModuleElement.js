@@ -10,94 +10,72 @@
 //Description: 分配模块菜单（按钮）
 // ***********************************************************************
 
-$(document).ready(function () {
-    $.CurrentDialog.find("#btnAccess").on("click", function () {
-        var ids = dlgList.getSelectedProperties('Id');
-        if (ids == null) return;
+function renderLayui() {
+    layui.use(['layer', 'form'], function () {
+        var form = layui.form();
 
-        $.post('/RelevanceManager/Assign', {
-            type: $("#moduleType").val(),
-            firstId: $('#firstId').val(),
-            secIds: ids
-        }, function (json) {
-            json = $.parseJSON(json);
-            if (json.statusCode != "200") {
-                $(this).alertmsg('warn', json.message);
-                return;
+        form.on('checkbox', function (data) {
+            if (data.elem.checked) {
+                $.post('/RelevanceManager/Assign', {
+                    type: $("#moduleType").val(),
+                    firstId: $('#firstId').val(),
+                    secIds: data.value
+                }, function (json) {
+                    json = $.parseJSON(json);
+
+                });
             }
-            dlgList.reload();
-        });
-    });
-    $.CurrentDialog.find("#btnDelAccess").on("click", function () {
-        var ids = dlgList.getSelectedProperties('Id');
-        if (ids == null) return;
+            else {
+                $.post('/RelevanceManager/UnAssign', {
+                    type: $("#moduleType").val(),
+                    firstId: $('#firstId').val(),
+                    secIds: data.value
+                }, function (json) {
+                    json = $.parseJSON(json);
 
-        $.post('/RelevanceManager/UnAssign', {
-            type: $("#moduleType").val(),
-            firstId: $('#firstId').val(),
-            secIds: ids
-        }, function (json) {
-            json = $.parseJSON(json);
-            if (json.statusCode != "200") {
-                $(this).alertmsg('warn', json.message);
-                return;
+                });
             }
-            dlgList.reload();
         });
-    });
-});
 
-//grid列表模块
-function DialogList() {
+        form.render();
+    });
+}
+
+var list = function () {
     var selectedId = '00000000-0000-0000-0000-000000000000';  //选中的ID
-    var url = '/ModuleElementManager/LoadWithAccess?tId=';
-    this.maingrid = $.CurrentDialog.find('#maingrid').datagrid({
-        showToolbar: false,
-        loadType: 'GET',
-        filterThead: false,
-        target: $(this),
-        columns: [
-                 {
-                     name: 'Id',
-                     label: '元素名称',
-                     hide: true
-                 },
-                {
-                    name: 'Name',
-                    label: '元素名称',
-                    width: 80
-                },
-                {
-                    name: 'ModuleName',
-                    label: '所属模块',
-                    width: 80
-                },
-                {
-                    name: 'Accessed',
-                    label: '是否已经授权',
-                    align: 'center',
-                    items: [{ 'false': '未授权', 'true': '已授权' }],
-                    width: 80
-                }
-        ],
-        dataUrl: url + selectedId + '&key=' + $('#moduleType').val() + '&firstId=' + $('#firstId').val(),
-        fullGrid: true,
-        showLinenumber: true,
-        showCheckboxcol: true,
-        paging: true,
-        filterMult: false,
-        showTfoot: false,
-      
-    });
-    this.reload = function (id) {
-        if (id != undefined) selectedId = id;
-        this.maingrid.datagrid('reload', { dataUrl: url + selectedId + '&key=' + $('#moduleType').val() + '&firstId=' + $('#firstId').val() });
+    var url = '/ModuleElementManager/LoadWithAccess?firstId=' + $("#firstId").val() + "&key=" + $("#moduleType").val() + "&tId=";
+    return {
+        reload: function (id) {
+            if (id != undefined) selectedId = id;
+            $.getJSON(url + selectedId,
+                function (data) {
+                    var str = '';
+                    if (data.length > 0) {
+                        $.each(data,
+                        function () {
+                            str += "<input type=\"checkbox\" name=\"\" value=\""+this.Id+"\" title=\"" + this.Name + "\"";
+                            if (this.Checked) {
+                                str += " checked ";
+                            }
+                            str += ">\r\n";
+                        });
+                    }
+                    $("#moduleElements").html(str);
+                    renderLayui();
+                });
+        }
+    };
+}();
+//左边导航
+var ztree = function() {
+    var url;
+    var type = $("#moduleType");
+    if (type.val() == "UserElement") {
+        url = '/ModuleManager/LoadForUser';
+    } else {
+        url = '/ModuleManager/LoadForRole';
     }
-};
-DialogList.prototype = new Grid();
-var dlgList = new DialogList();
 
-var ztree = function () {
     var setting = {
         view: { selectedMulti: false },
         data: {
@@ -112,22 +90,25 @@ var ztree = function () {
                 rootPId: 'null'
             }
         },
-        callback: { onClick: zTreeOnClick }
+        callback: {
+            onClick: function(event, treeId, treeNode) {
+                list.reload(treeNode.Id);
+            }
+        }
     };
+    var load = function() {
+        $.getJSON(url,
+            { firstId: $("#firstId").val() },
+            function(json) {
+                var zTreeObj = $.fn.zTree.init($("#orgtree"), setting, json);
+                list.reload();
+                zTreeObj.expandAll(true);
+            });
+    };
+    load();
 
-    var url;
-    var type = $("#moduleType");
-    if (type.val() == "UserElement") {
-        url = '/ModuleManager/LoadForUser';
-    } else {
-        url = '/ModuleManager/LoadForRole';
+    return {
+        reload: load
     }
-
-    $.getJSON(url, { firstId: $("#firstId").val() }, function(json) {
-        var zTreeObj = $.fn.zTree.init($.CurrentDialog.find("#tree"), setting, json);
-        zTreeObj.expandAll(true);
-    });
 }();
-function zTreeOnClick(event, treeId, treeNode) {
-    dlgList.reload(treeNode.Id);
-}
+

@@ -76,10 +76,7 @@ namespace OpenAuth.Domain.Service
             {
                return listVms;
             }
-           
             if (moduleId == Guid.Empty) return listVms;
-            string modulename = service.GetModulesQuery().SingleOrDefault(u => u.Id == moduleId).Name;
-           
             foreach (var element in service.GetModuleElementsQuery().Where(u =>u.ModuleId ==moduleId))
             {
                 var accessed = _unitWork.FindSingle<Relevance>(u =>u.Key == accessType 
@@ -90,8 +87,7 @@ namespace OpenAuth.Domain.Service
                     Name = element.Name,
                     ModuleId = element.ModuleId,
                     DomId = element.DomId,
-                    ModuleName = modulename,
-                    Accessed = accessed != null
+                    Checked = accessed != null
                 };
                 listVms.Add(vm);
             }

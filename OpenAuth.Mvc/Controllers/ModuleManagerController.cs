@@ -118,6 +118,28 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
+        /// <summary>
+        /// 加载用户模块
+        /// </summary>
+        /// <param name="firstId">The user identifier.</param>
+        /// <returns>System.String.</returns>
+        public string LoadForUser(Guid firstId)
+        {
+            var orgs = _app.LoadForUser(firstId);
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
+        /// <summary>
+        /// 加载角色模块
+        /// </summary>
+        /// <param name="firstId">The role identifier.</param>
+        /// <returns>System.String.</returns>
+        public string LoadForRole(Guid firstId)
+        {
+            var orgs = _app.LoadForRole(firstId);
+            return JsonHelper.Instance.Serialize(orgs);
+        }
+
         public string LoadModuleWithRoot()
         {
             var orgs = AuthUtil.GetCurrentUser().Modules.MapToList<ModuleView>();

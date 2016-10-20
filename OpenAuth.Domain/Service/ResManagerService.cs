@@ -157,7 +157,7 @@ namespace OpenAuth.Domain.Service
                 {
                     Id = element.Id,
                     Name = element.Name,
-                    IsBelongUser = accessed != null,
+                    Checked = accessed != null,
                     Description = element.Description,
                     Key = element.Key,
                     Status = element.Status

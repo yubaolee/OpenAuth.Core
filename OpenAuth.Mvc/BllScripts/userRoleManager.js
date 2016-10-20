@@ -11,85 +11,67 @@
 // </copyright>
 // <summary>用户分配角色模块</summary>
 // ***********************************************************************
+function renderLayui() {
+    layui.use(['layer', 'form'], function () {
+        var form = layui.form();
 
+        form.on('checkbox', function (data) {
+            if (data.elem.checked) {
+                $.post('/RelevanceManager/Assign', {
+                    type: $("#moduleType").val(),
+                    firstId: $('#firstId').val(),
+                    secIds: data.value
+                }, function (json) {
+                    json = $.parseJSON(json);
 
-$(document).ready(function () {
-    $.CurrentDialog.find("#btnAccess").on("click", function () {
-        var ids = userRolesList.getSelectedProperties('Id');
-        if (ids == null) return;
-
-        $.post('/RoleManager/AccessRoles', {
-            userId: $('#userId').val(),
-            ids: ids
-        }, function (json) {
-            userRolesList.reload();
-        });
-    });
-    $.CurrentDialog.find("#btnDelAccess").on("click", function () {
-        var ids = userRolesList.getSelectedProperties('Id');
-        if (ids == null) return;
-
-        $.post('/RoleManager/DelAccessRoles', {
-            userId: $('#userId').val(),
-            ids: ids
-        }, function (json) {
-            userRolesList.reload();
-        });
-    });
-});
-
-//grid列表模块
-function UserRolesList() {
-    var selectedId = '00000000-0000-0000-0000-000000000000'; //ztree选中的模块
-    this.maingrid = $.CurrentDialog.find('#maingrid').datagrid({
-        showToolbar: false,
-        loadType: 'GET',
-        filterThead: false,
-        target: $(this),
-        columns: [
-            {
-                name: 'Id',
-                label: '角色ID',
-                hide: true
-            },
-            {
-                name: 'Name',
-                label: '角色名称',
-                width: 100
-            },
-              {
-                  name: 'Organizations',
-                  label: '所属组织',
-                  width: 100
-              },
-            {
-                name: 'IsBelongUser',
-                label: '是否已经授权',
-                type: 'select',
-                align: 'center',
-                items: [{ 'false': '未授权', 'true': '已授权' }],
-                width: 100
+                });
             }
-        ],
-        data: [],
-        fullGrid: true,
-        showLinenumber: true,
-        showCheckboxcol: true,
-        paging: true,
-        filterMult: false,
-        showTfoot: false,
-      
-    });
-    this.reload = function (id) {
-        if (id != undefined) selectedId = id;
-        console.log(id);
-        this.maingrid.datagrid('reload', { dataUrl: '/RoleManager/LoadForOrgAndUser?orgId=' + selectedId + '&userId=' + $('#userId').val() });
-    }
-};
-UserRolesList.prototype = new Grid();
-var userRolesList = new UserRolesList();
+            else {
+                $.post('/RelevanceManager/UnAssign', {
+                    type: $("#moduleType").val(),
+                    firstId: $('#firstId').val(),
+                    secIds: data.value
+                }, function (json) {
+                    json = $.parseJSON(json);
 
+                });
+            }
+        });
+
+        form.render();
+    });
+}
+
+var list = function () {
+    var selectedId = '00000000-0000-0000-0000-000000000000';  //选中的ID
+    var url = '/RoleManager/LoadForOrgAndUser?userId=' + $("#firstId").val()
+        + "&key=" + $("#moduleType").val() + "&orgId=";
+    return {
+        reload: function (id) {
+            if (id != undefined) selectedId = id;
+            $.getJSON(url + selectedId,
+                function (data) {
+                    var str = '';
+                    if (data.length > 0) {
+                        $.each(data,
+                        function () {
+                            str += "<input type=\"checkbox\" name=\"\" value=\"" + this.Id + "\" title=\"" + this.Name + "\"";
+                            if (this.Checked) {
+                                str += " checked ";
+                            }
+                            str += ">\r\n";
+                        });
+                    }
+                    $("#roles").html(str);
+                    renderLayui();
+                });
+        }
+    };
+}();
+//左边导航
 var ztree = function () {
+    var url = "/OrgManager/LoadOrg";
+
     var setting = {
         view: { selectedMulti: false },
         data: {
@@ -104,22 +86,24 @@ var ztree = function () {
                 rootPId: 'null'
             }
         },
-        callback: { onClick: zTreeOnClick }
-    };
-    $.getJSON('/OrgManager/LoadOrg', function (json) {
-        var zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
-        var firstId;  //tree的第一个ID
-        if (json.length > 0) {
-            firstId = json[0].Id;
-        } else {
-            firstId = -1;
+        callback: {
+            onClick: function (event, treeId, treeNode) {
+                list.reload(treeNode.Id);
+            }
         }
-        userRolesList.reload(firstId);
-        zTreeObj.expandAll(true);
+    };
+    var load = function () {
+        $.getJSON(url,
+            function (json) {
+                var zTreeObj = $.fn.zTree.init($("#orgtree"), setting, json);
+                list.reload();
+                zTreeObj.expandAll(true);
+            });
+    };
+    load();
 
-    });
+    return {
+        reload: load
+    }
 }();
-function zTreeOnClick(event, treeId, treeNode) {
-    userRolesList.reload(treeNode.Id);
-}
- 
+

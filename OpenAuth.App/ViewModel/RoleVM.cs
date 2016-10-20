@@ -55,7 +55,7 @@ namespace OpenAuth.App.ViewModel
         /// <summary>
         ///是否属于某用户 
         /// </summary>
-        public bool IsBelongUser { get; set; }
+        public bool Checked { get; set; }
 
         public static implicit operator RoleVM(Role role)
         {

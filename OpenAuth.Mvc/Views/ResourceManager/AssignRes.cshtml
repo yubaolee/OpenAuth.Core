@@ -1,31 +1,26 @@
-﻿<div class="bjui-pageHeader">
-    <div class="bjui-searchBar">
-        <input style="display: none" id="firstId" value="@ViewBag.FirstId"/>
-        <input style="display: none" id="moduleType", value="@ViewBag.ModuleType"/>
-        <div class="pull-right">
-            <div class="alert alert-info search-inline">
-                <i class="fa fa-info-circle"></i> 点击行为单选，点击复选框可多选统一授权
-            </div>&nbsp;
-            <button type="button" class="btn btn-green" data-num="1" data-icon="plus" id="btnAccess">
-                授权选中
-            </button>&nbsp;
-            <button type="button" class="btn btn-danger" data-num="1" data-icon="trash" id="btnDelAccess">
-                取消授权
-            </button>&nbsp;
-        </div>
-    </div>
+﻿
+@{
+    Layout = null;
+}
+<link href="~/Content/layui/css/layui.css" rel="stylesheet" />
+<link href="~/Content/mylayer.css" rel="stylesheet" />
+<script src="~/Content/layui/layui.js"></script>
+<script src="~/Content/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="~/Content/plugins/zTree/js/jquery.ztree.core.js"></script>
+<link href="/Content/plugins/zTree/css/metroStyle/metroStyle.css" rel="stylesheet" />
+
+<div style="display: inline-block; width: 180px; height: 210px; padding: 10px; border: 1px solid #ddd; overflow: auto;">
+    <input style="display: none" id="firstId" value="@ViewBag.FirstId" />
+    <input style="display: none" id="moduleType" , value="@ViewBag.ModuleType" />
+    <ul id="orgtree" class="ztree" style="width: 100%"></ul>
 </div>
 
-<div class="bjui-pageContent tableContent">
-    <div class="clearfix">
-        <div style="float: left; width: 220px; overflow: auto;" class="table table-bordered">
-            <ul id="tree" class="ztree"></ul>
-        </div>
 
-        <div style="margin-left: 225px;">
-            <table id="maingrid" class="table table-bordered table-hover table-striped table-top"></table>
-        </div>
-    </div>
+<div class="site-tips" style="display: inline-block; height: 210px; width: 340px; padding: 10px; margin-left: 10px; vertical-align: top;" id="demo2-view">
+    <form class="layui-form " action="" id="resources"></form>
 </div>
+
+
 <script src="~/BllScripts/grid.js"></script>
 <script src="~/BllScripts/assignRes.js"></script>
+

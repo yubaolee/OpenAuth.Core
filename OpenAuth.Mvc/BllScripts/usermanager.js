@@ -218,15 +218,11 @@ function openUserRoleAccess(obj) {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $(obj).dialog({
-        id: 'accessUserRole',
-        url: '/RoleManager/LookupMulti',
-        title: '为用户分配角色',
-        width: 600,
-        height: 380,
-        data: {
-            userId: selected.Id
-        }
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['410px', '390px'], //宽高
+        content: '/RoleManager/LookupMulti?key=UserRole&firstId=' + selected.Id
     });
 }
 
@@ -235,16 +231,11 @@ function openUserReourceAccess(obj) {
     var selected = list.getSelectedObj();
     if (selected == null) return;
 
-    $(obj).dialog({
-        id: 'accessUserResource',
-        url: '/ResourceManager/AssignRes',
-        title: '为用户分配资源',
-        width: 600,
-        height: 380,
-        data: {
-            firstId: selected.Id,
-            key:"UserResource"
-        }
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['410px', '390px'], //宽高
+        content: '/ResourceManager/AssignRes?key=UserResource&firstId=' + selected.Id
     });
 }
 

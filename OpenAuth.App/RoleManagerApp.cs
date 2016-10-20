@@ -130,23 +130,13 @@ namespace OpenAuth.App
             foreach (var role in orgroles)
             {
                 RoleVM rolevm = role;
-                rolevm.IsBelongUser = userroles.Any(u => u.Id == role.Id);
+                rolevm.Checked = userroles.Any(u => u.Id == role.Id);
                 var orgs = _orgRepository.LoadByRole(role.Id);
                 rolevm.Organizations = string.Join(",", orgs.Select(u => u.Name).ToList());
                 rolevm.OrganizationIds = string.Join(",", orgs.Select(u => u.Id).ToList());
                 rolevms.Add(rolevm);
             }
             return rolevms;
-        }
-
-        public void AccessRole(Guid userId, Guid[] roleIds)
-        {
-            _relevanceRepository.AddRelevance("UserRole", roleIds.ToLookup(roleId => userId));
-        }
-
-        public void DelAccessRole(Guid userId, Guid[] roleids)
-        {
-            _relevanceRepository.DeleteBy("UserRole", roleids.ToLookup(roleId => userId));
         }
 
         public List<Guid> GetUsersInRole(string ruleName)

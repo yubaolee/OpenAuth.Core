@@ -69,29 +69,16 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         #region 为用户设置角色界面
-        public ActionResult LookupMulti(Guid userId)
+        public ActionResult LookupMulti(Guid firstId, string key)
         {
-            ViewBag.UserId = userId;
+            ViewBag.FirstId = firstId;
+            ViewBag.ModuleType = key;
             return View();
         }
 
         public string LoadForOrgAndUser(Guid orgId, Guid userId)
         {
             return JsonHelper.Instance.Serialize(_app.LoadForOrgAndUser(orgId, userId));
-        }
-
-        [System.Web.Mvc.HttpPost]
-        public string AccessRoles(Guid userId, Guid[] ids)
-        {
-            _app.AccessRole(userId, ids);
-            return JsonHelper.Instance.Serialize(Result);
-        }
-
-        [System.Web.Mvc.HttpPost]
-        public string DelAccessRoles(Guid userId, Guid[] ids)
-        {
-            _app.DelAccessRole(userId, ids);
-            return JsonHelper.Instance.Serialize(Result);
         }
 
         #endregion 为用户设置角色界面

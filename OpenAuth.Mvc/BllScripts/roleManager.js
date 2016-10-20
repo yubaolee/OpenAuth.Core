@@ -207,16 +207,11 @@ function openRoleReourceAccess(obj) {
     var selected =  list.getSelectedObj();
     if (selected == null) return;
 
-    $(obj).dialog({
-        id: 'assignRes',
-        url: '/ResourceManager/AssignRes',
-        title: '为角色分配资源',
-        width: 600,
-        height: 380,
-        data: {
-            firstId: selected.Id,
-            key:"RoleResource"
-        }
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['410px', '390px'], //宽高
+        content: '/ResourceManager/AssignRes?key=RoleResource&firstId=' + selected.Id
     });
 }
 

@@ -221,7 +221,7 @@ function openUserRoleAccess(obj) {
     layer.open({
         type: 2,
         skin: 'layui-layer-rim', //加上边框
-        area: ['410px', '390px'], //宽高
+        area: ['600px', '300px'], //宽高
         content: '/RoleManager/LookupMulti?key=UserRole&firstId=' + selected.Id
     });
 }
@@ -234,7 +234,7 @@ function openUserReourceAccess(obj) {
     layer.open({
         type: 2,
         skin: 'layui-layer-rim', //加上边框
-        area: ['410px', '390px'], //宽高
+        area: ['600px', '300px'], //宽高
         content: '/ResourceManager/AssignRes?key=UserResource&firstId=' + selected.Id
     });
 }

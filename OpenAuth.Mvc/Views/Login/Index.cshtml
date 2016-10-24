@@ -1,78 +1,110 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>AdminLTE 2 | Log in</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.4 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>登陆页面 - OpenAuth.Net</title>
+
+    <meta name="description" content="User login page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
     <link href="/Content/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <link href="/Content/ace/css/font-awesome.min.css" rel="stylesheet" />
     <!-- Theme style -->
     <link href="/Content/ace/css/ace.css" rel="stylesheet" />
-    <!-- iCheck -->
-    <link href="/Content/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="dist/js/html5shiv.min.js"></script>
-        <script src="dist/js/respond.min.js"></script>
-    <![endif]-->
+
+    <!-- bootstrap & fontawesome -->
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="/Content/ace/css/ace-fonts.css" />
+
 </head>
-<body class="login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="#"><b>OpenAuth</b>.NET</a>
-        </div><!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-            <form action="" method="post">
-                <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="Email" />
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Password" />
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox"> Remember Me
-                            </label>
+
+<body class="login-layout" style="background-image:url(/Content/img/01.jpg)">
+    <div class="main-container">
+        <div class="main-content">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="login-container">
+                        <div class="center">
+                            <h1>
+                                <i class="ace-icon fa fa-users blue"></i>
+                                <span class="red">OpenAuth</span>
+                                <span class="white" id="id-text2">.Net</span>
+                            </h1>
+                            <h4 class="blue" id="id-company-text">&copy; Hifo group</h4>
                         </div>
-                    </div><!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">登陆</button>
-                    </div><!-- /.col -->
-                </div>
-            </form>
-            <div class="social-auth-links text-center">
-                <p>- OR -</p>
-                <a href="/Login/LoginByDev" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-user"></i> 点击以开发者账号登录</a>
-                <a href="http://localhost:52789/SSO/Login?appkey=@ViewBag.AppKey" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i>OpenAuth.net第三方登陆功能</a>
-            </div><!-- /.social-auth-links -->
-        </div><!-- /.login-box-body -->
-    </div><!-- /.login-box -->
-    <!-- jQuery 2.1.4 -->
-    <script src="/Content/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-<!-- Bootstrap 3.3.2 JS -->
-    <script src="/Content/plugins/bootstrap/js/bootstrap.js"></script>
-    <!-- iCheck -->
-    <script src="/Content/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
-    <script>
-      $(function () {
-        $('input').iCheck({
-          checkboxClass: 'icheckbox_square-blue',
-          radioClass: 'iradio_square-blue',
-          increaseArea: '20%' // optional
-        });
-      });
-    </script>
+
+                        <div class="space-6"></div>
+
+                        <div class="position-relative">
+                            <div id="login-box" class="login-box visible widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header blue lighter bigger">
+                                            <i class="ace-icon fa fa-coffee"></i>
+                                            请输入您的登录信息
+                                        </h4>
+
+                                        <div class="space-6"></div>
+
+                                        <!-- Login form -->
+                                        @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form-horizontal" }))
+                                        {
+                                        <!-- Email -->
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-3" for="inputEmail">用户名</label>
+                                            <div class="col-lg-9">
+                                                <input type="text" class="form-control" id="inputEmail" placeholder="用户名" name="username">
+                                            </div>
+                                        </div>
+                                        <!-- Password -->
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-3" for="inputPassword">密码</label>
+                                            <div class="col-lg-9">
+                                                <input type="password" class="form-control" id="inputPassword" placeholder="密码" name="password">
+                                            </div>
+                                        </div>
+
+                                        <div class="space"></div>
+
+                                        <div class="clearfix">
+                                            <label class="inline">
+                                                <span class="lbl"> @ViewBag.Msg</span>
+                                            </label>
+
+                                            <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                                <i class="ace-icon fa fa-key"></i>
+                                                <span class="bigger-110">登录</span>
+                                            </button>
+                                        </div>
+
+                                        }
+
+                                        <div class="social-or-login center">
+                                            <span class="bigger-110">Or Login Using</span>
+                                        </div>
+
+                                        <div class="space-6"></div>
+
+                                        <div class="center">
+                                            <a href="/Login/LoginByDev" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-user"></i> 点击以开发者账号登录</a>
+                                            <a href="http://localhost:52789/SSO/Login?appkey=@ViewBag.AppKey" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-user-secret"></i>OpenAuth.net第三方登陆功能</a>
+                                        </div>
+                                    </div><!-- /.widget-main -->
+                                
+                                </div><!-- /.widget-body -->
+                            </div><!-- /.login-box -->
+                        </div><!-- /.position-relative -->
+                    </div>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.main-content -->
+    </div><!-- /.main-container -->
+    <!-- basic scripts -->
 </body>
 </html>

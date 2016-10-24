@@ -39,7 +39,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 if (moduleView.Children.Any())
                 {
-                    sb.Append("<li class=\"\">\r\n");
+                    sb.Append("<li class=\"\" id=\""+moduleView.Item.Id+"\">\r\n");
                     sb.Append("<a href=\"#\" class=\"dropdown-toggle\">\r\n");
                     sb.Append("<i class=\"menu-icon fa "+moduleView.Item.IconName+"\"></i>\r\n");
                     sb.Append("<span class=\"menu-text\">\r\n");
@@ -57,7 +57,7 @@ namespace OpenAuth.Mvc.Controllers
                 }
                 else
                 {
-                    sb.Append("<li class=\"\">\r\n");
+                    sb.Append("<li class=\"\" id=\"" + moduleView.Item.Id + "\">\r\n");
                     sb.Append("<a href=\""+moduleView.Item.Url+"\">\r\n");
                     sb.Append("<i class=\"menu-icon fa "+moduleView.Item.IconName+"\"></i>\r\n");
                     sb.Append("<span class=\"menu-text\"> "+moduleView.Item.Name+ " </span>\r\n");
@@ -99,6 +99,8 @@ namespace OpenAuth.Mvc.Controllers
         public ActionResult Navbar()
         {
             ViewBag.NavBar = GetNavBar();
+            if(CurrentModule != null)
+            ViewBag.CurrentNav = CurrentModule.Id;
             return View();
         }
     }

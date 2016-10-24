@@ -33,6 +33,8 @@ namespace OpenAuth.Mvc.Controllers
     {
         protected Response Result = new Response();
         protected ModuleView CurrentModule;
+        protected string Controllername;   //当前控制器小写名称
+        protected string Actionname;        //当前Action小写名称
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -40,15 +42,15 @@ namespace OpenAuth.Mvc.Controllers
 
             if (!AuthUtil.CheckLogin()) return;
 
-            var controllername = Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
-            var actionname = filterContext.ActionDescriptor.ActionName.ToLower();
+            Controllername = Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
+            Actionname = filterContext.ActionDescriptor.ActionName.ToLower();
 
-            var function = this.GetType().GetMethods().FirstOrDefault(u => u.Name.ToLower() == actionname);
+            var function = this.GetType().GetMethods().FirstOrDefault(u => u.Name.ToLower() == Actionname);
             if (function == null)
                 throw new Exception("未能找到Action");
 
             var authorize = function.GetCustomAttribute(typeof(AuthenticateAttribute));
-            CurrentModule = AuthUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(controllername));
+            CurrentModule = AuthUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(Controllername));
             //当前登录用户没有Action记录&&Action有authenticate标识
             if (authorize != null && CurrentModule == null)
             {
@@ -59,7 +61,7 @@ namespace OpenAuth.Mvc.Controllers
             var version = ConfigurationManager.AppSettings["version"];
             if (version == "demo" && Request.HttpMethod == "POST")
             {
-                throw new HttpException(400, "演示版本，不能进行该操作，当前模块:" + controllername + "/" + actionname);
+                throw new HttpException(400, "演示版本，不能进行该操作，当前模块:" + Controllername + "/" + Actionname);
             }
 
         }

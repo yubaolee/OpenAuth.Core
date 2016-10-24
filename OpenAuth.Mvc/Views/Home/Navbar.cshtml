@@ -3,13 +3,27 @@
 }
 <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
     <script type="text/javascript">
-        try { ace.settings.loadState('sidebar') } catch (e) { }
+        try {
+            ace.settings.loadState('sidebar')
+        } catch (e) {
+        }
+
+        $(function () {
+            var menuVal = "@ViewBag.CurrentNav";
+            if ("" != $.trim(menuVal)) {
+                console.log(menuVal);
+                $(".nav-list li").removeClass("active");
+                $(".nav-list li").removeClass("open");
+                $("#" + menuVal).addClass("active");
+                $("#" + menuVal).parent().show();
+            }
+        });
     </script>
 
     <div class="sidebar-shortcuts" id="sidebar-shortcuts">
         <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
             <button class="btn btn-success">
-                <i class="ace-icon fa fa-signal"></i>
+                <i class="ace-icon fa fa-home"></i>
             </button>
 
             <button class="btn btn-info">
@@ -49,3 +63,4 @@
 
     <!-- /section:basics/sidebar.layout.minimize -->
 </div>
+

@@ -6,27 +6,21 @@
 
 <script src="/Scripts/jquery.js"></script>
 <script src="/Scripts/jquery-ui.js"></script>
-<link href="/Content/style.css" rel="stylesheet" />
-<link href="/Content/jquery-ui.min.css" rel="stylesheet" />
 <script src="/Scripts/kinetic-v5.1.0.min.js"></script>
-<link href="/Content/workflowdesigner.css" rel="stylesheet" type="text/css" />
 <script src="/Scripts/workflowdesigner.min.js"></script>
 <script src="/Scripts/designerconstants.js"></script>
 <script src="/Scripts/ace.js"></script>
 <script src="/Scripts/json5.js"></script>
 <script src="/BllScripts/queryString.js"></script>
 
-    <div class="row">
+<link href="/Content/plugins/jQueryUI/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="/Content/workflowdesigner.css" rel="stylesheet" type="text/css" />
+
+<input value="@Model.Id" id="processId" type="hidden" />
+<input value="@Model.WorkflowName" id="schemeCode" type="hidden" />
+<div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <input value="@Model.Id" id="processId" class="hidden"/>
-                    <input value="@Model.WorkflowName" id="schemeCode" class="hidden" />
-                    <h3 class="panel-title">
-                        @Model.Name
-                    </h3>
-                </div>
-
                 @if (Model.Commands.Length > 0)
                 {
                 <div class="panel-body">
@@ -35,7 +29,7 @@
                     {
                     if (cmd.Classifier == TransitionClassifier.Reverse)
                     {
-                    <button  class="btn btn-sm btn-danger btn-cmd" value="@cmd.Key">@cmd.Value</button>
+                    <button  class="btn ui-button-icon-primary btn-cmd" value="@cmd.Key">@cmd.Value</button>
                     }
                     else
                     {

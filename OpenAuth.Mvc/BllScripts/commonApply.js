@@ -184,6 +184,7 @@ function detail() {
 
     layer.open({
         type: 2,
+        title:selected.Name,
         skin: 'layui-layer-rim', //加上边框
         area: ['800px', '600px'], //宽高
         content: '/CommonApplies/Detail?id=' + selected.Id,

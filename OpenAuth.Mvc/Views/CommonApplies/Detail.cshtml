@@ -4,14 +4,17 @@
 @using OptimaJet.Workflow.Core.Model
 @model OpenAuth.App.ViewModel.CommonApplyVM
 
+<script src="/Scripts/jquery.js"></script>
 <script src="/Scripts/jquery-ui.js"></script>
-<link href="/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="/Content/style.css" rel="stylesheet" />
+<link href="/Content/jquery-ui.min.css" rel="stylesheet" />
 <script src="/Scripts/kinetic-v5.1.0.min.js"></script>
 <link href="/Content/workflowdesigner.css" rel="stylesheet" type="text/css" />
 <script src="/Scripts/workflowdesigner.min.js"></script>
 <script src="/Scripts/designerconstants.js"></script>
 <script src="/Scripts/ace.js"></script>
 <script src="/Scripts/json5.js"></script>
+<script src="/BllScripts/queryString.js"></script>
 
     <div class="row">
         <div class="col-md-12">
@@ -32,11 +35,11 @@
                     {
                     if (cmd.Classifier == TransitionClassifier.Reverse)
                     {
-                    <button type="button" class="btn btn-danger btn-cmd" value="@cmd.Key">@cmd.Value</button>
+                    <button  class="btn btn-sm btn-danger" value="@cmd.Key">@cmd.Value</button>
                     }
                     else
                     {
-                    <button type="button" class="btn btn-primary btn-cmd" value="@cmd.Key">@cmd.Value</button>
+                    <button class="btn btn-sm btn-success" value="@cmd.Key">@cmd.Value</button>
                     }
                     }
                 </div>

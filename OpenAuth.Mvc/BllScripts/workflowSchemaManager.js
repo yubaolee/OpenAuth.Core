@@ -73,12 +73,23 @@ function edit() {
     if (selected == null) {
         return;
     }
-    window.location = '/designer/index?schemeName=' + selected.Code;
+
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['800px', '600px'], //宽高
+        content: '/designer/index?schemeName=' + selected.Code
+    });
+
 }
 
 function add() {
-
-    window.location = '/designer/index?schemeName=';
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['800px', '600px'], //宽高
+        content: '/designer/index?schemeName='
+    });
 }
 
 

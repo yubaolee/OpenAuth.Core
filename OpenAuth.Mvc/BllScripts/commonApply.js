@@ -181,17 +181,16 @@ function detail() {
     if (selected == null) {
         return;
     }
-    BJUI.dialog({ 
-        id: 'detailDlg',
-        url: '/CommonApplies/Detail?id=' + selected.Id,
-        title: '进度详情',
-        width: 900,
-        height: 600,
-        mask:true
+
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['800px', '600px'], //宽高
+        content: '/CommonApplies/Detail?id=' + selected.Id,
+        end:function() {
+            list.reload();
+        }
     });
-    $(document).on('bjui.beforeCloseDialog',function(e) {
-                    list.reload();
-   });
 }
 
 function add() {

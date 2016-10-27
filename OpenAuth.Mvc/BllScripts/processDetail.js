@@ -35,7 +35,7 @@ function wfdesignerRedraw() {
 wfdesignerRedraw();
 
 $(function () {
-    $(".btn-cmd")
+    $(".workflowcmd")
         .on("click", function () {   //执行命令
             $.post("/CommonApplies/ExeCmd?id=" +$("#processId").val() +"&cmd=" +$(this).val() ,
                function (data) {

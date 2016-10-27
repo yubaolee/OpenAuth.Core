@@ -18,30 +18,30 @@
 
 <input value="@Model.Id" id="processId" type="hidden" />
 <input value="@Model.WorkflowName" id="schemeCode" type="hidden" />
-<div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                @if (Model.Commands.Length > 0)
-                {
-                <div class="panel-body">
-                    <span class="label label-default">下图蓝色为当前状态，你可以执行：</span>
-                    @foreach (var cmd in Model.Commands)
-                    {
-                    if (cmd.Classifier == TransitionClassifier.Reverse)
-                    {
-                    <button  class="btn ui-button-icon-primary btn-cmd" value="@cmd.Key">@cmd.Value</button>
-                    }
-                    else
-                    {
-                    <button class="btn btn-sm btn-success btn-cmd" value="@cmd.Key">@cmd.Value</button>
-                    }
-                    }
-                </div>
-                }
-               <div id="wfdesigner"></div>
-            </div>
-        </div>
+
+  @if (Model.Commands.Length > 0)
+    {
+    <div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+        <p>
+            <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+            下图蓝色为当前状态，你可以执行：
+            @foreach (var cmd in Model.Commands)
+            {
+            if (cmd.Classifier == TransitionClassifier.Reverse)
+            {
+            <button class="workflowcmd" value="@cmd.Key">@cmd.Value</button>
+            }
+            else
+            {
+            <button class="workflowcmd" value="@cmd.Key">@cmd.Value</button>
+            }
+            }
+        </p>
     </div>
+
+    }
+
+<div id="wfdesigner"></div>
 
 <script src="/BllScripts/queryString.js"></script>
 <script src="/BllScripts/processDetail.js?v=1"></script>

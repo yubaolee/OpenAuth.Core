@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
@@ -28,10 +29,10 @@ namespace OpenAuth.App
 
             return result;
         }
-
-        public void Del(string code)
+        [HttpPost]
+        public void Del(string[] codes)
         {
-            _repository.Delete(u =>u.Code == code);
+            _repository.Delete(u =>codes.Contains(u.Code));
         }
     }
 }

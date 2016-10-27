@@ -55,7 +55,7 @@ function del() {
     var selected = list.getSelectedProperties("Code");
     if (selected == null) return;
 
-    $.post('/WorkflowSchemas/Delete',
+    $.post('/WorkflowSchemas/Del',
     { codes: selected },
     function (data) {
         if (data.Status) {
@@ -76,6 +76,7 @@ function edit() {
 
     layer.open({
         type: 2,
+        title:selected.Code,
         skin: 'layui-layer-rim', //加上边框
         area: ['800px', '600px'], //宽高
         maxmin: true, //开启最大化最小化按钮

@@ -43,7 +43,7 @@ $(function () {
                        location.reload();
                    }
                    else {
-                       $(this).alertmsg('warn', data.Message);
+                       alert(data.Message);
                    }
                },'json');
         });

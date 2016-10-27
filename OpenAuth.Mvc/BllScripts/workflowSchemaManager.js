@@ -78,6 +78,7 @@ function edit() {
         type: 2,
         skin: 'layui-layer-rim', //加上边框
         area: ['800px', '600px'], //宽高
+        maxmin: true, //开启最大化最小化按钮
         content: '/designer/index?schemeName=' + selected.Code
     });
 
@@ -88,6 +89,7 @@ function add() {
         type: 2,
         skin: 'layui-layer-rim', //加上边框
         area: ['800px', '600px'], //宽高
+        maxmin: true, //开启最大化最小化按钮
         content: '/designer/index?schemeName='
     });
 }

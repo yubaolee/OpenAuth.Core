@@ -187,6 +187,7 @@ function detail() {
         skin: 'layui-layer-rim', //加上边框
         area: ['800px', '600px'], //宽高
         content: '/CommonApplies/Detail?id=' + selected.Id,
+        maxmin: true, //开启最大化最小化按钮
         end:function() {
             list.reload();
         }

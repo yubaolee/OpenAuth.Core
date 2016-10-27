@@ -40,7 +40,7 @@ $(function () {
             $.post("/CommonApplies/ExeCmd?id=" +$("#processId").val() +"&cmd=" +$(this).val() ,
                function (data) {
                    if (data.Status) {
-                       BJUI.dialog('refresh', 'detailDlg');
+                       location.reload();
                    }
                    else {
                        $(this).alertmsg('warn', data.Message);

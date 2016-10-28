@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
 using EntityFramework.Extensions;
@@ -126,7 +127,14 @@ namespace OpenAuth.Repository
 
         public void Save()
         {
-            Context.SaveChanges();
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                throw new Exception(e.EntityValidationErrors.First().ValidationErrors.First().ErrorMessage);
+            }
         }
 
         private IQueryable<T> Filter(Expression<Func<T, bool>> exp)

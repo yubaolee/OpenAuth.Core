@@ -3,7 +3,6 @@ using System.Configuration;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App.SSO;
-using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -19,33 +18,28 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string username, string password)
+        public string Index(string username, string password)
         {
+            var resp = new Response();
             try
             {
                 var result = AuthUtil.Login(_appKey, username, password);
+                resp.Status = result.Success;
                 if (result.Success)
-                    return Redirect("/home/index?Token=" + result.Token);
+                {
+                    resp.Result = "/home/index?Token=" + result.Token;
+                }
                 else
                 {
-                    var response = new Response
-                    {
-                        Status = false,
-                        Message = "登陆失败"
-                    };
-                    return View(response);
+                    resp.Message = "登陆失败";
                 }
-                
             }
             catch (Exception e)
             {
-                var response = new Response
-                {
-                    Status = false,
-                    Message = e.Message
-                };
-                return View(response);
+                resp.Status = false;
+                resp.Message = e.Message;
             }
+            return JsonHelper.Instance.Serialize(resp);
         }
 
         /// <summary>

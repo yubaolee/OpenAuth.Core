@@ -9,22 +9,21 @@
     <title>登陆页面 - OpenAuth.Net</title>
 
     <meta name="description" content="User login page" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
     <link href="/Content/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <link href="/Content/ace/css/font-awesome.min.css" rel="stylesheet" />
     <!-- Theme style -->
     <link href="/Content/ace/css/ace.css" rel="stylesheet" />
-
+    <link href="~/Content/layui/css/layui.css" rel="stylesheet" />
     <!-- bootstrap & fontawesome -->
-
     <!-- text fonts -->
     <link rel="stylesheet" href="/Content/ace/css/ace-fonts.css" />
 
 </head>
 
-<body class="login-layout" style="background-image:url(/Content/img/01.jpg)">
+<body class="login-layout">
     <div class="main-container">
         <div class="main-content">
             <div class="row">
@@ -53,37 +52,32 @@
                                         <div class="space-6"></div>
 
                                         <!-- Login form -->
-                                        @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form-horizontal" }))
-                                        {
-                                        <!-- Email -->
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-3" for="inputEmail">用户名</label>
-                                            <div class="col-lg-9">
-                                                <input type="text" class="form-control" id="inputEmail" placeholder="用户名" name="username">
+                                        <form class="layui-form">
+                                            <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">用户名</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <!-- Password -->
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-3" for="inputPassword">密码</label>
-                                            <div class="col-lg-9">
-                                                <input type="password" class="form-control" id="inputPassword" placeholder="密码" name="password">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">密码</label>
+                                                <div class="layui-input-block">
+                                                    <input type="password" name="password" placeholder="请输入" autocomplete="off" class="layui-input">
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="space"></div>
+                                            <div class="layui-form-item">
+                                                <div class="layui-input-block">
+                                                    <button class="layui-btn" lay-submit lay-filter="*">登陆</button>
+                                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                                </div>
+                                            </div>
+                                        </form>
 
-                                        <div class="clearfix">
-                                            <label class="inline">
-                                                <span class="lbl"> @ViewBag.Msg</span>
-                                            </label>
-
-                                            <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-                                                <i class="ace-icon fa fa-key"></i>
-                                                <span class="bigger-110">登录</span>
-                                            </button>
-                                        </div>
-
-                                        }
+                                        <script src="~/Content/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+                                        <script src="~/Content/layui/layui.js"></script>
+                                        <script src="~/BllScripts/login.js"></script>
 
                                         <div class="social-or-login center">
                                             <span class="bigger-110">Or Login Using</span>
@@ -96,7 +90,7 @@
                                             <a href="http://localhost:52789/SSO/Login?appkey=@ViewBag.AppKey" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-user-secret"></i>OpenAuth.net第三方登陆功能</a>
                                         </div>
                                     </div><!-- /.widget-main -->
-                                
+
                                 </div><!-- /.widget-body -->
                             </div><!-- /.login-box -->
                         </div><!-- /.position-relative -->

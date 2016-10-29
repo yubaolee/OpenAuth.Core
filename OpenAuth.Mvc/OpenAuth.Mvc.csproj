@@ -1167,6 +1167,7 @@
     <Content Include="Images\left_menuForOutLook.gif" />
     <Content Include="Images\left_menuForOutLook.png" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\login\bg.jpg" />
     <Content Include="Images\x.png" />
     <Content Include="Scripts\ace.js" />
     <Content Include="Scripts\designerconstants.js" />

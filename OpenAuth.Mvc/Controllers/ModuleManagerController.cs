@@ -110,15 +110,6 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 直接加载所有的模块
-        /// </summary>
-        public string LoadForTree()
-        {
-            var orgs = AuthUtil.GetCurrentUser().ModuleWithChildren;
-            return JsonHelper.Instance.Serialize(orgs);
-        }
-
-        /// <summary>
         /// 加载用户模块
         /// </summary>
         /// <param name="firstId">The user identifier.</param>
@@ -140,7 +131,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string LoadModuleWithRoot()
+        public string LoadModule()
         {
             var orgs = AuthUtil.GetCurrentUser().Modules.MapToList<ModuleView>();
             return JsonHelper.Instance.Serialize(orgs);

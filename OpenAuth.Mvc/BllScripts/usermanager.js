@@ -166,20 +166,10 @@ var editDlg = function () {
 
 //删除
 function del() {
-    var selected = list.getSelectedProperties("Id");
-    if (selected == null) return;
-
-    $.post('/UserManager/Delete',
-    { ids: selected },
-    function (data) {
-        if (data.Status) {
-            list.reload();
-            ztree.reload();
-        }
-        else {
-            layer.msg(data.Message);
-        }
-    }, "json");
+    list.del("Id", "/UserManager/Delete", function () {
+        list.reload();
+        ztree.reload();
+    });
 }
 
 

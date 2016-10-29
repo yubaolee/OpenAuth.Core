@@ -24,11 +24,11 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         [HttpPost]
-        public string Del(string[] codes)
+        public string Del(string[] ids)
         {
             try
             {
-                _app.Del(codes);
+                _app.Del(ids);
             }
             catch (Exception e)
             {

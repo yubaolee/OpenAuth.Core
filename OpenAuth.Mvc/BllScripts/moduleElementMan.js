@@ -160,19 +160,12 @@ var editDlg = function () {
 
 //删除
 function del() {
+    list.del("Id", "/ModuleElementManager/Del", function () {
+        list.reload();
+     });
+
     var selected = list.getSelectedProperties("Id");
     if (selected == null) return;
-
-    $.post('/ModuleElementManager/Del',
-    { ids: selected },
-    function (data) {
-        if (data.Status) {
-            list.reload();
-        }
-        else {
-            layer.msg(data.Message);
-        }
-    }, "json");
 }
 
 //自定义的编辑按钮

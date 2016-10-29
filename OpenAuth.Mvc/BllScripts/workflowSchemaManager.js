@@ -52,19 +52,9 @@ var vm = new Vue({
 
 //删除
 function del() {
-    var selected = list.getSelectedProperties("Code");
-    if (selected == null) return;
-
-    $.post('/WorkflowSchemas/Del',
-    { codes: selected },
-    function (data) {
-        if (data.Status) {
-            list.reload();
-        }
-        else {
-            layer.msg(data.Message);
-        }
-    }, "json");
+    list.del("Code", "/WorkflowSchemas/Del", function () {
+        list.reload();
+    });
 }
 
 //自定义的编辑按钮

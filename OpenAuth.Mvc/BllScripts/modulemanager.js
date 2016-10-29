@@ -6,7 +6,7 @@
 
 //左边导航
 var ztree = function () {
-    var url = '/ModuleManager/LoadModuleWithRoot';
+    var url = '/ModuleManager/LoadModule';
     var setting = {
         view: { selectedMulti: false },
         data: {
@@ -123,7 +123,7 @@ var vm = new Vue({
 });
 
 //上级机构选择框
-var parent = new ParentTree("/moduleManager/LoadForTree", "ParentName", "ParentId");
+var parent = new ParentTree("/moduleManager/LoadModule", "ParentName", "ParentId");
 
 //添加（编辑）对话框
 var editDlg = function () {
@@ -169,19 +169,11 @@ var editDlg = function () {
 
 //删除
 function del() {
-    var selected = list.getSelectedProperties("Id");
-    if (selected == null) return;
+    list.del("Id", "/moduleManager/Delete", function () {
+        list.reload();
+        ztree.reload();
+    });
 
-    $.post('/moduleManager/Delete',
-    { ids: selected }, function (data) {
-        if (data.Status) {
-            list.reload();
-            ztree.reload();
-        }
-        else {
-            $(this).alertmsg('warn', data.Message);
-        }
-    }, "json");
 }
 
 //自定义的编辑按钮

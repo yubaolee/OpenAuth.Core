@@ -1,19 +1,20 @@
 ﻿//左边分类导航树
-var ztree = function () {
+var ztree = function() {
     var nodes = [
-     {
-         name: "流程处理", children: [
-             { name: "我的申请", value: 'me' },
-            { name: "待办事项", value: 'inbox' },
-            { name: "已办事项", value: 'outbox' }
-         ],
-         value: 'me'
-     }
+        {
+            name: "流程处理",
+            children: [
+                { name: "我的申请", value: "me" },
+                { name: "待办事项", value: "inbox" },
+                { name: "已办事项", value: "outbox" }
+            ],
+            value: "me"
+        }
     ];
     var setting = {
         view: { selectedMulti: false },
         callback: {
-            onClick: function (event, treeId, treeNode) {
+            onClick: function(event, treeId, treeNode) {
                 list.reload(treeNode.value);
             }
         }
@@ -22,52 +23,53 @@ var ztree = function () {
     zTreeObj.expandAll(true);
 }();
 
-var selectScheme = function (val) {
+var selectScheme = function(val) {
     $("#WorkflowName").empty();
-    $.getJSON('/workflowschemas/Load',
-        function (data) {
-            $.each(data.rows, function (i, n) {
-                $("#WorkflowName").append("<option value='" + this.Code + "'>" + this.Code + "</option>");
-            });
+    $.getJSON("/workflowschemas/Load",
+        function(data) {
+            $.each(data.rows,
+                function(i, n) {
+                    $("#WorkflowName").append("<option value='" + this.Code + "'>" + this.Code + "</option>");
+                });
 
             if (val != undefined) {
-                $('#WorkflowName').val(val);
+                $("#WorkflowName").val(val);
             }
         });
-}
+};
 
 
 //grid列表模块
 function MainGrid() {
-    var url = '/CommonApplies/Load?type=';
-    var selectedId = 'me';  //ztree选中的模块
-    this.maingrid = $('#maingrid')
+    var url = "/CommonApplies/Load?type=";
+    var selectedId = "me"; //ztree选中的模块
+    this.maingrid = $("#maingrid")
         .jqGrid({
             colModel: [
                 {
-                    name: 'Id',
-                    index: 'Id',
+                    name: "Id",
+                    index: "Id",
                     hidden: true
                 },
                 {
-                    index: 'Name',
-                    name: 'Name',
-                    label: '申请名称'
+                    index: "Name",
+                    name: "Name",
+                    label: "申请名称"
                 },
                 {
-                    index: 'Comment',
-                    name: 'Comment',
-                    label: '申请描述'
+                    index: "Comment",
+                    name: "Comment",
+                    label: "申请描述"
                 },
                 {
-                    index: 'StateName',
-                    name: 'StateName',
-                    label: '流程状态'
+                    index: "StateName",
+                    name: "StateName",
+                    label: "流程状态"
                 },
                 {
-                    index: 'WorkflowName',
-                    name: 'WorkflowName',
-                    label:'流程名称'
+                    index: "WorkflowName",
+                    name: "WorkflowName",
+                    label: "流程名称"
                 }
             ],
             url: url + selectedId,
@@ -77,72 +79,84 @@ function MainGrid() {
             rowNum: 18,
             pager: "#grid-pager",
             altRows: true,
-            height: 'auto',
+            height: "auto",
             multiselect: true,
             multiboxonly: true,
 
-            loadComplete: function () {
+            loadComplete: function() {
                 var table = this;
-                setTimeout(function () {
-                    updatePagerIcons(table);
-                },
+                setTimeout(function() {
+                        updatePagerIcons(table);
+                    },
                     0);
             }
-        }).jqGrid('navGrid', "#grid-pager", {
-            edit: false, add: false, del: false, refresh: false, search: false
-        });
+        })
+        .jqGrid("navGrid",
+            "#grid-pager",
+            {
+                edit: false,
+                add: false,
+                del: false,
+                refresh: false,
+                search: false
+            });
 
-    this.reload = function (id) {
+    this.reload = function(id) {
         if (id != undefined) selectedId = id;
         this.maingrid.jqGrid("setGridParam", { url: url + selectedId })
-            .trigger("reloadGrid", [{ page: 1 }]);  //重载JQGrid
+            .trigger("reloadGrid", [{ page: 1 }]); //重载JQGrid
 
     };
 };
+
 MainGrid.prototype = new Grid();
 var list = new MainGrid();
 var vm = new Vue({
-    el: '#editDlg'
+    el: "#editDlg"
 });
 
 //添加（编辑）对话框
-var editDlg = function () {
+var editDlg = function() {
     var update = false;
-    var show = function () {
+    var show = function() {
         layer.open({
             type: 1,
-            skin: 'layui-layer-rim', //加上边框
-            title: "用户管理", //不显示标题
-            area: ['400px', '300px'], //宽高
-            content: $('#editDlg'), //捕获的元素
-            btn: ['保存', '关闭'],
-            yes: function (index, layero) {
-                $.post("/CommonApplies/Add", vm.$data, function (data) {
-                    layer.msg(data.Message);
-                    if (data.Status) {
-                        list.reload();
-                        ztree.reload();
-                    }
-                }, "json");
+            skin: "layui-layer-rim", //加上边框
+            title: "申请管理", //不显示标题
+            area: ["400px", "300px"], //宽高
+            content: $("#editDlg"), //捕获的元素
+            btn: ["保存", "关闭"],
+            yes: function(index, layero) {
+                $.post("/CommonApplies/Add",
+                    vm.$data,
+                    function(data) {
+                        layer.msg(data.Message);
+                        if (data.Status) {
+                            list.reload();
+                            ztree.reload();
+                        }
+                    },
+                    "json");
             },
-            cancel: function (index) {
+            cancel: function(index) {
                 layer.close(index);
             }
         });
-    }
+    };
     return {
-        add: function () {  //弹出添加
+        add: function() { //弹出添加
             update = false;
             selectScheme();
             show();
-            vm.$set('$data', {
-                Id: '00000000-0000-0000-0000-000000000000',
+            vm.$set("$data",
+            {
+                Id: "00000000-0000-0000-0000-000000000000",
             });
         },
-        update: function (ret) {  //弹出编辑框
+        update: function(ret) { //弹出编辑框
             update = true;
             show();
-            vm.$set('$data', ret);
+            vm.$set("$data", ret);
             selectScheme(vm.WorkflowName);
         }
     };
@@ -150,10 +164,12 @@ var editDlg = function () {
 
 //删除
 function del() {
-    list.del("Id", "/CommonApplies/Delete", function () {
-        list.reload();
-        ztree.reload();
-    });
+    list.del("Id",
+        "/CommonApplies/Delete",
+        function() {
+            list.reload();
+            ztree.reload();
+        });
 
 }
 
@@ -175,12 +191,12 @@ function detail() {
 
     layer.open({
         type: 2,
-        title:selected.Name,
-        skin: 'layui-layer-rim', //加上边框
-        area: ['800px', '600px'], //宽高
-        content: '/CommonApplies/Detail?id=' + selected.Id,
+        title: selected.Name,
+        skin: "layui-layer-rim", //加上边框
+        area: ["800px", "600px"], //宽高
+        content: "/CommonApplies/Detail?id=" + selected.Id,
         maxmin: true, //开启最大化最小化按钮
-        end:function() {
+        end: function() {
             list.reload();
         }
     });

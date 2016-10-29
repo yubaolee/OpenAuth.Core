@@ -126,7 +126,7 @@ var editDlg = function () {
         layer.open({
             type: 1,
             skin: 'layui-layer-rim', //加上边框
-            title: "用户管理", //不显示标题
+            title: "进出库管理", //不显示标题
             area: ['400px', '300px'], //宽高
             content: $('#editDlg'), //捕获的元素
             btn: ['保存', '关闭'],

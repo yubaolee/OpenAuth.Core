@@ -28,7 +28,7 @@
 
 `秀外`
 
-基于B-JUI酷炫（[炫不炫，你说了算](http://b-jui.com/)）的动态效果：
+在b-jui的基础上增加Aceadmin显示，可根据个人爱好选择：
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1031/120614_fbcd8bf2_362401.png "在这里输入图片标题")
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0923/150737_79f965ac_362401.png "在这里输入图片标题")
 ![输入图片说明](http://git.oschina.net/uploads/images/2015/1208/005100_5849eec8_362401.jpeg "在这里输入图片标题")

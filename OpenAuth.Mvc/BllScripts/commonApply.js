@@ -29,7 +29,7 @@ var selectScheme = function(val) {
         function(data) {
             $.each(data.rows,
                 function(i, n) {
-                    $("#WorkflowName").append("<option value='" + this.Code + "'>" + this.Code + "</option>");
+                    $("#WorkflowName").append("<option value='" + this.Code + "' v-bind:value='"+this.Code+"'>" + this.Code + "</option>");
                 });
 
             if (val != undefined) {
@@ -133,7 +133,6 @@ var editDlg = function() {
                         layer.msg(data.Message);
                         if (data.Status) {
                             list.reload();
-                            ztree.reload();
                         }
                     },
                     "json");
@@ -151,6 +150,7 @@ var editDlg = function() {
             vm.$set("$data",
             {
                 Id: "00000000-0000-0000-0000-000000000000",
+                WorkflowName:"SimpleWF"
             });
         },
         update: function(ret) { //弹出编辑框

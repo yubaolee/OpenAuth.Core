@@ -73,11 +73,11 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 删除申请
         /// </summary>
-        public string Delete(Guid id)
+        public string Delete(Guid[] ids)
         {
             try
             {
-                _app.Del(id);
+                _app.Del(ids);
             }
             catch (Exception ex)
             {

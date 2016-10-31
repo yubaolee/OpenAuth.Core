@@ -39,7 +39,6 @@
         height: auto !important;
         max-height: 800px;
         overflow-y: scroll;
-        background: #f0f6e4;
         border:1px solid #aaa;
       min-height: 500px;
     }

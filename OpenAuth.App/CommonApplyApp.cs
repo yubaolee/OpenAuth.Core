@@ -98,9 +98,9 @@ namespace OpenAuth.App
             return _unitWork.Find<Relevance>(u =>u.Key =="ProcessUser" &&(userid == Guid.Empty || u.SecondId == userid)).Select(u =>u.FirstId);
         }
 
-        public void Del(Guid id)
+        public void Del(Guid[] ids)
         {
-            _repository.Delete(u =>u.Id == id);
+            _repository.Delete(u =>ids.Contains(u.Id));
         }
     }
 }

@@ -127,7 +127,7 @@ var editDlg = function() {
             content: $("#editDlg"), //捕获的元素
             btn: ["保存", "关闭"],
             yes: function(index, layero) {
-                $.post("/CommonApplies/Add",
+                $.post("/CommonApplies/Edit",
                     vm.$data,
                     function(data) {
                         layer.msg(data.Message);

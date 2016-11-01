@@ -40,15 +40,9 @@ namespace OpenAuth.Mvc.Controllers
         }
 
 
-        public string Http500()
+        public ActionResult Http500()
         {
-            Response.Charset = "utf-8";
-            var response = new Response
-            {
-                Status = false,
-                Message = "内部错误"
-            };
-            return JsonHelper.Instance.Serialize(response);
+            return Content("哇哦！服务器内部出问题了，让站长看看日志吧~~", "text/plain");
         }
     }
 }

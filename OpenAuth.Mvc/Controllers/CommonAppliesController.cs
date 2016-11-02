@@ -56,18 +56,11 @@ namespace OpenAuth.Mvc.Controllers
 
         public ActionResult Detail(Guid id)
         {
-            try
-            {
+          
                 CommonApplyVM apply = _app.Get(id);
                 apply.Commands = GetCommands(id);
                 return View(apply);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
-            return View();
+  
         }
 
         /// <summary>

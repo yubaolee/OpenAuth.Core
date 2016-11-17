@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Helper.Cache;
 
 namespace OpenAuth.App.SSO
 {
-    public class AppInfoService : ServiceContext
+    public class AppInfoService : CacheProvider
     {
         public AppInfo Get(string appKey)
         {

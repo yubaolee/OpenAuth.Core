@@ -93,7 +93,6 @@
     <Compile Include="SSO\AppInfoService.cs" />
     <Compile Include="SSO\AuthUtil.cs" />
     <Compile Include="SSO\PassportLoginRequest.cs" />
-    <Compile Include="SSO\ServiceContext.cs" />
     <Compile Include="SSO\SSOAuthUtil.cs" />
     <Compile Include="SSO\SSOController.cs" />
     <Compile Include="SSO\LoginResult.cs" />

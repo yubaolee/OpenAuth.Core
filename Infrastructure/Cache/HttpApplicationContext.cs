@@ -1,21 +1,25 @@
 ﻿// ***********************************************************************
-// Assembly         : Infrastructure
-// Author           : yubaolee
-// Created          : 06-21-2016
+// Assembly         : Helper
+// Author           : Administrator
+// Created          : 09-21-2016
 //
-// Last Modified By : yubaolee
-// Last Modified On : 06-21-2016
+// Last Modified By : Administrator
+// Last Modified On : 11-09-2016
 // Contact : 
-// File: EnyimMemcachedContext.cs
+// File: HttpApplicationContext.cs
 // ***********************************************************************
 
 
 using System;
 using System.Web;
 
-namespace Infrastructure.Cache
+namespace Helper.Cache
 {
-    public sealed class SessionContext : CacheContext
+    /// <summary>
+    /// 基于HttpApplication的存储
+    /// <para>李玉宝新增于2016-11-09 9:30:51</para>
+    /// </summary>
+    public sealed class HttpApplicationContext : ICacheContext
     {
 
         public override void Init()

@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Infrastructure.Cache
+namespace Helper.Cache
 {
     /// <summary>
-    /// 策略模式缓存组件，可实现动态插拔
+    /// 缓存接口
     /// </summary>
-    public abstract class CacheContext : IDisposable
+    public abstract class ICacheContext : IDisposable
     {
         /// <summary>
         /// 初始化缓存组件

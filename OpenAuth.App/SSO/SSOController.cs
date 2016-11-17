@@ -25,12 +25,10 @@ namespace OpenAuth.App.SSO
     public class SSOController : Controller
     {
         public const string Token = "Token";
-        public const string SessionUserName = "SessionUserName";
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var token = "";
-            var cookieSessionUserName = "";
 
             //Token by QueryString
             var request = filterContext.HttpContext.Request;
@@ -48,21 +46,10 @@ namespace OpenAuth.App.SSO
                 token = request.Cookies[Token].Value;
             }
 
-            //SessionUserName by QueryString
-            if (request.QueryString[SessionUserName] != null)
-            {
-                cookieSessionUserName = request.QueryString[SessionUserName];
-                filterContext.HttpContext.Response.Cookies.Add(new HttpCookie(SessionUserName, cookieSessionUserName));
-            }
-            else if (request.Cookies[SessionUserName] != null)  //从Cookie读取SessionUserName
-            {
-                cookieSessionUserName = request.Cookies[SessionUserName].Value;
-            }
-
             if (string.IsNullOrEmpty(token))
             {
                 //直接登录
-                filterContext.Result = LoginResult(cookieSessionUserName);
+                filterContext.Result = LoginResult("");
                 return;
             }
             else
@@ -71,7 +58,7 @@ namespace OpenAuth.App.SSO
                 if (AuthUtil.CheckLogin(token, request.RawUrl) == false)
                 {
                     //会话丢失，跳转到登录页面
-                    filterContext.Result = LoginResult(cookieSessionUserName);
+                    filterContext.Result = LoginResult("");
                     return;
                 }
             }
@@ -79,14 +66,8 @@ namespace OpenAuth.App.SSO
             base.OnActionExecuting(filterContext);
         }
 
-        private static ActionResult LoginResult(string username)
+        public virtual ActionResult LoginResult(string username)
         {
-            //跳转到SSO站点登陆
-            //return new RedirectResult(string.Format("{0}/sso/login?appkey={1}&username={2}",
-            //        ConfigurationManager.AppSettings["SSOPassport"],
-            //        ConfigurationManager.AppSettings["SSOAppKey"],
-            //        username));
-
             return new RedirectResult("/Login/Index");
         }
     }

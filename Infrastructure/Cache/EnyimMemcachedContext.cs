@@ -13,9 +13,9 @@
 using Enyim.Caching;
 using Enyim.Caching.Memcached;
 
-namespace Infrastructure.Cache
+namespace Helper.Cache
 {
-    public sealed class EnyimMemcachedContext : CacheContext
+    public sealed class EnyimMemcachedContext : ICacheContext
     {
         private readonly MemcachedClient _memcachedClient = new MemcachedClient("memcached");
 

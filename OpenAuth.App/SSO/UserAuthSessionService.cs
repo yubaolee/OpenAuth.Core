@@ -10,7 +10,8 @@
 // ***********************************************************************
 
 using System;
-using Infrastructure.Cache;
+using Helper.Cache;
+using Infrastructure;
 
 namespace OpenAuth.App.SSO
 {
@@ -19,11 +20,11 @@ namespace OpenAuth.App.SSO
     /// <para>测试环境用的是基于http application的SessionContext</para>
     /// <para>正式环境可以使用基于memcached的EnyimMemcachedContext</para>
     /// </summary>
-    public class UserAuthSessionService : ServiceContext
+    public class UserAuthSessionService : CacheProvider
     {
         public UserAuthSessionService()
         {
-            SetCacheInstance(new SessionContext());
+            SetCacheInstance(new HttpApplicationContext());
         }
 
         public bool Create(UserAuthSession model)
@@ -42,7 +43,9 @@ namespace OpenAuth.App.SSO
         {
             var cache = Get(token);
             if (cache == null) return false;
-
+            LogHelper.Log(token
+                + "用户：" + cache.UserName
+                + "登陆有效时间：" + cache.InvalidTime);
             if (cache.InvalidTime > DateTime.Now)
             {
                 //延长

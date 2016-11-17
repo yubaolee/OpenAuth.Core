@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Globalization;
-using Infrastructure.Cache;
 
-namespace OpenAuth.App.SSO
+namespace Helper.Cache
 {
-    public abstract class ServiceContext : IDisposable
+    /// <summary>
+    /// 缓存工厂
+    /// <para>李玉宝新增于2016-11-09 9:42:52</para>
+    /// </summary>
+    public abstract class CacheProvider : IDisposable
     {
         /// <summary>
         /// 缓存组件
         /// </summary>
-        public CacheContext CacheContext { get; private set; }
+        public ICacheContext CacheContext { get; private set; }
 
         /// <summary>
         /// 动态设置缓存对象的新实例
         /// </summary>
         /// <param name="cacheContext">缓存实例对象</param>
-        public void SetCacheInstance(CacheContext cacheContext)
+        public void SetCacheInstance(ICacheContext cacheContext)
         {
             //先释放现有的缓存组件
             if (CacheContext != null)
@@ -34,7 +37,7 @@ namespace OpenAuth.App.SSO
                 throw new ArgumentNullException("cacheContextType");
             }
 
-            if (!typeof(CacheContext).IsAssignableFrom(cacheContextType))
+            if (!typeof(ICacheContext).IsAssignableFrom(cacheContextType))
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture, "该类型 {0} 必须继承自抽象类CacheContext", cacheContextType),
@@ -43,7 +46,7 @@ namespace OpenAuth.App.SSO
 
             try
             {
-                CacheContext = Activator.CreateInstance(cacheContextType) as CacheContext;
+                CacheContext = Activator.CreateInstance(cacheContextType) as ICacheContext;
             }
             catch (Exception ex)
             {

@@ -80,11 +80,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperExt.cs" />
-    <Compile Include="Cache\CacheContext.cs" />
+    <Compile Include="Cache\CacheObj.cs" />
+    <Compile Include="Cache\CacheProvider.cs" />
     <Compile Include="Cache\EnyimMemcachedContext.cs" />
-    <Compile Include="Cache\ICache.cs" />
-    <Compile Include="Cache\RuntimeMemoryCache.cs" />
-    <Compile Include="Cache\SessionContext.cs" />
+    <Compile Include="Cache\HttpApplicationContext.cs" />
+    <Compile Include="Cache\ICacheContext.cs" />
+    <Compile Include="Cache\ObjCacheProvider.cs" />
     <Compile Include="CookieHelper.cs" />
     <Compile Include="DynamicLinq.cs" />
     <Compile Include="DynamicQueryable.cs" />

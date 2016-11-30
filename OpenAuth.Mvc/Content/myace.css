@@ -52,6 +52,7 @@
   }
   .menuContent .ztree {
       margin-top: 0;
+      background-color:white;
        width: 250px;
       min-height: 0px;
       position: fixed;

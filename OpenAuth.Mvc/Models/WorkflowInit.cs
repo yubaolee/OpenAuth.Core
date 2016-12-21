@@ -31,7 +31,8 @@ namespace OpenAuth.Mvc.Models
                                 new MSSQLProvider(connectionString),
                                 new OptimaJet.Workflow.Core.Parser.XmlWorkflowParser(),
                                 new MSSQLProvider(connectionString)
-                                ).WithDefaultCache();
+                                );
+                            builder.SetCache(new DefaultParcedProcessCache());
 
                             _runtime = new WorkflowRuntime(new Guid("{8D38DB8F-F3D5-4F26-A989-4FDD40F32D9D}"))
                                 .WithBuilder(builder)

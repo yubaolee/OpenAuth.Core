@@ -167,6 +167,7 @@
     <Compile Include="Controllers\RoleManagerController.cs" />
     <Compile Include="Controllers\StockManagerController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
+    <Compile Include="Models\DefaultParcedProcessCache.cs" />
     <Compile Include="Models\JobjectModelBinder.cs" />
     <Compile Include="Models\WorkflowActionProvider.cs" />
     <Compile Include="Models\WorkflowInit.cs" />

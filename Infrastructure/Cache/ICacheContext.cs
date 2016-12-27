@@ -1,24 +1,19 @@
 ﻿using System;
 
-namespace Helper.Cache
+namespace Infrastructure.Cache
 {
     /// <summary>
     /// 缓存接口
     /// </summary>
-    public abstract class ICacheContext : IDisposable
+    public abstract class ICacheContext 
     {
-        /// <summary>
-        /// 初始化缓存组件
-        /// </summary>
-        public abstract void Init();
-
         /// <summary>
         /// 获取缓存项
         /// </summary>
         /// <typeparam name="T">缓存对象类型</typeparam>
         /// <param name="key">键</param>
         /// <returns>缓存对象</returns>
-        public abstract T Get<T>(string key) where T : class;
+        public abstract T Get<T>(string key) ;
 
         /// <summary>
         /// 设置缓存项
@@ -27,7 +22,7 @@ namespace Helper.Cache
         /// <param name="key">键</param>
         /// <param name="t">缓存对象</param>
         /// <returns>true成功,false失败</returns>
-        public abstract bool Set<T>(string key, T t) where T : class;
+        public abstract bool Set<T>(string key, T t, DateTime expire);
 
         /// <summary>
         /// 移除一个缓存项
@@ -36,9 +31,5 @@ namespace Helper.Cache
         /// <returns>true成功,false失败</returns>
         public abstract bool Remove(string key);
 
-        /// <summary>
-        /// 释放缓存组件
-        /// </summary>
-        public abstract void Dispose();
     }
 }

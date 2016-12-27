@@ -1,39 +1,34 @@
 ﻿// ***********************************************************************
-// Assembly         : OpenAuth.WebApi
-// Author           : yubaolee
-// Created          : 07-11-2016
+// Assembly         : Helper
+// Author           : Administrator
+// Created          : 12-21-2016
 //
-// Last Modified By : yubaolee
-// Last Modified On : 07-11-2016
+// Last Modified By : Administrator
+// Last Modified On : 12-22-2016
 // Contact : 
-// File: CacheObjService.cs
+// File: ObjCacheProvider.cs
 // ***********************************************************************
+
 
 using System;
 
-namespace Helper.Cache
+namespace Infrastructure.Cache
 {
     /// <summary>
-    /// 带超时结构的缓存
+    ///  缓存工厂实现
+    /// 这样做是方便换其他的缓存时（如memcachedContext）只换这一个地方即可
     /// </summary>
     public class ObjCacheProvider<T> : CacheProvider
     {
         public ObjCacheProvider()
         {
-            SetCacheInstance(new HttpApplicationContext());
+            SetCacheInstance(new CacheContext());
         }
 
-        public bool Create(string key, T val)
+        public bool Create(string key, T val, DateTime expire)
         {
-            var cacheobj = new CacheObj<T>
-            {
-                key = key,
-                InvalidTime = DateTime.Now.AddMinutes(5),
-                CreateTime = DateTime.Now,
-                Obj = val
-            };
             //设置缓存
-            return CacheContext.Set(key, cacheobj);
+            return CacheContext.Set<T>(key, val, expire);
         }
 
         /// <summary>
@@ -43,18 +38,7 @@ namespace Helper.Cache
         /// <param name="key">The key.</param>
         public T GetCache(string key)
         {
-            var cache = CacheContext.Get<CacheObj<T>>(key);
-            if (cache == null) return default(T);
-
-            if (cache.InvalidTime > DateTime.Now)
-            {
-                return cache.Obj;
-            }
-
-            //移除无效Session缓存
-            Remove(key);
-
-            return default(T);
+            return CacheContext.Get<T>(key);
         }
 
         public void Remove(string key)

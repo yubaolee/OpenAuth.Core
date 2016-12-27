@@ -13,8 +13,6 @@ namespace OpenAuth.App.SSO
         
         public string IpAddress { get; set; }
 
-        public DateTime InvalidTime { get; set; }
-
         public DateTime CreateTime { get; set; }
     }
 }

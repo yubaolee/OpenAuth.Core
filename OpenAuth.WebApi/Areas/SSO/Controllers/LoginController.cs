@@ -51,21 +51,5 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             TempData[AppInfo] = _appInfoService.Get(model.AppKey);
             return View(model);
         }
-
-
-
-        [HttpPost]
-        public bool Logout(string token, string requestid)
-        {
-            try
-            {
-                new UserAuthSessionService().Remove(token);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
     }
 }

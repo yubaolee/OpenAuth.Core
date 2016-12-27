@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Helper.Cache;
+using Infrastructure.Cache;
 
 namespace OpenAuth.App.SSO
 {

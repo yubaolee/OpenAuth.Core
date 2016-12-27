@@ -23,7 +23,7 @@ namespace OpenAuth.App.SSO
                 token = request.QueryString[Token];
                 var cookie = new HttpCookie(Token, token)
                 {
-                    Expires = DateTime.Now.AddDays(1)
+                    Expires = DateTime.Now.AddDays(10)
                 };
                 filterContext.HttpContext.Response.Cookies.Add(cookie);
             }

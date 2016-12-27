@@ -9,8 +9,10 @@
 // File: CheckController.cs
 // ***********************************************************************
 
+using System;
 using System.Web.Mvc;
 using Infrastructure;
+using Infrastructure.Cache;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
 
@@ -24,6 +26,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     public class CheckController : Controller
     {
         private AuthorizeApp _app;
+        private ObjCacheProvider<UserAuthSession> _objCacheProvider = new ObjCacheProvider<UserAuthSession>();
         public CheckController()
         {
             _app = AutofacExt.GetFromFac<AuthorizeApp>();
@@ -31,7 +34,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
 
         public bool GetStatus(string token = "", string requestid = "")
         {
-            if (new UserAuthSessionService().GetCache(token))
+            if (_objCacheProvider.GetCache(token) != null)
             {
                 return true;
             }
@@ -52,7 +55,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
 
         public string GetUserName(string token, string requestid = "")
         {
-            var user = new UserAuthSessionService().Get(token);
+            var user = _objCacheProvider.GetCache(token);
             if (user != null)
             {
                 return user.UserName;
@@ -65,6 +68,20 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         public string Login(PassportLoginRequest request)
         {
             return JsonHelper.Instance.Serialize(SSOAuthUtil.Parse(request));
+        }
+
+        [HttpPost]
+        public bool Logout(string token, string requestid)
+        {
+            try
+            {
+                _objCacheProvider.Remove(token);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

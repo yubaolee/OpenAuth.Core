@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Helper.Cache
+namespace Infrastructure.Cache
 {
     /// <summary>
     /// 缓存工厂

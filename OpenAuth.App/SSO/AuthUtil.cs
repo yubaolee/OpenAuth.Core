@@ -150,7 +150,7 @@ namespace OpenAuth.App.SSO
             var token = GetToken();
             if (String.IsNullOrEmpty(token)) return true;
 
-            var requestUri = String.Format("/SSO/Login/Logout?token={0}&requestid={1}", token, "");
+            var requestUri = String.Format("/SSO/Check/Logout?token={0}&requestid={1}", token, "");
 
             try
             {

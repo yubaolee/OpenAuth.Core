@@ -1,0 +1,207 @@
+﻿@{
+    ViewBag.Title = "流转条件设置";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<!--jqgrid表格组件start-->
+<link href="~/Content/scripts/plugins/jqgrid/jqgrid.css" rel="stylesheet" />
+<script src="~/Content/scripts/plugins/jqgrid/grid.locale-cn.js"></script>
+<script src="~/Content/scripts/plugins/jqgrid/jqgrid.min.js"></script>
+<!--表格组件end-->
+<script>
+    var frmtype, lineobject, fromnode, frmCotent, nodePramData;
+    $(function () {
+        initLoadPageData();
+        GetGrid();
+        InitControl();
+    });
+    function initLoadPageData() {
+        var _FlowDesignObject = top.FlowSchemeBuider.FlowDesignObject;
+        lineobject = _FlowDesignObject.$lineData[top.FlowSchemeBuider.LineId];
+        lineobject.id = top.FlowSchemeBuider.LineId;
+        fromnode = _FlowDesignObject.$nodeData[lineobject.from];
+
+        frmtype = top.FlowSchemeBuider.postData["FrmType"];
+        if (frmtype == 0) {
+            frmCotent = JSON.parse(top.FlowSchemeBuider.frmData["FrmContent"]);
+        }
+        else {
+            nodePramData = top.FlowSchemeBuider.nodePramData;
+        }
+        console.log(frmCotent);
+
+        
+        $("#LineName").val(lineobject.name);
+    }
+
+    //获取对象给控件赋值
+    var SetJsonData;
+    function InitControl() {
+        if (lineobject.setInfo) {
+            $("#gridTable")[0].addJSONData(lineobject.setInfo.ConditionJson);
+        }
+    }
+    //加载表格
+    function GetGrid() {
+        //显示表里面字段
+        var FieldValue = ":";
+        if (frmtype == 0) {//自定义表单
+            $.each(frmCotent, function (i, item) {
+                if (item.control_type != 'image' && item.control_type != 'upload') {
+                    FieldValue += ";" + item.control_field + ":" + item.control_label;
+                }
+            });
+        }
+        else {//系统表单
+            $.each(nodePramData, function (i, item) {
+                FieldValue += ";" + item.column + ":" + item.remark;
+            });
+        }
+        var lastsel = 0;
+        $("#gridTable").jqGrid({
+            datatype: "local",
+            height: 271,
+            autowidth: true,
+            colModel: [
+                { label: '字段ID', name: 'FieldId', index: 'FieldId', hidden: true },
+                {
+                    label: "字段名称", name: "FieldName", index: "FieldName", width: 240, sortable: false, editable: true, edittype: 'select', editoptions: {
+                        value: FieldValue
+                    }
+                },
+                { label: '比较Id', name: 'FilterId', index: 'FilterId', hidden: true },
+                {
+                    label: "比较", name: "FilterName", index: "FilterName", align: 'center', width: 80, sortable: false, editable: true, edittype: 'select', editoptions: {
+                        value: ":;Equal:等于;NotEqual:不等于;Greater:大于;GreaterThan:大于等于;Less:小于;LessThan:小于等于;Null:为空;NotNull:不为空;Like:包含;NotLike:不包含"//;LeftLike:左包含;RightLike:右包含"
+                    }
+                },
+                { label: "比较值", name: "FilterValue", index: "FilterValue", width: 300, sortable: false, editable: true },
+                {
+                    label: "逻辑", name: "Logic", index: "Logic", width: 60, sortable: false, editable: true, edittype: 'select', editoptions: {
+                        value: ":;并且:并且;或:或"
+                    }
+                }
+            ],
+            pager: "false",
+            rowNum: 300,
+            rownumbers: true,
+            shrinkToFit: false,
+            altRows: false,
+            onSelectRow: function (id) {
+                var RowData = {
+                    FieldId: $("[name='FieldName']").val(),
+                    FieldName: $("[name='FieldName']").find('option:selected').text(),
+                    FilterId: $("[name='FilterName']").val(),
+                    FilterName: $("[name='FilterName']").find('option:selected').text(),
+                    FilterValue: $("[name='FilterValue']").val(),
+                    Logic: $("[name='Logic']").val(),
+                }
+                $('#gridTable').jqGrid('restoreRow', lastsel);
+                $('#gridTable').jqGrid('editRow', id, true);
+                $('#gridTable').jqGrid('setRowData', lastsel, RowData, '');
+                lastsel = id;
+            }
+        });
+        $('#gridTable').jqGrid('restoreRow', 1);
+        $('#gridTable').jqGrid('addRowData', 1, {}, "last");
+        //表格自适应（高度、宽度）
+        $(window).resize(function () {
+            $("#gridTable").jqGrid('setGridWidth', $(window).width() - 4);
+        });
+    }
+    //增加栏位
+    var rownum = 1;
+    function btn_add() {
+        $('#gridTable').jqGrid('restoreRow', rownum+1);
+        $('#gridTable').jqGrid('addRowData', rownum+1, {}, "last");
+        rownum++;
+    }
+    //删除栏位
+    function btn_delete()
+    {
+        $('#gridTable').jqGrid('restoreRow', rownum);
+        $('#gridTable').jqGrid('delRowData', rownum);
+        rownum--;
+    }
+    //保存事件
+    function AcceptClick(callBack) {
+        var index = $("#gridTable").jqGrid('getGridParam', 'selrow');
+        var RowData = {
+            FieldId: $("[name='FieldName']").val(),
+            FieldName: $("[name='FieldName']").find('option:selected').text(),
+            FilterId: $("[name='FilterName']").val(),
+            FilterName: $("[name='FilterName']").find('option:selected').text(),
+            FilterValue: $("[name='FilterValue']").val(),
+            Logic: $("[name='Logic']").val(),
+        }
+        $('#gridTable').jqGrid('setRowData', index, RowData, '');
+        var ConditionJson = $("#gridTable").jqGrid("getRowData");
+        var ConditionValueJson = [];
+        for (var i = 0; i < ConditionJson.length; i++) {
+            if (ConditionJson[i].FieldId) {
+                var Logic = "AND";
+                if (ConditionJson[i].Logic) {
+                    Logic = ConditionJson[i].Logic == "并且" ? "AND" : "OR";
+                }
+                var tdData = {
+                    ParamName: ConditionJson[i].FieldId,
+                    Operation: ConditionJson[i].FilterId,
+                    ParamValue: ConditionJson[i].FilterValue,
+                    Logic: Logic,
+                }
+                ConditionValueJson.push(tdData);
+            }
+        }
+        var postData = {
+            LineName: $("#LineName").val(),
+            ConditionJson: ConditionJson,
+            ConditionValueJson: ConditionValueJson
+        }
+        top.FlowSchemeBuider.callBackLine(lineobject.id, postData);
+        dialogClose();
+    }
+</script>
+<form id="form1">
+    <div style="margin: 10px;">
+        <input id="LineName" type="text" class="form-control" placeholder="请输入箭头标签" style="width: 260px;display:inline-block;" />
+        <div style="float:right;">
+            <div class="btn-group">
+                <a id="btn_add" class="btn btn-default btn-sm" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;添加栏位</a>
+                <a id="btn_delete" class="btn btn-default  btn-sm" onclick="btn_delete()"><i class="fa fa-minus"></i>&nbsp;删除栏位</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div  style=" overflow: auto; height: 301px;">
+            <div id="seniorcondition" class="tabPanel">
+                <table id="gridTable"></table>
+            </div>
+        </div>
+    </div>
+</form>
+<style>
+    .ui-widget-content {
+        border-left: none;
+        border-bottom: none;
+    }
+    .ui-jqgrid tr.ui-row-ltr td {
+        padding: 0px;
+    }
+    .ui-widget-content .ui-state-hover {
+        background: #fff;
+    }
+    .ui-widget-content .ui-state-highlight {
+        background: #fff;
+        color: #000;
+    }
+    .unwritten {
+        display:none;
+    }
+    .ui-jqgrid tr.ui-row-ltr td {
+        border-right: 1px solid #ccc;
+    }
+    option {
+        font-family:微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+        font-size:9pt;
+    }
+</style>
+

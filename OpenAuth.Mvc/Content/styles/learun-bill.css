@@ -1,0 +1,53 @@
+﻿.bills{overflow:auto; border-radius:5px;position:relative;background:#FFFFFF;border: 1px solid rgb(204, 204, 204);box-shadow: rgb(189, 189, 189) 0px 0px 10px;padding: 25px}
+#bottomField{position: fixed;top: 0;right: 25px;background-color: rgba(0, 0, 0, 0.2);border-radius: 0px 0px 6px 6px;padding: 10px;}
+#bottomField .btn-group {
+    font-size: 14px;
+  margin-top: -1px;
+  vertical-align: middle;
+  color: #666666;
+}
+.bills .form .formTitle{}
+.bills .ui-jqgrid .ui-state-highlight {
+    background:none;
+    color:#000;
+     border-top:0px;
+}
+.bills .ui-jqgrid tr.ui-row-ltr td{border-right:1px solid #ccc;}
+.bills .ui-jqgrid .footrow-ltr{border-left:none;color: #555;font-weight:100;border-bottom:none;background-color: rgb(255, 253, 205);}
+.bills .ui-jqgrid .footrow-ltr .jqgrid-rownum{width:auto !important;}
+.bills .ui-jqgrid .footrow-ltr td{background-color: rgb(255, 253, 205);border-right:1px solid #ccc;}
+.bills .ui-jqgrid tr.ui-row-ltr td{padding: 0px;}
+.bills .ui-jqgrid .editable{height: 25px;background-color: #fff;border:0px;outline: 0;padding-left:5px;padding-right:5px;}
+.bills .ui-jqgrid input.center {text-align:center;}
+.bills input.disabled{cursor: default;display: block;overflow: hidden;color: #666;}
+.bills textarea.form-control{padding-top:5px;}
+.bills .product {
+    position: relative;
+}
+.bills .ui-icon-ellipsis {
+    background: url(../images/icon-select.gif) 55% 55% no-repeat #fff;
+    border: none;
+    right: 4px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    margin-top: -8px;
+    cursor: pointer;
+    overflow: hidden;
+    position: absolute;
+    display:none;
+}
+
+
+
+
+.price-box{width:860px;margin-left:auto;margin-right:auto;border: 1px solid #ddd;box-shadow: rgb(189, 189, 189) 0px 0px 10px;background: #fff;padding: 50px;padding-top:20px;margin-top: 25px;padding-bottom:0px;}
+.price-title{font-size: 28px;text-align: center;line-height:60px;font-weight: bold;color: #333;}
+.price-subtitle{text-align: center;}
+.price-info{margin-top:20px;margin-bottom:20px;}
+.price-info table .formTitle{text-align:left;width:50px;font-size: 12px;}
+.price-info table .formValue{text-align:left;font-size: 12px;}
+.price-info table .formValue input{box-shadow:none; border-top:none;border-right:none;border-left:none;height:22px!important;line-height:22px!important;font-size: 12px;}
+.price-table table{margin: 0px;margin-top:1px;border-collapse: collapse;width: 100%;border-left: 1px solid #ccc;}
+.price-table table thead tr td{border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;padding-top:5px;padding-bottom:5px;text-overflow:ellipsis;word-break:keep-all;overflow:hidden;font-weight:bold;padding-left:5px;padding-right:5px;font-size: 12px;}
+.price-table table tbody tr td{border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;height:25px;line-height:25px;word-break: break-all;padding-left:5px;padding-right:5px;font-size: 12px;}

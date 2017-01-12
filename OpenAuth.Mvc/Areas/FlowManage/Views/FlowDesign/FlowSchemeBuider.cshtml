@@ -1,0 +1,712 @@
+﻿@{
+    ViewBag.Title = "流程设计器";
+    Layout = "~/Views/Shared/_FlowForm.cshtml";
+}
+<script>
+    var keyValue = request('keyValue');
+    var postData = {};//提交数据
+    var flowData = {};
+    var frmData = {};
+    var SchemeContentOld;
+    var frmapp;
+    var shcemeAuthorizeData = "";
+    var AllAuthorizeCheckData = {};
+    $(function () {
+        initialPage();
+    })
+    //初始化页面
+    function initialPage() {
+        $('#step-1 .panel-body').height($(window).height() - 228);
+        $('#Description').height($(window).height() - 385);
+        $('#step-2 .standtabborder').height($(window).height() - 131);
+        $('#DesignateMemberlist').height($(window).height() - 141);
+        $('#Treebackground').height($(window).height() - 131);
+        $('#step-3 .tab-content').height($(window).height() - 167);
+        initBaseInfo();
+        initSchemeAuthorize();
+        initFrmInfo();
+        initFlowInfo();
+        //加载导向
+        $('#wizard').wizard().on('change', function (e, data) {
+            var $finish = $("#btn_finish");
+            var $next = $("#btn_next");
+            if (data.direction == "next") {
+                switch (data.step) {
+                    case 1:
+                        if (!bindingBase())
+                        {
+                            return false;
+                        }
+                        break;
+                    case 2://流程模板权限设置
+                        if (postData.FrmType == 0) {
+                            if (!bindingSchemeAuthorize()) {
+                                return false;
+                            }
+                        }
+                        break;
+                    case 3://绑定表单
+                        if (postData.FrmType == 1) {
+                            frmData = "";
+                        }
+                        else {
+                            if (!bindingFrm()) {
+                                dialogTop("请选择左侧表单", "error");
+                                return false;
+                            }
+                            var frmcotentls = frmapp.getData();
+                            if (!frmcotentls) {
+                                return false;
+                            }
+                            frmData.FrmContent = JSON.stringify(frmcotentls);
+                        }
+                        break;
+                    case 4://流程设计
+                        if (!bindingFlow())
+                        {
+                            return false;
+                        }
+                        $finish.removeAttr('disabled');
+                        $next.attr('disabled', 'disabled');
+                        $('#btn_caogao').attr('disabled', 'disabled');
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                $finish.attr('disabled', 'disabled');
+                $next.removeAttr('disabled');
+                $('#btn_caogao').removeAttr('disabled');
+            }
+
+            if (data.currentStep == 2 || data.currentStep == 3) {
+                if (postData.FrmType == 0) {
+                    $('#sysbackground').hide();
+                }
+                else {
+                    $('#sysbackground').show();
+                }
+            }
+            else {
+                $('#sysbackground').hide();
+            }
+        });
+        //获取表单
+        if (!!keyValue) {
+            $.SetForm({
+                url: "../../FlowManage/FlowDesign/GetFormJson",
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    $("#step-1").SetWebControls(data.schemeinfo);
+                    postData["SchemeVersion"] = data.schemeinfo.SchemeVersion;
+
+                    setSchemeAuthorize(data.schemeinfo.AuthorizeType, data.authorize);
+
+                    if(data.schemeinfo.EnabledMark == 3)
+                    {
+                        flowData["SchemeVersion"] = "cg";
+                    }
+                    SchemeContentOld = JSON.parse(data.schemecontent.SchemeContent);
+                    if (data.schemeinfo.FrmType != 1)
+                    {
+                        $('#FormFrmTree').setNodeChecked(SchemeContentOld.Frm.FrmId);
+                        frmData.FrmId = SchemeContentOld.Frm.FrmId;
+                        setFrmInfo(SchemeContentOld.Frm);
+                    }
+                    setFlowInfo(SchemeContentOld.Flow);
+                }
+            });
+        }
+
+
+        //保存为草稿
+        $('#btn_caogao').click(function () {
+            if (!$('#step-1').Validform()) {
+                return false;
+            }
+            var _data = $("#step-1").GetWebControls(keyValue);
+            var _frmcotentls = "";
+            if (postData.FrmType == 1) {
+                frmData = "";
+            }
+            else {
+                if (frmapp != undefined) {
+                    _frmcotentls = frmapp.getData(true);
+                }
+                frmData.FrmContent = JSON.stringify(_frmcotentls);
+            }
+
+            flowData["SchemeContent"] = JSON.stringify({ "Frm": frmData, "Flow": FlowDesignPanel.exportData() });
+            bindingSchemeAuthorize(true);
+            postData = $.extend(postData, _data);
+            postData["EnabledMark"] = 3;
+            $.SaveForm({
+                url: "../../FlowManage/FlowDesign/SaveForm?keyValue=" + keyValue,
+                param: { "InfoEntity": JSON.stringify(postData), "ContentEntity": JSON.stringify(flowData), "shcemeAuthorizeData": shcemeAuthorizeData },
+                loading: "正在保存数据...",
+                success: function () {
+                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                }
+            })
+        });
+    }
+    /*=========基本配置（begin）==================================================================*/
+    function initBaseInfo()
+    {
+        //流程类型
+        $("#SchemeType").ComboBoxTree({
+            description: "==请选择==",
+            height: "300px",
+            param: { EnCode: "FlowSort" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            allowSearch: true
+        });
+        //表单类型
+        $("#FrmType").ComboBox({
+            data: [{ "key": 0, "value": "自定义表单" }, { "key": 1, "value": "系统表单" }],
+            id: "key",
+            text: "value",
+            description: "==请选择==",
+            height: "115px",
+            allowSearch: true
+        });
+    }
+    function bindingBase()
+    {
+        if (!$('#step-1').Validform()) {
+            return false;
+        }
+        var _postData = $("#step-1").GetWebControls(keyValue);
+        postData = $.extend(postData, _postData);
+        return true;
+    }
+    /*=========基本配置（end）====================================================================*/
+    /*=========权限配置（begin）==================================================================*/
+    function initSchemeAuthorize()
+    {
+        GetTree('Role');
+        GetTree('Post');
+        GetTree('UserGroup');
+        GetTree('User');
+        $('input[name="AuthorizeType"]').click(function () {
+            var _value = $(this).val();
+            if (_value == "0") {
+                $("#Treebackground").show();
+            }
+            else {
+                $("#Treebackground").hide();
+            }
+        });
+    }
+    function bindingSchemeAuthorize(flag)
+    {
+        var _value = $('input[name="AuthorizeType"]:checked').val();
+        postData.AuthorizeType = _value;
+        if (_value == "1") {
+            var _roleData = $("#Role").getCheckedAllNodes();
+            var _postData = $("#Post").getCheckedAllNodes();
+            var _userGroupData = $("#UserGroup").getCheckedAllNodes();
+            var _userData = $("#User").getCheckedAllNodes();
+            _roleData.push.apply(_roleData, _postData);
+            _roleData.push.apply(_roleData, _userGroupData);
+            _roleData.push.apply(_roleData, _userData);
+
+            shcemeAuthorizeData = String(_roleData);
+            if (shcemeAuthorizeData == "") {
+                if (!flag) {
+                    dialogTop("请选择指定成员", "error");
+                }
+                return false;
+            }
+        }
+        else {
+            shcemeAuthorizeData = "";
+        }
+        return true;
+    }
+    function setSchemeAuthorize(type,data)
+    {
+        $('#ShcemeAuthorize' + type).trigger("click");
+        $.each(data, function (i,item) {
+            $("#Role").setCheckedNodeOne(item.ObjectId);
+            $("#Post").setCheckedNodeOne(item.ObjectId);
+            $("#UserGroup").setCheckedNodeOne(item.ObjectId);
+            $("#User").setCheckedNodeOne(item.ObjectId);
+        });
+    }
+    function GetTree(type) {
+        $.SetForm({
+            url: "../../FlowManage/FlowDesign/Get" + type + "CheckTreeJson",
+            success: function (data) {
+                AllAuthorizeCheckData[type] = $.arrayClone(data);
+                var item = {
+                    height: $(window).height() - 131,
+                    showcheck: true,
+                    //url: "../../FlowManage/FlowDesign/Get" + type + "CheckTreeJson",
+                    data:data,
+                    oncheckboxclick: function (item, et, s) {
+                        var $item = $("#" + item.mytype + "Div");
+                        if (et == 1) {
+                            var mytype = "";
+                            var _html = "";
+                            var _title = '';
+                            switch (item.mytype) {
+                                case "Role":
+                                    mytype = "角色";
+                                    break;
+                                case "Post":
+                                    mytype = "岗位";
+                                    break;
+                                case "UserGroup":
+                                    mytype = "用户组";
+                                    break;
+                                case "User":
+                                    mytype = "用户";
+                                    break;
+                            }
+                            _html += '<div id="' + item.id + '" data-value="' + item.mytype + '" class="card-box shcemeinfocheck active">';
+                            _html += '    <div class="card-box-img">';
+                            _html += '        <img src="/Content/images/UserCard03.png" />';
+                            _html += '    </div>';
+                            _html += '    <div class="card-box-content">';
+                            _html += '        <p>名称：' + item.text + '</p>';
+                            _html += '        <p>类别：' + mytype + '</p>';
+                            _html += '    </div><i></i>';
+                            _html += '</div>';
+                            $item.append(_html);
+                            $item.show();
+
+                            $(".card-box").click(function () {
+                                $(this).remove();
+                                $('#' + $(this).attr('data-value')).setNoCheckedNodes($(this).attr('id'));
+                                if ($item.find('.card-box-img').length == 0) {
+                                    $item.hide();
+                                }
+                            })
+                        }
+                        else if (et == 0) {
+                            $item.find('#' + item.id).remove();
+                            if ($item.find('.card-box-img').length == 0) {
+                                $item.hide();
+                            }
+                        }
+
+                    }
+                };
+                $("#" + type).treeview(item);
+            }
+        });
+        
+        
+    }
+    /*=========权限配置（end）==================================================================*/
+    /*=========表单选择（begin）==================================================================*/
+    var _frmdatabase = "";
+    var _frmflag = false;
+    function initFrmInfo()
+    {
+        //加载左边的树
+        var item = {
+            height: $(window).height() - 87,
+            url: "../../FlowManage/FormDesign/GetTreeJson",
+            onnodeclick: function (item) {
+                if (item.Sort == "Frm") {
+                    frmData.FrmId = item.id;
+                    if (SchemeContentOld != undefined && frmData.FrmId == SchemeContentOld.Frm.FrmId) {
+                        setFrmInfo(SchemeContentOld.Frm);
+                    }
+                    else {
+                        $.SetForm({
+                            url: "../../FlowManage/FormDesign/GetFormJson",
+                            param: { keyValue: item.id },
+                            success: function (data) {
+                                setFrmInfo(data);
+                            }
+                        });
+                    }
+                }
+                else {
+                    $('#frmdesign').hide();
+                    $('#frmpreview').hide();
+                    $('#frmDefaulting').show();
+                }
+            }
+        };
+        $("#FormFrmTree").treeview(item);
+
+        $(".editview").hover(function () {
+            $(this).find('.editviewtitle').show();
+        }, function (e) {
+            $(this).find('.editviewtitle').hide();
+        });
+        $('#editfrm').click(function () {
+            if (_frmflag) {
+                var frmcotentls = frmapp.getData();
+                if (!frmcotentls) {
+                    return false;
+                }
+                frmData.FrmContent = JSON.stringify(frmcotentls);
+                $('#frmdesign').hide();
+                $('#frmDefaulting').hide();
+                $('#frmpreview').show();
+
+                $('#frmpreview').frmPreview({
+                    tablecotent: frmData.FrmContent,
+                    width: 870
+                });
+                $(this).html("编辑表单");
+                _frmflag = false;
+            }
+            else {
+                if (frmData.isSystemTable == 1 && _frmdatabase != "") {
+                    $('#frmpreview').hide();
+                    $('#frmDefaulting').hide();
+                    $('#frmdesign').show();
+                    frmapp = $('#frmdesign').frmDesign({
+                        Height: $(window).height() - 179,
+                        tablefiledJsonData: _frmdatabase,
+                        isSystemTable: frmData.isSystemTable,
+                        frmContent: frmData.FrmContent
+                    });
+                    _frmflag = true;
+                    $(this).html("预览表单");
+                }
+                else if (frmData.isSystemTable == 0 && frmData.FrmName != undefined) {
+                    $('#frmpreview').hide();
+                    $('#frmDefaulting').hide();
+                    $('#frmdesign').show();
+                    frmapp = $('#frmdesign').frmDesign({
+                        Height: $(window).height() - 179,
+                        frmContent: frmData.FrmContent
+                    });
+                    _frmflag = true;
+                    $(this).html("预览表单");
+                }
+                else {
+                    dialogTop("请选择左侧表单", "error");
+                }
+            }
+            return false;
+        });
+    }
+    //设置表单数据
+    function setFrmInfo(data)
+    {
+        $('#frmdesign').hide();
+        $('#frmDefaulting').hide();
+        $('#frmpreview').show();
+
+        frmData.isSystemTable = data.isSystemTable;
+        frmData.FrmDbId = data.FrmDbId;
+        frmData.FrmTable = data.FrmTable;
+        frmData.FrmName = data.FrmName;
+        frmData.FrmContent = data.FrmContent;
+        frmData.FrmTableId = data.FrmTableId;
+
+        _frmflag = false;
+        $('#frmpreview').frmPreview({
+            tablecotent: data.FrmContent,
+            width:870
+        });
+        
+        if (data.isSystemTable == 0) {
+            frmapp = $('#frmdesign').frmDesign({
+                Height: 480,
+                frmContent: frmData.FrmContent
+            });
+        }
+        else {
+            $.ajax({
+                url: "../../SystemManage/DataBaseTable/GetTableFiledListJson",
+                data: { dataBaseLinkId: data.FrmDbId, tableName: data.FrmTable },
+                type: "GET",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    _frmdatabase = [];
+                    for (var id in data) {
+                        item = data[id];
+                        if (item.column != frmData.FrmTableId)
+                        {
+                            item.remark = item.column + "【" + item.remark + "】";
+                            _frmdatabase.push(item);
+                        }
+                    }
+                    frmapp = $('#frmdesign').frmDesign({
+                        Height: 480,
+                        tablefiledJsonData: _frmdatabase,
+                        isSystemTable: frmData.isSystemTable,
+                        frmContent: frmData.FrmContent
+                    });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    dialogMsg(errorThrown, -1);
+                }
+            });
+        }
+        
+    }
+    function bindingFrm() {
+        if (frmData.FrmName == undefined)
+        {
+            return false;
+        }
+        return true;
+    }
+    /*=========表单选择（end）====================================================================*/
+
+    /*=========流程设计（begin）==================================================================*/
+    var FlowDesignPanel;
+    var FlowDesignObject;//
+    var LineId;
+    var nodePramData = [];
+    function initFlowInfo()
+    {
+        FlowDesignPanel = $('#FlowPanel').flowdesign({
+            height: ($(window).height() - 87),
+            widht: 1000,
+            OpenNode: function (object) {
+                FlowDesignObject = object;
+                if (object.$nodeData[object.$focus].type == 'startround')
+                {
+                    return false;
+                }
+                dialogOpen({
+                    id: "FlowLineForm",
+                    title: '节点设置【' + object.$nodeData[object.$focus].name + '】',
+                    url: '/FlowManage/FlowDesign/FlowNodeForm',
+                    width: "750px",
+                    height: "430px",
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                });
+            },
+            OpenLine: function (id, object) {
+                FlowDesignObject = object;
+                LineId = id;
+                var _line = object.$lineData[id];
+                var _fromNode = object.$nodeData[_line.from];
+                if (_fromNode.type == "shuntnode")
+                {
+                    dialogTop("前一个节点是分流节点无法设置流转条件", "error");
+                    return false;
+                }
+                dialogOpen({
+                    id: "FlowNodeForm",
+                    title: '流转条件设置',
+                    url: '/FlowManage/FlowDesign/FlowLineForm',
+                    width: "750px",
+                    height: "430px",
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                });
+            }
+        });
+    }
+    function setFlowInfo(data)
+    {
+        FlowDesignPanel.loadData(data);
+    }
+    function callBackNode(id, data, _nodePramData)
+    {
+        nodePramData = _nodePramData;
+        FlowDesignPanel.SetNodeEx(id, data);
+    }
+    function callBackLine(id, data)
+    {
+        FlowDesignPanel.SetLineEx(id, data);
+    }
+    function bindingFlow()
+    {
+        var _content = FlowDesignPanel.exportDataEx();
+        if (_content == -1)
+        {
+            return false;
+        }
+        flowData["SchemeContent"] = JSON.stringify({ "Frm": frmData, "Flow": _content });
+        return true;
+    }
+    /*=========流程设计（end）====================================================================*/
+
+    /*=========创建完成（begin）==================================================================*/
+    function finishbtn() {
+        postData["EnabledMark"] = 1;
+        $.SaveForm({
+            url: "../../FlowManage/FlowDesign/SaveForm?keyValue=" + keyValue,
+            param: { "InfoEntity": JSON.stringify(postData), "ContentEntity": JSON.stringify(flowData), "shcemeAuthorizeData": shcemeAuthorizeData },
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
+    }
+    /*=========创建完成（end）====================================================================*/
+</script>
+
+<div class="widget-body">
+    <div id="wizard" class="wizard" data-target="#wizard-steps">
+        <ul class="steps">
+            <li data-target="#step-1" class="active"><span class="step">1</span>基本配置<span class="chevron"></span></li>
+            <li data-target="#step-2"><span class="step">2</span>权限设置<span class="chevron"></span></li>
+            <li data-target="#step-3"><span class="step">3</span>表单选择<span class="chevron"></span></li>
+            <li data-target="#step-4"><span class="step">4</span>流程设计<span class="chevron"></span></li>
+            <li data-target="#step-5"><span class="step">5</span>创建完成<span class="chevron"></span></li>
+        </ul>
+    </div>
+    <div class="step-content wizard-step-content" id="wizard-steps">
+        <div class="step-pane wizard-step-pane active" id="step-1">
+            <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                请你创建流程信息，用于创建或修改流程！
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">流程基本信息配置</h3>
+                </div>
+                <div class="panel-body" >
+                    <table class="form">
+                        <tr>
+                            <td class="formTitle">流程编号<font face="宋体">*</font></td>
+                            <td class="formValue">
+                                <input id="SchemeCode" type="text" class="form-control" placeholder="请输入流程编号" isvalid="yes" checkexpession="NotNull" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="formTitle">流程名称<font face="宋体">*</font></td>
+                            <td class="formValue">
+                                <input id="SchemeName" type="text" class="form-control" placeholder="请输入流程名称" isvalid="yes" checkexpession="NotNull" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="formTitle">流程分类<font face="宋体">*</font></td>
+                            <td class="formValue">
+                                <div id="SchemeType" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="formTitle">表单类型<font face="宋体">*</font></td>
+                            <td class="formValue">
+                                <div id="FrmType" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="formTitle formTitle-top">
+                                备注
+                            </th>
+                            <td class="formValue">
+                                <textarea id="Description" class="form-control"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="step-pane " id="step-2">
+            <div class="bottomline">
+                <div class="rdio rdio-color_a"><input name="AuthorizeType" value="0" id="ShcemeAuthorize0" type="radio" checked /><label for="ShcemeAuthorize0">所有成员</label></div>
+                <div class="rdio rdio-color_a"><input name="AuthorizeType" value="1" id="ShcemeAuthorize1" type="radio" /><label for="ShcemeAuthorize1">指定成员</label></div>
+            </div>
+            <div id="DesignateMember">
+                <div class="standtabborder">
+                    <div class="standtab  standtabactived" onclick="$.standTabchange(this, 'Role')">
+                        角色
+                    </div>
+                    <div class="standtab " onclick="$.standTabchange(this, 'Post')">
+                        岗位
+                    </div>
+                    <div class="standtab " onclick="$.standTabchange(this, 'UserGroup')">
+                        用户组
+                    </div>
+                    <div class="standtab " onclick="$.standTabchange(this, 'User')">
+                        用户
+                    </div>
+                </div>
+                <div id="Role" class="standtab-pane"></div>
+                <div id="Post" style="display: none;" class="standtab-pane"></div>
+                <div id="UserGroup" style="display: none;" class="standtab-pane"></div>
+                <div id="User" style="display: none;" class="standtab-pane"></div>
+
+                <div id="DesignateMemberlist" style="margin: 0px; border-right: none; border-left: none; border-bottom: none; background-color: #fff; overflow: auto; padding-bottom: 10px;height:528px;">
+                    <div id="RoleDiv" class="SchemeAuthorizePanel">
+                        <div class="flow-portal-panel-title"><i class="fa fa-paw"></i>&nbsp;&nbsp;角色</div>
+                    </div>
+                    <div id="PostDiv" class="SchemeAuthorizePanel">
+                        <div class="flow-portal-panel-title"><i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;岗位</div>
+                    </div>
+                    <div id="UserGroupDiv" class="SchemeAuthorizePanel">
+                        <div class="flow-portal-panel-title"><i class="fa fa-group"></i>&nbsp;&nbsp;用户组</div>
+                    </div>
+                    <div id="UserDiv" class="SchemeAuthorizePanel">
+                        <div class="flow-portal-panel-title"><i class="fa fa-user"></i>&nbsp;&nbsp;用户</div>
+                    </div>
+                </div>
+                <div id="Treebackground" style="position: fixed; top: 91px; left: 0px; z-index: 2; width: 1100px; height: 528px; background: #000; filter: alpha(opacity=10); opacity: 0.1;"></div>
+            </div>
+        </div>
+        <div class="step-pane" id="step-3">
+            <div>
+                <div id="FormFrmTree" class="border-right" style="width: 190px; float: left;"></div>
+                <div style="width: 890px;float:right;margin-right:10px;">
+                    <div class="alert alert-danger" style="text-align: left;margin-top:10px;margin-bottom:10px;">
+                        <i class="fa fa-question-circle alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                        注：1、请在左侧选择需要绑定表单。2、可编辑表单(此编辑只作用与当前流程)。
+                    </div>
+
+                    <div class="tab-content editview border" style="overflow-y:auto;overflow-x:hidden;">
+                        <div class="editviewtitle" id="editfrm">
+                            编辑表单
+                        </div>
+                        <div style="width:870px;display:none;" id="frmdesign"></div>
+                        <div class="app_layout app_preview" id="frmpreview" style="display:none;"></div>
+                        <div id="frmDefaulting" style="width:300px;margin:140px auto 0px;text-align:center;font-size:100px;color:#0FA74F"><i class="fa fa-table"></i><div style="font-weight: bold; font-size: 24px; color: #0FA74F;margin-top: 0px;">表单预览</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="step-pane" id="step-4">
+            <div id="FlowPanel" style="margin: 0px;">
+            </div>
+        </div>
+        <div class="step-pane" id="step-5">
+            <div class="drag-tip">
+                <i class="fa fa-check-circle"></i>
+                <p >设计完成,请点击保存</p>
+            </div>
+        </div>
+        <div id="sysbackground"  class="drag-tip" style="position: absolute; top:47px; left: 0px; z-index: 10000; width: 1100px; height: 572px; background: #fff;text-align: center; padding-top: 100px;display:none; ">
+            <i class="fa fa-warning" style="color: #F0AD4E;"></i>
+            <p>系统表单流程,无这一步</p>
+        </div>
+    </div>
+    <div class="form-button" id="wizard-actions">
+        <a id="btn_last" disabled class="btn btn-default btn-prev">上一步</a>
+        <a id="btn_next" class="btn btn-default btn-next">下一步</a>
+        <a id="btn_caogao" class="btn btn-info">保存草稿</a>
+        <a id="btn_finish" disabled class="btn btn-success" onclick="finishbtn();">保存</a>
+    </div>
+</div>
+<style>
+    .editviewtitle {
+        position: fixed !important;
+        top: 117px;
+        right: 11px;
+        width: 50px;
+        z-index: 1000;
+    }
+    .standtab-pane {
+        width:224px;
+        border-right:1px solid #ccc;
+        float:left;
+    }
+    .SchemeAuthorizePanel {
+        width:828px;
+        float: left;
+        display:none;
+    }
+    .card-box.active {
+        background: url(../../Content/Images/item_close.png) right top no-repeat !important;
+    }
+</style>

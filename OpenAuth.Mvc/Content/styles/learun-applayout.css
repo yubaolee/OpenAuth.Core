@@ -1,0 +1,71 @@
+﻿.app_body{margin:0 auto;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;user-select: none;overflow:hidden;}
+.app_body select{padding: 4px;padding-left:6px;}
+.app_body .ui-draggable-dragging{width: 100px!important;height: 30px!important;line-height: 29px!important;float:left;border: 1px solid #eeecec;margin-right:15px;margin-bottom:15px;border-radius: 5px;background-color:#e6e6e6;cursor:move;}
+.app_body .ui-draggable-dragging i{padding-left:10px;padding-right:8px;color: #2c3849;}
+.app_body .ui-state-highlight{height:36px;line-height:36px;margin-bottom:2px;margin-top:2px;background: #FAFAE9!important;border: 2px dotted #d5d5d5;text-align:center;color: #9f9f9f}
+.app_layout{margin:0px auto;position:relative;height:100%;border-left: 1px solid #ccc;padding:15px;overflow:auto;overflow-x:hidden;}
+.app_layout .guideareas{border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5;border-bottom: 1px solid #d5d5d5;background: url(../images/table_guide.png) 0 0 no-repeat #fff;}
+.app_layout .item_table{border-top: 1px solid #d5d5d5;border-bottom: 0px solid #d5d5d5;min-height:468px;}
+.app_layout .item_row{height:40px;line-height:40px;border-bottom: 1px solid #eeecec;overflow:hidden;cursor: move;}
+/*.app_layout .item_row:last-child{border-bottom: 0px solid #eeecec;}*/
+.app_layout .item_row:last-child{border-bottom: 1px solid #d5d5d5;}
+.app_layout .activeerror{border-bottom: 1px solid #B94A48;}
+.app_layout .active .item_field_label{background-color: #337ab7;color:#fff;}
+.app_layout .active .item_field_label font{color:#fff;}
+
+.app_body .field_option{position:absolute;top:0px;z-index: 101;width: 240px;border-left: 1px solid #ccc;background: #fff;overflow: hidden;overflow-y: auto;display:none;padding: 7px 9pt;}
+.app_body .field_option .field_tips{color: #9f9f9f;padding-bottom:5px;}
+.app_body .field_option .field_tips i{padding-right:5px;padding-left:2px;}
+.app_body .field_option .field_title{height:30px;line-height:30px;padding-left:2px;}
+.app_body .field_option .help{color: #9f9f9f;cursor:help;padding-left:5px;}
+.app_body .field_option .form-control{border-radius: 4px;height: 28px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);}
+.app_body .field_option .ui-select-text{border-radius: 4px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);}
+.app_body .field_option ul.classify li{overflow: hidden;padding: 0 4px;height: 30px;line-height: 30px;margin-bottom: 2px;background: #F4F4F4;}
+.app_body .field_option ul.classify li span{float:right;}
+.app_body .field_option ul.classify li span em{float: left;margin: 6px 10px 0 0;width: 18px;height: 18px;border-radius: 5px;cursor: pointer;}
+.app_body .field_option ul.classify li span em.color_a{color: #337ab7;border: 1px solid #337ab7;background-color: #337ab7;}
+.app_body .field_option ul.classify li span em.color_b{color: #42D758;border: 1px solid #42D758;background-color: #42D758;}
+.app_body .field_option ul.classify li span em.color_c{color: #F04C4C;border: 1px solid #F04C4C;background-color: #F04C4C;}
+.app_body .field_option ul.classify li span em.color_d{color: #36A2A3;border: 1px solid #36A2A3;background-color: #36A2A3;}
+.app_body .field_option ul.classify li span em.color_e{color: #85D037;border: 1px solid #85D037;background-color: #85D037;}
+.app_body .field_option ul.classify li span em.color_f{color: #DBA42A;border: 1px solid #DBA42A;background-color: #DBA42A;}
+.app_body .field_option ul.classify li span em.color_g{color: #70b9f2;border: 1px solid #70b9f2;background: #70b9f2;}
+.app_body .field_option ul.classify li span em.color_h{color: #7490bd;border: 1px solid #7490bd;background: #7490bd;}
+.app_body .field_option ul.classify li span em.color_i{color: #959595;border: 1px solid #959595;background: #959595;}
+.app_body .field_option ul.classify li span i{margin: 0 0px;margin-right:3px;margin-top: -2px;color: #CF5C60;cursor: pointer;}
+.app_body .field_option ul.classify li .dragitem{-webkit-text-stroke-width: .22px;top: 3px;margin: 0 0px;color: #ccc;cursor: move;}
+.app_body .field_option ul.classify li input[type=radio]{margin: -2px 5px 0px 6px;padding: 0;vertical-align: middle;}
+.app_body .field_option ul.classify li input[type=checkbox]{margin: -1px 5px 0px 6px;padding: 0;vertical-align: middle;}
+.app_body .field_option ul.classify li input[type=text]{background: 0 0;border: none;box-shadow: none;padding: 6px;line-height: 15px;width:115px;outline: 0;}
+.app_body .field_option .addclassify{float:right;}
+.app_body .field_option .addclassify a{height:22px;line-height:22px; padding:5px; padding-left:10px; padding-right:10px; border-radius: 5px; text-decoration:none; cursor:pointer;}
+.app_body .field_option .addclassify a:hover{background-color: #e6e6e6;}
+.app_body .field_option .addclassify a i{margin-right: 4px; color:#5cb85c;}
+
+.app_layout .item_field_label{float:left; width: 120px;padding-left:20px;background-color: #f5f5f5;vertical-align:top;display:block;}
+.app_layout .item_field_label font{color:red;position:absolute;padding-left:10px;}
+.app_layout .item_field_value{float:left;height:100%;padding-left:10px;color: #9f9f9f;display:block;}
+.app_layout .item_field_remove{float: right;padding-right:235px;z-index: 101;cursor:pointer;}
+.app_layout .item_field_remove i.del{color: #CF5C60;width: 20px;height: 20px;font-size: 14px;line-height: 20px;border-radius: 5px;text-align:center;display:none;}
+.app_layout .active .item_field_remove i{display:inline-block}
+.app_field{float:left;width: 132px;height:100%;overflow:hidden;padding:15px;padding-bottom:0px;}
+.app_field .item_row{width: 100px;height: 30px;line-height: 28px;float:left;border: 1px solid #ccc;margin-right:15px;margin-bottom:15px;border-radius: 5px;cursor:pointer;box-shadow: 2px 1px 1px 1px rgba(0,0,0,.075);}
+.app_field .item_row:hover{color:#333;background-color:#e6e6e6;}
+.app_field .item_row i{padding-left:10px;padding-right:8px;color: #2c3849;opacity: 0.9;}
+
+.uploadify-queue {height: auto; max-height: 295px;}
+.uploadify-queue-item:last-child {border-bottom: solid 0px;}
+.uploadify-queue-item .cancel a {margin-top: 4px;margin-right: 5px;background: none;text-indent: initial;}
+.uploadify-queue-item .cancel a > i {color: #808080;font-size: 21px;}
+
+.app_preview {border-left: none;padding:0px;}
+.app_preview .item_row {height:auto;cursor:auto;background-color:#f5f5f5;}
+.app_preview .item_field_value {padding:8px 5.5px;background-color:#fff;}
+.app_preview .ckbox, .app_preview .rdio {margin-top:3px;margin-bottom:3px;}
+
+.flowapp {height:572px;overflow-y:auto;overflow-x:hidden;position: relative;}
+.flowapp .app_layout .item_table {overflow: hidden;border-top: 1px solid #eeecec;border-bottom: none;min-height: 542px;}
+.flowapp .app_layout .item_row {cursor: default;position: relative;}
+.flowapp .app_layout .item_row .item_field_label {cursor: move;}
+.flowapp .app_layout .item_row:last-child {border-bottom: 1px solid #eeecec;}
+.flowapp .app_layout .ui-state-highlight {border: none;}

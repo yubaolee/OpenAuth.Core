@@ -1,0 +1,19 @@
+﻿.flow-labellingnode-red {border:#e34447 solid 2px !important;}
+
+.flow-card-box{color:#ffffff;font-size:14px;padding-top:6px; height: 26px;float: left;margin-left: 10px;margin-top: 10px;overflow: hidden;position: relative;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;user-select: none;cursor: pointer;}
+.flow-card-box i {margin-left:5px;}
+.flow-portal-panel-title { padding-top: 5px;line-height: 24px;font-weight: bold;border-bottom: 1px solid #ccc;color: #666;font-weight: 300;font-size: 14px;}
+.flow-portal-panel-title i {width:14px;}
+.flow-portal-panel {width:478px;float: left;display:none;}
+.flow-table-Permission {-moz-box-shadow: none;-webkit-box-shadow: none;box-shadow: none;border-bottom: 1px solid #eee;margin: 0;background-color: #f7f7f7;}
+.flow-table-Permission td:first-child {width:30px;}
+.flow-table-Permission td:last-child {width:300px;}
+.flow-table-Permission td:last-child>div{float:right;}
+
+.GooFlow_work .popover {max-width:400px;width:400px;}
+.GooFlow_work .popover-content {max-height:350px;overflow-y:auto;overflow-x:hidden; color:#6f7b8a;}
+.GooFlow_work .popover-content ul{list-style-type: circle;margin-left: 18px;}
+.GooFlow_work .popover-content ul>li{padding-left:4px;line-height: 20px;}
+
+
+

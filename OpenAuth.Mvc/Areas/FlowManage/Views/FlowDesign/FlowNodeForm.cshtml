@@ -1,0 +1,445 @@
+﻿@{
+    ViewBag.Title = "工作流节点设置";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<link href="~/Content/styles/learun-ckbox-radio.css" rel="stylesheet" />
+<link href="~/Content/styles/learun-flow.css" rel="stylesheet" />
+<script>
+    var node, nodelist = [], frmContentJson, frmType, NodePramData;
+    $(function () {
+        initLoadPageData();
+        initControl();
+    })
+    function initLoadPageData()
+    {
+        frmType = top.FlowSchemeBuider.postData["FrmType"];
+        var _FlowDesignObject = top.FlowSchemeBuider.FlowDesignObject;
+        node = _FlowDesignObject.$nodeData[_FlowDesignObject.$focus];
+        node.id = _FlowDesignObject.$focus;
+        for (var i in _FlowDesignObject.$nodeData) {
+            _FlowDesignObject.$nodeData[i]["id"] = i;
+            nodelist.push(_FlowDesignObject.$nodeData[i]);
+        }
+        if (frmType != 1)
+        {
+            frmContentJson = JSON.parse(top.FlowSchemeBuider.frmData["FrmContent"]);
+            initFrmCotent(frmContentJson);
+        }
+    }
+    //初始化控件
+    function initControl() {
+        GetDesignateMemberTree();
+        if (frmType == 0) {//自定义表单
+            $('.systemdatabase').hide();
+        }
+        else {//系统表单（需要绑定数据表）
+            initLoadSysTemTable();
+        }
+        if (node.type != "confluencenode")//是否会签节点
+        {
+            $('#confluencenode').hide();
+        }
+        $('#NodeName').val(node.name);
+        
+        //由谁执行
+        //var dd = $("#NodeMake").ComboBox({
+        //    data: [{ "key": 0, "value": "操作执行人员" }, { "key": 1, "value": "系统执行" }],
+        //    id: "key",
+        //    text: "value"
+        //}).ComboBoxSetValue(0);
+        //表单
+        $("#NodeFrm").ComboBox({
+            url: "../../FlowManage/FormDesign/GetAllListJson",
+            id: "frmmainid",
+            text: "frmname",
+            description: "==请选择==",
+            allowSearch: true
+        });
+        //驳回类型
+        $("#NodeRejectType").ComboBox({
+            data: [{ "key": 0, "value": "前一步" }, { "key": 1, "value": "第一步" }, { "key": 2, "value": "某一步" }, { "key": 3, "value": "用户指定" }, { "key": 4, "value": "不处理" }],
+            id: "key",
+            text: "value"
+        }).bind("change", function () {
+            var _value = $(this).attr('data-value');
+            var _comdata = [];
+            if (_value == 2) {
+                _comdata = nodelist;
+            }
+            //驳回到某一步
+            $("#NodeRejectStep").ComboBox({
+                data: _comdata,
+                id: "id",
+                text: "name"
+            });
+        }).ComboBoxSetValue(0);
+        //驳回到某一步
+        $("#NodeRejectStep").ComboBox({
+            description: "==请选择==",
+            allowSearch: true,
+            height: "110px",
+        });
+        //会签策略
+        $("#NodeConfluenceType").ComboBox({
+            data: [{ "key": 0, "value": "所有步骤通过" }, { "key": 1, "value": "一个步骤通过即可" }, { "key": 2, "value": "按百分比计算" }],
+            id: "key",
+            text: "value",
+            description: "==请选择==",
+        });
+        //处理者
+        $("input[name='NodeDesignateTypename']").click(function () {
+            var id = $(this).attr('id');
+            if (id == 'NodeDesignateType2') {
+                $("#Treebackground").hide();
+            } else {
+                $("#Treebackground").show();
+            }
+        }); 
+        $("#NodeDataBaseToSQL").ComboBoxTree({
+            description: "==请选择执行SQL语句的数据库==",
+            height: "230px",
+            url: "../../SystemManage/DataBaseLink/GetTreeJson",
+            allowSearch: true
+        })
+        if (node.setInfo != undefined)
+        {
+            var _NodeCode = $('#NodeCode').val();
+            node.setInfo.NodeCode = node.setInfo.NodeCode == "" ? _NodeCode : node.setInfo.NodeCode;
+            $("#BaseInfo").SetWebControls(node.setInfo);
+            $('#NodeDataBase').trigger('change');
+            $('#NodeTable').ComboBoxSetValue(node.setInfo.NodeTable);
+            $('#NodeTable').trigger('change');
+            $('#NodePram').ComboBoxSetValue(node.setInfo.NodePram);
+
+            $("#" + node.setInfo.NodeDesignate).trigger("click");
+            if (node.setInfo.NodeDesignate == "NodeDesignateType2")
+            {
+                $("#Role").setCheckedNodes(node.setInfo.NodeDesignateData.role);
+                $("#Post").setCheckedNodes(node.setInfo.NodeDesignateData.post);
+                $("#UserGroup").setCheckedNodes(node.setInfo.NodeDesignateData.usergroup);
+                $("#User").setCheckedNodes(node.setInfo.NodeDesignateData.user);
+            }
+            $.each(node.setInfo.frmPermissionInfo, function (i, item) {
+                if (item.look) {
+                    $('#PermissionInfo').find('#frm_' + item.fieldid).attr("checked", "checked");
+                }
+                else {
+                    $('#PermissionInfo').find('#frm_' + item.fieldid).removeAttr("checked");
+                }
+                if (item.down != undefined)
+                {
+                    if (item.down) {
+                        $('#PermissionInfo').find('#frmx_' + item.fieldid).attr("checked", "checked");
+                    }
+                    else {
+                        $('#PermissionInfo').find('#frmx_' + item.fieldid).removeAttr("checked");
+                    }
+                }
+            });
+        }
+    }
+    function initLoadSysTemTable()
+    {
+        //数据库选择
+        var _NodeDb = "";
+        $("#NodeDataBase").ComboBoxTree({
+            description: "==请选择库==",
+            height: "150px",
+            url: "../../SystemManage/DataBaseLink/GetTreeJson",
+            allowSearch: true
+        }).bind("change", function () {
+            var value = $(this).attr('data-value');
+            _NodeDb = value;
+            //数据表
+            $("#NodeTable").ComboBox({
+                param: { dataBaseLinkId: value },
+                url: "../../SystemManage/DataBaseTable/GetTableListJson",
+                id: "name",
+                text: "name"
+            });
+        });
+        //数据表
+        $("#NodeTable").ComboBox({
+            description: "==请选择表==",
+            height: "140px",
+            allowSearch: true
+        }).bind("change", function () {
+            var value = $(this).attr('data-value');
+            var tablefiledJsonData = [];
+            $.ajax({
+                url: "../../SystemManage/DataBaseTable/GetTableFiledListJson",
+                data: { dataBaseLinkId: _NodeDb, tableName: value },
+                type: "GET",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    tablefiledJsonData = data;
+                    $.each(tablefiledJsonData, function (id, item) {
+                        item.remark = item.column + "【" + item.remark + "】";
+                    });
+                    NodePramData = tablefiledJsonData;
+                    //数据表
+                    $("#NodePram").ComboBox({
+                        data: tablefiledJsonData,
+                        id: "column",
+                        text: "remark"
+                    });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    dialogMsg(errorThrown, -1);
+                }
+            });
+        });
+        $("#NodePram").ComboBox({
+            description: "==请选择字段==",
+            height: "140px",
+            allowSearch: true
+        });
+    }
+    function GetDesignateMemberTree()
+    {
+        GetTree('Role');
+        GetTree('Post');
+        GetTree('UserGroup');
+        GetTree('User');
+        function GetTree(type) {
+            var item = {
+                height: 262,
+                showcheck: true,
+                data: $.arrayClone(top.FlowSchemeBuider.AllAuthorizeCheckData[type]),
+                oncheckboxclick: function (item, et, s) {
+                    var $item = $("#" + item.mytype + "Div");
+                    if (et == 1) {
+                        var mytype = "";
+                        var _html = "";
+                        var _title = '';
+                        switch (item.mytype) {
+                            case "Role":
+                                mytype = 'label-success';
+                                break;
+                            case "Post":
+                                mytype = 'label-info';
+                                break;
+                            case "UserGroup":
+                                mytype = 'label-warning';
+                                break;
+                            case "User":
+                                mytype = 'label-danger';
+                                break;
+                        }
+                        _html += '<span  id="' + item.id + '" data-value="' + item.mytype + '" class="flow-card-box label ' + mytype + ' ">' + item.text + '<i class="fa fa-close"></i></span>';
+                        $item.append(_html);
+                        $item.show();
+
+                        $(".flow-card-box").click(function () {
+                            $(this).remove();
+                            $('#' + $(this).attr('data-value')).setNoCheckedNodes($(this).attr('id'));
+                            if ($item.find('.flow-card-box').length == 0) {
+                                $item.hide();
+                            }
+                        })
+                    }
+                    else if (et == 0) {
+                        $item.find('#' + item.id).remove();
+                        if ($item.find('.flow-card-box').length == 0) {
+                            $item.hide();
+                        }
+                    }
+
+                }
+            };
+            $("#" + type).treeview(item);
+        }
+    }
+    function initFrmCotent(data)
+    {
+        $.each(data, function (i, item) {
+            var rowdata = '<tr><td><i class="fa fa-star"></i></td><td>' + item.control_label + '</td><td>';
+            if (item.control_type == 'image' || item.control_type == 'upload')
+            {
+                rowdata += '<div class="ckbox ckbox-color_a"><input id="frmx_' + item.control_field + '" value="'+ item.control_field +'"  type="checkbox" checked><label for="frmx_' + item.control_field + '">下载</label></div>';
+            }
+            rowdata += '<div class="ckbox ckbox-color_a"><input id="frm_' + item.control_field + '" value="'+ item.control_field +'" type="checkbox" checked><label for="frm_' + item.control_field + '">查看</label></div>';
+            rowdata += '</td></tr>';
+
+            $('#PermissionInfo').find('table').append(rowdata);
+        });
+    }
+    //保存字段设置
+    function AcceptClick() {
+        if (!$('#BaseInfo').Validform()) {
+            return false;
+        }
+        var baseinfo = $("#BaseInfo").GetWebControls();
+        baseinfo["NodeDesignate"] = $('.bottomline').find('input:checked').attr("id");
+        if (baseinfo["NodeDesignate"] == 'NodeDesignateType2') {
+            var _Designate = {};
+            _Designate["role"] = $("#Role").getCheckedAllNodes();
+            _Designate["post"] = $("#Post").getCheckedAllNodes();
+            _Designate["usergroup"] = $("#UserGroup").getCheckedAllNodes();
+            _Designate["user"] = $("#User").getCheckedAllNodes();
+            baseinfo["NodeDesignateData"] = _Designate;
+        }
+        var _PermissionInfo = [];
+        $.each($('#PermissionInfo').find('tr'),function(i,item){
+            var _ck = $(item).find('input');
+            
+            var _point = {};
+            $.each(_ck,function(j,d){
+                _point["fieldid"] = $(d).val();
+                if($(d).attr("id").indexOf("frmx_") == -1)
+                {
+                    _point["look"] = $(d)[0].checked;
+                }
+                else
+                {
+                    _point["down"] = $(d)[0].checked;
+                }
+            });
+            _PermissionInfo.push(_point);
+        });
+        baseinfo["frmPermissionInfo"] = _PermissionInfo;
+        var sqlinfo = $("#SQLInfo").GetWebControls();
+        baseinfo = $.extend(baseinfo, sqlinfo);
+        top.FlowSchemeBuider.callBackNode(node.id, baseinfo, NodePramData);
+        dialogClose();
+    }
+</script>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#BaseInfo" data-toggle="tab">基本配置</a></li>
+        <li><a href="#MakerInfo" data-toggle="tab">审核者</a></li>
+        <li><a href="#PermissionInfo" data-toggle="tab">权限分配</a></li>
+        <li><a href="#SQLInfo" data-toggle="tab">节点通过后执行SQL</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="BaseInfo" class="tab-pane active" style="padding-top:15px;padding-right:30px;">
+            <table class="form">
+                <tr>
+                    <td class="formTitle">节点标识</td>
+                    <td class="formValue">
+                        <input id="NodeCode" type="text" class="form-control" value="@Guid.NewGuid().ToString()" disabled isvalid="yes" checkexpession="NotNull" />
+                    </td>
+                    <td class="formTitle">节点名称<font face="宋体">*</font></td>
+                    <td class="formValue">
+                        <input id="NodeName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+                    </td>
+                </tr>
+                <tr class="systemdatabase">
+                    <td class="formTitle">绑定表名<font face="宋体">*</font></td>
+                    <td class="formValue">
+                        <div id="NodeDataBase" style="float:left;width:128px;" type="selectTree" class="ui-select" ></div>
+                        <div id="NodeTable" style="float:right;width:128px;"  type="select" class="ui-select" ></div>
+                    </td>
+                    <td class="formTitle">绑定字段<font face="宋体">*</font></td>
+                    <td class="formValue">
+                        <div id="NodePram" type="select" class="ui-select"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">驳回类型<font face="宋体">*</font></td>
+                    <td class="formValue">
+                        <div id="NodeRejectType" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                    </td>
+                    <td class="formTitle">驳回步骤</td>
+                    <td class="formValue">
+                        <div id="NodeRejectStep" type="select" class="ui-select"></div>
+                    </td>
+                </tr>
+                <tr>
+                    @*<td class="formTitle">由谁执行<font face="宋体">*</font></td>
+                    <td class="formValue">
+                        <div id="NodeMake" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                    </td>*@
+                    <td class="formTitle">选项</td>
+                    <td class="formValue">
+                        <div class="ckbox ckbox-color_a"><input id="NodeIsOver" type="checkbox" /><label for="NodeIsOver">是否允许终止流程</label></div>
+                    </td>
+                    
+                </tr>
+                <tr id="confluencenode">
+                    <td class="formTitle">会签策略<font face="宋体">*</font></td>
+                    <td class="formValue">
+                        <div id="NodeConfluenceType" type="select" class="ui-select"></div>
+                    </td>
+                    <td class="formTitle">会签比例</td>
+                    <td class="formValue">
+                        <input id="NodeConfluenceRate" type="text" class="form-control" value="100" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">
+                        备注
+                    </th>
+                    <td class="formValue" colspan="3">
+                        <textarea id="Description" class="form-control" style="height: 80px;"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="MakerInfo" class="tab-pane">
+            <div class="bottomline">
+                <div class="rdio rdio-color_a"><input name="NodeDesignateTypename" id="NodeDesignateType1"  type="radio" checked /><label for="NodeDesignateType1">所有成员</label></div>
+                <div class="rdio rdio-color_a"><input name="NodeDesignateTypename" id="NodeDesignateType2"  type="radio" /><label for="NodeDesignateType2">指定成员</label></div>
+                <div class="rdio rdio-color_a"><input name="NodeDesignateTypename" id="NodeDesignateType3"  type="radio" /><label for="NodeDesignateType3">发起者领导</label></div>
+                <div class="rdio rdio-color_a"><input name="NodeDesignateTypename" id="NodeDesignateType4"  type="radio" /><label for="NodeDesignateType4">前一步骤领导</label></div>
+                <div class="rdio rdio-color_a"><input name="NodeDesignateTypename" id="NodeDesignateType5"  type="radio" /><label for="NodeDesignateType5">发起者部门领导</label></div>
+                <div class="rdio rdio-color_a"><input name="NodeDesignateTypename" id="NodeDesignateType6"  type="radio" /><label for="NodeDesignateType6">发起者公司领导</label></div>
+            </div>
+            <div id="DesignateMember" >
+                <div class="standtabborder" style="height: 262px;">
+                    <div class="standtab  standtabactived" onclick="$.standTabchange(this, 'Role')">
+                        角色
+                    </div>
+                    <div class="standtab " onclick="$.standTabchange(this, 'Post')">
+                        岗位
+                    </div>
+                    <div class="standtab " onclick="$.standTabchange(this, 'UserGroup')">
+                        用户组
+                    </div>
+                    <div class="standtab " onclick="$.standTabchange(this, 'User')">
+                        用户
+                    </div>
+                </div>
+                <div id="Role" class="standtab-pane"></div>
+                <div id="Post" style="display: none;" class="standtab-pane"></div>
+                <div id="UserGroup" style="display: none;" class="standtab-pane"></div>
+                <div id="User" style="display: none;" class="standtab-pane"></div>
+                <div style="margin: 0px; border-right: none; border-left: none; border-bottom: none; background-color: #fff; overflow: auto; padding-bottom: 10px;height:262px;">
+                    <div id="RoleDiv" class="flow-portal-panel">
+                        <div class="flow-portal-panel-title"><i class="fa fa-paw"></i>&nbsp;&nbsp;角色</div>
+                    </div>
+                    <div id="PostDiv" class="flow-portal-panel">
+                        <div class="flow-portal-panel-title"><i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;岗位</div>
+                    </div>
+                    <div id="UserGroupDiv" class="flow-portal-panel">
+                        <div class="flow-portal-panel-title"><i class="fa fa-group"></i>&nbsp;&nbsp;用户组</div>
+                    </div>
+                    <div id="UserDiv" class="flow-portal-panel">
+                        <div class="flow-portal-panel-title"><i class="fa fa-user"></i>&nbsp;&nbsp;用户</div>
+                    </div>
+                </div>
+                <div id="Treebackground" style="position: fixed; top: 87px; left: 0px; z-index: 2; width: 750px; height: 262px; background: #000; filter: alpha(opacity=10); opacity: 0.1;"></div>
+                </div>
+        </div>
+        <div id="PermissionInfo" class="tab-pane" style="overflow-y:auto;">
+            <div style="line-height:45px;padding-left:10px;color: #666; font-weight: 300;font-size: 16px;">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;表单权限配置(默认都是勾选的)
+            </div>
+            <div style="overflow-y:auto;height:261px;">
+                <table class="table flow-table-Permission"></table>
+            </div>
+        </div>
+        <div id="SQLInfo" class="tab-pane">
+            <div style="padding:10px;">
+                <div id="NodeDataBaseToSQL" style="margin-bottom:10px;" type="selectTree" class="ui-select"></div>
+                <textarea id="NodeSQL" class="form-control" placeholder="请在此处填写需要执行的SQL语句,用{0}表示流程实例的主键Id!" style="height: 240px;"></textarea>
+            </div>
+        </div>
+    </div>
+<style>
+    .standtab-pane {
+        width:224px;
+        border-right:1px solid #ccc;
+        float:left;
+    }
+</style>

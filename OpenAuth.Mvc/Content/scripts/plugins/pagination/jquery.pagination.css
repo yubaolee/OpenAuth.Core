@@ -1,0 +1,21 @@
+﻿
+/* update 2015-4-14*/ul{margin: 0;padding: 0;}
+.m-pagination{margin: 10px;height: 28px;}
+.m-pagination-page,
+.m-pagination-info,
+.m-pagination-size,
+.m-pagination-jump{float: left;margin-top: 2px;padding-right: 10px;}
+/* font*/.m-pagination-page > li > a, .m-pagination-size > select, .m-pagination-group > input, .m-pagination-group > button, .m-pagination-info{font-size: 16px;font-family: 'Microsoft YaHei';color: #888;}
+/* border*/.m-pagination-page > li > a, .m-pagination-size > select, .m-pagination-group > input, .m-pagination-group > button{outline: none;user-select: none;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;border: 1px solid #ddd;}
+/* button*/.m-pagination-page > li > a, .m-pagination-group > button{cursor: pointer;background-color: #fff;/*background-image: -webkit-linear-gradient(top,#fff 0,#e0e0e0 100%);background-image: -o-linear-gradient(top,#fff 0,#e0e0e0 100%);background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#e0e0e0));background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);background-repeat: repeat-x;*/}
+.m-pagination-page > li:hover > a, .m-pagination-group > button:hover{background-color: #eee;border-color: #ddd;}
+/************* pagination-page *************/.m-pagination-page > li{list-style: none;float: left;}
+.m-pagination-page > li > a{height: 24px;line-height: 24px;margin-left: -1px;display: inline-block;padding: 0 10px;text-decoration: none;box-sizing: content-box;}
+.m-pagination-page > li.active > a{color: #fff;background-color: #337ab7;border-color: #337ab7;}
+.m-pagination-page > li:first-child > a{margin-left: 0;border-top-left-radius: 4px;border-bottom-left-radius: 4px;}
+.m-pagination-page > li:last-child > a{border-top-right-radius: 4px;border-bottom-right-radius: 4px;}
+/************* pagination-perpage *************/.m-pagination-size > select{cursor: pointer;height: 26px;padding: 0px 7px;border-radius: 4px;}
+/************* pagination-go *************/.m-pagination-group > input, .m-pagination-group > button{float: left;}
+.m-pagination-group > input{border-top-left-radius: 4px;border-bottom-left-radius: 4px;width: 50px;height: 24px;padding: 0px;text-align: center;box-sizing: content-box;}
+.m-pagination-group > button{border-left: none;border-top-right-radius: 4px;border-bottom-right-radius: 4px;height: 26px;padding: 0px 10px;}
+/************ pagination-info *************/.m-pagination-info{height: 26px;line-height: 26px;}

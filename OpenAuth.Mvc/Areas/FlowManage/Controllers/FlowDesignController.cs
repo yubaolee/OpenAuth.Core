@@ -11,12 +11,10 @@ using OpenAuth.Domain.Service;
 
 namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 {
+
     /// <summary>
-    /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：陈彬彬
-    /// 日 期：2015.11.02 14:27
-    /// 描 述：流程设计
+    /// 流程设计
+    /// <para>李玉宝新增于2017-01-12 19:41:56</para>
     /// </summary>
     public class FlowDesignController :Controller
     {

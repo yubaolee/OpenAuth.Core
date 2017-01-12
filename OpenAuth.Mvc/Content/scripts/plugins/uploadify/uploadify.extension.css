@@ -1,0 +1,10 @@
+﻿.uploadify-button{margin-bottom: 10px;}
+.uploadify-queue{height: 295px;overflow: auto;position: relative;top: 8px;border: 1px solid #ccc;border-radius: 5px;}
+.uploadify-queue-item{margin-top: 0px;margin-right: 0px;margin-bottom: 0px;float: none;width: auto;border-radius: 0px;height: 50px;line-height: 39px;border-bottom: 1px solid #ccc;background-color: #fff;}
+.uploadify-progress{margin-top: -3px;border-radius: 5px;margin-left: 50px;width: 90%;}
+.uploadify-progress-bar{height: 5px;border-radius: 5px;}
+.uploadify-queue-item .cancel a{display: none;}
+.uploadify-queue-item .succeed{float: right;height: 16px;width: 16px;margin-top: 5px;margin-right: 10px;}
+.uploadify-queue-item .succeed i{color: #5cb85c;font-size: 25px;}
+.uploadify-queue-item .error{float: right;height: 16px;width: 16px;margin-top: 5px;margin-right: 10px;}
+.uploadify-queue-item .error i{color: #b94a48;font-size: 25px;}

@@ -1,0 +1,15 @@
+/* 颜色输入框
+------------------------------ */
+.input_cxcolor{width:18px;height:18px;padding:0;border:none;background:#000 url(../img/cxcolor.png) no-repeat;font-size:0;line-height:0;vertical-align:middle;cursor:pointer;}
+
+/* 颜色选择器
+------------------------------ */
+.cxcolor{display:none;position:absolute;z-index:10000;}
+.cxcolor .panel_hd{position:relative;width:220px;padding:0 5px;border:1px solid #000;border-bottom:none;background:#fff;font:normal 12px/20px "\5B8B\4F53";}
+.cxcolor .panel_hd a{color:#999;text-decoration:none;}
+.cxcolor .panel_hd a:hover{color:#333;}
+.cxcolor .clear{position:absolute;top:0;right:5px;}
+.cxcolor table{border-collapse:collapse;table-layout:fixed;empty-cells:show;}
+.cxcolor td{position:static;width:10px;height:10px;padding:0;border:1px solid #000;font-size:0;line-height:0;cursor:pointer;}
+
+.cxcolor_lock{display:none;position:absolute;top:0;left:0;background:#fff;z-index:9999;filter:alpha(opacity=0);opacity:0;}

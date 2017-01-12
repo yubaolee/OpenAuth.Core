@@ -1,0 +1,26 @@
+﻿
+/*! * Pikaday * Copyright © 2012 David Bushell | BSD & MIT license | http://dbushell.com
+/*/.pika-single{z-index:9999;display:block;position:relative;width:210px;padding:8px;color:#333;background:#fff;border:1px solid #ccc;border-right-color:#bbb;border-bottom-color:#bbb;font-family:Arial,'Microsoft YaHei'}
+.pika-single.is-hidden{display:none}
+.pika-single.is-bound{position:absolute;box-shadow:0 5px 15px -5px rgba(0,0,0,.5)}
+.pika-title{height:30px;overflow:hidden}
+.pika-label{float:left;position:relative;z-index:9999;overflow:hidden;margin:0;padding:5px 0;font-size:14px;line-height:20px;font-weight:700;background-color:#fff}
+.pika-label-year{margin-left:50px;width:58px}
+.pika-label-month{width:54px}
+.pika-title select{cursor:pointer;position:absolute;z-index:9998;margin:0;left:0;top:5px;opacity:0;filter:alpha(opacity=0);font-size:12px}
+.pika-next,.pika-prev{display:block;cursor:pointer;outline:0;position:relative;text-indent:100%;overflow:hidden;width:0;height:0;padding:0;top:5px;border:8px solid #fff}
+.is-rtl .pika-next,.pika-prev{float:left;border-left-width:0;border-right-color:#aaa}
+.is-rtl .pika-prev,.pika-next{float:right;border-right-width:0;border-left-color:#aaa}
+.pika-title .pika-prev:hover{border-right-color:#666}
+.pika-title .pika-next:hover{border-left-color:#666}
+.pika-next.is-disabled,.pika-prev.is-disabled{cursor:default;filter:alpha(opacity=20);opacity:.2}
+.pika-table{width:100%;border-collapse:collapse;border-spacing:0;border:0}
+.pika-table td,.pika-table th{width:30px;height:25px;line-height:25px;}
+.pika-table th{color:#999;font-size:12px;line-height:25px;font-weight:700;text-align:center}
+.pika-table abbr{cursor:default;text-decoration:none;border:none}
+.pika-button{cursor:pointer;display:block;outline:0;border:0;margin:0;height:25px;padding:5px;color:#666;font-size:12px;line-height:17px;text-align:center;background:#f5f5f5;text-decoration:none;}
+.is-today .pika-button{color: #333;font-weight: 700;background: #ddd;box-shadow: 1px 1px 3px #ccc inset;border-radius: 3px;}
+.is-selected .pika-button{color:#fff;font-weight:700;background:#3af;box-shadow:1px 1px 3px #1775e5 inset;border-radius:3px}
+.is-disabled .pika-button{pointer-events:none;cursor:default;color:#999;filter:alpha(opacity=30);opacity:.3}
+a.pika-button{text-decoration:none;}
+a.pika-button:hover{color:#333;background:#ddd;border-radius:3px;box-shadow:1px 1px 3px #aaa inset}

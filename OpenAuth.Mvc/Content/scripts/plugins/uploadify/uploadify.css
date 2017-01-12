@@ -1,0 +1,12 @@
+
+.uploadify{position: relative;float:left;}
+.uploadify-button{color:#333;border-radius: 4px;-webkit-border-radius: 4px;-moz-border-radius: 4px;line-height:25px;text-align:center;border: 1px solid #ccc;}
+.uploadify:hover .uploadify-button{color:#333;background-color:#e6e6e6;border-color:#adadad}
+.uploadify-button.disabled{/*background-color: #D0D0D0;color: #808080;*/}
+.uploadify-queue{height:auto;width:100%;overflow:hidden;}
+.uploadify-queue-item{margin-right:5px;margin-top:5px;float:left;padding:5px 5px;width: 310px;height: 36px;overflow: hidden;position: relative;background-color: #f5f5f5;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;font-size:12px;}
+.uploadify-error{background-color: #FDE5DD !important;}
+.uploadify-queue-item .cancel a{/*É¾³ýÍ¼±êµÄÂ·¾¶*/background: url('uploadify-cancel.png') 0 0 no-repeat;float: right;height:16px;text-indent: -9999px;width: 16px;margin-top: 3px;}
+.uploadify-queue-item.completed{background-color: #E5E5E5;}
+.uploadify-progress{background-color: #E5E5E5;margin-top: 10px;width: 100%;}
+.uploadify-progress-bar{background-color: #337ab7;height: 3px;width: 1px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}

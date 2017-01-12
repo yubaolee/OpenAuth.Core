@@ -1,0 +1,72 @@
+.zsign .panels
+{
+    position: absolute;
+    top: 22px;
+    right: 8px;
+}
+.zsign .btn
+{
+    margin-right:5px;
+}
+
+.zsign .btn[disabled]
+{
+    cursor: default;
+    background-image: none;
+    background-color: #E6E6E6;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.zsign .cursor
+{
+    cursor: none;
+}
+.zsign .show
+{
+    display: block;
+}
+.zsign .hide
+{
+    display: none;
+}
+
+.zsign .sign
+{
+    position: absolute;
+    cursor: move;
+    border: 1px dashed #ccc;
+    padding: 8px;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+}
+.zsign .sign.ok
+{
+    cursor: default;
+    border-color:transparent;
+}
+.zsign .sign img
+{
+    max-height: 100%;
+    max-width: 100%;
+}
+.zsign .sign .btn
+{
+    padding: 2px 6px;
+    font-size: 11px;
+    line-height: 14px;
+    position: absolute;
+}
+
+.zsign .sign .btn.del
+{
+    bottom: 4px;
+    right: 4px;
+}
+.zsign .sign .btn.ok
+{
+    bottom: 4px;
+    right: 50px;

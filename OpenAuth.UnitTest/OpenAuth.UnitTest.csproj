@@ -127,6 +127,7 @@
     <Compile Include="TestCommonApply.cs" />
     <Compile Include="TestOrg.cs" />
     <Compile Include="TestUser.cs" />
+    <Compile Include="TestWorkflow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

@@ -57,6 +57,13 @@
   <ItemGroup>
     <Compile Include="Models\Mapping\ApplyTransitionHistoryMap.cs" />
     <Compile Include="Models\Mapping\CommonApplyMap.cs" />
+    <Compile Include="Models\Mapping\WFFrmMainMap.cs" />
+    <Compile Include="Models\Mapping\WFProcessInstanceMap.cs" />
+    <Compile Include="Models\Mapping\WFProcessOperationHistoryMap.cs" />
+    <Compile Include="Models\Mapping\WFProcessSchemeMap.cs" />
+    <Compile Include="Models\Mapping\WFProcessTransitionHistoryMap.cs" />
+    <Compile Include="Models\Mapping\WFSchemeContentMap.cs" />
+    <Compile Include="Models\Mapping\WFSchemeInfoMap.cs" />
     <Compile Include="Workflow\Mapping\WorkflowSchemeMap.cs" />
     <Compile Include="UnitWork.cs" />
     <Compile Include="BaseRepository.cs" />

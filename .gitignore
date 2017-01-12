@@ -1,0 +1,27 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/OpenAuth.Mvc/bin
+/OpenAuth.Repository/bin/Debug
+/OpenAuth.Repository/obj/Debug
+/OpenAuth.UnitTest/bin/Debug
+/OpenAuth.UnitTest/obj/Debug
+/OpenAuth.WebApi/bin
+/OpenAuth.WebTest/bin
+/OpenAuth.WebTest/obj/Debug
+/packages
+/OpenAuth.WebApi/obj/Debug
+/OpenAuth.Mvc/log
+/OpenAuth.Mvc/obj/Debug
+*.user
+/OpenAuth.Domain/obj/Debug
+/OpenAuth.App/obj/Debug
+/OpenAuth.Domain/bin/Debug
+/OpenAuth.App/bin
+/Infrastructure/bin/Debug
+/Infrastructure/obj/Debug
+/.vs
+/OpenAuth.sln.GhostDoc.xml
+/类结构.mdj
+/数据库设计关系图/OpenAuthDB.pdb

@@ -85,6 +85,7 @@
     <Compile Include="Cache\EnyimMemcachedContext.cs" />
     <Compile Include="Cache\ICacheContext.cs" />
     <Compile Include="Cache\ObjCacheProvider.cs" />
+    <Compile Include="CommonHelper.cs" />
     <Compile Include="CookieHelper.cs" />
     <Compile Include="DynamicLinq.cs" />
     <Compile Include="DynamicQueryable.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="GenerateId.cs" />
     <Compile Include="GenericHelpers.cs" />
     <Compile Include="HttpHelper.cs" />
+    <Compile Include="Json.cs" />
     <Compile Include="JsonConverter.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="LogHelper.cs" />

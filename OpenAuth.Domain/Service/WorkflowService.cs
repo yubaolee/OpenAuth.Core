@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenAuth.Domain.Interface;
 
 namespace OpenAuth.Domain.Service
@@ -94,7 +95,7 @@ namespace OpenAuth.Domain.Service
 
         public List<WFSchemeInfo> GetList()
         {
-            throw new NotImplementedException();
+            return _unitWork.Find<WFSchemeInfo>(null).ToList();
         }
     }
 }

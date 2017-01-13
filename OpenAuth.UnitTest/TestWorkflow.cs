@@ -16,7 +16,7 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void AddForm()
         {
-            
+            var datas = _app.GetList();
         }
     }
 }

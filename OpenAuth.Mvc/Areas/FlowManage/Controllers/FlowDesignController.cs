@@ -21,6 +21,12 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         private WorkflowService wfFlowInfoBLL;
         private UserManagerApp userBLL;
 
+        public FlowDesignController()
+        {
+            wfFlowInfoBLL = AutofacExt.GetFromFac<WorkflowService>();
+            userBLL = AutofacExt.GetFromFac<UserManagerApp>();
+        }
+
         #region 视图功能
         /// <summary>
         /// 管理

@@ -78,8 +78,7 @@ namespace OpenAuth.Mvc.Models
         {
             var nextState = WorkflowInit.Runtime.GetLocalizedStateName(e.ProcessId, e.ProcessInstance.CurrentState);
 
-            var _app = AutofacExt.GetFromFac<CommonApplyApp>();
-            _app.ChangeState(e.ProcessId, e.ProcessInstance.CurrentState, nextState);
+
         }
 
         /// <summary>

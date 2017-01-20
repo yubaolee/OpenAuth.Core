@@ -27,9 +27,8 @@ namespace OpenAuth.Repository.Models.Mapping
             Property(t => t.SchemeContent)
                 .HasColumnName("SchemeContent")
                 .IsRequired();
-            Property(t => t.WFSchemeInfoId)
-                .HasColumnName("WFSchemeInfoId")
-                .HasMaxLength(50)
+            Property(t => t.SchemeInfoId)
+                .HasColumnName("SchemeInfoId")
                 .IsRequired();
             Property(t => t.SchemeVersion)
                 .HasColumnName("SchemeVersion")

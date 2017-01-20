@@ -75,7 +75,7 @@
     <Compile Include="Service\ResManagerService.cs" />
     <Compile Include="Service\StockManagerService.cs" />
     <Compile Include="Service\WFFormService.cs" />
-    <Compile Include="Service\WorkflowService.cs" />
+    <Compile Include="Service\WFSchemeService.cs" />
     <Compile Include="Core\Stock.cs" />
     <Compile Include="Core\User.cs" />
     <Compile Include="Core\WFFrmMain.cs" />

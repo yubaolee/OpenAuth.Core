@@ -20,7 +20,7 @@ namespace OpenAuth.Domain
     {
         public WFProcessTransitionHistory()
         {
-          this.ProcessId= string.Empty;
+          this.ProcessId= Guid.Empty;
           this.FromNodeId= string.Empty;
           this.FromNodeName= string.Empty;
           this.ToNodeId= string.Empty;
@@ -35,7 +35,7 @@ namespace OpenAuth.Domain
         /// <summary>
 	    /// 
 	    /// </summary>
-        public string ProcessId { get; set; }
+        public Guid ProcessId { get; set; }
         /// <summary>
 	    /// 
 	    /// </summary>

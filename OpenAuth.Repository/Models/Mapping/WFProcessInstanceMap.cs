@@ -49,7 +49,6 @@ namespace OpenAuth.Repository.Models.Mapping
                 .IsOptional();
             Property(t => t.ProcessSchemeId)
                 .HasColumnName("ProcessSchemeId")
-                .HasMaxLength(50)
                 .IsRequired();
             Property(t => t.SchemeType)
                 .HasColumnName("SchemeType")

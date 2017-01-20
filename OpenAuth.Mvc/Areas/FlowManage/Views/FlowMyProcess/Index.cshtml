@@ -1,0 +1,226 @@
+﻿@{
+    ViewBag.Title = "我的流程";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script src="~/Content/scripts/plugins/pagination/jquery.pagination-1.2.7.js"></script>
+<link href="~/Content/scripts/plugins/pagination/jquery.pagination.css" rel="stylesheet" />
+<script>
+    var params="";
+    $(function () {
+        InitialPage();
+        GetSchemeType();
+        GetGrid();
+    });
+    //初始化页面
+    function InitialPage() {
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $("#taskblock").height($(window).height() - 131);
+                $("#itemTree").height($(window).height() - 52);
+            }, 200);
+            e.stopPropagation();
+        });
+    }
+    //加载树
+    function GetSchemeType() {
+        $.SetForm({
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            param: { EnCode: "FlowSort" },
+            success: function (data) {
+                $.each(data, function (id, item) {
+                    var row = '<li><a data-value="' + item.id + '">' + item.text + '</a></li>';
+                    $('#SchemeType').find('ul').append(row);
+                });
+                $('#SchemeType').find('li>a').click(function () {
+                    var id = $(this).attr('data-value');
+                    var text = $(this).html();
+                    var queryJson = { SchemeType: id };
+                    params = { queryJson: JSON.stringify(queryJson) };
+                    $("#girdPager").page('remote', 0, params);
+                    $('#SchemeType').find('.dropdown-text').html(text);
+                });
+
+            }
+        })
+    }
+
+    //加载表格
+    function GetGrid() {
+        $("#taskblock").height($(window).height() - 131);
+
+        $("#girdPager").panginationEx({
+            url: "../../FlowManage/FlowProcess/GetRuntimePageListJson",
+            success: function (data) {
+                var $flowlist = $("#flowlist");
+                $flowlist.html("");
+                if (data.length > 0) {
+                    $('.no-data').hide();
+                }
+                else {
+                    $('.no-data').show();
+                }
+                $.each(data, function (i, item) {
+                    var _listhtml = '<li><div style="width: ' + (item.isfinish == 4 ? '239px' : '160px') + '; line-height: 38px;margin-top:11px;  float: right;">' + (item.isfinish == 4 ? '<a class="btn btn-warning applicationmodel"  style="margin-right:4px;"  >重新申请</a>' : '') + '<a class="btn btn-success previewmodel" style="margin-right:4px;">进度查看</a><a class="btn btn-danger deletemodel" >流程召回</a></div>';
+                    _listhtml += '<div style="float: left;">';
+                    _listhtml += '<span class="item-text">' + item.code + '/' + item.customname + '</span>';
+                    _listhtml += '<div><span class=\"label label-success-learun\" data-toggle="tooltip" data-placement="top" title="流程分类" >' + item.schemetypename + '</span>';
+                    _listhtml += '<span style="margin-left:5px;" class=\"label label-inverse-learun\" data-toggle="tooltip" data-placement="top" title="当前节点">' + item.activityname + '</span>';
+                    if (item.enabledmark == 1) {
+                        if (item.isfinish == 3) {
+                            _listhtml += '<span style="margin-left:5px;" class=\"label label-danger\" data-toggle="tooltip" data-placement="top" title="状态">不通过</span>';
+                        }
+                        else if (item.isfinish == 1) {
+                            _listhtml += '<span style="margin-left:5px;" class=\"label label-success\" data-toggle="tooltip" data-placement="top" title="状态">通过完成</span>';
+                        }
+                        else if (item.isfinish == 0) {
+                            _listhtml += '<span style="margin-left:5px;" class=\"label label-info\" data-toggle="tooltip" data-placement="top" title="状态" >处理中</span>';
+                        }
+                        else if (item.isfinish == 4) {
+                            _listhtml += '<span style="margin-left:5px;" class=\"label label-warning\" data-toggle="tooltip" data-placement="top" title="状态" >被驳回</span>';
+                        }
+                    }
+                    else {
+                        _listhtml += '<span style="margin-left:5px;" class=\"label label-important-learun\" data-toggle="tooltip" data-placement="top" title="状态" >暂停</span>';
+                    }
+                   
+                    switch (item.wflevel)
+                    {
+                        case 1:
+                            _listhtml += '<span style="margin-left:5px;" class=\"label label-danger\" data-toggle="tooltip" data-placement="top" title="等级" >重要</span>';
+                            break;
+                        case 2:
+                            _listhtml += '<span style="margin-left:5px;" class=\"label label-success\" data-toggle="tooltip" data-placement="top" title="等级" >普通</span>';
+                            break;
+                        case 3:
+                            _listhtml += '<span style="margin-left:5px;" class=\"label label-warning\" data-toggle="tooltip" data-placement="top" title="等级" >一般</span>';
+                            break;
+                    }
+                    
+                    _listhtml += '</div><p>By.' + item.createusername + '-' + item.createdate + ' | 备注：' + item.description + '</p>';
+                    _listhtml += '</div></li>';
+                    var $_listhtml = $(_listhtml);
+                    $_listhtml.find('.previewmodel')[0].processInstanceId = item.id;
+                    $_listhtml.find('.previewmodel')[0].activityId = item.activityid;
+                    $_listhtml.find('.previewmodel')[0].processSchemeId = item.processschemeid;
+                    $_listhtml.find('.previewmodel')[0].processname = item.code + '/' + item.customname;
+
+                    $_listhtml.find('.deletemodel')[0].processInstanceId = item.id;
+                    $_listhtml.find('.deletemodel')[0].processSchemeId = item.processschemeid;
+
+                    if ($_listhtml.find('.applicationmodel').length > 0)
+                    {
+                        $_listhtml.find('.applicationmodel')[0].processInstanceId = item.id;
+                        $_listhtml.find('.applicationmodel')[0].activityId = item.activityid;
+                        $_listhtml.find('.applicationmodel')[0].processSchemeId = item.processschemeid;
+                        $_listhtml.find('.applicationmodel')[0].processname = item.code + '/' + item.customname;
+                    }
+
+                    $flowlist.append($_listhtml);
+                });
+                $('[data-toggle="tooltip"]').tooltip();
+                //进度查看
+                $('.previewmodel').click(function () {
+                    var $_btn = $(this).context;
+                    var _processInstanceId = $_btn.processInstanceId;
+                    var _processSchemeId = $_btn.processSchemeId;
+                    var _processname = $_btn.processname;
+                    var _activityId = $_btn.activityId;
+                    dialogOpen({
+                        id: "ProcessLookForm",
+                        title: '进度查看【' + _processname + '】',
+                        url: '/FlowManage/FlowMyProcess/ProcessLookForm?processSchemeId=' + _processSchemeId + '&activityId=' + _activityId,
+                        width: "1100px",
+                        height: "700px",
+                        btn:null,
+                        callBack: function (iframeId) {
+                        }
+                    });
+                });
+                //流程召回
+                $('.deletemodel').click(function () {
+                    var $_btn = $(this).context;
+                    var $this = $(this);
+                    var _ProcessInstanceId = $_btn.processInstanceId;
+                    if (_ProcessInstanceId) {
+                        $.ConfirmAjax({
+                            msg: "注：您确定要召回吗？该操作将无法恢复",
+                            url: "../../FlowManage/FlowProcess/DeleteVirtualProcess",
+                            param: { keyValue: _ProcessInstanceId },
+                            success: function (data) {
+                                $("#girdPager").page('remote', '', params);
+                            }
+                        })
+                    } else {
+                        dialogMsg('请选择需要召回的流程！', 0);
+                    }
+                });
+
+                //重新申请
+                $('.applicationmodel').click(function () {
+                    var $_btn = $(this).context;
+                    var _processInstanceId = $_btn.processInstanceId;
+                    var _processSchemeId = $_btn.processSchemeId;
+                    var _processname = $_btn.processname;
+                    var _activityId = $_btn.activityId;
+                    dialogOpen({
+                        id: "ProcessAgainNewForm",
+                        title: '重新申请【' + _processname + '】',
+                        url: '/FlowManage/FlowMyProcess/ProcessAgainNewForm?keyValue=' + _processInstanceId + '&activityId=' + _activityId,
+                        width: "1100px",
+                        height: "700px",
+                        btn: null,
+                        callBack: function (iframeId) {
+                        }
+                    });
+                });
+            },
+            sortname: "CreateDate desc"
+        });
+
+        //查询事件
+        $("#btn_Search").click(function () {
+            var queryJson = { Keyword: $("#txt_Keyword").val() };
+            params = { queryJson: JSON.stringify(queryJson) };
+            $("#girdPager").page('remote', 0, params);
+        });
+    }
+
+    //回调函数
+    function callBack() {
+        $("#girdPager").page('remote', '', params);
+    }
+</script>
+<div class="titlePanel">
+    <div class="title-search">
+        <table>
+            <tr>
+                <td>
+                    <div id="SchemeType" class="btn-group">
+                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择流程分类</a>
+                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu"></ul>
+                    </div>
+                </td>
+                <td style="padding-left: 5px;">
+                    <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
+                </td>
+                <td style="padding-left: 5px;">
+                    <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="toolbar">
+        <div class="btn-group">
+            <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+        </div>
+    </div>
+</div>
+<div class="taskblockPanel">
+    <div id="taskblock" class="taskblock">
+        <ul id="flowlist"></ul>
+    </div>
+    <div id="girdPager" class="m-pagination"></div>
+    <div class="no-data"></div>
+</div>

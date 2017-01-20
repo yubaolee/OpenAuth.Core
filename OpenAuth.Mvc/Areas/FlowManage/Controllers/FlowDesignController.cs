@@ -18,12 +18,12 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
     /// </summary>
     public class FlowDesignController :Controller
     {
-        private WorkflowService wfFlowInfoBLL;
+        private WFSchemeService wfFlowInfoBLL;
         private UserManagerApp userBLL;
 
         public FlowDesignController()
         {
-            wfFlowInfoBLL = AutofacExt.GetFromFac<WorkflowService>();
+            wfFlowInfoBLL = AutofacExt.GetFromFac<WFSchemeService>();
             userBLL = AutofacExt.GetFromFac<UserManagerApp>();
         }
 

@@ -150,6 +150,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\FlowManage\Controllers\FlowLaunchController.cs" />
+    <Compile Include="Areas\FlowManage\Controllers\FlowProcessController.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FormDesignController.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FlowDesignController.cs" />
     <Compile Include="Areas\FlowManage\FlowManageAreaRegistration.cs" />
@@ -159,7 +161,7 @@
     <Compile Include="Controllers\WorkflowSchemasController.cs" />
     <Compile Include="Controllers\DesignerController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\CommonAppliesController.cs" />
+    <Compile Include="Areas\FlowManage\Controllers\CommonAppliesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleElementManagerController.cs" />
@@ -1515,9 +1517,12 @@
     <Content Include="Content\styles\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\styles\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\styles\fonts\FontAwesome.otf" />
+    <Content Include="Areas\FlowManage\Views\FlowMyProcess\Index.cshtml" />
+    <Content Include="Areas\FlowManage\Views\FlowMyProcess\ProcessAgainNewForm.cshtml" />
+    <Content Include="Areas\FlowManage\Views\FlowMyProcess\ProcessLookForm.cshtml" />
+    <Content Include="Areas\FlowManage\Views\CommonApplies\ProcessLookForm.cshtml" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <Content Include="Views\Designer\Index.cshtml" />
-    <Content Include="Views\CommonApplies\Detail.cshtml" />
     <None Include="Views\Error\NoAccess.cshtml" />
     <Content Include="Views\Home\git.cshtml" />
     <Content Include="Web.config">
@@ -1537,7 +1542,7 @@
     <Content Include="Views\ResourceManager\AssignRes.cshtml" />
     <Content Include="Views\StockManager\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\CommonApplies\Index.cshtml" />
+    <Content Include="Areas\FlowManage\Views\CommonApplies\Index.cshtml" />
     <Content Include="Views\WorkflowSchemas\Index.cshtml" />
     <Content Include="Views\Home\Navbar.cshtml" />
     <Content Include="Views\Shared\Blank.cshtml" />

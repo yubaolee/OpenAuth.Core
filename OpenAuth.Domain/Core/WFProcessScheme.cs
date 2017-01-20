@@ -21,7 +21,7 @@ namespace OpenAuth.Domain
         public WFProcessScheme()
         {
           this.SchemeContent= string.Empty;
-          this.WFSchemeInfoId= string.Empty;
+          this.SchemeInfoId= Guid.Empty;
           this.SchemeVersion= string.Empty;
           this.ProcessType= 0;
         }
@@ -33,7 +33,7 @@ namespace OpenAuth.Domain
         /// <summary>
 	    /// 
 	    /// </summary>
-        public string WFSchemeInfoId { get; set; }
+        public Guid SchemeInfoId { get; set; }
         /// <summary>
 	    /// 
 	    /// </summary>
@@ -43,5 +43,23 @@ namespace OpenAuth.Domain
 	    /// </summary>
         public int ProcessType { get; set; }
 
+
+        #region 扩展操作
+        /// <summary>
+        /// 新增调用
+        /// </summary>
+        public  void Create()
+        {
+            this.Id = Guid.NewGuid();
+        }
+        /// <summary>
+        /// 编辑调用
+        /// </summary>
+        /// <param name="keyValue"></param>
+        public void Modify(Guid keyValue)
+        {
+            this.Id = keyValue;
+        }
+        #endregion
     }
 }

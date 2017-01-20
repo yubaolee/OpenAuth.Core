@@ -5,11 +5,15 @@ using OpenAuth.Domain.Interface;
 
 namespace OpenAuth.Domain.Service
 {
-    public class WorkflowService
+    /// <summary>
+    /// 流程设计服务
+    /// <para>李玉宝新增于2017-01-16 16:18:35</para>
+    /// </summary>
+    public class WFSchemeService
     {
         protected IUnitWork _unitWork;
 
-        public WorkflowService(IUnitWork unitWork)
+        public WFSchemeService(IUnitWork unitWork)
         {
             _unitWork = unitWork;
         }
@@ -29,15 +33,16 @@ namespace OpenAuth.Domain.Service
                     entity.SchemeVersion = DateTime.Now.ToString("yyyyMMddHHmmssffff");
                     _unitWork.Add(entity);
 
-                    modelentity.WFSchemeInfoId = entity.Id.ToString();
+                    modelentity.SchemeInfoId = entity.Id;
                     modelentity.SchemeVersion = entity.SchemeVersion;
                     _unitWork.Add(modelentity);
                 }
                 else
                 {
+                    Guid schemeid = Guid.Parse(keyValue);
                     WFSchemeContent modelentityold =
                         _unitWork.FindSingle<WFSchemeContent>(u => u.SchemeVersion == entity.SchemeVersion
-                                                                   && u.WFSchemeInfoId == keyValue); 
+                                                                   && u.SchemeInfoId == schemeid); 
 
                     if (modelentityold.SchemeContent != modelentity.SchemeContent)
                     {
@@ -50,7 +55,7 @@ namespace OpenAuth.Domain.Service
                         }
                         else
                         {
-                            modelentity.WFSchemeInfoId = keyValue;
+                            modelentity.SchemeInfoId = schemeid;
                             modelentity.SchemeVersion = DateTime.Now.ToString("yyyyMMddHHmmssffff");
                             _unitWork.Add(modelentity);
                         }

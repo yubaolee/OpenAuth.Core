@@ -26,7 +26,6 @@ namespace OpenAuth.Repository.Models.Mapping
                 .IsRequired();
             Property(t => t.ProcessId)
                 .HasColumnName("ProcessId")
-                .HasMaxLength(50)
                 .IsRequired();
             Property(t => t.FromNodeId)
                 .HasColumnName("fromNodeId")

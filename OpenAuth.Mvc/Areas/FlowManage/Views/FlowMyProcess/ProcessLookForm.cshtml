@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "查看流程进度";
+    Layout = "~/Views/Shared/_FlowForm.cshtml";
+}
+<script>
+    var processSchemeId = request('processSchemeId');
+    var ActivityId = request('activityId');
+    $(function () {
+        var schemeContent;
+        $.SetForm({
+            url: "../../FlowManage/FlowProcess/GetProcessSchemeJson",
+            param: { keyValue: processSchemeId },
+            success: function (data) {
+                schemeContent = JSON.parse(JSON.parse(data.SchemeContent).SchemeContent);
+                frmdata = JSON.parse(JSON.parse(data.SchemeContent).frmData);
+
+                $('#frmpreview').frmPreview({
+                    tablecotent: schemeContent.Frm.FrmContent,
+                    width:1080
+                });
+                $('#FlowPanel').flowdesign({
+                    width: $(window).width()+3,
+                    height: $(window).height()-42,
+                    flowcontent: schemeContent.Flow,
+                    haveTool: false,
+                    isprocessing: true,
+                    activityId: ActivityId,
+                    nodeData: schemeContent.Flow.nodes
+                });
+
+                $('#frmpreview').frmSetData(frmdata);
+                $('#frmpreview').find('input,select,textarea,.ui-select').attr('disabled', 'disabled');
+            }
+        });
+    });
+</script>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#FlowPanel" data-toggle="tab">流程信息</a></li>
+    <li><a href="#frmpreview" data-toggle="tab">表单信息</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="FlowPanel" class="tab-pane active">
+    </div>
+    <div id="frmpreview" class="tab-pane app_layout app_preview">
+    </div>
+</div>
+<style>
+    body {
+        overflow:hidden;
+    }
+    .app_preview {
+        height:620px;
+    }
+    .app_preview .item_field_value {
+        width:964px;
+    }
+    .app_preview .item_row {
+        background-color: #fff;
+    }
+    .app_layout .item_field_label {
+        background-color: #fff;
+    }
+     input, textarea {
+        background: #fff!important;     
+    }
+</style>

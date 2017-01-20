@@ -20,7 +20,7 @@ namespace OpenAuth.Domain
     {
         public WFSchemeContent()
         {
-          this.WFSchemeInfoId= string.Empty;
+          this.SchemeInfoId= Guid.Empty;
           this.SchemeVersion= string.Empty;
           this.SchemeContent= string.Empty;
           this.CreateDate= DateTime.Now;
@@ -31,7 +31,7 @@ namespace OpenAuth.Domain
         /// <summary>
 	    /// 
 	    /// </summary>
-        public string WFSchemeInfoId { get; set; }
+        public Guid SchemeInfoId { get; set; }
         /// <summary>
 	    /// 
 	    /// </summary>

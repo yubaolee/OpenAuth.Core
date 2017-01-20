@@ -83,6 +83,12 @@
     <Compile Include="ApplyTransitionHistoryApp.cs" />
     <Compile Include="CategoryManagerApp.cs" />
     <Compile Include="AuthorizeApp.cs" />
+    <Compile Include="Extention\IWF_Runtime.cs" />
+    <Compile Include="Extention\WF_Runtime.cs" />
+    <Compile Include="Extention\WF_RuntimeInitModel.cs" />
+    <Compile Include="Extention\WF_RuntimeModel.cs" />
+    <Compile Include="WFProcessInstanceService.cs" />
+    <Compile Include="WFRuntimeService.cs" />
     <Compile Include="WorkflowInboxApp.cs" />
     <Compile Include="ModuleElementManagerApp.cs" />
     <Compile Include="ModuleManagerApp.cs" />
@@ -98,7 +104,6 @@
     <Compile Include="SSO\LoginResult.cs" />
     <Compile Include="SSO\SSOAuthAttribute.cs" />
     <Compile Include="SSO\UserAuthSession.cs" />
-    <Compile Include="CommonApplyApp.cs" />
     <Compile Include="StockManagerApp.cs" />
     <Compile Include="UserManagerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

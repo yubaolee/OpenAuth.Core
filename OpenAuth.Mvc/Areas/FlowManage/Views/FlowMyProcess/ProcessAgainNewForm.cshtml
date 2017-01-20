@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "再次申请";
+    Layout = "~/Views/Shared/_FlowForm.cshtml";
+}
+<script>
+    var keyValue = request('keyValue');
+    var ProcessSchemeId = "";
+    var activityId =request('activityId');
+    $(function () {
+        initialPage();
+    })
+    //初始化页面
+    function initialPage() {
+        $('.FlowPanelall').height($.windowHeight() - 40);
+        $('#Description').height($.windowHeight() - 390);
+        //获取表单
+        $.SetForm({
+            url: "../../FlowManage/FlowProcess/GetProcessInfoJson",
+            param: { keyValue: keyValue },
+            success: function (data) {
+                var _schemeContent = JSON.parse(JSON.parse(data.processScheme.SchemeContent).SchemeContent);
+                var _frmdata = JSON.parse(JSON.parse(data.processScheme.SchemeContent).frmData);
+                $('#frmpreview').frmPreview({
+                    tablecotent: _schemeContent.Frm.FrmContent
+                });
+                $('#frmpreview').frmSetData(_frmdata);
+                $('#ProcessInfo').SetWebControls(data.processInstance);
+                $('#wfLevel' + data.processInstance.wfLevel).trigger("click");
+                ProcessSchemeId = data.processInstance.ProcessSchemeId;
+                var _node = "";
+                for(var i in _schemeContent.Flow.nodes)
+                {
+                    if(_schemeContent.Flow.nodes[i].id == activityId)
+                    {
+                        _node = _schemeContent.Flow.nodes[i];
+                        break;
+                    }
+                }
+                var _username = top.clientuserData[_node.setInfo.UserId] == undefined ? _node.setInfo.UserId : top.clientuserData[_node.setInfo.UserId].RealName;
+                _username = _username == "System" ? '超级管理员' : '_username';
+                $('#ruser').html('驳回人:' + _username +  (_node.setInfo.TagedTime != undefined ?'-' +_node.setInfo.TagedTime:''));
+                $('#rDescription').html('备注:' + _node.setInfo.description);
+            }
+        });
+    }
+    //提交表单
+    function btn_Finish() {
+        if (!$('#ProcessInfo').Validform()) {
+            return false;
+        }
+        var _postData = $("#ProcessInfo").GetWebControls(keyValue);
+        _postData["EnabledMark"] = 1;
+        _postData["ProcessSchemeId"] = ProcessSchemeId;
+        _postData["wfLevel"] = $('input[name="wfLevel"]:checked').val();
+        var _data = $("#frmpreview").frmGetData();
+        $.SaveForm({
+            url: "../../FlowManage/FlowRoughdraft/EditionRoughdraftProcess",
+            param: { "keyValue": keyValue, "frmData": JSON.stringify(_data), "wfProcessInstanceJson": JSON.stringify(_postData) },
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().callback();
+            }
+        })
+    }
+</script>
+<div class="FlowPanelall">
+    <div id="frmpreview" class="tab-pane app_layout app_preview active">
+    </div>
+</div>
+<div class="FlowInfoPanel" id="ProcessInfo">
+    <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;height:98px;overflow-y:auto;">
+        <p><i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+            此流程被驳回，需要重新申请!
+        </p>
+        <p id="ruser">驳回人：</p>
+        <p id="rDescription">备注：</p>
+    </div>
+    <div style="color:#9f9f9f;padding-bottom:15px;padding-left:5px;"><i style="padding-right:5px;" class="fa fa-info-circle"></i><span>填写左侧表单和实例信息,重新申请</span></div>
+    <table class="form">
+        <tr>
+            <td class="formTitle">流程实例编号<font face="宋体">*</font></td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <input id="Code" disabled type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">自定义标题<font face="宋体">*</font></td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <input id="CustomName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">重要等级<font face="宋体">*</font></td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <div class="rdio rdio-color_a"><input name="wfLevel" id="wfLevel1" value="1" type="radio" /><label for="wfLevel1">重要</label></div>
+                <div class="rdio rdio-color_f"><input name="wfLevel" id="wfLevel2" value="2" type="radio" checked /><label for="wfLevel2">普通</label></div>
+                <div class="rdio rdio-color_c"><input name="wfLevel" id="wfLevel3" value="3" type="radio" /><label for="wfLevel3">一般</label></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">备注</td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <textarea id="Description" class="form-control" style="height: 383px;"></textarea>
+            </td>
+        </tr>
+    </table>
+
+</div>
+<div class="form-button">
+    <a id="btn_finish" class="btn btn-success" onclick="btn_Finish();">完成提交</a>
+</div>
+<style>
+    body {
+        overflow: hidden;
+    }
+    .app_preview .item_field_value {
+        width: 664px;
+    }
+    .app_preview .item_row {
+        background-color: #fff;
+    }
+    .app_layout .item_field_label {
+        background-color: #fff;
+    }
+    .FlowPanelall {
+        width: 800px;
+        float: left;
+        overflow-y:auto;
+    }
+    .FlowInfoPanel {
+        float: right;
+        width: 300px;
+        height: 659px;
+        z-index: 1000;
+        background: rgba(0,0,0,0.01);
+        padding: 10px;
+        border-left: 1px solid #ccc;
+    }
+    .form .formTitle {
+        text-align: left;
+        padding-left: 5px;
+    }
+    form .formTitle font {
+        right: auto !important;
+        margin-left: 5px;
+    }
+    .formValue input, .formValue textarea {
+        border-radius: 5px;
+    }
+    input, textarea {
+        background: #fff !important;
+    }
+</style>

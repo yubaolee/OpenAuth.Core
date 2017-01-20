@@ -20,7 +20,7 @@ namespace OpenAuth.Domain
     {
         public WFProcessOperationHistory()
         {
-          this.ProcessId= string.Empty;
+          this.ProcessId= Guid.Empty;
           this.Content= string.Empty;
           this.CreateDate= DateTime.Now;
           this.CreateUserId= string.Empty;
@@ -30,7 +30,7 @@ namespace OpenAuth.Domain
         /// <summary>
 	    /// 
 	    /// </summary>
-        public string ProcessId { get; set; }
+        public Guid ProcessId { get; set; }
         /// <summary>
 	    /// 
 	    /// </summary>

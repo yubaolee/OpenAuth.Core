@@ -51,25 +51,35 @@ function MainGrid() {
                     index: "Id",
                     hidden: true
                 },
+                 {
+                     name: "ProcessSchemeId",
+                     index: "ProcessSchemeId",
+                     hidden: true
+                 },
+                  {
+                      name: "ActivityId",
+                      index: "ActivityId",
+                      hidden: true
+                  },
                 {
-                    index: "Name",
-                    name: "Name",
-                    label: "申请名称"
+                    index: "Code",
+                    name: "Code",
+                    label: "流程编号"
                 },
                 {
-                    index: "Comment",
-                    name: "Comment",
-                    label: "申请描述"
-                },
-                {
-                    index: "StateName",
-                    name: "StateName",
-                    label: "流程状态"
-                },
-                {
-                    index: "WorkflowName",
-                    name: "WorkflowName",
+                    index: "CustomName",
+                    name: "CustomName",
                     label: "流程名称"
+                },
+                {
+                    index: "ActivityName",
+                    name: "ActivityName",
+                    label: "当前节点"
+                },
+                {
+                    index: "CreateDate",
+                    name: "CreateDate",
+                    label: "创建时间"
                 }
             ],
             url: url + selectedId,
@@ -194,7 +204,7 @@ function detail() {
         title: selected.Name,
         skin: "layui-layer-rim", //加上边框
         area: ["800px", "600px"], //宽高
-        content: "/CommonApplies/Detail?id=" + selected.Id,
+        content: "/FlowManage/CommonApplies/ProcessLookForm?processSchemeId=" + selected.ProcessSchemeId + "&activityId="+selected.ActivityId,
         maxmin: true, //开启最大化最小化按钮
         end: function() {
             list.reload();

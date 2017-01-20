@@ -29,7 +29,6 @@ namespace OpenAuth.Repository.Models
 
         public System.Data.Entity.DbSet<ApplyTransitionHistory> ApplyTransitionHistories { get; set; }
         public System.Data.Entity.DbSet<Category> Categories { get; set; }
-        public System.Data.Entity.DbSet<CommonApply> CommonApplies { get; set; }
         public System.Data.Entity.DbSet<DicDetail> DicDetails { get; set; }
         public System.Data.Entity.DbSet<DicIndex> DicIndices { get; set; }
         public System.Data.Entity.DbSet<Module> Modules { get; set; }
@@ -52,7 +51,6 @@ namespace OpenAuth.Repository.Models
         {
             modelBuilder.Configurations.Add(new ApplyTransitionHistoryMap());
             modelBuilder.Configurations.Add(new CategoryMap());
-            modelBuilder.Configurations.Add(new CommonApplyMap());
             modelBuilder.Configurations.Add(new DicDetailMap());
             modelBuilder.Configurations.Add(new DicIndexMap());
             modelBuilder.Configurations.Add(new ModuleMap());

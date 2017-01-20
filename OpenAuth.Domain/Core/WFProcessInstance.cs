@@ -26,7 +26,7 @@ namespace OpenAuth.Domain
           this.ActivityType= 0;
           this.ActivityName= string.Empty;
           this.PreviousId= string.Empty;
-          this.ProcessSchemeId= string.Empty;
+          this.ProcessSchemeId=Guid.Empty;
           this.SchemeType= string.Empty;
           this.EnabledMark= 0;
           this.CreateDate= DateTime.Now;
@@ -63,7 +63,7 @@ namespace OpenAuth.Domain
         /// <summary>
 	    /// 
 	    /// </summary>
-        public string ProcessSchemeId { get; set; }
+        public Guid ProcessSchemeId { get; set; }
         /// <summary>
 	    /// 
 	    /// </summary>
@@ -105,5 +105,22 @@ namespace OpenAuth.Domain
 	    /// </summary>
         public string MakerList { get; set; }
 
+        #region 扩展操作
+        /// <summary>
+        /// 新增调用
+        /// </summary>
+        public void Create()
+        {
+            this.CreateDate = DateTime.Now;
+        }
+        /// <summary>
+        /// 编辑调用
+        /// </summary>
+        /// <param name="keyValue"></param>
+        public void Modify(Guid keyValue)
+        {
+            this.Id = keyValue;
+        }
+        #endregion
     }
 }

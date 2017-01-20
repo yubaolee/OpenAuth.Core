@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 using Infrastructure;
 using LeaRun.Util.WebControl;
 using OpenAuth.App;
+using OpenAuth.App.SSO;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Service;
 
@@ -149,10 +150,15 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             wfFlowInfoBLL.UpdateState(keyValue, State);
             return Content("操作成功。");
         }
+
+        public string Load(int pageCurrent = 1, int pageSize = 30)
+        {
+            return JsonHelper.Instance.Serialize(wfFlowInfoBLL.Load(pageCurrent, pageSize));
+        }
         #endregion
 
         #region 获取权限数据
-   
+
         /// <summary>
         /// 用户列表树 
         /// </summary>

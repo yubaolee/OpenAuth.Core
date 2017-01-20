@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.ViewModel;
 using OpenAuth.Domain.Interface;
 
 namespace OpenAuth.Domain.Service
@@ -42,7 +43,7 @@ namespace OpenAuth.Domain.Service
                     Guid schemeid = Guid.Parse(keyValue);
                     WFSchemeContent modelentityold =
                         _unitWork.FindSingle<WFSchemeContent>(u => u.SchemeVersion == entity.SchemeVersion
-                                                                   && u.SchemeInfoId == schemeid); 
+                                                                   && u.SchemeInfoId == schemeid);
 
                     if (modelentityold.SchemeContent != modelentity.SchemeContent)
                     {
@@ -69,7 +70,7 @@ namespace OpenAuth.Domain.Service
                     _unitWork.Update(entity);
                 }
 
-               _unitWork.Save();
+                _unitWork.Save();
                 return 1;
             }
             catch (Exception)
@@ -101,6 +102,19 @@ namespace OpenAuth.Domain.Service
         public List<WFSchemeInfo> GetList()
         {
             return _unitWork.Find<WFSchemeInfo>(null).ToList();
+        }
+
+        public GridData Load(int pageCurrent, int pageSize)
+        {
+            var result = new GridData
+            {
+                page = pageCurrent
+            };
+
+            result.total = _unitWork.Find<WFSchemeInfo>(null).Count();
+            result.rows = _unitWork.Find<WFSchemeInfo>(pageCurrent, pageSize, "ModifyDate descending", null).ToList();
+
+            return result;
         }
     }
 }

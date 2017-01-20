@@ -1,22 +1,17 @@
 ﻿//grid列表模块
 function MainGrid() {
-    var url = '/workflowschemas/Load';
+    var url = '/FlowDesign/Load';
     this.maingrid = $('#maingrid')
         .jqGrid({
             colModel: [
                 { label: '主键', name: 'id', hidden: true },
-                { label: '流程编号', name: 'schemecode', index: 'schemecode', width: 100, align: 'left' },
-                { label: '流程名称', name: 'schemename', index: 'schemename', width: 150, align: 'left' },
+                { label: '流程编号', name: 'SchemeCode', index: 'SchemeCode', width: 100, align: 'left' },
+                { label: '流程名称', name: 'SchemeName', index: 'SchemeName', width: 150, align: 'left' },
+               
+                { label: '模板版本', name: 'SchemeVersion', index: 'SchemeVersion', width: 180, align: 'left' },
+                { label: '状态Id', name: 'EnabledMark', index: 'EnabledMark', hidden: true },
                 {
-                    label: "表单类型", name: "frmtype", index: "frmtype", width: 80, align: "left",
-                    formatter: function (cellvalue, options, rowObject) {
-                        return (cellvalue == 1 ? '系统表单' : '自定义表单')
-                    }
-                },
-                { label: '模板版本', name: 'schemeversion', index: 'schemeversion', width: 180, align: 'left' },
-                { label: '状态Id', name: 'enabledmark', index: 'enabledmark', hidden: true },
-                {
-                    label: "状态", name: "enabledmarklabel", index: "enabledmarklabel", width: 50, align: "center",
+                    label: "状态", name: "EnabledMarklabel", index: "EnabledMarklabel", width: 50, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.enabledmark == 1) {
                             return '<span  class=\"label label-success\">启用</span>';
@@ -28,22 +23,10 @@ function MainGrid() {
                     }
                 },
                
-                { label: "最近编辑用户", name: "modifyusername", index: "modifyusername", width: 90, align: "left" },
-                {
-                    label: "最近编辑时间", name: "modifydate", index: "modifydate", width: 150, align: "left",
-                    formatter: function (cellvalue, options, rowObject) {
-                        return formatDate(cellvalue, 'yyyy-MM-dd hh:mm:ss');
-                    }
-                },
-                { label: "创建用户", name: "createusername", index: "createusername", width: 80, align: "left" },
-                {
-                    label: "创建时间", name: "createdate", index: "createdate", width: 150, align: "left",
-                    formatter: function (cellvalue, options, rowObject) {
-                        return formatDate(cellvalue, 'yyyy-MM-dd hh:mm:ss');
-                    }
-                },
+                { label: "最近编辑用户", name: "ModifyUserName", index: "ModifyUserName", width: 90, align: "left" },
+                {label: "最近编辑时间", name: "ModifyDate", index: "ModifyDate", width: 150, align: "left"},
 
-                { label: "备注", name: "description", index: "description", width: 200, align: "left" }
+                { label: "备注", name: "Description", index: "Description", width: 200, align: "left" }
               
             ],
             url: url,

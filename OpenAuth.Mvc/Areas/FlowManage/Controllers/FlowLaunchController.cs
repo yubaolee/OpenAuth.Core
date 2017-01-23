@@ -64,6 +64,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         public ActionResult CreateProcess(Guid wfSchemeInfoId, string wfProcessInstanceJson, string frmData)
         {
             WFProcessInstance wfProcessInstanceEntity = wfProcessInstanceJson.ToObject<WFProcessInstance>();
+            wfProcessInstanceEntity.Id = Guid.Empty;
             string text = "创建成功";
             if (wfProcessInstanceEntity.EnabledMark == 1)//发起流程
             {

@@ -19,9 +19,10 @@ namespace OpenAuth.App
         private IUnitWork _unitWork;
         private WFProcessInstanceService wfProcessInstanceService;
 
-        public WFRuntimeService(IUnitWork unitWork)
+        public WFRuntimeService(IUnitWork unitWork, WFProcessInstanceService service)
         {
             _unitWork = unitWork;
+            wfProcessInstanceService = service;
         }
 
         private string delegateUserList = "";

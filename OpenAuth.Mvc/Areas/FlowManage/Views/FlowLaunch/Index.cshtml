@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "发起流程";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        InitialPage();
+        GetSchemeType();
+        GetGrid();
+        GetList();
+
+    });
+    //初始化页面
+    function InitialPage() {
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $("#taskblock").height($(window).height() - 83);
+                $("#itemTree").height($(window).height() - 52);
+            }, 200);
+            e.stopPropagation();
+        });
+    }
+    //加载树
+    function GetSchemeType() {
+        $.SetForm({
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            param: { EnCode: "FlowSort" },
+            success: function (data) {
+                $.each(data, function (id,item) {
+                    var row = '<li><a data-value="' + item.id + '">' + item.text + '</a></li>';
+                    $('#SchemeType').find('ul').append(row);
+                });
+                $('#SchemeType').find('li>a').click(function () {
+                    var id = $(this).attr('data-value');
+                    var text = $(this).html();
+                    var queryJson = { SchemeType: id };
+                    GetList({ queryJson: JSON.stringify(queryJson) });
+                    $('#SchemeType').find('.dropdown-text').html(text);
+                });
+
+            }
+        })
+    }
+    //加载模板列表
+    function GetList(param) {
+        $.SetForm({
+            url: "../../FlowManage/FlowDesign/GetListJson",
+            param: param,
+            success: function (data) {
+                var $flowlist = $("#flowlist");
+                $flowlist.html("");
+                if (data.length > 0) {
+                    $('.no-data').hide();
+                }
+                else {
+                    $('.no-data').show();
+                }
+                $.each(data, function (i,item) {
+                    var _listhtml = '<li><div style="width: 160px; line-height: 38px;margin-top:11px; float: right;"><a class="btn btn-success createmodel" style="margin-right:4px;">快速新建</a><a class="btn btn-warning previewmodel">模板预览</a></div>';
+                    _listhtml += '<div style="float: left;">';
+                    _listhtml += '<span class="item-text">' + item.schemecode + '/' + item.schemename + '</span>';
+                    _listhtml += '<div><span class=\"label label-success-learun\" data-toggle="tooltip" data-placement="top" title="流程分类" >' + item.schemetypename + '</span>';
+                    _listhtml += '<span style="margin-left:5px;" class=\"label label-inverse-learun\" data-toggle="tooltip" data-placement="top" title="版本" >' + item.schemeversion + '</span>';
+                    _listhtml += '</div><p>By.' + (item.modifyusername == null ? item.createusername : item.modifyusername) + '-' + (item.modifydate == null ? item.createdate : item.modifydate) + (item.description == null ? '' : (' | 备注:' + item.description)) + '</p>';
+                    _listhtml += '</div></li>';
+                    var $_listhtml = $(_listhtml);
+                    $_listhtml.find('.previewmodel')[0].wfschemeInfoId = item.id;
+                    $_listhtml.find('.previewmodel')[0].schemeVersion = item.schemeversion;
+                    $_listhtml.find('.previewmodel')[0].schemename = item.schemecode + '/' + item.schemename;
+
+                    $_listhtml.find('.createmodel')[0].wfschemeInfoId = item.id;
+                    $_listhtml.find('.createmodel')[0].schemename = item.schemecode + '/' + item.schemename;
+
+                    $flowlist.append($_listhtml);
+                });
+                $('[data-toggle="tooltip"]').tooltip();
+                //快速新建
+                $('.createmodel').click(function () {
+                    var $_btn = $(this).context;
+                    var _wfschemeInfoId = $_btn.wfschemeInfoId;
+                    var _schemename = $_btn.schemename;
+                    dialogOpen({
+                        id: "FlowProcessBuider",
+                        title: '快速新建【' + _schemename + '】',
+                        url: '/FlowManage/FlowLaunch/FlowProcessNewForm?keyValue=' + _wfschemeInfoId,
+                        width: "1100px",
+                        height: "700px",
+                        btn: null,
+                        callBack: function (iframeId) {
+                        }
+                    });
+                });
+                //模板预览
+                $('.previewmodel').click(function () {
+                    var $_btn = $(this).context;
+                    var _wfschemeInfoId = $_btn.wfschemeInfoId;
+                    var _schemeVersion = $_btn.schemeVersion;
+                    var _schemename = $_btn.schemename;
+                    
+                    top.tablist.newTab({ id: _wfschemeInfoId + _schemeVersion, title: '流程预览【' + _schemename + '】', closed: true, icon: "fa fa fa-eye", url: top.contentPath + '/FlowManage/FlowLaunch/PreviewIndex?keyValue=' + _wfschemeInfoId + "&schemeVersion=" + _schemeVersion });
+                });
+            }
+        });
+    }
+
+    
+    //加载表格
+    function GetGrid() {
+        $("#taskblock").height($(window).height() - 83);
+
+        //查询事件
+        $("#btn_Search").click(function () {
+            var queryJson = { Keyword: $("#txt_Keyword").val() };
+            GetList({ queryJson: JSON.stringify(queryJson) });
+        });
+    }
+</script>
+<div class="titlePanel">
+    <div class="title-search">
+        <table>
+            <tr>
+                <td>
+                    <div id="SchemeType" class="btn-group">
+                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择流程分类</a>
+                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu"></ul>
+                    </div>
+                </td>
+                <td style="padding-left: 5px;">
+                    <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
+                </td>
+                <td style="padding-left: 5px;">
+                    <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="toolbar">
+        <div class="btn-group">
+            <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+        </div>
+    </div>
+</div>
+<div class="taskblockPanel">
+    <div id="taskblock" class="taskblock">
+        <ul id="flowlist"></ul>
+    </div>
+    <div class="no-data"></div>
+</div>
+

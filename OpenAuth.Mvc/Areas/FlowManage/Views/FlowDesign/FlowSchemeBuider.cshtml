@@ -260,16 +260,26 @@
                 {
                     return false;
                 }
-                dialogOpen({
-                    id: "FlowLineForm",
+
+                layer.open({
+                    type: 2,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['800px', '450px'], //宽高
+                    maxmin: true, //开启最大化最小化按钮
                     title: '节点设置【' + object.$nodeData[object.$focus].name + '】',
-                    url: '/FlowManage/FlowDesign/FlowNodeForm',
-                    width: "750px",
-                    height: "430px",
-                    callBack: function (iframeId) {
-                        top.frames[iframeId].AcceptClick();
-                    }
+                    content: '/FlowManage/FlowDesign/FlowNodeForm'
                 });
+
+                //dialogOpen({
+                //    id: "FlowLineForm",
+                //    title: '节点设置【' + object.$nodeData[object.$focus].name + '】',
+                //    url: '/FlowManage/FlowDesign/FlowNodeForm',
+                //    width: "750px",
+                //    height: "430px",
+                //    callBack: function (iframeId) {
+                //        top.frames[iframeId].AcceptClick();
+                //    }
+                //});
             },
             OpenLine: function (id, object) {
                 FlowDesignObject = object;

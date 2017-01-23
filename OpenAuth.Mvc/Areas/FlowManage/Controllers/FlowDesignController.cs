@@ -84,7 +84,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetFormJson(string keyValue)
+        public ActionResult GetFormJson(Guid keyValue)
         {
             var schemeinfo = wfFlowInfoBLL.GetEntity(keyValue);
             var schemecontent = wfFlowInfoBLL.GetSchemeEntity(schemeinfo.Id, schemeinfo.SchemeVersion);

@@ -214,6 +214,7 @@ namespace OpenAuth.App.Extention
         /// <returns></returns>
         private string SqlBuider(dynamic schemeContentJson, string frmData, string keyValue)
         {
+            return "";
             try
             {
                 if (schemeContentJson.Frm.isSystemTable.Value == 1)

@@ -14,16 +14,23 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
     public class CommonAppliesController : Controller
     {
         private WFProcessInstanceService _app;
-
         public CommonAppliesController()
         {
             _app = AutofacExt.GetFromFac<WFProcessInstanceService>();
         }
 
+        #region 视图
+
+        public ActionResult Add()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             return View();
         }
+
+        #endregion
 
         public string Load(string type, int pageCurrent = 1, int pageSize = 30)
         {

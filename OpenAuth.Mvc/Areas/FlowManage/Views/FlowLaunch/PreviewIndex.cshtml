@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "流程预览";
+    Layout = "~/Views/Shared/_FlowForm.cshtml";
+}
+<link href="~/Content/styles/learun-flow.css" rel="stylesheet" />
+<script>
+    var keyValue = request('keyValue');
+    var schemeVersion = request('schemeVersion');
+    var processSchemeId = request('processSchemeId');
+    $(function () {
+        var schemeContent;
+        var _width = $(window).width() * 0.9 - 20;
+        if (_width > 1000)
+        {
+            _width = 1000;
+        }
+        if (keyValue) {
+            $.SetForm({
+                url: "../../FlowManage/FlowDesign/GetSchemeContentJson",
+                param: { keyValue: keyValue, SchemeVersion: schemeVersion },
+                success: function (data) {
+                    schemeContent = JSON.parse(data.SchemeContent);
+                    $('#frmpreview').frmPreview({
+                        tablecotent: schemeContent.Frm.FrmContent,
+                        width: _width
+                    });
+                    $('#frmname').html(schemeContent.Frm.FrmName);
+                    console.log(schemeContent);
+                    $('#FlowPanel').flowdesign({
+                        height: $(window).height() - 18,
+                        width: $(window).width() - 20,
+                        flowcontent: schemeContent.Flow,
+                        frmData: JSON.parse(schemeContent.Frm == "" ?"[]":schemeContent.Frm.FrmContent),
+                        haveTool: false,
+                        preview:1
+                    });
+                }
+            });
+        }
+        else {
+            $.SetForm({
+                url: "../../FlowManage/FlowProcess/GetProcessSchemeJson",
+                param: { keyValue: processSchemeId },
+                success: function (data) {
+                    schemeContent = JSON.parse(JSON.parse(data.SchemeContent).SchemeContent);
+                    $('#frmpreview').frmPreview({
+                        tablecotent: schemeContent.Frm.FrmContent,
+                        width: _width,
+                    });
+                    $('#frmname').html(schemeContent.Frm.FrmName);
+                    $('#FlowPanel').flowdesign({
+                        height: $(window).height() - 18,
+                        width: $(window).width() - 20,
+                        flowcontent: schemeContent.Flow,
+                        frmData: JSON.parse(schemeContent.Frm == "" ? "[]" : schemeContent.Frm.FrmContent),
+                        haveTool: false,
+                        preview: 1
+                    });
+                }
+            });
+        }
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $('#previewpage').css("height", e.currentTarget.innerHeight-20);
+                $('#formAreas').css("width", e.currentTarget.innerWidth * 0.9-20);
+                if (schemeContent != undefined)
+                {
+                    $('#FlowPanel').flowdesign({
+                        height: e.currentTarget.innerHeight - 18,
+                        width: e.currentTarget.innerWidth - 20,
+                        flowcontent: schemeContent.Flow,
+                        haveTool: false
+                    });
+                }
+            }, 200);
+            e.stopPropagation();
+        });
+        $('#formAreas').css("width", $(window).width() * 0.9-20);
+        $('#previewpage').css("height", $(window).height()-20);
+    });
+    function flowshow()
+    {
+        $('#previewpage').hide();
+        $('#FlowPanel').show();
+    }
+    function frmshow() {
+        $('#FlowPanel').hide();
+        $('#previewpage').show();
+    }
+</script>
+<div style="position:absolute;top:0; right:100px;z-index:1000;background:rgba(0, 0, 0, 0.1);padding:10px;border-radius:0px 0px 5px 5px;">
+    <a class="btn btn-success" onclick="flowshow()">&nbsp;流程预览</a>
+    <a class="btn btn-default" onclick="frmshow()">&nbsp;表单预览</a>
+</div>
+<div class="panels">
+    <div id="previewpage" style="overflow-y:auto;background-color:#fff;display:none;border: 1px solid #ccc;">
+        <div id="formAreas" style="margin: 30px auto;max-width: 1000px;">
+            <div style="border-bottom:1px solid #ccc;text-align:center"><span id="frmname"></span></div>
+            <div class="app_layout app_preview" id="frmpreview"></div>
+        </div>
+    </div>
+    <div id="FlowPanel" style="margin: 0px;border: 1px solid #ccc;"></div>
+</div>
+<style>
+    body {
+        overflow: hidden;
+    }
+    .panels {
+        padding: 10px;
+    }
+</style>

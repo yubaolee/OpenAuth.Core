@@ -4,7 +4,7 @@ function MainGrid() {
     this.maingrid = $('#maingrid')
         .jqGrid({
             colModel: [
-                { label: '主键', name: 'id', hidden: true },
+                { label: '主键', name: 'Id', hidden: true },
                 { label: '流程编号', name: 'SchemeCode', index: 'SchemeCode', width: 100, align: 'left' },
                 { label: '流程名称', name: 'SchemeName', index: 'SchemeName', width: 150, align: 'left' },
                
@@ -59,9 +59,6 @@ function MainGrid() {
 };
 MainGrid.prototype = new Grid();
 var list = new MainGrid();
-var vm = new Vue({
-    el: '#editDlg'
-});
 
 //删除
 function del() {
@@ -81,21 +78,42 @@ function edit() {
         type: 2,
         title:selected.Code,
         skin: 'layui-layer-rim', //加上边框
-        area: ['800px', '600px'], //宽高
+        area: ['1200px', '700px'], //宽高
         maxmin: true, //开启最大化最小化按钮
-        content: '/designer/index?schemeName=' + selected.Code
+        content: '/FlowManage/FlowDesign/FlowSchemeBuider?keyValue=' + selected.Id
     });
 
 }
 
+//创建流程模版
 function add() {
     layer.open({
         type: 2,
         skin: 'layui-layer-rim', //加上边框
-        area: ['800px', '600px'], //宽高
+        area: ['1200px', '700px'], //宽高
         maxmin: true, //开启最大化最小化按钮
-        content: '/designer/index?schemeName=',
+        content: '/FlowManage/FlowDesign/FlowSchemeBuider',
         end: function() {
+            list.reload();
+        }
+    });
+}
+
+
+//创建新实例
+function addInstance() {
+    var selected = list.getSelectedObj();
+    if (selected == null) {
+        return;
+    }
+
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['1200px', '700px'], //宽高
+        maxmin: true, //开启最大化最小化按钮
+        content: '/FlowManage/FlowLaunch/FlowProcessNewForm?keyValue=' + selected.Id,
+        end: function () {
             list.reload();
         }
     });

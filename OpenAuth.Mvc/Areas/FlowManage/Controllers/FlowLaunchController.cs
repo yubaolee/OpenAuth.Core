@@ -3,16 +3,13 @@ using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.Domain;
-using OpenAuth.Mvc;
 
-namespace LeaRun.Application.Web.Areas.FlowManage.Controllers
+namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 {
+
     /// <summary>
-    /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：陈彬彬
-    /// 日 期：2016.03.19 14:27
-    /// 描 述：流程发起
+    /// 流程执行
+    /// <para>李玉宝新增于2017-01-23 9:21:39</para>
     /// </summary>
     public class FlowLaunchController : Controller
     {
@@ -44,7 +41,7 @@ namespace LeaRun.Application.Web.Areas.FlowManage.Controllers
             return View();
         }
         /// <summary>
-        /// 创建流程实例
+        /// 创建流程实例视图
         /// </summary>
         /// <returns></returns>
         [HttpGet]

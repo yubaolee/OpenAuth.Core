@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "发起流程";
+    Layout = "~/Views/Shared/_FlowForm.cshtml";
+}
+<script>
+    var keyValue = request('keyValue');
+    $(function () {
+        var schemeContent;
+        $('.FlowPanelall').height($.windowHeight() - 40);
+        $('#Description').height($.windowHeight() - 280);
+        $.SetForm({
+            url: "../../FlowManage/FlowDesign/GetFormJson",
+            param: { keyValue: keyValue },
+            success: function (data) {
+                schemeContent = JSON.parse(data.schemecontent.SchemeContent);
+                $('#frmpreview').frmPreview({
+                    tablecotent: schemeContent.Frm.FrmContent
+                });
+                $('#Code').val(data.schemeinfo.SchemeName);
+            }
+        });
+    });
+    //保存为草稿
+    function btn_Roughdraft() {
+        var _postData = $("#ProcessInfo").GetWebControls();
+        _postData["EnabledMark"] = 3;
+        _postData["wfLevel"] = $('input[name="wfLevel"]:checked').val();
+        var _data = $("#frmpreview").frmGetData();
+        $.SaveForm({
+            url: "../../FlowManage/FlowLaunch/CreateProcess",
+            param: { "wfSchemeInfoId": keyValue, "frmData": JSON.stringify(_data), "wfProcessInstanceJson": JSON.stringify(_postData) },
+            loading: "正在保存数据...",
+            success: function () { }
+        })
+    }
+    //提交表单
+    function btn_Finish() {
+        if (!$('#ProcessInfo').Validform()) {
+            return false;
+        }
+        var _postData = $("#ProcessInfo").GetWebControls(keyValue);
+        _postData["EnabledMark"] = 1;
+        _postData["wfLevel"] = $('input[name="wfLevel"]:checked').val();
+        var _data = $("#frmpreview").frmGetData();
+        $.SaveForm({
+            url: "../../FlowManage/FlowLaunch/CreateProcess",
+            param: { "wfSchemeInfoId": keyValue, "frmData": JSON.stringify(_data), "wfProcessInstanceJson": JSON.stringify(_postData) },
+            loading: "正在保存数据...",
+            success: function () { }
+        })
+    }
+</script>
+<div class="FlowPanelall">
+    <div id="frmpreview" class="tab-pane app_layout app_preview active">
+    </div>
+</div>
+<div class="FlowInfoPanel" id="ProcessInfo">
+    <div style="color:#9f9f9f;padding-bottom:15px;padding-left:5px;"><i style="padding-right:5px;" class="fa fa-info-circle"></i><span>填写左侧表单和实例信息,提交创建</span></div>
+    <table class="form">
+        <tr>
+            <td class="formTitle">流程实例编号<font face="宋体">*</font></td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <input id="Code" disabled type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">自定义标题<font face="宋体">*</font></td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <input id="CustomName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">重要等级<font face="宋体">*</font></td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <div class="rdio rdio-color_c"><input name="wfLevel" id="wfLevel1" value="1" type="radio" /><label for="wfLevel1">重要</label></div>
+                <div class="rdio rdio-color_f"><input name="wfLevel" id="wfLevel2" value="2" type="radio" checked /><label for="wfLevel2">普通</label></div>
+                <div class="rdio rdio-color_a"><input name="wfLevel" id="wfLevel3" value="3" type="radio" /><label for="wfLevel3">一般</label></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">备注</td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <textarea id="Description" class="form-control" style="height: 383px;"></textarea>
+            </td>
+        </tr>
+    </table>
+    
+</div>
+<div class="form-button" >
+
+    <a id="btn_caogao" class="btn btn-info " onclick="btn_Roughdraft();">保存草稿</a>
+    <a id="btn_finish" class="btn btn-success" onclick="btn_Finish();">完成提交</a>
+</div>
+<style>
+    body {
+        overflow: hidden;
+    }
+    .app_preview .item_field_value {
+        width: 664px;
+    }
+
+    .app_preview .item_row {
+        background-color: #fff;
+    }
+
+    .app_layout .item_field_label {
+        background-color: #fff;
+    }
+
+    .FlowPanelall {
+        width: 800px;
+        float: left;
+        overflow-y:auto;
+    }
+
+    .FlowInfoPanel {
+        float: right;
+        width: 300px;
+        height: 659px;
+        z-index: 1000;
+        background: rgba(0,0,0,0.01);
+        padding: 10px;
+        border-left: 1px solid #ccc;
+    }
+
+    .form .formTitle {
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    form .formTitle font {
+        right: auto !important;
+        margin-left: 5px;
+    }
+
+    .formValue input, .formValue textarea {
+        border-radius: 5px;
+    }
+
+    input, textarea {
+        background: #fff !important;
+    }
+</style>

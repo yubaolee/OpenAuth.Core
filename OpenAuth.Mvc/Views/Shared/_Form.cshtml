@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <!--框架必需start-->
+    <script src="~/Content/scripts/jquery/jquery-1.10.2.min.js"></script>
+    <link href="~/Content/styles/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/scripts/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Content/scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!--框架必需end-->
+    <!--bootstrap组件start-->
+    <link href="~/Content/scripts/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/scripts/bootstrap/bootstrap.extension.css" rel="stylesheet" />
+    <script src="~/Content/scripts/bootstrap/bootstrap.min.js"></script>
+    <!--bootstrap组件end-->
+    @*<!--树形组件start-->
+    <link href="~/Content/scripts/plugins/tree/tree.css" rel="stylesheet" />
+    <script src="~/Content/scripts/plugins/tree/tree.js"></script>
+    <!--树形组件end-->
+    <!--日期组件start-->
+    <link href="~/Content/scripts/plugins/datetime/pikaday.css" rel="stylesheet" />
+    <script src="~/Content/scripts/plugins/datetime/pikaday.js"></script>
+    <script src="~/Content/scripts/plugins/datepicker/WdatePicker.js"></script>
+    <!--日期组件start-->
+    <!--表单验证组件start-->
+    <script src="~/Content/scripts/plugins/validator/validator.js"></script>
+    <!--表单验证组件end-->
+    <!--导向组件start-->
+    <link href="~/Content/scripts/plugins/wizard/wizard.css" rel="stylesheet" />
+    <script src="~/Content/scripts/plugins/wizard/wizard.js"></script>
+    <!--导向组件end-->
+    <script src="~/Content/scripts/utils/learun-ui.js"></script>
+    <script src="~/Content/scripts/utils/learun-form.js"></script>
+    <link href="~/Content/styles/learun-ui.css" rel="stylesheet" />*@
+    <script src="~/Content/scripts/plugins/datepicker/WdatePicker.js"></script>
+    @System.Web.Optimization.Styles.Render("~/Content/scripts/plugins/tree/css",
+    "~/Content/scripts/plugins/datetime/css",
+    "~/Content/scripts/plugins/wizard/css",
+    "~/Content/styles/learun-ui.css")
+    @System.Web.Optimization.Scripts.Render("~/Content/scripts/plugins/tree/js",
+    "~/Content/scripts/plugins/validator/js",
+    "~/Content/scripts/plugins/wizard/js",
+            "~/Content/scripts/plugins/datepicker/js",
+    "~/Content/scripts/utils/js")
+</head>
+<body>
+    <form id="form1">
+        @RenderBody()
+        @Html.AntiForgeryToken()
+    </form>
+</body>
+</html>

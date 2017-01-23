@@ -48,34 +48,6 @@
         </div>
     </div>
 </div><!-- /.page-content -->
-<!--编辑对话框-->
-<div id="editDlg" style="display: none">
-    <div class="col-xs-12">
-        <form class="form-horizontal" id="editForm">
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for=""> 申请名称 </label>
-                <div class="col-sm-9">
-                    <input type="text" id="Name" check-type="required" v-model="Name" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for=""> 申请描述 </label>
-                <div class="col-sm-9">
-                    <input type="text" id="Comment" check-type="required" v-model="Comment" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for=""> 流程模板 </label>
-                <div class="col-sm-9">
-                    <select id="WorkflowName" name="WorkflowName" v-model ="WorkflowName"></select>
-                </div>
-            </div>
-
-        </form>
-    </div>
-
-</div>
 
 <script src="~/BllScripts/grid.js"></script>
 <script src="~/BllScripts/commonApply.js"></script>

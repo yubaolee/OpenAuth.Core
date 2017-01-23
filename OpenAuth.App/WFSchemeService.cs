@@ -84,14 +84,15 @@ namespace OpenAuth.Domain.Service
             throw new NotImplementedException();
         }
 
-        public WFSchemeInfo GetEntity(string keyValue)
+        public WFSchemeInfo GetEntity(Guid keyValue)
         {
-            throw new NotImplementedException();
+            return _unitWork.FindSingle<WFSchemeInfo>(u => u.Id == keyValue);
         }
 
         public WFSchemeContent GetSchemeEntity(Guid schemeinfoId, string schemeinfoSchemeVersion)
         {
-            throw new NotImplementedException();
+            return _unitWork.FindSingle<WFSchemeContent>(u =>
+                u.SchemeInfoId == schemeinfoId && u.SchemeVersion == schemeinfoSchemeVersion);
         }
 
         public void UpdateState(string keyValue, int state)

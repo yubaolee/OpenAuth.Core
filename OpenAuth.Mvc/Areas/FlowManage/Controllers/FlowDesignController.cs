@@ -117,7 +117,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RemoveForm(string keyValue)
+        public ActionResult RemoveForm(Guid keyValue)
         {
             wfFlowInfoBLL.RemoveForm(keyValue);
             return Content("删除成功。"); 

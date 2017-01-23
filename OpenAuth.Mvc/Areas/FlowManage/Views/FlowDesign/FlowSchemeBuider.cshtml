@@ -267,19 +267,17 @@
                     area: ['800px', '450px'], //宽高
                     maxmin: true, //开启最大化最小化按钮
                     title: '节点设置【' + object.$nodeData[object.$focus].name + '】',
-                    content: '/FlowManage/FlowDesign/FlowNodeForm'
+                    content: '/FlowManage/FlowDesign/FlowNodeForm',
+                    btn: ['保存', '关闭'],
+                    yes: function (index, layero) {
+                        var body = layer.getChildFrame('body', index);
+                        var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                        iframeWin.AcceptClick();
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
                 });
-
-                //dialogOpen({
-                //    id: "FlowLineForm",
-                //    title: '节点设置【' + object.$nodeData[object.$focus].name + '】',
-                //    url: '/FlowManage/FlowDesign/FlowNodeForm',
-                //    width: "750px",
-                //    height: "430px",
-                //    callBack: function (iframeId) {
-                //        top.frames[iframeId].AcceptClick();
-                //    }
-                //});
             },
             OpenLine: function (id, object) {
                 FlowDesignObject = object;
@@ -291,16 +289,25 @@
                     dialogTop("前一个节点是分流节点无法设置流转条件", "error");
                     return false;
                 }
-                dialogOpen({
-                    id: "FlowNodeForm",
+
+                layer.open({
+                    type: 2,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['800px', '450px'], //宽高
+                    maxmin: true, //开启最大化最小化按钮
                     title: '流转条件设置',
-                    url: '/FlowManage/FlowDesign/FlowLineForm',
-                    width: "750px",
-                    height: "430px",
-                    callBack: function (iframeId) {
-                        top.frames[iframeId].AcceptClick();
+                    content: '/FlowManage/FlowDesign/FlowLineForm',
+                    btn: ['保存', '关闭'],
+                    yes: function (index, layero) {
+                        var body = layer.getChildFrame('body', index);
+                        var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                        iframeWin.AcceptClick();
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
                     }
                 });
+
             }
         });
     }

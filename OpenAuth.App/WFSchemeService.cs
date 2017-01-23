@@ -79,9 +79,10 @@ namespace OpenAuth.Domain.Service
             }
         }
 
-        public void RemoveForm(string keyValue)
+        public void RemoveForm(Guid keyValue)
         {
-            throw new NotImplementedException();
+             _unitWork.Delete<WFSchemeInfo>(u => u.Id == keyValue);
+            _unitWork.Delete<WFSchemeContent>(u =>u.SchemeInfoId == keyValue);
         }
 
         public WFSchemeInfo GetEntity(Guid keyValue)

@@ -100,6 +100,17 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             var data = wfFrmMainBLL.GetForm(keyValue);
             return Content(data.ToJson());
         }
+
+        /// <summary>
+        /// 获取表单数据all
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetAllListJson()
+        {
+            var data = wfFrmMainBLL.GetAllList();
+            return Content(data.ToJson());
+        }
         #endregion
 
         #region 提交数据

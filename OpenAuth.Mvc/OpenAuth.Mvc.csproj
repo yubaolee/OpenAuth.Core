@@ -1466,11 +1466,11 @@
     <Content Include="Content\styles\fonts\FontAwesome.otf" />
     <Content Include="Areas\FlowManage\Views\FlowMyProcess\Index.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowMyProcess\ProcessAgainNewForm.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowMyProcess\ProcessLookForm.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowInstances\ProcessLookForm.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowLaunch\FlowProcessNewForm.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowLaunch\Index.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowDesign\PreviewIndex.cshtml" />
+    <Content Include="Areas\FlowManage\Views\FlowInstances\VerificationForm.cshtml" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <None Include="Views\Error\NoAccess.cshtml" />
     <Content Include="Views\Home\git.cshtml" />

@@ -61,6 +61,11 @@ function MainGrid() {
                       index: "ActivityId",
                       hidden: true
                   },
+                   {
+                       name: "CreateUserId",
+                       index: "CreateUserId",
+                       hidden: true
+                   },
                 {
                     index: "Code",
                     name: "Code",
@@ -69,7 +74,7 @@ function MainGrid() {
                 {
                     index: "CustomName",
                     name: "CustomName",
-                    label: "流程名称"
+                    label: "申请标题"
                 },
                 {
                     index: "ActivityName",
@@ -159,6 +164,30 @@ function detail() {
         skin: "layui-layer-rim", //加上边框
         area: ["800px", "600px"], //宽高
         content: "/FlowManage/FlowInstances/ProcessLookForm?processSchemeId=" + selected.ProcessSchemeId + "&activityId="+selected.ActivityId,
+        maxmin: true, //开启最大化最小化按钮
+        end: function() {
+            list.reload();
+        }
+    });
+}
+
+//审核
+function verificationForm() {
+    var selected = list.getSelectedObj();
+    if (selected == null) {
+        return;
+    }
+
+    layer.open({
+        type: 2,
+        title: selected.Name,
+        skin: "layui-layer-rim", //加上边框
+        area: ["1200px", "700px"], //宽高
+        content: "/FlowManage/FlowInstances/VerificationForm?processSchemeId="
+            + selected.ProcessSchemeId + "&activityId="
+            + selected.ActivityId + "&createusername="
+            + selected.CreateUserId + "&description="
+            +selected.Description,
         maxmin: true, //开启最大化最小化按钮
         end: function() {
             list.reload();

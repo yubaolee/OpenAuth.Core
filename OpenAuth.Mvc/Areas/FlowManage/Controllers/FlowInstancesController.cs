@@ -21,11 +21,17 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 
         #region 视图
 
-        public ActionResult Add()
+        public ActionResult Index()
         {
             return View();
         }
-        public ActionResult Index()
+
+        /// <summary>
+        /// 审核流程
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult VerificationForm()
         {
             return View();
         }

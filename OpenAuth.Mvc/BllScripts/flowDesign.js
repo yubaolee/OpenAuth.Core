@@ -62,7 +62,7 @@ var list = new MainGrid();
 
 //删除
 function del() {
-    list.del("Code", "/WorkflowSchemas/Del", function () {
+    list.del("Id", "/FlowManage/FlowDesign/RemoveForm", function () {
         list.reload();
     });
 }
@@ -94,6 +94,25 @@ function add() {
         maxmin: true, //开启最大化最小化按钮
         content: '/FlowManage/FlowDesign/FlowSchemeBuider',
         end: function() {
+            list.reload();
+        }
+    });
+}
+
+//预览
+function preview() {
+    var selected = list.getSelectedObj();
+    if (selected == null) {
+        return;
+    }
+
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['1200px', '700px'], //宽高
+        maxmin: true, //开启最大化最小化按钮
+        content: '/FlowManage/FlowDesign/PreviewIndex?keyValue=' + selected.Id + "&schemeVersion=" + selected.SchemeVersion,
+        end: function () {
             list.reload();
         }
     });

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.App.ViewModel;
+using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 
-namespace OpenAuth.Domain.Service
+namespace OpenAuth.App
 {
     /// <summary>
     /// 流程设计服务
@@ -79,10 +80,10 @@ namespace OpenAuth.Domain.Service
             }
         }
 
-        public void RemoveForm(Guid keyValue)
+        public void RemoveForm(Guid[] keyValue)
         {
-             _unitWork.Delete<WFSchemeInfo>(u => u.Id == keyValue);
-            _unitWork.Delete<WFSchemeContent>(u =>u.SchemeInfoId == keyValue);
+             _unitWork.Delete<WFSchemeInfo>(u =>keyValue.Contains(u.Id));
+            _unitWork.Delete<WFSchemeContent>(u =>keyValue.Contains(u.SchemeInfoId));
         }
 
         public WFSchemeInfo GetEntity(Guid keyValue)
@@ -113,7 +114,8 @@ namespace OpenAuth.Domain.Service
                 page = pageCurrent
             };
 
-            result.total = _unitWork.Find<WFSchemeInfo>(null).Count();
+            int cnt = _unitWork.Find<WFSchemeInfo>(null).Count();
+            result.total = cnt%pageSize  ==0?cnt/pageSize:cnt/pageSize+1;
             result.rows = _unitWork.Find<WFSchemeInfo>(pageCurrent, pageSize, "ModifyDate descending", null).ToList();
 
             return result;

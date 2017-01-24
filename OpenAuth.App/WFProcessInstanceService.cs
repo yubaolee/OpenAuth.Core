@@ -333,21 +333,22 @@ namespace OpenAuth.App
                 page = pageCurrent
             };
 
+            var cnt = _unitWork.Find<WFProcessInstance>(u => u.CreateUserId == userid).Count();
             if (type == "inbox")   //待办事项
             {
-                result.total = _unitWork.Find<WFProcessInstance>(u => u.CreateUserId == userid).Count();
+                result.total = cnt%pageSize == 0? cnt/pageSize : cnt/pageSize + 1;
                 result.rows = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
 
             }
             else if (type == "outbox")  //已办事项
             {
-                result.total = _unitWork.Find<WFProcessInstance>(u => u.CreateUserId == userid).Count();
+                result.total = cnt % pageSize == 0 ? cnt / pageSize : cnt / pageSize + 1;
                 result.rows = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
 
             }
             else  //我的流程
             {
-                result.total = _unitWork.Find<WFProcessInstance>(u => u.CreateUserId == userid).Count();
+                result.total = cnt % pageSize == 0 ? cnt / pageSize : cnt / pageSize + 1;
                 result.rows = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
             }
 

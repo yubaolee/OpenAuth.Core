@@ -41,7 +41,7 @@ var selectScheme = function(val) {
 
 //grid列表模块
 function MainGrid() {
-    var url = "/CommonApplies/Load?type=";
+    var url = "/FlowInstances/Load?type=";
     var selectedId = "me"; //ztree选中的模块
     this.maingrid = $("#maingrid")
         .jqGrid({
@@ -129,7 +129,7 @@ var vm = new Vue({
 //删除
 function del() {
     list.del("Id",
-        "/CommonApplies/Delete",
+        "/FlowInstances/Delete",
         function() {
             list.reload();
             ztree.reload();
@@ -158,7 +158,7 @@ function detail() {
         title: selected.Name,
         skin: "layui-layer-rim", //加上边框
         area: ["800px", "600px"], //宽高
-        content: "/FlowManage/CommonApplies/ProcessLookForm?processSchemeId=" + selected.ProcessSchemeId + "&activityId="+selected.ActivityId,
+        content: "/FlowManage/FlowInstances/ProcessLookForm?processSchemeId=" + selected.ProcessSchemeId + "&activityId="+selected.ActivityId,
         maxmin: true, //开启最大化最小化按钮
         end: function() {
             list.reload();

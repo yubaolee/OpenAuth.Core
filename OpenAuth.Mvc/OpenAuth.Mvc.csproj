@@ -151,7 +151,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryManagerController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Areas\FlowManage\Controllers\CommonAppliesController.cs" />
+    <Compile Include="Areas\FlowManage\Controllers\FlowInstancesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleElementManagerController.cs" />
@@ -192,7 +192,7 @@
     <Content Include="BllScripts\queryString.js" />
     <Content Include="BllScripts\resourceManager.js" />
     <Content Include="BllScripts\roleManager.js" />
-    <Content Include="BllScripts\commonApply.js" />
+    <Content Include="BllScripts\flowInstance.js" />
     <Content Include="BllScripts\flowDesign.js" />
     <Content Include="BllScripts\stockManager.js" />
     <Content Include="BllScripts\usermanager.js" />
@@ -1467,10 +1467,10 @@
     <Content Include="Areas\FlowManage\Views\FlowMyProcess\Index.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowMyProcess\ProcessAgainNewForm.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowMyProcess\ProcessLookForm.cshtml" />
-    <Content Include="Areas\FlowManage\Views\CommonApplies\ProcessLookForm.cshtml" />
+    <Content Include="Areas\FlowManage\Views\FlowInstances\ProcessLookForm.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowLaunch\FlowProcessNewForm.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowLaunch\Index.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowLaunch\PreviewIndex.cshtml" />
+    <Content Include="Areas\FlowManage\Views\FlowDesign\PreviewIndex.cshtml" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <None Include="Views\Error\NoAccess.cshtml" />
     <Content Include="Views\Home\git.cshtml" />
@@ -1491,7 +1491,7 @@
     <Content Include="Views\ResourceManager\AssignRes.cshtml" />
     <Content Include="Views\StockManager\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\FlowManage\Views\CommonApplies\Index.cshtml" />
+    <Content Include="Areas\FlowManage\Views\FlowInstances\Index.cshtml" />
     <Content Include="Views\Home\Navbar.cshtml" />
     <Content Include="Views\Shared\Blank.cshtml" />
     <Content Include="Views\Shared\_LayoutNoHeader.cshtml" />

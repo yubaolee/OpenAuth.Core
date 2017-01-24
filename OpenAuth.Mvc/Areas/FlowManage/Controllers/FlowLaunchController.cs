@@ -31,15 +31,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         {
             return View();
         }
-        /// <summary>
-        /// 预览
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult PreviewIndex()
-        {
-            return View();
-        }
+
         /// <summary>
         /// 创建流程实例视图
         /// </summary>

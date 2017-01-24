@@ -28,9 +28,9 @@ namespace OpenAuth.Domain.Service
             return _unitWork.FindSingle<WFFrmMain>(u => u.Id == keyValue);
         }
 
-        public void RemoveForm(Guid keyValue)
+        public void RemoveForm(Guid[] keyValue)
         {
-            _unitWork.Delete<WFFrmMain>(u =>u.Id == keyValue);
+            _unitWork.Delete<WFFrmMain>(u =>keyValue.Contains(u.Id));
         }
     }
 }

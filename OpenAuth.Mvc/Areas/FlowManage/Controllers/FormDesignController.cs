@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using Infrastructure;
 using LeaRun.Util.WebControl;
-using OpenAuth.App;
-using OpenAuth.Domain;
 using OpenAuth.Domain.Service;
+using OpenAuth.Mvc.Controllers;
 
 namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 {
 
-    public class FormDesignController : Controller
+    public class FormDesignController : BaseController
     {
-        private WFFormService wfFrmMainBLL;
+        private readonly WFFormService _wfFrmMainBll;
 
         public FormDesignController()
         {
-            wfFrmMainBLL = AutofacExt.GetFromFac<WFFormService>();
+            _wfFrmMainBll = AutofacExt.GetFromFac<WFFormService>();
         }
 
         #region 视图功能
@@ -70,7 +67,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetTreeJson()
         {
-            var data = wfFrmMainBLL.GetAllList();
+            var data = _wfFrmMainBll.GetAllList();
             var treeList = new List<TreeEntity>();
             foreach (var item in data)
             {
@@ -97,7 +94,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetFormJson(Guid keyValue)
         {
-            var data = wfFrmMainBLL.GetForm(keyValue);
+            var data = _wfFrmMainBll.GetForm(keyValue);
             return Content(data.ToJson());
         }
 
@@ -108,7 +105,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetAllListJson()
         {
-            var data = wfFrmMainBLL.GetAllList();
+            var data = _wfFrmMainBll.GetAllList();
             return Content(data.ToJson());
         }
         #endregion
@@ -117,13 +114,12 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <summary>
         /// 删除表单模板
         /// </summary>
-        /// <param name="keyValue">主键值</param>
+        /// <param name="ids">主键值</param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult RemoveForm(Guid keyValue)
+        public ActionResult RemoveForm(Guid[] ids)
         {
-            wfFrmMainBLL.RemoveForm(keyValue);
+            _wfFrmMainBll.RemoveForm(ids);
             return Content("删除成功。");
         }
         ///// <summary>

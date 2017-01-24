@@ -9,6 +9,7 @@ using OpenAuth.App;
 using OpenAuth.App.SSO;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Service;
+using OpenAuth.Mvc.Controllers;
 
 namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 {
@@ -17,7 +18,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
     /// 流程设计
     /// <para>李玉宝新增于2017-01-12 19:41:56</para>
     /// </summary>
-    public class FlowDesignController :Controller
+    public class FlowDesignController :BaseController
     {
         private WFSchemeService wfFlowInfoBLL;
         private UserManagerApp userBLL;
@@ -38,6 +39,18 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 预览
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult PreviewIndex()
+        {
+            return View();
+        }
+
+
         /// <summary>
         /// 表单
         /// </summary>
@@ -116,11 +129,10 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult RemoveForm(Guid keyValue)
+        public string RemoveForm(Guid[] ids)
         {
-            wfFlowInfoBLL.RemoveForm(keyValue);
-            return Content("删除成功。"); 
+            wfFlowInfoBLL.RemoveForm(ids);
+            return Result.ToJson();
         }
         /// <summary>
         /// 保存用户表单（新增、修改）
@@ -129,13 +141,12 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="userEntity">用户实体</param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult SaveForm(string keyValue, string InfoEntity, string ContentEntity, string shcemeAuthorizeData)
+        public string SaveForm(string keyValue, string InfoEntity, string ContentEntity, string shcemeAuthorizeData)
         {
             WFSchemeInfo entyity = InfoEntity.ToObject<WFSchemeInfo>();
             WFSchemeContent contententity = ContentEntity.ToObject<WFSchemeContent>();
             wfFlowInfoBLL.SaveForm(keyValue, entyity, contententity);
-            return Content("操作成功。");
+            return Result.ToJson();
         }
         /// <summary>
         /// （启用、禁用）

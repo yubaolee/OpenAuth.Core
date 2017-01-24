@@ -11,10 +11,10 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
     /// 通用申请流程处理
     /// <para>李玉宝新增于2016-09-08 19:21:59</para>
     /// </summary>
-    public class CommonAppliesController : Controller
+    public class FlowInstancesController : BaseController
     {
         private WFProcessInstanceService _app;
-        public CommonAppliesController()
+        public FlowInstancesController()
         {
             _app = AutofacExt.GetFromFac<WFProcessInstanceService>();
         }
@@ -56,17 +56,17 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             {
                 foreach (var id in ids)
                 {
-                _app.DeleteProcess(id);
+                    _app.DeleteProcess(id);
 
                 }
+                return Result.ToJson();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                
-                throw;
+                Result.Status = false;
+                Result.Message = e.Message;
+                return Result.ToJson();
             }
-
-            return string.Empty;
         }
 
 

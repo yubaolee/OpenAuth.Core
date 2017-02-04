@@ -3,17 +3,139 @@
     ViewBag.Title = "审核流程";
     Layout = "~/Views/Shared/_FlowForm.cshtml";
 }
+<style>
+    body {
+        overflow: hidden;
+    }
+
+    .app_preview .item_row {
+        background-color: #fff;
+    }
+
+    .app_layout .item_field_label {
+        background-color: #fff;
+    }
+
+    .FlowPanelall {
+        width: 800px;
+        float: left;
+    }
+
+    .FlowInfoPanel {
+        float: right;
+        width: 300px;
+        height: 659px;
+        z-index: 1000;
+        background: rgba(0,0,0,0.01);
+        padding: 10px;
+        border-left: 1px solid #ccc;
+    }
+
+    .form .formTitle {
+        text-align: left;
+        padding-left: 5px;
+    }
+
+        .form .formTitle font {
+            right: auto !important;
+            margin-left: 5px;
+        }
+
+    .formValue input, .formValue textarea {
+        border-radius: 5px;
+    }
+
+    input, textarea {
+        background: #fff !important;
+    }
+</style>
+<div class="FlowPanelall">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#frmtab" data-toggle="tab">表单信息</a></li>
+        <li><a href="#FlowPanel" data-toggle="tab">流程信息</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="frmtab" class="tab-pane active" style="overflow-y:auto;">
+            <div id="frmpreview" class="app_layout app_preview">
+            </div>
+        </div>
+        <div id="FlowPanel" class="tab-pane">
+        </div>
+    </div>
+</div>
+<div class="FlowInfoPanel" id="VerificationInfo">
+    <div style="color:#9f9f9f;padding-bottom:15px;padding-left:5px;"><i style="padding-right:5px;" class="fa fa-info-circle"></i><span>在此填写内容,提交审核</span></div>
+    <table class="form">
+        <tr>
+            <td class="formTitle">申请人员</td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <input id="Createusername" disabled type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+                <input id="Createuserid" style="display: none" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">申请备注</td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <textarea id="Description" disabled class="form-control" style="height:50px;"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">审核人员<font face="宋体">*</font></td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <input id="VerificationUser" value="@AuthUtil.GetUserName()" disabled type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">审核结果<font face="宋体">*</font></td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <div class="rdio rdio-color_a"><input name="VerificationFinally" id="VerificationFinally1" value="1" type="radio" /><label for="VerificationFinally1">同意</label></div>
+                <div class="rdio rdio-color_f"><input name="VerificationFinally" id="VerificationFinally2" value="2" type="radio" /><label for="VerificationFinally2">不同意</label></div>
+                <div class="rdio rdio-color_c"><input name="VerificationFinally" id="VerificationFinally3" value="3" type="radio" /><label for="VerificationFinally3">驳回</label></div>
+            </td>
+        </tr>
+        <tr class="NodeRejectStep" style="display:none">
+            <td class="formTitle">驳回步骤<font face="宋体">*</font></td>
+        </tr>
+        <tr class="NodeRejectStep" style="display:none">
+            <td class="formValue">
+                <div id="NodeRejectStep" type="select" class="ui-select"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">审核意见</td>
+        </tr>
+        <tr>
+            <td class="formValue">
+                <textarea id="VerificationOpinion" class="form-control"></textarea>
+            </td>
+        </tr>
+    </table>
+    <div style="padding:5px;">
+        <a id="btn_Submission" class="btn btn-success btn-block"><i class="fa fa-check-circle"></i>&nbsp;提交审核</a>
+    </div>
+</div>
+
 <script>
     var processSchemeId = request('processSchemeId');
     var activityId = request('activityId');
     var processInstanceId = request('processInstanceId');
     var createusername = decodeURI(request('createusername'));
+    var createuserid = decodeURI(request('createuserid'));
     var description = decodeURI(request('description'));
     $(function () {
         var schemeContent;
         $('#Createusername').val(createusername);
+        $('#Createuserid').val(createuserid);
         $('#Description').val(description);
-        $('#frmtab').height($.windowHeight()-40);
+        $('#frmtab').height($.windowHeight() - 40);
         $('#VerificationOpinion').height($.windowHeight() - 360);
         $.SetForm({
             url: "../../FlowManage/FlowProcess/GetProcessSchemeEntityByNodeId",
@@ -25,8 +147,8 @@
                     tablecotent: schemeContent.Frm.FrmContent
                 });
                 $('#FlowPanel').flowdesign({
-                    width: $(window).width()-298,
-                    height: $(window).height()-42,
+                    width: $(window).width() - 298,
+                    height: $(window).height() - 42,
                     flowcontent: schemeContent.Flow,
                     haveTool: false,
                     isprocessing: true,
@@ -46,16 +168,13 @@
                     height: "300px",
                 });
                 var _node = "";
-                for (var i in schemeContent.Flow.nodes)
-                {
-                    if (schemeContent.Flow.nodes[i].id == activityId)
-                    {
+                for (var i in schemeContent.Flow.nodes) {
+                    if (schemeContent.Flow.nodes[i].id == activityId) {
                         _node = schemeContent.Flow.nodes[i];
                         break;
                     }
                 }
-                if (_node.setInfo != undefined && _node.setInfo.NodeRejectType == "3")
-                {
+                if (_node.setInfo != undefined && _node.setInfo.NodeRejectType == "3") {
                     $('input[name = "VerificationFinally"]').click(function () {
                         var _value = $(this).val();
                         var _height = $.windowHeight() - 360;
@@ -78,9 +197,8 @@
                 return false;
             }
             var _verificationFinally = $('input[name = VerificationFinally]:checked').val();
-            if (_verificationFinally == undefined)
-            {
-                dialogTop("请选择审核结果","error");
+            if (_verificationFinally == undefined) {
+                dialogTop("请选择审核结果", "error");
                 return false;
             }
             var _postdata = $("#VerificationInfo").GetWebControls();
@@ -99,120 +217,7 @@
                     dialogClose();
                 }
             })
-            
+
         });
     });
 </script>
-    <div class="FlowPanelall">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#frmtab" data-toggle="tab">表单信息</a></li>
-            <li><a href="#FlowPanel" data-toggle="tab">流程信息</a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="frmtab" class="tab-pane active" style="overflow-y:auto;">
-                <div id="frmpreview" class="app_layout app_preview">
-                </div>
-            </div>
-            <div id="FlowPanel" class="tab-pane"> 
-            </div>
-        </div>
-    </div>
-   <div class="FlowInfoPanel" id="VerificationInfo">
-        <div style="color:#9f9f9f;padding-bottom:15px;padding-left:5px;"><i style="padding-right:5px;" class="fa fa-info-circle"></i><span>在此填写内容,提交审核</span></div>
-        <table class="form">
-            <tr>
-                <td class="formTitle">申请人员</td>
-            </tr>
-            <tr>
-                <td class="formValue">
-                    <input id="Createusername" disabled type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
-                </td>
-            </tr>
-            <tr>
-                <td class="formTitle">申请备注</td>
-            </tr>
-            <tr>
-                <td class="formValue">
-                    <textarea id="Description" disabled class="form-control" style="height:50px;"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td class="formTitle">审核人员<font face="宋体">*</font></td>
-            </tr>
-            <tr>
-                <td class="formValue">
-                    <input id="VerificationUser" value="@AuthUtil.GetUserName()" disabled type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
-                </td>
-            </tr>
-            <tr>
-                <td class="formTitle">审核结果<font face="宋体">*</font></td>
-            </tr>
-            <tr>
-                <td class="formValue">
-                    <div class="rdio rdio-color_a"><input name="VerificationFinally"  id="VerificationFinally1" value="1" type="radio" /><label for="VerificationFinally1">同意</label></div>
-                    <div class="rdio rdio-color_f"><input name="VerificationFinally"  id="VerificationFinally2" value="2" type="radio" /><label for="VerificationFinally2">不同意</label></div>
-                    <div class="rdio rdio-color_c"><input name="VerificationFinally"  id="VerificationFinally3" value="3" type="radio" /><label for="VerificationFinally3">驳回</label></div>
-                </td>
-            </tr>
-            <tr class="NodeRejectStep" style="display:none">
-                <td class="formTitle">驳回步骤<font face="宋体">*</font></td>
-            </tr>
-            <tr class="NodeRejectStep" style="display:none">
-                <td class="formValue">
-                    <div id="NodeRejectStep" type="select" class="ui-select"></div>
-                </td>
-            </tr>
-            <tr>
-                <td class="formTitle">审核意见</td>
-            </tr>
-            <tr>
-                <td class="formValue">
-                    <textarea id="VerificationOpinion" class="form-control" ></textarea>
-                </td>
-            </tr>
-        </table>
-        <div style="padding:5px;">
-            <a id="btn_Submission" class="btn btn-success btn-block"><i class="fa fa-check-circle"></i>&nbsp;提交审核</a>
-        </div>
-    </div>
-<style>
-    body {
-        overflow: hidden;
-    }
-    .app_preview .item_row {
-        background-color: #fff;
-    }
-    .app_layout .item_field_label {
-        background-color: #fff;
-    }
-    .FlowPanelall {
-        width:800px;
-        float:left;
-    }
-    .FlowInfoPanel {
-        float:right;
-        width:300px;
-        height:659px;
-        z-index:1000;
-        background:rgba(0,0,0,0.01);
-        padding:10px;
-        border-left:1px solid #ccc;
-    }
-    .form .formTitle {
-        text-align: left;
-        padding-left: 5px;
-    }
-    .form .formTitle font {
-        right: auto!important; 
-        margin-left:5px;
-    }
-
-    .formValue input,.formValue textarea{
-        
-        border-radius: 5px;
-    }
-    input, textarea {
-        background: #fff!important;       
-    }
-
-</style>

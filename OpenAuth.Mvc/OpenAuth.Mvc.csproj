@@ -171,7 +171,6 @@
     <Compile Include="WebCtrls\AjaxResult.cs" />
     <Compile Include="WebCtrls\GridTree\TreeGridEntity.cs" />
     <Compile Include="WebCtrls\GridTree\TreeGridJson.cs" />
-    <Compile Include="WebCtrls\Grid\GridColumnModel.cs" />
     <Compile Include="WebCtrls\Pagination.cs" />
     <Compile Include="WebCtrls\Tree\TreeEntity.cs" />
     <Compile Include="WebCtrls\Tree\TreeJson.cs" />

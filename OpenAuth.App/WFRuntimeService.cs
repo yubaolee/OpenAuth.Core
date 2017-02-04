@@ -65,8 +65,9 @@ namespace OpenAuth.App
                     {
                         wfruntime = new WF_Runtime(wfRuntimeInitModel);
                     }
-                    
 
+
+                var user = AuthUtil.GetCurrentUser();
                 #region 实例信息
                 WFProcessInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
                 WFProcessInstance.ActivityType = wfruntime.GetStatus();//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
@@ -75,6 +76,8 @@ namespace OpenAuth.App
                 WFProcessInstance.SchemeType = WFSchemeInfo.SchemeType;
                 WFProcessInstance.FrmType = WFSchemeInfo.FrmType;
                 WFProcessInstance.EnabledMark = 1;//正式运行
+                WFProcessInstance.CreateUserId = user.User.Id.ToString();
+                WFProcessInstance.CreateUserName = user.User.Account;
                 WFProcessInstance.MakerList =(wfruntime.GetStatus() != 4 ? GetMakerList(wfruntime) : "");//当前节点可执行的人信息
                 WFProcessInstance.IsFinish = (wfruntime.GetStatus() == 4 ? 1 : 0);
                 #endregion
@@ -95,7 +98,7 @@ namespace OpenAuth.App
 
                 #region 流程操作记录
                 WFProcessOperationHistory processOperationHistoryEntity = new WFProcessOperationHistory();
-                processOperationHistoryEntity.Content = "【创建】" + "todo"+ "创建了一个流程进程【" + WFProcessInstance.Code + "/" + WFProcessInstance.CustomName + "】";
+                processOperationHistoryEntity.Content = "【创建】" + user.User.Name + "创建了一个流程进程【" + WFProcessInstance.Code + "/" + WFProcessInstance.CustomName + "】";
                 #endregion
 
                 #region 流转记录
@@ -456,17 +459,20 @@ namespace OpenAuth.App
                         WFProcessInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
                         WFProcessInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
                         WFProcessInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
-                        WFProcessInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ? GetMakerList(wfruntime) : "");//当前节点可执行的人信息
+                        WFProcessInstance.MakerList = wfruntime.runtimeModel.nextNodeType == 4 ?"":GetMakerList(wfruntime);//当前节点可执行的人信息
                         WFProcessInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
                         #region 流转记录
-                        processTransitionHistoryEntity = new WFProcessTransitionHistory();
-                        processTransitionHistoryEntity.FromNodeId = wfruntime.runtimeModel.currentNodeId;
-                        processTransitionHistoryEntity.FromNodeName = wfruntime.runtimeModel.currentNode.name.Value;
-                        processTransitionHistoryEntity.FromNodeType = wfruntime.runtimeModel.currentNodeType;
-                        processTransitionHistoryEntity.ToNodeId = wfruntime.runtimeModel.nextNodeId;
-                        processTransitionHistoryEntity.ToNodeName = wfruntime.runtimeModel.nextNode.name.Value;
-                        processTransitionHistoryEntity.ToNodeType = wfruntime.runtimeModel.nextNodeType;
-                        processTransitionHistoryEntity.TransitionSate = 0;
+
+                        processTransitionHistoryEntity = new WFProcessTransitionHistory
+                        {
+                            FromNodeId = wfruntime.runtimeModel.currentNodeId,
+                            FromNodeName = wfruntime.runtimeModel.currentNode.name.Value,
+                            FromNodeType = wfruntime.runtimeModel.currentNodeType,
+                            ToNodeId = wfruntime.runtimeModel.nextNodeId,
+                            ToNodeName = wfruntime.runtimeModel.nextNode.name.Value,
+                            ToNodeType = wfruntime.runtimeModel.nextNodeType,
+                            TransitionSate = 0
+                        };
                         processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
                         #endregion
 

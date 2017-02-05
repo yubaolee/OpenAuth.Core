@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.ViewModel;
+using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 
-namespace OpenAuth.Domain.Service
+namespace OpenAuth.App
 {
     /// <summary>
     /// 表单服务
@@ -31,6 +33,20 @@ namespace OpenAuth.Domain.Service
         public void RemoveForm(Guid[] keyValue)
         {
             _unitWork.Delete<WFFrmMain>(u =>keyValue.Contains(u.Id));
+        }
+
+        public GridData Load(int pageCurrent, int pageSize)
+        {
+            var result = new GridData
+            {
+                page = pageCurrent
+            };
+
+            int cnt = _unitWork.Find<WFFrmMain>(null).Count();
+            result.total = cnt % pageSize == 0 ? cnt / pageSize : cnt / pageSize + 1;
+            result.rows = _unitWork.Find<WFFrmMain>(pageCurrent, pageSize, "ModifyDate descending", null).ToList();
+
+            return result;
         }
     }
 }

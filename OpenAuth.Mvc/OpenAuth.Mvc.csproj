@@ -179,6 +179,7 @@
     <Content Include="BllScripts\assignModule.js" />
     <Content Include="BllScripts\assignModuleElement.js" />
     <Content Include="BllScripts\categoryManager.js" />
+    <Content Include="BllScripts\formDesign.js" />
     <Content Include="BllScripts\jqEvent.js" />
     <Content Include="BllScripts\login.js" />
     <Content Include="BllScripts\parentTreeMultiple.js" />
@@ -1470,6 +1471,7 @@
     <Content Include="Areas\FlowManage\Views\FlowLaunch\Index.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowDesign\PreviewIndex.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowInstances\VerificationForm.cshtml" />
+    <Content Include="Areas\FlowManage\Views\FormDesign\Index.cshtml" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <None Include="Views\Error\NoAccess.cshtml" />
     <Content Include="Views\Home\git.cshtml" />

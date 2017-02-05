@@ -86,6 +86,7 @@
     <Compile Include="Extention\WF_Runtime.cs" />
     <Compile Include="Extention\WF_RuntimeInitModel.cs" />
     <Compile Include="Extention\WF_RuntimeModel.cs" />
+    <Compile Include="WFFormService.cs" />
     <Compile Include="WFProcessInstanceService.cs" />
     <Compile Include="WFRuntimeService.cs" />
     <Compile Include="WFSchemeService.cs" />

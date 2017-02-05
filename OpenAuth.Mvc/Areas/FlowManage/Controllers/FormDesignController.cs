@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Infrastructure;
 using LeaRun.Util.WebControl;
+using OpenAuth.App;
 using OpenAuth.Domain.Service;
 using OpenAuth.Mvc.Controllers;
 
@@ -58,6 +59,11 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         #endregion
 
         #region 获取数据
+
+        public string Load(int pageCurrent = 1, int pageSize = 30)
+        {
+            return JsonHelper.Instance.Serialize(_wfFrmMainBll.Load(pageCurrent, pageSize));
+        }
 
         /// <summary>
         /// 表单树 

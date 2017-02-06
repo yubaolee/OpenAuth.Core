@@ -233,10 +233,10 @@ $.fn.flowdesign = function (options) {
             }
             if (item.setInfo != undefined && item.setInfo.Taged != undefined)
             {
-                var _one = top.clientuserData[item.setInfo.UserId];
+              //  var _one = top.clientuserData[item.setInfo.UserId];
                 var _row = '<div style="text-align:left">';
                 var tagname = { "-1": "不通过", "1": "通过", "0": "驳回" };
-                _row += "<p>处理人：" + (_one == undefined ? item.setInfo.UserId : _one.RealName)+"</p>";
+                _row += "<p>处理人：" + ( item.setInfo.UserId )+"</p>";
                 _row += "<p>结果：" + tagname[item.setInfo.Taged] + "</p>";
                 _row += "<p>处理时间：" + item.setInfo.TagedTime + "</p>";
                 _row += "<p>备注：" + item.setInfo.description + "</p></div>";

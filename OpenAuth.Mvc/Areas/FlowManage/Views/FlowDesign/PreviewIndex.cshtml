@@ -39,7 +39,7 @@
         }
         else {
             $.SetForm({
-                url: "../../FlowManage/FlowProcess/GetProcessSchemeJson",
+                url: "../../FlowManage/FlowInstances/GetProcessSchemeJson",
                 param: { keyValue: processSchemeId },
                 success: function (data) {
                     schemeContent = JSON.parse(JSON.parse(data.SchemeContent).SchemeContent);

@@ -138,7 +138,7 @@
         $('#frmtab').height($.windowHeight() - 40);
         $('#VerificationOpinion').height($.windowHeight() - 360);
         $.SetForm({
-            url: "../../FlowManage/FlowProcess/GetProcessSchemeEntityByNodeId",
+            url: "../../FlowManage/FlowInstances/GetProcessSchemeEntityByNodeId",
             param: { keyValue: processSchemeId, nodeId: activityId },
             success: function (data) {
                 schemeContent = JSON.parse(JSON.parse(data.SchemeContent).SchemeContent);
@@ -210,7 +210,7 @@
             _postdata["VerificationFinally"] = _verificationFinally;
             $.ConfirmAjax({
                 msg: "请确认是否要【提交审核】流程？",
-                url: "../../FlowManage/FlowProcess/VerificationProcess",
+                url: "../../FlowManage/FlowInstances/VerificationProcess",
                 param: { processId: processInstanceId, verificationData: JSON.stringify(_postdata) },
                 success: function (data) {
                     $.currentIframe().callBack();

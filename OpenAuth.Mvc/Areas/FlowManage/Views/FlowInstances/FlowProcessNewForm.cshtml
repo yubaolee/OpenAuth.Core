@@ -27,7 +27,7 @@
         _postData["wfLevel"] = $('input[name="wfLevel"]:checked').val();
         var _data = $("#frmpreview").frmGetData();
         $.SaveForm({
-            url: "../../FlowManage/FlowLaunch/CreateProcess",
+            url: "../../FlowManage/FlowInstances/CreateProcess",
             param: { "wfSchemeInfoId": keyValue, "frmData": JSON.stringify(_data), "wfProcessInstanceJson": JSON.stringify(_postData) },
             loading: "正在保存数据...",
             success: function () { }
@@ -43,7 +43,7 @@
         _postData["wfLevel"] = $('input[name="wfLevel"]:checked').val();
         var _data = $("#frmpreview").frmGetData();
         $.SaveForm({
-            url: "../../FlowManage/FlowLaunch/CreateProcess",
+            url: "../../FlowManage/FlowInstances/CreateProcess",
             param: { "wfSchemeInfoId": keyValue, "frmData": JSON.stringify(_data), "wfProcessInstanceJson": JSON.stringify(_postData) },
             loading: "正在保存数据...",
             success: function () { }

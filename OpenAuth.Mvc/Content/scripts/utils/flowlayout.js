@@ -261,20 +261,7 @@ $.fn.flowdesign = function (options) {
             _frmitems[_frmitem.control_field] = _frmitem.control_label;
         }
         var DataBaseLinkData = {};
-        $.ajax({
-            url: "../../SystemManage/DataBaseLink/GetListJson",
-            type: "get",
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                for (var i in data) {
-                    DataBaseLinkData[data[i].DatabaseLinkId] = data[i].DBAlias;
-                }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                dialogMsg(errorThrown, -1);
-            }
-        });
+
 
         var _NodeRejectType = { "0": "前一步", "1": "第一步", "2": "某一步", "3": "用户指定", "4": "不处理" };
         var _NodeIsOver = { "0": "不允许", "1": "允许" };

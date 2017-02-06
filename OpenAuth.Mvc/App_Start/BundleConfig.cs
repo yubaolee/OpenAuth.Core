@@ -32,25 +32,25 @@ namespace OpenAuth.Mvc
                         "~/Content/scripts/plugins/wizard/wizard.css"));
             bundles.Add(new ScriptBundle("~/Content/scripts/plugins/wizard/js").Include(
                        "~/Content/scripts/plugins/wizard/wizard.js"));
-            //learun
-            bundles.Add(new StyleBundle("~/Content/styles/learun-ui.css").Include(
-                        "~/Content/styles/learun-ui.css"));
+            //
+            bundles.Add(new StyleBundle("~/Content/styles/ui.css").Include(
+                        "~/Content/styles/ui.css"));
             bundles.Add(new ScriptBundle("~/Content/scripts/utils/js").Include(
-                       "~/Content/scripts/utils/learun-ui.js",
-                       "~/Content/scripts/utils/learun-form.js"));
-            //learun Order
+                       "~/Content/scripts/utils/ui.js",
+                       "~/Content/scripts/utils/form.js"));
+            // Order
             bundles.Add(new ScriptBundle("~/Content/scripts/plugins/printTable/js").Include(
                 "~/Content/scripts/plugins/printTable/jquery.printTable.js"));
 
             //工作流
-            bundles.Add(new StyleBundle("~/Content/styles/learun-flowall.css").Include(
-            "~/Content/styles/learun-ckbox-radio.css",
-            "~/Content/styles/learun-applayout.css",
-            "~/Content/styles/learun-flow.css"));
+            bundles.Add(new StyleBundle("~/Content/styles/flowall.css").Include(
+            "~/Content/styles/ckbox-radio.css",
+            "~/Content/styles/applayout.css",
+            "~/Content/styles/flow.css"));
             bundles.Add(new ScriptBundle("~/Content/scripts/flow/js").Include(
-              "~/Content/scripts/utils/learun-applayout.js",
+              "~/Content/scripts/utils/applayout.js",
               "~/Content/scripts/plugins/flow-ui/flow.js",
-              "~/Content/scripts/utils/learun-flowlayout.js"));
+              "~/Content/scripts/utils/flowlayout.js"));
         }
     }
 }

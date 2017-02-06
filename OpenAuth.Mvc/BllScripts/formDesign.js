@@ -79,7 +79,7 @@ function edit() {
         skin: 'layui-layer-rim', //加上边框
         area: ['1200px', '700px'], //宽高
         maxmin: true, //开启最大化最小化按钮
-        content: '/FlowManage/FormDesign/FlowFrmBuider?keyValue=' + selected.Id
+        content: '/FlowManage/FormDesign/FrmBuider?keyValue=' + selected.Id
     });
 
 }
@@ -91,7 +91,7 @@ function add() {
         skin: 'layui-layer-rim', //加上边框
         area: ['1200px', '700px'], //宽高
         maxmin: true, //开启最大化最小化按钮
-        content: '/FlowManage/FormDesign/FlowFrmBuider',
+        content: '/FlowManage/FormDesign/FrmBuider',
         end: function() {
             list.reload();
         }

@@ -53,7 +53,6 @@ namespace OpenAuth.Repository.Models.Mapping
                 .IsOptional();
             Property(t => t.FrmContent)
                 .HasColumnName("FrmContent")
-                .HasMaxLength(16)
                 .IsOptional();
             Property(t => t.SortCode)
                 .HasColumnName("SortCode")

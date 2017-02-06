@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "表单预览";
+    Layout = "~/Views/Shared/_FlowForm.cshtml";
+}
+<script>
+    var keyValue = request('keyValue');
+    $(function () {
+        $('#formAreas').css("min-height", $(window).height() - 82);
+        $('#formAreas').css("width", $(window).width() * 0.9);
+        $('#previewpage').css("height", $(window).height()-20);
+        $.SetForm({
+            url: "../../FlowManage/FormDesign/GetFormJson",
+            param: { keyValue: keyValue },
+            success: function (data) {
+                $('#frmpreview').frmPreview({
+                    tablecotent: data.FrmContent
+                });
+                $('#frmname').html(data.FrmName);
+            }
+        });
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $('#previewpage').css("height", e.currentTarget.innerHeight-20);
+                $('#formAreas').css("min-height", e.currentTarget.innerHeight - 82).css("width", e.currentTarget.innerWidth * 0.9);
+            }, 200);
+            e.stopPropagation();
+        });
+    });
+</script>
+<div id="previewpage" style="overflow-y:auto;background-color:#fff;margin:10px;border:1px solid #ccc;">
+    <div id="formAreas" style="margin: 30px auto;max-width: 1000px;">
+        <div style="border-bottom:1px solid #ccc;text-align:center;"><span id="frmname"></span></div>
+        <div class="app_layout app_preview" id="frmpreview"></div>
+    </div>
+</div>

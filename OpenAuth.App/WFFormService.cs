@@ -48,5 +48,19 @@ namespace OpenAuth.App
 
             return result;
         }
+
+        public void SaveForm(string keyValue, WFFrmMain entity)
+        {
+         
+                if (string.IsNullOrEmpty(keyValue))
+                {
+                    _unitWork.Add(entity);
+                }
+                else
+                {
+                    _unitWork.Update(u =>u.Id, entity);
+                }
+                _unitWork.Save();
+        }
     }
 }

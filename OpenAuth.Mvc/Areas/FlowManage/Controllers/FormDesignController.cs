@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using Infrastructure;
 using LeaRun.Util.WebControl;
 using OpenAuth.App;
+using OpenAuth.App.SSO;
+using OpenAuth.Domain;
 using OpenAuth.Domain.Service;
 using OpenAuth.Mvc.Controllers;
 
@@ -134,14 +136,23 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         ///// <param name="keyValue">主键值</param>
         ///// <param name="userEntity">用户实体</param>
         ///// <returns></returns>
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[AjaxOnly]
-        //public ActionResult SaveForm(string keyValue, WFFrmMainEntity userEntity)
-        //{
-        //    wfFrmMainBLL.SaveForm(keyValue, userEntity);
-        //    return Success("操作成功。");
-        //}
+        [HttpPost]
+        public string SaveForm(string keyValue, WFFrmMain userEntity)
+        {
+            try
+            {
+                var user = AuthUtil.GetCurrentUser();
+                userEntity.ModifyUserId = user.User.Account;
+                userEntity.ModifyUserName = user.User.Name;
+                _wfFrmMainBll.SaveForm(keyValue, userEntity);
+            }
+            catch (Exception e)
+            {
+                Result.Status = false;
+                Result.Message = e.Message;
+            }
+            return Result.ToJson();
+        }
         ///// <summary>
         ///// （启用、禁用）
         ///// </summary>

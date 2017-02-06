@@ -1169,6 +1169,8 @@
     <Content Include="Areas\FlowManage\Views\FlowDesign\PreviewIndex.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowInstances\VerificationForm.cshtml" />
     <Content Include="Areas\FlowManage\Views\FormDesign\Index.cshtml" />
+    <Content Include="Areas\FlowManage\Views\FormDesign\FormPreview.cshtml" />
+    <Content Include="Areas\FlowManage\Views\FormDesign\FrmBuider.cshtml" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <None Include="Views\Error\NoAccess.cshtml" />
     <Content Include="Views\Home\git.cshtml" />

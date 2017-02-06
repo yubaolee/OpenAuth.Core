@@ -1485,7 +1485,7 @@ $.fn.frmGetData = function () {
 }
 //设置表单数据
 $.fn.frmSetData = function (data) {
-    //console.log("data:"+JSON.stringify(data));
+    console.log("设置表单:"+JSON.stringify(data));
     var $id = $(this)
     for (var key in data) {
         var id = $id.find('#frm_' + key);
@@ -1516,6 +1516,8 @@ $.fn.frmSetData = function (data) {
         else {
             $(this).find('input').each(function (r) {
                 var checkid = $(this).attr('id');
+                if (!checkid) return true;
+
                 var checkfiledid = checkid.replace('frm_', '');
                 var checktype = $(this).attr('type');
                 var checkValue = $(this).val();

@@ -3,7 +3,6 @@ using Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
 using OpenAuth.Domain;
-using OpenAuth.Domain.Service;
 
 namespace OpenAuth.UnitTest
 {
@@ -11,12 +10,12 @@ namespace OpenAuth.UnitTest
     public class TestWorkflow :TestBase
     {
         private WFSchemeService _app;
-        private WFRuntimeService _runApp;
+        private WFProcessInstanceService _runApp;
 
         public TestWorkflow()
         {
             _app = AutofacExt.GetFromFac<WFSchemeService>();
-            _runApp = AutofacExt.GetFromFac<WFRuntimeService>();
+            _runApp = AutofacExt.GetFromFac<WFProcessInstanceService>();
         }
         [TestMethod]
         public void AddForm()

@@ -13,11 +13,11 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
     /// </summary>
     public class FlowLaunchController : Controller
     {
-        private WFRuntimeService wfProcessBll;
+        private WFProcessInstanceService wfProcessBll;
 
         public FlowLaunchController()
         {
-            wfProcessBll = AutofacExt.GetFromFac<WFRuntimeService>();
+            wfProcessBll = AutofacExt.GetFromFac<WFProcessInstanceService>();
         }
         #region 视图功能
         //

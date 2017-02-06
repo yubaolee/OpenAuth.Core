@@ -88,7 +88,6 @@
     <Compile Include="Extention\WF_RuntimeModel.cs" />
     <Compile Include="WFFormService.cs" />
     <Compile Include="WFProcessInstanceService.cs" />
-    <Compile Include="WFRuntimeService.cs" />
     <Compile Include="WFSchemeService.cs" />
     <Compile Include="ModuleElementManagerApp.cs" />
     <Compile Include="ModuleManagerApp.cs" />

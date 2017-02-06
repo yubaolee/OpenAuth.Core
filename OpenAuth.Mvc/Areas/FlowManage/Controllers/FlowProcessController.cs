@@ -8,9 +8,9 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 
     public class FlowProcessController :Controller
     {
-        private WFRuntimeService wfProcessBll ;
+        private WFProcessInstanceService wfProcessBll ;
 
-        public FlowProcessController(WFRuntimeService service)
+        public FlowProcessController(WFProcessInstanceService service)
         {
             wfProcessBll = service;
         }

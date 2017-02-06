@@ -38,9 +38,6 @@ namespace OpenAuth.Mvc
             bundles.Add(new ScriptBundle("~/Content/scripts/utils/js").Include(
                        "~/Content/scripts/utils/ui.js",
                        "~/Content/scripts/utils/form.js"));
-            // Order
-            bundles.Add(new ScriptBundle("~/Content/scripts/plugins/printTable/js").Include(
-                "~/Content/scripts/plugins/printTable/jquery.printTable.js"));
 
             //工作流
             bundles.Add(new StyleBundle("~/Content/styles/flowall.css").Include(

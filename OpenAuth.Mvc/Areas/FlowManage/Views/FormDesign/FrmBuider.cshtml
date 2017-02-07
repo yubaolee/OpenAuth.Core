@@ -81,6 +81,7 @@
             if (!$('#step-1').Validform()) {
                 return false;
             }
+             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
             var _data = $("#step-1").GetWebControls(keyValue);
             postData = $.extend(postData, _data);
             postData["EnabledMark"] = 3;
@@ -91,7 +92,7 @@
                 param: postData,
                 loading: "正在保存数据...",
                 success: function () {
-                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                   parent.layer.close(index);
                 }
             })
         });

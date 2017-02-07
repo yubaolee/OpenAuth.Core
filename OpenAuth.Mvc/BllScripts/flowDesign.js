@@ -80,7 +80,10 @@ function edit() {
         skin: 'layui-layer-rim', //加上边框
         area: ['1200px', '700px'], //宽高
         maxmin: true, //开启最大化最小化按钮
-        content: '/FlowManage/FlowDesign/FlowSchemeBuider?keyValue=' + selected.Id
+        content: '/FlowManage/FlowDesign/FlowSchemeBuider?keyValue=' + selected.Id,
+        end: function () {
+            list.reload();
+        }
     });
 
 }

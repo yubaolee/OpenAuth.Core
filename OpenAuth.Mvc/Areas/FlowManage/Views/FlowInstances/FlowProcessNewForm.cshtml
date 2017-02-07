@@ -26,11 +26,14 @@
         _postData["EnabledMark"] = 3;
         _postData["wfLevel"] = $('input[name="wfLevel"]:checked').val();
         var _data = $("#frmpreview").frmGetData();
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
         $.SaveForm({
             url: "../../FlowManage/FlowInstances/CreateProcess",
             param: { "wfSchemeInfoId": keyValue, "frmData": JSON.stringify(_data), "wfProcessInstanceJson": JSON.stringify(_postData) },
             loading: "正在保存数据...",
-            success: function () { }
+            success: function() {
+                parent.layer.close(index);
+            }
         })
     }
     //提交表单
@@ -42,11 +45,14 @@
         _postData["EnabledMark"] = 1;
         _postData["wfLevel"] = $('input[name="wfLevel"]:checked').val();
         var _data = $("#frmpreview").frmGetData();
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
         $.SaveForm({
             url: "../../FlowManage/FlowInstances/CreateProcess",
             param: { "wfSchemeInfoId": keyValue, "frmData": JSON.stringify(_data), "wfProcessInstanceJson": JSON.stringify(_postData) },
             loading: "正在保存数据...",
-            success: function () { }
+            success: function() {
+                parent.layer.close(index);
+            }
         })
     }
 </script>

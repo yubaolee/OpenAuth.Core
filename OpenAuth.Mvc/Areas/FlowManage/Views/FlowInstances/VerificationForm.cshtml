@@ -208,13 +208,13 @@
             delete _postdata["VerificationFinally3"];
 
             _postdata["VerificationFinally"] = _verificationFinally;
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
             $.ConfirmAjax({
                 msg: "请确认是否要【提交审核】流程？",
                 url: "../../FlowManage/FlowInstances/VerificationProcess",
                 param: { processId: processInstanceId, verificationData: JSON.stringify(_postdata) },
                 success: function (data) {
-                    $.currentIframe().callBack();
-                    dialogClose();
+                    parent.layer.close(index);
                 }
             })
 

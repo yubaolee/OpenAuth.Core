@@ -111,12 +111,13 @@
             flowData["SchemeContent"] = JSON.stringify({ "Frm": frmData, "Flow": FlowDesignPanel.exportData() });
             postData = $.extend(postData, _data);
             postData["EnabledMark"] = 3;
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
             $.SaveForm({
                 url: "../../FlowManage/FlowDesign/SaveForm?keyValue=" + keyValue,
                 param: { "InfoEntity": JSON.stringify(postData), "ContentEntity": JSON.stringify(flowData), "shcemeAuthorizeData": shcemeAuthorizeData },
                 loading: "正在保存数据...",
                 success: function () {
-                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                    parent.layer.close(index);
                 }
             })
         });
@@ -339,12 +340,13 @@
     /*=========创建完成（begin）==================================================================*/
     function finishbtn() {
         postData["EnabledMark"] = 1;
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
         $.SaveForm({
             url: "../../FlowManage/FlowDesign/SaveForm?keyValue=" + keyValue,
             param: { "InfoEntity": JSON.stringify(postData), "ContentEntity": JSON.stringify(flowData), "shcemeAuthorizeData": shcemeAuthorizeData },
             loading: "正在保存数据...",
             success: function () {
-                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                parent.layer.close(index);
             }
         })
     }

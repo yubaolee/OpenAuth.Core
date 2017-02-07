@@ -8,12 +8,6 @@ namespace OpenAuth.Mvc
         // 有关绑定的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            //jqgrid表格组件
-            bundles.Add(new StyleBundle("~/Content/scripts/plugins/jqgrid/css").Include(
-                        "~/Content/scripts/plugins/jqgrid/jqgrid.css"));
-            bundles.Add(new ScriptBundle("~/Content/scripts/plugins/jqgrid/js").Include(
-                       "~/Content/scripts/plugins/jqgrid/grid.locale-cn.js",
-                       "~/Content/scripts/plugins/jqgrid/jqgrid.min.js"));
             //树形组件
             bundles.Add(new StyleBundle("~/Content/scripts/plugins/tree/css").Include(
                         "~/Content/scripts/plugins/tree/tree.css"));

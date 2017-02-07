@@ -33,11 +33,16 @@ v\:group,v\:rect,v\:imagedata,v\:oval,v\:line,v\:polyline,v\:stroke,v\:textbox{d
 .GooFlow_work v\:group v\:polyline{overflow:visible}
 .GooFlow_work v\:group div{cursor:text;position:absolute;overflow:visible;display:inline;float:left;white-space: nowrap}
 .GooFlow_work .draw{color:#ff3300}
-.GooFlow_item{position:absolute;background-color:white;border:#A8A8A8 solid 1px;border-radius:10px;box-shadow:2px 2px 19px #e0e0e0;margin:0px;}
-.GooFlow_item:hover{border:#4A5B79 1px solid;box-shadow:2px 2px 19px #444;opacity:0.9;}
-.GooFlow table{padding:0px;margin:0px;border-radius:10px;}
-.GooFlow td{vertical-align:middle;text-align:center;padding:0px;cursor:default;word-wrap: break-word;word-break:break-all;}
-.GooFlow .ico{width:48px;cursor:move}
+
+.GooFlow_item{
+	position:absolute;background:#A1DCEB;border:#A1DCEB solid 1px;
+	border-radius:3px;background-color:#C1DCFC;box-shadow:1px 1px 2px rgba(99,99,99,2);
+}
+.GooFlow table{padding:1px;border-radius:2px}
+.GooFlow td{ vertical-align:middle;text-align:center;padding:0px;cursor:default;word-wrap:break-word;word-break:break-all}
+.GooFlow .ico{width:18px;cursor:move}
+.GooFlow i{display:block;width:18px;height:18px;overflow:hidden}
+
 .GooFlow b{display:block;width:48px;height:48px;overflow:hidden;}
 .GooFlow .item_startround{background:#5CCB41;width:52px;height:52px;border:#5e8800 solid 1px;overflow:visible}
 .GooFlow .item_startround table{border:0px;padding:2px;width:50px;height:50px;}

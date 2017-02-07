@@ -390,6 +390,11 @@
     <Content Include="Content\scripts\jqGrid\jquery.jqGrid.src.js" />
     <Content Include="Content\scripts\jqGrid\ui.jqgrid.css" />
     <Content Include="Content\scripts\jquery\jQuery-2.1.4.min.js" />
+    <Content Include="Content\scripts\plugins\flow-ui\img\gooflow_bg.png" />
+    <Content Include="Content\scripts\plugins\flow-ui\img\gooflow_btn_bg.png" />
+    <Content Include="Content\scripts\plugins\flow-ui\img\gooflow_icon.png" />
+    <Content Include="Content\scripts\plugins\flow-ui\img\gooflow_icon2.png" />
+    <Content Include="Content\scripts\plugins\flow-ui\img\gooflow_tip.png" />
     <Content Include="Content\scripts\zTree\css\awesomeStyle\awesome.css" />
     <Content Include="Content\scripts\zTree\css\awesomeStyle\img\loading.gif" />
     <Content Include="Content\scripts\zTree\css\demo.css" />

@@ -1,7 +1,4 @@
 ﻿$(function () {
-    window.onload = function () {
-        Loading(true);
-    }
     $(".ui-filter-text").click(function () {
         if ($(this).next('.ui-filter-list').is(":hidden")) {
             $(this).css('border-bottom-color', '#fff');
@@ -26,22 +23,16 @@
     })
 })
 Loading = function (bool, text) {
-    var ajaxbg = top.$("#loading_background,#loading_manage");
-    if (bool) {
-        ajaxbg.show();
-    } else {
-        if (top.$("#loading_manage").attr('istableloading') == undefined) {
-            ajaxbg.hide();
-            top.$(".ajax-loader").remove();
+    layui.use('layer', function () {
+        var  layer = layui.layer;
+        if (bool) {
+            layer.load(1);
+        } else {
+            layer.closeAll('loading');
         }
-    }
-    if (!!text) {
-        top.$("#loading_manage").html(text);
-    } else {
-        top.$("#loading_manage").html("正在拼了命为您加载…");
-    }
-    top.$("#loading_manage").css("left", (top.$('body').width() - top.$("#loading_manage").width()) / 2 - 54);
-    top.$("#loading_manage").css("top", (top.$('body').height() - top.$("#loading_manage").height()) / 2);
+    });
+   
+   
 }
 tabiframeId = function () {
     var iframeId = top.$(".LRADMS_iframe:visible").attr("id");
@@ -722,25 +713,7 @@ $.fn.jqGridRow = function () {
 }
 
 dialogTop = function (content, type) {
-    $(".tip_container").remove();
-    var bid = parseInt(Math.random() * 100000);
-    $("body").prepend('<div id="tip_container' + bid + '" class="container tip_container"><div id="tip' + bid + '" class="mtip"><i class="micon"></i><span id="tsc' + bid + '"></span><i id="mclose' + bid + '" class="mclose"></i></div></div>');
-    var $this = $(this);
-    var $tip_container = $("#tip_container" + bid);
-    var $tip = $("#tip" + bid);
-    var $tipSpan = $("#tsc" + bid);
-    //先清楚定时器
-    clearTimeout(window.timer);
-    //主体元素绑定事件
-    $tip.attr("class", type).addClass("mtip");
-    $tipSpan.html(content);
-    $tip_container.slideDown(300);
-    //提示层隐藏定时器
-    window.timer = setTimeout(function () {
-        $tip_container.slideUp(300);
-        $(".tip_container").remove();
-    }, 4000);
-    $("#tip_container" + bid).css("left", ($(window).width() - $("#tip_container" + bid).width()) / 2);
+    layer.msg(content);
 }
 dialogOpen = function (options) {
     Loading(true);
@@ -758,7 +731,7 @@ dialogOpen = function (options) {
     var _url = options.url;
     var _width = top.$.windowWidth() > parseInt(options.width.replace('px', '')) ? options.width : top.$.windowWidth() + 'px';
     var _height = top.$.windowHeight() > parseInt(options.height.replace('px', '')) ? options.height : top.$.windowHeight() + 'px';
-    top.layer.open({
+    layer.open({
         id: options.id,
         type: 2,
         shade: options.shade,
@@ -789,7 +762,7 @@ dialogContent = function (options) {
         callBack: null
     };
     var options = $.extend(defaults, options);
-    top.layer.open({
+    layer.open({
         id: options.id,
         type: 1,
         title: options.title,
@@ -806,13 +779,13 @@ dialogAlert = function (content, type) {
     if (type == -1) {
         type = 2;
     }
-    top.layer.alert(content, {
+    layer.alert(content, {
         icon: type,
         title: "提示"
     });
 }
 dialogConfirm = function (content, callBack) {
-    top.layer.confirm(content, {
+    layer.confirm(content, {
         icon: 7,
         title: "提示",
         btn: ['确认', '取消'],
@@ -826,18 +799,18 @@ dialogMsg = function (content, type) {
     if (type == -1) {
         type = 2;
     }
-    top.layer.msg(content, { icon: type, time: 4000, shift: 5 });
+    layer.msg(content, { icon: type, time: 4000, shift: 5 });
 }
 dialogClose = function () {
     try {
-        var index = top.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        var $IsdialogClose = top.$("#layui-layer" + index).find('.layui-layer-btn').find("#IsdialogClose");
+        var index = layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        var $IsdialogClose = $("#layui-layer" + index).find('.layui-layer-btn').find("#IsdialogClose");
         var IsClose = $IsdialogClose.is(":checked");
         if ($IsdialogClose.length == 0) {
             IsClose = true;
         }
         if (IsClose) {
-            top.layer.close(index);
+            layer.close(index);
         } else {
             location.reload();
         }

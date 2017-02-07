@@ -159,12 +159,13 @@
     /*=========创建完成（begin）==================================================================*/
     function finishbtn() {
         postData["EnabledMark"] = 1;
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
         $.SaveForm({
             url: "../../FlowManage/FormDesign/SaveForm?keyValue=" + keyValue,
             param: postData,
             loading: "正在保存数据...",
             success: function () {
-                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                parent.layer.close(index);
             }
         })
     }

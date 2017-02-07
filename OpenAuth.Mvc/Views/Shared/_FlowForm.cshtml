@@ -17,12 +17,13 @@
     <script src="~/Content/scripts/bootstrap/bootstrap.min.js"></script>
     <!--bootstrap组件end-->
     <script src="~/Content/scripts/plugins/datepicker/WdatePicker.js"></script>
-    
-    <link href="~/Content/layui/css/modules/layer/layer.css" rel="stylesheet" />
-    <link href="~/Content/plugins/layer/skin/layer.ext.css" rel="stylesheet" />
-    <script src="~/Content/layui/layui.js"></script>
-    <script src="~/Content/layui/lay/modules/layer.js"></script>
-   
+    <script src="/Content/layui/layui.js"></script>
+    <script type="text/javascript">
+        var layer;
+        layui.use(['layer', 'form'], function () {
+            layer = layui.layer;
+        });
+    </script>
 
     @System.Web.Optimization.Styles.Render("~/Content/scripts/plugins/tree/css",
     "~/Content/scripts/plugins/datetime/css",
@@ -52,6 +53,8 @@
     @System.Web.Optimization.Styles.Render("~/Content/styles/flowall.css")
     @System.Web.Optimization.Scripts.Render("~/Content/scripts/flow/js")
     <!--工作流设计器依赖end-->
+    
+   
 </head>
 <body>
     <form id="form1">

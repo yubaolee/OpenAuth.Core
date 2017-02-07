@@ -272,6 +272,7 @@
     <Content Include="Content\ace\js\src\elements.typeahead.js" />
     <Content Include="Content\ace\js\src\elements.wizard.js" />
     <Content Include="Content\ace\js\src\elements.wysiwyg.js" />
+    <Content Include="Content\Images\table_guide.png" />
     <Content Include="Content\layui\css\layui.css" />
     <Content Include="Content\layui\css\mobile.css" />
     <Content Include="Content\layui\css\modules\code.css" />

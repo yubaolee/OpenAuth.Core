@@ -32,8 +32,7 @@
     <link href="/Content/myace.css" rel="stylesheet"/>
 
     <link href="/Content/plugins/zTree/css/metroStyle/metroStyle.css" rel="stylesheet"/>
-    <link href="~/Content/layui/css/modules/layer/layer.css" rel="stylesheet" />
-    <link href="~/Content/plugins/layer/skin/layer.ext.css" rel="stylesheet" />
+    
     <!--[if lte IE 9]>
       <link rel="stylesheet" href="/Content/ace/css/ace-ie.css" />
     <![endif]-->
@@ -45,8 +44,14 @@
     <script src="~/Content/plugins/jqGrid/jquery.jqGrid.src.js"></script>
     <script src="~/Content/plugins/jqGrid/i18n/grid.locale-en.js"></script>
     <script src="~/Content/plugins/zTree/js/jquery.ztree.core.js"></script>
-    <script src="~/Content/layui/lay/modules/layer.js"></script>
     <script src="~/Content/vue.js"></script>
+    <script src="/Content/layui/layui.js"></script>
+    <script type="text/javascript">
+        var layer;
+        layui.use(['layer', 'form'], function () {
+            layer = layui.layer;
+        });
+    </script>
 </head>
 
 <body class="skin-1">

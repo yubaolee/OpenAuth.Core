@@ -31,15 +31,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         {
             return View();
         }
-        /// <summary>
-        /// 设计器
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult FormLayout()
-        {
-            return View();
-        }
+
         /// <summary>
         /// 预览表单
         /// </summary>
@@ -125,10 +117,10 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="ids">主键值</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult RemoveForm(Guid[] ids)
+        public string RemoveForm(Guid[] ids)
         {
             _wfFrmMainBll.RemoveForm(ids);
-            return Content("删除成功。");
+            return Result.ToJson();
         }
         ///// <summary>
         ///// 保存用户表单（新增、修改）
@@ -153,19 +145,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             }
             return Result.ToJson();
         }
-        ///// <summary>
-        ///// （启用、禁用）
-        ///// </summary>
-        ///// <param name="keyValue">主键值</param>
-        ///// <param name="State">状态：1-启动；0-禁用</param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[AjaxOnly]
-        //public ActionResult SubmitUpdateState(string keyValue, int State)
-        //{
-        //    wfFrmMainBLL.UpdateState(keyValue, State);
-        //    return Success("操作成功。");
-        //}
+       
         ///// <summary>
         ///// 上传文件
         ///// </summary>

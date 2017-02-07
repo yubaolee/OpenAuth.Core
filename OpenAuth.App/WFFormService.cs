@@ -58,6 +58,7 @@ namespace OpenAuth.App
                 }
                 else
                 {
+                    entity.Id = Guid.Parse(keyValue);
                     _unitWork.Update(u =>u.Id, entity);
                 }
                 _unitWork.Save();

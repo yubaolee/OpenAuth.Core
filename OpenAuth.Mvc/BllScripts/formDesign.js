@@ -12,12 +12,10 @@ function MainGrid() {
                 {
                     label: "状态", name: "EnabledMarklabel", index: "EnabledMarklabel", width: 50, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
-                        if (rowObject.enabledmark == 1) {
-                            return '<span  class=\"label label-success\">启用</span>';
-                        } else if (rowObject.enabledmark == 0) {
+                         if (rowObject.enabledmark == 0) {
                             return '<span  class=\"label label-danger\">停用</span>';
                         } else {
-                            return '<span  class=\"label label-info\">草稿</span>';
+                            return '<span  class=\"label label-success\">启用</span>';
                         }
                     }
                 },
@@ -77,9 +75,12 @@ function edit() {
         type: 2,
         title:selected.Code,
         skin: 'layui-layer-rim', //加上边框
-        area: ['1200px', '700px'], //宽高
+        area: ['1000px', '700px'], //宽高
         maxmin: true, //开启最大化最小化按钮
-        content: '/FlowManage/FormDesign/FrmBuider?keyValue=' + selected.Id
+        content: '/FlowManage/FormDesign/FrmBuider?keyValue=' + selected.Id,
+        end: function () {
+            list.reload();
+        }
     });
 
 }
@@ -89,7 +90,7 @@ function add() {
     layer.open({
         type: 2,
         skin: 'layui-layer-rim', //加上边框
-        area: ['1200px', '700px'], //宽高
+        area: ['1000px', '700px'], //宽高
         maxmin: true, //开启最大化最小化按钮
         content: '/FlowManage/FormDesign/FrmBuider',
         end: function() {
@@ -107,10 +108,11 @@ function preview() {
 
     layer.open({
         type: 2,
+        title:'表单预览',
         skin: 'layui-layer-rim', //加上边框
-        area: ['1200px', '700px'], //宽高
+        area: ['1000px', '700px'], //宽高
         maxmin: true, //开启最大化最小化按钮
-        content: '/FlowManage/FormDesign/PreviewIndex?keyValue=' + selected.Id + "&FrmVersion=" + selected.FrmVersion,
+        content: '/FlowManage/FormDesign/FormPreview?keyValue=' + selected.Id + "&FrmVersion=" + selected.FrmVersion,
         end: function () {
             list.reload();
         }

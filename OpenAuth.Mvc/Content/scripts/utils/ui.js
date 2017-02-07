@@ -34,10 +34,7 @@ Loading = function (bool, text) {
    
    
 }
-tabiframeId = function () {
-    var iframeId = top.$(".LRADMS_iframe:visible").attr("id");
-    return iframeId;
-}
+
 $.fn.ComboBox = function (options) {
     //options参数：description,height,width,allowSearch,url,param,data
     var $select = $(this);
@@ -618,35 +615,7 @@ $.fn.LeftListShowOfemail = function (options) {
         }
     });
 }
-$.fn.authorizeButton = function () {
-    var $element = $(this);
-    $element.find('a.btn').attr('authorize', 'no')
-    $element.find('ul.dropdown-menu').find('li').attr('authorize', 'no')
-    var moduleId = tabiframeId().substr(6);
-    var data = top.authorizeButtonData[moduleId];
-    if (data != undefined) {
-        $.each(data, function (i) {
-            $element.find("#" + data[i].EnCode).attr('authorize', 'yes');
-        });
-    }
-    $element.find('[authorize=no]').remove();
-}
-$.fn.authorizeColModel = function () {
-    var $element = $(this);
-    var columnModel = $element.jqGrid('getGridParam', 'colModel');
-    $.each(columnModel, function (i) {
-        if (columnModel[i].name != "rn") {
-            $element.hideCol(columnModel[i].name);
-        }
-    });
-    var moduleId = tabiframeId().substr(6);
-    var data = top.authorizeColumnData[moduleId];
-    if (data != undefined) {
-        $.each(data, function (i) {
-            $element.showCol(data[i].EnCode);
-        });
-    }
-}
+
 
 
 $.fn.jqGridEx = function (options) {
@@ -907,15 +876,6 @@ changeUrlParam = function (url, key, value) {
     return newUrl;
 }
 
-
-$.currentIframe = function () {
-    if ($.isbrowsername() == "Chrome" || $.isbrowsername() == "FF") {
-        return top.frames[tabiframeId()].contentWindow;
-    }
-    else {
-        return top.frames[tabiframeId()];
-    }
-}
 $.isbrowsername = function () {
     var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
     var isOpera = userAgent.indexOf("Opera") > -1;

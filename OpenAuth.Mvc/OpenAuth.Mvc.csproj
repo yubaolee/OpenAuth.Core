@@ -272,6 +272,7 @@
     <Content Include="Content\ace\js\src\elements.typeahead.js" />
     <Content Include="Content\ace\js\src\elements.wizard.js" />
     <Content Include="Content\ace\js\src\elements.wysiwyg.js" />
+    <Content Include="Content\Images\datepicker_icon.png" />
     <Content Include="Content\Images\table_guide.png" />
     <Content Include="Content\scripts\layui\css\layui.css" />
     <Content Include="Content\scripts\layui\css\mobile.css" />
@@ -850,7 +851,6 @@
     <Content Include="Content\scripts\utils\flowlayout.js" />
     <Content Include="Content\scripts\utils\form.js" />
     <Content Include="Content\scripts\utils\ui.js" />
-    <Content Include="Content\style.css" />
     <Content Include="Content\styles\font-awesome.min.css" />
     <Content Include="Content\styles\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\styles\applayout.css" />

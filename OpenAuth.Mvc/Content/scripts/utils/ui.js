@@ -801,23 +801,7 @@ dialogMsg = function (content, type) {
     }
     layer.msg(content, { icon: type, time: 4000, shift: 5 });
 }
-dialogClose = function () {
-    try {
-        var index = layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        var $IsdialogClose = $("#layui-layer" + index).find('.layui-layer-btn').find("#IsdialogClose");
-        var IsClose = $IsdialogClose.is(":checked");
-        if ($IsdialogClose.length == 0) {
-            IsClose = true;
-        }
-        if (IsClose) {
-            layer.close(index);
-        } else {
-            location.reload();
-        }
-    } catch (e) {
-        alert(e)
-    }
-}
+
 reload = function () {
     location.reload();
     return false;

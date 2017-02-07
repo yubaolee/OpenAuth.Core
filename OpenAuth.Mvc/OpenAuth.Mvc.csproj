@@ -914,12 +914,9 @@
     <Content Include="Content\scripts\plugins\wizard\wizard.css" />
     <Content Include="Content\scripts\plugins\wizard\wizard.js" />
     <Content Include="Content\scripts\utils\applayout.js" />
-    <Content Include="Content\scripts\utils\clientdata.js" />
     <Content Include="Content\scripts\utils\flowlayout.js" />
     <Content Include="Content\scripts\utils\form.js" />
     <Content Include="Content\scripts\utils\ui.js" />
-    <Content Include="Content\scripts\utils\webApp.js" />
-    <Content Include="Content\scripts\utils\webAppData.js" />
     <Content Include="Content\style.css" />
     <Content Include="Content\styles\font-awesome.min.css" />
     <Content Include="Content\styles\fonts\fontawesome-webfont.svg" />
@@ -929,7 +926,6 @@
     <Content Include="Content\styles\flow.css" />
     <Content Include="Content\styles\login.css" />
     <Content Include="Content\styles\ui.css" />
-    <Content Include="Content\styles\webApp.css" />
     <Content Include="Content\vue.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

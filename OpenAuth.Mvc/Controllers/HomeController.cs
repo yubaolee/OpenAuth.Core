@@ -86,10 +86,15 @@ namespace OpenAuth.Mvc.Controllers
             foreach (var element in CurrentModule.Elements)
             {
                 sb.Append("<button "
-                + " id='" + element.DomId + "' "
-                + " class='btn btn-sm " + element.Class + "' "
-                + " onclick='" + element.Script + "' " + element.Attr
-                + ">" + element.Name + "</button>");
+                          + " id='" + element.DomId + "' "
+                          + " class='btn btn-sm " + element.Class + "' "
+                          + " onclick='" + element.Script + "' " + element.Attr
+                          + ">");
+                if (!string.IsNullOrEmpty(element.Icon))
+                {
+                    sb.Append("<i class='ace-icon fa fa-" + element.Icon + "'></i>");
+                }
+                sb.Append(element.Name + "</button>");
             }
             ViewBag.Buttons = sb.ToString();
             return View();

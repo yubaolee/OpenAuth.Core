@@ -13,12 +13,10 @@ namespace OpenAuth.App.SSO
     {
         public static  LoginResult Parse(PassportLoginRequest model)
         {
-            model.Trim();
-
             var result = new LoginResult();
-
             try
             {
+                model.Trim();
                 //获取应用信息
                 var appInfo = new AppInfoService().Get(model.AppKey);
                 if (appInfo == null)

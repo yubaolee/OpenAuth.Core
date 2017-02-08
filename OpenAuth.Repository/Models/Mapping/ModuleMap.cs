@@ -43,8 +43,7 @@ namespace OpenAuth.Repository.Models.Mapping
                 .HasMaxLength(255)
                 .IsRequired();
             Property(t => t.ParentId)
-                .HasColumnName("ParentId")
-                .IsRequired();
+                .HasColumnName("ParentId");
             Property(t => t.IsLeaf)
                 .HasColumnName("IsLeaf")
                 .IsRequired();

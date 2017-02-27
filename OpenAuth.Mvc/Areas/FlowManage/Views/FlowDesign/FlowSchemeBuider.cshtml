@@ -90,7 +90,7 @@
             });
         }
 
-
+        GetTree('User');
         //保存为草稿
         $('#btn_caogao').click(function () {
             if (!$('#step-1').Validform()) {
@@ -133,6 +133,69 @@
         return true;
     }
     /*=========基本配置（end）====================================================================*/
+    function GetTree(type) {
+        $.SetForm({
+            url: "../../FlowManage/FlowDesign/Get" + type + "CheckTreeJson",
+            success: function (data) {
+                AllAuthorizeCheckData[type] = $.arrayClone(data);
+                //var item = {
+                //    height: $(window).height() - 131,
+                //    showcheck: true,
+                //    //url: "../../FlowManage/FlowDesign/Get" + type + "CheckTreeJson",
+                //    data: data,
+                //    oncheckboxclick: function (item, et, s) {
+                //        var $item = $("#" + item.mytype + "Div");
+                //        if (et == 1) {
+                //            var mytype = "";
+                //            var _html = "";
+                //            var _title = '';
+                //            switch (item.mytype) {
+                //                case "Role":
+                //                    mytype = "角色";
+                //                    break;
+                //                case "Post":
+                //                    mytype = "岗位";
+                //                    break;
+                //                case "UserGroup":
+                //                    mytype = "用户组";
+                //                    break;
+                //                case "User":
+                //                    mytype = "用户";
+                //                    break;
+                //            }
+                //            _html += '<div id="' + item.id + '" data-value="' + item.mytype + '" class="card-box shcemeinfocheck active">';
+                //            _html += '    <div class="card-box-img">';
+                //            _html += '        <img src="/Content/images/UserCard03.png" />';
+                //            _html += '    </div>';
+                //            _html += '    <div class="card-box-content">';
+                //            _html += '        <p>名称：' + item.text + '</p>';
+                //            _html += '        <p>类别：' + mytype + '</p>';
+                //            _html += '    </div><i></i>';
+                //            _html += '</div>';
+                //            $item.append(_html);
+                //            $item.show();
+
+                //            $(".card-box").click(function () {
+                //                $(this).remove();
+                //                $('#' + $(this).attr('data-value')).setNoCheckedNodes($(this).attr('id'));
+                //                if ($item.find('.card-box-img').length == 0) {
+                //                    $item.hide();
+                //                }
+                //            })
+                //        }
+                //        else if (et == 0) {
+                //            $item.find('#' + item.id).remove();
+                //            if ($item.find('.card-box-img').length == 0) {
+                //                $item.hide();
+                //            }
+                //        }
+
+                //    }
+                //};
+                //$("#" + type).treeview(item);
+            }
+        });
+    }
 
     /*=========表单选择（begin）==================================================================*/
     var _frmdatabase = "";

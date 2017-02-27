@@ -591,14 +591,16 @@ namespace OpenAuth.App.Extention
                     {
                         MakeTagNode(_nextNodeId, -1, userId);
                     }
-                    else if (res != "1")
+                    else if (res != "1")  //则时res是会签结束节点的ID
                     {
                         MakeTagNode(_nextNodeId, 1, userId);
+                        _runtimeModel.nextNodeId = res;
+                        _runtimeModel.nextNodeType = GetNodeStatus(res);
                     }
                     else
                     {
-                        _runtimeModel.nextNodeId = res;
-                        _runtimeModel.nextNodeType = GetNodeStatus(res);
+                        _runtimeModel.nextNodeId = _nextNodeId;
+                        _runtimeModel.nextNodeType = GetNodeStatus(_nextNodeId);
                     }
                     return res;
                 }

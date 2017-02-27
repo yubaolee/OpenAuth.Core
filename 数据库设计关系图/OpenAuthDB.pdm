@@ -8977,9 +8977,9 @@ Drop=No</a:Settings>
 <a:Code>ActivityType</a:Code>
 <a:CreationDate>1484907080</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1484907080</a:ModificationDate>
+<a:ModificationDate>1487897583</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
-<a:Comment>当前节点类型</a:Comment>
+<a:Comment>当前节点类型（0会签节点）</a:Comment>
 <a:DataType>int</a:DataType>
 <c:Domain>
 <o:PhysicalDomain Ref="o64"/>

@@ -7,6 +7,7 @@ using Infrastructure;
 using LeaRun.Util.WebControl;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
+using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Service;
 using OpenAuth.Mvc.Controllers;
@@ -181,48 +182,17 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             var treeList = new List<TreeEntity>();
             string companyid = "";
             string departmentid = "";
-            foreach (DataRow item in data.rows)
+            foreach (UserView item in data.rows)
             {
                 TreeEntity tree = new TreeEntity();
-                if (companyid != item["OrganizeId"].ToString())
-                {
-                    TreeEntity tree1 = new TreeEntity();
-                    companyid = item["OrganizeId"].ToString();
-                    tree1.id = item["OrganizeId"].ToString();
-                    tree1.text = item["OrganizeName"].ToString();
-                    tree1.value = item["OrganizeId"].ToString();
-                    tree1.isexpand = true;
-                    tree1.complete = true;
-                    tree1.hasChildren = true;
-                    tree1.Attribute = "Sort";
-                    tree1.AttributeValue = "Organize";
-                    tree1.parentId = "0";
-                    tree1.img = "fa fa-home";
-                    treeList.Add(tree1);
-                }
-                if (departmentid != item["DepartmentId"].ToString() && !string.IsNullOrEmpty(item["DepartmentId"].ToString()))
-                {
-                    TreeEntity tree1 = new TreeEntity();
-                    departmentid = item["DepartmentId"].ToString();
-                    tree1.id = item["DepartmentId"].ToString();
-                    tree1.text = item["DepartmentName"].ToString();
-                    tree1.value = item["DepartmentId"].ToString();
-                    tree1.isexpand = false;
-                    tree1.complete = true;
-                    tree1.hasChildren = true;
-                    tree1.Attribute = "Sort";
-                    tree1.AttributeValue = "Department";
-                    tree1.parentId = item["OrganizeId"].ToString();
-                    tree1.img = "fa fa-umbrella";
-                    treeList.Add(tree1);
-                }
-                tree.id = item["UserId"].ToString();
-                tree.text = item["RealName"].ToString();
-                tree.value = item["UserId"].ToString();
+               
+                tree.id = item.Id.ToString();
+                tree.text = item.Name;
+                tree.value = item.Id.ToString();
                 tree.isexpand = true;
                 tree.complete = true;
                 tree.hasChildren = false;
-                tree.parentId = string.IsNullOrEmpty(item["DepartmentId"].ToString()) ? item["OrganizeId"].ToString() : item["DepartmentId"].ToString();
+                tree.parentId = "0";
                 tree.showcheck = true;
                 tree.img = "fa fa-user";
                 tree.Attribute = "mytype";

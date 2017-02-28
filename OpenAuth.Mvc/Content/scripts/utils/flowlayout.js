@@ -233,10 +233,10 @@ $.fn.flowdesign = function (options) {
             }
             if (item.setInfo != undefined && item.setInfo.Taged != undefined)
             {
-              //  var _one = top.clientuserData[item.setInfo.UserId];
+                var _one = clientuserData[item.setInfo.UserId];
                 var _row = '<div style="text-align:left">';
                 var tagname = { "-1": "不通过", "1": "通过", "0": "驳回" };
-                _row += "<p>处理人：" + ( item.setInfo.UserId )+"</p>";
+                _row += "<p>处理人：" + (_one == undefined ? item.setInfo.UserId : _one.RealName) + "</p>";
                 _row += "<p>结果：" + tagname[item.setInfo.Taged] + "</p>";
                 _row += "<p>处理时间：" + item.setInfo.TagedTime + "</p>";
                 _row += "<p>备注：" + item.setInfo.description + "</p></div>";
@@ -308,29 +308,9 @@ $.fn.flowdesign = function (options) {
                     }
 
                     _rowstr = "";
-                    for (var i in item.setInfo.NodeDesignateData.post) {
-                        var _postitem = item.setInfo.NodeDesignateData.post[i];
-                        var _one = top.clientpostData[_postitem];
-                        _rowstr += ' <span class="label label-info">' + (_one == undefined ? _postitem : _one.FullName) + '</span>';
-                        if (i == item.setInfo.NodeDesignateData.post.length - 1) {
-                            _popoverhtml += '<li>岗位:' + _rowstr + '</li>';
-                        }
-                    }
-
-                    _rowstr = "";
-                    for (var i in item.setInfo.NodeDesignateData.usergroup) {
-                        var _postitem = item.setInfo.NodeDesignateData.usergroup[i];
-                        var _one = top.clientuserGroup[_postitem];
-                        _rowstr += ' <span class="label label-warning">' + (_one == undefined ? _postitem : _one.FullName) + '</span>';
-                        if (i == item.setInfo.NodeDesignateData.usergroup.length - 1) {
-                            _popoverhtml += '<li>用户组:' + _rowstr + '</li>';
-                        }
-                    }
-
-                    _rowstr = "";
                     for (var i in item.setInfo.NodeDesignateData.user) {
                         var _postitem = item.setInfo.NodeDesignateData.user[i];
-                        var _one = top.clientuserData[_postitem];
+                        var _one = clientuserData[_postitem];
                         _rowstr += ' <span class="label label-danger">' + (_one == undefined ? _postitem : _one.RealName) + '</span>';
                         if (i == item.setInfo.NodeDesignateData.user.length - 1) {
                             _popoverhtml += '<li>用户:' + _rowstr + '</li>';

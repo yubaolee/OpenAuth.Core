@@ -135,7 +135,7 @@
     /*=========基本配置（end）====================================================================*/
     function GetTree(type) {
         $.SetForm({
-            url: "../../FlowManage/FlowDesign/Get" + type + "CheckTreeJson",
+            url: "/UserManager/Get" + type + "CheckTreeJson",
             success: function (data) {
                 AllAuthorizeCheckData[type] = $.arrayClone(data);
                 //var item = {

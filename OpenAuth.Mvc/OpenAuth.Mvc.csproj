@@ -395,6 +395,7 @@
     <Content Include="Content\scripts\plugins\flow-ui\img\gooflow_icon.png" />
     <Content Include="Content\scripts\plugins\flow-ui\img\gooflow_icon2.png" />
     <Content Include="Content\scripts\plugins\flow-ui\img\gooflow_tip.png" />
+    <Content Include="BllScripts\clientData.js" />
     <Content Include="Content\scripts\zTree\css\awesomeStyle\awesome.css" />
     <Content Include="Content\scripts\zTree\css\awesomeStyle\img\loading.gif" />
     <Content Include="Content\scripts\zTree\css\demo.css" />

@@ -169,38 +169,6 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         }
         #endregion
 
-        #region 获取权限数据
-
-        /// <summary>
-        /// 用户列表树 
-        /// </summary>
-        /// <returns>返回树形Json</returns>
-        [HttpGet]
-        public ActionResult GetUserCheckTreeJson()
-        {
-            var data = userBLL.Load(Guid.Empty, 1, 10);
-            var treeList = new List<TreeEntity>();
-            string companyid = "";
-            string departmentid = "";
-            foreach (UserView item in data.rows)
-            {
-                TreeEntity tree = new TreeEntity();
-               
-                tree.id = item.Id.ToString();
-                tree.text = item.Name;
-                tree.value = item.Id.ToString();
-                tree.isexpand = true;
-                tree.complete = true;
-                tree.hasChildren = false;
-                tree.parentId = "0";
-                tree.showcheck = true;
-                tree.img = "fa fa-user";
-                tree.Attribute = "mytype";
-                tree.AttributeValue = "User";
-                treeList.Add(tree);
-            }
-            return Content(treeList.TreeToJson());
-        }
-        #endregion
+       
     }
 }

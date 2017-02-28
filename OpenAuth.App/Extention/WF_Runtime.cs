@@ -490,7 +490,7 @@ namespace OpenAuth.App.Extention
                     {
                         if (item.id.Value == _nextNodeId)
                         {
-                            if(item.setInfo.NodeConfluenceType.Value == "0")//0所有步骤通过
+                            if(item.setInfo.NodeConfluenceType.Value == "")//0所有步骤通过  todo:先用空格
                             {
                                 if(flag)
                                 {

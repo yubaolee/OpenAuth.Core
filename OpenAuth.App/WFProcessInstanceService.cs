@@ -711,9 +711,10 @@ namespace OpenAuth.App
                         _makerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[item], wfruntime.runtimeModel.processId);
                         if (_makerList != "-1")
                         {
+                            var id = AuthUtil.GetCurrentUser().User.Id.ToString();
                             foreach (string one in _makerList.Split(','))
                             {
-                                if (AuthUtil.GetUserName() == one || AuthUtil.GetUserName().IndexOf(one) != -1)
+                                if (id == one || id.IndexOf(one) != -1)
                                 {
                                     _VerificationNodeId = item;
                                     break;
@@ -733,7 +734,7 @@ namespace OpenAuth.App
                             WFProcessOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.nodeDictionary[_VerificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注：" + description;
                         }
 
-                        string _Confluenceres = wfruntime.NodeConfluence(_VerificationNodeId, flag, AuthUtil.GetUserName(), description);
+                        string _Confluenceres = wfruntime.NodeConfluence(_VerificationNodeId, flag, AuthUtil.GetCurrentUser().User.Id.ToString(), description);
                         var _data = new
                         {
                             SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
@@ -789,7 +790,7 @@ namespace OpenAuth.App
                 {
                     if (flag)
                     {
-                        wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 1, AuthUtil.GetUserName(), description);
+                        wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 1, AuthUtil.GetCurrentUser().User.Id.ToString(), description);
                         WFProcessInstance.PreviousId = WFProcessInstance.ActivityId;
                         WFProcessInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
                         WFProcessInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
@@ -968,7 +969,7 @@ namespace OpenAuth.App
 
                 foreach (var item in schemeContentJson1.Flow.nodes)
                 {
-                    if (item.id.Value == nodeId)
+                    if (item.id.Value == nodeId && item.setInfo != null)
                     {
                         foreach (var item1 in item.setInfo.frmPermissionInfo)
                         {

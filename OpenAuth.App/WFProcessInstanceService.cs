@@ -754,7 +754,7 @@ namespace OpenAuth.App
                                 WFProcessInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
                                 WFProcessInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
                                 WFProcessInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
-                                WFProcessInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ? GetMakerList(wfruntime) : "");//当前节点可执行的人信息
+                                WFProcessInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ?"": GetMakerList(wfruntime) );//当前节点可执行的人信息
 
                                 #region 流转记录
                                 processTransitionHistoryEntity = new WFProcessTransitionHistory();

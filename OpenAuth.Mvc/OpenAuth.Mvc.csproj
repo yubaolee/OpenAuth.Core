@@ -142,6 +142,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\FlowManage\Controllers\FileController.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FormDesignController.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FlowDesignController.cs" />
     <Compile Include="Areas\FlowManage\FlowManageAreaRegistration.cs" />

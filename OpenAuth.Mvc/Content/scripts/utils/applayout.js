@@ -1371,8 +1371,8 @@ $.fn.frmPreview = function (options)
     function fuploadify(control_field,btnName) {
         $("#" + control_field).uploadify({
             method: 'post',
-            uploader: '/FlowManage/FormDesign/UploadifyFile',
-            swf: top.contentPath + '/Content/scripts/plugins/uploadify/uploadify.swf',
+            uploader: '/FlowManage/File/Upload',
+            swf:  '/Content/scripts/plugins/uploadify/uploadify.swf',
             buttonText: btnName,
             height: 30,
             width: 90,

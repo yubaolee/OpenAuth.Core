@@ -738,7 +738,7 @@ namespace OpenAuth.App
                         var _data = new
                         {
                             SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
-                            frmData = (WFProcessInstance.FrmType == 0 ? wfruntime.runtimeModel.frmData : null)
+                            frmData = wfruntime.runtimeModel.frmData
                         };
                         WFProcessScheme.SchemeContent = _data.ToJson().ToString();
                         switch (_Confluenceres)

@@ -12,7 +12,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
     {
 
         [HttpPost]
-        public string Upload(HttpPostedFileBase Filedata)
+        public string Add(HttpPostedFileBase Filedata)
         {
             if (Filedata != null && Filedata.ContentLength > 0 && Filedata.ContentLength < 10485760)
             {
@@ -34,7 +34,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 
         }
 
-        public string UploadFile(string fileName, byte[] fileBuffers, string folder)
+        private string UploadFile(string fileName, byte[] fileBuffers, string folder)
         {
             if (string.IsNullOrEmpty(folder))
             {

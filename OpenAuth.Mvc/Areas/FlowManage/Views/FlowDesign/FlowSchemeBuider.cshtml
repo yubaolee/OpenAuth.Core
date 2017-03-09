@@ -54,7 +54,6 @@
                         }
                         $finish.removeAttr('disabled');
                         $next.attr('disabled', 'disabled');
-                        $('#btn_caogao').attr('disabled', 'disabled');
                         break;
                     default:
                         break;
@@ -62,7 +61,6 @@
             } else {
                 $finish.attr('disabled', 'disabled');
                 $next.removeAttr('disabled');
-                $('#btn_caogao').removeAttr('disabled');
             }
 
         });
@@ -91,36 +89,6 @@
         }
 
         GetTree('User');
-        //保存为草稿
-        $('#btn_caogao').click(function () {
-            if (!$('#step-1').Validform()) {
-                return false;
-            }
-            var _data = $("#step-1").GetWebControls(keyValue);
-            var _frmcotentls = "";
-            if (postData.FrmType == 1) {
-                frmData = "";
-            }
-            else {
-                if (frmapp != undefined) {
-                    _frmcotentls = frmapp.getData(true);
-                }
-                frmData.FrmContent = JSON.stringify(_frmcotentls);
-            }
-
-            flowData["SchemeContent"] = JSON.stringify({ "Frm": frmData, "Flow": FlowDesignPanel.exportData() });
-            postData = $.extend(postData, _data);
-            postData["EnabledMark"] = 3;
-            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-            $.SaveForm({
-                url: "../../FlowManage/FlowDesign/SaveForm?keyValue=" + keyValue,
-                param: { "InfoEntity": JSON.stringify(postData), "ContentEntity": JSON.stringify(flowData), "shcemeAuthorizeData": shcemeAuthorizeData },
-                loading: "正在保存数据...",
-                success: function () {
-                    parent.layer.close(index);
-                }
-            })
-        });
     }
     /*=========基本配置（begin）==================================================================*/
     function bindingBase()
@@ -497,7 +465,6 @@
     <div class="form-button" id="wizard-actions">
         <a id="btn_last" disabled class="btn btn-default btn-prev">上一步</a>
         <a id="btn_next" class="btn btn-default btn-next">下一步</a>
-        <a id="btn_caogao" class="btn btn-info">保存草稿</a>
         <a id="btn_finish" disabled class="btn btn-success" onclick="finishbtn();">保存</a>
     </div>
 </div>

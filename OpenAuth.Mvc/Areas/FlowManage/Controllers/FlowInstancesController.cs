@@ -114,14 +114,8 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         {
             WFProcessInstance wfProcessInstanceEntity = wfProcessInstanceJson.ToObject<WFProcessInstance>();
             wfProcessInstanceEntity.Id = Guid.Empty;
-            if (wfProcessInstanceEntity.EnabledMark == 1)//发起流程
-            {
-                _app.CreateInstance(Guid.NewGuid(), wfSchemeInfoId, wfProcessInstanceEntity, frmData);
-            }
-            else if (wfProcessInstanceEntity.EnabledMark == 3)//草稿
-            {
-                _app.CreateRoughdraft(Guid.NewGuid(), wfSchemeInfoId, wfProcessInstanceEntity, frmData);
-            }
+
+            _app.CreateInstance(Guid.NewGuid(), wfSchemeInfoId, wfProcessInstanceEntity, frmData);
 
             return Result.ToJson();
         }

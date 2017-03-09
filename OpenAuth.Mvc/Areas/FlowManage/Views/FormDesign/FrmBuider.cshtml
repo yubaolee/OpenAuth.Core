@@ -31,7 +31,6 @@
                         }
                         $finish.removeAttr('disabled');
                         $next.attr('disabled', 'disabled');
-                        $('#btn_caogao').attr('disabled', 'disabled');
                         break;
                     default:
                         break;
@@ -39,7 +38,6 @@
             } else {
                 $finish.attr('disabled', 'disabled');
                 $next.removeAttr('disabled');
-                $('#btn_caogao').removeAttr('disabled');
             }
         });
         $('input[name="isSystemTable"]').click(function () {
@@ -76,26 +74,6 @@
                 }
             });
         }
-        //保存为草稿
-        $('#btn_caogao').click(function () {
-            if (!$('#step-1').Validform()) {
-                return false;
-            }
-             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-            var _data = $("#step-1").GetWebControls(keyValue);
-            postData = $.extend(postData, _data);
-            postData["EnabledMark"] = 3;
-            var frmcotentls = frmapp.getData(true);
-            postData.FrmContent = JSON.stringify(frmcotentls);
-            $.SaveForm({
-                url: "../../FlowManage/FormDesign/SaveForm?keyValue=" + keyValue,
-                param: postData,
-                loading: "正在保存数据...",
-                success: function () {
-                   parent.layer.close(index);
-                }
-            })
-        });
     }
     /*=========基本配置（begin）==================================================================*/
     function initBaseInfo()
@@ -255,7 +233,6 @@
     <div class="form-button" id="wizard-actions">
         <a id="btn_last" disabled class="btn btn-default btn-prev">上一步</a>
         <a id="btn_next" class="btn btn-default btn-next">下一步</a>
-        <a id="btn_caogao" class="btn btn-info">保存草稿</a>
         <a id="btn_finish" disabled class="btn btn-success" onclick="finishbtn();">保存</a>
     </div>
 </div>

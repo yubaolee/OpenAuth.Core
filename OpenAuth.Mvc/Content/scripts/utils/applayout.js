@@ -1389,7 +1389,10 @@ $.fn.frmPreview = function (options)
                     $(this).find('.cancel').find('a').hide();
                 });
             },
-            onUploadSuccess: function (file) {
+            onUploadSuccess: function (file, data) {
+                var response = JSON.parse(data);
+                $("#" + file.id).attr('filePath', response.Result);
+                $("#" + file.id).attr('fileName', file.name);
                 $("#" + file.id).find('.uploadify-progress').remove();
                 $("#" + file.id).find('.data').html(' 恭喜您，上传成功！');
                 $("#" + file.id).prepend('<a class="succeed" title="成功"><i class="fa fa-check-circle"></i></a>');
@@ -1409,13 +1412,15 @@ $.fn.frmPreview = function (options)
             }
         });
         $("#" + control_field + "-button").prepend('<i style="opacity: 0.6;" class="fa fa-cloud-upload"></i>&nbsp;');
+        $('#' + control_field + '-queue').attr('type','upload'); 
         $('#' + control_field + '-queue').hide(); 
     }
 }
 //获取表单数据
 $.fn.frmGetData = function () {
     var reVal = ""; var checkboxValue = {};
-    $(this).find('input,select,textarea,.ui-select').each(function (r) {
+    var uploadVal = new Array();
+    $(this).find('input,select,textarea,.ui-select,.uploadify-queue').each(function (r) {
         var id = $(this).attr('id');
         if (id != undefined)
         {
@@ -1423,6 +1428,16 @@ $.fn.frmGetData = function () {
             var type = $(this).attr('type');
 
             switch (type) {
+                case "upload":  //文件上传
+                    $(this).find('.uploadify-queue-item').each(function (u) {
+                        uploadVal.push({
+                            fileName: $(this).attr('fileName'),
+                            filePath: $(this).attr('filePath')
+                        });
+                    });
+
+                    reVal += '"' + filedid + '"' + ':' + JSON.stringify(uploadVal) + ','
+                    break;
                 case "checkbox":
                     var datavalue = $("#" + id).attr('data-value');
                     var value = $("#" + id).val();
@@ -1507,6 +1522,12 @@ $.fn.frmSetData = function (data) {
                     break;
                 case "selectTree":
                     id.ComboBoxTreeSetValue(value);
+                    break;
+                case "upload":
+                    $.each(data[key], function (e) {
+                        var $this = this;
+                        id.after("<a href='/FlowManage/File/upload/" + $this.filePath + "'>" + $this.fileName + "</a>");
+                        });
                     break;
                 default:
                     id.val(value);

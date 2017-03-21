@@ -6,7 +6,6 @@ using LeaRun.Util.WebControl;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
 using OpenAuth.Domain;
-using OpenAuth.Domain.Service;
 using OpenAuth.Mvc.Controllers;
 
 namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
@@ -60,7 +59,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         }
 
         /// <summary>
-        /// 表单树 
+        /// 返回表单列表树
         /// </summary>
         /// <param name="keyword">关键字</param>
         /// <returns>返回树形Json</returns>
@@ -71,17 +70,19 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             var treeList = new List<TreeEntity>();
             foreach (var item in data)
             {
-                TreeEntity tree = new TreeEntity();
+                TreeEntity tree = new TreeEntity
+                {
+                    id = item.Id.ToString(),
+                    text = item.FrmName,
+                    value = item.Id.ToString(),
+                    isexpand = true,
+                    complete = true,
+                    hasChildren = false,
+                    parentId = "0",
+                    Attribute = "Sort",
+                    AttributeValue = "Frm"
+                };
 
-                tree.id = item.Id.ToString();
-                tree.text = item.FrmName;
-                tree.value = item.Id.ToString();
-                tree.isexpand = true;
-                tree.complete = true;
-                tree.hasChildren = false;
-                tree.parentId = "0";
-                tree.Attribute = "Sort";
-                tree.AttributeValue = "Frm";
                 treeList.Add(tree);
             }
             return Content(treeList.TreeToJson());
@@ -145,53 +146,6 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             }
             return Result.ToJson();
         }
-       
-        ///// <summary>
-        ///// 上传文件
-        ///// </summary>
-        ///// <param name="folderId">文件夹Id</param>
-        ///// <param name="Filedata">文件对象</param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public ActionResult UploadifyFile(string folderId, HttpPostedFileBase Filedata)
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(folderId))
-        //        {
-        //            return Success("虚拟上传文件成功。");
-        //        }
-
-        //        Thread.Sleep(500);////延迟500毫秒
-        //        //没有文件上传，直接返回
-        //        if (Filedata == null || string.IsNullOrEmpty(Filedata.FileName) || Filedata.ContentLength == 0)
-        //        {
-        //            return HttpNotFound();
-        //        }
-        //        //获取文件完整文件名(包含绝对路径)
-        //        //文件存放路径格式：/Resource/ResourceFile/{userId}{data}/{guid}.{后缀名}
-        //        string userId = OperatorProvider.Provider.Current().UserId;
-        //        string fileGuid = Guid.NewGuid().ToString();
-        //        long filesize = Filedata.ContentLength;
-        //        string FileEextension = Path.GetExtension(Filedata.FileName);
-        //        string uploadDate = DateTime.Now.ToString("yyyyMMdd");
-        //        string virtualPath = string.Format("~/Resource/DocumentFile/{0}/{1}/{2}{3}", userId, uploadDate, fileGuid, FileEextension);
-        //        string fullFileName = this.Server.MapPath(virtualPath);
-        //        //创建文件夹
-        //        string path = Path.GetDirectoryName(fullFileName);
-        //        Directory.CreateDirectory(path);
-        //        if (!System.IO.File.Exists(fullFileName))
-        //        {
-        //            //保存文件
-        //            Filedata.SaveAs(fullFileName);
-        //        }
-        //        return Success("上传成功。");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Content(ex.Message);
-        //    }
-        //}
         #endregion
     }
 }

@@ -10,12 +10,7 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class RoleManagerController : BaseController
     {
-        private RoleManagerApp _app;
-
-        public RoleManagerController()
-        {
-            _app = AutofacExt.GetFromFac<RoleManagerApp>();
-        }
+        public RoleManagerApp App { get; set; }
 
         //
         // GET: /RoleManager/
@@ -31,7 +26,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.AddOrUpdate(obj);
+                App.AddOrUpdate(obj);
             }
             catch (Exception ex)
             {
@@ -46,7 +41,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(Guid orgId, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(orgId, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(App.Load(orgId, pageCurrent, pageSize));
         }
 
         [System.Web.Mvc.HttpPost]
@@ -56,7 +51,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 foreach (var obj in ids)
                 {
-                    _app.Delete(obj);
+                    App.Delete(obj);
                 }
             }
             catch (Exception e)
@@ -78,7 +73,7 @@ namespace OpenAuth.Mvc.Controllers
 
         public string LoadForOrgAndUser(Guid orgId, Guid userId)
         {
-            return JsonHelper.Instance.Serialize(_app.LoadForOrgAndUser(orgId, userId));
+            return JsonHelper.Instance.Serialize(App.LoadForOrgAndUser(orgId, userId));
         }
 
         #endregion 为用户设置角色界面

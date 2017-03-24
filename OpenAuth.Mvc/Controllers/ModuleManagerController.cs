@@ -14,12 +14,7 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class ModuleManagerController : BaseController
     {
-        private ModuleManagerApp _app;
-
-        public ModuleManagerController()
-        {
-            _app = AutofacExt.GetFromFac<ModuleManagerApp>();
-        }
+        public ModuleManagerApp App { get; set; }
 
         // GET: /ModuleManager/
         [Authenticate]
@@ -34,7 +29,7 @@ namespace OpenAuth.Mvc.Controllers
             ViewBag.ModuleType = key;
 
             var moduleWithChildren = AuthUtil.GetCurrentUser().ModuleWithChildren;
-            var modules = key == "UserModule" ? _app.LoadForUser(firstId) : _app.LoadForRole(firstId);
+            var modules = key == "UserModule" ? App.LoadForUser(firstId) : App.LoadForRole(firstId);
 
             CheckModule(moduleWithChildren, modules);
 
@@ -106,7 +101,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(Guid orgId, int page = 1, int rows = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(orgId, page, rows));
+            return JsonHelper.Instance.Serialize(App.Load(orgId, page, rows));
         }
 
         /// <summary>
@@ -116,7 +111,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadForUser(Guid firstId)
         {
-            var orgs = _app.LoadForUser(firstId);
+            var orgs = App.LoadForUser(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
 
@@ -127,7 +122,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadForRole(Guid firstId)
         {
-            var orgs = _app.LoadForRole(firstId);
+            var orgs = App.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
 
@@ -145,7 +140,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.AddOrUpdate(model);
+                App.AddOrUpdate(model);
             }
             catch (Exception ex)
             {
@@ -162,7 +157,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 foreach (var obj in ids)
                 {
-                    _app.Delete(obj);
+                    App.Delete(obj);
                 }
             }
             catch (Exception e)

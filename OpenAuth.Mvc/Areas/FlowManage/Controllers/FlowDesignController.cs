@@ -21,14 +21,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
     /// </summary>
     public class FlowDesignController :BaseController
     {
-        private WFSchemeService wfFlowInfoBLL;
-        private UserManagerApp userBLL;
-
-        public FlowDesignController()
-        {
-            wfFlowInfoBLL = AutofacExt.GetFromFac<WFSchemeService>();
-            userBLL = AutofacExt.GetFromFac<UserManagerApp>();
-        }
+        public WFSchemeService WfFlowInfoBll { get; set; }
 
         #region 视图功能
         /// <summary>
@@ -100,8 +93,8 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetFormJson(Guid keyValue)
         {
-            var schemeinfo = wfFlowInfoBLL.GetEntity(keyValue);
-            var schemecontent = wfFlowInfoBLL.GetSchemeEntity(schemeinfo.Id, schemeinfo.SchemeVersion);
+            var schemeinfo = WfFlowInfoBll.GetEntity(keyValue);
+            var schemecontent = WfFlowInfoBll.GetSchemeEntity(schemeinfo.Id, schemeinfo.SchemeVersion);
             var JsonData = new
             {
                 schemeinfo = schemeinfo,
@@ -118,7 +111,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetSchemeContentJson(Guid keyValue, string SchemeVersion)
         {
-            var schemecontent = wfFlowInfoBLL.GetSchemeEntity(keyValue, SchemeVersion);
+            var schemecontent = WfFlowInfoBll.GetSchemeEntity(keyValue, SchemeVersion);
             return Content(schemecontent.ToJson());
         }
         #endregion
@@ -132,7 +125,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpPost]
         public string RemoveForm(Guid[] ids)
         {
-            wfFlowInfoBLL.RemoveForm(ids);
+            WfFlowInfoBll.RemoveForm(ids);
             return Result.ToJson();
         }
         /// <summary>
@@ -146,7 +139,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         {
             WFSchemeInfo entyity = InfoEntity.ToObject<WFSchemeInfo>();
             WFSchemeContent contententity = ContentEntity.ToObject<WFSchemeContent>();
-            wfFlowInfoBLL.SaveForm(keyValue, entyity, contententity);
+            WfFlowInfoBll.SaveForm(keyValue, entyity, contententity);
             return Result.ToJson();
         }
         /// <summary>
@@ -159,13 +152,13 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         
         public ActionResult SubmitUpdateState(string keyValue, int State)
         {
-            wfFlowInfoBLL.UpdateState(keyValue, State);
+            WfFlowInfoBll.UpdateState(keyValue, State);
             return Content("操作成功。");
         }
 
         public string Load(int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(wfFlowInfoBLL.Load(pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(WfFlowInfoBll.Load(pageCurrent, pageSize));
         }
         #endregion
 

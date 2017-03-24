@@ -24,12 +24,8 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class ModuleElementManagerController : BaseController
     {
-        private ModuleElementManagerApp _app;
+        public ModuleElementManagerApp App { get; set; }
 
-        public ModuleElementManagerController()
-        {
-            _app = AutofacExt.GetFromFac<ModuleElementManagerApp>();
-        }
         public ActionResult Index(Guid id)
         {
             ViewBag.ModuleId = id;
@@ -37,14 +33,14 @@ namespace OpenAuth.Mvc.Controllers
         }
         public ActionResult Get(Guid moduleId)
         {
-            return Json(_app.LoadByModuleId(moduleId), JsonRequestBehavior.AllowGet);
+            return Json(App.LoadByModuleId(moduleId), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public string AddOrEditButton(ModuleElement button)
         {
             try
             {
-                _app.AddOrUpdate(button);
+                App.AddOrUpdate(button);
             }
             catch (DbEntityValidationException e)
             {
@@ -58,7 +54,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.Delete(ids);
+                App.Delete(ids);
             }
             catch (Exception e)
             {
@@ -83,7 +79,7 @@ namespace OpenAuth.Mvc.Controllers
         }
         public string LoadWithAccess(Guid tId, Guid firstId, string key)
         {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess(key, firstId, tId));
+            return JsonHelper.Instance.Serialize(App.LoadWithAccess(key, firstId, tId));
         }
     }
 }

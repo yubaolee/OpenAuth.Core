@@ -36,30 +36,31 @@ namespace OpenAuth.Mvc
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
             builder.RegisterType(typeof (UnitWork)).As(typeof (IUnitWork));
 
-            //注册WebConfig中的配置
-            builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
-
             //注册app层
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (UserManagerApp)));
 
             //注册领域服务
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(AuthoriseService)))
-                .Where(u =>u.Namespace== "OpenAuth.Domain.Service");
+                .Where(u =>u.Namespace== "OpenAuth.Domain.Service" 
+                || u.Namespace == "OpenAuth.Domain.Interface");
 
-                // Register your MVC controllers.
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            //注册Repository
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserRepository)))
+                .AsImplementedInterfaces();
 
-            // OPTIONAL: Register model binders that require DI.
+            // 注册controller，使用属性注入
+            builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired();
+            
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModelBinderProvider();
 
             // OPTIONAL: Register web abstractions like HttpContextBase.
-            builder.RegisterModule<AutofacWebTypesModule>();
+            //builder.RegisterModule<AutofacWebTypesModule>();
 
             // OPTIONAL: Enable property injection in view pages.
             builder.RegisterSource(new ViewRegistrationSource());
 
-            // OPTIONAL: Enable property injection into action filters.
+            // 注册所有的Attribute
             builder.RegisterFilterProvider();
 
             // Set the dependency resolver to be Autofac.

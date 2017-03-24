@@ -11,12 +11,7 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class ResourceManagerController : BaseController
     {
-        private ResourceManagerApp _app;
-
-        public ResourceManagerController()
-        {
-            _app = AutofacExt.GetFromFac<ResourceManagerApp>();
-        }
+        public ResourceManagerApp App { get; set; }
 
         //
         // GET: /UserManager/
@@ -32,7 +27,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.AddOrUpdate(model);
+                App.AddOrUpdate(model);
             }
             catch (Exception ex)
             {
@@ -47,12 +42,12 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(Guid categoryId, int page = 1, int rows = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(AuthUtil.GetUserName(), categoryId, page, rows));
+            return JsonHelper.Instance.Serialize(App.Load(AuthUtil.GetUserName(), categoryId, page, rows));
         }
 
         public string LoadForTree()
         {
-            var models = _app.LoadAll();
+            var models = App.LoadAll();
             return JsonHelper.Instance.Serialize(models);
         }
 
@@ -61,7 +56,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.Delete(ids);
+                App.Delete(ids);
             }
             catch (Exception e)
             {
@@ -96,7 +91,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadWithAccess(Guid cId, Guid firstId, string key)
         {
-            return JsonHelper.Instance.Serialize(_app.LoadWithAccess(AuthUtil.GetUserName(),key,firstId, cId));
+            return JsonHelper.Instance.Serialize(App.LoadWithAccess(AuthUtil.GetUserName(),key,firstId, cId));
         }
     }
 }

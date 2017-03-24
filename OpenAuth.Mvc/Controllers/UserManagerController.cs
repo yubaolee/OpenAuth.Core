@@ -13,12 +13,7 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class UserManagerController : BaseController
     {
-        private UserManagerApp _app;
-
-        public UserManagerController()
-        {
-            _app = AutofacExt.GetFromFac<UserManagerApp>();
-        }
+        public UserManagerApp App { get; set; }
 
         //
         // GET: /UserManager/
@@ -34,7 +29,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.AddOrUpdate(view);
+                App.AddOrUpdate(view);
                 
             }
             catch (Exception ex)
@@ -50,7 +45,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(Guid orgId, int page = 1, int rows = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(orgId, page, rows));
+            return JsonHelper.Instance.Serialize(App.Load(orgId, page, rows));
         }
 
         [HttpPost]
@@ -58,7 +53,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.Delete(ids);
+                App.Delete(ids);
             }
             catch (Exception e)
             {
@@ -81,7 +76,7 @@ namespace OpenAuth.Mvc.Controllers
             var treeList = new List<TreeEntity>();
             string companyid = "";
             string departmentid = "";
-            foreach (UserView item in _app.Load(Guid.Empty, 1, 10).rows)
+            foreach (UserView item in App.Load(Guid.Empty, 1, 10).rows)
             {
                 TreeEntity tree = new TreeEntity();
 
@@ -107,7 +102,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetAccessedUsers()
         {
-            IEnumerable<UserView> users =  _app.Load(Guid.Empty, 1, 10).rows;
+            IEnumerable<UserView> users =  App.Load(Guid.Empty, 1, 10).rows;
             var result = new Dictionary<string , object>();
             foreach (var user in users)
             {

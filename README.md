@@ -8,7 +8,7 @@
 
 `项目详细描述`  http://www.cnblogs.com/yubaolee/p/OpenAuth.html 
 
-`官方QQ交流群`  484498493
+`官方QQ交流群`  484498493【已满】 626433139
 
 `演示直达`  http://183.230.7.248:13144
 

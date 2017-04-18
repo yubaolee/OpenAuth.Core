@@ -12,13 +12,7 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class HomeController : BaseController
     {
-         private ModuleManagerApp _app;
 
-         public HomeController()
-         {
-             _app = AutofacExt.GetFromFac<ModuleManagerApp>();
-        }
-        
         public ActionResult Index()
         {
             ViewBag.NavBar = GetNavBar();

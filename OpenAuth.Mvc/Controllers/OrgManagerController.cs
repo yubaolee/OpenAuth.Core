@@ -10,12 +10,7 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class OrgManagerController : BaseController
     {
-        private OrgManagerApp _orgApp;
-
-        public OrgManagerController()
-        {
-            _orgApp = AutofacExt.GetFromFac<OrgManagerApp>();
-        }
+        public OrgManagerApp OrgApp { get; set; }
 
         //
         // GET: /OrgManager/
@@ -38,13 +33,13 @@ namespace OpenAuth.Mvc.Controllers
 
         public string LoadForUser(Guid firstId)
         {
-            var orgs = _orgApp.LoadForUser(firstId);
+            var orgs = OrgApp.LoadForUser(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
 
         public string LoadForRole(Guid firstId)
         {
-            var orgs = _orgApp.LoadForRole(firstId);
+            var orgs = OrgApp.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
 
@@ -55,7 +50,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _orgApp.AddOrUpdate(org);
+                OrgApp.AddOrUpdate(org);
             }
             catch (Exception ex)
             {
@@ -67,7 +62,7 @@ namespace OpenAuth.Mvc.Controllers
         
         public string LoadChildren(Guid id)
         {
-            return JsonHelper.Instance.Serialize(_orgApp.LoadAllChildren(id));
+            return JsonHelper.Instance.Serialize(OrgApp.LoadAllChildren(id));
         }
 
         /// <summary>
@@ -80,7 +75,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _orgApp.DelOrg(ids);
+                OrgApp.DelOrg(ids);
             }
             catch (Exception e)
             {

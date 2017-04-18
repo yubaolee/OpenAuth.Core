@@ -12,19 +12,14 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class RelevanceManagerController : BaseController
     {
-        private RevelanceManagerApp _app;
-
-        public RelevanceManagerController()
-        {
-            _app = AutofacExt.GetFromFac<RevelanceManagerApp>();
-        }
+        public RevelanceManagerApp App { get; set; }
 
         [HttpPost]
         public string Assign(string type, Guid firstId, Guid[] secIds)
         {
             try
             {
-                _app.Assign(type, firstId, secIds);
+                App.Assign(type, firstId, secIds);
             }
             catch (Exception ex)
             {
@@ -38,7 +33,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.UnAssign(type, firstId, secIds);
+                App.UnAssign(type, firstId, secIds);
             }
             catch (Exception ex)
             {

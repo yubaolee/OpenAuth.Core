@@ -15,12 +15,12 @@
         InitControl();
     });
     function initLoadPageData() {
-        var _FlowDesignObject = top.FlowSchemeBuider.FlowDesignObject;
-        lineobject = _FlowDesignObject.$lineData[top.FlowSchemeBuider.LineId];
-        lineobject.id = top.FlowSchemeBuider.LineId;
+        var _FlowDesignObject = parent.FlowDesignObject;
+        lineobject = _FlowDesignObject.$lineData[parent.LineId];
+        lineobject.id = parent.LineId;
         fromnode = _FlowDesignObject.$nodeData[lineobject.from];
 
-        frmtype = top.FlowSchemeBuider.postData["FrmType"];
+        frmtype = parent.postData["FrmType"];
         if (frmtype == 0) {
             frmCotent = JSON.parse(top.FlowSchemeBuider.frmData["FrmContent"]);
         }

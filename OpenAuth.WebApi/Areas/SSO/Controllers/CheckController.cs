@@ -10,7 +10,7 @@
 // ***********************************************************************
 
 using System;
-using System.Web.Mvc;
+using System.Web.Http;
 using Infrastructure;
 using Infrastructure.Cache;
 using OpenAuth.App;
@@ -23,7 +23,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// <para>其他站点通过后台Post来认证</para>
     /// <para>或使用静态类OpenAuth.App.SSO.AuthUtil访问</para>
     /// </summary>
-    public class CheckController : Controller
+    public class CheckController : ApiController
     {
         private AuthorizeApp _app;
         private ObjCacheProvider<UserAuthSession> _objCacheProvider = new ObjCacheProvider<UserAuthSession>();
@@ -64,13 +64,13 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             return string.Empty;
         }
 
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public string Login(PassportLoginRequest request)
         {
             return JsonHelper.Instance.Serialize(SSOAuthUtil.Parse(request));
         }
 
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public bool Logout(string token, string requestid)
         {
             try

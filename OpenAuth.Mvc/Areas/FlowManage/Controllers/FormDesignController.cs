@@ -13,12 +13,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 
     public class FormDesignController : BaseController
     {
-        private readonly WFFormService _wfFrmMainBll;
-
-        public FormDesignController()
-        {
-            _wfFrmMainBll = AutofacExt.GetFromFac<WFFormService>();
-        }
+        public WFFormService WfFrmMainBll { get; set; }
 
         #region 视图功能
         /// <summary>
@@ -55,7 +50,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 
         public string Load(int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_wfFrmMainBll.Load(pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(WfFrmMainBll.Load(pageCurrent, pageSize));
         }
 
         /// <summary>
@@ -66,7 +61,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetTreeJson()
         {
-            var data = _wfFrmMainBll.GetAllList();
+            var data = WfFrmMainBll.GetAllList();
             var treeList = new List<TreeEntity>();
             foreach (var item in data)
             {
@@ -95,7 +90,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetFormJson(Guid keyValue)
         {
-            var data = _wfFrmMainBll.GetForm(keyValue);
+            var data = WfFrmMainBll.GetForm(keyValue);
             return Content(data.ToJson());
         }
 
@@ -106,7 +101,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetAllListJson()
         {
-            var data = _wfFrmMainBll.GetAllList();
+            var data = WfFrmMainBll.GetAllList();
             return Content(data.ToJson());
         }
         #endregion
@@ -120,7 +115,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpPost]
         public string RemoveForm(Guid[] ids)
         {
-            _wfFrmMainBll.RemoveForm(ids);
+            WfFrmMainBll.RemoveForm(ids);
             return Result.ToJson();
         }
         ///// <summary>
@@ -137,7 +132,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
                 var user = AuthUtil.GetCurrentUser();
                 userEntity.ModifyUserId = user.User.Account;
                 userEntity.ModifyUserName = user.User.Name;
-                _wfFrmMainBll.SaveForm(keyValue, userEntity);
+                WfFrmMainBll.SaveForm(keyValue, userEntity);
             }
             catch (Exception e)
             {

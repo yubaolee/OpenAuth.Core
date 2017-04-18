@@ -14,12 +14,7 @@ namespace OpenAuth.Mvc.Controllers
     /// </summary>
     public class StockManagerController : BaseController
     {
-        private StockManagerApp _app;
-
-        public StockManagerController()
-        {
-            _app = AutofacExt.GetFromFac<StockManagerApp>();
-        }
+        public StockManagerApp App { get; set; }
 
         //
         // GET: /UserManager/
@@ -37,7 +32,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                var newmodel =  new Stock();
                 model.CopyTo(newmodel);
-                _app.AddOrUpdate(newmodel);
+                App.AddOrUpdate(newmodel);
             }
             catch (Exception ex)
             {
@@ -52,14 +47,14 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(Guid parentId, int page = 1, int rows = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(AuthUtil.GetUserName(), parentId, page, rows));
+            return JsonHelper.Instance.Serialize(App.Load(AuthUtil.GetUserName(), parentId, page, rows));
         }
         
         public string Delete(Guid[] ids)
         {
             try
             {
-                _app.Delete(ids);
+                App.Delete(ids);
             }
             catch (Exception e)
             {

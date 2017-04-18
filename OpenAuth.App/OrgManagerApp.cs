@@ -131,7 +131,7 @@ namespace OpenAuth.App
             var sameLevels = _repository.Find(o => o.ParentId == org.ParentId && o.Id != org.Id);
             foreach (var obj in sameLevels)
             {
-                int objCascadeId = int.Parse(obj.CascadeId.Split('.').Last());
+                int objCascadeId = int.Parse(obj.CascadeId.TrimEnd('.').Split('.').Last());
                 if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
@@ -140,7 +140,7 @@ namespace OpenAuth.App
                 var parentOrg = _repository.FindSingle(o => o.Id == org.ParentId);
                 if (parentOrg != null)
                 {
-                    cascadeId = parentOrg.CascadeId + "." + currentCascadeId;
+                    cascadeId = parentOrg.CascadeId + currentCascadeId+".";
                     org.ParentName = parentOrg.Name;
                 }
                 else
@@ -150,7 +150,7 @@ namespace OpenAuth.App
             }
             else
             {
-                cascadeId = "0." + currentCascadeId;
+                cascadeId = "0." + currentCascadeId+".";
                 org.ParentName = "根节点";
             }
 

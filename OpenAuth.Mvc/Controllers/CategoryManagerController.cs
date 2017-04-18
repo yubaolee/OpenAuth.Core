@@ -10,12 +10,7 @@ namespace OpenAuth.Mvc.Controllers
 {
  public class CategoryManagerController : BaseController
     {
-        private CategoryManagerApp _app;
-
-        public CategoryManagerController()
-        {
-            _app = AutofacExt.GetFromFac<CategoryManagerApp>();
-        }
+        public CategoryManagerApp App { get; set; }
 
         //
         // GET: /UserManager/
@@ -30,12 +25,12 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string Load(Guid parentId, int page = 1, int rows = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(parentId, page, rows));
+            return JsonHelper.Instance.Serialize(App.Load(parentId, page, rows));
         }
 
      public string LoadForTree()
      {
-         return JsonHelper.Instance.Serialize(_app.LoadAll());
+         return JsonHelper.Instance.Serialize(App.LoadAll());
      }
 
         //添加或修改Category
@@ -44,7 +39,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.AddOrUpdate(model);
+                App.AddOrUpdate(model);
                 
             }
             catch (Exception ex)
@@ -59,7 +54,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _app.Delete(ids);
+                App.Delete(ids);
             }
             catch (Exception e)
             {

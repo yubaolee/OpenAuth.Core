@@ -14,12 +14,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
     /// </summary>
     public class FlowInstancesController : BaseController
     {
-        private WFProcessInstanceService _app;
-
-        public FlowInstancesController()
-        {
-            _app = AutofacExt.GetFromFac<WFProcessInstanceService>();
-        }
+        public WFProcessInstanceService App { get; set; }
 
         #region 视图
 
@@ -115,7 +110,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             WFProcessInstance wfProcessInstanceEntity = wfProcessInstanceJson.ToObject<WFProcessInstance>();
             wfProcessInstanceEntity.Id = Guid.Empty;
 
-            _app.CreateInstance(Guid.NewGuid(), wfSchemeInfoId, wfProcessInstanceEntity, frmData);
+            App.CreateInstance(Guid.NewGuid(), wfSchemeInfoId, wfProcessInstanceEntity, frmData);
 
             return Result.ToJson();
         }
@@ -129,7 +124,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpPost]
         public string VerificationProcess(Guid processId, string verificationData)
         {
-            _app.VerificationProcess(processId, verificationData);
+            App.VerificationProcess(processId, verificationData);
             return Result.ToJson();
         }
 
@@ -142,7 +137,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             {
                 foreach (var id in ids)
                 {
-                    _app.DeleteProcess(id);
+                    App.DeleteProcess(id);
                 }
                 return Result.ToJson();
             }
@@ -166,7 +161,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetProcessSchemeJson(Guid keyValue)
         {
-            var data = _app.GetProcessSchemeEntity(keyValue);
+            var data = App.GetProcessSchemeEntity(keyValue);
             return Content(data.ToJson());
         }
 
@@ -178,7 +173,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetProcessSchemeEntityByUserId(Guid keyValue)
         {
-            var data = _app.GetProcessSchemeByUserId(keyValue);
+            var data = App.GetProcessSchemeByUserId(keyValue);
             return Content(data.ToJson());
         }
 
@@ -191,7 +186,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetProcessSchemeEntityByNodeId(Guid keyValue, string nodeId)
         {
-            var data = _app.GetProcessSchemeEntityByNodeId(keyValue, nodeId);
+            var data = App.GetProcessSchemeEntityByNodeId(keyValue, nodeId);
             return Content(data.ToJson());
         }
 
@@ -203,8 +198,8 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetProcessInfoJson(Guid keyValue)
         {
-            var processInstance = _app.GetProcessInstanceEntity(keyValue);
-            var processScheme = _app.GetProcessSchemeEntity(processInstance.ProcessSchemeId);
+            var processInstance = App.GetProcessInstanceEntity(keyValue);
+            var processScheme = App.GetProcessSchemeEntity(processInstance.ProcessSchemeId);
             var JsonData = new
             {
                 processInstance = processInstance,
@@ -221,13 +216,13 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpGet]
         public ActionResult GetProcessInstanceJson(Guid keyValue)
         {
-            var processInstance = _app.GetProcessInstanceEntity(keyValue);
+            var processInstance = App.GetProcessInstanceEntity(keyValue);
             return Content(processInstance.ToJson());
         }
 
         public string Load(string type, int pageCurrent = 1, int pageSize = 30)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(AuthUtil.GetCurrentUser().User.Id.ToString(), type, pageCurrent, pageSize));
+            return JsonHelper.Instance.Serialize(App.Load(AuthUtil.GetCurrentUser().User.Id.ToString(), type, pageCurrent, pageSize));
         }
 
         #endregion 获取数据(公用)

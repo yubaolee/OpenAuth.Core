@@ -114,6 +114,8 @@ namespace OpenAuth.App
 
         public void AddOrUpdate(UserView view)
         {
+            if (string.IsNullOrEmpty(view.OrganizationIds))
+                throw new Exception("请为用户分配机构");
             User user = view;
             if (user.Id == Guid.Empty)
             {

@@ -75,13 +75,16 @@ namespace OpenAuth.Domain.Service
 
         public void AddOrUpdate(Module model)
         {
-            ChangeModuleCascade(model);
+            
             if (model.Id == Guid.Empty)
             {
+				ChangeModuleCascade(model);
                 _repository.Add(model);
             }
             else
             {
+				//从数据库获取级联ID
+                model.CascadeId = _repository.FindSingle(o => o.Id == model.Id).CascadeId;
                 _repository.Update(model);
             }
         }

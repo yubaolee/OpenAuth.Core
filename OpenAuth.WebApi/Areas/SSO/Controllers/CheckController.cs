@@ -15,6 +15,7 @@ using Infrastructure;
 using Infrastructure.Cache;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
+using System.Web.Mvc;
 
 namespace OpenAuth.WebApi.Areas.SSO.Controllers
 {
@@ -23,7 +24,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// <para>其他站点通过后台Post来认证</para>
     /// <para>或使用静态类OpenAuth.App.SSO.AuthUtil访问</para>
     /// </summary>
-    public class CheckController : ApiController
+    public class CheckController : Controller
     {
         private AuthorizeApp _app;
         private ObjCacheProvider<UserAuthSession> _objCacheProvider = new ObjCacheProvider<UserAuthSession>();

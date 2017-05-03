@@ -115,7 +115,19 @@ namespace OpenAuth.App
             }
             else
             {
+                //获取旧的的CascadeId
+                var CascadeId = _repository.FindSingle(o => o.Id == category.Id).CascadeId;
+                //根据CascadeId查询子分类
+                var categorys = _repository.Find(u => u.CascadeId.Contains(CascadeId) && u.Id != category.Id).OrderBy(u => u.CascadeId).ToList();
+
                 _repository.Update(category);
+
+                //更新子分类的CascadeId
+                foreach (var a in categorys)
+                {
+                    ChangeModuleCascade(a);
+                    _repository.Update(a);
+                }
             }
         }
 
@@ -147,7 +159,7 @@ namespace OpenAuth.App
             }
             else
             {
-                cascadeId = "0." + currentCascadeId +".";
+                cascadeId = ".0." + currentCascadeId +".";
             }
 
             org.CascadeId = cascadeId;

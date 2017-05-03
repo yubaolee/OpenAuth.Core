@@ -75,17 +75,26 @@ namespace OpenAuth.Domain.Service
 
         public void AddOrUpdate(Module model)
         {
-            
+            ChangeModuleCascade(model);
             if (model.Id == Guid.Empty)
             {
-				ChangeModuleCascade(model);
                 _repository.Add(model);
             }
             else
             {
-				//从数据库获取级联ID
-                model.CascadeId = _repository.FindSingle(o => o.Id == model.Id).CascadeId;
+                //获取旧的的CascadeId
+                var CascadeId = _repository.FindSingle(o => o.Id == model.Id).CascadeId;
+                //根据CascadeId查询子部门
+                var models = _repository.Find(u => u.CascadeId.Contains(CascadeId) && u.Id != model.Id).OrderBy(u => u.CascadeId).ToList();
+
                 _repository.Update(model);
+
+                //更新子部门的CascadeId
+                foreach (var a in models)
+                {
+                    ChangeModuleCascade(a);
+                    _repository.Update(a);
+                }
             }
         }
 
@@ -171,7 +180,7 @@ namespace OpenAuth.Domain.Service
             }
             else
             {
-                cascadeId = "0." + currentCascadeId +".";
+                cascadeId = ".0." + currentCascadeId +".";
                 module.ParentName = "根节点";
             }
 

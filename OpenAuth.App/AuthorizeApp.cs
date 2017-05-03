@@ -25,7 +25,7 @@ namespace OpenAuth.App
             {
                 User = service.User,
                 Orgs = service.Orgs,
-                Modules = service.Modules.MapToList<ModuleView>(),
+                Modules = service.Modules.OrderBy(u => u.SortNo).ToList().MapToList<ModuleView>(),
                 Resources = service.Resources,
                 Roles = service.Roles
             };

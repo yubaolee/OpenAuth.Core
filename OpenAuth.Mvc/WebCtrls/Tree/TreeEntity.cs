@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace LeaRun.Util.WebControl
+﻿namespace OpenAuth.Mvc.WebCtrls.Tree
 {
     /// <summary>
     /// 树实体

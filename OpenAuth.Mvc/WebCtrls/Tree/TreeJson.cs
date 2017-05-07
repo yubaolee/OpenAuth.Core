@@ -1,10 +1,7 @@
-﻿using LeaRun.Util.WebControl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 
-namespace LeaRun.Util.WebControl
+namespace OpenAuth.Mvc.WebCtrls.Tree
 {
     /// <summary>
     /// 构造树形Json

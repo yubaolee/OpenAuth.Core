@@ -30,26 +30,24 @@
             if (data.direction == "next") {
                 switch (data.step) {
                     case 1:
-                        if (!bindingBase())
-                        {
+                        if (!bindingBase()) {
                             return false;
                         }
                         break;
                     case 2://绑定表单
-                       
-                            if (!bindingFrm()) {
-                                dialogTop("请选择左侧表单", "error");
-                                return false;
-                            }
-                            var frmcotentls = frmapp.getData();
-                            if (!frmcotentls) {
-                                return false;
-                            }
-                            frmData.FrmContent = JSON.stringify(frmcotentls);
+
+                        if (!bindingFrm()) {
+                            dialogTop("请选择左侧表单", "error");
+                            return false;
+                        }
+                        var frmcotentls = frmapp.getData();
+                        if (!frmcotentls) {
+                            return false;
+                        }
+                        frmData.FrmContent = JSON.stringify(frmcotentls);
                         break;
                     case 3://流程设计
-                        if (!bindingFlow())
-                        {
+                        if (!bindingFlow()) {
                             return false;
                         }
                         $finish.removeAttr('disabled');
@@ -73,16 +71,15 @@
                     $("#step-1").SetWebControls(data.schemeinfo);
                     postData["SchemeVersion"] = data.schemeinfo.SchemeVersion;
 
-                    if(data.schemeinfo.EnabledMark == 3)
-                    {
+                    if (data.schemeinfo.EnabledMark == 3) {
                         flowData["SchemeVersion"] = "cg";
                     }
                     SchemeContentOld = JSON.parse(data.schemecontent.SchemeContent);
-                  
-                        $('#FormFrmTree').setNodeChecked(SchemeContentOld.Frm.FrmId);
-                        frmData.FrmId = SchemeContentOld.Frm.FrmId;
-                        setFrmInfo(SchemeContentOld.Frm);
-                   
+
+                    $('#FormFrmTree').setNodeChecked(SchemeContentOld.Frm.FrmId);
+                    frmData.FrmId = SchemeContentOld.Frm.FrmId;
+                    setFrmInfo(SchemeContentOld.Frm);
+
                     setFlowInfo(SchemeContentOld.Flow);
                 }
             });
@@ -91,8 +88,7 @@
         GetTree('User');
     }
     /*=========基本配置（begin）==================================================================*/
-    function bindingBase()
-    {
+    function bindingBase() {
         if (!$('#step-1').Validform()) {
             return false;
         }
@@ -103,64 +99,11 @@
     /*=========基本配置（end）====================================================================*/
     function GetTree(type) {
         $.SetForm({
-            url: "/UserManager/Get" + type + "CheckTreeJson",
+            //url: "/UserManager/Get" + type + "CheckTreeJson",
+            url:"/UserManager/GetAccessedUsers",
             success: function (data) {
                 AllAuthorizeCheckData[type] = $.arrayClone(data);
-                //var item = {
-                //    height: $(window).height() - 131,
-                //    showcheck: true,
-                //    //url: "../../FlowManage/FlowDesign/Get" + type + "CheckTreeJson",
-                //    data: data,
-                //    oncheckboxclick: function (item, et, s) {
-                //        var $item = $("#" + item.mytype + "Div");
-                //        if (et == 1) {
-                //            var mytype = "";
-                //            var _html = "";
-                //            var _title = '';
-                //            switch (item.mytype) {
-                //                case "Role":
-                //                    mytype = "角色";
-                //                    break;
-                //                case "Post":
-                //                    mytype = "岗位";
-                //                    break;
-                //                case "UserGroup":
-                //                    mytype = "用户组";
-                //                    break;
-                //                case "User":
-                //                    mytype = "用户";
-                //                    break;
-                //            }
-                //            _html += '<div id="' + item.id + '" data-value="' + item.mytype + '" class="card-box shcemeinfocheck active">';
-                //            _html += '    <div class="card-box-img">';
-                //            _html += '        <img src="/Content/images/UserCard03.png" />';
-                //            _html += '    </div>';
-                //            _html += '    <div class="card-box-content">';
-                //            _html += '        <p>名称：' + item.text + '</p>';
-                //            _html += '        <p>类别：' + mytype + '</p>';
-                //            _html += '    </div><i></i>';
-                //            _html += '</div>';
-                //            $item.append(_html);
-                //            $item.show();
-
-                //            $(".card-box").click(function () {
-                //                $(this).remove();
-                //                $('#' + $(this).attr('data-value')).setNoCheckedNodes($(this).attr('id'));
-                //                if ($item.find('.card-box-img').length == 0) {
-                //                    $item.hide();
-                //                }
-                //            })
-                //        }
-                //        else if (et == 0) {
-                //            $item.find('#' + item.id).remove();
-                //            if ($item.find('.card-box-img').length == 0) {
-                //                $item.hide();
-                //            }
-                //        }
-
-                //    }
-                //};
-                //$("#" + type).treeview(item);
+              
             }
         });
     }
@@ -168,33 +111,28 @@
     /*=========表单选择（begin）==================================================================*/
     var _frmdatabase = "";
     var _frmflag = false;
-    function initFrmInfo()
-    {
+    function initFrmInfo() {
         //加载左边的树
         var item = {
             height: $(window).height() - 87,
             url: "../../FlowManage/FormDesign/GetTreeJson",
             onnodeclick: function (item) {
-                if (item.Sort == "Frm") {
-                    frmData.FrmId = item.id;
-                    if (SchemeContentOld != undefined && frmData.FrmId == SchemeContentOld.Frm.FrmId) {
-                        setFrmInfo(SchemeContentOld.Frm);
-                    }
-                    else {
-                        $.SetForm({
-                            url: "../../FlowManage/FormDesign/GetFormJson",
-                            param: { keyValue: item.id },
-                            success: function (data) {
-                                setFrmInfo(data);
-                            }
-                        });
-                    }
+
+                frmData.FrmId = item.id;
+                if (SchemeContentOld != undefined
+                    && frmData.FrmId == SchemeContentOld.Frm.FrmId) {
+                    setFrmInfo(SchemeContentOld.Frm);
                 }
                 else {
-                    $('#frmdesign').hide();
-                    $('#frmpreview').hide();
-                    $('#frmDefaulting').show();
+                    $.SetForm({
+                        url: "../../FlowManage/FormDesign/GetFormJson",
+                        param: { keyValue: item.id },
+                        success: function (data) {
+                            setFrmInfo(data);
+                        }
+                    });
                 }
+
             }
         };
         $("#FormFrmTree").treeview(item);
@@ -223,7 +161,7 @@
                 _frmflag = false;
             }
             else {
-                if ( frmData.FrmName != undefined) {
+                if (frmData.FrmName != undefined) {
                     $('#frmpreview').hide();
                     $('#frmDefaulting').hide();
                     $('#frmdesign').show();
@@ -242,8 +180,7 @@
         });
     }
     //设置表单数据
-    function setFrmInfo(data)
-    {
+    function setFrmInfo(data) {
         $('#frmdesign').hide();
         $('#frmDefaulting').hide();
         $('#frmpreview').show();
@@ -257,19 +194,18 @@
         _frmflag = false;
         $('#frmpreview').frmPreview({
             tablecotent: data.FrmContent,
-            width:870
+            width: 870
         });
-        
 
-            frmapp = $('#frmdesign').frmDesign({
-                Height: 480,
-                frmContent: frmData.FrmContent
-            });
-        
+
+        frmapp = $('#frmdesign').frmDesign({
+            Height: 480,
+            frmContent: frmData.FrmContent
+        });
+
     }
     function bindingFrm() {
-        if (frmData.FrmName == undefined)
-        {
+        if (frmData.FrmName == undefined) {
             return false;
         }
         return true;
@@ -281,15 +217,13 @@
     var FlowDesignObject;//
     var LineId;
     var nodePramData = [];
-    function initFlowInfo()
-    {
+    function initFlowInfo() {
         FlowDesignPanel = $('#FlowPanel').flowdesign({
             height: ($(window).height() - 87),
             widht: 1000,
             OpenNode: function (object) {
                 FlowDesignObject = object;
-                if (object.$nodeData[object.$focus].type == 'startround')
-                {
+                if (object.$nodeData[object.$focus].type == 'startround') {
                     return false;
                 }
 
@@ -316,8 +250,7 @@
                 LineId = id;
                 var _line = object.$lineData[id];
                 var _fromNode = object.$nodeData[_line.from];
-                if (_fromNode.type == "shuntnode")
-                {
+                if (_fromNode.type == "shuntnode") {
                     dialogTop("前一个节点是分流节点无法设置流转条件", "error");
                     return false;
                 }
@@ -343,24 +276,19 @@
             }
         });
     }
-    function setFlowInfo(data)
-    {
+    function setFlowInfo(data) {
         FlowDesignPanel.loadData(data);
     }
-    function callBackNode(id, data, _nodePramData)
-    {
+    function callBackNode(id, data, _nodePramData) {
         nodePramData = _nodePramData;
         FlowDesignPanel.SetNodeEx(id, data);
     }
-    function callBackLine(id, data)
-    {
+    function callBackLine(id, data) {
         FlowDesignPanel.SetLineEx(id, data);
     }
-    function bindingFlow()
-    {
+    function bindingFlow() {
         var _content = FlowDesignPanel.exportDataEx();
-        if (_content == -1)
-        {
+        if (_content == -1) {
             return false;
         }
         flowData["SchemeContent"] = JSON.stringify({ "Frm": frmData, "Flow": _content });
@@ -404,7 +332,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">流程基本信息配置</h3>
                 </div>
-                <div class="panel-body" >
+                <div class="panel-body">
                     <table class="form">
                         <tr>
                             <td class="formTitle">流程编号<font face="宋体">*</font></td>
@@ -430,7 +358,7 @@
                 </div>
             </div>
         </div>
-     
+
         <div class="step-pane" id="step-2">
             <div>
                 <div id="FormFrmTree" class="border-right" style="width: 190px; float: left;"></div>
@@ -458,7 +386,7 @@
         <div class="step-pane" id="step-4">
             <div class="drag-tip">
                 <i class="fa fa-check-circle"></i>
-                <p >设计完成,请点击保存</p>
+                <p>设计完成,请点击保存</p>
             </div>
         </div>
     </div>
@@ -476,16 +404,19 @@
         width: 50px;
         z-index: 1000;
     }
+
     .standtab-pane {
-        width:224px;
-        border-right:1px solid #ccc;
-        float:left;
-    }
-    .SchemeAuthorizePanel {
-        width:828px;
+        width: 224px;
+        border-right: 1px solid #ccc;
         float: left;
-        display:none;
     }
+
+    .SchemeAuthorizePanel {
+        width: 828px;
+        float: left;
+        display: none;
+    }
+
     .card-box.active {
         background: url(../../Content/Images/item_close.png) right top no-repeat !important;
     }

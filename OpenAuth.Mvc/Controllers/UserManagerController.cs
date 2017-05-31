@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.ViewModel;
-using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
-using OpenAuth.Mvc.WebCtrls.Tree;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -67,36 +64,6 @@ namespace OpenAuth.Mvc.Controllers
         #region 获取权限数据
 
         /// <summary>
-        /// 用户列表树 
-        /// </summary>
-        /// <returns>返回树形Json</returns>
-        [HttpGet]
-        public ActionResult GetUserCheckTreeJson()
-        {
-            var treeList = new List<TreeEntity>();
-            string companyid = "";
-            string departmentid = "";
-            foreach (UserView item in App.Load(Guid.Empty, 1, 10).rows)
-            {
-                TreeEntity tree = new TreeEntity();
-
-                tree.id = item.Id.ToString();
-                tree.text = item.Name;
-                tree.value = item.Id.ToString();
-                tree.isexpand = true;
-                tree.complete = true;
-                tree.hasChildren = false;
-                tree.parentId = "0";
-                tree.showcheck = true;
-                tree.img = "fa fa-user";
-                tree.Attribute = "mytype";
-                tree.AttributeValue = "User";
-                treeList.Add(tree);
-            }
-            return Content(treeList.TreeToJson());
-        }
-
-        /// <summary>
         /// 获取用户可访问的账号
         /// <para>李玉宝于2017-02-28 15:12:19</para>
         /// </summary>
@@ -110,7 +77,12 @@ namespace OpenAuth.Mvc.Controllers
                 {
                     Account = user.Account,
                     RealName = user.Name,
-
+                    id = user.Id.ToString(),
+                    text = user.Name,
+                    value = user.Account,
+                    parentId = "0",
+                    showcheck = true,
+                    img = "fa fa-user",
                 };
                 result.Add(user.Id.ToString(), item);
             }

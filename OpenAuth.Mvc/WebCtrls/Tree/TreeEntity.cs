@@ -1,7 +1,7 @@
 ﻿namespace OpenAuth.Mvc.WebCtrls.Tree
 {
     /// <summary>
-    /// 树实体
+    /// wdTree实体
     /// </summary>
     public class TreeEntity
     {

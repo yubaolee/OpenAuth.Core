@@ -167,8 +167,6 @@
     </Compile>
     <Compile Include="Models\AuthenticateAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebCtrls\Tree\TreeEntity.cs" />
-    <Compile Include="WebCtrls\Tree\TreeJson.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BllScripts\assignModule.js" />

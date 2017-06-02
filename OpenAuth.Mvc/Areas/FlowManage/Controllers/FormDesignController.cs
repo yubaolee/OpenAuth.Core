@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
 using OpenAuth.Domain;
 using OpenAuth.Mvc.Controllers;
-using OpenAuth.Mvc.WebCtrls.Tree;
 
 namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 {
@@ -54,35 +53,6 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         }
 
         /// <summary>
-        /// 返回表单列表树
-        /// </summary>
-        /// <param name="keyword">关键字</param>
-        /// <returns>返回树形Json</returns>
-        [HttpGet]
-        public ActionResult GetTreeJson()
-        {
-            var data = WfFrmMainBll.GetAllList();
-            var treeList = new List<TreeEntity>();
-            foreach (var item in data)
-            {
-                TreeEntity tree = new TreeEntity
-                {
-                    id = item.Id.ToString(),
-                    text = item.FrmName,
-                    value = item.Id.ToString(),
-                    isexpand = true,
-                    complete = true,
-                    hasChildren = false,
-                    parentId = "0",
-                    Attribute = "Sort",
-                    AttributeValue = "Frm"
-                };
-
-                treeList.Add(tree);
-            }
-            return Content(treeList.TreeToJson());
-        }
-        /// <summary>
         /// 设置表单
         /// </summary>
         /// <param name="keyValue">主键</param>
@@ -102,7 +72,20 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         public ActionResult GetAllListJson()
         {
             var data = WfFrmMainBll.GetAllList();
-            return Content(data.ToJson());
+
+            var result = data.Select(u => new
+            {
+                id = u.Id.ToString(),
+                text = u.FrmName,
+                value = u.Id.ToString(),
+                isexpand = true,
+                complete = true,
+                hasChildren = false,
+                parentId = "0",
+                Attribute = "Sort",
+                AttributeValue = "Frm"
+            });
+            return Content(result.ToJson());
         }
         #endregion
 

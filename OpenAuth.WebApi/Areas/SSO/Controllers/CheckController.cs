@@ -34,8 +34,13 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             _app = AutofacExt.GetFromFac<AuthorizeApp>();
         }
 
+        /// <summary>
+        /// 检验token是否有效
+        /// </summary>
+        /// <param name="token">The token.</param>
+        /// <param name="requestid">备用参数.</param>
         [System.Web.Mvc.HttpGet]
-        public bool GetStatus(string token = "", string requestid = "")
+        public bool GetStatus(string token, string requestid = "")
         {
             if (_objCacheProvider.GetCache(token) != null)
             {
@@ -45,8 +50,13 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             return false;
         }
 
+        /// <summary>
+        /// 根据token获取用户及用户可访问的所有资源
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="requestid">备用参数.</param>
         [System.Web.Mvc.HttpGet]
-        public UserWithAccessedCtrls GetUser(string token = "", string requestid = "")
+        public UserWithAccessedCtrls GetUser(string token, string requestid = "")
         {
             string userName = GetUserName(token, requestid);
             if (!string.IsNullOrEmpty(userName))
@@ -57,6 +67,11 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             return null;
         }
 
+        /// <summary>
+        /// 根据token获取用户名称
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="requestid">备用参数.</param>
         [System.Web.Mvc.HttpGet]
         public string GetUserName(string token, string requestid = "")
         {
@@ -69,14 +84,24 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             return string.Empty;
         }
 
+        /// <summary>
+        /// 登录接口
+        /// </summary>
+        /// <param name="request">登录参数</param>
+        /// <returns></returns>
         [System.Web.Mvc.HttpPost]
         public LoginResult Login(PassportLoginRequest request)
         {
             return SSOAuthUtil.Parse(request);
         }
 
+        /// <summary>
+        /// 注销登录
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="requestid">备用参数.</param>
         [System.Web.Mvc.HttpPost]
-        public bool Logout(string token, string requestid)
+        public bool Logout(string token, string requestid="")
         {
             try
             {

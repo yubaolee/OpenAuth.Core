@@ -45,7 +45,7 @@ namespace OpenAuth.App.SSO
             if (String.IsNullOrEmpty(token) || String.IsNullOrEmpty(GetToken()))
                 return false;
 
-            var requestUri = String.Format("/SSO/Check/GetStatus?token={0}&requestid={1}", token, remark);
+            var requestUri = String.Format("/api/Check/GetStatus?token={0}&requestid={1}", token, remark);
 
             try
             {
@@ -77,7 +77,7 @@ namespace OpenAuth.App.SSO
         public static UserWithAccessedCtrls GetCurrentUser(string remark = "")
         {
 
-            var requestUri = String.Format("/SSO/Check/GetUser?token={0}&requestid={1}", GetToken(), remark);
+            var requestUri = String.Format("/api/Check/GetUser?token={0}&requestid={1}", GetToken(), remark);
 
             try
             {
@@ -99,7 +99,7 @@ namespace OpenAuth.App.SSO
         /// <returns>System.String.</returns>
         public static string GetUserName(string remark = "")
         {
-            var requestUri = String.Format("/SSO/Check/GetUserName?token={0}&requestid={1}", GetToken(), remark);
+            var requestUri = String.Format("/api/Check/GetUserName?token={0}&requestid={1}", GetToken(), remark);
 
             try
             {
@@ -121,7 +121,7 @@ namespace OpenAuth.App.SSO
         /// <returns>System.String.</returns>
         public static LoginResult Login(string appKey, string username, string pwd)
         {
-            var requestUri = "/SSO/Check/Login";
+            var requestUri = "/api/Check/Login";
 
             try
             {
@@ -150,7 +150,7 @@ namespace OpenAuth.App.SSO
             var token = GetToken();
             if (String.IsNullOrEmpty(token)) return true;
 
-            var requestUri = String.Format("/SSO/Check/Logout?token={0}&requestid={1}", token, "");
+            var requestUri = String.Format("/api/Check/Logout?token={0}&requestid={1}", token, "");
 
             try
             {

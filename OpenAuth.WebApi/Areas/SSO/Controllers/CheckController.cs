@@ -16,6 +16,7 @@ using Infrastructure.Cache;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
 using System.Web.Mvc;
+using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.WebApi.Areas.SSO.Controllers
 {
@@ -24,7 +25,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// <para>其他站点通过后台Post来认证</para>
     /// <para>或使用静态类OpenAuth.App.SSO.AuthUtil访问</para>
     /// </summary>
-    public class CheckController : Controller
+    public class CheckController : ApiController
     {
         private AuthorizeApp _app;
         private ObjCacheProvider<UserAuthSession> _objCacheProvider = new ObjCacheProvider<UserAuthSession>();
@@ -33,6 +34,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             _app = AutofacExt.GetFromFac<AuthorizeApp>();
         }
 
+        [System.Web.Mvc.HttpGet]
         public bool GetStatus(string token = "", string requestid = "")
         {
             if (_objCacheProvider.GetCache(token) != null)
@@ -43,17 +45,19 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             return false;
         }
 
-        public string GetUser(string token = "", string requestid = "")
+        [System.Web.Mvc.HttpGet]
+        public UserWithAccessedCtrls GetUser(string token = "", string requestid = "")
         {
             string userName = GetUserName(token, requestid);
             if (!string.IsNullOrEmpty(userName))
             {
-                return JsonHelper.Instance.Serialize(_app.GetAccessedControls(userName));
+                return _app.GetAccessedControls(userName);
             }
 
-            return string.Empty;
+            return null;
         }
 
+        [System.Web.Mvc.HttpGet]
         public string GetUserName(string token, string requestid = "")
         {
             var user = _objCacheProvider.GetCache(token);
@@ -66,9 +70,9 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public string Login(PassportLoginRequest request)
+        public LoginResult Login(PassportLoginRequest request)
         {
-            return JsonHelper.Instance.Serialize(SSOAuthUtil.Parse(request));
+            return SSOAuthUtil.Parse(request);
         }
 
         [System.Web.Mvc.HttpPost]

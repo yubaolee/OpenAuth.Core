@@ -103,7 +103,7 @@ namespace OpenAuth.App.SSO
 
             try
             {
-                var value = _helper.Get(null, requestUri);
+                var value = _helper.Get<string>(null, requestUri);
                 return value;
             }
             catch (Exception ex)

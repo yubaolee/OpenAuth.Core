@@ -1,0 +1,14 @@
+{
+    "cmsName": "OpenAuth.Net 最好用的.NET权限工作流框架",
+    "version": "v4.0",
+    "author": "yubaolee",
+    "homePage": "/Home/Index",
+    "server": "windows",
+    "dataBase": "2003",
+    "maxUpload": "2M",
+    "userRights": "总管理员",
+    "description": "这是宝哥的吐血之作",
+    "powerby": "copyright @2017 yubaolee",
+    "record": "yubaolee",
+    "keywords": "openauth.net，.net权限工作流"
+}

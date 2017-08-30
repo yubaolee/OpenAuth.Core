@@ -335,6 +335,14 @@
     <Content Include="layui\font\iconfont.eot" />
     <Content Include="layui\font\iconfont.ttf" />
     <Content Include="layui\font\iconfont.woff" />
+    <Content Include="json\images.json" />
+    <Content Include="json\linksList.json" />
+    <Content Include="json\message.json" />
+    <Content Include="json\navs.json" />
+    <Content Include="json\newsList.json" />
+    <Content Include="json\systemParameter.json" />
+    <Content Include="json\userface.json" />
+    <Content Include="json\usersList.json" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <Content Include="Views\Home\git.cshtml" />
     <Content Include="Web.config">
@@ -356,6 +364,7 @@
     <Content Include="Areas\FlowManage\Views\FlowInstances\Index.cshtml" />
     <Content Include="Views\Shared\_FlowForm.cshtml" />
     <Content Include="Views\Shared\_Form.cshtml" />
+    <Content Include="Views\Home\Main.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

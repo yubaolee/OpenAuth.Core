@@ -3,10 +3,8 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Infrastructure;
-using OpenAuth.App;
 using OpenAuth.App.SSO;
 using OpenAuth.App.ViewModel;
-using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -16,6 +14,11 @@ namespace OpenAuth.Mvc.Controllers
         public ActionResult Index()
         {
             ViewBag.NavBar = GetNavBar();
+            return View();
+        }
+
+        public ActionResult Main()
+        {
             return View();
         }
 

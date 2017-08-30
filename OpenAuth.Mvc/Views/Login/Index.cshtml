@@ -1,104 +1,40 @@
-﻿@{
-    Layout = null;
-}
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html>
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta charset="utf-8" />
-    <title>登陆页面 - OpenAuth.Net</title>
-
-    <meta name="description" content="User login page" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
-    <link href="/Content/scripts/bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <link href="/Content/ace/css/font-awesome.min.css" rel="stylesheet" />
-    <!-- Theme style -->
-    <link href="/Content/ace/css/ace.css" rel="stylesheet" />
-    <link href="~/Content/scripts/layui/css/layui.css" rel="stylesheet" />
-    <!-- bootstrap & fontawesome -->
-    <!-- text fonts -->
-    <link rel="stylesheet" href="/Content/ace/css/ace-fonts.css" />
-
+    <meta charset="utf-8">
+    <title>登录--layui后台管理模板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../../css/login.css" media="all" />
 </head>
-
-<body class="login-layout" style="background-image: url('/Content/Images/login/bg.jpg'); ">
-    <div class="main-container">
-        <div class="main-content">
-            <div class="row">
-                <div class="col-sm-10 col-sm-offset-1">
-                    <div class="login-container">
-                        <div class="center">
-                            <h1>
-                                <i class="ace-icon fa fa-users blue"></i>
-                                <span class="red">OpenAuth</span>
-                                <span class="white" id="id-text2">.Net</span>
-                            </h1>
-                            <h4 class="blue" id="id-company-text">&copy; yubaolee</h4>
-                        </div>
-
-                        <div class="space-6"></div>
-
-                        <div class="position-relative">
-                            <div id="login-box" class="login-box visible widget-box no-border">
-                                <div class="widget-body">
-                                    <div class="widget-main">
-                                        <h4 class="header blue lighter bigger">
-                                            <i class="ace-icon fa fa-coffee"></i>
-                                            请输入您的登录信息
-                                        </h4>
-
-                                        <div class="space-6"></div>
-
-                                        <!-- Login form -->
-                                        <form class="layui-form">
-                                            <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
-                                            <div class="layui-form-item">
-                                                <label class="layui-form-label">用户名</label>
-                                                <div class="layui-input-block">
-                                                    <input type="text" name="username" placeholder="请输入" lay-verify="required" autocomplete="off" class="layui-input">
-                                                </div>
-                                            </div>
-                                            <div class="layui-form-item">
-                                                <label class="layui-form-label">密码</label>
-                                                <div class="layui-input-block">
-                                                    <input type="password" name="password" placeholder="请输入" lay-verify="required" autocomplete="off" class="layui-input">
-                                                </div>
-                                            </div>
-
-                                            <div class="layui-form-item">
-                                                <div class="layui-input-block">
-                                                    <button class="layui-btn" lay-submit lay-filter="*">登陆</button>
-                                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <script src="~/Content/scripts/jquery/jQuery-2.1.4.min.js"></script>
-                                        <script src="~/Content/scripts/layui/layui.js"></script>
-                                        <script src="~/BllScripts/login.js"></script>
-
-                                        <div class="social-or-login center">
-                                            <span class="bigger-110">Or Login Using</span>
-                                        </div>
-
-                                        <div class="space-6"></div>
-
-                                        <div class="center">
-                                            <a href="/Login/LoginByDev" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-user"></i> 点击以开发者账号登录</a>
-                                            <a href="http://localhost:52789/SSO/Login?appkey=@ViewBag.AppKey" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-user-secret"></i>OpenAuth.net第三方登陆功能</a>
-                                        </div>
-                                    </div><!-- /.widget-main -->
-
-                                </div><!-- /.widget-body -->
-                            </div><!-- /.login-box -->
-                        </div><!-- /.position-relative -->
-                    </div>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.main-content -->
-    </div><!-- /.main-container -->
-    <!-- basic scripts -->
+<body>
+    <video class="video-player" preload="auto" autoplay="autoplay" loop="loop" data-height="1080" data-width="1920" height="1080" width="1920">
+        <source src="login.mp4" type="video/mp4">
+        <!-- 此视频文件为支付宝所有，在此仅供样式参考，如用到商业用途，请自行更换为其他视频或图片，否则造成的任何问题使用者本人承担，谢谢 -->
+    </video>
+    <div class="video_mask"></div>
+    <div class="login">
+        <h1>layuiCMS-管理登录</h1>
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
+            </div>
+            <div class="layui-form-item">
+                <input class="layui-input" name="password" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
+            </div>
+            <div class="layui-form-item form_code">
+                <input class="layui-input" name="code" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
+                <div class="code"><img src="../../images/code.jpg" width="116" height="36"></div>
+            </div>
+            <button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>
+        </form>
+    </div>
+    <script type="text/javascript" src="/layui/layui.js"></script>
+    <script type="text/javascript" src="/js/login.js"></script>
 </body>
 </html>

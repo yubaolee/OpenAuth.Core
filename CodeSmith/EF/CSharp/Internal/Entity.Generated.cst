@@ -33,11 +33,12 @@ namespace <%= EntityNamespace %>
     /// <summary>
 	/// <%= Entity.Description %>
 	/// </summary>
-    public partial class <%= Entity.ClassName.ToSafeName() %>
+    public partial class <%= Entity.ClassName.ToSafeName() %> : Entity
     {
         public <%= Entity.ClassName.ToSafeName() %>()
         {
 <% foreach(var p in Entity.Properties) { 
+    if(p.IsPrimaryKey ==true) continue;
     string type = p.SystemType.ToNullableType(p.IsNullable == true);
     if(type =="int" || type=="decimal")
     Response.WriteLine("          this."+p.PropertyName.ToSafeName()+"= 0;");
@@ -51,7 +52,9 @@ namespace <%= EntityNamespace %>
 <% } // foreach %>
         }
 
-<% foreach(var p in Entity.Properties) { %>
+<% foreach(var p in Entity.Properties) {
+    if(p.IsPrimaryKey ==true) continue;
+    %>
         /// <summary>
 	    /// <%=p.Description %>
 	    /// </summary>

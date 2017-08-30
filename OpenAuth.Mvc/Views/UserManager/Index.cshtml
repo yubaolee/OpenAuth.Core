@@ -1,94 +1,43 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<!-- #section:basics/content.breadcrumbs -->
-<div class="breadcrumbs" id="breadcrumbs">
-    <ul class="breadcrumb">
-        <li>
-            <i class="ace-icon fa fa-home home-icon"></i>
-            <a href="#">用户管理</a>
-        </li>
-        <li class="active">列表</li>
-    </ul><!-- /.breadcrumb -->
-</div>
-
-<!-- /section:basics/content.breadcrumbs -->
-<div class="page-content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <div class="widget-box widget-color-blue">
-                    <div class="widget-header">
-                    </div>
-                    <div class="widget-body">
-                        <div class="widget-main">
-                            <ul id="orgtree" class="ztree" style="width: 100%"></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="widget-box widget-color-blue">
-                    <div class="widget-header">
-                        @Html.Action("MenuHeader", "Home")
-                    </div>
-                    <div class="widget-body gridwidth">
-                        <div class="widget-main">
-                            <div class="row">
-                                <div class="col-md-12 ">
-                                    <table id="maingrid"></table>
-                                    <div id="grid-pager"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+﻿<blockquote class="layui-elem-quote news_search">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
         </div>
+        <a class="layui-btn search_btn">查询</a>
     </div>
-</div><!-- /.page-content -->
-
-<!--编辑对话框-->
-<div id="editDlg" style="display: none">
-    <div class="col-xs-12">
-        <form class="form-horizontal" id="editForm">
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for=""> 账号 </label>
-                <div class="col-sm-9">
-                    <input type="text" id="Account" v-model="Account"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for=""> 姓名 </label>
-                <div class="col-sm-9">
-                    <input type="text" id="Name" v-model="Name"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for=""> 性别 </label>
-                <div class="col-sm-9">
-                    <input type="text" id="Sex" v-model="Sex"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for=""> 所属机构</label>
-                <div class="col-sm-9">
-                    <input id="Organizations" type="text" v-model="Organizations"/>
-                    <input id="OrganizationIds" type="hidden" v-model="OrganizationIds"/>
-                    <div id="menuContent" class="menuContent" style="display: none;">
-                        <ul id="org" class="ztree"></ul>
-                    </div>
-                </div>
-            </div>
-        </form>
+    <div class="layui-inline">
+        <a class="layui-btn layui-btn-normal usersAdd_btn">添加用户</a>
     </div>
-</div>
-<script src="~/Content/scripts/zTree/js/jquery.ztree.excheck.js"></script>
-<script src="~/BllScripts/grid.js"></script>
-<script src="~/BllScripts/parentTreeMultiple.js"></script>
-<script src="~/BllScripts/UserManager.js"></script>
-<script src="~/BllScripts/jqEvent.js"></script>
+    <div class="layui-inline">
+        <a class="layui-btn layui-btn-danger batchDel">批量删除</a>
+    </div>
+</blockquote>
+
+<table class="layui-table" lay-data="{height: 'full-90',url:'/json/usersList.json', page:true, id:'idTest'}" 
+       lay-filter="demo">
+    <thead>
+    <tr>
+        <th lay-data="{checkbox:true, fixed: true}"></th>
+        <th lay-data="{field:'id', width:80, sort: true, fixed: true}">ID</th>
+        <th lay-data="{field:'username', width:80}">用户名</th>
+        <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
+        <th lay-data="{field:'city', width:80}">城市</th>
+        <th lay-data="{field:'sign', width:177}">签名</th>
+        <th lay-data="{field:'experience', width:80, sort: true}">积分</th>
+      
+        <th lay-data="{field:'classify', width:80}">职业</th>
+        <th lay-data="{field:'wealth', width:135, sort: true}">财富</th>
+        <th lay-data="{field:'score', width:80, sort: true}">评分</th>
+        <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barDemo'}"></th>
+    </tr>
+    </thead>
+</table>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/js/users.js"></script>

@@ -1,0 +1,24 @@
+form input.layui-input[disabled]{ background:#f2f2f2; color:#595963!important; }
+.user_left{ width:45%; float: left; margin:20px 0 0 5%; }
+.user_right{ width:25%; float: left; margin:20px 0 0 5%; text-align: center; }
+.user_right p{ margin:10px 0 25px; font-size: 12px; text-align: center; color: #FF5722;}
+.user_right img#userFace{ width:200px; height:200px; }
+.layui-table,.layui-table th{ text-align:center; }
+.userAddress.layui-form-item .layui-input-inline{ width:23%; }
+.userAddress.layui-form-item .layui-input-inline:last-child{ margin-right:0; }
+/*用户列表*/
+#page{ text-align:right; }
+
+/*修改密码*/
+.changePwd{ width:30%; margin:3% 0 0 5%; }
+
+
+/*适配*/
+@media screen and (max-width:1050px){
+	/*用户信息*/
+	.user_left,.user_right,.changePwd{ width:100%; float:none; margin-left: 0; }
+	.user_right{ margin-bottom: 20px; }
+}
+@media screen and (max-width:450px){
+	.userAddress.layui-form-item .layui-input-inline{ width:auto; }
+}

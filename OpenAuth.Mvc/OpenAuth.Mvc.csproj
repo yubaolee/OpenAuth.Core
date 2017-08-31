@@ -161,6 +161,7 @@
     <Compile Include="Controllers\RoleManagerController.cs" />
     <Compile Include="Controllers\StockManagerController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
+    <Compile Include="Controllers\UserSessionController.cs" />
     <Compile Include="Models\JobjectModelBinder.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -196,6 +197,11 @@
     <Content Include="css\login.css" />
     <Content Include="css\main.css" />
     <Content Include="css\message.css" />
+    <Content Include="css\metroStyle\img\line_conn.png" />
+    <Content Include="css\metroStyle\img\loading.gif" />
+    <Content Include="css\metroStyle\img\metro.gif" />
+    <Content Include="css\metroStyle\img\metro.png" />
+    <Content Include="css\metroStyle\metroStyle.css" />
     <Content Include="css\news.css" />
     <Content Include="css\treetable.css" />
     <Content Include="favicon.ico" />
@@ -320,6 +326,7 @@
     <Content Include="layui\lay\modules\tree.js" />
     <Content Include="layui\lay\modules\upload.js" />
     <Content Include="layui\lay\modules\util.js" />
+    <Content Include="js\ztree.js" />
     <Content Include="Views\CategoryManager\Index.cshtml" />
     <Content Include="Areas\FlowManage\Views\web.config" />
     <Content Include="Areas\FlowManage\Views\FlowDesign\FlowLineForm.cshtml" />
@@ -373,6 +380,7 @@
     <Folder Include="Areas\FlowManage\Models\" />
     <Folder Include="Areas\FlowManage\Views\Shared\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\UserSession\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

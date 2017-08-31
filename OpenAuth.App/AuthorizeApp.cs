@@ -35,9 +35,7 @@ namespace OpenAuth.App
                 moduleView.Elements =
                     service.ModuleElements.Where(u => u.ModuleId == moduleView.Id).OrderBy(u => u.Sort).ToList();
             }
-
-           user.ModuleWithChildren = user.Modules.GenerateTree(c => c.Id, c => c.ParentId);
-
+            
             return user;
         }
     }

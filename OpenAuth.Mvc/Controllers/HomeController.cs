@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using System.Web.Mvc;
-using Infrastructure;
-using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -18,11 +16,7 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
        
-        public string GetNavBar()
-        {
-            var user = AuthUtil.GetCurrentUser();
-            return JsonHelper.Instance.Serialize(user.ModuleWithChildren);
-        }
+       
         
         public ActionResult Git()
         {

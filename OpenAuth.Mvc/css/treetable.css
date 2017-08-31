@@ -6,3 +6,7 @@
 .layui-table-view {
     margin: 0 !important;
 }
+
+ul.ztree {
+   margin-top: 0!important; 
+}

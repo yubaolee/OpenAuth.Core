@@ -28,7 +28,7 @@ namespace OpenAuth.Mvc.Controllers
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
 
-            var moduleWithChildren = AuthUtil.GetCurrentUser().ModuleWithChildren;
+            var moduleWithChildren = AuthUtil.GetCurrentUser().Modules.GenerateTree(u =>u.Id, u =>u.ParentId);
             var modules = key == "UserModule" ? App.LoadForUser(firstId) : App.LoadForRole(firstId);
 
             CheckModule(moduleWithChildren, modules);

@@ -20,6 +20,14 @@ namespace OpenAuth.App.ViewModel
     public class GridData
     {
         /// <summary>
+        /// 状态码
+        /// </summary>
+        public int code;
+        /// <summary>
+        /// 操作消息
+        /// </summary>
+        public string msg;
+        /// <summary>
         /// 页码
         /// </summary>
         public int page;
@@ -30,11 +38,11 @@ namespace OpenAuth.App.ViewModel
         /// <summary>
         /// 总记录条数
         /// </summary>
-        public int records;
+        public int count;
 
         /// <summary>
         /// 数据内容
         /// </summary>
-        public dynamic rows;
+        public dynamic data;
     }
 }

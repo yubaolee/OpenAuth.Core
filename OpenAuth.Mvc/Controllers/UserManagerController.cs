@@ -69,7 +69,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetAccessedUsers()
         {
-            IEnumerable<UserView> users =  App.Load(Guid.Empty, 1, 10).rows;
+            IEnumerable<UserView> users =  App.Load(Guid.Empty, 1, 10).data;
             var result = new Dictionary<string , object>();
             foreach (var user in users)
             {

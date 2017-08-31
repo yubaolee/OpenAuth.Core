@@ -1,10 +1,12 @@
 layui.config({
     base: "/js/"
-}).use(['form','ztree', 'layer', 'jquery', 'table'], function () {
+}).use(['form', 'ztree', 'layer', 'jquery', 'table'], function () {
     var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		$ = layui.jquery;
+    var dataurl = '/UserManager/Load';
     var table = layui.table;
+   
 
     var ztree = function () {
         var url = '/OrgManager/LoadOrg';
@@ -24,14 +26,25 @@ layui.config({
             },
             callback: {
                 onClick: function (event, treeId, treeNode) {
-                   // list.reload(treeNode.Id);
+                    table.reload('mainList', {
+                        where: {
+                            url:dataurl,
+                            orgId: treeNode.Id
+                        }
+                    });
                 }
             }
         };
         var load = function () {
             $.getJSON(url, function (json) {
                 var zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
-               // list.reload();
+                table.reload('mainList', {
+                    url: dataurl,
+                    where: {
+                        orgId: json[0].Id
+                    } //设定异步数据接口的额外参数
+                    //,height: 300
+                });
                 zTreeObj.expandAll(true);
             });
         };
@@ -67,7 +80,7 @@ layui.config({
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
             layer.alert(JSON.stringify(data));
-        }, addData:function() {  //添加
+        }, addData: function () {  //添加
             var index = layui.layer.open({
                 title: "添加",
                 type: 2,
@@ -76,8 +89,8 @@ layui.config({
                     setTimeout(function () {
                         layui.layer.tips('点击此处返回列表',
                             '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
-                        });
+                                tips: 3
+                            });
                     }, 500);
                 }
             });
@@ -86,13 +99,13 @@ layui.config({
                 layui.layer.full(index);
             });
             layui.layer.full(index);
-        }, search:function() {  //搜索
+        }, search: function () {  //搜索
             var key = $('#key');
 
             table.reload('mainList', {
                 where: {
-                    key: key.val(),
-                    para1:"1"
+                    url: dataurl,
+                    key: key.val()
                 }
             });
         }

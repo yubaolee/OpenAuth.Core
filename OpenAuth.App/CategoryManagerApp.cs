@@ -73,9 +73,9 @@ namespace OpenAuth.App
                         };
             return new GridData()
             {
-                records = total,
+                count = total,
                 total = (int)Math.Ceiling((double)total/pagesize),
-                rows = query.ToList(),
+                data = query.ToList(),
                 page = pageindex
             };
         }

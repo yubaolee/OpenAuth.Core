@@ -116,7 +116,7 @@ namespace OpenAuth.App
 
             int cnt = _unitWork.Find<WFSchemeInfo>(null).Count();
             result.total = cnt%pageSize  ==0?cnt/pageSize:cnt/pageSize+1;
-            result.rows = _unitWork.Find<WFSchemeInfo>(pageCurrent, pageSize, "ModifyDate descending", null).ToList();
+            result.data = _unitWork.Find<WFSchemeInfo>(pageCurrent, pageSize, "ModifyDate descending", null).ToList();
 
             return result;
         }

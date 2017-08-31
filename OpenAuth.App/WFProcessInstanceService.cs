@@ -315,19 +315,19 @@ namespace OpenAuth.App
             if (type == "inbox")   //待办事项
             {
                 result.total = cnt%pageSize == 0? cnt/pageSize : cnt/pageSize + 1;
-                result.rows = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
+                result.data = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
 
             }
             else if (type == "outbox")  //已办事项
             {
                 result.total = cnt % pageSize == 0 ? cnt / pageSize : cnt / pageSize + 1;
-                result.rows = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
+                result.data = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
 
             }
             else  //我的流程
             {
                 result.total = cnt % pageSize == 0 ? cnt / pageSize : cnt / pageSize + 1;
-                result.rows = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
+                result.data = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
             }
 
             return result;

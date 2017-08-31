@@ -71,9 +71,9 @@ namespace OpenAuth.App
 
             return new GridData
             {
-                records = records,
+                count = records,
                 total = (int)Math.Ceiling((double)records / pagesize),
-                rows = userviews,
+                data = userviews,
                 page = pageindex
             };
         }

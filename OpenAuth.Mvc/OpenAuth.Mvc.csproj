@@ -350,7 +350,6 @@
     <Content Include="json\newsList.json" />
     <Content Include="json\systemParameter.json" />
     <Content Include="json\userface.json" />
-    <Content Include="json\usersList.json" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <Content Include="Views\Home\git.cshtml" />
     <Content Include="Web.config">

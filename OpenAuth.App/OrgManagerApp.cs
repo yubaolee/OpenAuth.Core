@@ -44,8 +44,8 @@ namespace OpenAuth.App
             return new GridData
             {
                 page = 1,
-                rows = query.ToList(),
-                records = query.Count(),
+                data = query.ToList(),
+                count = query.Count(),
                 total = 1
             };
         }

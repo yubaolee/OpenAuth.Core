@@ -4,7 +4,6 @@ using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
 using System;
 using System.Web.Mvc;
-using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -24,11 +23,6 @@ namespace OpenAuth.Mvc.Controllers
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
             return View();
-        }
-
-        public string LoadOrg()
-        {
-            return JsonHelper.Instance.Serialize(AuthUtil.GetCurrentUser().Orgs);
         }
 
         public string LoadForUser(Guid firstId)

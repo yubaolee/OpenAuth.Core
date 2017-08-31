@@ -21,10 +21,10 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 获取登陆用户可访问的所有部门
         /// </summary>
-        public string GetOrgsTree()
+        public string GetOrgs()
         {
             var user = AuthUtil.GetCurrentUser();
-            return JsonHelper.Instance.Serialize(user.Orgs.GenerateTree(u => u.Id, u => u.ParentId));
+            return JsonHelper.Instance.Serialize(user.Orgs);
         }
     }
 }

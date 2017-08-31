@@ -174,7 +174,6 @@
     <Content Include="BllScripts\assignModuleElement.js" />
     <Content Include="BllScripts\categoryManager.js" />
     <Content Include="BllScripts\formDesign.js" />
-    <Content Include="BllScripts\jqEvent.js" />
     <Content Include="BllScripts\login.js" />
     <Content Include="BllScripts\parentTreeMultiple.js" />
     <Content Include="BllScripts\parentTree.js" />

@@ -7,9 +7,9 @@ layui.config({
     var dataurl = '/UserManager/Load';
     var table = layui.table;
    
-
+    //左边树状机构列表
     var ztree = function () {
-        var url = '/OrgManager/LoadOrg';
+        var url = '/UserSession/GetOrgs';
         var setting = {
             view: { selectedMulti: false },
             data: {
@@ -63,10 +63,18 @@ layui.config({
     table.on('tool(list)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {
-            layer.msg('ID：' + data.id + ' 的查看操作');
-        } else if (obj.event === 'del') {
-            layer.confirm('真的删除行么', function (index) {
-                obj.del();
+            layer.msg('ID：' + data.Id + ' 的查看操作');
+
+        } else if (obj.event === 'del') {  //删除
+            layer.confirm('真的删除么', function (index) {
+                $.post("/UserManager/Delete", { ids: data.Id },
+                    function (data) {
+                        if (data.Status) {
+                            obj.del();
+                        } else {
+                            layer.msg(data.Message);
+                        }
+                    },"json");
                 layer.close(index);
             });
         } else if (obj.event === 'edit') {
@@ -83,22 +91,10 @@ layui.config({
         }, addData: function () {  //添加
             var index = layui.layer.open({
                 title: "添加",
-                type: 2,
-                content: "addUser.html",
-                success: function (layero, index) {
-                    setTimeout(function () {
-                        layui.layer.tips('点击此处返回列表',
-                            '.layui-layer-setwin .layui-layer-close', {
-                                tips: 3
-                            });
-                    }, 500);
-                }
+                area: ["500px", "400px"],
+                type: "1",
+                content: $('#formEdit')
             });
-            //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-            $(window).resize(function () {
-                layui.layer.full(index);
-            });
-            layui.layer.full(index);
         }, search: function () {  //搜索
             var key = $('#key');
 
@@ -114,5 +110,18 @@ layui.config({
     $('.toolList .layui-btn').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
+    });
+
+    //监听页面主按钮操作 end
+
+    //编辑或添加对话框
+    form.on('submit(formEdit)', function (data) {
+        $.post("/UserManager/Add", data.field, function (data) {
+            layer.msg(data.Message);
+            if (data.Status) {
+               
+            }
+        }, "json");
+        return false;
     });
 })

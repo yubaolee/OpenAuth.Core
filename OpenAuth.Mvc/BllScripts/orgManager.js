@@ -6,7 +6,7 @@
 
 //左边导航
 var ztree = function () {
-    var url = '/OrgManager/LoadOrg';
+    var url = '/UserSession/GetOrgs';
     var setting = {
         view: { selectedMulti: false },
         data: {
@@ -118,7 +118,7 @@ var vm = new Vue({
 });
 
 //上级机构选择框
-var parent = new ParentTree("/OrgManager/LoadOrg","ParentName", "ParentId");
+var parent = new ParentTree("/UserSession/GetOrgs","ParentName", "ParentId");
 
 //添加（编辑）对话框
 var editDlg = function () {

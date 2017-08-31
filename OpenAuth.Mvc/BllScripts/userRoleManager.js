@@ -70,7 +70,7 @@ var list = function () {
 }();
 //左边导航
 var ztree = function () {
-    var url = "/OrgManager/LoadOrg";
+    var url = "/UserSession/GetOrgs";
 
     var setting = {
         view: { selectedMulti: false },

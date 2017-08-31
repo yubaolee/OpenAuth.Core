@@ -95,7 +95,7 @@ function ParentTreeMultiple(url, name, id) {
         $("body").unbind("mousedown", onBodyDown);
     }
     return {
-        reload: function () {
+        reload: function (layer, $) {
             var index = layer.load();
             $.getJSON(url,
                 {

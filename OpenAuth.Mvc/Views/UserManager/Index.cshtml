@@ -55,6 +55,25 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">所属部门</label>
+        <div class="layui-input-block">
+            <input type="text" name="Name" required lay-verify="required"
+                   placeholder="请输入昵称或姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属部门</label>
+        <div class="layui-input-block">
+            <input id="Organizations" required lay-verify="required" autocomplete="off" class="layui-input"/>
+            <input id="OrganizationIds" required lay-verify="required"  type="hidden" />
+            <div id="menuContent" class="menuContent" style="display: none;">
+                <ul id="org" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label">性别</label>
         <div class="layui-input-block">
             <input type="radio" name="Sex" value="1" title="男" checked>
@@ -74,6 +93,6 @@
         </div>
     </div>
 </form>
-
+<script src="/js/parentTreeMultiple.js"></script>
 <script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript" src="/js/users.js"></script>

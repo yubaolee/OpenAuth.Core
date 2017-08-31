@@ -197,7 +197,7 @@
     <Content Include="css\main.css" />
     <Content Include="css\message.css" />
     <Content Include="css\news.css" />
-    <Content Include="css\user.css" />
+    <Content Include="css\treetable.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="images\alipay.jpg" />

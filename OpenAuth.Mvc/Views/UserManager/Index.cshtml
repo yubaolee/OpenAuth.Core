@@ -1,39 +1,49 @@
-﻿<blockquote class="layui-elem-quote news_search">
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css"/>
+}
+<blockquote class="layui-elem-quote news_search toolList">
     <div class="layui-inline">
         <div class="layui-input-inline">
-            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
+            <input class="layui-input" placeholder="请输入关键字" 
+                   name="key" id="key" autocomplete="off">
         </div>
-        <a class="layui-btn search_btn">查询</a>
+        <button class="layui-btn" data-type="search">搜索</button>
     </div>
-    <div class="layui-inline">
-        <a class="layui-btn layui-btn-normal usersAdd_btn">添加用户</a>
-    </div>
-    <div class="layui-inline">
-        <a class="layui-btn layui-btn-danger batchDel">批量删除</a>
-    </div>
+   
+    <button class="layui-btn " data-type="addData">添加用户</button>
+    <button class="layui-btn layui-btn-danger" data-type="del">批量删除</button>
 </blockquote>
 
-<table class="layui-table" lay-data="{height: 'full-90',url:'/json/usersList.json', page:true, id:'idTest'}" 
-       lay-filter="demo">
-    <thead>
-    <tr>
-        <th lay-data="{checkbox:true, fixed: true}"></th>
-        <th lay-data="{field:'id', width:80, sort: true, fixed: true}">ID</th>
-        <th lay-data="{field:'username', width:80}">用户名</th>
-        <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
-        <th lay-data="{field:'city', width:80}">城市</th>
-        <th lay-data="{field:'sign', width:177}">签名</th>
-        <th lay-data="{field:'experience', width:80, sort: true}">积分</th>
-      
-        <th lay-data="{field:'classify', width:80}">职业</th>
-        <th lay-data="{field:'wealth', width:135, sort: true}">财富</th>
-        <th lay-data="{field:'score', width:80, sort: true}">评分</th>
-        <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barDemo'}"></th>
-    </tr>
-    </thead>
-</table>
+<div style="display: flex;">
+    <div style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;">
+        <ul id="demo1"></ul>
+    </div>
 
-<script type="text/html" id="barDemo">
+    <table class="layui-table"
+           lay-data="{height: 'full-90',url:'/json/usersList.json', page:true, id:'mainList'}"
+           lay-filter="list">
+        <thead>
+            <tr>
+                <th lay-data="{checkbox:true, fixed: true}"></th>
+                <th lay-data="{field:'id', width:80, sort: true, fixed: true}">ID</th>
+                <th lay-data="{field:'username', width:80}">用户名</th>
+                <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
+                <th lay-data="{field:'city', width:80}">城市</th>
+                <th lay-data="{field:'sign', width:177}">签名</th>
+                <th lay-data="{field:'experience', width:80, sort: true}">积分</th>
+
+                <th lay-data="{field:'classify', width:80}">职业</th>
+                <th lay-data="{field:'wealth', width:135, sort: true}">财富</th>
+                <th lay-data="{field:'score', width:80, sort: true}">评分</th>
+                <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+<script type="text/html" id="barList">
     <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>

@@ -7,9 +7,10 @@
 // Last Modified On : 10-16-2016
 // ***********************************************************************
 // <copyright file="droptree.js" company="www.cnblogs.com/yubaolee">
-//     版权所有(C) 2015
+//     版权所有 玉宝(C) 2017
 // </copyright>
-// <summary>单击文本框弹出的选择列表,可以多选</summary>
+//单击文本框弹出的选择列表,可以多选。调用： layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+//如果想去掉layui，只需把layui.define改成一个普通的函数，最后的exports（xxx）改成一个闭包就行
 // ***********************************************************************
 
 layui.define(['jquery', 'layer'], function (exports) {

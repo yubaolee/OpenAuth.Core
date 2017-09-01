@@ -175,7 +175,7 @@
     <Content Include="BllScripts\categoryManager.js" />
     <Content Include="BllScripts\formDesign.js" />
     <Content Include="BllScripts\login.js" />
-    <Content Include="js\parentTreeMultiple.js" />
+    <Content Include="js\droptree.js" />
     <Content Include="BllScripts\parentTree.js" />
     <Content Include="BllScripts\processDetail.js" />
     <Content Include="BllScripts\grid.js" />

@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'ztree', 'layer', 'jquery', 'table'], function () {
+}).use(['form', 'ztree', 'layer', 'jquery', 'table','droptree'], function () {
     var form = layui.form,
 		//layer = parent.layer === undefined ? layui.layer : parent.layer,
         layer  =layui.layer,
@@ -57,9 +57,8 @@ layui.config({
     }();
 
     //上级机构选择框
-    var parent = new ParentTreeMultiple("/UserSession/GetOrgs", "Organizations", "OrganizationIds");
     $("#Organizations").on("click", function () {
-        parent.reload(layer, $);
+        layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
     });
 
     //监听表格复选框选择

@@ -9,30 +9,93 @@
 // <copyright file="droptree.js" company="www.cnblogs.com/yubaolee">
 //     版权所有 玉宝(C) 2017
 // </copyright>
-//单击文本框弹出的选择列表,可以多选。调用： layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
-//如果想去掉layui，只需把layui.define改成一个普通的函数，最后的exports（xxx）改成一个闭包就行
+//单击文本框弹出的选择列表,可以多选。调用： 
+//var droptree = layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+// droptree.render();
 // ***********************************************************************
 
 layui.define(['jquery', 'layer'], function (exports) {
     var $ = layui.jquery;
     var layer = layui.layer;
-    var options;
     var zTreeObj;
-    var setting;
+    var inst;   //droptree实体
 
-    var showMenu = function () {
-        $("#menuContent").css({ left: "10px", top: $(options.nameDOM).outerHeight() + "px" }).slideDown("fast");
+        //构造器
+     var  Class = function (options) {
+            var that = this;
+            that.config = $.extend({}, that.config, options);
+     };
+    //默认配置
+    Class.prototype.config = {
+        text: 'Name',
+        key: 'Id',
+        parentKey: 'ParentId'
+    };
+
+
+    //显示下拉菜单
+    Class.prototype.showMenu =function () {
+        $("#menuContent").css({ left: "10px", top: $(this.config.nameDOM).outerHeight() + "px" }).slideDown("fast");
         $("body").bind("mousedown", onBodyDown);
     };
-    function hideMenu() {
+
+    //隐藏下拉菜单
+    Class.prototype.hideMenu =function () {
         $("#menuContent").fadeOut("fast");
         $("body").unbind("mousedown", onBodyDown);
     }
 
-    var setCheck = function () {   //设置初始选中的值
+    //加载数据
+    Class.prototype.render = function () {
+        var that = this;
+        var setting = {
+            view: { selectedMulti: true },
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+            },
+            data: {
+                key: {
+                    name: that.config.text,
+                    title: that.config.text
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: that.config.key,
+                    pIdKey: that.config.parentKey,
+                    rootPId: 'null'
+                }
+            },
+            callback: {
+                onClick: that.onClick,
+                onCheck: that.onCheck
+            }
+        };
+        var index = layer.load();
+        $.getJSON(this.config.url,
+            {
+                page: 1, rows: 10000
+            },
+            function (json) {
+                layer.close(index);
+                if (json.length == 0) {
+                    $(this.config.nameDOM).val('');
+                    $(this.config.idDOM).val('');
+                    return;
+                }
+                zTreeObj = $.fn.zTree.init($("#org"), setting, json);
+                that.setCheck();
+                zTreeObj.expandAll(true);
+                that.showMenu();
+            });
+    }
+
+    //设置初始选中的值
+    Class.prototype.setCheck = function () {   
         zTreeObj.checkAllNodes(false);
 
-        var value = $(options.idDOM).val();
+        var value = $(this.config.idDOM).val();
         if (value == undefined) return;
         var nodeids = value.split(",");
         $.each(nodeids,
@@ -44,23 +107,24 @@ layui.define(['jquery', 'layer'], function (exports) {
             });
 
     }
-    function onClick(e, treeId, treeNode) {
+
+    Class.prototype.onClick =function(e, treeId, treeNode) {
         var nodes = zTreeObj.getSelectedNodes();
 
         for (var i = 0, l = nodes.length; i < l; i++) {
-            $(options.nameDOM).val(nodes[i].Name);
-            $(options.idDOM).val(nodes[i].Id);
+            $(inst.config.nameDOM).val(nodes[i].Name);
+            $(inst.config.idDOM).val(nodes[i].Id);
             break;
         }
         hideMenu();
     }
-    function onCheck(e, treeId, treeNode) {
+    Class.prototype.onCheck= function(e, treeId, treeNode) {
         var nodes = zTreeObj.getCheckedNodes(true);
 
         var ids = nodes.map(function (e) { return e.Id; }).join(",");
         var names = nodes.map(function (e) { return e.Name; }).join(",");
-        $(options.nameDOM).val(names);
-        $(options.idDOM).val(ids);
+        $(inst.config.nameDOM).val(names);
+        $(inst.config.idDOM).val(ids);
     }
 
     function onBodyDown(event) {
@@ -69,59 +133,13 @@ layui.define(['jquery', 'layer'], function (exports) {
         }
     }
 
-    var load = function () {
-        var index = layer.load();
-        $.getJSON(options.url,
-            {
-                page: 1, rows: 10000
-            },
-        function (json) {
-            layer.close(index);
-            if (json.length == 0) {
-                $(options.nameDOM).val('');
-                $(options.idDOM).val('');
-                return;
-            }
-            zTreeObj = $.fn.zTree.init($("#org"), setting, json);
-            setCheck();
-            zTreeObj.expandAll(true);
-            showMenu();
-        });
-    }
-
     exports('droptree', function (url, name, id) {
-        options = {
-            text: 'Name',
-            key: 'Id',
-            parentKey: 'ParentId',
+      var   options = {
             nameDOM: name,   //显示的文本框ID，如："#catetoryName"
             idDOM: id,   //隐藏的文本框，如："#categoryId"
             url: url
         }
-        setting = {
-            view: { selectedMulti: true },
-            check: {
-                enable: true,
-                chkStyle: "checkbox",
-                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
-            },
-            data: {
-                key: {
-                    name: options.text,
-                    title: options.text
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: options.key,
-                    pIdKey: options.parentKey,
-                    rootPId: 'null'
-                }
-            },
-            callback: {
-                onClick: onClick,
-                onCheck: onCheck
-            }
-        };
-        load();
+        inst = new Class(options);
+        return inst;
     });
 });

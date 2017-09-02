@@ -1,12 +1,13 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'ztree', 'layer', 'jquery', 'table','droptree'], function () {
+}).use(['form', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
     var form = layui.form,
-		//layer = parent.layer === undefined ? layui.layer : parent.layer,
-        layer  =layui.layer,
+		layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
 		$ = layui.jquery;
     var dataurl = '/UserManager/Load';
     var table = layui.table;
+    var openauth = layui.openauth;
+    var droptree = layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
     //左边树状机构列表
     var ztree = function () {
@@ -58,7 +59,7 @@ layui.config({
 
     //上级机构选择框
     $("#Organizations").on("click", function () {
-        layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+        droptree.render();
     });
 
     //监听表格复选框选择
@@ -72,17 +73,7 @@ layui.config({
             layer.msg('ID：' + data.Id + ' 的查看操作');
 
         } else if (obj.event === 'del') {  //删除
-            layer.confirm('真的删除么', function (index) {
-                $.post("/UserManager/Delete", { ids: data.Id },
-                    function (data) {
-                        if (data.Status) {
-                            obj.del();
-                        } else {
-                            layer.msg(data.Message);
-                        }
-                    },"json");
-                layer.close(index);
-            });
+            openauth.del("/UserManager/Delete", data.Id, obj.del);
         } else if (obj.event === 'edit') {
             layer.alert('编辑行：<br>' + JSON.stringify(data));
         }

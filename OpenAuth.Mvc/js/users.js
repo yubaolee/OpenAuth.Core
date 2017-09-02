@@ -4,14 +4,25 @@ layui.config({
     var form = layui.form,
 		layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
 		$ = layui.jquery;
-    var dataurl = '/UserManager/Load';
     var table = layui.table;
     var openauth = layui.openauth;
     var droptree = layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
+    //主列表加载，可反复调用进行刷新
+    var config= {};  //table的参数，如搜索key，点击tree的id
+    var mainList = function (options) {
+        if (options != undefined) {
+            $.extend(config, options);
+        }
+        table.reload('mainList', {
+            url: '/UserManager/Load',
+            where: config
+        });
+    }
     //左边树状机构列表
     var ztree = function () {
         var url = '/UserSession/GetOrgs';
+        var zTreeObj;
         var setting = {
             view: { selectedMulti: false },
             data: {
@@ -28,30 +39,18 @@ layui.config({
             },
             callback: {
                 onClick: function (event, treeId, treeNode) {
-                    table.reload('mainList', {
-                        where: {
-                            url:dataurl,
-                            orgId: treeNode.Id
-                        }
-                    });
+                    mainList({ orgId: treeNode.Id });
                 }
             }
         };
         var load = function () {
             $.getJSON(url, function (json) {
-                var zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
-                table.reload('mainList', {
-                    url: dataurl,
-                    where: {
-                        orgId: json[0].Id
-                    } //设定异步数据接口的额外参数
-                    //,height: 300
-                });
+                zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
+                mainList({ orgId: json[0].Id });
                 zTreeObj.expandAll(true);
             });
         };
         load();
-
         return {
             reload: load
         }
@@ -69,39 +68,35 @@ layui.config({
     //监听表格内部按钮
     table.on('tool(list)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'detail') {
+        if (obj.event === 'detail') {      //查看
             layer.msg('ID：' + data.Id + ' 的查看操作');
 
         } else if (obj.event === 'del') {  //删除
             openauth.del("/UserManager/Delete", data.Id, obj.del);
-        } else if (obj.event === 'edit') {
+        } else if (obj.event === 'edit') {  //编辑
             layer.alert('编辑行：<br>' + JSON.stringify(data));
         }
     });
 
     //监听页面主按钮操作
     var active = {
-        del: function () { //批量删除
+        del: function () {      //批量删除
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
-            layer.alert(JSON.stringify(data));
-        }, addData: function () {  //添加
-            var index = layui.layer.open({
-                title: "添加",
-                area: ["500px", "400px"],
-                type: "1",
-                content: $('#formEdit')
-            });
-        }, search: function () {  //搜索
-            var key = $('#key');
-
-            table.reload('mainList', {
-                where: {
-                    url: dataurl,
-                    key: key.val()
-                }
+            openauth.del("/UserManager/Delete", data.map(function (e) { return e.Id; }), mainList);
+        }
+        , addData: function () {  //添加
+            var index = layer.open({
+                title: "添加"
+                ,area: ["500px", "400px"]
+                ,type: "1"
+                ,content: $('#formEdit')
+                ,end:mainList
             });
         }
+        , search: function () {   //搜索
+            mainList({ key: $('#key').val() });
+        }      
     };
 
     $('.toolList .layui-btn').on('click', function () {

@@ -129,7 +129,7 @@ layui.define(['jquery', 'layer'], function (exports) {
 
     function onBodyDown(event) {
         if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
-            hideMenu();
+            inst.hideMenu();
         }
     }
 

@@ -30,6 +30,10 @@ layui.define(['jquery', 'layer'], function (exports) {
 
         //删除
         , del: function (url, dataids, callback) {
+            if (dataids == undefined || dataids == "" || dataids.length == 0) {
+                layer.msg("至少选择一条记录");
+                return;
+            }
             layer.confirm('真的删除么', function (index) {
                 $.post(url, { ids: dataids },
                     function (data) {

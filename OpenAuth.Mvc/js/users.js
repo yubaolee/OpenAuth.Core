@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
+}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
     var form = layui.form,
 		layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
 		$ = layui.jquery;
@@ -91,6 +91,13 @@ layui.config({
                 ,area: ["500px", "400px"]
                 ,type: "1"
                 ,content: $('#formEdit')
+                , success: function (layero, index) {
+                    //todo:vue初始化会造成form所有点击失效（checkbox,radio等）
+                    //var vm = new Vue({
+                    //    el: "#formEdit",
+                    //    data: null
+                    //});
+                }
                 ,end:mainList
             });
         }
@@ -107,7 +114,7 @@ layui.config({
     //监听页面主按钮操作 end
 
     //编辑或添加对话框
-    form.on('submit(formEdit)', function (data) {
+    form.on('submit(formSubmit)', function (data) {
         $.post("/UserManager/Add", data.field, function (data) {
             layer.msg(data.Message);
             if (data.Status) {

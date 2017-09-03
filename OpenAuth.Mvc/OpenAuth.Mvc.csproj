@@ -215,12 +215,14 @@
     <Content Include="images\userface4.jpg" />
     <Content Include="images\userface5.jpg" />
     <Content Include="images\wechat.jpg" />
+    <Content Include="js\queryString.js" />
     <Content Include="js\users.js" />
     <Content Include="js\bodyTab.js" />
     <Content Include="js\index.js" />
     <Content Include="js\leftNav.js" />
     <Content Include="js\login.js" />
     <Content Include="js\main.js" />
+    <Content Include="js\vue.js" />
     <Content Include="layui\css\layui.css" />
     <Content Include="layui\css\layui.mobile.css" />
     <Content Include="layui\css\modules\code.css" />

@@ -40,10 +40,13 @@
 
 <!--用户添加/编辑窗口-->
 <form class="layui-form" action="" style="display: none" id="formEdit">
+    
+    <input type="hidden" name="Id"/>
+
     <div class="layui-form-item">
         <label class="layui-form-label">账号</label>
         <div class="layui-input-block">
-            <input type="text" name="Account" required lay-verify="required" 
+            <input type="text" name="Account" required lay-verify="required"
                    placeholder="请输入登录账号" autocomplete="off" class="layui-input">
         </div>
     </div>
@@ -54,12 +57,12 @@
                    placeholder="请输入昵称或姓名" autocomplete="off" class="layui-input">
         </div>
     </div>
-   
+
     <div class="layui-form-item">
         <label class="layui-form-label">所属部门</label>
         <div class="layui-input-block">
             <input id="Organizations" name="Organizations" required lay-verify="required" class="layui-input"/>
-            <input id="OrganizationIds" name="OrganizationIds" required lay-verify="required"  type="hidden" />
+            <input id="OrganizationIds" name="OrganizationIds" required lay-verify="required" type="hidden"/>
             <div id="menuContent" class="menuContent" style="display: none;">
                 <ul id="org" class="ztree"></ul>
             </div>
@@ -70,7 +73,7 @@
         <label class="layui-form-label">性别</label>
         <div class="layui-input-block">
             <input type="radio" name="Sex" value="1" title="男" checked>
-            <input type="radio" name="Sex" value="0" title="女" >
+            <input type="radio" name="Sex" value="0" title="女">
         </div>
     </div>
     <div class="layui-form-item">
@@ -81,7 +84,7 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formEdit">立即提交</button>
+            <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>

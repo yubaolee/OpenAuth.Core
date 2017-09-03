@@ -116,7 +116,7 @@ layui.define(['jquery', 'layer'], function (exports) {
             $(inst.config.idDOM).val(nodes[i].Id);
             break;
         }
-        hideMenu();
+        inst.hideMenu();
     }
     Class.prototype.onCheck= function(e, treeId, treeNode) {
         var nodes = zTreeObj.getCheckedNodes(true);

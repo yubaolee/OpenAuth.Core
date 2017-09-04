@@ -78,6 +78,10 @@ layui.config({
         }
     });
 
+    var vm = new Vue({
+        el: "#formEdit"
+    });
+
     //监听页面主按钮操作
     var active = {
         del: function () {      //批量删除
@@ -91,12 +95,9 @@ layui.config({
                 ,area: ["500px", "400px"]
                 ,type: "1"
                 ,content: $('#formEdit')
-                , success: function (layero, index) {
-                    //todo:vue初始化会造成form所有点击失效（checkbox,radio等）
-                    //var vm = new Vue({
-                    //    el: "#formEdit",
-                    //    data: null
-                    //});
+                , success: function () {
+                    vm.$set('$data', {});
+                    //todo:droptree没有还原
                 }
                 ,end:mainList
             });

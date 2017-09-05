@@ -96,8 +96,7 @@ layui.config({
                 ,type: "1"
                 ,content: $('#formEdit')
                 , success: function () {
-                    vm.$set('$data', {});
-                    //todo:droptree没有还原
+                    vm.$set('$data', null);
                 }
                 ,end:mainList
             });

@@ -20,8 +20,54 @@ layui.define(['jquery', 'layer'], function (exports) {
     var zTreeObj;
     var inst;   //droptree实体
 
-        //构造器
-     var  Class = function (options) {
+    //显示下拉菜单
+    var showMenu = function () {
+        $("#menuContent").css({
+            left: "10px",
+            top: $(inst.config.nameDOM).outerHeight() + "px"
+        }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+
+    //隐藏下拉菜单
+    var hideMenu = function () {
+        $("#menuContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+
+    //滚动条下拉
+    function onBodyDown(event) {
+        if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+            hideMenu();
+        }
+    }
+
+    //点击tree
+    var onClick = function (e, treeId, treeNode) {
+        var nodes = zTreeObj.getSelectedNodes();
+
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            $(inst.config.nameDOM).val(nodes[i].Name);
+            $(inst.config.idDOM).val(nodes[i].Id);
+            break;
+        }
+        $(inst.config.idDOM).change();  //如果不调change，VUE不会监听idDom
+        hideMenu();
+    }
+
+    //tree复选框
+    var onCheck = function (e, treeId, treeNode) {
+        var nodes = zTreeObj.getCheckedNodes(true);
+
+        var ids = nodes.map(function (e) { return e.Id; }).join(",");
+        var names = nodes.map(function (e) { return e.Name; }).join(",");
+        $(inst.config.nameDOM).val(names);
+        $(inst.config.idDOM).val(ids);
+        $(inst.config.idDOM).change();  //如果不调change，VUE不会监听idDom
+    }
+
+    //构造器
+    var  Class = function (options) {
             var that = this;
             that.config = $.extend({}, that.config, options);
      };
@@ -31,19 +77,6 @@ layui.define(['jquery', 'layer'], function (exports) {
         key: 'Id',
         parentKey: 'ParentId'
     };
-
-
-    //显示下拉菜单
-    Class.prototype.showMenu =function () {
-        $("#menuContent").css({ left: "10px", top: $(this.config.nameDOM).outerHeight() + "px" }).slideDown("fast");
-        $("body").bind("mousedown", onBodyDown);
-    };
-
-    //隐藏下拉菜单
-    Class.prototype.hideMenu =function () {
-        $("#menuContent").fadeOut("fast");
-        $("body").unbind("mousedown", onBodyDown);
-    }
 
     //加载数据
     Class.prototype.render = function () {
@@ -68,8 +101,8 @@ layui.define(['jquery', 'layer'], function (exports) {
                 }
             },
             callback: {
-                onClick: that.onClick,
-                onCheck: that.onCheck
+                onClick: onClick,
+                onCheck: onCheck
             }
         };
         var index = layer.load();
@@ -80,14 +113,14 @@ layui.define(['jquery', 'layer'], function (exports) {
             function (json) {
                 layer.close(index);
                 if (json.length == 0) {
-                    $(this.config.nameDOM).val('');
-                    $(this.config.idDOM).val('');
+                    $(that.config.nameDOM).val('');
+                    $(that.config.idDOM).val('');
                     return;
                 }
                 zTreeObj = $.fn.zTree.init($("#org"), setting, json);
                 that.setCheck();
                 zTreeObj.expandAll(true);
-                that.showMenu();
+                showMenu();
             });
     }
 
@@ -105,32 +138,6 @@ layui.define(['jquery', 'layer'], function (exports) {
                     zTreeObj.checkNode(node, true, false);
                 }
             });
-
-    }
-
-    Class.prototype.onClick =function(e, treeId, treeNode) {
-        var nodes = zTreeObj.getSelectedNodes();
-
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            $(inst.config.nameDOM).val(nodes[i].Name);
-            $(inst.config.idDOM).val(nodes[i].Id);
-            break;
-        }
-        inst.hideMenu();
-    }
-    Class.prototype.onCheck= function(e, treeId, treeNode) {
-        var nodes = zTreeObj.getCheckedNodes(true);
-
-        var ids = nodes.map(function (e) { return e.Id; }).join(",");
-        var names = nodes.map(function (e) { return e.Name; }).join(",");
-        $(inst.config.nameDOM).val(names);
-        $(inst.config.idDOM).val(ids);
-    }
-
-    function onBodyDown(event) {
-        if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
-            inst.hideMenu();
-        }
     }
 
     exports('droptree', function (url, name, id) {

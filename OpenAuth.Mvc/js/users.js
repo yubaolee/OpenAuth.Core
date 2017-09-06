@@ -2,11 +2,12 @@ layui.config({
     base: "/js/"
 }).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
     var form = layui.form,
-		layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
-		$ = layui.jquery;
+		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
+        layer = parent.layer === undefined ? layui.layer : parent.layer,
+        $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
-    var droptree = layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+    layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
     //主列表加载，可反复调用进行刷新
     var config= {};  //table的参数，如搜索key，点击tree的id
@@ -56,31 +57,66 @@ layui.config({
         }
     }();
 
-    //上级机构选择框
-    $("#Organizations").on("click", function () {
-        droptree.render();
-    });
-
-    //监听表格复选框选择
-    table.on('checkbox(list)', function (obj) {
-        console.log(obj);
-    });
+    //添加（编辑）对话框
+    var editDlg = function() {
+        var vm = new Vue({
+            el: "#formEdit"
+        });
+        var update = false;  //是否为更新
+        var show = function (data) {
+            var title = update ? "编辑信息" : "添加";
+            layer.open({
+                title: title,
+                area: ["500px", "400px"],
+                type: 1,
+                content: $('#divEdit'),
+                success: function() {
+                    vm.$set('$data', data);
+                },
+                end: mainList
+            });
+            var url = "/UserManager/AddOrUpdate";
+            if (update) {
+                url = "/UserManager/AddOrUpdate"; //暂时和添加一个地址
+            }
+            //提交数据
+            form.on('submit(formSubmit)',
+                function(data) {
+                    $.post(url,
+                        data.field,
+                        function(data) {
+                            layer.msg(data.Message);
+                        },
+                        "json");
+                    return false;
+                });
+        }
+        return {
+            add: function() { //弹出添加
+                update = false;
+                show({
+                    Id: '00000000-0000-0000-0000-000000000000'
+                });
+            },
+            update: function(data) { //弹出编辑框
+                update = true;
+                show(data);
+            }
+        };
+    }();
+    
     //监听表格内部按钮
     table.on('tool(list)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {      //查看
             layer.msg('ID：' + data.Id + ' 的查看操作');
-
         } else if (obj.event === 'del') {  //删除
             openauth.del("/UserManager/Delete", data.Id, obj.del);
         } else if (obj.event === 'edit') {  //编辑
-            layer.alert('编辑行：<br>' + JSON.stringify(data));
+            editDlg.update(data);
         }
     });
 
-    var vm = new Vue({
-        el: "#formEdit"
-    });
 
     //监听页面主按钮操作
     var active = {
@@ -90,20 +126,25 @@ layui.config({
             openauth.del("/UserManager/Delete", data.map(function (e) { return e.Id; }), mainList);
         }
         , addData: function () {  //添加
-            var index = layer.open({
-                title: "添加"
-                ,area: ["500px", "400px"]
-                ,type: "1"
-                ,content: $('#formEdit')
-                , success: function () {
-                    vm.$set('$data', null);
-                }
-                ,end:mainList
-            });
+            editDlg.add();
         }
         , search: function () {   //搜索
             mainList({ key: $('#key').val() });
-        }      
+        }
+        , refresh: function() {
+            mainList();
+        }
+
+        ,test:function() {
+            var index = layer.open({
+                title: "添加文章",
+                type: 2,
+                content: "newsAdd.html",
+                success: function(layero, index) {
+                    
+                }
+            });
+        }
     };
 
     $('.toolList .layui-btn').on('click', function () {
@@ -112,15 +153,4 @@ layui.config({
     });
 
     //监听页面主按钮操作 end
-
-    //编辑或添加对话框
-    form.on('submit(formSubmit)', function (data) {
-        $.post("/UserManager/Add", data.field, function (data) {
-            layer.msg(data.Message);
-            if (data.Status) {
-               
-            }
-        }, "json");
-        return false;
-    });
 })

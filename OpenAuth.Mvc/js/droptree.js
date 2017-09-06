@@ -68,8 +68,13 @@ layui.define(['jquery', 'layer'], function (exports) {
 
     //构造器
     var  Class = function (options) {
-            var that = this;
-            that.config = $.extend({}, that.config, options);
+        var that = this;
+        that.config = $.extend({}, that.config, options);
+
+        //上级机构选择框
+        $(that.config.nameDOM).on("click", function () {
+            that.render();
+        });
      };
     //默认配置
     Class.prototype.config = {
@@ -141,7 +146,7 @@ layui.define(['jquery', 'layer'], function (exports) {
     }
 
     exports('droptree', function (url, name, id) {
-      var   options = {
+      var options = {
             nameDOM: name,   //显示的文本框ID，如："#catetoryName"
             idDOM: id,   //隐藏的文本框，如："#categoryId"
             url: url

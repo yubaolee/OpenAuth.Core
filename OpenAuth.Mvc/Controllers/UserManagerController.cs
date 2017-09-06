@@ -22,7 +22,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改组织
         [HttpPost]
-        public string Add(UserView view)
+        public string AddOrUpdate(UserView view)
         {
             try
             {
@@ -40,9 +40,9 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载组织下面的所有用户
         /// </summary>
-        public string Load(Guid orgId, int page = 1, int rows = 30)
+        public string Load(Guid orgId, int page = 1, int limit = 30)
         {
-            return JsonHelper.Instance.Serialize(App.Load(orgId, page, rows));
+            return JsonHelper.Instance.Serialize(App.Load(orgId, page, limit));
         }
 
         [HttpPost]

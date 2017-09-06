@@ -3,7 +3,7 @@ layui.config({
 }).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
     var form = layui.form,
 		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
-        layer = parent.layer === undefined ? layui.layer : parent.layer,
+        layer = layui.layer,
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
@@ -135,9 +135,9 @@ layui.config({
             mainList();
         }
 
-        ,test:function() {
+        , assignModule: function () {
             var index = layer.open({
-                title: "添加文章",
+                title: "分配模块菜单",
                 type: 2,
                 content: "newsAdd.html",
                 success: function(layero, index) {

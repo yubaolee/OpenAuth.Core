@@ -24,7 +24,7 @@ namespace OpenAuth.Domain.Service
     {
         public SystemAuthService(IUnitWork unitWork):base(unitWork)
         {
-            _user = new User { Account = "System", Id = Guid.Empty };
+            _user = new User { Account = "System", Id = string.Empty };
         }
 
        

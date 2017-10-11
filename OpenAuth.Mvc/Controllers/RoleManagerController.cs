@@ -39,13 +39,13 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载角色下面的所有用户
         /// </summary>
-        public string Load(Guid orgId, int pageCurrent = 1, int pageSize = 30)
+        public string Load(string orgId, int pageCurrent = 1, int pageSize = 30)
         {
             return JsonHelper.Instance.Serialize(App.Load(orgId, pageCurrent, pageSize));
         }
 
         [System.Web.Mvc.HttpPost]
-        public string Delete(Guid[] ids)
+        public string Delete(string[] ids)
         {
             try
             {
@@ -64,14 +64,14 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         #region 为用户设置角色界面
-        public ActionResult LookupMulti(Guid firstId, string key)
+        public ActionResult LookupMulti(string firstId, string key)
         {
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
             return View();
         }
 
-        public string LoadForOrgAndUser(Guid orgId, Guid userId)
+        public string LoadForOrgAndUser(string orgId, string userId)
         {
             return JsonHelper.Instance.Serialize(App.LoadForOrgAndUser(orgId, userId));
         }

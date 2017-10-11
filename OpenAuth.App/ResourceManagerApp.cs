@@ -19,7 +19,7 @@ namespace OpenAuth.App
             _resManagerService = resManagerService;
         }
 
-        public int GetResourceCntInOrg(Guid orgId)
+        public int GetResourceCntInOrg(string orgId)
         {
             return _resManagerService.GetResourceCntInOrg(orgId);
         }
@@ -32,14 +32,14 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个节点下面的一个或全部Resources
         /// </summary>
-        public dynamic Load(string username, Guid categoryId, int pageindex, int pagesize)
+        public dynamic Load(string username, string categoryId, int pageindex, int pagesize)
         {
             return _resManagerService.Load(username, categoryId, pageindex, pagesize);
         }
 
 
 
-        public void Delete(Guid[] ids)
+        public void Delete(string[] ids)
         {
             _resManagerService.Delete(ids);
         }
@@ -61,7 +61,7 @@ namespace OpenAuth.App
         /// 当为UserResource时，表示UserId
         /// </param>
         /// <param name="cId">分类ID</param>
-        public List<dynamic> LoadWithAccess(string username, string accessType, Guid firstId, Guid cId)
+        public List<dynamic> LoadWithAccess(string username, string accessType, string firstId, string cId)
         {
             return _resManagerService.LoadWithAccess(username, accessType, firstId, cId);
         }

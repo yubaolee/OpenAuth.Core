@@ -14,49 +14,34 @@ using System.Text;
 namespace OpenAuth.Domain
 {
     /// <summary>
-	/// 分类表
+	/// 分类类型
 	/// </summary>
-    public partial class Category : Entity
+    public partial class CategoryType : Entity
     {
-        public Category()
+        public CategoryType()
         {
-          this.CascadeId= string.Empty;
           this.Name= string.Empty;
           this.Code= string.Empty;
-          this.Status= 0;
-          this.SortNo= 0;
-          this.TypeId= string.Empty;
-          this.ParentId= string.Empty;
+          this.CreateTime= DateTime.Now;
+          this.CreateUser= string.Empty;
         }
 
-        /// <summary>
-	    /// 节点语义ID
-	    /// </summary>
-        public string CascadeId { get; set; }
         /// <summary>
 	    /// 名称
 	    /// </summary>
         public string Name { get; set; }
         /// <summary>
-	    /// 编号
+	    /// 编码
 	    /// </summary>
         public string Code { get; set; }
         /// <summary>
-	    /// 当前状态
+	    /// 创建日期
 	    /// </summary>
-        public int Status { get; set; }
+        public System.DateTime? CreateTime { get; set; }
         /// <summary>
-	    /// 排序号
+	    /// 创建人
 	    /// </summary>
-        public int SortNo { get; set; }
-        /// <summary>
-	    /// 分类所属科目
-	    /// </summary>
-        public string TypeId { get; set; }
-        /// <summary>
-	    /// 父节点流水号
-	    /// </summary>
-        public string ParentId { get; set; }
+        public string CreateUser { get; set; }
 
     }
 }

@@ -17,12 +17,12 @@ namespace OpenAuth.App
         /// <summary>
         /// 根据部门ID得到进出库信息
         /// </summary>
-        public dynamic Load(string username, Guid orgId, int page, int rows)
+        public dynamic Load(string username, string orgId, int page, int rows)
         {
             return _service.Load(username, orgId, page, rows);
         }
 
-        public void Delete(Guid[] id)
+        public void Delete(string[] id)
         {
             _service.Delete(id);
         }

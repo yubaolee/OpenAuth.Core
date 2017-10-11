@@ -8,16 +8,16 @@ namespace OpenAuth.Domain.Interface
     {
         IEnumerable<Category> LoadCategorys(int pageindex, int pagesize);
 
-        IEnumerable<Category> LoadInOrgs(params Guid[] orgId);
-        int GetCategoryCntInOrgs(params Guid[] orgIds);
-        IEnumerable<Category> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds);
+        IEnumerable<Category> LoadInOrgs(params string[] orgId);
+        int GetCategoryCntInOrgs(params string[] orgIds);
+        IEnumerable<Category> LoadInOrgs(int pageindex, int pagesize, params string[] orgIds);
 
         /// <summary>
         /// 获取子分类ID
         /// </summary>
-        Guid[] GetSubIds(Guid orgId);
+        string[] GetSubIds(string orgId);
 
-        void Delete(Guid id);
+        void Delete(string id);
 
     }
 }

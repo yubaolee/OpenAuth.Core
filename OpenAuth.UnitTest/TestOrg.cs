@@ -28,7 +28,7 @@ namespace OpenAuth.UnitTest
                     int val = random.Next();
                     _app.AddOrUpdate(new Org
                     {
-                        Id = Guid.Empty,
+                        Id = string.Empty,
                         Name = "test" + val,
                         CreateTime = DateTime.Now,
                         ParentId = null,

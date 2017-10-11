@@ -14,21 +14,19 @@ using System.Text;
 namespace OpenAuth.Domain
 {
     /// <summary>
-	/// 
+	/// 工作流流程实例表
 	/// </summary>
-    public partial class WFProcessInstance :Entity
+    public partial class WFProcessInstance : Entity
     {
         public WFProcessInstance()
         {
           this.Code= string.Empty;
           this.CustomName= string.Empty;
           this.ActivityId= string.Empty;
-          this.ActivityType= 0;
           this.ActivityName= string.Empty;
+          this.ProcessSchemeId= string.Empty;
           this.PreviousId= string.Empty;
-          this.ProcessSchemeId=Guid.Empty;
           this.SchemeType= string.Empty;
-          this.EnabledMark= 0;
           this.CreateDate= DateTime.Now;
           this.CreateUserId= string.Empty;
           this.CreateUserName= string.Empty;
@@ -37,71 +35,71 @@ namespace OpenAuth.Domain
         }
 
         /// <summary>
-	    /// 
+	    /// 实例编号
 	    /// </summary>
         public string Code { get; set; }
         /// <summary>
-	    /// 
+	    /// 自定义名称
 	    /// </summary>
         public string CustomName { get; set; }
         /// <summary>
-	    /// 
+	    /// 当前节点ID
 	    /// </summary>
         public string ActivityId { get; set; }
         /// <summary>
-	    /// 
+	    /// 当前节点类型（0会签节点）
 	    /// </summary>
-        public int ActivityType { get; set; }
+        public int? ActivityType { get; set; }
         /// <summary>
-	    /// 
+	    /// 当前节点名称
 	    /// </summary>
         public string ActivityName { get; set; }
         /// <summary>
-	    /// 
+	    /// 流程实例模板Id
+	    /// </summary>
+        public string ProcessSchemeId { get; set; }
+        /// <summary>
+	    /// 前一个ID
 	    /// </summary>
         public string PreviousId { get; set; }
         /// <summary>
-	    /// 
-	    /// </summary>
-        public Guid ProcessSchemeId { get; set; }
-        /// <summary>
-	    /// 
-	    /// </summary>
-        public string SchemeType { get; set; }
-        /// <summary>
-	    /// 
+	    /// 表单类型
 	    /// </summary>
         public int? FrmType { get; set; }
         /// <summary>
-	    /// 
+	    /// 流程类型
 	    /// </summary>
-        public int EnabledMark { get; set; }
+        public string SchemeType { get; set; }
         /// <summary>
-	    /// 
+	    /// 有效标志
 	    /// </summary>
-        public System.DateTime CreateDate { get; set; }
+        public int? EnabledMark { get; set; }
         /// <summary>
-	    /// 
+	    /// 创建时间
+	    /// </summary>
+        public System.DateTime? CreateDate { get; set; }
+        /// <summary>
+	    /// 创建用户主键
 	    /// </summary>
         public string CreateUserId { get; set; }
         /// <summary>
-	    /// 
+	    /// 创建用户
 	    /// </summary>
         public string CreateUserName { get; set; }
         /// <summary>
-	    /// 
+	    /// 等级
 	    /// </summary>
         public int? WfLevel { get; set; }
         /// <summary>
-	    /// 
+	    /// 实例备注
 	    /// </summary>
         public string Description { get; set; }
         /// <summary>
-	    /// 
+	    /// 是否完成
 	    /// </summary>
         public int? IsFinish { get; set; }
         /// <summary>
-	    /// 
+	    /// 执行人
 	    /// </summary>
         public string MakerList { get; set; }
 
@@ -117,10 +115,11 @@ namespace OpenAuth.Domain
         /// 编辑调用
         /// </summary>
         /// <param name="keyValue"></param>
-        public void Modify(Guid keyValue)
+        public void Modify(string keyValue)
         {
             this.Id = keyValue;
         }
         #endregion
+
     }
 }

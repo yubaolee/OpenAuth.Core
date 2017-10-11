@@ -28,9 +28,9 @@ namespace OpenAuth.App
             return _repository.FindSingle(u => u.Account == account);
         }
 
-        public int GetUserCntInOrg(Guid orgId)
+        public int GetUserCntInOrg(string orgId)
         {
-            if (orgId == Guid.Empty)
+            if (orgId == string.Empty)
             {
                 return _repository.Find(null).Count();
             }
@@ -43,12 +43,12 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个部门及子部门全部用户
         /// </summary>
-        public GridData Load(Guid orgId, int pageindex, int pagesize)
+        public GridData Load(string orgId, int pageindex, int pagesize)
         {
             if (pageindex < 1) pageindex = 1;  //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
             IEnumerable<User> users;
             int records = 0;
-            if (orgId ==Guid.Empty)
+            if (orgId ==string.Empty)
             {
                 users = _repository.LoadUsers(pageindex, pagesize);
                 records = _repository.GetCount();
@@ -81,14 +81,14 @@ namespace OpenAuth.App
         /// <summary>
         /// 获取当前组织的所有下级组织
         /// </summary>
-        private Guid[] GetSubOrgIds(Guid orgId)
+        private string[] GetSubOrgIds(string orgId)
         {
             var org = _orgRepository.FindSingle(u => u.Id == orgId);
             var orgs = _orgRepository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
             return orgs;
         }
 
-        public UserView Find(Guid id)
+        public UserView Find(string id)
         {
             var user = _repository.FindSingle(u => u.Id == id);
             if (user == null) return new UserView();
@@ -104,7 +104,7 @@ namespace OpenAuth.App
             return view;
         }
 
-        public void Delete(Guid[] ids)
+        public void Delete(string[] ids)
         {
             _repository.Delete(u => ids.Contains(u.Id));
             _relevanceRepository.DeleteBy("UserOrg", ids);
@@ -117,7 +117,7 @@ namespace OpenAuth.App
             if (string.IsNullOrEmpty(view.OrganizationIds))
                 throw new Exception("请为用户分配机构");
             User user = view;
-            if (user.Id == Guid.Empty)
+            if (user.Id == string.Empty)
             {
                 if (_repository.IsExist(u => u.Account == view.Account))
                 {
@@ -140,13 +140,13 @@ namespace OpenAuth.App
                     Type = user.Type
                 });
             }
-            Guid[] orgIds = view.OrganizationIds.Split(',').Select(id => Guid.Parse(id)).ToArray();
+            string[] orgIds = view.OrganizationIds.Split(',').ToArray();
 
             _relevanceRepository.DeleteBy("UserOrg", user.Id);
             _relevanceRepository.AddRelevance("UserOrg", orgIds.ToLookup(u => user.Id));
         }
 
-        public IEnumerable<User> GetUsers(IEnumerable<Guid> userids)
+        public IEnumerable<User> GetUsers(IEnumerable<string> userids)
         {
             return _repository.Find(u => userids.Contains(u.Id));
         }

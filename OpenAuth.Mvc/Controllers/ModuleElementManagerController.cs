@@ -26,12 +26,12 @@ namespace OpenAuth.Mvc.Controllers
     {
         public ModuleElementManagerApp App { get; set; }
 
-        public ActionResult Index(Guid id)
+        public ActionResult Index(string id)
         {
             ViewBag.ModuleId = id;
             return View();
         }
-        public ActionResult Get(Guid moduleId)
+        public ActionResult Get(string moduleId)
         {
             return Json(App.LoadByModuleId(moduleId), JsonRequestBehavior.AllowGet);
         }
@@ -50,7 +50,7 @@ namespace OpenAuth.Mvc.Controllers
             }
             return JsonHelper.Instance.Serialize( Result);
         }
-        public string Del(Guid[] ids)
+        public string Del(string[] ids)
         {
             try
             {
@@ -71,13 +71,13 @@ namespace OpenAuth.Mvc.Controllers
         /// <param name="firstId">The first identifier.</param>
         /// <param name="key">The key.</param>
         /// <returns>ActionResult.</returns>
-        public ActionResult AssignModuleElement(Guid firstId, string key)
+        public ActionResult AssignModuleElement(string firstId, string key)
         {
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
             return View();
         }
-        public string LoadWithAccess(Guid tId, Guid firstId, string key)
+        public string LoadWithAccess(string tId, string firstId, string key)
         {
             return JsonHelper.Instance.Serialize(App.LoadWithAccess(key, firstId, tId));
         }

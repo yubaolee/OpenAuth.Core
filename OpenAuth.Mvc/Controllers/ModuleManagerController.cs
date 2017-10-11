@@ -23,12 +23,13 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ActionResult Assign(Guid firstId, string key)
+        public ActionResult Assign(string firstId, string key)
         {
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
 
-            var moduleWithChildren = AuthUtil.GetCurrentUser().Modules.GenerateTree(u =>u.Id, u =>u.ParentId);
+            var moduleWithChildren = AuthUtil.GetCurrentUser().Modules
+                .GenerateTree(u =>u.Id, u =>u.ParentId);
             var modules = key == "UserModule" ? App.LoadForUser(firstId) : App.LoadForRole(firstId);
 
             CheckModule(moduleWithChildren, modules);
@@ -99,7 +100,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载模块下面的所有模块
         /// </summary>
-        public string Load(Guid orgId, int page = 1, int rows = 30)
+        public string Load(string orgId, int page = 1, int rows = 30)
         {
             return JsonHelper.Instance.Serialize(App.Load(orgId, page, rows));
         }
@@ -109,7 +110,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <param name="firstId">The user identifier.</param>
         /// <returns>System.String.</returns>
-        public string LoadForUser(Guid firstId)
+        public string LoadForUser(string firstId)
         {
             var orgs = App.LoadForUser(firstId);
             return JsonHelper.Instance.Serialize(orgs);
@@ -120,7 +121,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <param name="firstId">The role identifier.</param>
         /// <returns>System.String.</returns>
-        public string LoadForRole(Guid firstId)
+        public string LoadForRole(string firstId)
         {
             var orgs = App.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(orgs);
@@ -151,7 +152,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         [HttpPost]
-        public string Delete(Guid[] ids)
+        public string Delete(string[] ids)
         {
             try
             {

@@ -29,7 +29,7 @@ namespace OpenAuth.App.SSO
                 {
                     userInfo = new User
                     {
-                        Id = Guid.Empty,
+                        Id = string.Empty,
                         Account = "System",
                         Name ="超级管理员",
                         Password = "123456"

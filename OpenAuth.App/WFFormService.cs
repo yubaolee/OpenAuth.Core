@@ -25,12 +25,12 @@ namespace OpenAuth.App
             return _unitWork.Find<WFFrmMain>(null).ToList();
         }
 
-        public WFFrmMain GetForm(Guid keyValue)
+        public WFFrmMain GetForm(string keyValue)
         {
             return _unitWork.FindSingle<WFFrmMain>(u => u.Id == keyValue);
         }
 
-        public void RemoveForm(Guid[] keyValue)
+        public void RemoveForm(string[] keyValue)
         {
             _unitWork.Delete<WFFrmMain>(u =>keyValue.Contains(u.Id));
         }
@@ -58,7 +58,7 @@ namespace OpenAuth.App
                 }
                 else
                 {
-                    entity.Id = Guid.Parse(keyValue);
+                    entity.Id = keyValue;
                     _unitWork.Update(u =>u.Id, entity);
                 }
                 _unitWork.Save();

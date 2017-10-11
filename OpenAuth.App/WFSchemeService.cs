@@ -41,7 +41,7 @@ namespace OpenAuth.App
                 }
                 else
                 {
-                    Guid schemeid = Guid.Parse(keyValue);
+                    string schemeid = (string)(keyValue);
                     WFSchemeContent modelentityold =
                         _unitWork.FindSingle<WFSchemeContent>(u => u.SchemeVersion == entity.SchemeVersion
                                                                    && u.SchemeInfoId == schemeid);
@@ -66,7 +66,7 @@ namespace OpenAuth.App
                     {
                         modelentity.SchemeVersion = modelentityold.SchemeVersion;
                     }
-                    entity.Id = Guid.Parse(keyValue);
+                    entity.Id = keyValue;
                     entity.SchemeVersion = modelentity.SchemeVersion;
                     _unitWork.Update(entity);
                 }
@@ -80,18 +80,18 @@ namespace OpenAuth.App
             }
         }
 
-        public void RemoveForm(Guid[] keyValue)
+        public void RemoveForm(string[] keyValue)
         {
              _unitWork.Delete<WFSchemeInfo>(u =>keyValue.Contains(u.Id));
             _unitWork.Delete<WFSchemeContent>(u =>keyValue.Contains(u.SchemeInfoId));
         }
 
-        public WFSchemeInfo GetEntity(Guid keyValue)
+        public WFSchemeInfo GetEntity(string keyValue)
         {
             return _unitWork.FindSingle<WFSchemeInfo>(u => u.Id == keyValue);
         }
 
-        public WFSchemeContent GetSchemeEntity(Guid schemeinfoId, string schemeinfoSchemeVersion)
+        public WFSchemeContent GetSchemeEntity(string schemeinfoId, string schemeinfoSchemeVersion)
         {
             return _unitWork.FindSingle<WFSchemeContent>(u =>
                 u.SchemeInfoId == schemeinfoId && u.SchemeVersion == schemeinfoSchemeVersion);

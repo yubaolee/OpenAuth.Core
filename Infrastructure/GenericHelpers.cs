@@ -29,7 +29,12 @@ namespace Infrastructure
             Func<T, K> parentIdSelector,
             K rootId = default(K))
         {
-            foreach (var c in collection.Where(c => parentIdSelector(c).Equals(rootId)))
+            foreach (var c in collection.Where(u =>
+            {
+                var selector = parentIdSelector(u);
+                return (rootId == null && selector == null)  
+                || (rootId != null &&rootId.Equals(selector));
+            }))
             {
                 yield return new TreeItem<T>
                 {

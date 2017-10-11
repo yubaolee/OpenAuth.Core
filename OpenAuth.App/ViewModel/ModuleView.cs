@@ -11,7 +11,7 @@ namespace OpenAuth.App.ViewModel
         /// ID
         /// </summary>
         /// <returns></returns>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 名称
@@ -29,7 +29,7 @@ namespace OpenAuth.App.ViewModel
         /// 父节点流水号
         /// </summary>
         /// <returns></returns>
-        public Guid? ParentId { get; set; }
+        public string ParentId { get; set; }
 
         /// <summary>
         /// 节点图标文件名称

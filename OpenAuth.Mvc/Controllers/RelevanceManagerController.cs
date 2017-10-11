@@ -15,7 +15,7 @@ namespace OpenAuth.Mvc.Controllers
         public RevelanceManagerApp App { get; set; }
 
         [HttpPost]
-        public string Assign(string type, Guid firstId, Guid[] secIds)
+        public string Assign(string type, string firstId, string[] secIds)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
         [HttpPost]
-        public string UnAssign(string type, Guid firstId, Guid[] secIds)
+        public string UnAssign(string type, string firstId, string[] secIds)
         {
             try
             {

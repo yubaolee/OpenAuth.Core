@@ -8,9 +8,9 @@ namespace OpenAuth.Domain.Interface
     {
         IEnumerable<User> LoadUsers(int pageindex, int pagesize);
 
-        IEnumerable<User> LoadInOrgs(params Guid[] orgId);
-        int GetUserCntInOrgs(params Guid[] orgIds);
-        IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds);
+        IEnumerable<User> LoadInOrgs(params string[] orgId);
+        int GetUserCntInOrgs(params string[] orgIds);
+        IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params string[] orgIds);
 
     }
 }

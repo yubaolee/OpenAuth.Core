@@ -8,12 +8,12 @@ namespace OpenAuth.Domain.Interface
     {
         IEnumerable<Module> LoadModules(int pageindex, int pagesize);
 
-        IEnumerable<Module> LoadInOrgs(params Guid[] orgId);
-        int GetModuleCntInOrgs(params Guid[] orgIds);
-        IEnumerable<Module> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds);
+        IEnumerable<Module> LoadInOrgs(params string[] orgId);
+        int GetModuleCntInOrgs(params string[] orgIds);
+        IEnumerable<Module> LoadInOrgs(int pageindex, int pagesize, params string[] orgIds);
 
         
-        void Delete(Guid id);
+        void Delete(string id);
 
     }
 }

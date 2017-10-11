@@ -18,7 +18,7 @@ namespace OpenAuth.Repository
             return Context.Users.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
-        public IEnumerable<User> LoadInOrgs(params Guid[] orgId)
+        public IEnumerable<User> LoadInOrgs(params string[] orgId)
         {
             var result = from user in Context.Users
                      where (
@@ -32,12 +32,12 @@ namespace OpenAuth.Repository
 
         }
 
-        public int GetUserCntInOrgs(params Guid[] orgIds)
+        public int GetUserCntInOrgs(params string[] orgIds)
         {
             return LoadInOrgs(orgIds).Count();
         }
 
-        public IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds)
+        public IEnumerable<User> LoadInOrgs(int pageindex, int pagesize, params string[] orgIds)
         {
             return LoadInOrgs(orgIds).OrderBy(u =>u.Id).Skip((pageindex -1)*pagesize).Take(pagesize);
         }

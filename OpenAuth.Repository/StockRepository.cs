@@ -14,25 +14,25 @@ namespace OpenAuth.Repository
             return Context.Stocks.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
-        public IEnumerable<Stock> LoadInOrgs(params Guid[] orgId)
+        public IEnumerable<Stock> LoadInOrgs(params string[] orgId)
         {
-            var result = from stock in Context.Stocks where stock.OrgId != null && orgId.Contains(stock.OrgId.Value)
+            var result = from stock in Context.Stocks where stock.OrgId != null && orgId.Contains(stock.OrgId)
                 select stock;
             return result;
 
         }
 
-        public int GetStockCntInOrgs(params Guid[] orgIds)
+        public int GetStockCntInOrgs(params string[] orgIds)
         {
             return LoadInOrgs(orgIds).Count();
         }
 
-        public IEnumerable<Stock> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds)
+        public IEnumerable<Stock> LoadInOrgs(int pageindex, int pagesize, params string[] orgIds)
         {
             return LoadInOrgs(orgIds).OrderBy(u =>u.Id).Skip((pageindex -1)*pagesize).Take(pagesize);
         }
 
-        public void Delete(Guid id)
+        public void Delete(string id)
         {
             Delete(u =>u.Id == id);
         }

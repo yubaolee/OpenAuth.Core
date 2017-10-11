@@ -14,7 +14,7 @@ namespace OpenAuth.Repository
             return Context.Categories.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
-        public IEnumerable<Category> LoadInOrgs(params Guid[] orgId)
+        public IEnumerable<Category> LoadInOrgs(params string[] orgId)
         {
             var result = from category in Context.Categories where orgId.Contains(category.Id)
                 select category;
@@ -22,17 +22,17 @@ namespace OpenAuth.Repository
 
         }
 
-        public int GetCategoryCntInOrgs(params Guid[] orgIds)
+        public int GetCategoryCntInOrgs(params string[] orgIds)
         {
             return LoadInOrgs(orgIds).Count();
         }
 
-        public IEnumerable<Category> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds)
+        public IEnumerable<Category> LoadInOrgs(int pageindex, int pagesize, params string[] orgIds)
         {
             return LoadInOrgs(orgIds).OrderBy(u =>u.Id).Skip((pageindex -1)*pagesize).Take(pagesize);
         }
 
-        public void Delete(Guid id)
+        public void Delete(string id)
         {
             Delete(u =>u.Id == id);
         }
@@ -40,9 +40,9 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 获取当前节点的所有下级节点
         /// </summary>
-        public Guid[] GetSubIds(Guid orgId)
+        public string[] GetSubIds(string orgId)
         {
-            if (orgId == Guid.Empty)
+            if (orgId == string.Empty)
             {
                 return Find(null).Select(u => u.Id).ToArray();
             }

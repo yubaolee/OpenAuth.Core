@@ -14,54 +14,53 @@ using System.Text;
 namespace OpenAuth.Domain
 {
     /// <summary>
-	/// 出入库信息表
+	/// 应用
 	/// </summary>
-    public partial class Stock : Entity
+    public partial class Application : Entity
     {
-        public Stock()
+        public Application()
         {
           this.Name= string.Empty;
-          this.Number= 0;
-          this.Price= 0;
-          this.Status= 0;
-          this.Viewable= string.Empty;
-          this.User= string.Empty;
-          this.Time= DateTime.Now;
-          this.OrgId= string.Empty;
+          this.AppId= string.Empty;
+          this.AppKey= string.Empty;
+          this.Description= string.Empty;
+          this.Icon= string.Empty;
+          this.CreateTime= DateTime.Now;
+          this.CreateUser= string.Empty;
         }
 
         /// <summary>
-	    /// 产品名称
+	    /// 名称
 	    /// </summary>
         public string Name { get; set; }
         /// <summary>
-	    /// 产品数量
+	    /// 应用ID
 	    /// </summary>
-        public int Number { get; set; }
+        public string AppId { get; set; }
         /// <summary>
-	    /// 产品单价
+	    /// 应用密钥
 	    /// </summary>
-        public decimal Price { get; set; }
+        public string AppKey { get; set; }
         /// <summary>
-	    /// 出库/入库
+	    /// 应用描述
 	    /// </summary>
-        public int Status { get; set; }
+        public string Description { get; set; }
         /// <summary>
-	    /// 可见范围
+	    /// 应用图标
 	    /// </summary>
-        public string Viewable { get; set; }
+        public string Icon { get; set; }
         /// <summary>
-	    /// 操作人
+	    /// 是否可用
 	    /// </summary>
-        public string User { get; set; }
+        public bool Disable { get; set; }
         /// <summary>
-	    /// 操作时间
+	    /// 创建日期
 	    /// </summary>
-        public System.DateTime Time { get; set; }
+        public System.DateTime? CreateTime { get; set; }
         /// <summary>
-	    /// 组织ID
+	    /// 创建人
 	    /// </summary>
-        public string OrgId { get; set; }
+        public string CreateUser { get; set; }
 
     }
 }

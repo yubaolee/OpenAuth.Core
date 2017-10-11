@@ -45,12 +45,12 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载节点下面的所有Stocks
         /// </summary>
-        public string Load(Guid parentId, int page = 1, int rows = 30)
+        public string Load(string parentId, int page = 1, int rows = 30)
         {
             return JsonHelper.Instance.Serialize(App.Load(AuthUtil.GetUserName(), parentId, page, rows));
         }
         
-        public string Delete(Guid[] ids)
+        public string Delete(string[] ids)
         {
             try
             {

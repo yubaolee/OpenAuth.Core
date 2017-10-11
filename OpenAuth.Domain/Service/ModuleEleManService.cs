@@ -34,7 +34,7 @@ namespace OpenAuth.Domain.Service
 
         public void AddOrUpdate(ModuleElement model)
         {
-            if (model.Id == Guid.Empty)
+            if (model.Id == string.Empty)
             {
                 _unitWork.Add(model);
             }
@@ -46,7 +46,7 @@ namespace OpenAuth.Domain.Service
             _unitWork.Save();
         }
 
-        public IEnumerable<ModuleElement> LoadByModuleId(string loginuser, Guid id)
+        public IEnumerable<ModuleElement> LoadByModuleId(string loginuser, string id)
         {
             var service = _factory.Create(loginuser);
             if (!service.GetModuleElementsQuery().Any()) //用户没有任何资源
@@ -68,7 +68,7 @@ namespace OpenAuth.Domain.Service
         /// 当为UserElement时，表示UserId
         /// </param>
         /// <param name="moduleId">模块ID</param>
-        public List<dynamic> LoadWithAccess(string username, string accessType, Guid firstId, Guid moduleId)
+        public List<dynamic> LoadWithAccess(string username, string accessType, string firstId, string moduleId)
         {
             var listVms = new List<dynamic>();
             var service = _factory.Create(username);
@@ -76,7 +76,7 @@ namespace OpenAuth.Domain.Service
             {
                return listVms;
             }
-            if (moduleId == Guid.Empty) return listVms;
+            if (moduleId == string.Empty) return listVms;
             foreach (var element in service.GetModuleElementsQuery().Where(u =>u.ModuleId ==moduleId))
             {
                 var accessed = _unitWork.FindSingle<Relevance>(u =>u.Key == accessType 
@@ -94,7 +94,7 @@ namespace OpenAuth.Domain.Service
             return listVms;
         }
 
-        public void Delete(Guid[] objs)
+        public void Delete(string[] objs)
         {
             _unitWork.Delete<ModuleElement>(u =>objs.Contains(u.Id));
         }

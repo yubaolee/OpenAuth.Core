@@ -29,7 +29,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="orgId">The org unique identifier.</param>
         /// <returns>IEnumerable{Org}.</returns>
-        public IList<Org> LoadDirectChildren(Guid orgId)
+        public IList<Org> LoadDirectChildren(string orgId)
         {
             return _repository.Find(u => u.ParentId == orgId).ToList();
         }
@@ -38,7 +38,7 @@ namespace OpenAuth.App
         /// 得到部门的所有子部门
         /// <para>如果orgId为0，表示取得所有部门</para>
         /// </summary>
-        public GridData LoadAllChildren(Guid orgId)
+        public GridData LoadAllChildren(string orgId)
         {
             var query = _repository.GetSubOrgs(orgId);
             return new GridData
@@ -57,10 +57,10 @@ namespace OpenAuth.App
         /// <param name="org">The org.</param>
         /// <returns>System.Int32.</returns>
         /// <exception cref="System.Exception">未能找到该组织的父节点信息</exception>
-        public Guid AddOrUpdate(Org org)
+        public string AddOrUpdate(Org org)
         {
             ChangeModuleCascade(org);
-            if (org.Id == Guid.Empty)
+            if (org.Id == string.Empty)
             {
                 _repository.Add(org);
             }
@@ -88,7 +88,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 删除指定ID的部门及其所有子部门
         /// </summary>
-        public void DelOrg(Guid[] ids)
+        public void DelOrg(string[] ids)
         {
             var delOrg = _repository.Find(u => ids.Contains(u.Id)).ToList();
             foreach (var org in delOrg)
@@ -103,7 +103,7 @@ namespace OpenAuth.App
         /// TODO:这里会加载用户及用户角色的所有角色，“为用户分配角色”功能会给人一种混乱的感觉，但可以接受
         /// </summary>
         /// <param name="userId">The user unique identifier.</param>
-        public List<Org> LoadForUser(Guid userId)
+        public List<Org> LoadForUser(string userId)
         {
             //用户角色
             var userRoleIds =
@@ -124,7 +124,7 @@ namespace OpenAuth.App
         /// 加载特定角色的角色
         /// </summary>
         /// <param name="roleId">The role unique identifier.</param>
-        public List<Org> LoadForRole(Guid roleId)
+        public List<Org> LoadForRole(string roleId)
         {
             var moduleIds =
                 _relevanceRepository.Find(u => u.FirstId == roleId && u.Key == "RoleOrg")
@@ -148,7 +148,7 @@ namespace OpenAuth.App
                 if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
-            if (org.ParentId != null && org.ParentId != Guid.Empty)
+            if (org.ParentId != null && org.ParentId != string.Empty)
             {
                 var parentOrg = _repository.FindSingle(o => o.Id == org.ParentId);
                 if (parentOrg != null)

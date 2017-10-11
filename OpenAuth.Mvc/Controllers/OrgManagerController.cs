@@ -18,20 +18,20 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
-        public ActionResult Assign(Guid firstId, string key)
+        public ActionResult Assign(string firstId, string key)
         {
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
             return View();
         }
 
-        public string LoadForUser(Guid firstId)
+        public string LoadForUser(string firstId)
         {
             var orgs = OrgApp.LoadForUser(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string LoadForRole(Guid firstId)
+        public string LoadForRole(string firstId)
         {
             var orgs = OrgApp.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(orgs);
@@ -54,7 +54,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
         
-        public string LoadChildren(Guid id)
+        public string LoadChildren(string id)
         {
             return JsonHelper.Instance.Serialize(OrgApp.LoadAllChildren(id));
         }
@@ -65,7 +65,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <returns>System.String.</returns>
         [HttpPost]
-        public string DelOrg(Guid[] ids)
+        public string DelOrg(string[] ids)
         {
             try
             {

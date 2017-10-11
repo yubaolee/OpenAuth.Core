@@ -25,7 +25,7 @@ namespace OpenAuth.Domain.Service
         protected IUnitWork _unitWork;
         protected User _user;
 
-        private List<Guid> _userRoleIds;    //用户角色GUID
+        private List<string> _userRoleIds;    //用户角色GUID
 
         public AuthoriseService(IUnitWork unitWork)
         {

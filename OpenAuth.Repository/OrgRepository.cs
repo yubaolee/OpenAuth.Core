@@ -18,7 +18,7 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 加载用户的所有机构
         /// </summary>
-        public IEnumerable<Org> LoadByUser(Guid userId)
+        public IEnumerable<Org> LoadByUser(string userId)
         {
             var result = from userorg in Context.Relevances
                 join org in Context.Orgs on userorg.SecondId equals org.Id
@@ -31,7 +31,7 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 加载角色的所有机构
         /// </summary>
-        public IEnumerable<Org> LoadByRole(Guid roleId)
+        public IEnumerable<Org> LoadByRole(string roleId)
         {
             var result = from userorg in Context.Relevances
                          join org in Context.Orgs on userorg.SecondId equals org.Id
@@ -41,10 +41,10 @@ namespace OpenAuth.Repository
 
         }
 
-        public IEnumerable<Org> GetSubOrgs(Guid orgId)
+        public IEnumerable<Org> GetSubOrgs(string orgId)
         {
             string cascadeId = "0.";
-            if (orgId != Guid.Empty)
+            if (orgId != string.Empty)
             {
                 var org = FindSingle(u => u.Id == orgId);
                 if (org == null)

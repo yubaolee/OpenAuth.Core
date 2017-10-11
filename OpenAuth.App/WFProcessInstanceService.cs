@@ -29,7 +29,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="keyVlaue"></param>
         /// <returns></returns>
-        public WFProcessInstance GetEntity(Guid keyVlaue)
+        public WFProcessInstance GetEntity(string keyVlaue)
         {
             try
             {
@@ -50,11 +50,11 @@ namespace OpenAuth.App
         /// <param name="processSchemeEntity"></param>
         /// <param name="wfOperationHistoryEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(Guid processId, WFProcessInstance processInstanceEntity, WFProcessScheme processSchemeEntity, WFProcessOperationHistory wfOperationHistoryEntity = null)
+        public int SaveProcess(string processId, WFProcessInstance processInstanceEntity, WFProcessScheme processSchemeEntity, WFProcessOperationHistory wfOperationHistoryEntity = null)
         {
             try
             {
-                if (Guid.Empty ==(processInstanceEntity.Id))
+                if (string.Empty ==(processInstanceEntity.Id))
                 {
                     _unitWork.Add(processSchemeEntity);
 
@@ -97,13 +97,13 @@ namespace OpenAuth.App
         {
             try
             {
-                if (Guid.Empty == (processInstanceEntity.Id))
+                if (string.Empty == (processInstanceEntity.Id))
                 {
                     processSchemeEntity.Create();
                     _unitWork.Add(processSchemeEntity);
 
                     processInstanceEntity.Create();
-                    processInstanceEntity.Id = Guid.Parse(wfRuntimeModel.processId);
+                    processInstanceEntity.Id = (string)(wfRuntimeModel.processId);
                     processInstanceEntity.ProcessSchemeId = processSchemeEntity.Id;
                     _unitWork.Add(processInstanceEntity);
                 }
@@ -211,7 +211,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
-        public int DeleteProcess(Guid keyValue)
+        public int DeleteProcess(string keyValue)
         {
             try
             {
@@ -232,7 +232,7 @@ namespace OpenAuth.App
         /// <param name="keyValue"></param>
         /// <param name="state">0暂停,1启用,2取消（召回）</param>
         /// <returns></returns>
-        public int OperateVirtualProcess(Guid keyValue,int state)
+        public int OperateVirtualProcess(string keyValue,int state)
         {
             try
             {
@@ -288,7 +288,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="processId"></param>
         /// <param name="makeLists"></param>
-        public void DesignateProcess(Guid processId, string makeLists)
+        public void DesignateProcess(string processId, string makeLists)
         {
             try
             {
@@ -345,7 +345,7 @@ namespace OpenAuth.App
         /// <param name="description">备注</param>
         /// <param name="frmData">表单数据信息</param>
         /// <returns></returns>
-        public bool CreateInstance(Guid processId, Guid schemeInfoId, WFProcessInstance WFProcessInstance, string frmData = null)
+        public bool CreateInstance(string processId, string schemeInfoId, WFProcessInstance WFProcessInstance, string frmData = null)
         {
 
             try
@@ -441,7 +441,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="processId"></param>
         /// <returns></returns>
-        public bool NodeVerification(Guid processId, bool flag, string description = "")
+        public bool NodeVerification(string processId, bool flag, string description = "")
         {
             bool _res = false;
             try
@@ -620,7 +620,7 @@ namespace OpenAuth.App
         /// <param name="nodeId"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        public bool NodeReject(Guid processId, string nodeId, string description = "")
+        public bool NodeReject(string processId, string nodeId, string description = "")
         {
             try
             {
@@ -690,7 +690,7 @@ namespace OpenAuth.App
         /// 召回流程进程
         /// </summary>
         /// <param name="processId"></param>
-        public void CallingBackProcess(Guid processId)
+        public void CallingBackProcess(string processId)
         {
             try
             {
@@ -706,7 +706,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="processId"></param>
         /// <returns></returns>
-        public void KillProcess(Guid processId)
+        public void KillProcess(string processId)
         {
             try
             {
@@ -989,7 +989,7 @@ namespace OpenAuth.App
             return resStr;
         }
 
-        public WFProcessScheme GetProcessSchemeEntity(Guid keyValue)
+        public WFProcessScheme GetProcessSchemeEntity(string keyValue)
         {
             return _unitWork.FindSingle<WFProcessScheme>(u => u.Id == keyValue);
         }
@@ -1000,7 +1000,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="keyValue">The key value.</param>
         /// <returns>WFProcessScheme.</returns>
-        public WFProcessScheme GetProcessSchemeByUserId(Guid keyValue)
+        public WFProcessScheme GetProcessSchemeByUserId(string keyValue)
         {
             var entity = GetProcessSchemeEntity(keyValue);
             entity.SchemeContent = GetProcessSchemeContentByUserId(entity.SchemeContent, AuthUtil.GetCurrentUser().User.Id.ToString());
@@ -1015,14 +1015,14 @@ namespace OpenAuth.App
         /// <param name="keyValue">The key value.</param>
         /// <param name="nodeId">The node identifier.</param>
         /// <returns>WFProcessScheme.</returns>
-        public WFProcessScheme GetProcessSchemeEntityByNodeId(Guid keyValue, string nodeId)
+        public WFProcessScheme GetProcessSchemeEntityByNodeId(string keyValue, string nodeId)
         {
             var entity = GetProcessSchemeEntity(keyValue);
             entity.SchemeContent = GetProcessSchemeContentByNodeId(entity.SchemeContent, nodeId);
             return entity;
         }
 
-        public WFProcessInstance GetProcessInstanceEntity(Guid keyValue)
+        public WFProcessInstance GetProcessInstanceEntity(string keyValue)
         {
             return _unitWork.FindSingle<WFProcessInstance>(u => u.Id == keyValue);
         }
@@ -1033,7 +1033,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="processId">The process identifier.</param>
         /// <param name="verificationData">The verification data.</param>
-        public void VerificationProcess(Guid processId, string verificationData)
+        public void VerificationProcess(string processId, string verificationData)
         {
             try
             {

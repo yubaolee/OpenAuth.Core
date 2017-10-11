@@ -24,9 +24,9 @@ namespace OpenAuth.App
             _relevanceRepository = relevanceRepository;
         }
 
-        public int GetRoleCntInOrg(Guid orgId)
+        public int GetRoleCntInOrg(string orgId)
         {
-            if (orgId == Guid.Empty)
+            if (orgId == string.Empty)
             {
                 return _repository.Find(null).Count();
             }
@@ -39,12 +39,12 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个部门及子部门全部Roles
         /// </summary>
-        public GridData Load(Guid orgId, int pageindex, int pagesize)
+        public GridData Load(string orgId, int pageindex, int pagesize)
         {
             if (pageindex < 1) pageindex = 1; //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
             IEnumerable<Role> roles;
             int total = 0;
-            if (orgId == Guid.Empty)
+            if (orgId == string.Empty)
             {
                 roles = _repository.LoadRoles(pageindex, pagesize);
                 total = _repository.GetCount();
@@ -79,20 +79,20 @@ namespace OpenAuth.App
         /// <summary>
         /// 获取当前组织的所有下级组织
         /// </summary>
-        private Guid[] GetSubOrgIds(Guid orgId)
+        private string[] GetSubOrgIds(string orgId)
         {
             var orgs = _orgRepository.GetSubOrgs(orgId).Select(u => u.Id).ToArray();
             return orgs;
         }
 
-        public Role Find(Guid id)
+        public Role Find(string id)
         {
             var role = _repository.FindSingle(u => u.Id == id);
             if (role == null) role = new Role();
             return role;
         }
 
-        public void Delete(Guid id)
+        public void Delete(string id)
         {
             _repository.Delete(id);
         }
@@ -100,7 +100,7 @@ namespace OpenAuth.App
         public void AddOrUpdate(JObject obj)
         {
             var role = obj.ToObject<Role>();
-            if (role.Id == Guid.Empty)
+            if (role.Id == string.Empty)
             {
                 role.CreateTime = DateTime.Now;
                 _repository.Add(role);
@@ -110,18 +110,18 @@ namespace OpenAuth.App
                 _repository.Update(role);
             }
 
-            Guid[] orgIds = obj["OrganizationIds"].ToString().Split(',').Select(id => Guid.Parse(id)).ToArray();
+            string[] orgIds = obj["OrganizationIds"].ToString().Split(',').ToArray();
 
             _relevanceRepository.DeleteBy("RoleOrg", role.Id);
             _relevanceRepository.AddRelevance("RoleOrg", orgIds.ToLookup(u => role.Id));
         }
 
-        public List<Role> LoadForUser(Guid userId)
+        public List<Role> LoadForUser(string userId)
         {
             return _repository.LoadForUser(userId).ToList();
         }
 
-        public List<RoleVM> LoadForOrgAndUser(Guid orgId, Guid userId)
+        public List<RoleVM> LoadForOrgAndUser(string orgId, string userId)
         {
             var userroles = LoadForUser(userId);
             var orgroles = _repository.LoadInOrgs(GetSubOrgIds(orgId)).ToList();
@@ -139,7 +139,7 @@ namespace OpenAuth.App
             return rolevms;
         }
 
-        public List<Guid> GetUsersInRole(string ruleName)
+        public List<string> GetUsersInRole(string ruleName)
         {
             var role = _repository.FindSingle(u => u.Name == ruleName);
             if (role == null) return null;

@@ -20,9 +20,9 @@ namespace OpenAuth.App
             _unitWork = unitWork;
         }
 
-        public int GetCategoryCntInOrg(Guid orgId)
+        public int GetCategoryCntInOrg(string orgId)
         {
-            if (orgId == Guid.Empty)
+            if (orgId == string.Empty)
             {
                 return _repository.Find(null).Count();
             }
@@ -40,11 +40,11 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个分类及子分类全部Categorys
         /// </summary>
-        public GridData Load(Guid parentId, int pageindex, int pagesize)
+        public GridData Load(string parentId, int pageindex, int pagesize)
         {
             IQueryable<Category> categories;
             int total = 0;
-            if (parentId == Guid.Empty)
+            if (parentId == string.Empty)
             {
                 categories = _unitWork.Find<Category>(pageindex, pagesize);
                 total = _repository.GetCount();
@@ -66,8 +66,6 @@ namespace OpenAuth.App
                             c.ParentId,
                             ParentName = category.Name,
                             c.SortNo,
-                            c.RootName,
-                            c.RootKey,
                             c.Status,
                             c.Id
                         };
@@ -83,14 +81,14 @@ namespace OpenAuth.App
         /// <summary>
         /// 获取当前组织的所有下级组织
         /// </summary>
-        private Guid[] GetSubCategories(Guid orgId)
+        private string[] GetSubCategories(string orgId)
         {
             var category = Find(orgId);
             var categories = _repository.Find(u => u.CascadeId.Contains(category.CascadeId)).Select(u => u.Id).ToArray();
             return categories;
         }
 
-        public Category Find(Guid id)
+        public Category Find(string id)
         {
             var category = _repository.FindSingle(u => u.Id == id);
             if (category == null) return new Category();
@@ -98,7 +96,7 @@ namespace OpenAuth.App
             return category;
         }
 
-        public void Delete(Guid[] ids)
+        public void Delete(string[] ids)
         {
             _repository.Delete(u =>ids.Contains(u.Id));
         }
@@ -109,7 +107,7 @@ namespace OpenAuth.App
             model.CopyTo(category);
             ChangeModuleCascade(category);
 
-            if (category.Id == Guid.Empty)
+            if (category.Id == string.Empty)
             {
                 _repository.Add(category);
             }
@@ -145,7 +143,7 @@ namespace OpenAuth.App
                 if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
-            if (org.ParentId != null && org.ParentId != Guid.Empty)
+            if (org.ParentId != null && org.ParentId != string.Empty)
             {
                 var parentOrg = _repository.FindSingle(o => o.Id == org.ParentId);
                 if (parentOrg != null)

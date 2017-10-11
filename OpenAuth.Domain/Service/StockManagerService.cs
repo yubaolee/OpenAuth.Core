@@ -26,7 +26,7 @@ namespace OpenAuth.Domain.Service
         /// <summary>
         /// 根据部门ID得到进出库信息
         /// </summary>
-        public dynamic Load(string username, Guid orgId, int pageindex, int pagesize)
+        public dynamic Load(string username, string orgId, int pageindex, int pagesize)
         {
 
             var  service = _factory.Create(username);
@@ -48,7 +48,7 @@ namespace OpenAuth.Domain.Service
 
             var keys = service.Resources.Select(r => r.Key);    //用户可访问的资源的KEY列表
 
-            Expression<Func<Stock, bool>> exp = u => u.OrgId != null &&orgs.Contains(u.OrgId.Value) && (u.Viewable == "" || keys.Contains(u.Viewable));
+            Expression<Func<Stock, bool>> exp = u => u.OrgId != null &&orgs.Contains(u.OrgId) && (u.Viewable == "" || keys.Contains(u.Viewable));
             var stocks = _repository.Find(pageindex, pagesize, "", exp);
             int total = _repository.GetCount(exp);
 
@@ -62,7 +62,7 @@ namespace OpenAuth.Domain.Service
             };
         }
 
-        public Stock Find(Guid id)
+        public Stock Find(string id)
         {
             var stock = _repository.FindSingle(u => u.Id == id);
             if (stock == null) return new Stock();
@@ -70,7 +70,7 @@ namespace OpenAuth.Domain.Service
             return stock;
         }
 
-        public void Delete(Guid[] id)
+        public void Delete(string[] id)
         {
             _repository.Delete(u =>id.Contains(u.Id));
         }
@@ -78,7 +78,7 @@ namespace OpenAuth.Domain.Service
         public void AddOrUpdate(Stock stock)
         {
 
-            if (stock.Id == Guid.Empty)
+            if (string.IsNullOrEmpty(stock.Id))
             {
                 _repository.Add(stock);
             }

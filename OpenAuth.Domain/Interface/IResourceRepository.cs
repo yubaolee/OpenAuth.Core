@@ -8,11 +8,11 @@ namespace OpenAuth.Domain.Interface
     {
         IEnumerable<Resource> LoadResources(int pageindex, int pagesize);
 
-        IEnumerable<Resource> LoadInOrgs(params Guid[] orgId);
-        int GetResourceCntInOrgs(params Guid[] orgIds);
-        IEnumerable<Resource> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds);
+        IEnumerable<Resource> LoadInOrgs(params string[] orgId);
+        int GetResourceCntInOrgs(params string[] orgIds);
+        IEnumerable<Resource> LoadInOrgs(int pageindex, int pagesize, params string[] orgIds);
         
-        void Delete(Guid id);
+        void Delete(string id);
 
     }
 }

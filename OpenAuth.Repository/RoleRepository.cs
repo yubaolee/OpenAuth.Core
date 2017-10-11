@@ -15,22 +15,22 @@ namespace OpenAuth.Repository
             return Context.Roles.OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
-        public int GetRoleCntInOrgs(params Guid[] orgIds)
+        public int GetRoleCntInOrgs(params string[] orgIds)
         {
             return LoadInOrgs(orgIds).Count();
         }
 
-        public IEnumerable<Role> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds)
+        public IEnumerable<Role> LoadInOrgs(int pageindex, int pagesize, params string[] orgIds)
         {
             return LoadInOrgs(orgIds).OrderBy(u => u.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
         }
 
-        public void Delete(Guid id)
+        public void Delete(string id)
         {
             Delete(u =>u.Id == id);
         }
 
-        public IEnumerable<Role> LoadInOrgs(params Guid[] orgId)
+        public IEnumerable<Role> LoadInOrgs(params string[] orgId)
         {
             var roles = Context.Relevances.Where(u => u.Key == "RoleOrg"
            && orgId.Contains(u.SecondId)).Select(u => u.FirstId);   //机构关联的角色
@@ -41,10 +41,10 @@ namespace OpenAuth.Repository
 
         }
 
-        public IEnumerable<Role> LoadForUser(Guid userId)
+        public IEnumerable<Role> LoadForUser(string userId)
         {
 
-            if (userId == Guid.Empty)
+            if (userId == string.Empty)
                 return Find(null);
 
             var userRoleIds =

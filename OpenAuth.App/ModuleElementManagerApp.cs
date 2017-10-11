@@ -41,7 +41,7 @@ namespace OpenAuth.App
             _moduleEleManService.AddOrUpdate(newbtn);
         }
 
-        public IEnumerable<ModuleElement> LoadByModuleId(Guid id)
+        public IEnumerable<ModuleElement> LoadByModuleId(string id)
         {
             string username = AuthUtil.GetUserName();
             return _moduleEleManService.LoadByModuleId(username, id);
@@ -56,13 +56,13 @@ namespace OpenAuth.App
         /// 当为UserElement时，表示UserId
         /// </param>
         /// <param name="moduleId">模块ID</param>
-        public List<dynamic> LoadWithAccess(string accessType, Guid firstId, Guid moduleId)
+        public List<dynamic> LoadWithAccess(string accessType, string firstId, string moduleId)
         {
             string username = AuthUtil.GetUserName();
            return _moduleEleManService.LoadWithAccess(username, accessType, firstId, moduleId);
         }
 
-        public void Delete(Guid[] objs)
+        public void Delete(string[] objs)
         {
             _moduleEleManService.Delete(objs);
         }

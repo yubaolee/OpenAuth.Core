@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Application.cs" />
     <Compile Include="Core\Category.cs" />
+    <Compile Include="Core\CategoryType.cs" />
     <Compile Include="Core\UserExt.cs" />
-    <Compile Include="Core\DicDetail.cs" />
-    <Compile Include="Core\DicIndex.cs" />
     <Compile Include="Core\Entity.cs" />
     <Compile Include="Interface\ICategoryRepository.cs" />
     <Compile Include="Interface\IModuleRepository.cs" />

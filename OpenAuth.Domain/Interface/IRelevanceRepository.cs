@@ -20,9 +20,9 @@ namespace OpenAuth.Domain.Interface
 {
     public interface IRelevanceRepository : IRepository<Relevance>
     {
-        void DeleteBy(string key, params Guid[] firstIds);
-        void DeleteBy(string key, ILookup<Guid, Guid> idMaps);
+        void DeleteBy(string key, params string[] firstIds);
+        void DeleteBy(string key, ILookup<string, string> idMaps);
 
-        void AddRelevance( string key, ILookup<Guid, Guid>  idMaps);
+        void AddRelevance( string key, ILookup<string, string>  idMaps);
     }
 }

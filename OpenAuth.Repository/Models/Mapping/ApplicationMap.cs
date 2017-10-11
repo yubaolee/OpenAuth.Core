@@ -12,13 +12,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenAuth.Repository.Models.Mapping
 {
-    public partial class RoleMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Domain.Role>
+    public partial class ApplicationMap
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Domain.Application>
     {
-        public RoleMap()
+        public ApplicationMap()
         {
             // table
-            ToTable("Role", "dbo");
+            ToTable("Application", "dbo");
 
             // keys
             HasKey(t => t.Id);
@@ -32,19 +32,32 @@ namespace OpenAuth.Repository.Models.Mapping
                 .HasColumnName("Name")
                 .HasMaxLength(255)
                 .IsRequired();
-            Property(t => t.Status)
-                .HasColumnName("Status")
-                .IsRequired();
-            Property(t => t.Type)
-                .HasColumnName("Type")
+            Property(t => t.AppId)
+                .HasColumnName("AppId")
+                .HasMaxLength(255)
+                .IsOptional();
+            Property(t => t.AppKey)
+                .HasColumnName("AppKey")
+                .HasMaxLength(255)
+                .IsOptional();
+            Property(t => t.Description)
+                .HasColumnName("Description")
+                .HasMaxLength(255)
+                .IsOptional();
+            Property(t => t.Icon)
+                .HasColumnName("Icon")
+                .HasMaxLength(255)
+                .IsOptional();
+            Property(t => t.Disable)
+                .HasColumnName("Disable")
                 .IsRequired();
             Property(t => t.CreateTime)
                 .HasColumnName("CreateTime")
-                .IsRequired();
-            Property(t => t.CreateId)
-                .HasColumnName("CreateId")
+                .IsOptional();
+            Property(t => t.CreateUser)
+                .HasColumnName("CreateUser")
                 .HasMaxLength(50)
-                .IsRequired();
+                .IsOptional();
 
             // Relationships
         }

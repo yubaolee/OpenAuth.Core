@@ -27,9 +27,9 @@ namespace OpenAuth.Domain.Service
             _factory = authoriseService;
         }
 
-        public int GetResourceCntInOrg(Guid orgId)
+        public int GetResourceCntInOrg(string orgId)
         {
-            if (orgId == Guid.Empty)
+            if (orgId == string.Empty)
             {
                 return _repository.Find(null).Count();
             }
@@ -47,7 +47,7 @@ namespace OpenAuth.Domain.Service
         /// <summary>
         /// 加载用户一个节点下面的一个或全部Resources
         /// </summary>
-        public dynamic Load(string username, Guid categoryId, int page, int rows)
+        public dynamic Load(string username, string categoryId, int page, int rows)
         {
             var service = _factory.Create(username);
             if (!service.GetResourcesQuery().Any()) //用户没有任何资源
@@ -62,8 +62,8 @@ namespace OpenAuth.Domain.Service
             var subIds = _categoryRepository.GetSubIds(categoryId);
 
 
-            var query = service.GetResourcesQuery().Where(u => categoryId == Guid.Empty ||
-            (u.CategoryId != null && subIds.Contains(u.CategoryId.Value)));
+            var query = service.GetResourcesQuery().Where(u => categoryId == string.Empty ||
+            (u.CategoryId != null && subIds.Contains(u.CategoryId)));
             int total = query.Count();
 
             if (total <= 0)
@@ -102,7 +102,7 @@ namespace OpenAuth.Domain.Service
 
 
 
-        public Resource Find(Guid id)
+        public Resource Find(string id)
         {
             var resource = _repository.FindSingle(u => u.Id == id);
             if (resource == null) return new Resource();
@@ -110,14 +110,14 @@ namespace OpenAuth.Domain.Service
             return resource;
         }
 
-        public void Delete(Guid[] ids)
+        public void Delete(string[] ids)
         {
             _repository.Delete(u => ids.Contains(u.Id));
         }
 
         public void AddOrUpdate(Resource resource)
         {
-            if (resource.Id == Guid.Empty)
+            if (resource.Id == string.Empty)
             {
                 _repository.Add(resource);
             }
@@ -137,7 +137,7 @@ namespace OpenAuth.Domain.Service
         /// 当为UserResource时，表示UserId
         /// </param>
         /// <param name="cId">分类ID</param>
-        public List<dynamic> LoadWithAccess(string username, string accessType, Guid firstId, Guid cId)
+        public List<dynamic> LoadWithAccess(string username, string accessType, string firstId, string cId)
         {
             var listVms = new List<dynamic>();
             var service = _factory.Create(username);
@@ -147,7 +147,7 @@ namespace OpenAuth.Domain.Service
             }
 
             var subIds = _categoryRepository.GetSubIds(cId);
-            var query = service.GetResourcesQuery().Where(u => cId == Guid.Empty || (u.CategoryId != null && subIds.Contains(u.CategoryId.Value)));
+            var query = service.GetResourcesQuery().Where(u => cId == string.Empty || (u.CategoryId != null && subIds.Contains(u.CategoryId)));
 
             foreach (var element in query)
             {

@@ -40,7 +40,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载某分类的所有Resources
         /// </summary>
-        public string Load(Guid categoryId, int page = 1, int rows = 30)
+        public string Load(string categoryId, int page = 1, int rows = 30)
         {
             return JsonHelper.Instance.Serialize(App.Load(AuthUtil.GetUserName(), categoryId, page, rows));
         }
@@ -52,7 +52,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         [HttpPost]
-        public string Delete(Guid[] ids)
+        public string Delete(string[] ids)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <para>如：UserResource/RoleResource</para>
         /// </param>
         /// <returns>ActionResult.</returns>
-        public ActionResult AssignRes(Guid firstId, string key)
+        public ActionResult AssignRes(string firstId, string key)
         {
             ViewBag.FirstId = firstId;
             ViewBag.ModuleType = key;
@@ -89,7 +89,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <param name="firstId">关联表中的firstId</param>
         /// <param name="key">关联表中的key</param>
         /// <returns>System.String.</returns>
-        public string LoadWithAccess(Guid cId, Guid firstId, string key)
+        public string LoadWithAccess(string cId, string firstId, string key)
         {
             return JsonHelper.Instance.Serialize(App.LoadWithAccess(AuthUtil.GetUserName(),key,firstId, cId));
         }

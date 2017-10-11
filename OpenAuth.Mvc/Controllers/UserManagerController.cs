@@ -40,13 +40,13 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载组织下面的所有用户
         /// </summary>
-        public string Load(Guid orgId, int page = 1, int limit = 30)
+        public string Load(string orgId, int page = 1, int limit = 30)
         {
             return JsonHelper.Instance.Serialize(App.Load(orgId, page, limit));
         }
 
         [HttpPost]
-        public string Delete(Guid[] ids)
+        public string Delete(string[] ids)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetAccessedUsers()
         {
-            IEnumerable<UserView> users =  App.Load(Guid.Empty, 1, 10).data;
+            IEnumerable<UserView> users =  App.Load(string.Empty, 1, 10).data;
             var result = new Dictionary<string , object>();
             foreach (var user in users)
             {

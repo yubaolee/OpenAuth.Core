@@ -14,13 +14,13 @@ using System.Text;
 namespace OpenAuth.Domain
 {
     /// <summary>
-	/// 
+	/// 工作流实例操作记录
 	/// </summary>
-    public partial class WFProcessOperationHistory :Entity
+    public partial class WFProcessOperationHistory : Entity
     {
         public WFProcessOperationHistory()
         {
-          this.ProcessId= Guid.Empty;
+          this.ProcessId= string.Empty;
           this.Content= string.Empty;
           this.CreateDate= DateTime.Now;
           this.CreateUserId= string.Empty;
@@ -28,23 +28,23 @@ namespace OpenAuth.Domain
         }
 
         /// <summary>
-	    /// 
+	    /// 实例进程Id
 	    /// </summary>
-        public Guid ProcessId { get; set; }
+        public string ProcessId { get; set; }
         /// <summary>
-	    /// 
+	    /// 操作内容
 	    /// </summary>
         public string Content { get; set; }
         /// <summary>
-	    /// 
+	    /// 创建时间
 	    /// </summary>
-        public System.DateTime CreateDate { get; set; }
+        public System.DateTime? CreateDate { get; set; }
         /// <summary>
-	    /// 
+	    /// 创建用户主键
 	    /// </summary>
         public string CreateUserId { get; set; }
         /// <summary>
-	    /// 
+	    /// 创建用户
 	    /// </summary>
         public string CreateUserName { get; set; }
 

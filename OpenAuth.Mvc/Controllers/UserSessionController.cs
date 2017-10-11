@@ -17,8 +17,8 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetModulesTree()
         {
-            
-            return JsonHelper.Instance.Serialize(user.Modules.GenerateTree(u => u.Id, u => u.ParentId));
+            var moduleTree = user.Modules.GenerateTree(u => u.Id, u => u.ParentId);
+            return JsonHelper.Instance.Serialize(moduleTree);
         }
 
         /// <summary>

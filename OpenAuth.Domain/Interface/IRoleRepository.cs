@@ -8,12 +8,12 @@ namespace OpenAuth.Domain.Interface
     {
         IEnumerable<Role> LoadRoles(int pageindex, int pagesize);
 
-        int GetRoleCntInOrgs(params Guid[] orgIds);
-        IEnumerable<Role> LoadInOrgs(int pageindex, int pagesize, params Guid[] orgIds);
-        IEnumerable<Role> LoadInOrgs(params Guid[] orgId);
-        IEnumerable<Role> LoadForUser(Guid userId);
+        int GetRoleCntInOrgs(params string[] orgIds);
+        IEnumerable<Role> LoadInOrgs(int pageindex, int pagesize, params string[] orgIds);
+        IEnumerable<Role> LoadInOrgs(params string[] orgId);
+        IEnumerable<Role> LoadForUser(string userId);
 
-        void Delete(Guid id);
+        void Delete(string id);
 
     }
 }

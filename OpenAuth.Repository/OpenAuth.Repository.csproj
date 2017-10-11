@@ -55,6 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Mapping\ApplicationMap.cs" />
+    <Compile Include="Models\Mapping\CategoryTypeMap.cs" />
     <Compile Include="Models\Mapping\WFFrmMainMap.cs" />
     <Compile Include="Models\Mapping\WFProcessInstanceMap.cs" />
     <Compile Include="Models\Mapping\WFProcessOperationHistoryMap.cs" />
@@ -65,8 +67,6 @@
     <Compile Include="UnitWork.cs" />
     <Compile Include="BaseRepository.cs" />
     <Compile Include="Models\Mapping\CategoryMap.cs" />
-    <Compile Include="Models\Mapping\DicDetailMap.cs" />
-    <Compile Include="Models\Mapping\DicIndexMap.cs" />
     <Compile Include="Models\Mapping\ModuleElementMap.cs" />
     <Compile Include="Models\Mapping\ModuleMap.cs" />
     <Compile Include="Models\Mapping\OrgMap.cs" />

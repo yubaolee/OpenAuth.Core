@@ -4,11 +4,11 @@ namespace OpenAuth.Domain
 {
     public abstract class Entity
     {
-        public System.Guid Id { get; set; }
+        public string Id { get; set; }
 
         public Entity()
         {
-            Id = Guid.NewGuid();
+            Id = Guid.NewGuid().ToString();
         }
     }
 }

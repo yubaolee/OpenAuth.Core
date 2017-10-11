@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.Domain.Service;
 using OpenAuth.Repository;
@@ -17,7 +20,10 @@ namespace OpenAuth.UnitTest
             AuthoriseFactory factory = new AuthoriseFactory(new UnitWork() );
             var service=  factory.Create("System");
 
-            var orgs = service.Orgs;
+            var modules = service.Modules;
+           
+            var moduleTree = modules.GenerateTree(u => u.Id, u => u.ParentId).ToList();
+            Debug.WriteLine(JsonHelper.Instance.Serialize(moduleTree));
         }
     }
 }

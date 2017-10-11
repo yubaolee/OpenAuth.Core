@@ -105,12 +105,12 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="type">0发起，3草稿</param>
         /// <returns></returns>
         [HttpPost]
-        public string CreateProcess(Guid wfSchemeInfoId, string wfProcessInstanceJson, string frmData)
+        public string CreateProcess(string wfSchemeInfoId, string wfProcessInstanceJson, string frmData)
         {
             WFProcessInstance wfProcessInstanceEntity = wfProcessInstanceJson.ToObject<WFProcessInstance>();
-            wfProcessInstanceEntity.Id = Guid.Empty;
+            wfProcessInstanceEntity.Id = string.Empty;
 
-            App.CreateInstance(Guid.NewGuid(), wfSchemeInfoId, wfProcessInstanceEntity, frmData);
+            App.CreateInstance(Guid.NewGuid().ToString(), wfSchemeInfoId, wfProcessInstanceEntity, frmData);
 
             return Result.ToJson();
         }
@@ -122,7 +122,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="verificationData">审核数据</param>
         /// <returns></returns>
         [HttpPost]
-        public string VerificationProcess(Guid processId, string verificationData)
+        public string VerificationProcess(string processId, string verificationData)
         {
             App.VerificationProcess(processId, verificationData);
             return Result.ToJson();
@@ -131,7 +131,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <summary>
         /// 删除申请
         /// </summary>
-        public string Delete(Guid[] ids)
+        public string Delete(string[] ids)
         {
             try
             {
@@ -159,7 +159,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="keyValue"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetProcessSchemeJson(Guid keyValue)
+        public ActionResult GetProcessSchemeJson(string keyValue)
         {
             var data = App.GetProcessSchemeEntity(keyValue);
             return Content(data.ToJson());
@@ -171,7 +171,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="keyValue"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetProcessSchemeEntityByUserId(Guid keyValue)
+        public ActionResult GetProcessSchemeEntityByUserId(string keyValue)
         {
             var data = App.GetProcessSchemeByUserId(keyValue);
             return Content(data.ToJson());
@@ -184,7 +184,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="isPermission"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetProcessSchemeEntityByNodeId(Guid keyValue, string nodeId)
+        public ActionResult GetProcessSchemeEntityByNodeId(string keyValue, string nodeId)
         {
             var data = App.GetProcessSchemeEntityByNodeId(keyValue, nodeId);
             return Content(data.ToJson());
@@ -196,7 +196,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="keyValue"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetProcessInfoJson(Guid keyValue)
+        public ActionResult GetProcessInfoJson(string keyValue)
         {
             var processInstance = App.GetProcessInstanceEntity(keyValue);
             var processScheme = App.GetProcessSchemeEntity(processInstance.ProcessSchemeId);
@@ -214,7 +214,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="keyValue"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetProcessInstanceJson(Guid keyValue)
+        public ActionResult GetProcessInstanceJson(string keyValue)
         {
             var processInstance = App.GetProcessInstanceEntity(keyValue);
             return Content(processInstance.ToJson());

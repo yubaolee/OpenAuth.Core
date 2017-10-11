@@ -90,7 +90,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetFormJson(Guid keyValue)
+        public ActionResult GetFormJson(string keyValue)
         {
             var schemeinfo = WfFlowInfoBll.GetEntity(keyValue);
             var schemecontent = WfFlowInfoBll.GetSchemeEntity(schemeinfo.Id, schemeinfo.SchemeVersion);
@@ -108,7 +108,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="SchemeVersion"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetSchemeContentJson(Guid keyValue, string SchemeVersion)
+        public ActionResult GetSchemeContentJson(string keyValue, string SchemeVersion)
         {
             var schemecontent = WfFlowInfoBll.GetSchemeEntity(keyValue, SchemeVersion);
             return Content(schemecontent.ToJson());
@@ -122,7 +122,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         [HttpPost]
-        public string RemoveForm(Guid[] ids)
+        public string RemoveForm(string[] ids)
         {
             WfFlowInfoBll.RemoveForm(ids);
             return Result.ToJson();

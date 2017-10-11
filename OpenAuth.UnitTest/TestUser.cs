@@ -45,7 +45,7 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void GetUser()
         {
-            var users = _app.Load(new Guid("990cb229-cc18-41f3-8e2b-13f0f0110798"), 2, 30);
+            var users = _app.Load("990cb229-cc18-41f3-8e2b-13f0f0110798", 2, 30);
 
             Console.WriteLine(users.total);
         }

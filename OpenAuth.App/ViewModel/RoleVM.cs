@@ -24,7 +24,7 @@ namespace OpenAuth.App.ViewModel
         /// 用户ID
         /// </summary>
         /// <returns></returns>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 名称

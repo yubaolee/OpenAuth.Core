@@ -14,13 +14,13 @@ using System.Text;
 namespace OpenAuth.Domain
 {
     /// <summary>
-	/// 
+	/// 工作流模板内容表
 	/// </summary>
-    public partial class WFSchemeContent :Entity
+    public partial class WFSchemeContent : Entity
     {
         public WFSchemeContent()
         {
-          this.SchemeInfoId= Guid.Empty;
+          this.SchemeInfoId= string.Empty;
           this.SchemeVersion= string.Empty;
           this.SchemeContent= string.Empty;
           this.CreateDate= DateTime.Now;
@@ -29,27 +29,27 @@ namespace OpenAuth.Domain
         }
 
         /// <summary>
-	    /// 
+	    /// 工作流模板信息主键Id
 	    /// </summary>
-        public Guid SchemeInfoId { get; set; }
+        public string SchemeInfoId { get; set; }
         /// <summary>
-	    /// 
+	    /// 流程内容版本
 	    /// </summary>
         public string SchemeVersion { get; set; }
         /// <summary>
-	    /// 
+	    /// 流程内容
 	    /// </summary>
         public string SchemeContent { get; set; }
         /// <summary>
-	    /// 
+	    /// 创建时间
 	    /// </summary>
-        public System.DateTime CreateDate { get; set; }
+        public System.DateTime? CreateDate { get; set; }
         /// <summary>
-	    /// 
+	    /// 创建用户主键
 	    /// </summary>
         public string CreateUserId { get; set; }
         /// <summary>
-	    /// 
+	    /// 创建用户
 	    /// </summary>
         public string CreateUserName { get; set; }
 

@@ -58,7 +58,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetFormJson(Guid keyValue)
+        public ActionResult GetFormJson(string keyValue)
         {
             var data = WfFrmMainBll.GetForm(keyValue);
             return Content(data.ToJson());
@@ -96,7 +96,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         /// <param name="ids">主键值</param>
         /// <returns></returns>
         [HttpPost]
-        public string RemoveForm(Guid[] ids)
+        public string RemoveForm(string[] ids)
         {
             WfFrmMainBll.RemoveForm(ids);
             return Result.ToJson();

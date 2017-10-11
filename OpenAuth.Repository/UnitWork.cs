@@ -64,7 +64,7 @@ namespace OpenAuth.Repository
 
         public void Add<T>(T entity) where T : Domain.Entity
         {
-            entity.Id = Guid.NewGuid();
+            entity.Id = Guid.NewGuid().ToString();
             Context.Set<T>().Add(entity);
         }
 
@@ -76,7 +76,7 @@ namespace OpenAuth.Repository
         {
             foreach (var entity in entities)
             {
-                entity.Id = Guid.NewGuid();
+                entity.Id = Guid.NewGuid().ToString();
             }
             Context.Set<T>().AddRange(entities);
         }

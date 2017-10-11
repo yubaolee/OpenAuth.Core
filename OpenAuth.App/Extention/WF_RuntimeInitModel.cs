@@ -8,7 +8,7 @@ namespace OpenAuth.App.Extention
         /// <summary>
         /// GUID
         /// </summary>
-        public Guid processId { get; set; }
+        public string processId { get; set; }
         /// <summary>
         /// 工作流模板内容
         /// </summary>

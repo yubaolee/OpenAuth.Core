@@ -31,7 +31,7 @@ namespace OpenAuth.Mvc.Controllers
                 }
                 else
                 {
-                    resp.Message = "登陆失败";
+                    resp.Message = "登录失败";
                 }
             }
             catch (Exception e)
@@ -43,7 +43,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 开发者登陆
+        /// 开发者登录
         /// </summary>
         public ActionResult LoginByDev()
         {

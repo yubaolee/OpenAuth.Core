@@ -10,10 +10,11 @@
         </div>
         <button class="layui-btn" data-type="search">搜索</button>
     </div>
-    <button class="layui-btn " data-type="refresh">刷新</button>
+    @Html.Action("MenuHeader", "Home")
+    @*<button class="layui-btn " data-type="refresh">刷新</button>
     <button class="layui-btn " data-type="addData">添加用户</button>
     <button class="layui-btn layui-btn-danger" data-type="del">批量删除</button>
-    <button class="layui-btn layui-btn-danger" data-type="assignModule">为用户分配模块/菜单</button>
+    <button class="layui-btn layui-btn-danger" data-type="assignModule">为用户分配模块/菜单</button>*@
 </blockquote>
 
 <div style="display: flex;">
@@ -36,8 +37,6 @@
 </div>
 <script type="text/html" id="barList">
     <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
 </script>
 
 <!--用户添加/编辑窗口-->

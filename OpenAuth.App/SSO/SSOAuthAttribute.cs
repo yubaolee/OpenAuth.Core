@@ -5,7 +5,7 @@ using System.Web.Mvc;
 namespace OpenAuth.App.SSO
 {
     /// <summary>
-    /// 采用Attribute的方式验证登陆
+    /// 采用Attribute的方式验证登录
     /// <para>李玉宝新增于2016-11-09 10:08:10</para>
     /// </summary>
     public class SSOAuthAttribute : ActionFilterAttribute

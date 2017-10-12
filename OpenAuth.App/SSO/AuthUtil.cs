@@ -113,7 +113,7 @@ namespace OpenAuth.App.SSO
         }
 
         /// <summary>
-        /// 登陆接口
+        /// 登录接口
         /// </summary>
         /// <param name="appKey">应用程序key.</param>
         /// <param name="username">用户名</param>

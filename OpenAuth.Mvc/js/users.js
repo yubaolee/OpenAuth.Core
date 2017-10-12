@@ -95,7 +95,7 @@ layui.config({
             add: function() { //弹出添加
                 update = false;
                 show({
-                    Id: '00000000-0000-0000-0000-000000000000'
+                    Id: ''
                 });
             },
             update: function(data) { //弹出编辑框
@@ -110,34 +110,41 @@ layui.config({
         var data = obj.data;
         if (obj.event === 'detail') {      //查看
             layer.msg('ID：' + data.Id + ' 的查看操作');
-        } else if (obj.event === 'del') {  //删除
-            openauth.del("/UserManager/Delete", data.Id, obj.del);
-        } else if (obj.event === 'edit') {  //编辑
-            editDlg.update(data);
-        }
+        } 
     });
 
 
     //监听页面主按钮操作
     var active = {
-        del: function () {      //批量删除
+        btnDel: function () {      //批量删除
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
-            openauth.del("/UserManager/Delete", data.map(function (e) { return e.Id; }), mainList);
+            openauth.del("/UserManager/Delete",
+                data.map(function (e) { return e.Id; }),
+                mainList);
         }
-        , addData: function () {  //添加
+        , btnAdd: function () {  //添加
             editDlg.add();
         }
+         , btnEdit: function () {  //编辑
+             var checkStatus = table.checkStatus('mainList')
+               , data = checkStatus.data;
+             if (data.length != 1) {
+                 layer.msg("请选择编辑的行，且同时只能编辑一行");
+                 return;
+             }
+             editDlg.update(data[0]);
+         }
+
         , search: function () {   //搜索
             mainList({ key: $('#key').val() });
         }
-        , refresh: function() {
+        , btnRefresh: function() {
             mainList();
         }
-
-        , assignModule: function () {
+        , btnAccessModule: function () {
             var index = layer.open({
-                title: "分配模块菜单",
+                title: "为用户分配模块",
                 type: 2,
                 content: "newsAdd.html",
                 success: function(layero, index) {

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Http;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
+using OpenAuth.App.Request;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;
 
@@ -21,7 +23,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         //添加或修改组织
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public string AddOrUpdate(UserView view)
         {
             try
@@ -40,12 +42,12 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载组织下面的所有用户
         /// </summary>
-        public string Load(string orgId, int page = 1, int limit = 30)
+        public string Load([FromUri]QueryUserListReq request)
         {
-            return JsonHelper.Instance.Serialize(App.Load(orgId, page, limit));
+            return JsonHelper.Instance.Serialize(App.Load(request));
         }
 
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public string Delete(string[] ids)
         {
             try
@@ -69,7 +71,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetAccessedUsers()
         {
-            IEnumerable<UserView> users =  App.Load(string.Empty, 1, 10).data;
+            IEnumerable<UserView> users =  App.Load(new QueryUserListReq()).data;
             var result = new Dictionary<string , object>();
             foreach (var user in users)
             {
@@ -77,14 +79,14 @@ namespace OpenAuth.Mvc.Controllers
                 {
                     Account = user.Account,
                     RealName = user.Name,
-                    id = user.Id.ToString(),
+                    id = user.Id,
                     text = user.Name,
                     value = user.Account,
                     parentId = "0",
                     showcheck = true,
                     img = "fa fa-user",
                 };
-                result.Add(user.Id.ToString(), item);
+                result.Add(user.Id, item);
             }
 
             return JsonHelper.Instance.Serialize(result);

@@ -4,6 +4,7 @@ using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.Request;
 
 
 namespace OpenAuth.App
@@ -43,20 +44,20 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个部门及子部门全部用户
         /// </summary>
-        public GridData Load(string orgId, int pageindex, int pagesize)
+        public GridData Load(QueryUserListReq request)
         {
-            if (pageindex < 1) pageindex = 1;  //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
+            if (request.page < 1) request.page = 1;  //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
             IEnumerable<User> users;
             int records = 0;
-            if (orgId ==string.Empty)
+            if (request.orgId ==string.Empty)
             {
-                users = _repository.LoadUsers(pageindex, pagesize);
+                users = _repository.LoadUsers(request.page, request.limit);
                 records = _repository.GetCount();
             }
             else
             {
-                var ids = GetSubOrgIds(orgId);
-                users = _repository.LoadInOrgs(pageindex, pagesize, ids);
+                var ids = GetSubOrgIds(request.orgId);
+                users = _repository.LoadInOrgs(request.page, request.limit, ids);
                 records = _repository.GetUserCntInOrgs(ids);
             }
             var userviews = new List<UserView>();
@@ -72,9 +73,9 @@ namespace OpenAuth.App
             return new GridData
             {
                 count = records,
-                total = (int)Math.Ceiling((double)records / pagesize),
+                total = (int)Math.Ceiling((double)records / request.limit),
                 data = userviews,
-                page = pageindex
+                page = request.page
             };
         }
 
@@ -117,7 +118,7 @@ namespace OpenAuth.App
             if (string.IsNullOrEmpty(view.OrganizationIds))
                 throw new Exception("请为用户分配机构");
             User user = view;
-            if (user.Id == string.Empty)
+            if (string.IsNullOrEmpty(view.Id))
             {
                 if (_repository.IsExist(u => u.Account == view.Account))
                 {

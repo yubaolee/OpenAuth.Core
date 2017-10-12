@@ -7,13 +7,13 @@ using OpenAuth.App.ViewModel;
 namespace OpenAuth.Mvc.Controllers
 {
     /// <summary>
-    /// 获取登陆用户的全部信息
+    /// 获取登录用户的全部信息
     /// </summary>
     public class UserSessionController : BaseController
     {
         UserWithAccessedCtrls user = AuthUtil.GetCurrentUser();
         /// <summary>
-        /// 获取登陆用户可访问的所有模块，及模块的操作菜单
+        /// 获取登录用户可访问的所有模块，及模块的操作菜单
         /// </summary>
         public string GetModulesTree()
         {
@@ -22,7 +22,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 获取登陆用户可访问的所有部门
+        /// 获取登录用户可访问的所有部门
         /// </summary>
         public string GetOrgs()
         {

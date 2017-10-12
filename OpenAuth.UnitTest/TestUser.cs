@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
+using OpenAuth.App.Request;
 using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.UnitTest
@@ -45,7 +46,13 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void GetUser()
         {
-            var users = _app.Load("990cb229-cc18-41f3-8e2b-13f0f0110798", 2, 30);
+            var request = new QueryUserListReq
+            {
+               orgId = "990cb229-cc18-41f3-8e2b-13f0f0110798",
+               page = 2,
+               limit = 30
+            };
+            var users = _app.Load(request);
 
             Console.WriteLine(users.total);
         }

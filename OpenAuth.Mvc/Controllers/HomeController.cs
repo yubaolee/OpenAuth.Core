@@ -34,13 +34,13 @@ namespace OpenAuth.Mvc.Controllers
             foreach (var element in CurrentModule.Elements)
             {
                 sb.Append("<button "
-                          + " id='" + element.DomId + "' "
-                          + " class='btn btn-sm " + element.Class + "' "
-                          + " onclick='" + element.Script + "' " + element.Attr
+                          + " data-type='" + element.DomId + "' "
+                          + " class='layui-btn " + element.Class + "' "
+                          + element.Attr
                           + ">");
                 if (!string.IsNullOrEmpty(element.Icon))
                 {
-                    sb.Append("<i class='ace-icon fa fa-" + element.Icon + "'></i>");
+                    sb.Append("<i class='layui-icon'>" + element.Icon + "</i>");
                 }
                 sb.Append(element.Name + "</button>");
             }

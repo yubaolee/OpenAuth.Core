@@ -216,6 +216,7 @@
     <Content Include="images\userface5.jpg" />
     <Content Include="images\wechat.jpg" />
     <Content Include="js\queryString.js" />
+    <Content Include="js\orgs.js" />
     <Content Include="js\users.js" />
     <Content Include="js\bodyTab.js" />
     <Content Include="js\index.js" />

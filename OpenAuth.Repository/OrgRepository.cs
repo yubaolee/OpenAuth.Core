@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 
@@ -44,7 +42,7 @@ namespace OpenAuth.Repository
         public IEnumerable<Org> GetSubOrgs(string orgId)
         {
             string cascadeId = "0.";
-            if (orgId != string.Empty)
+            if (!string.IsNullOrEmpty(orgId))
             {
                 var org = FindSingle(u => u.Id == orgId);
                 if (org == null)

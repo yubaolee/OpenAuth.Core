@@ -80,16 +80,17 @@ layui.define(['jquery', 'layer'], function (exports) {
     Class.prototype.config = {
         text: 'Name',
         key: 'Id',
-        parentKey: 'ParentId'
+        parentKey: 'ParentId',
+        selectedMulti: true    //默认是多选
     };
 
     //加载数据
     Class.prototype.render = function () {
         var that = this;
         var setting = {
-            view: { selectedMulti: true },
+            view: { selectedMulti: that.config.selectedMulti },
             check: {
-                enable: true,
+                enable: that.config.selectedMulti,
                 chkStyle: "checkbox",
                 chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
             },
@@ -145,11 +146,12 @@ layui.define(['jquery', 'layer'], function (exports) {
             });
     }
 
-    exports('droptree', function (url, name, id) {
+    exports('droptree', function (url, name, id, selectedMulti) {
       var options = {
             nameDOM: name,   //显示的文本框ID，如："#catetoryName"
             idDOM: id,   //隐藏的文本框，如："#categoryId"
-            url: url
+            url: url,
+            selectedMulti: selectedMulti  //是否为多选
         }
         inst = new Class(options);
         return inst;

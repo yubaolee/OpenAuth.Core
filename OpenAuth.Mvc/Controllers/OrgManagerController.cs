@@ -40,7 +40,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加组织提交
         [HttpPost]
-        public string AddOrg(Org org)
+        public string AddOrUpdate(Org org)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <returns>System.String.</returns>
         [HttpPost]
-        public string DelOrg(string[] ids)
+        public string Delete(string[] ids)
         {
             try
             {

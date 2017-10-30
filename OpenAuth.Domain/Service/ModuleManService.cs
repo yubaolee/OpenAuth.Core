@@ -34,37 +34,6 @@ namespace OpenAuth.Domain.Service
             _factory = authoriseService;
         }
 
-        /// <summary>
-        /// 加载一个节点下面的所有
-        /// </summary>
-        public dynamic Load(string loginuser, string parentId, int pageindex, int pagesize)
-        {
-
-            var service= _factory.Create(loginuser);
-            if (!service.GetModulesQuery().Any()) //用户不能访问任何模块
-            {
-                return new
-                {
-                    total = 0,
-                    records = 0,
-                    page = pageindex
-                };
-            }
-            var ids = GetSubIds(parentId);
-            var query = service.GetModulesQuery().Where(u => parentId == string.Empty || (u.ParentId != null&&ids.Contains(u.ParentId)));
-
-            int total = query.Count();
-            var modules = query.OrderBy(u=>u.CascadeId).Skip((pageindex - 1)*pagesize).Take(pagesize);
-
-            return new
-            {
-                records = total,
-                total = Math.Ceiling((double)total/pagesize),
-                rows = modules,
-                page = pageindex
-            };
-        }
-
         public void Delete(string id)
         {
             var del = _repository.FindSingle(u => u.Id == id);
@@ -76,7 +45,7 @@ namespace OpenAuth.Domain.Service
         public void AddOrUpdate(Module model)
         {
             ChangeModuleCascade(model);
-            if (model.Id == string.Empty)
+            if (string.IsNullOrEmpty(model.Id))
             {
                 _repository.Add(model);
             }

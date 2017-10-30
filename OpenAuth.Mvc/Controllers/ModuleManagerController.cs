@@ -98,14 +98,6 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 加载模块下面的所有模块
-        /// </summary>
-        public string Load(string orgId, int page = 1, int rows = 30)
-        {
-            return JsonHelper.Instance.Serialize(App.Load(orgId, page, rows));
-        }
-
-        /// <summary>
         /// 加载用户模块
         /// </summary>
         /// <param name="firstId">The user identifier.</param>
@@ -137,7 +129,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改模块
         [HttpPost]
-        public string Add(Module model)
+        public string AddOrUpdate(Module model)
         {
             try
             {

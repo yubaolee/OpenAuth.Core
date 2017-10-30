@@ -1,9 +1,5 @@
-﻿using System;
-using Infrastructure;
-using OpenAuth.Domain;
+﻿using OpenAuth.Domain;
 using System.Collections.Generic;
-using System.Web;
-using OpenAuth.App.SSO;
 using OpenAuth.Domain.Service;
 
 namespace OpenAuth.App
@@ -17,14 +13,6 @@ namespace OpenAuth.App
             _moduleManService = moduleManService;
         }
 
-        /// <summary>
-        /// 加载一个节点下面的所有
-        /// </summary>
-        public dynamic Load(string parentId, int pageindex, int pagesize)
-        {
-            return _moduleManService.Load(AuthUtil.GetUserName(), parentId, pageindex, pagesize);
-        }
-
         public void Delete(string id)
         {
             _moduleManService.Delete(id);
@@ -32,9 +20,7 @@ namespace OpenAuth.App
 
         public void AddOrUpdate(Module vm)
         {
-            Module model = new Module();
-            vm.CopyTo(model);  //copy一次，防止成员为null的情况
-           _moduleManService.AddOrUpdate(model);
+           _moduleManService.AddOrUpdate(vm);
         }
 
         #region 用户/角色分配模块

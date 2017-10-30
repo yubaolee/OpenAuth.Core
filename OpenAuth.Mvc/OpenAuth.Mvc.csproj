@@ -177,12 +177,8 @@
     <Content Include="BllScripts\login.js" />
     <Content Include="js\openauth.js" />
     <Content Include="js\droptree.js" />
-    <Content Include="BllScripts\parentTree.js" />
     <Content Include="BllScripts\processDetail.js" />
-    <Content Include="BllScripts\grid.js" />
     <Content Include="BllScripts\moduleElementMan.js" />
-    <Content Include="BllScripts\modulemanager.js" />
-    <Content Include="BllScripts\orgManager.js" />
     <Content Include="BllScripts\queryString.js" />
     <Content Include="BllScripts\resourceManager.js" />
     <Content Include="BllScripts\roleManager.js" />
@@ -215,6 +211,7 @@
     <Content Include="images\userface4.jpg" />
     <Content Include="images\userface5.jpg" />
     <Content Include="images\wechat.jpg" />
+    <Content Include="js\modules.js" />
     <Content Include="js\queryString.js" />
     <Content Include="js\orgs.js" />
     <Content Include="js\users.js" />

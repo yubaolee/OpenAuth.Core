@@ -21,6 +21,23 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(moduleTree);
         }
 
+        public string GetModules(string pId)
+        {
+            var query = user.Modules;
+            if (!string.IsNullOrEmpty(pId))
+            {
+                query = query.Where(u => u.ParentId == pId).ToList();
+            }
+            var data = new GridData
+            {
+                page = 1,
+                data = query,
+                count = query.Count(),
+                total = 1
+            };
+            return JsonHelper.Instance.Serialize(data);
+        }
+
         /// <summary>
         /// 获取登录用户可访问的所有部门
         /// </summary>

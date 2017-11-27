@@ -77,14 +77,7 @@ namespace <%= ContextNamespace %>
         public System.Data.Entity.<%= InterfaceMode ? "I" : "" %>DbSet<<%= p.ClassName.ToSafeName() %>> <%= p.ContextName.ToSafeName() %> { get; set; }
 <% } // foreach %>
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-<% foreach(var p in EntityContext.Entities) { %>
-            modelBuilder.Configurations.Add(new <%= p.MappingName.ToSafeName() %>());
-<% } // foreach %>
-
-            InitializeMapping(modelBuilder);
-        }
+      
 <% if (InterfaceMode) { %>
 
         System.Data.Entity.IDbSet<TEntity> IDbContext.Set<TEntity>()

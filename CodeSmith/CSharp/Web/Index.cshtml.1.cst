@@ -101,3 +101,5 @@ Description="连接的数据库" %>
 
 <script src="~/BllScripts/grid.js"></script>
 <script src="~/BllScripts/<%=ModuleName%>.js"></script>
+
+

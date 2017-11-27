@@ -100,6 +100,6 @@ Description="连接的数据库" %>
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/js/<%=ModuleName%>.js"></script>
+<script type="text/javascript" src="/js/<%=ModuleName%>Manager.js"></script>
 
 

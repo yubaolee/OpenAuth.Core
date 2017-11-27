@@ -34,7 +34,6 @@ Description="连接的数据库" %>
 
 <%@ Property Name="NeedViewModel"
              Type="Boolean"
-             Category="5.Customization"
              Default="False"
              Optional="True"
              Description="是否需要ViewModel" %>
@@ -45,6 +44,9 @@ Description="连接的数据库" %>
              MergeProperties="False" %>
 <%@ Register Name="HtmlGenerateClass"
              Template="Web\Index.cshtml.cst"
+             MergeProperties="False" %>
+<%@ Register Name="JSGenerateClass"
+             Template="Web\index.js.cst"
              MergeProperties="False" %>
 Generating Entities ...
 <% Generate(); %>
@@ -58,14 +60,18 @@ Generating Entities ...
         if (!Directory.Exists(directory))   //根目录
             Directory.CreateDirectory(directory);
 
-         if (!Directory.Exists(directory +"/views"))  //视图根文件夹
+        if (!Directory.Exists(directory +"/views"))  //视图根文件夹
             Directory.CreateDirectory(directory +"/views");
+         
+        if (!Directory.Exists(directory +"/js"))  //js根目录
+            Directory.CreateDirectory(directory +"/js");
 
-        if (!Directory.Exists(directory +"/views/"+ModuleName))  //视图文件夹
-            Directory.CreateDirectory(directory +"/views/"+ModuleName);
+        if (!Directory.Exists(directory +"/views/"+ModuleName +"Manager"))  //视图文件夹
+            Directory.CreateDirectory(directory +"/views/"+ModuleName +"Manager");
 
         CreateApplicationClass();
         CreateHtmlClass();
+        CreateJSClass();
         
         this.RegisterReference("System.Configuration");
         this.RegisterReference("System.Data");
@@ -77,7 +83,7 @@ Generating Entities ...
         Response.WriteLine("Generate Time: " + watch.ElapsedMilliseconds + " ms");
     }
 
-    //创建APP层
+    //创建APP层,如UserApp.cs
     public void CreateApplicationClass()
     {
         ApplicationGenerateClass generatedClass = this.Create<ApplicationGenerateClass>();
@@ -95,13 +101,13 @@ Generating Entities ...
         generatedClass.RenderToFile(generatedFile, generatedFile, true);
     }
 
-     //创建视图
+     //创建视图,如views/Users/index.html
      public void CreateHtmlClass()
     {
         HtmlGenerateClass generatedClass = this.Create<HtmlGenerateClass>();
         this.CopyPropertiesTo(generatedClass);
 
-        generatedFile = Path.GetFullPath(directory) + "/views/"+ModuleName+"/" + "index.cshtml";
+        string generatedFile = Path.GetFullPath(directory) + "/views/"+ModuleName+"Manager/" + "index.cshtml";
 
         generatedClass.ModuleName = ModuleName;
         generatedClass.SourceTable = SourceTable;
@@ -110,6 +116,19 @@ Generating Entities ...
         generatedClass.RenderToFile(generatedFile, generatedFile, true);
     }
 
+    //创建视图,如js/userManager.js
+     public void CreateJSClass()
+    {
+        JSGenerateClass generatedClass = this.Create<JSGenerateClass>();
+        this.CopyPropertiesTo(generatedClass);
 
+        string generatedFile = Path.GetFullPath(directory) + "/js/"+ModuleName+"Manager.js";
+
+        generatedClass.ModuleName = ModuleName;
+        generatedClass.SourceTable = SourceTable;
+
+        Response.WriteLine(generatedFile);
+        generatedClass.RenderToFile(generatedFile, generatedFile, true);
+    }
 
 </script>

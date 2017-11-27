@@ -1,0 +1,138 @@
+﻿<%-- 
+Name: Database Table Properties
+Author: yubaolee
+Description: Create a list of properties from a database table
+--%>
+<%@ CodeTemplate Language="C#" Encoding="utf-8" TargetLanguage="C#" Debug="False" Description="应用层" %>
+<%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
+<%@ Property Name="NeedViewModel" Type="Boolean" Category="Context" Default="False" Description="是否需要ViewModel" %>
+<%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<script runat="template">
+public String GetModelName()
+{
+    if(NeedViewModel)
+        return ModuleName +"View";
+    else
+        return ModuleName;
+}
+</script>
+
+<%if(NeedViewModel){ %>
+using OpenAuth.App.ViewModel;
+<%} %>
+using OpenAuth.Domain;
+using OpenAuth.Domain.Interface;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace OpenAuth.App
+{
+    public class <%=ModuleName%>ManagerApp
+    {
+        private I<%=ModuleName%>Repository _repository;
+        private IOrgRepository _orgRepository;
+
+        public <%=ModuleName%>ManagerApp(I<%=ModuleName%>Repository repository,
+            IOrgRepository orgRepository)
+        {
+            _repository = repository;
+            _orgRepository = orgRepository;
+        }
+
+        public int Get<%=GetModelName()%>CntInOrg(int orgId)
+        {
+            if (orgId == 0)
+            {
+                return _repository.Find(null).Count();
+            }
+            else
+            {
+                return _repository.Get<%=GetModelName()%>CntInOrgs(GetSubOrgIds(orgId));
+            }
+        }
+        
+        public List<<%=GetModelName()%>> LoadAll()
+        {
+            return _repository.Find(null).ToList();
+        }
+
+        /// <summary>
+        /// 加载一个节点下面的一个或全部<%=GetModelName()%>s
+        /// </summary>
+        public dynamic Load(int orgId, int pageindex, int pagesize)
+        {
+            IEnumerable<<%=ModuleName%>> <%=ModuleName%>s;
+            int total = 0;
+            if (orgId == 0)
+            {
+                <%=ModuleName%>s = _repository.Load<%=ModuleName%>s(pageindex, pagesize);
+                total = _repository.GetCount();
+            }
+            else
+            {
+                <%=ModuleName%>s = _repository.LoadInOrgs(pageindex, pagesize,GetSubOrgIds(orgId));
+                total = _repository.Get<%=ModuleName%>CntInOrgs(orgId);
+            }
+            <%if(NeedViewModel){ %>
+            var <%=ModuleName%>views = new List<<%=ModuleName%>View>();
+            foreach (var <%=ModuleName%> in <%=ModuleName%>s)
+            {
+                <%=ModuleName%>View uv = <%=ModuleName%>;
+                uv.Organizations = string.Join(",", _orgRepository.LoadBy<%=ModuleName%>(<%=ModuleName%>.Id).Select(u => u.Name).ToList());
+                <%=ModuleName%>views.Add(uv);
+            }
+            <%} %>
+
+            return new 
+            {
+                total = total,
+                list = <%=GetModelName()%>s,
+                pageCurrent = pageindex
+            };
+        }
+
+        /// <summary>
+        /// 获取当前节点的所有下级节点
+        /// </summary>
+        private int[] GetSubOrgIds(int orgId)
+        {
+            var org = _orgRepository.FindSingle(u => u.Id == orgId);
+            var orgs = _orgRepository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
+            return orgs;
+        }
+
+        public <%=GetModelName()%> Find(int id)
+        {
+            var <%=ModuleName.ToLower()%> = _repository.FindSingle(u => u.Id == id);
+            if (<%=ModuleName.ToLower()%> == null) return new <%=GetModelName()%>();
+
+            return <%=ModuleName.ToLower() %>;
+        }
+
+        public void Delete(int id)
+        {
+            _repository.Delete(id);
+        }
+
+        public void AddOrUpdate(<%=GetModelName()%> model)
+        {
+            <%=ModuleName%> <%=ModuleName.ToLower()%>  = new  <%=ModuleName%>();
+            model.CopyTo(<%=ModuleName.ToLower()%>);
+            
+            if (<%=ModuleName.ToLower()%>.Id == 0)
+            {
+                _repository.Add(<%=ModuleName.ToLower()%>);
+            }
+            else
+            {
+                _repository.Update(<%=ModuleName.ToLower()%>);
+            }
+           
+        }
+
+       
+    }
+}

@@ -20,8 +20,12 @@
 
 <%@ Import Namespace="SchemaMapper" %>
 
-<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context"
-Description="连接的数据库" %>
+<%@ Property Name="SourceTable" 
+Type="SchemaExplorer.TableSchema" 
+Category="Context"
+Description="连接的数据库" 
+OnChanged="OnSourceDatabaseChanged"%>
+
 <%@ Property Name="ModuleName"
              Type="System.String"
              Description="模块名称，如：User"%>
@@ -83,7 +87,7 @@ Generating Entities ...
         Response.WriteLine("Generate Time: " + watch.ElapsedMilliseconds + " ms");
     }
 
-    //创建APP层,如UserApp.cs
+    //创建APP层,如UserManagerApp.cs
     public void CreateApplicationClass()
     {
         ApplicationGenerateClass generatedClass = this.Create<ApplicationGenerateClass>();
@@ -125,10 +129,18 @@ Generating Entities ...
         string generatedFile = Path.GetFullPath(directory) + "/js/"+ModuleName+"Manager.js";
 
         generatedClass.ModuleName = ModuleName;
-        generatedClass.SourceTable = SourceTable;
 
         Response.WriteLine(generatedFile);
         generatedClass.RenderToFile(generatedFile, generatedFile, true);
+    }
+
+
+    //更换数据源时，改变ModuleName
+    private void OnSourceDatabaseChanged(object sender, EventArgs e)
+    {
+        if (SourceTable == null)
+            return;
+            ModuleName = SourceTable.Name;
     }
 
 </script>

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Infrastructure;
 using OpenAuth.App.ViewModel;
+using OpenAuth.Domain;
+using OpenAuth.Domain.Interface;
 using OpenAuth.Domain.Service;
 
 namespace OpenAuth.App
@@ -11,16 +13,26 @@ namespace OpenAuth.App
     /// </summary>
     public class AuthorizeApp
     {
-        private readonly AuthoriseFactory _factory;
+        public SystemAuthService AuthService { get; set; }
+        public  AuthoriseService AuthoriseService { get; set; }
 
-        public AuthorizeApp(AuthoriseFactory service)
+        public IUnitWork _unitWork { get; set; }
+        public AuthoriseService Create(string loginuser)
         {
-            _factory = service;
+            if (loginuser == "System")
+            {
+                return AuthService;
+            }
+            else
+            {
+                AuthoriseService.User = _unitWork.FindSingle<User>(u => u.Account == loginuser);
+                return AuthoriseService;
+            }
         }
 
         public UserWithAccessedCtrls GetAccessedControls(string username)
         {
-            var service = _factory.Create(username);
+            var service = Create(username);
             var user = new UserWithAccessedCtrls
             {
                 User = service.User,

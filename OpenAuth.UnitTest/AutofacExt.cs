@@ -19,18 +19,11 @@ namespace OpenAuth.UnitTest
             var builder = new ContainerBuilder();
 
             //注册数据库基础操作和工作单元
-            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
-            builder.RegisterType(typeof(UnitWork)).As(typeof(IUnitWork));
-
-            //注册WebConfig中的配置
-            builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
+            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();
+            builder.RegisterType(typeof(UnitWork)).As(typeof(IUnitWork)).PropertiesAutowired();
 
             //注册app层
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserManagerApp)));
-
-            //注册领域服务
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(AuthoriseService)))
-                .Where(u => u.Namespace == "OpenAuth.Domain.Service");
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserManagerApp))).PropertiesAutowired();
 
             _container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(_container));

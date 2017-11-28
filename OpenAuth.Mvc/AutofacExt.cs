@@ -13,13 +13,11 @@
 // ***********************************************************************
 
 using Autofac;
-using Autofac.Configuration;
 using Autofac.Integration.Mvc;
 using OpenAuth.App;
 using System.Reflection;
 using System.Web.Mvc;
 using OpenAuth.Domain.Interface;
-using OpenAuth.Domain.Service;
 using OpenAuth.Repository;
 
 namespace OpenAuth.Mvc
@@ -33,20 +31,11 @@ namespace OpenAuth.Mvc
             var builder = new ContainerBuilder();
 
             //注册数据库基础操作和工作单元
-            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
-            builder.RegisterType(typeof (UnitWork)).As(typeof (IUnitWork));
+            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();
+            builder.RegisterType(typeof(UnitWork)).As(typeof(IUnitWork)).PropertiesAutowired();
 
             //注册app层
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (UserManagerApp)));
-
-            //注册领域服务
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(AuthoriseService)))
-                .Where(u =>u.Namespace== "OpenAuth.Domain.Service" 
-                || u.Namespace == "OpenAuth.Domain.Interface");
-
-            //注册Repository
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserManagerApp)))
-                .AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (UserManagerApp))).PropertiesAutowired();
 
             // 注册controller，使用属性注入
             builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired();

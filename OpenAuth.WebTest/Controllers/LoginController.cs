@@ -18,7 +18,7 @@ namespace OpenAuth.WebTest.Controllers
         public ActionResult Index(string username, string password)
         {
             var result = AuthUtil.Login(_appKey, username, password);
-            if (result.Success)
+            if (result.Code == 200)
                 return Redirect("/home/index?Token=" + result.Token);
             else
             {

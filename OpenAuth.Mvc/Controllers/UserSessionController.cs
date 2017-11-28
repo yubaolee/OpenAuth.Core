@@ -30,10 +30,8 @@ namespace OpenAuth.Mvc.Controllers
             }
             var data = new GridData
             {
-                page = 1,
                 data = query,
                 count = query.Count(),
-                total = 1
             };
             return JsonHelper.Instance.Serialize(data);
         }

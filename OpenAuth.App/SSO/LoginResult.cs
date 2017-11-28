@@ -1,9 +1,9 @@
+using Infrastructure;
+
 namespace OpenAuth.App.SSO
 {
-    public class LoginResult
+    public class LoginResult :Response<string>
     {
-        public bool Success;
-        public string ErrorMsg;
         public string ReturnUrl;
         public string Token;
     }

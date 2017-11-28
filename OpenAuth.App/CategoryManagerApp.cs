@@ -10,31 +10,17 @@ namespace OpenAuth.App
 {
     public class CategoryManagerApp
     {
-        private ICategoryRepository _repository;
-        private IUnitWork _unitWork;
+          public IUnitWork _unitWork { get; set; }
 
-        public CategoryManagerApp(ICategoryRepository repository,
-            IUnitWork unitWork)
+        public CategoryManagerApp(IUnitWork unitWork)
         {
-            _repository = repository;
             _unitWork = unitWork;
         }
 
-        public int GetCategoryCntInOrg(string orgId)
-        {
-            if (orgId == string.Empty)
-            {
-                return _repository.Find(null).Count();
-            }
-            else
-            {
-                return _repository.GetCategoryCntInOrgs(GetSubCategories(orgId));
-            }
-        }
 
         public List<Category> LoadAll()
         {
-            return _repository.Find(null).ToList();
+            return _unitWork.Find<Category>(null).ToList();
         }
 
         /// <summary>
@@ -47,13 +33,13 @@ namespace OpenAuth.App
             if (parentId == string.Empty)
             {
                 categories = _unitWork.Find<Category>(pageindex, pagesize);
-                total = _repository.GetCount();
+                total = _unitWork.GetCount<Category>();
             }
             else
             {
                 var ids = GetSubCategories(parentId);
                 categories = _unitWork.Find<Category>(pageindex, pagesize, "SortNo", u => ids.Contains(u.Id));
-                total = _repository.GetCategoryCntInOrgs(ids);
+              //  total = _repository.GetCategoryCntInOrgs(ids);
             }
 
             var query = from c in categories
@@ -72,9 +58,7 @@ namespace OpenAuth.App
             return new GridData()
             {
                 count = total,
-                total = (int)Math.Ceiling((double)total/pagesize),
-                data = query.ToList(),
-                page = pageindex
+                data = query.ToList()
             };
         }
 
@@ -84,13 +68,13 @@ namespace OpenAuth.App
         private string[] GetSubCategories(string orgId)
         {
             var category = Find(orgId);
-            var categories = _repository.Find(u => u.CascadeId.Contains(category.CascadeId)).Select(u => u.Id).ToArray();
+            var categories = _unitWork.Find<Category>(u => u.CascadeId.Contains(category.CascadeId)).Select(u => u.Id).ToArray();
             return categories;
         }
 
         public Category Find(string id)
         {
-            var category = _repository.FindSingle(u => u.Id == id);
+            var category = _unitWork.FindSingle<Category>(u => u.Id == id);
             if (category == null) return new Category();
 
             return category;
@@ -98,7 +82,7 @@ namespace OpenAuth.App
 
         public void Delete(string[] ids)
         {
-            _repository.Delete(u =>ids.Contains(u.Id));
+            _unitWork.Delete<Category>(u =>ids.Contains(u.Id));
         }
 
         public void AddOrUpdate(Category model)
@@ -109,23 +93,24 @@ namespace OpenAuth.App
 
             if (category.Id == string.Empty)
             {
-                _repository.Add(category);
+                _unitWork.Add(category);
             }
             else
             {
                 //获取旧的的CascadeId
-                var CascadeId = _repository.FindSingle(o => o.Id == category.Id).CascadeId;
+                var CascadeId = _unitWork.FindSingle<Category>(o => o.Id == category.Id).CascadeId;
                 //根据CascadeId查询子分类
-                var categorys = _repository.Find(u => u.CascadeId.Contains(CascadeId) && u.Id != category.Id).OrderBy(u => u.CascadeId).ToList();
+                var categorys = _unitWork.Find<Category>(u => u.CascadeId.Contains(CascadeId) && u.Id != category.Id).OrderBy(u => u.CascadeId).ToList();
 
-                _repository.Update(category);
+                _unitWork.Update(category);
 
                 //更新子分类的CascadeId
                 foreach (var a in categorys)
                 {
                     ChangeModuleCascade(a);
-                    _repository.Update(a);
+                    _unitWork.Update(a);
                 }
+                _unitWork.Save();
             }
         }
 
@@ -136,7 +121,7 @@ namespace OpenAuth.App
         {
             string cascadeId;
             int currentCascadeId = 1;  //当前结点的级联节点最后一位
-            var sameLevels = _repository.Find(o => o.ParentId == org.ParentId && o.Id != org.Id);
+            var sameLevels = _unitWork.Find<Category>(o => o.ParentId == org.ParentId && o.Id != org.Id);
             foreach (var obj in sameLevels)
             {
                 int objCascadeId = int.Parse(obj.CascadeId.TrimEnd('.').Split('.').Last());
@@ -145,7 +130,7 @@ namespace OpenAuth.App
 
             if (org.ParentId != null && org.ParentId != string.Empty)
             {
-                var parentOrg = _repository.FindSingle(o => o.Id == org.ParentId);
+                var parentOrg = _unitWork.FindSingle<Category>(o => o.Id == org.ParentId);
                 if (parentOrg != null)
                 {
                     cascadeId = parentOrg.CascadeId  + currentCascadeId +".";

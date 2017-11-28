@@ -40,7 +40,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         {
             var result = SSOAuthUtil.Parse(model);
 
-            if (result.Success)
+            if (result.Code ==200)
             {
                 var redirectUrl = string.Format("{0}?token={1}&sessionusername={2}", result.ReturnUrl, result.Token, model.UserName);
 

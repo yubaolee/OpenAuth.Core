@@ -16,12 +16,7 @@ namespace OpenAuth.App
     /// </summary>
     public class WFProcessInstanceService 
     {
-        protected IUnitWork _unitWork;
-
-        public WFProcessInstanceService(IUnitWork unitWork)
-        {
-            _unitWork = unitWork;
-        }
+        public IUnitWork _unitWork { get; set; }
 
         #region 获取数据
         /// <summary>
@@ -306,27 +301,21 @@ namespace OpenAuth.App
         public GridData Load(string userid, string type, int pageCurrent, int pageSize)
         {
             //todo:待办/已办/我的
-            var result = new GridData
-            {
-                page = pageCurrent
-            };
+            var result = new GridData();
 
-            var cnt = _unitWork.Find<WFProcessInstance>(u => u.CreateUserId == userid).Count();
+            result.count = _unitWork.Find<WFProcessInstance>(u => u.CreateUserId == userid).Count();
             if (type == "inbox")   //待办事项
             {
-                result.total = cnt%pageSize == 0? cnt/pageSize : cnt/pageSize + 1;
                 result.data = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
 
             }
             else if (type == "outbox")  //已办事项
             {
-                result.total = cnt % pageSize == 0 ? cnt / pageSize : cnt / pageSize + 1;
                 result.data = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
 
             }
             else  //我的流程
             {
-                result.total = cnt % pageSize == 0 ? cnt / pageSize : cnt / pageSize + 1;
                 result.data = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
             }
 

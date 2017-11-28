@@ -45,7 +45,7 @@ namespace OpenAuth.Mvc
                 || u.Namespace == "OpenAuth.Domain.Interface");
 
             //注册Repository
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserRepository)))
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserManagerApp)))
                 .AsImplementedInterfaces();
 
             // 注册controller，使用属性注入

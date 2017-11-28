@@ -153,13 +153,9 @@
     <Compile Include="Areas\FlowManage\Controllers\FlowInstancesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\ModuleElementManagerController.cs" />
     <Compile Include="Controllers\ModuleManagerController.cs" />
     <Compile Include="Controllers\OrgManagerController.cs" />
     <Compile Include="Controllers\RelevanceManagerController.cs" />
-    <Compile Include="Controllers\ResourceManagerController.cs" />
-    <Compile Include="Controllers\RoleManagerController.cs" />
-    <Compile Include="Controllers\StockManagerController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Controllers\UserSessionController.cs" />
     <Compile Include="Models\JobjectModelBinder.cs" />
@@ -395,10 +391,6 @@
     <ProjectReference Include="..\OpenAuth.App\OpenAuth.App.csproj">
       <Project>{0bbf2d65-fffd-4272-b138-8ea4fb6fec48}</Project>
       <Name>OpenAuth.App</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenAuth.Domain\OpenAuth.Domain.csproj">
-      <Project>{6108da8e-92a1-4abe-b9f5-26d64d55ca2c}</Project>
-      <Name>OpenAuth.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj">
       <Project>{e8df8dea-e2cf-4bdb-8f4f-3f8205b0e03a}</Project>

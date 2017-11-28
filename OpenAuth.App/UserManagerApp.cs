@@ -11,35 +11,15 @@ namespace OpenAuth.App
 {
     public class UserManagerApp
     {
-        private IUserRepository _repository;
-        private IOrgRepository _orgRepository;
-        private IRelevanceRepository _relevanceRepository;
+        public IUnitWork _unitWork { get; set; }
+        public RevelanceManagerApp ReleManagerApp { get; set; }
 
-        public UserManagerApp(IUserRepository repository,
-            IOrgRepository orgRepository,
-            IRelevanceRepository relevanceRepository)
-        {
-            _repository = repository;
-            _orgRepository = orgRepository;
-            _relevanceRepository = relevanceRepository;
-        }
 
         public User Get(string  account)
         {
-            return _repository.FindSingle(u => u.Account == account);
+            return _unitWork.FindSingle<User>(u => u.Account == account);
         }
 
-        public int GetUserCntInOrg(string orgId)
-        {
-            if (orgId == string.Empty)
-            {
-                return _repository.Find(null).Count();
-            }
-            else
-            {
-                return _repository.GetUserCntInOrgs(GetSubOrgIds(orgId));
-            }
-        }
 
         /// <summary>
         /// 加载一个部门及子部门全部用户
@@ -51,20 +31,20 @@ namespace OpenAuth.App
             int records = 0;
             if (request.orgId ==string.Empty)
             {
-                users = _repository.LoadUsers(request.page, request.limit);
-                records = _repository.GetCount();
+                users = _unitWork.Find<User>(null).OrderBy(u => u.Id).Skip((request.page - 1) * request.limit).Take(request.limit);
+                records = _unitWork.GetCount<User>();
             }
             else
             {
                 var ids = GetSubOrgIds(request.orgId);
-                users = _repository.LoadInOrgs(request.page, request.limit, ids);
-                records = _repository.GetUserCntInOrgs(ids);
+                users = _unitWork.Find<User>(u =>ids.Contains(u.Id)).OrderBy(u => u.Id).Skip((request.page - 1) * request.limit).Take(request.limit);
+                records = _unitWork.GetCount<User>();
             }
             var userviews = new List<UserView>();
             foreach (var user in users)
             {
-                UserView uv = user;
-                var orgs = _orgRepository.LoadByUser(user.Id);
+                UserView uv = user; 
+                var orgs = LoadByUser(user.Id);
                 uv.Organizations = string.Join(",", orgs.Select(u => u.Name).ToList());
                 uv.OrganizationIds = string.Join(",", orgs.Select(u => u.Id).ToList());
                 userviews.Add(uv);
@@ -73,9 +53,7 @@ namespace OpenAuth.App
             return new GridData
             {
                 count = records,
-                total = (int)Math.Ceiling((double)records / request.limit),
                 data = userviews,
-                page = request.page
             };
         }
 
@@ -84,18 +62,18 @@ namespace OpenAuth.App
         /// </summary>
         private string[] GetSubOrgIds(string orgId)
         {
-            var org = _orgRepository.FindSingle(u => u.Id == orgId);
-            var orgs = _orgRepository.Find(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
+            var org = _unitWork.FindSingle<Org>(u => u.Id == orgId);
+            var orgs = _unitWork.Find<Org>(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
             return orgs;
         }
 
         public UserView Find(string id)
         {
-            var user = _repository.FindSingle(u => u.Id == id);
+            var user = _unitWork.FindSingle<User>(u => u.Id == id);
             if (user == null) return new UserView();
 
             UserView view = user;
-            foreach (var org in _orgRepository.LoadByUser(id))
+            foreach (var org in LoadByUser(id))
             {
                 view.Organizations += "," + org.Name;
                 view.OrganizationIds += "," + org.Id;
@@ -107,10 +85,7 @@ namespace OpenAuth.App
 
         public void Delete(string[] ids)
         {
-            _repository.Delete(u => ids.Contains(u.Id));
-            _relevanceRepository.DeleteBy("UserOrg", ids);
-            _relevanceRepository.DeleteBy("UserModule", ids);
-            _relevanceRepository.DeleteBy("UserRole", ids);
+            _unitWork.Delete<User>(u => ids.Contains(u.Id));
         }
 
         public void AddOrUpdate(UserView view)
@@ -120,18 +95,19 @@ namespace OpenAuth.App
             User user = view;
             if (string.IsNullOrEmpty(view.Id))
             {
-                if (_repository.IsExist(u => u.Account == view.Account))
+                if (_unitWork.IsExist<User>(u => u.Account == view.Account))
                 {
                     throw new Exception("用户账号已存在");
                 }
                 user.CreateTime = DateTime.Now;
                 user.Password = user.Account; //初始密码与账号相同
-                _repository.Add(user);
+                _unitWork.Add(user);
+                _unitWork.Save();
                 view.Id = user.Id;   //要把保存后的ID存入view
             }
             else
             {
-                _repository.Update(u => u.Id == view.Id, u => new User
+                _unitWork.Update<User>(u => u.Id == view.Id, u => new User
                 {
                     Account = user.Account,
                     BizCode = user.BizCode,
@@ -143,13 +119,22 @@ namespace OpenAuth.App
             }
             string[] orgIds = view.OrganizationIds.Split(',').ToArray();
 
-            _relevanceRepository.DeleteBy("UserOrg", user.Id);
-            _relevanceRepository.AddRelevance("UserOrg", orgIds.ToLookup(u => user.Id));
+            ReleManagerApp.DeleteBy("UserOrg", user.Id);
+            ReleManagerApp.AddRelevance("UserOrg", orgIds.ToLookup(u => user.Id));
         }
 
-        public IEnumerable<User> GetUsers(IEnumerable<string> userids)
+        /// <summary>
+        /// 加载用户的所有机构
+        /// </summary>
+        public IEnumerable<Org> LoadByUser(string userId)
         {
-            return _repository.Find(u => userids.Contains(u.Id));
+            var result = from userorg in _unitWork.Find<Relevance>(null)
+                join org in _unitWork.Find<Org>(null) on userorg.SecondId equals org.Id
+                where userorg.FirstId == userId && userorg.Key == "UserOrg"
+                select org;
+            return result;
         }
+
+
     }
 }

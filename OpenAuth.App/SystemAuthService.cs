@@ -22,7 +22,7 @@ namespace OpenAuth.Domain.Service
     /// </summary>
     public class SystemAuthService : AuthoriseService
     {
-        public SystemAuthService(IUnitWork unitWork):base(unitWork)
+        public SystemAuthService()
         {
             _user = new User { Account = "System", Id = string.Empty };
         }

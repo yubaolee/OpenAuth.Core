@@ -14,6 +14,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
         [HttpPost]
         public string Add(HttpPostedFileBase Filedata)
         {
+            var response = new Response<string>();
             if (Filedata != null && Filedata.ContentLength > 0 && Filedata.ContentLength < 10485760)
             {
                 using (var binaryReader = new BinaryReader(Filedata.InputStream))
@@ -21,16 +22,16 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
                     var fileName = Path.GetFileName(Filedata.FileName);
                     var data = binaryReader.ReadBytes(Filedata.ContentLength);
                     var result = UploadFile(fileName, data, string.Empty);
-                    Result.Result = result;
+                    response.Result = result;
                 }
             }
             else
             {
-                Result.Message = "文件过大";
-                Result.Status = false;
+                 response.Message = "文件过大";
+                 response.Code = 500;
             }
 
-            return JsonHelper.Instance.Serialize(Result);
+            return JsonHelper.Instance.Serialize(response);
 
         }
 

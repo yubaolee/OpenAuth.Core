@@ -42,44 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Application.cs" />
-    <Compile Include="Core\Category.cs" />
-    <Compile Include="Core\CategoryType.cs" />
-    <Compile Include="Core\UserExt.cs" />
-    <Compile Include="Core\Entity.cs" />
-    <Compile Include="Interface\ICategoryRepository.cs" />
-    <Compile Include="Interface\IModuleRepository.cs" />
-    <Compile Include="Interface\IOrgRepository.cs" />
-    <Compile Include="Interface\IRepository.cs" />
-    <Compile Include="Interface\IResourceRepository.cs" />
-    <Compile Include="Interface\IRoleRepository.cs" />
-    <Compile Include="Interface\IRelevanceRepository.cs" />
-    <Compile Include="Interface\IStockRepository.cs" />
-    <Compile Include="Interface\IUnitWork.cs" />
-    <Compile Include="Interface\IUserRepository.cs" />
-    <Compile Include="Core\Module.cs" />
-    <Compile Include="Core\ModuleElement.cs" />
-    <Compile Include="Core\Org.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\Relevance.cs" />
-    <Compile Include="Core\Resource.cs" />
-    <Compile Include="Core\Role.cs" />
-    <Compile Include="Service\AuthoriseFactory.cs" />
-    <Compile Include="Service\SystemAuthService.cs" />
-    <Compile Include="Service\AuthoriseService.cs" />
-    <Compile Include="Service\ModuleEleManService.cs" />
-    <Compile Include="Service\ModuleManService.cs" />
-    <Compile Include="Service\ResManagerService.cs" />
-    <Compile Include="Service\StockManagerService.cs" />
-    <Compile Include="Core\Stock.cs" />
-    <Compile Include="Core\User.cs" />
-    <Compile Include="Core\WFFrmMain.cs" />
-    <Compile Include="Core\WFProcessInstance.cs" />
-    <Compile Include="Core\WFProcessOperationHistory.cs" />
-    <Compile Include="Core\WFProcessScheme.cs" />
-    <Compile Include="Core\WFProcessTransitionHistory.cs" />
-    <Compile Include="Core\WFSchemeContent.cs" />
-    <Compile Include="Core\WFSchemeInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

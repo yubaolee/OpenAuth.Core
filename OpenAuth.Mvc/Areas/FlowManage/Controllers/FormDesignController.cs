@@ -119,7 +119,7 @@ namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
             }
             catch (Exception e)
             {
-                Result.Status = false;
+                 Result.Code = 500;
                 Result.Message = e.Message;
             }
             return Result.ToJson();

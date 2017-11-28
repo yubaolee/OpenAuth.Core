@@ -13,12 +13,7 @@ namespace OpenAuth.App
     /// </summary>
     public class WFFormService
     {
-        protected IUnitWork _unitWork;
-
-        public WFFormService(IUnitWork unitWork)
-        {
-            _unitWork = unitWork;
-        }
+        public IUnitWork _unitWork { get; set; }
 
         public List<WFFrmMain> GetAllList()
         {
@@ -39,12 +34,10 @@ namespace OpenAuth.App
         {
             var result = new GridData
             {
-                page = pageCurrent
+                count = _unitWork.Find<WFFrmMain>(null).Count(),
+                data = _unitWork.Find<WFFrmMain>(pageCurrent, pageSize, "ModifyDate descending", null).ToList()
             };
 
-            int cnt = _unitWork.Find<WFFrmMain>(null).Count();
-            result.total = cnt % pageSize == 0 ? cnt / pageSize : cnt / pageSize + 1;
-            result.data = _unitWork.Find<WFFrmMain>(pageCurrent, pageSize, "ModifyDate descending", null).ToList();
 
             return result;
         }

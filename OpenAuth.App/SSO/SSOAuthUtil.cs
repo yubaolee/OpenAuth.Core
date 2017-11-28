@@ -62,14 +62,14 @@ namespace OpenAuth.App.SSO
                 //´´½¨Session
                 new ObjCacheProvider<UserAuthSession>().Create(currentSession.Token, currentSession, DateTime.Now.AddDays(10));
 
-                result.Success = true;
+                result.Code = 200;
                 result.ReturnUrl = appInfo.ReturnUrl;
                 result.Token = currentSession.Token;
             }
             catch (Exception ex)
             {
-                result.Success = false;
-                result.ErrorMsg = ex.Message;
+                result.Code = 500;
+                result.Message = ex.Message;
             }
 
             return result;

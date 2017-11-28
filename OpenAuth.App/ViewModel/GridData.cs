@@ -27,14 +27,7 @@ namespace OpenAuth.App.ViewModel
         /// 操作消息
         /// </summary>
         public string msg;
-        /// <summary>
-        /// 页码
-        /// </summary>
-        public int page;
-        /// <summary>
-        /// 总页数
-        /// </summary>
-        public int total;
+
         /// <summary>
         /// 总记录条数
         /// </summary>

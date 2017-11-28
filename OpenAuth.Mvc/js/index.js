@@ -14,14 +14,16 @@ layui.config({
 	//更换皮肤
 	function skins(){
 		var skin = window.sessionStorage.getItem("skin");
-		if(skin){  //如果更换过皮肤
-			if(window.sessionStorage.getItem("skinValue") != "自定义"){
-				$("body").addClass(window.sessionStorage.getItem("skin"));
-			}else{
-				$(".layui-layout-admin .layui-header").css("background-color",skin.split(',')[0]);
-				$(".layui-bg-black").css("background-color",skin.split(',')[1]);
-				$(".hideMenu").css("background-color",skin.split(',')[2]);
-			}
+		if (skin) { //如果更换过皮肤
+		    if (window.sessionStorage.getItem("skinValue") != "自定义") {
+		        $("body").addClass(window.sessionStorage.getItem("skin"));
+		    } else {
+		        $(".layui-layout-admin .layui-header").css("background-color", skin.split(',')[0]);
+		        $(".layui-bg-black").css("background-color", skin.split(',')[1]);
+		        $(".hideMenu").css("background-color", skin.split(',')[2]);
+		    }
+		} else {
+		    $("body").addClass("blue");
 		}
 	}
 	skins();

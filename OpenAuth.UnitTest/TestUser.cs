@@ -54,7 +54,7 @@ namespace OpenAuth.UnitTest
             };
             var users = _app.Load(request);
 
-            Console.WriteLine(users.total);
+            Console.WriteLine(users.count);
         }
     }
 }

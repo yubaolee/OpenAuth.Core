@@ -7,22 +7,19 @@ namespace OpenAuth.Domain.Service
     /// </summary>
     public class AuthoriseFactory
     {
-        private IUnitWork _unitWork;
+          public IUnitWork _unitWork { get; set; }
 
-        public AuthoriseFactory(IUnitWork unitWork)
-        {
-            _unitWork = unitWork;
-        }
         public AuthoriseService Create(string loginuser)
         {
             if (loginuser == "System")
             {
-                return new SystemAuthService(_unitWork);
+                return new SystemAuthService();
             }
             else
             {
-                return  new AuthoriseService(_unitWork)
+                return  new AuthoriseService()
                 {
+                    _unitWork = _unitWork,
                     User = _unitWork.FindSingle<User>(u =>u.Account == loginuser)
                 };
             }

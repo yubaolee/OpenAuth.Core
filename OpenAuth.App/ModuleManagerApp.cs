@@ -1,26 +1,22 @@
 ﻿using OpenAuth.Domain;
 using System.Collections.Generic;
+using OpenAuth.Domain.Interface;
 using OpenAuth.Domain.Service;
 
 namespace OpenAuth.App
 {
     public class ModuleManagerApp
     {
-        private ModuleManService _moduleManService;
-
-        public ModuleManagerApp(ModuleManService moduleManService)
-        {
-            _moduleManService = moduleManService;
-        }
+          public IUnitWork _unitWork { get; set; }
 
         public void Delete(string id)
         {
-            _moduleManService.Delete(id);
+          //  _unitWork.Delete<Module>(id);
         }
 
         public void AddOrUpdate(Module vm)
         {
-           _moduleManService.AddOrUpdate(vm);
+         //  _moduleManService.AddOrUpdate(vm);
         }
 
         #region 用户/角色分配模块
@@ -32,7 +28,7 @@ namespace OpenAuth.App
         /// <param name="userId">The user unique identifier.</param>
         public List<Module> LoadForUser(string userId)
         {
-            return _moduleManService.LoadForUser(userId);
+            return null;
         }
 
         /// <summary>
@@ -41,7 +37,7 @@ namespace OpenAuth.App
         /// <param name="roleId">The role unique identifier.</param>
         public List<Module> LoadForRole(string roleId)
         {
-            return _moduleManService.LoadForRole(roleId);
+            return null;
         }
 
         #endregion 用户/角色分配模块

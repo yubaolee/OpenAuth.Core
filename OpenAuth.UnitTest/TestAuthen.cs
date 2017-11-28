@@ -17,7 +17,7 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            AuthoriseFactory factory = new AuthoriseFactory(new UnitWork() );
+            AuthoriseFactory factory = new AuthoriseFactory( );
             var service=  factory.Create("System");
 
             var modules = service.Modules;

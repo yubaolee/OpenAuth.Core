@@ -80,6 +80,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthoriseFactory.cs" />
+    <Compile Include="AuthoriseService.cs" />
     <Compile Include="CategoryManagerApp.cs" />
     <Compile Include="AuthorizeApp.cs" />
     <Compile Include="Extention\IWF_Runtime.cs" />
@@ -89,14 +91,12 @@
     <Compile Include="Request\IdPageReq.cs" />
     <Compile Include="Request\PageReq.cs" />
     <Compile Include="Request\QueryUserListReq.cs" />
+    <Compile Include="RevelanceManagerApp.cs" />
+    <Compile Include="SystemAuthService.cs" />
     <Compile Include="WFFormService.cs" />
     <Compile Include="WFProcessInstanceService.cs" />
     <Compile Include="WFSchemeService.cs" />
-    <Compile Include="ModuleElementManagerApp.cs" />
     <Compile Include="ModuleManagerApp.cs" />
-    <Compile Include="ResourceManagerApp.cs" />
-    <Compile Include="RevelanceManagerApp.cs" />
-    <Compile Include="RoleManagerApp.cs" />
     <Compile Include="SSO\AppInfo.cs" />
     <Compile Include="SSO\AppInfoService.cs" />
     <Compile Include="SSO\AuthUtil.cs" />
@@ -106,7 +106,6 @@
     <Compile Include="SSO\LoginResult.cs" />
     <Compile Include="SSO\SSOAuthAttribute.cs" />
     <Compile Include="SSO\UserAuthSession.cs" />
-    <Compile Include="StockManagerApp.cs" />
     <Compile Include="UserManagerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrgManagerApp.cs" />
@@ -123,9 +122,9 @@
       <Project>{5FEAEC9A-4F1E-4EE7-B377-9DB1B0870DAC}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenAuth.Domain\OpenAuth.Domain.csproj">
-      <Project>{6108da8e-92a1-4abe-b9f5-26d64d55ca2c}</Project>
-      <Name>OpenAuth.Domain</Name>
+    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj">
+      <Project>{e8df8dea-e2cf-4bdb-8f4f-3f8205b0e03a}</Project>
+      <Name>OpenAuth.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

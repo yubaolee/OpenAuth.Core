@@ -24,7 +24,7 @@ namespace OpenAuth.Mvc.Controllers
             Response.Charset = "utf-8";
             var response = new Response
             {
-                Status = false,
+                Code = 500,
                 Message = "演示版本，不能进行此操作"
             };
             return JsonHelper.Instance.Serialize(response);

@@ -13,12 +13,7 @@ namespace OpenAuth.App
     /// </summary>
     public class WFSchemeService
     {
-        protected IUnitWork _unitWork;
-
-        public WFSchemeService(IUnitWork unitWork)
-        {
-            _unitWork = unitWork;
-        }
+        public IUnitWork _unitWork { get; set; }
 
         /// <summary>
         /// 保存流程
@@ -109,13 +104,9 @@ namespace OpenAuth.App
 
         public GridData Load(int pageCurrent, int pageSize)
         {
-            var result = new GridData
-            {
-                page = pageCurrent
-            };
+            var result = new GridData();
 
-            int cnt = _unitWork.Find<WFSchemeInfo>(null).Count();
-            result.total = cnt%pageSize  ==0?cnt/pageSize:cnt/pageSize+1;
+            result.count = _unitWork.Find<WFSchemeInfo>(null).Count();
             result.data = _unitWork.Find<WFSchemeInfo>(pageCurrent, pageSize, "ModifyDate descending", null).ToList();
 
             return result;

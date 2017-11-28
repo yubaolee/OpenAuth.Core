@@ -20,12 +20,11 @@ namespace OpenAuth.Mvc.Controllers
         [HttpPost]
         public string Index(string username, string password)
         {
-            var resp = new Response();
+            var resp = new LoginResult();
             try
             {
                 var result = AuthUtil.Login(_appKey, username, password);
-                resp.Status = result.Success;
-                if (result.Success)
+                if (result.Code ==200)
                 {
                     resp.Result = "/home/index?Token=" + result.Token;
                 }
@@ -36,7 +35,7 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception e)
             {
-                resp.Status = false;
+                resp.Code = 500;
                 resp.Message = e.Message;
             }
             return JsonHelper.Instance.Serialize(resp);
@@ -50,7 +49,7 @@ namespace OpenAuth.Mvc.Controllers
             try
             {
                 var result = AuthUtil.Login(_appKey, "System","123456");
-                if (result.Success)
+                if (result.Code ==200)
                     return Redirect("/home/index?Token=" + result.Token);
                 else
                 {

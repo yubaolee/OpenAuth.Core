@@ -1,11 +1,8 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
-using OpenAuth.Domain.Service;
-using OpenAuth.Repository;
 
 namespace OpenAuth.UnitTest
 {

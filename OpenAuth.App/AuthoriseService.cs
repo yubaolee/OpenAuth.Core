@@ -9,12 +9,13 @@
 // File: AuthenService.cs
 // ***********************************************************************
 
-using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.Domain;
+using OpenAuth.Domain.Interface;
 
-namespace OpenAuth.Domain.Service
+namespace OpenAuth.App
 {
     /// <summary>
     /// 领域服务

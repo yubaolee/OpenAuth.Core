@@ -1,11 +1,9 @@
 ﻿using System.Reflection;
 using System.Web.Mvc;
 using Autofac;
-using Autofac.Configuration;
 using Autofac.Integration.Mvc;
 using OpenAuth.App;
 using OpenAuth.Domain.Interface;
-using OpenAuth.Domain.Service;
 using OpenAuth.Repository;
 
 namespace OpenAuth.UnitTest

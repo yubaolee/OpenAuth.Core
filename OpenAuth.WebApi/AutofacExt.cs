@@ -19,7 +19,6 @@ using Autofac.Configuration;
 using Autofac.Integration.Mvc;
 using OpenAuth.App;
 using OpenAuth.Domain.Interface;
-using OpenAuth.Domain.Service;
 using OpenAuth.Repository;
 
 namespace OpenAuth.WebApi
@@ -31,18 +30,12 @@ namespace OpenAuth.WebApi
             var builder = new ContainerBuilder();
 
             //注册数据库基础操作和工作单元
-            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
-            builder.RegisterType(typeof (UnitWork)).As(typeof (IUnitWork));
-
-            //注册WebConfig中的配置
-            builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
+            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();
+            builder.RegisterType(typeof (UnitWork)).As(typeof (IUnitWork)).PropertiesAutowired();
 
             //注册app层
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (AuthorizeApp)));
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (AuthorizeApp))).PropertiesAutowired();
 
-            //注册领域服务
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(AuthoriseService)))
-                .Where(u =>u.Namespace== "OpenAuth.Domain.Service");
 
             // OPTIONAL: Register model binders that require DI.
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());

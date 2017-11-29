@@ -8,7 +8,6 @@ using OpenAuth.App;
 using OpenAuth.App.SSO;
 using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
-using OpenAuth.Domain.Service;
 using OpenAuth.Mvc.Controllers;
 
 namespace OpenAuth.Mvc.Areas.FlowManage.Controllers

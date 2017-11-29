@@ -1,7 +1,6 @@
 ﻿using OpenAuth.Domain;
 using System.Collections.Generic;
 using OpenAuth.Domain.Interface;
-using OpenAuth.Domain.Service;
 
 namespace OpenAuth.App
 {

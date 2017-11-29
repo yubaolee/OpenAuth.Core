@@ -1,10 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenAuth.App;
-using OpenAuth.Domain;
-using OpenAuth.Repository;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace OpenAuth.UnitTest
 {

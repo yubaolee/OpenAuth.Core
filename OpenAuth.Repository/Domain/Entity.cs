@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     public abstract class Entity
     {

@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 工作流流程实例表
@@ -102,6 +102,7 @@ namespace OpenAuth.Domain
 	    /// 执行人
 	    /// </summary>
         public string MakerList { get; set; }
+
 
         #region 扩展操作
         /// <summary>

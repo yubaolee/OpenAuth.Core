@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 工作流实例模板对应表
@@ -41,6 +41,7 @@ namespace OpenAuth.Domain
 	    /// 类型(0正常,3草稿)
 	    /// </summary>
         public int? ProcessType { get; set; }
+
 
         #region 扩展操作
         /// <summary>

@@ -5,8 +5,8 @@ using Infrastructure;
 using OpenAuth.App.Extention;
 using OpenAuth.App.SSO;
 using OpenAuth.App.ViewModel;
-using OpenAuth.Domain;
-using OpenAuth.Domain.Interface;
+using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -22,8 +22,8 @@ namespace OpenAuth.App
         /// <summary>
         /// 获取实例进程信息实体
         /// </summary>
-        /// <param name="keyVlaue"></param>
-        /// <returns></returns>
+        /// <param name="keyVlaue">The key vlaue.</param>
+        /// <returns>WFProcessInstance.</returns>
         public WFProcessInstance GetEntity(string keyVlaue)
         {
             try

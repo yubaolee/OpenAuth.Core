@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OpenAuth.Repository.Models.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public partial class ModuleElementMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Domain.ModuleElement>
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.ModuleElement>
     {
         public ModuleElementMap()
         {
@@ -35,10 +35,6 @@ namespace OpenAuth.Repository.Models.Mapping
             Property(t => t.Name)
                 .HasColumnName("Name")
                 .HasMaxLength(255)
-                .IsRequired();
-            Property(t => t.Type)
-                .HasColumnName("Type")
-                .HasMaxLength(50)
                 .IsRequired();
             Property(t => t.Attr)
                 .HasColumnName("Attr")
@@ -67,6 +63,14 @@ namespace OpenAuth.Repository.Models.Mapping
                 .HasColumnName("ModuleId")
                 .HasMaxLength(50)
                 .IsRequired();
+            Property(t => t.TypeName)
+                .HasColumnName("TypeName")
+                .HasMaxLength(20)
+                .IsOptional();
+            Property(t => t.TypeId)
+                .HasColumnName("TypeId")
+                .HasMaxLength(50)
+                .IsOptional();
 
             // Relationships
         }

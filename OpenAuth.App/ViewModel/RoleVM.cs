@@ -14,7 +14,7 @@
 
 using System;
 using Infrastructure;
-using OpenAuth.Domain;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.ViewModel
 {

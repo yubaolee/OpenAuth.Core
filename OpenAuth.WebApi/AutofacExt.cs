@@ -19,8 +19,8 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using OpenAuth.App;
-using OpenAuth.Domain.Interface;
 using OpenAuth.Repository;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.WebApi
 {

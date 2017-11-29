@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
-using OpenAuth.App.ViewModel;
-using OpenAuth.Domain;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.UnitTest
 {

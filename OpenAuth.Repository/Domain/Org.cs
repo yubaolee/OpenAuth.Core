@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 组织表
@@ -26,13 +26,14 @@ namespace OpenAuth.Domain
           this.ParentName= string.Empty;
           this.IconName= string.Empty;
           this.Status= 0;
-          this.Type= 0;
           this.BizCode= string.Empty;
           this.CustomCode= string.Empty;
           this.CreateTime= DateTime.Now;
           this.CreateId= 0;
           this.SortNo= 0;
           this.ParentId= string.Empty;
+          this.TypeName= string.Empty;
+          this.TypeId= string.Empty;
         }
 
         /// <summary>
@@ -68,10 +69,6 @@ namespace OpenAuth.Domain
 	    /// </summary>
         public int Status { get; set; }
         /// <summary>
-	    /// 组织类型
-	    /// </summary>
-        public int Type { get; set; }
-        /// <summary>
 	    /// 业务对照码
 	    /// </summary>
         public string BizCode { get; set; }
@@ -95,6 +92,14 @@ namespace OpenAuth.Domain
 	    /// 父节点流水号
 	    /// </summary>
         public string ParentId { get; set; }
+        /// <summary>
+	    /// 分类名称
+	    /// </summary>
+        public string TypeName { get; set; }
+        /// <summary>
+	    /// 分类ID
+	    /// </summary>
+        public string TypeId { get; set; }
 
     }
 }

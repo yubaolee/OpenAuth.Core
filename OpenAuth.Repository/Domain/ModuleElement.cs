@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 模块元素表(需要权限控制的按钮)
@@ -22,7 +22,6 @@ namespace OpenAuth.Domain
         {
           this.DomId= string.Empty;
           this.Name= string.Empty;
-          this.Type= string.Empty;
           this.Attr= string.Empty;
           this.Script= string.Empty;
           this.Icon= string.Empty;
@@ -30,6 +29,8 @@ namespace OpenAuth.Domain
           this.Remark= string.Empty;
           this.Sort= 0;
           this.ModuleId= string.Empty;
+          this.TypeName= string.Empty;
+          this.TypeId= string.Empty;
         }
 
         /// <summary>
@@ -40,10 +41,6 @@ namespace OpenAuth.Domain
 	    /// 名称
 	    /// </summary>
         public string Name { get; set; }
-        /// <summary>
-	    /// 类型
-	    /// </summary>
-        public string Type { get; set; }
         /// <summary>
 	    /// 元素附加属性
 	    /// </summary>
@@ -72,6 +69,14 @@ namespace OpenAuth.Domain
 	    /// 功能模块Id
 	    /// </summary>
         public string ModuleId { get; set; }
+        /// <summary>
+	    /// 分类名称
+	    /// </summary>
+        public string TypeName { get; set; }
+        /// <summary>
+	    /// 分类ID
+	    /// </summary>
+        public string TypeId { get; set; }
 
     }
 }

@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 分类类型
@@ -21,9 +21,7 @@ namespace OpenAuth.Domain
         public CategoryType()
         {
           this.Name= string.Empty;
-          this.Code= string.Empty;
           this.CreateTime= DateTime.Now;
-          this.CreateUser= string.Empty;
         }
 
         /// <summary>
@@ -31,17 +29,9 @@ namespace OpenAuth.Domain
 	    /// </summary>
         public string Name { get; set; }
         /// <summary>
-	    /// 编码
+	    /// 创建时间
 	    /// </summary>
-        public string Code { get; set; }
-        /// <summary>
-	    /// 创建日期
-	    /// </summary>
-        public System.DateTime? CreateTime { get; set; }
-        /// <summary>
-	    /// 创建人
-	    /// </summary>
-        public string CreateUser { get; set; }
+        public System.DateTime CreateTime { get; set; }
 
     }
 }

@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OpenAuth.Repository.Models.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public partial class ResourceMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Domain.Resource>
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.Resource>
     {
         public ResourceMap()
         {
@@ -54,12 +54,16 @@ namespace OpenAuth.Repository.Models.Mapping
                 .HasColumnName("ParentId")
                 .HasMaxLength(50)
                 .IsOptional();
-            Property(t => t.CategoryId)
-                .HasColumnName("CategoryId")
-                .HasMaxLength(50)
-                .IsOptional();
             Property(t => t.AppId)
                 .HasColumnName("AppId")
+                .HasMaxLength(50)
+                .IsOptional();
+            Property(t => t.TypeName)
+                .HasColumnName("TypeName")
+                .HasMaxLength(20)
+                .IsOptional();
+            Property(t => t.TypeId)
+                .HasColumnName("TypeId")
                 .HasMaxLength(50)
                 .IsOptional();
 

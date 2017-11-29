@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OpenAuth.Repository.Models.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public partial class OrgMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Domain.Org>
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.Org>
     {
         public OrgMap()
         {
@@ -57,9 +57,6 @@ namespace OpenAuth.Repository.Models.Mapping
             Property(t => t.Status)
                 .HasColumnName("Status")
                 .IsRequired();
-            Property(t => t.Type)
-                .HasColumnName("Type")
-                .IsRequired();
             Property(t => t.BizCode)
                 .HasColumnName("BizCode")
                 .HasMaxLength(255)
@@ -79,6 +76,14 @@ namespace OpenAuth.Repository.Models.Mapping
                 .IsRequired();
             Property(t => t.ParentId)
                 .HasColumnName("ParentId")
+                .HasMaxLength(50)
+                .IsOptional();
+            Property(t => t.TypeName)
+                .HasColumnName("TypeName")
+                .HasMaxLength(20)
+                .IsOptional();
+            Property(t => t.TypeId)
+                .HasColumnName("TypeId")
                 .HasMaxLength(50)
                 .IsOptional();
 

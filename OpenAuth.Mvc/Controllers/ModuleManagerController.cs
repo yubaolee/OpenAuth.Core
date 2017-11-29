@@ -2,13 +2,13 @@
 using OpenAuth.App;
 using OpenAuth.App.SSO;
 using OpenAuth.App.ViewModel;
-using OpenAuth.Domain;
 using OpenAuth.Mvc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {

@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OpenAuth.Repository.Models.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public partial class WFSchemeInfoMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Domain.WFSchemeInfo>
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.WFSchemeInfo>
     {
         public WFSchemeInfoMap()
         {

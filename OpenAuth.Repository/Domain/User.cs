@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 用户基本信息表
@@ -25,10 +25,11 @@ namespace OpenAuth.Domain
           this.Name= string.Empty;
           this.Sex= 0;
           this.Status= 0;
-          this.Type= 0;
           this.BizCode= string.Empty;
           this.CreateTime= DateTime.Now;
           this.CrateId= string.Empty;
+          this.TypeName= string.Empty;
+          this.TypeId= string.Empty;
         }
 
         /// <summary>
@@ -52,10 +53,6 @@ namespace OpenAuth.Domain
 	    /// </summary>
         public int Status { get; set; }
         /// <summary>
-	    /// 用户类型
-	    /// </summary>
-        public int Type { get; set; }
-        /// <summary>
 	    /// 业务对照码
 	    /// </summary>
         public string BizCode { get; set; }
@@ -67,6 +64,14 @@ namespace OpenAuth.Domain
 	    /// 创建人
 	    /// </summary>
         public string CrateId { get; set; }
+        /// <summary>
+	    /// 分类名称
+	    /// </summary>
+        public string TypeName { get; set; }
+        /// <summary>
+	    /// 分类ID
+	    /// </summary>
+        public string TypeId { get; set; }
 
     }
 }

@@ -11,52 +11,46 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     /// <summary>
-	/// 分类表
+	/// 分类表，表示一个全集，比如：男、女、未知。关联的分类类型表示按什么进行的分类，如：按照性别对人类对象集进行分类
 	/// </summary>
     public partial class Category : Entity
     {
         public Category()
         {
-          this.CascadeId= string.Empty;
           this.Name= string.Empty;
-          this.Code= string.Empty;
-          this.Status= 0;
           this.SortNo= 0;
+          this.Icon= string.Empty;
+          this.Description= string.Empty;
           this.TypeId= string.Empty;
-          this.ParentId= string.Empty;
         }
 
-        /// <summary>
-	    /// 节点语义ID
-	    /// </summary>
-        public string CascadeId { get; set; }
         /// <summary>
 	    /// 名称
 	    /// </summary>
         public string Name { get; set; }
         /// <summary>
-	    /// 编号
+	    /// 是否可用
 	    /// </summary>
-        public string Code { get; set; }
-        /// <summary>
-	    /// 当前状态
-	    /// </summary>
-        public int Status { get; set; }
+        public bool Disabled { get; set; }
         /// <summary>
 	    /// 排序号
 	    /// </summary>
         public int SortNo { get; set; }
         /// <summary>
-	    /// 分类所属科目
+	    /// 分类图标
+	    /// </summary>
+        public string Icon { get; set; }
+        /// <summary>
+	    /// 分类描述
+	    /// </summary>
+        public string Description { get; set; }
+        /// <summary>
+	    /// 分类类型ID
 	    /// </summary>
         public string TypeId { get; set; }
-        /// <summary>
-	    /// 父节点流水号
-	    /// </summary>
-        public string ParentId { get; set; }
 
     }
 }

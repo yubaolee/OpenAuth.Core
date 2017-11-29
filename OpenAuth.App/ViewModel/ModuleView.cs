@@ -1,7 +1,7 @@
 ﻿using System;
 using Infrastructure;
-using OpenAuth.Domain;
 using System.Collections.Generic;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.ViewModel
 {

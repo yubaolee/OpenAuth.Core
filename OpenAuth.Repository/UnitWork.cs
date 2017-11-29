@@ -5,10 +5,8 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
 using EntityFramework.Extensions;
-using OpenAuth.Domain.Interface;
 using Infrastructure;
-using OpenAuth.Domain;
-using OpenAuth.Repository.Models;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.Repository
 {

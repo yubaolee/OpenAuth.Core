@@ -10,7 +10,7 @@
 // ***********************************************************************
 
 using System.Linq;
-using OpenAuth.Domain;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App
 {

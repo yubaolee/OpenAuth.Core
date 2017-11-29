@@ -3,8 +3,8 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using OpenAuth.App;
-using OpenAuth.Domain.Interface;
 using OpenAuth.Repository;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.UnitTest
 {

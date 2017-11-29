@@ -1,9 +1,9 @@
 ﻿using OpenAuth.App.ViewModel;
-using OpenAuth.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.App.Request;
+using OpenAuth.Repository.Domain;
 
 
 namespace OpenAuth.App
@@ -115,8 +115,7 @@ namespace OpenAuth.App
                     BizCode = user.BizCode,
                     Name = user.Name,
                     Sex = user.Sex,
-                    Status = user.Status,
-                    Type = user.Type
+                    Status = user.Status
                 });
             }
             string[] orgIds = view.OrganizationIds.Split(',').ToArray();

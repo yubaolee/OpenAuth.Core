@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OpenAuth.Repository.Models.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public partial class ModuleMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Domain.Module>
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.Module>
     {
         public ModuleMap()
         {

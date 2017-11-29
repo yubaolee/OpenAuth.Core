@@ -82,7 +82,6 @@
   <ItemGroup>
     <Compile Include="AuthoriseService.cs" />
     <Compile Include="BaseApp.cs" />
-    <Compile Include="CategoryManagerApp.cs" />
     <Compile Include="AuthorizeApp.cs" />
     <Compile Include="Extention\IWF_Runtime.cs" />
     <Compile Include="Extention\WF_Runtime.cs" />

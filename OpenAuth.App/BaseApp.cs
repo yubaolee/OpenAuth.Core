@@ -1,5 +1,5 @@
-﻿using OpenAuth.Domain;
-using OpenAuth.Domain.Interface;
+﻿using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {

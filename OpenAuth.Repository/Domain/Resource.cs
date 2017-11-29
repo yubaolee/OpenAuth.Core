@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 资源表
@@ -27,8 +27,9 @@ namespace OpenAuth.Domain
           this.SortNo= 0;
           this.Description= string.Empty;
           this.ParentId= string.Empty;
-          this.CategoryId= string.Empty;
           this.AppId= string.Empty;
+          this.TypeName= string.Empty;
+          this.TypeId= string.Empty;
         }
 
         /// <summary>
@@ -60,13 +61,17 @@ namespace OpenAuth.Domain
 	    /// </summary>
         public string ParentId { get; set; }
         /// <summary>
-	    /// 资源分类
-	    /// </summary>
-        public string CategoryId { get; set; }
-        /// <summary>
 	    /// 资源所属应用
 	    /// </summary>
         public string AppId { get; set; }
+        /// <summary>
+	    /// 分类名称
+	    /// </summary>
+        public string TypeName { get; set; }
+        /// <summary>
+	    /// 分类ID
+	    /// </summary>
+        public string TypeId { get; set; }
 
     }
 }

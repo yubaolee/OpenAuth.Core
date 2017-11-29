@@ -4,8 +4,8 @@ using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
-using OpenAuth.Domain;
 using OpenAuth.Mvc.Controllers;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Areas.FlowManage.Controllers
 {

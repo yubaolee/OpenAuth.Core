@@ -16,7 +16,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace OpenAuth.Domain.Interface
+namespace OpenAuth.Repository.Interface
 {
     public interface IRepository<T> where T : class
     {

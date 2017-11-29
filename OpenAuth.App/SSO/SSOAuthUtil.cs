@@ -3,8 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using Infrastructure;
 using Infrastructure.Cache;
-using OpenAuth.Domain;
-
+using OpenAuth.Repository.Domain;
 
 
 namespace OpenAuth.App.SSO

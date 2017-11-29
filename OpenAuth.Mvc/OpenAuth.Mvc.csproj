@@ -148,7 +148,6 @@
     <Compile Include="Areas\FlowManage\FlowManageAreaRegistration.cs" />
     <Compile Include="AutofacExt.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\CategoryManagerController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FlowInstancesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -323,7 +322,6 @@
     <Content Include="layui\lay\modules\upload.js" />
     <Content Include="layui\lay\modules\util.js" />
     <Content Include="js\ztree.js" />
-    <Content Include="Views\CategoryManager\Index.cshtml" />
     <Content Include="Areas\FlowManage\Views\web.config" />
     <Content Include="Areas\FlowManage\Views\FlowDesign\FlowLineForm.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowDesign\FlowNodeForm.cshtml" />

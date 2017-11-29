@@ -2,7 +2,7 @@
 using Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
-using OpenAuth.Domain;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.UnitTest
 {

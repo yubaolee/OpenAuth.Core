@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenAuth.Domain
+namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 角色表
@@ -22,9 +22,10 @@ namespace OpenAuth.Domain
         {
           this.Name= string.Empty;
           this.Status= 0;
-          this.Type= 0;
           this.CreateTime= DateTime.Now;
           this.CreateId= string.Empty;
+          this.TypeName= string.Empty;
+          this.TypeId= string.Empty;
         }
 
         /// <summary>
@@ -36,10 +37,6 @@ namespace OpenAuth.Domain
 	    /// </summary>
         public int Status { get; set; }
         /// <summary>
-	    /// 角色类型
-	    /// </summary>
-        public int Type { get; set; }
-        /// <summary>
 	    /// 创建时间
 	    /// </summary>
         public System.DateTime CreateTime { get; set; }
@@ -47,6 +44,14 @@ namespace OpenAuth.Domain
 	    /// 创建人ID
 	    /// </summary>
         public string CreateId { get; set; }
+        /// <summary>
+	    /// 分类名称
+	    /// </summary>
+        public string TypeName { get; set; }
+        /// <summary>
+	    /// 分类ID
+	    /// </summary>
+        public string TypeId { get; set; }
 
     }
 }

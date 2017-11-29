@@ -8,8 +8,8 @@
 //------------------------------------------------------------------------------
 
 using System.Data.Entity;
-using OpenAuth.Domain;
-using OpenAuth.Repository.Models.Mapping;
+using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Mapping;
 
 namespace OpenAuth.Repository
 {

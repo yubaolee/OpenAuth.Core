@@ -12,8 +12,9 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using OpenAuth.Repository.Domain;
 
-namespace OpenAuth.Domain.Interface
+namespace OpenAuth.Repository.Interface
 {
     /// <summary>
     /// 工作单元接口

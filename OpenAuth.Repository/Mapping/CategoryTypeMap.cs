@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OpenAuth.Repository.Models.Mapping
+namespace OpenAuth.Repository.Mapping
 {
     public partial class CategoryTypeMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Domain.CategoryType>
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.CategoryType>
     {
         public CategoryTypeMap()
         {
@@ -32,17 +32,9 @@ namespace OpenAuth.Repository.Models.Mapping
                 .HasColumnName("Name")
                 .HasMaxLength(255)
                 .IsRequired();
-            Property(t => t.Code)
-                .HasColumnName("Code")
-                .HasMaxLength(255)
-                .IsOptional();
             Property(t => t.CreateTime)
                 .HasColumnName("CreateTime")
-                .IsOptional();
-            Property(t => t.CreateUser)
-                .HasColumnName("CreateUser")
-                .HasMaxLength(50)
-                .IsOptional();
+                .IsRequired();
 
             // Relationships
         }

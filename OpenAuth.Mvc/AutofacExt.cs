@@ -17,8 +17,8 @@ using Autofac.Integration.Mvc;
 using OpenAuth.App;
 using System.Reflection;
 using System.Web.Mvc;
-using OpenAuth.Domain.Interface;
 using OpenAuth.Repository;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.Mvc
 {

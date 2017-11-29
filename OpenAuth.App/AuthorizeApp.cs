@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Infrastructure;
 using OpenAuth.App.ViewModel;
-using OpenAuth.Domain;
-using OpenAuth.Domain.Interface;
+using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {

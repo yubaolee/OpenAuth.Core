@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.Domain;
-using OpenAuth.Domain.Interface;
 
 namespace OpenAuth.App
 {
@@ -21,9 +20,9 @@ namespace OpenAuth.App
     /// 领域服务
     /// <para>用户授权服务</para>
     /// </summary>
-    public class AuthoriseService
+    public class AuthoriseService :BaseApp<User>
     {
-        public IUnitWork _unitWork { get; set; }
+        
         protected User _user;
 
         private List<string> _userRoleIds;    //用户角色GUID
@@ -59,13 +58,13 @@ namespace OpenAuth.App
             set
             {
                 _user = value;
-                _userRoleIds = _unitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
+                _userRoleIds = UnitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
             }
         }
 
         public void Check(string userName, string password)
         {
-            var _user = _unitWork.FindSingle<User>(u => u.Account == userName);
+            var _user = Repository.FindSingle(u => u.Account == userName);
             if (_user == null)
             {
                 throw new Exception("用户帐号不存在");
@@ -79,11 +78,11 @@ namespace OpenAuth.App
         /// <returns>IQueryable&lt;Org&gt;.</returns>
         public virtual IQueryable<Org> GetOrgsQuery()
         {
-            var orgids = _unitWork.Find<Relevance>(
+            var orgids = UnitWork.Find<Relevance>(
                 u =>
                     (u.FirstId == _user.Id && u.Key == "UserOrg") ||
                     (u.Key == "RoleOrg" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            return _unitWork.Find<Org>(u => orgids.Contains(u.Id));
+            return UnitWork.Find<Org>(u => orgids.Contains(u.Id));
         }
 
         /// <summary>
@@ -92,11 +91,11 @@ namespace OpenAuth.App
         /// <returns>IQueryable&lt;Resource&gt;.</returns>
         public virtual IQueryable<Resource> GetResourcesQuery()
         {
-            var resourceIds = _unitWork.Find<Relevance>(
+            var resourceIds = UnitWork.Find<Relevance>(
                 u =>
                     (u.FirstId == _user.Id && u.Key == "UserResource") ||
                     (u.Key == "RoleResource" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            return _unitWork.Find<Resource>(u => resourceIds.Contains(u.Id));
+            return UnitWork.Find<Resource>(u => resourceIds.Contains(u.Id));
         }
 
         /// <summary>
@@ -104,11 +103,11 @@ namespace OpenAuth.App
         /// </summary>
         public virtual IQueryable<ModuleElement> GetModuleElementsQuery()
         {
-            var elementIds = _unitWork.Find<Relevance>(
+            var elementIds = UnitWork.Find<Relevance>(
                 u =>
                     (u.FirstId == _user.Id && u.Key == "UserElement") ||
                     (u.Key == "RoleElement" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            return _unitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
+            return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
         }
 
         /// <summary>
@@ -116,17 +115,17 @@ namespace OpenAuth.App
         /// </summary>
         public virtual IQueryable<Module> GetModulesQuery()
         {
-            var moduleIds = _unitWork.Find<Relevance>(
+            var moduleIds = UnitWork.Find<Relevance>(
                 u =>
                     (u.FirstId == _user.Id && u.Key == "UserModule") ||
                     (u.Key == "RoleModule" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            return _unitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo);
+            return UnitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo);
         }
 
         //用户角色
         public virtual IQueryable<Role> GetRolesQuery()
         {
-            return _unitWork.Find<Role>(u => _userRoleIds.Contains(u.Id));
+            return UnitWork.Find<Role>(u => _userRoleIds.Contains(u.Id));
         }
     }
 }

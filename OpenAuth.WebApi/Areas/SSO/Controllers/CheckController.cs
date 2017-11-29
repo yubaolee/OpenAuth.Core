@@ -27,12 +27,8 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// </summary>
     public class CheckController : ApiController
     {
-        private AuthorizeApp _app;
+        public AuthorizeApp _app { get; set; }
         private ObjCacheProvider<UserAuthSession> _objCacheProvider = new ObjCacheProvider<UserAuthSession>();
-        public CheckController()
-        {
-            _app = AutofacExt.GetFromFac<AuthorizeApp>();
-        }
 
         /// <summary>
         /// 检验token是否有效

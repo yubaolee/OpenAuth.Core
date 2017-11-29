@@ -29,28 +29,28 @@ namespace OpenAuth.App
 
         public override IQueryable<Org> GetOrgsQuery()
         {
-            return _unitWork.Find<Org>(null);
+            return UnitWork.Find<Org>(null);
         }
 
         public override IQueryable<Resource> GetResourcesQuery()
         {
-            return _unitWork.Find<Resource>(null);
+            return UnitWork.Find<Resource>(null);
         }
 
         public override IQueryable<ModuleElement> GetModuleElementsQuery()
         {
-            return _unitWork.Find<ModuleElement>(null);
+            return UnitWork.Find<ModuleElement>(null);
         }
 
         public override IQueryable<Module> GetModulesQuery()
         {
-            return _unitWork.Find<Module>(null);
+            return UnitWork.Find<Module>(null);
         }
 
         public override IQueryable<Role> GetRolesQuery()
         {
             //用户角色
-            return _unitWork.Find<Role>(null);
+            return UnitWork.Find<Role>(null);
         }
     }
 }

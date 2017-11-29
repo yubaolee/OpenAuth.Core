@@ -2,6 +2,7 @@
 using OpenAuth.Domain;
 using OpenAuth.Domain.Interface;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenAuth.App
@@ -88,6 +89,27 @@ namespace OpenAuth.App
                     OperateTime = DateTime.Now
                 }).ToArray());
             _unitWork.Save();
+        }
+
+        /// <summary>
+        /// 根据关联表的一个键获取另外键的值
+        /// </summary>
+        /// <param name="key">映射标识</param>
+        /// <param name="returnSecondIds">返回的是否为映射表的第二列，如果不是则返回第一列</param>
+        /// <param name="ids">已知的ID列表</param>
+        /// <returns>List&lt;System.String&gt;.</returns>
+        public List<string> Get(string key, bool returnSecondIds, params string[] ids)
+        {
+            if (returnSecondIds)
+            {
+                return _unitWork.Find<Relevance>(u => u.Key == key
+                                                      && ids.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
+            }
+            else
+            {
+                return _unitWork.Find<Relevance>(u => u.Key == key
+                     && ids.Contains(u.SecondId)).Select(u => u.FirstId).ToList();
+            }
         }
     }
 }

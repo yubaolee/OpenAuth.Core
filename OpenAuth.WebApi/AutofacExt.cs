@@ -13,10 +13,11 @@
 // ***********************************************************************
 
 using System.Reflection;
+using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
-using Autofac.Configuration;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 using OpenAuth.App;
 using OpenAuth.Domain.Interface;
 using OpenAuth.Repository;
@@ -50,8 +51,13 @@ namespace OpenAuth.WebApi
             // OPTIONAL: Enable property injection into action filters.
             builder.RegisterFilterProvider();
 
-            // Set the dependency resolver to be Autofac.
+            //注册所有的ApiControllers
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired();
+
             var container = builder.Build();
+            HttpConfiguration config = GlobalConfiguration.Configuration;
+            //注册api容器需要使用HttpConfiguration对象
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
 

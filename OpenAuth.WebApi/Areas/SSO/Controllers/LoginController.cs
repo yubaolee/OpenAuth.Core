@@ -11,12 +11,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// </summary>
     public class LoginController : Controller
     {
-        private AppInfoService _appInfoService;
-
-        public LoginController()
-        {
-            _appInfoService = new AppInfoService();
-        }
+        public AppInfoService _appInfoService { get; set; }
 
         private const string AppInfo = "AppInfo";
 

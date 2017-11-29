@@ -1,6 +1,5 @@
 ﻿using OpenAuth.App.ViewModel;
 using OpenAuth.Domain;
-using OpenAuth.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +8,14 @@ using OpenAuth.App.Request;
 
 namespace OpenAuth.App
 {
-    public class UserManagerApp
+    public class UserManagerApp :BaseApp<User>
     {
-        public IUnitWork _unitWork { get; set; }
         public RevelanceManagerApp ReleManagerApp { get; set; }
 
 
         public User Get(string  account)
         {
-            return _unitWork.FindSingle<User>(u => u.Account == account);
+            return Repository.FindSingle(u => u.Account == account);
         }
 
 
@@ -26,20 +24,24 @@ namespace OpenAuth.App
         /// </summary>
         public GridData Load(QueryUserListReq request)
         {
-            if (request.page < 1) request.page = 1;  //TODO:如果列表为空新增加一个用户后，前端会传一个0过来，奇怪？？
             IEnumerable<User> users;
             int records = 0;
-            if (request.orgId ==string.Empty)
+            if (string.IsNullOrEmpty(request.orgId))
             {
-                users = _unitWork.Find<User>(null).OrderBy(u => u.Id).Skip((request.page - 1) * request.limit).Take(request.limit);
-                records = _unitWork.GetCount<User>();
+                users = UnitWork.Find<User>(null).OrderBy(u => u.Id).Skip((request.page - 1) * request.limit).Take(request.limit);
+                records = UnitWork.GetCount<User>();
             }
             else
             {
                 var ids = GetSubOrgIds(request.orgId);
-                users = _unitWork.Find<User>(u =>ids.Contains(u.Id)).OrderBy(u => u.Id).Skip((request.page - 1) * request.limit).Take(request.limit);
-                records = _unitWork.GetCount<User>();
+                List<string> userIds = ReleManagerApp.Get("UserOrg", false, ids);
+                users = UnitWork.Find<User>(u =>userIds.Contains(u.Id))
+                    .OrderBy(u => u.Name)
+                    .Skip((request.page - 1) * request.limit)
+                    .Take(request.limit);
+                records = UnitWork.GetCount<User>();
             }
+
             var userviews = new List<UserView>();
             foreach (var user in users)
             {
@@ -62,14 +64,15 @@ namespace OpenAuth.App
         /// </summary>
         private string[] GetSubOrgIds(string orgId)
         {
-            var org = _unitWork.FindSingle<Org>(u => u.Id == orgId);
-            var orgs = _unitWork.Find<Org>(u => u.CascadeId.Contains(org.CascadeId)).Select(u => u.Id).ToArray();
+            var org = UnitWork.FindSingle<Org>(u => u.Id == orgId);
+            var orgs = UnitWork.Find<Org>(u => u.CascadeId.Contains(org.CascadeId))
+                .Select(u => u.Id).ToArray();
             return orgs;
         }
 
         public UserView Find(string id)
         {
-            var user = _unitWork.FindSingle<User>(u => u.Id == id);
+            var user = Repository.FindSingle(u => u.Id == id);
             if (user == null) return new UserView();
 
             UserView view = user;
@@ -85,7 +88,7 @@ namespace OpenAuth.App
 
         public void Delete(string[] ids)
         {
-            _unitWork.Delete<User>(u => ids.Contains(u.Id));
+           Repository.Delete(u => ids.Contains(u.Id));
         }
 
         public void AddOrUpdate(UserView view)
@@ -95,19 +98,18 @@ namespace OpenAuth.App
             User user = view;
             if (string.IsNullOrEmpty(view.Id))
             {
-                if (_unitWork.IsExist<User>(u => u.Account == view.Account))
+                if (UnitWork.IsExist<User>(u => u.Account == view.Account))
                 {
                     throw new Exception("用户账号已存在");
                 }
                 user.CreateTime = DateTime.Now;
                 user.Password = user.Account; //初始密码与账号相同
-                _unitWork.Add(user);
-                _unitWork.Save();
+                Repository.Add(user);
                 view.Id = user.Id;   //要把保存后的ID存入view
             }
             else
             {
-                _unitWork.Update<User>(u => u.Id == view.Id, u => new User
+                UnitWork.Update<User>(u => u.Id == view.Id, u => new User
                 {
                     Account = user.Account,
                     BizCode = user.BizCode,
@@ -128,8 +130,8 @@ namespace OpenAuth.App
         /// </summary>
         public IEnumerable<Org> LoadByUser(string userId)
         {
-            var result = from userorg in _unitWork.Find<Relevance>(null)
-                join org in _unitWork.Find<Org>(null) on userorg.SecondId equals org.Id
+            var result = from userorg in UnitWork.Find<Relevance>(null)
+                join org in UnitWork.Find<Org>(null) on userorg.SecondId equals org.Id
                 where userorg.FirstId == userId && userorg.Key == "UserOrg"
                 select org;
             return result;

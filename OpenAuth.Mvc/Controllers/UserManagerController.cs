@@ -29,11 +29,11 @@ namespace OpenAuth.Mvc.Controllers
             try
             {
                 App.AddOrUpdate(view);
-                
+
             }
             catch (Exception ex)
             {
-                  Result.Code = 500;
+                Result.Code = 500;
                 Result.Message = ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
@@ -56,7 +56,7 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception e)
             {
-                  Result.Code = 500;
+                Result.Code = 500;
                 Result.Message = e.Message;
             }
 
@@ -71,8 +71,8 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetAccessedUsers()
         {
-            IEnumerable<UserView> users =  App.Load(new QueryUserListReq()).data;
-            var result = new Dictionary<string , object>();
+            IEnumerable<UserView> users = App.Load(new QueryUserListReq()).data;
+            var result = new Dictionary<string, object>();
             foreach (var user in users)
             {
                 var item = new

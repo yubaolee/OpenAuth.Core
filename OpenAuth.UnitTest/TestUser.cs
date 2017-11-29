@@ -48,8 +48,8 @@ namespace OpenAuth.UnitTest
         {
             var request = new QueryUserListReq
             {
-               orgId = "990cb229-cc18-41f3-8e2b-13f0f0110798",
-               page = 2,
+               orgId = "543a9fcf-4770-4fd9-865f-030e562be238",
+               page = 1,
                limit = 30
             };
             var users = _app.Load(request);

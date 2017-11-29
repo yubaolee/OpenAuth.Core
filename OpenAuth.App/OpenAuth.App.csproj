@@ -83,13 +83,16 @@
     <Compile Include="AuthoriseService.cs" />
     <Compile Include="BaseApp.cs" />
     <Compile Include="AuthorizeApp.cs" />
+    <Compile Include="CategoryApp.cs" />
     <Compile Include="Extention\IWF_Runtime.cs" />
     <Compile Include="Extention\WF_Runtime.cs" />
     <Compile Include="Extention\WF_RuntimeInitModel.cs" />
     <Compile Include="Extention\WF_RuntimeModel.cs" />
     <Compile Include="Request\IdPageReq.cs" />
     <Compile Include="Request\PageReq.cs" />
+    <Compile Include="Request\QueryCategoriesReq.cs" />
     <Compile Include="Request\QueryUserListReq.cs" />
+    <Compile Include="Response\TableData.cs" />
     <Compile Include="RevelanceManagerApp.cs" />
     <Compile Include="SystemAuthService.cs" />
     <Compile Include="WFFormService.cs" />
@@ -129,9 +132,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Response\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

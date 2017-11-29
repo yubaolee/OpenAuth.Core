@@ -13,7 +13,6 @@
 // ***********************************************************************
 
 using System.Collections.Generic;
-using Infrastructure;
 using OpenAuth.Repository.Domain;
 
 

@@ -148,6 +148,7 @@
     <Compile Include="Areas\FlowManage\FlowManageAreaRegistration.cs" />
     <Compile Include="AutofacExt.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FlowInstancesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -170,6 +171,7 @@
     <Content Include="BllScripts\categoryManager.js" />
     <Content Include="BllScripts\formDesign.js" />
     <Content Include="BllScripts\login.js" />
+    <Content Include="js\categories.js" />
     <Content Include="js\openauth.js" />
     <Content Include="js\droptree.js" />
     <Content Include="BllScripts\processDetail.js" />
@@ -368,6 +370,7 @@
     <Content Include="Views\Home\Main.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\MenuHeader.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

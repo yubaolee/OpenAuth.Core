@@ -62,7 +62,10 @@ namespace OpenAuth.Repository
 
         public void Add(T entity)
         {
-            entity.Id = Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(entity.Id))
+            {
+                entity.Id = Guid.NewGuid().ToString();
+            }
             Context.Set<T>().Add(entity);
             Save();
         }

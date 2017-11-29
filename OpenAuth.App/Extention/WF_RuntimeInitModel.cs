@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenAuth.App.Extention
+﻿namespace OpenAuth.App.Extention
 {
 
     public class WF_RuntimeInitModel

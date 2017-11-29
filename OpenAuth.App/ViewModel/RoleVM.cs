@@ -12,7 +12,6 @@
 // <summary>角色模型视图</summary>
 // ***********************************************************************
 
-using System;
 using Infrastructure;
 using OpenAuth.Repository.Domain;
 

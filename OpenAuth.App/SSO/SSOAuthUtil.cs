@@ -1,7 +1,6 @@
 using System;
 using System.Web;
 using System.Web.Mvc;
-using Infrastructure;
 using Infrastructure.Cache;
 using OpenAuth.Repository.Domain;
 

@@ -15,8 +15,7 @@
 using System.Collections.Generic;
 using OpenAuth.Repository.Domain;
 
-
-namespace OpenAuth.App.ViewModel
+namespace OpenAuth.App.Response
 {
     /// <summary>
     ///  视图模型

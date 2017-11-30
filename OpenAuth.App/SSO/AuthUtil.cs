@@ -14,7 +14,7 @@ using System;
 using System.Configuration;
 using System.Web;
 using Infrastructure;
-using OpenAuth.App.ViewModel;
+using OpenAuth.App.Response;
 
 namespace OpenAuth.App.SSO
 {

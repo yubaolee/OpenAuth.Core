@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
 using OpenAuth.App.Request;
-using OpenAuth.App.ViewModel;
+using OpenAuth.App.Response;
 
 namespace OpenAuth.UnitTest
 {

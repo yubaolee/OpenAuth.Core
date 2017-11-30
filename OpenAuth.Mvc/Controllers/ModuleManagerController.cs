@@ -1,13 +1,13 @@
 ﻿using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
-using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers

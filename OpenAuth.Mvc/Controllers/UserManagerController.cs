@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.Request;
-using OpenAuth.App.ViewModel;
+using OpenAuth.App.Response;
 using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Infrastructure;
+using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
-using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -28,7 +28,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 query = query.Where(u => u.ParentId == pId).ToList();
             }
-            var data = new GridData
+            var data = new TableData
             {
                 data = query,
                 count = query.Count(),

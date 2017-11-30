@@ -1,8 +1,8 @@
-﻿using OpenAuth.App.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.App.Request;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 
@@ -22,7 +22,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载一个部门及子部门全部用户
         /// </summary>
-        public GridData Load(QueryUserListReq request)
+        public TableData Load(QueryUserListReq request)
         {
             IEnumerable<User> users;
             int records = 0;
@@ -52,7 +52,7 @@ namespace OpenAuth.App
                 userviews.Add(uv);
             }
 
-            return new GridData
+            return new TableData
             {
                 count = records,
                 data = userviews,

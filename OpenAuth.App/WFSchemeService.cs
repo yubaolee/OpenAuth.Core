@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenAuth.App.ViewModel;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -102,9 +102,9 @@ namespace OpenAuth.App
             return _unitWork.Find<WFSchemeInfo>(null).ToList();
         }
 
-        public GridData Load(int pageCurrent, int pageSize)
+        public TableData Load(int pageCurrent, int pageSize)
         {
-            var result = new GridData();
+            var result = new TableData();
 
             result.count = _unitWork.Find<WFSchemeInfo>(null).Count();
             result.data = _unitWork.Find<WFSchemeInfo>(pageCurrent, pageSize, "ModifyDate descending", null).ToList();

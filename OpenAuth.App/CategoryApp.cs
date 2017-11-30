@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenAuth.App;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
-namespace LwSolution.App
+namespace OpenAuth.App
 {
     /// <summary>
     /// 分类管理

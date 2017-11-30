@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Infrastructure;
-using OpenAuth.App.ViewModel;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 

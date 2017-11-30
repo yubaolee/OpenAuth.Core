@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Extention;
+using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
-using OpenAuth.App.ViewModel;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -298,10 +298,10 @@ namespace OpenAuth.App
         }
         #endregion
 
-        public GridData Load(string userid, string type, int pageCurrent, int pageSize)
+        public TableData Load(string userid, string type, int pageCurrent, int pageSize)
         {
             //todo:待办/已办/我的
-            var result = new GridData();
+            var result = new TableData();
 
             result.count = _unitWork.Find<WFProcessInstance>(u => u.CreateUserId == userid).Count();
             if (type == "inbox")   //待办事项

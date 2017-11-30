@@ -6,7 +6,6 @@ using System.Web.UI.WebControls;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
-using OpenAuth.App.ViewModel;
 using OpenAuth.Mvc.Controllers;
 using OpenAuth.Repository.Domain;
 

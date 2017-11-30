@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OpenAuth.App.ViewModel;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -29,9 +29,9 @@ namespace OpenAuth.App
             _unitWork.Delete<WFFrmMain>(u =>keyValue.Contains(u.Id));
         }
 
-        public GridData Load(int pageCurrent, int pageSize)
+        public TableData Load(int pageCurrent, int pageSize)
         {
-            var result = new GridData
+            var result = new TableData
             {
                 count = _unitWork.Find<WFFrmMain>(null).Count(),
                 data = _unitWork.Find<WFFrmMain>(pageCurrent, pageSize, "ModifyDate descending", null).ToList()

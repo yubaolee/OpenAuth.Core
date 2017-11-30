@@ -19,8 +19,8 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Infrastructure;
+using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
-using OpenAuth.App.ViewModel;
 
 namespace OpenAuth.Mvc.Controllers
 {

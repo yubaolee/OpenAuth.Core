@@ -11,7 +11,7 @@
 
 using OptimaJet.Workflow.Core.Model;
 
-namespace OpenAuth.App.ViewModel
+namespace OpenAuth.App.Response
 {
     /// <summary>
     /// workflow命令

@@ -15,6 +15,7 @@
         public Response()
         {
             Code = 200;
+            Message = "操作成功";
         }
     }
 

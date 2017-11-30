@@ -2,7 +2,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 using Infrastructure;
-using LwSolution.App;
+using OpenAuth.App;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenAuth.App.ViewModel;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -99,10 +99,10 @@ namespace OpenAuth.App
         /// 得到部门的所有子部门
         /// <para>如果orgId为0，表示取得所有部门</para>
         /// </summary>
-        public GridData LoadAllChildren(string orgId)
+        public TableData LoadAllChildren(string orgId)
         {
             var query = GetSubOrgs(orgId);
-            return new GridData
+            return new TableData
             {
                 data = query.ToList(),
                 count = query.Count(),

@@ -2,8 +2,7 @@
 using Infrastructure;
 using OpenAuth.Repository.Domain;
 
-
-namespace OpenAuth.App.ViewModel
+namespace OpenAuth.App.Response
 {
     public  class UserView
     {

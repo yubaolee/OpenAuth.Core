@@ -7,39 +7,41 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class OrgManagerApp
+    public class OrgManagerApp : BaseApp<Org>
     {
-          public IUnitWork _unitWork { get; set; }
-
         /// <summary>
         /// 添加部门
         /// </summary>
         /// <param name="org">The org.</param>
         /// <returns>System.Int32.</returns>
         /// <exception cref="System.Exception">未能找到该组织的父节点信息</exception>
-        public string AddOrUpdate(Org org)
+        public string Add(Org org)
         {
             ChangeModuleCascade(org);
-            if (org.Id == string.Empty)
-            {
-                _unitWork.Add(org);
-            }
-            else
-            {
-                //获取旧的的CascadeId
-                var CascadeId = _unitWork.FindSingle<Org>(o => o.Id == org.Id).CascadeId;
-                //根据CascadeId查询子部门
-                var orgs = _unitWork.Find<Org>(u => u.CascadeId.Contains(CascadeId) && u.Id != org.Id).OrderBy(u => u.CascadeId).ToList();
 
-                //更新操作
-                _unitWork.Update(org);
+            Repository.Add(org);
 
-                //更新子部门的CascadeId
-                foreach (var a in orgs)
-                {
-                    ChangeModuleCascade(a);
-                    _unitWork.Update(a);
-                }
+            return org.Id;
+        }
+
+        public string Update(Org org)
+        {
+            ChangeModuleCascade(org);
+
+            //获取旧的的CascadeId
+            var cascadeId = Repository.FindSingle(o => o.Id == org.Id).CascadeId;
+            //根据CascadeId查询子部门
+            var orgs = Repository.Find(u => u.CascadeId.Contains(cascadeId) && u.Id != org.Id)
+            .OrderBy(u => u.CascadeId).ToList();
+
+            //更新操作
+            UnitWork.Update(org);
+
+            //更新子部门的CascadeId
+            foreach (var a in orgs)
+            {
+                ChangeModuleCascade(a);
+                UnitWork.Update(a);
             }
 
             return org.Id;
@@ -50,10 +52,10 @@ namespace OpenAuth.App
         /// </summary>
         public void DelOrg(string[] ids)
         {
-            var delOrg = _unitWork.Find<Org>(u => ids.Contains(u.Id)).ToList();
+            var delOrg = Repository.Find(u => ids.Contains(u.Id)).ToList();
             foreach (var org in delOrg)
             {
-                _unitWork.Delete<Org>(u => u.CascadeId.Contains(org.CascadeId));
+                Repository.Delete(u => u.CascadeId.Contains(org.CascadeId));
             }
         }
 
@@ -67,17 +69,17 @@ namespace OpenAuth.App
         {
             //用户角色
             var userRoleIds =
-                _unitWork.Find<Relevance>(u => u.FirstId == userId && u.Key == "UserRole").Select(u => u.SecondId).ToList();
+                UnitWork.Find<Relevance>(u => u.FirstId == userId && u.Key == "UserRole").Select(u => u.SecondId).ToList();
 
             //用户角色与自己分配到的角色ID
             var moduleIds =
-                _unitWork.Find<Relevance>(
+                UnitWork.Find<Relevance>(
                     u =>
                         (u.FirstId == userId && u.Key == "UserOrg") ||
                         (u.Key == "RoleOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
 
             if (!moduleIds.Any()) return new List<Org>();
-            return _unitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
+            return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
         }
 
         /// <summary>
@@ -87,11 +89,11 @@ namespace OpenAuth.App
         public List<Org> LoadForRole(string roleId)
         {
             var moduleIds =
-                _unitWork.Find<Relevance>(u => u.FirstId == roleId && u.Key == "RoleOrg")
+                UnitWork.Find<Relevance>(u => u.FirstId == roleId && u.Key == "RoleOrg")
                     .Select(u => u.SecondId)
                     .ToList();
             if (!moduleIds.Any()) return new List<Org>();
-            return _unitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
+            return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
         }
 
 
@@ -114,13 +116,13 @@ namespace OpenAuth.App
             string cascadeId = "0.";
             if (!string.IsNullOrEmpty(orgId))
             {
-                var org = _unitWork.FindSingle<Org>(u => u.Id == orgId);
+                var org = UnitWork.FindSingle<Org>(u => u.Id == orgId);
                 if (org == null)
                     throw new Exception("未能找到指定对象信息");
                 cascadeId = org.CascadeId;
             }
 
-            return _unitWork.Find<Org>(u => u.CascadeId.Contains(cascadeId));
+            return UnitWork.Find<Org>(u => u.CascadeId.Contains(cascadeId));
         }
 
         #region 私有方法
@@ -130,19 +132,19 @@ namespace OpenAuth.App
         {
             string cascadeId;
             int currentCascadeId = 1;  //当前结点的级联节点最后一位
-            var sameLevels = _unitWork.Find<Org>(o => o.ParentId == org.ParentId && o.Id != org.Id);
+            var sameLevels = UnitWork.Find<Org>(o => o.ParentId == org.ParentId && o.Id != org.Id);
             foreach (var obj in sameLevels)
             {
                 int objCascadeId = int.Parse(obj.CascadeId.TrimEnd('.').Split('.').Last());
                 if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
             }
 
-            if (org.ParentId != null && org.ParentId != string.Empty)
+            if (!string.IsNullOrEmpty(org.ParentId))
             {
-                var parentOrg = _unitWork.FindSingle<Org>(o => o.Id == org.ParentId);
+                var parentOrg = UnitWork.FindSingle<Org>(o => o.Id == org.ParentId);
                 if (parentOrg != null)
                 {
-                    cascadeId = parentOrg.CascadeId + currentCascadeId+".";
+                    cascadeId = parentOrg.CascadeId + currentCascadeId + ".";
                     org.ParentName = parentOrg.Name;
                 }
                 else
@@ -152,7 +154,7 @@ namespace OpenAuth.App
             }
             else
             {
-                cascadeId = ".0." + currentCascadeId+".";
+                cascadeId = ".0." + currentCascadeId + ".";
                 org.ParentName = "根节点";
             }
 

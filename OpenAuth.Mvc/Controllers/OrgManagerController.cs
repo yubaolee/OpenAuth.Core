@@ -40,11 +40,11 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加组织提交
         [HttpPost]
-        public string AddOrUpdate(Org org)
+        public string Add(Org org)
         {
             try
             {
-                OrgApp.AddOrUpdate(org);
+                OrgApp.Add(org);
             }
             catch (Exception ex)
             {
@@ -53,7 +53,23 @@ namespace OpenAuth.Mvc.Controllers
             }
             return JsonHelper.Instance.Serialize(Result);
         }
-        
+
+        //编辑
+        [HttpPost]
+        public string Update(Org org)
+        {
+            try
+            {
+                OrgApp.Update(org);
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
         public string LoadChildren(string id)
         {
             return JsonHelper.Instance.Serialize(OrgApp.LoadAllChildren(id));

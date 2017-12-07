@@ -146,7 +146,6 @@
     <Compile Include="Areas\FlowManage\Controllers\FormDesignController.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FlowDesignController.cs" />
     <Compile Include="Areas\FlowManage\FlowManageAreaRegistration.cs" />
-    <Compile Include="AutofacExt.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -373,7 +372,6 @@
     <Content Include="Views\Categories\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\FlowManage\Models\" />
     <Folder Include="Areas\FlowManage\Views\Shared\" />
     <Folder Include="Views\Base\" />

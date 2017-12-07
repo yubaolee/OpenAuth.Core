@@ -178,7 +178,6 @@
     <Compile Include="Areas\SSO\Controllers\LoginController.cs" />
     <Compile Include="Areas\SSO\Controllers\CheckController.cs" />
     <Compile Include="Areas\SSO\SSOAreaRegistration.cs" />
-    <Compile Include="AutofacExt.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

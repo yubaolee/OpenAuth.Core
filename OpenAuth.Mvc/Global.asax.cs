@@ -1,11 +1,10 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Infrastructure;
 using Newtonsoft.Json.Linq;
-using OpenAuth.Mvc.Controllers;
+using OpenAuth.App;
 using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc

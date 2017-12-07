@@ -12,15 +12,17 @@
 // <summary>IOC扩展</summary>
 // ***********************************************************************
 
+using System.Reflection;
+using System.Web.Http;
+using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
-using OpenAuth.App;
-using System.Reflection;
-using System.Web.Mvc;
+using Autofac.Integration.WebApi;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Interface;
+using IContainer = Autofac.IContainer;
 
-namespace OpenAuth.Mvc
+namespace OpenAuth.App
 {
     public static  class AutofacExt
     {
@@ -35,12 +37,15 @@ namespace OpenAuth.Mvc
             builder.RegisterType(typeof(UnitWork)).As(typeof(IUnitWork)).PropertiesAutowired();
 
             //注册app层
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (UserManagerApp))).PropertiesAutowired();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).PropertiesAutowired();
 
             // 注册controller，使用属性注入
-            builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired();
-            
-            builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
+            builder.RegisterControllers(Assembly.GetCallingAssembly()).PropertiesAutowired();
+
+            //注册所有的ApiControllers
+            builder.RegisterApiControllers(Assembly.GetCallingAssembly()).PropertiesAutowired();
+
+            builder.RegisterModelBinders(Assembly.GetCallingAssembly());
             builder.RegisterModelBinderProvider();
 
             // OPTIONAL: Register web abstractions like HttpContextBase.
@@ -54,7 +59,12 @@ namespace OpenAuth.Mvc
 
             // Set the dependency resolver to be Autofac.
             _container = builder.Build();
+
+            //Set the MVC DependencyResolver
             DependencyResolver.SetResolver(new AutofacDependencyResolver(_container));
+
+            //Set the WebApi DependencyResolver
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver((IContainer)_container);
         }
 
         /// <summary>

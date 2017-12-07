@@ -25,7 +25,7 @@ namespace OpenAuth.UnitTest
                 {
                     var random = new Random();
                     int val = random.Next();
-                    _app.AddOrUpdate(new Org
+                    _app.Add(new Org
                     {
                         Id = string.Empty,
                         Name = "test" + val,

@@ -37,7 +37,7 @@ layui.define(['jquery', 'layer'], function (exports) {
             layer.confirm('真的删除么', function (index) {
                 $.post(url, { ids: dataids },
                     function (data) {
-                        if (data.Status) {
+                        if (data.Code == 200) {
                             if (callback != undefined) callback();
                         } else {
                             layer.msg(data.Message);

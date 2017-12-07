@@ -165,26 +165,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BllScripts\assignModule.js" />
-    <Content Include="BllScripts\assignModuleElement.js" />
-    <Content Include="BllScripts\categoryManager.js" />
-    <Content Include="BllScripts\formDesign.js" />
-    <Content Include="BllScripts\login.js" />
     <Content Include="js\categories.js" />
     <Content Include="js\openauth.js" />
     <Content Include="js\droptree.js" />
-    <Content Include="BllScripts\processDetail.js" />
-    <Content Include="BllScripts\moduleElementMan.js" />
-    <Content Include="BllScripts\queryString.js" />
-    <Content Include="BllScripts\resourceManager.js" />
-    <Content Include="BllScripts\roleManager.js" />
-    <Content Include="BllScripts\flowInstance.js" />
-    <Content Include="BllScripts\flowDesign.js" />
-    <Content Include="BllScripts\stockManager.js" />
-    <Content Include="BllScripts\usermanager.js" />
-    <Content Include="BllScripts\assignRes.js" />
-    <Content Include="BllScripts\userRoleManager.js" />
-    <Content Include="BllScripts\clientData.js" />
     <Content Include="css\images.css" />
     <Content Include="css\login.css" />
     <Content Include="css\main.css" />

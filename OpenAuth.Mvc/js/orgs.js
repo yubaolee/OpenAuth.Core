@@ -75,9 +75,9 @@ layui.config({
                 },
                 end: mainList
             });
-            var url = "/OrgManager/AddOrUpdate";
+            var url = "/OrgManager/Add";
             if (update) {
-                url = "/OrgManager/AddOrUpdate"; //暂时和添加一个地址
+                url = "/OrgManager/Update"; //暂时和添加一个地址
             }
             //提交数据
             form.on('submit(formSubmit)',
@@ -95,7 +95,8 @@ layui.config({
             add: function() { //弹出添加
                 update = false;
                 show({
-                    Id: ''
+                    Id: '',
+                    SortNo:1
                 });
             },
             update: function(data) { //弹出编辑框

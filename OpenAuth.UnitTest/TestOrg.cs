@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
 using OpenAuth.Repository.Domain;
@@ -13,6 +15,13 @@ namespace OpenAuth.UnitTest
         public TestOrg()
         {
             _app = AutofacExt.GetFromFac<OrgManagerApp>();
+        }
+
+        [TestMethod]
+        public void LoadChildren()
+        {
+            var data= _app.LoadAllChildren("fb086c51-4b41-4aa7-b54f-fb79632aaaf9");
+            Debug.WriteLine(JsonHelper.Instance.Serialize(data));
         }
 
 

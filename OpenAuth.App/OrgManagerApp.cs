@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
-using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -99,68 +98,25 @@ namespace OpenAuth.App
 
         /// <summary>
         /// 得到部门的所有子部门
-        /// <para>如果orgId为0，表示取得所有部门</para>
+        /// <para>如果orgId为空，表示取得所有部门</para>
         /// </summary>
         public TableData LoadAllChildren(string orgId)
         {
-            var query = GetSubOrgs(orgId);
+            string cascadeId = ".0.";
+            if (!string.IsNullOrEmpty(orgId))
+            {
+                var org = Repository.FindSingle(u => u.Id == orgId);
+                if (org == null)
+                    throw new Exception("未能找到指定对象信息");
+                cascadeId = org.CascadeId;
+            }
+
+            var query = Repository.Find(u => u.CascadeId.Contains(cascadeId));
             return new TableData
             {
                 data = query.ToList(),
                 count = query.Count(),
             };
         }
-
-        public IEnumerable<Org> GetSubOrgs(string orgId)
-        {
-            string cascadeId = "0.";
-            if (!string.IsNullOrEmpty(orgId))
-            {
-                var org = UnitWork.FindSingle<Org>(u => u.Id == orgId);
-                if (org == null)
-                    throw new Exception("未能找到指定对象信息");
-                cascadeId = org.CascadeId;
-            }
-
-            return UnitWork.Find<Org>(u => u.CascadeId.Contains(cascadeId));
-        }
-
-        #region 私有方法
-
-        //修改对象的级联ID，生成类似XXX.XXX.X.XX
-        private void ChangeModuleCascade(Org org)
-        {
-            string cascadeId;
-            int currentCascadeId = 1;  //当前结点的级联节点最后一位
-            var sameLevels = UnitWork.Find<Org>(o => o.ParentId == org.ParentId && o.Id != org.Id);
-            foreach (var obj in sameLevels)
-            {
-                int objCascadeId = int.Parse(obj.CascadeId.TrimEnd('.').Split('.').Last());
-                if (currentCascadeId <= objCascadeId) currentCascadeId = objCascadeId + 1;
-            }
-
-            if (!string.IsNullOrEmpty(org.ParentId))
-            {
-                var parentOrg = UnitWork.FindSingle<Org>(o => o.Id == org.ParentId);
-                if (parentOrg != null)
-                {
-                    cascadeId = parentOrg.CascadeId + currentCascadeId + ".";
-                    org.ParentName = parentOrg.Name;
-                }
-                else
-                {
-                    throw new Exception("未能找到该组织的父节点信息");
-                }
-            }
-            else
-            {
-                cascadeId = ".0." + currentCascadeId + ".";
-                org.ParentName = "根节点";
-            }
-
-            org.CascadeId = cascadeId;
-        }
-
-        #endregion 私有方法
     }
 }

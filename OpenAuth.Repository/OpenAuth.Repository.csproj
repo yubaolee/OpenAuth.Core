@@ -55,10 +55,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\TreeEntity.cs" />
     <Compile Include="Domain\Application.cs" />
     <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\CategoryType.cs" />
-    <Compile Include="Domain\Entity.cs" />
+    <Compile Include="Core\Entity.cs" />
     <Compile Include="Domain\Module.cs" />
     <Compile Include="Domain\ModuleElement.cs" />
     <Compile Include="Domain\Org.cs" />

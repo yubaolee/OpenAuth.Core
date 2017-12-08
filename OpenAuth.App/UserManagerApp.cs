@@ -12,12 +12,10 @@ namespace OpenAuth.App
     {
         public RevelanceManagerApp ReleManagerApp { get; set; }
 
-
         public User Get(string  account)
         {
             return Repository.FindSingle(u => u.Account == account);
         }
-
 
         /// <summary>
         /// 加载一个部门及子部门全部用户
@@ -84,11 +82,6 @@ namespace OpenAuth.App
             view.OrganizationIds = view.OrganizationIds.TrimStart(',');
             view.Organizations = view.Organizations.TrimStart(',');
             return view;
-        }
-
-        public void Delete(string[] ids)
-        {
-           Repository.Delete(u => ids.Contains(u.Id));
         }
 
         public void AddOrUpdate(UserView view)

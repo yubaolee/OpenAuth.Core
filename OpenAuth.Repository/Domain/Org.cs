@@ -10,51 +10,43 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 组织表
 	/// </summary>
-    public partial class Org : Entity
+    public partial class Org : TreeEntity
     {
         public Org()
         {
-          this.CascadeId= string.Empty;
-          this.Name= string.Empty;
-          this.HotKey= string.Empty;
-          this.ParentName= string.Empty;
-          this.IconName= string.Empty;
-          this.Status= 0;
-          this.BizCode= string.Empty;
-          this.CustomCode= string.Empty;
-          this.CreateTime= DateTime.Now;
-          this.CreateId= 0;
-          this.SortNo= 0;
-          this.ParentId= string.Empty;
-          this.TypeName= string.Empty;
-          this.TypeId= string.Empty;
+            this.CascadeId = string.Empty;
+            this.Name = string.Empty;
+            this.HotKey = string.Empty;
+            this.ParentName = string.Empty;
+            this.IconName = string.Empty;
+            this.Status = 0;
+            this.BizCode = string.Empty;
+            this.CustomCode = string.Empty;
+            this.CreateTime = DateTime.Now;
+            this.CreateId = 0;
+            this.SortNo = 0;
+            this.ParentId = string.Empty;
+            this.TypeName = string.Empty;
+            this.TypeId = string.Empty;
         }
 
-        /// <summary>
-	    /// 节点语义ID
-	    /// </summary>
-        public string CascadeId { get; set; }
-        /// <summary>
-	    /// 组织名称
-	    /// </summary>
-        public string Name { get; set; }
+
+
         /// <summary>
 	    /// 热键
 	    /// </summary>
         public string HotKey { get; set; }
+
         /// <summary>
-	    /// 父节点名称
-	    /// </summary>
-        public string ParentName { get; set; }
-        /// <summary>
-	    /// 是否叶子节点
-	    /// </summary>
+        /// 是否叶子节点
+        /// </summary>
         public bool IsLeaf { get; set; }
         /// <summary>
 	    /// 是否自动展开
@@ -88,13 +80,10 @@ namespace OpenAuth.Repository.Domain
 	    /// 排序号
 	    /// </summary>
         public int SortNo { get; set; }
+
         /// <summary>
-	    /// 父节点流水号
-	    /// </summary>
-        public string ParentId { get; set; }
-        /// <summary>
-	    /// 分类名称
-	    /// </summary>
+        /// 分类名称
+        /// </summary>
         public string TypeName { get; set; }
         /// <summary>
 	    /// 分类ID

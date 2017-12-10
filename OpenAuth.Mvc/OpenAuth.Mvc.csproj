@@ -357,7 +357,6 @@
   <ItemGroup>
     <Folder Include="Areas\FlowManage\Models\" />
     <Folder Include="Areas\FlowManage\Views\Shared\" />
-    <Folder Include="Views\Base\" />
     <Folder Include="Views\UserSession\" />
   </ItemGroup>
   <ItemGroup>

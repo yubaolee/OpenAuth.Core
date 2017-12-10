@@ -26,8 +26,8 @@ namespace OpenAuth.App
             int records = 0;
             if (string.IsNullOrEmpty(request.orgId))
             {
-                users = UnitWork.Find<User>(null).OrderBy(u => u.Id).Skip((request.page - 1) * request.limit).Take(request.limit);
-                records = UnitWork.GetCount<User>();
+                users = Repository.Find(null).OrderBy(u => u.Id).Skip((request.page - 1) * request.limit).Take(request.limit);
+                records = Repository.GetCount();
             }
             else
             {
@@ -37,7 +37,7 @@ namespace OpenAuth.App
                     .OrderBy(u => u.Name)
                     .Skip((request.page - 1) * request.limit)
                     .Take(request.limit);
-                records = UnitWork.GetCount<User>();
+                records = Repository.GetCount(u => userIds.Contains(u.Id));
             }
 
             var userviews = new List<UserView>();

@@ -35,7 +35,7 @@ layui.config({
                     enable: true,
                     idKey: 'Id',
                     pIdKey: 'ParentId',
-                    rootPId: 'null'
+                    rootPId: ""
                 }
             },
             callback: {
@@ -46,8 +46,11 @@ layui.config({
         };
         var load = function () {
             $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
-                mainList({ orgId: json[0].Id });
+                zTreeObj = $.fn.zTree.init($("#tree"), setting);
+                var newNode = { Name: "根节点", Id: null,ParentId:"" };
+                 json.push(newNode);
+                zTreeObj.addNodes(null, json);
+                mainList({ orgId: "" });
                 zTreeObj.expandAll(true);
             });
         };

@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.Repository.Domain;
-using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class RevelanceManagerApp
+    public class RevelanceManagerApp  :BaseApp<Relevance>
     {
-
-          public IUnitWork _unitWork { get; set; }
 
         /// <summary>
         /// 添加关联
@@ -24,7 +21,7 @@ namespace OpenAuth.App
         public void Assign(string key, ILookup<string, string> idMaps)
         {
             DeleteBy(key, idMaps);
-            _unitWork.BatchAdd((from sameVals in idMaps
+            UnitWork.BatchAdd((from sameVals in idMaps
                 from value in sameVals
                 select new Relevance
                 {
@@ -33,7 +30,7 @@ namespace OpenAuth.App
                     SecondId = value,
                     OperateTime = DateTime.Now
                 }).ToArray());
-            _unitWork.Save();
+            UnitWork.Save();
         }
 
       
@@ -49,7 +46,7 @@ namespace OpenAuth.App
             {
                 foreach (var value in sameVals)
                 {
-                    _unitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
+                    Repository.Delete(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
                 }
             }
         }
@@ -67,7 +64,7 @@ namespace OpenAuth.App
 
         public void DeleteBy(string key, params string[] firstIds)
         {
-            _unitWork.Delete<Relevance>(u => firstIds.Contains(u.FirstId) && u.Key == key);
+            Repository.Delete(u => firstIds.Contains(u.FirstId) && u.Key == key);
         }
 
         /// <summary>
@@ -78,7 +75,7 @@ namespace OpenAuth.App
         public void AddRelevance(string key, ILookup<string, string> idMaps)
         {
             DeleteBy(key, idMaps);
-            _unitWork.BatchAdd<Relevance>((from sameVals in idMaps
+            UnitWork.BatchAdd<Relevance>((from sameVals in idMaps
                 from value in sameVals
                 select new Relevance
                 {
@@ -87,7 +84,7 @@ namespace OpenAuth.App
                     SecondId = value,
                     OperateTime = DateTime.Now
                 }).ToArray());
-            _unitWork.Save();
+            UnitWork.Save();
         }
 
         /// <summary>
@@ -101,12 +98,12 @@ namespace OpenAuth.App
         {
             if (returnSecondIds)
             {
-                return _unitWork.Find<Relevance>(u => u.Key == key
+                return Repository.Find(u => u.Key == key
                                                       && ids.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
             }
             else
             {
-                return _unitWork.Find<Relevance>(u => u.Key == key
+                return Repository.Find(u => u.Key == key
                      && ids.Contains(u.SecondId)).Select(u => u.FirstId).ToList();
             }
         }

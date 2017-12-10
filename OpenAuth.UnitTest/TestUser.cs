@@ -48,7 +48,7 @@ namespace OpenAuth.UnitTest
         {
             var request = new QueryUserListReq
             {
-               orgId = "543a9fcf-4770-4fd9-865f-030e562be238",
+               orgId = "",
                page = 1,
                limit = 30
             };

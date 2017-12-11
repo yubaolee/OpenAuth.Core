@@ -342,10 +342,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\ResourceManager\Index.cshtml" />
-    <Content Include="Views\RoleManager\LookupMulti.cshtml" />
-    <Content Include="Views\ResourceManager\AssignRes.cshtml" />
-    <Content Include="Views\StockManager\Index.cshtml" />
     <Content Include="Areas\FlowManage\Views\FlowInstances\Index.cshtml" />
     <Content Include="Views\Shared\_FlowForm.cshtml" />
     <Content Include="Views\Shared\_Form.cshtml" />
@@ -357,7 +353,6 @@
   <ItemGroup>
     <Folder Include="Areas\FlowManage\Models\" />
     <Folder Include="Areas\FlowManage\Views\Shared\" />
-    <Folder Include="Views\UserSession\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -386,11 +381,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ModuleManager\Index.cshtml" />
-    <Content Include="Views\ModuleManager\Assign.cshtml" />
     <Content Include="Views\ModuleElementManager\Index.cshtml" />
     <Content Include="Views\ModuleElementManager\AssignModuleElement.cshtml" />
     <Content Include="Views\UserManager\Index.cshtml" />
-    <Content Include="Views\RoleManager\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

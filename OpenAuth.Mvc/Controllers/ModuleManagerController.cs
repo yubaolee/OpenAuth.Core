@@ -129,11 +129,27 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改模块
         [HttpPost]
-        public string AddOrUpdate(Module model)
+        public string Add(Module model)
         {
             try
             {
-                App.AddOrUpdate(model);
+                App.Add(model);
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
+        //添加或修改模块
+        [HttpPost]
+        public string Update(Module model)
+        {
+            try
+            {
+                App.Update(model);
             }
             catch (Exception ex)
             {
@@ -148,10 +164,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                foreach (var obj in ids)
-                {
-                    App.Delete(obj);
-                }
+                App.Delete(ids);
             }
             catch (Exception e)
             {
@@ -163,5 +176,24 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         #endregion 添加编辑模块
+
+        /// <summary>
+        /// 加载模块的菜单
+        /// </summary>
+        /// <param name="moduleId">The module identifier.</param>
+        /// <returns>System.String.</returns>
+        public string LoadMenus(string moduleId)
+        {
+            var user = AuthUtil.GetCurrentUser();
+
+            var module = user.Modules.Single(u => u.Id == moduleId);
+             
+            var data = new TableData
+            {
+                data = module.Elements,
+                count = module.Elements.Count(),
+            };
+            return JsonHelper.Instance.Serialize(data);
+        }
     }
 }

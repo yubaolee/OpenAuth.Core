@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
 using OpenAuth.Repository.Domain;
-using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class ModuleManagerApp
+    public class ModuleManagerApp :BaseApp<Module>
     {
-          public IUnitWork _unitWork { get; set; }
-
-        public void Delete(string id)
+        public void Add(Module model)
         {
-          //  _unitWork.Delete<Module>(id);
+            ChangeModuleCascade(model);
+            Repository.Add(model);
         }
 
-        public void AddOrUpdate(Module vm)
+        public void Update(Module model)
         {
-         //  _moduleManService.AddOrUpdate(vm);
+            ChangeModuleCascade(model);
+            Repository.Update(u =>u.Id, model);
         }
 
         #region 用户/角色分配模块
@@ -40,6 +39,5 @@ namespace OpenAuth.App
         }
 
         #endregion 用户/角色分配模块
-
     }
 }

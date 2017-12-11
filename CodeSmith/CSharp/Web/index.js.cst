@@ -59,8 +59,11 @@ layui.config({
         };
         var load = function () {
             $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
-                mainList({ orgId: json[0].Id });
+                zTreeObj = $.fn.zTree.init($("#tree"), setting);
+                var newNode = { Name: "根节点", Id: null, ParentId: "" };
+                json.push(newNode);
+                zTreeObj.addNodes(null, json);
+                mainList({ orgId: "" });
                 zTreeObj.expandAll(true);
             });
         };
@@ -90,7 +93,7 @@ layui.config({
             });
             var url = "/<%=ModuleName%>Manager/Add";
             if (update) {
-                url = "/<%=ModuleName%>Manager/Update"; //暂时和添加一个地址
+                url = "/<%=ModuleName%>Manager/Update"; 
             }
             //提交数据
             form.on('submit(formSubmit)',

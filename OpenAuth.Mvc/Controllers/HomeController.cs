@@ -35,7 +35,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 sb.Append("<button "
                           + " data-type='" + element.DomId + "' "
-                          + " class='layui-btn " + element.Class + "' "
+                          + " class='layui-btn layui-btn-small " + element.Class + "' "
                           + element.Attr
                           + ">");
                 if (!string.IsNullOrEmpty(element.Icon))

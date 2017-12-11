@@ -10,36 +10,25 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
     /// <summary>
 	/// 功能模块表
 	/// </summary>
-    public partial class Module : Entity
+    public partial class Module : TreeEntity
     {
         public Module()
         {
-          this.CascadeId= string.Empty;
-          this.Name= string.Empty;
           this.Url= string.Empty;
           this.HotKey= string.Empty;
           this.IconName= string.Empty;
           this.Status= 0;
-          this.ParentName= string.Empty;
           this.Vector= string.Empty;
           this.SortNo= 0;
-          this.ParentId= string.Empty;
         }
 
-        /// <summary>
-	    /// 节点语义ID
-	    /// </summary>
-        public string CascadeId { get; set; }
-        /// <summary>
-	    /// 功能模块名称
-	    /// </summary>
-        public string Name { get; set; }
         /// <summary>
 	    /// 主页面URL
 	    /// </summary>
@@ -64,10 +53,7 @@ namespace OpenAuth.Repository.Domain
 	    /// 当前状态
 	    /// </summary>
         public int Status { get; set; }
-        /// <summary>
-	    /// 父节点名称
-	    /// </summary>
-        public string ParentName { get; set; }
+
         /// <summary>
 	    /// 矢量图标
 	    /// </summary>
@@ -76,10 +62,6 @@ namespace OpenAuth.Repository.Domain
 	    /// 排序号
 	    /// </summary>
         public int SortNo { get; set; }
-        /// <summary>
-	    /// 父节点流水号
-	    /// </summary>
-        public string ParentId { get; set; }
 
     }
 }

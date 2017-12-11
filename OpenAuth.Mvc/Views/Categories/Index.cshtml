@@ -3,24 +3,14 @@
     <link rel="stylesheet" href="/css/treetable.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList">
-    <div class="layui-inline">
-        <div class="layui-input-inline">
-            <input class="layui-input" placeholder="请输入关键字"
-                   name="key" id="key" autocomplete="off">
-        </div>
-        <button class="layui-btn" data-type="search">搜索</button>
-    </div>
-    <button class="layui-btn " data-type="refresh">刷新</button>
-    <button class="layui-btn " data-type="btnAdd">添加</button>
-    <button class="layui-btn " data-type="btnEdit">编辑</button>
-    <button class="layui-btn layui-btn-danger" data-type="btnDel">批量删除</button>
+    @Html.Action("MenuHeader", "Home")
 </blockquote>
 
 <div style="display: flex;">
     <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
     <table class="layui-table"
            lay-data="{height: 'full-80', page:true, id:'mainList'}"
-           lay-filter="list">
+           lay-filter="list" lay-size="sm">
         <thead>
             <tr>
                 <th lay-data="{checkbox:true, fixed: true}"></th>

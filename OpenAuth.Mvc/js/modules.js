@@ -20,6 +20,19 @@ layui.config({
             where: config
         });
     }
+
+    //菜单列表
+    var menucon = {};  //table的参数，如搜索key，点击tree的id
+    var menuList = function (options) {
+        if (options != undefined) {
+            $.extend(menucon, options);
+        }
+        table.reload('menuList', {
+            url: '/ModuleManager/LoadMenus',
+            where: menucon
+        });
+    }
+
     //左边树状机构列表
     var ztree = function () {
         var url = '/ModuleManager/LoadModule';
@@ -46,7 +59,10 @@ layui.config({
         };
         var load = function () {
             $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#tree"), setting, json);
+                zTreeObj = $.fn.zTree.init($("#tree"), setting);
+                var newNode = { Name: "根节点", Id: null, ParentId: "" };
+                json.push(newNode);
+                zTreeObj.addNodes(null, json);
                 mainList({ pId: "" });
                 zTreeObj.expandAll(true);
             });
@@ -75,9 +91,9 @@ layui.config({
                 },
                 end: mainList
             });
-            var url = "/moduleManager/AddOrUpdate";
+            var url = "/moduleManager/Add";
             if (update) {
-                url = "/moduleManager/AddOrUpdate"; //暂时和添加一个地址
+                url = "/moduleManager/Update"; 
             }
             //提交数据
             form.on('submit(formSubmit)',
@@ -95,7 +111,8 @@ layui.config({
             add: function() { //弹出添加
                 update = false;
                 show({
-                    Id: ''
+                    Id: "",
+                    SortNo:1
                 });
             },
             update: function(data) { //弹出编辑框
@@ -109,7 +126,8 @@ layui.config({
     table.on('tool(list)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {      //查看
-            layer.msg('ID：' + data.Id + ' 的查看操作');
+            //layer.msg('ID：' + data.Id + ' 的查看操作');
+            menuList({moduleId:data.Id});
         } 
     });
 

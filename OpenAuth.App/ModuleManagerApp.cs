@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App
@@ -39,5 +40,25 @@ namespace OpenAuth.App
         }
 
         #endregion 用户/角色分配模块
+
+
+        #region 菜单操作
+        /// <summary>
+        /// 删除指定的菜单
+        /// </summary>
+        /// <param name="ids"></param>
+        public void DelMenu(string[] ids)
+        {
+            UnitWork.Delete<ModuleElement>(u => ids.Contains(u.Id));
+        }
+
+        public void AddMenu(ModuleElement model)
+        {
+            UnitWork.Add(model);
+        }
+        #endregion
+
+
+
     }
 }

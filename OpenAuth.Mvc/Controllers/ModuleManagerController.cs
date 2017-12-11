@@ -119,16 +119,11 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string LoadModule()
-        {
-            var orgs = AuthUtil.GetCurrentUser().Modules.MapToList<ModuleView>();
-            return JsonHelper.Instance.Serialize(orgs);
-        }
-
         #region 添加编辑模块
 
-        //添加或修改模块
+        //添加模块
         [HttpPost]
+        [ValidateInput(false)]
         public string Add(Module model)
         {
             try
@@ -143,8 +138,9 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
 
-        //添加或修改模块
+        //修改模块
         [HttpPost]
+        [ValidateInput(false)]
         public string Update(Module model)
         {
             try
@@ -178,7 +174,7 @@ namespace OpenAuth.Mvc.Controllers
         #endregion 添加编辑模块
 
         /// <summary>
-        /// 加载模块的菜单
+        /// 加载当前用户可访问模块的菜单
         /// </summary>
         /// <param name="moduleId">The module identifier.</param>
         /// <returns>System.String.</returns>
@@ -194,6 +190,42 @@ namespace OpenAuth.Mvc.Controllers
                 count = module.Elements.Count(),
             };
             return JsonHelper.Instance.Serialize(data);
+        }
+
+        //添加菜单
+        [HttpPost]
+        [ValidateInput(false)]
+        public string AddMenu(ModuleElement model)
+        {
+            try
+            {
+                App.AddMenu(model);
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
+        /// <summary>
+        /// 删除菜单
+        /// </summary>
+        [HttpPost]
+        public string DelMenu(params string[] ids)
+        {
+            try
+            {
+                App.DelMenu(ids);
+            }
+            catch (Exception e)
+            {
+                Result.Code = 500;
+                Result.Message = e.Message;
+            }
+
+            return JsonHelper.Instance.Serialize(Result);
         }
     }
 }

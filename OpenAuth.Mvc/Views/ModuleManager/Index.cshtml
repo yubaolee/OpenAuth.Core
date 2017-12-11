@@ -9,7 +9,7 @@
 <div style="display: flex;">
     <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
     <table class="layui-table"
-           lay-data="{height: 'full-80', page:true, id:'mainList'}"
+           lay-data="{height: 'full-80', id:'mainList'}"
            lay-filter="list" lay-size="sm">
         <thead>
         <tr>
@@ -46,7 +46,7 @@
             <th lay-data="{field:'Name', width:120, sort: true, fixed: true}">名称</th>
             <th lay-data="{field:'DomId', width:80}">DomId</th>
             <th lay-data="{field:'Class', width:80}">样式</th>
-            <th lay-data="{field:'IconName', width:60,templet: '#iconTpl'}">图标</th>
+            <th lay-data="{field:'Icon', width:60,templet: '#miconTpl'}">图标</th>
             <th lay-data="{field:'SortNo', width:80}">排序号</th>
             <th lay-data="{fixed: 'right', width:80, align:'center', toolbar: '#menuBar'}"></th>
         </tr>
@@ -56,11 +56,18 @@
     <script type="text/html" id="menuBar">
         <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="del">删除</a>
     </script>
+    <script type="text/html" id="miconTpl">
+        {{#  if( d.Icon != null && d.Icon != ''){ }}
+        <i class="layui-icon">{{ d.Icon }}</i>
+        {{#  } else { }}
+        {{ d.Icon }}
+        {{#  } }}
+    </script>
 </div>
 
 
 
-<!--用户添加/编辑窗口-->
+<!--模块添加/编辑窗口-->
 <div id="divEdit" style="display: none">
     <form class="layui-form" action="" id="formEdit">
 
@@ -110,6 +117,52 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--添加菜单窗口-->
+<div id="divMenuEdit" style="display: none">
+    <form class="layui-form" action="" id="mfromEdit">
+
+        <input type="hidden" name="Id" v-model="Id" />
+        <input type="hidden" name="ModuleId" v-model="ModuleId" />  
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                       placeholder="请输入名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">DomId</label>
+            <div class="layui-input-block">
+                <input type="text" name="DomId" v-model="DomId" required lay-verify="required"
+                       placeholder="请输入DomId" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图标</label>
+            <div class="layui-input-block">
+                <input type="text" name="Icon" v-model="Icon"
+                       placeholder="请选择图标" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序号</label>
+            <div class="layui-input-block">
+                <input type="text" name="SortNo" v-model="SortNo" required lay-verify="required"
+                       placeholder="请输入排序号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="mformSubmit">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>

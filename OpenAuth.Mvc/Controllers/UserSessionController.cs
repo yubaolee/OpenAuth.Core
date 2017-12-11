@@ -21,6 +21,11 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(moduleTree);
         }
 
+        /// <summary>
+        /// datatable结构的模块列表
+        /// </summary>
+        /// <param name="pId"></param>
+        /// <returns></returns>
         public string GetModules(string pId)
         {
             var query = user.Modules;
@@ -34,6 +39,15 @@ namespace OpenAuth.Mvc.Controllers
                 count = query.Count(),
             };
             return JsonHelper.Instance.Serialize(data);
+        }
+
+        /// <summary>
+        /// 普通的List
+        /// </summary>
+        public string QueryModuleList()
+        {
+            var orgs = user.Modules.MapToList<ModuleView>();
+            return JsonHelper.Instance.Serialize(orgs);
         }
 
         /// <summary>

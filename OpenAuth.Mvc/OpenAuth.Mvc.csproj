@@ -381,8 +381,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ModuleManager\Index.cshtml" />
-    <Content Include="Views\ModuleElementManager\Index.cshtml" />
-    <Content Include="Views\ModuleElementManager\AssignModuleElement.cshtml" />
     <Content Include="Views\UserManager\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>

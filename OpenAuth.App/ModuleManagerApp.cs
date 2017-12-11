@@ -55,6 +55,7 @@ namespace OpenAuth.App
         public void AddMenu(ModuleElement model)
         {
             UnitWork.Add(model);
+            UnitWork.Save();
         }
         #endregion
 

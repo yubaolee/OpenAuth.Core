@@ -210,7 +210,7 @@ layui.config({
                 layer.msg("请选择一个要添加菜单的模块");
                 return;
             }
-            meditDlg.add(data[0]);
+            meditDlg.add(data[0].Id);
         }
          , btnEdit: function () {  //编辑
              var checkStatus = table.checkStatus('mainList')

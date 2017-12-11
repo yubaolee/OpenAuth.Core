@@ -10,7 +10,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 分类管理
     /// </summary>
-    public class CategoryApp :BaseApp<Category>
+    public class CategoryApp:BaseApp<Category>
     {
 
         public IEnumerable<Category> Get(string type)
@@ -33,7 +33,6 @@ namespace OpenAuth.App
             UnitWork.Update<Category>(u =>u.Id,category);
             UnitWork.Save();
         }
-
 
         public void Delete(string[] ids)
         {
@@ -78,7 +77,6 @@ namespace OpenAuth.App
         public List<CategoryType> AllTypes()
         {
             return UnitWork.Find<CategoryType>(null).ToList();
-            
         }
     }
 }

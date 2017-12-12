@@ -15,7 +15,7 @@ namespace OpenAuth.App
 
         public IEnumerable<Category> Get(string type)
         {
-            return UnitWork.Find<Category>(u => u.TypeId == type);
+            return Repository.Find(u => u.TypeId == type);
         }
 
         public void Add(Category category)
@@ -24,19 +24,12 @@ namespace OpenAuth.App
             {
                 category.Id = Guid.NewGuid().ToString();
             }
-            UnitWork.Add(category);
-            UnitWork.Save();
+            Repository.Add(category);
         }
 
         public void Update(Category category)
         {
-            UnitWork.Update<Category>(u =>u.Id,category);
-            UnitWork.Save();
-        }
-
-        public void Delete(string[] ids)
-        {
-            UnitWork.Delete<Category>(u => ids.Contains(u.Id));
+            Repository.Update(u =>u.Id,category);
         }
 
 

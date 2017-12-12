@@ -11,11 +11,9 @@
 
 using System;
 using System.Web.Http;
-using Infrastructure;
 using Infrastructure.Cache;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
-using System.Web.Mvc;
 using OpenAuth.App.Response;
 
 namespace OpenAuth.WebApi.Areas.SSO.Controllers

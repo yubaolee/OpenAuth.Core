@@ -70,17 +70,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
 
-        /// <summary>
-        /// 加载机构的全部下级机构
-        /// </summary>
-        /// <param name="orgId">机构ID</param>
-        /// <returns></returns>
-        public string LoadChildren(string orgId)
-        {
-            return JsonHelper.Instance.Serialize(OrgApp.LoadAllChildren(orgId));
-        }
-
-        /// <summary>
+       /// <summary>
         /// 删除指定ID的组织
         /// <para>Id为逗号分开的字符串</para>
         /// </summary>

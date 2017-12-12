@@ -16,7 +16,7 @@ layui.config({
             $.extend(config, options);
         }
         table.reload('mainList', {
-            url: '/OrgManager/LoadChildren',
+            url: '/UserSession/GetSubOrgs',
             where: config
         });
     }

@@ -17,13 +17,6 @@ namespace OpenAuth.UnitTest
             _app = AutofacExt.GetFromFac<OrgManagerApp>();
         }
 
-        [TestMethod]
-        public void LoadChildren()
-        {
-            var data= _app.LoadAllChildren("fb086c51-4b41-4aa7-b54f-fb79632aaaf9");
-            Debug.WriteLine(JsonHelper.Instance.Serialize(data));
-        }
-
 
         [TestMethod]
         public void Add()

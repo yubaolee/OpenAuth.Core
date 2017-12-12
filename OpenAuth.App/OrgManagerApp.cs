@@ -95,28 +95,5 @@ namespace OpenAuth.App
             return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
         }
 
-
-        /// <summary>
-        /// 得到部门的所有子部门
-        /// <para>如果orgId为空，表示取得所有部门</para>
-        /// </summary>
-        public TableData LoadAllChildren(string orgId)
-        {
-            string cascadeId = ".0.";
-            if (!string.IsNullOrEmpty(orgId))
-            {
-                var org = Repository.FindSingle(u => u.Id == orgId);
-                if (org == null)
-                    throw new Exception("未能找到指定对象信息");
-                cascadeId = org.CascadeId;
-            }
-
-            var query = Repository.Find(u => u.CascadeId.Contains(cascadeId));
-            return new TableData
-            {
-                data = query.ToList(),
-                count = query.Count(),
-            };
-        }
     }
 }

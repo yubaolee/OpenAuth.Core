@@ -106,6 +106,7 @@
     <Compile Include="BaseApp.cs" />
     <Compile Include="AuthorizeApp.cs" />
     <Compile Include="CategoryApp.cs" />
+    <Compile Include="Define.cs" />
     <Compile Include="Extention\IWF_Runtime.cs" />
     <Compile Include="Extention\WF_Runtime.cs" />
     <Compile Include="Extention\WF_RuntimeInitModel.cs" />

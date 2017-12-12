@@ -74,8 +74,8 @@ namespace OpenAuth.App
             var moduleIds =
                 UnitWork.Find<Relevance>(
                     u =>
-                        (u.FirstId == userId && u.Key == "UserOrg") ||
-                        (u.Key == "RoleOrg" && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                        (u.FirstId == userId && u.Key == Define.USERORG) ||
+                        (u.Key == Define.ROLEORG && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
 
             if (!moduleIds.Any()) return new List<Org>();
             return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
@@ -88,7 +88,7 @@ namespace OpenAuth.App
         public List<Org> LoadForRole(string roleId)
         {
             var moduleIds =
-                UnitWork.Find<Relevance>(u => u.FirstId == roleId && u.Key == "RoleOrg")
+                UnitWork.Find<Relevance>(u => u.FirstId == roleId && u.Key == Define.ROLEORG)
                     .Select(u => u.SecondId)
                     .ToList();
             if (!moduleIds.Any()) return new List<Org>();

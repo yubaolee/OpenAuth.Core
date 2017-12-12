@@ -80,8 +80,8 @@ namespace OpenAuth.App
         {
             var orgids = UnitWork.Find<Relevance>(
                 u =>
-                    (u.FirstId == _user.Id && u.Key == "UserOrg") ||
-                    (u.Key == "RoleOrg" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                    (u.FirstId == _user.Id && u.Key == Define.USERORG) ||
+                    (u.Key == Define.ROLEORG && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
             return UnitWork.Find<Org>(u => orgids.Contains(u.Id));
         }
 
@@ -93,8 +93,8 @@ namespace OpenAuth.App
         {
             var resourceIds = UnitWork.Find<Relevance>(
                 u =>
-                    (u.FirstId == _user.Id && u.Key == "UserResource") ||
-                    (u.Key == "RoleResource" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                    (u.FirstId == _user.Id && u.Key == Define.USERRESOURCE) ||
+                    (u.Key == Define.ROLERESOURCE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
             return UnitWork.Find<Resource>(u => resourceIds.Contains(u.Id));
         }
 
@@ -105,8 +105,8 @@ namespace OpenAuth.App
         {
             var elementIds = UnitWork.Find<Relevance>(
                 u =>
-                    (u.FirstId == _user.Id && u.Key == "UserElement") ||
-                    (u.Key == "RoleElement" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                    (u.FirstId == _user.Id && u.Key == Define.ROLERESOURCE) ||
+                    (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
             return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
         }
 
@@ -117,8 +117,8 @@ namespace OpenAuth.App
         {
             var moduleIds = UnitWork.Find<Relevance>(
                 u =>
-                    (u.FirstId == _user.Id && u.Key == "UserModule") ||
-                    (u.Key == "RoleModule" && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                    (u.FirstId == _user.Id && u.Key == Define.USERMODULE) ||
+                    (u.Key == Define.ROLEMODULE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
             return UnitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo);
         }
 

@@ -12,7 +12,7 @@ namespace OpenAuth.App
         /// 添加关联
         /// <para>比如给用户分配资源，那么firstId就是用户ID，secIds就是资源ID列表</para>
         /// </summary>
-        /// <param name="type">关联的类型，如"UserResource"</param>
+        /// <param name="type">关联的类型，如Define.USERRESOURCE</param>
         public void Assign(string type, string firstId, string[] secIds)
         {
             Assign(type, secIds.ToLookup(u => firstId));
@@ -54,7 +54,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 取消关联
         /// </summary>
-        /// <param name="type">关联的类型，如"UserResource"</param>
+        /// <param name="type">关联的类型，如Define.USERRESOURCE</param>
         /// <param name="firstId">The first identifier.</param>
         /// <param name="secIds">The sec ids.</param>
         public void UnAssign(string type, string firstId, string[] secIds)

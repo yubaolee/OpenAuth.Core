@@ -47,8 +47,6 @@ layui.config({
         var load = function () {
             $.getJSON(url, function (json) {
                 zTreeObj = $.fn.zTree.init($("#tree"), setting);
-                var newNode = { Name: "根节点", Id: null, ParentId: "" };
-                json.push(newNode);
                 zTreeObj.addNodes(null, json);
                 mainList({ typeId: "" });
                 zTreeObj.expandAll(true);

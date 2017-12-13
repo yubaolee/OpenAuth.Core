@@ -149,7 +149,8 @@ layui.config({
             var index = layer.open({
                 title: "为用户分配模块",
                 type: 2,
-                content: "newsAdd.html",
+                area: ['800px', '500px'],
+                content: "/ModuleManager/Assign",
                 success: function(layero, index) {
                     
                 }

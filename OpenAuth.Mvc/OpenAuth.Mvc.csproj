@@ -166,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="js\categories.js" />
+    <Content Include="js\assign.js" />
     <Content Include="js\openauth.js" />
     <Content Include="js\droptree.js" />
     <Content Include="css\images.css" />
@@ -349,6 +350,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\MenuHeader.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\ModuleManager\Assign.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\FlowManage\Models\" />

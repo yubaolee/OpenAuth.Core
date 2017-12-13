@@ -23,21 +23,27 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ActionResult Assign(string firstId, string key)
+        [Authenticate]
+        public ActionResult Assign()
         {
-            ViewBag.FirstId = firstId;
-            ViewBag.ModuleType = key;
-
-            var moduleWithChildren = AuthUtil.GetCurrentUser().Modules
-                .GenerateTree(u =>u.Id, u =>u.ParentId);
-            var modules = key == Define.USERMODULE ? App.LoadForUser(firstId) : App.LoadForRole(firstId);
-
-            CheckModule(moduleWithChildren, modules);
-
-            ViewBag.Modules = BuilderModules(moduleWithChildren);
-
             return View();
         }
+
+        //public ActionResult Assign(string firstId, string key)
+        //{
+        //    ViewBag.FirstId = firstId;
+        //    ViewBag.ModuleType = key;
+
+        //    var moduleWithChildren = AuthUtil.GetCurrentUser().Modules
+        //        .GenerateTree(u =>u.Id, u =>u.ParentId);
+        //    var modules = key == Define.USERMODULE ? App.LoadForUser(firstId) : App.LoadForRole(firstId);
+
+        //    CheckModule(moduleWithChildren, modules);
+
+        //    ViewBag.Modules = BuilderModules(moduleWithChildren);
+
+        //    return View();
+        //}
 
         private void CheckModule(IEnumerable<TreeItem<ModuleView>> moduleWithChildren, List<Module> modules)
         {

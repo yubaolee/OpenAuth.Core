@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Mvc;
 using Infrastructure;
@@ -24,11 +23,28 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改组织
         [System.Web.Mvc.HttpPost]
-        public string AddOrUpdate(RoleView view)
+        public string Add(RoleView obj)
         {
             try
             {
-                App.AddOrUpdate(view);
+                App.Add(obj);
+
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
+        //添加或修改组织
+        [System.Web.Mvc.HttpPost]
+        public string Update(RoleView obj)
+        {
+            try
+            {
+                App.Update(obj);
 
             }
             catch (Exception ex)

@@ -78,9 +78,9 @@ layui.config({
                 },
                 end: mainList
             });
-            var url = "/RoleManager/AddOrUpdate";
+            var url = "/RoleManager/Add";
             if (update) {
-                url = "/RoleManager/AddOrUpdate"; //暂时和添加一个地址
+                url = "/RoleManager/Update"; 
             }
             //提交数据
             form.on('submit(formSubmit)',

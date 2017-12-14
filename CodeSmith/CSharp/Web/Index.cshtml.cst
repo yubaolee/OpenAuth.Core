@@ -36,7 +36,7 @@ Description="连接的数据库" %>
     <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
     <table class="layui-table"
            lay-data="{height: 'full-80', page:true, id:'mainList'}"
-           lay-filter="list">
+           lay-filter="list"  lay-size="sm">
         <thead>
         <tr>
             <th lay-data="{checkbox:true, fixed: true}"></th>

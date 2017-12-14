@@ -17,7 +17,7 @@ using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.Response
 {
-    public partial class RoleVM
+    public partial class RoleView
     {
         /// <summary>
         /// 用户ID
@@ -56,12 +56,12 @@ namespace OpenAuth.App.Response
         /// </summary>
         public bool Checked { get; set; }
 
-        public static implicit operator RoleVM(Role role)
+        public static implicit operator RoleView(Role role)
         {
-            return role.MapTo<RoleVM>();
+            return role.MapTo<RoleView>();
         }
 
-        public static implicit operator Role(RoleVM rolevm)
+        public static implicit operator Role(RoleView rolevm)
         {
             return rolevm.MapTo<Role>();
         }

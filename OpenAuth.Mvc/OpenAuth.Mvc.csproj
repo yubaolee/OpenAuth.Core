@@ -155,6 +155,7 @@
     <Compile Include="Controllers\ModuleManagerController.cs" />
     <Compile Include="Controllers\OrgManagerController.cs" />
     <Compile Include="Controllers\RelevanceManagerController.cs" />
+    <Compile Include="Controllers\RoleManagerController.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Controllers\UserSessionController.cs" />
     <Compile Include="Models\JobjectModelBinder.cs" />
@@ -194,6 +195,7 @@
     <Content Include="js\modules.js" />
     <Content Include="js\queryString.js" />
     <Content Include="js\orgs.js" />
+    <Content Include="js\roles.js" />
     <Content Include="js\users.js" />
     <Content Include="js\bodyTab.js" />
     <Content Include="js\index.js" />
@@ -351,6 +353,7 @@
     <Content Include="Views\Home\MenuHeader.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\ModuleManager\Assign.cshtml" />
+    <Content Include="Views\RoleManager\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\FlowManage\Models\" />

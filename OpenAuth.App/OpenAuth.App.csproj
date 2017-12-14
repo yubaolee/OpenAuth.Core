@@ -114,10 +114,12 @@
     <Compile Include="Request\IdPageReq.cs" />
     <Compile Include="Request\PageReq.cs" />
     <Compile Include="Request\QueryCategoriesReq.cs" />
+    <Compile Include="Request\QueryRoleListReq.cs" />
     <Compile Include="Request\QueryUserListReq.cs" />
     <Compile Include="Response\TableData.cs" />
     <Compile Include="RevelanceManagerApp.cs" />
     <Compile Include="SystemAuthService.cs" />
+    <Compile Include="RoleApp.cs" />
     <Compile Include="WFFormService.cs" />
     <Compile Include="WFProcessInstanceService.cs" />
     <Compile Include="WFSchemeService.cs" />
@@ -137,7 +139,7 @@
     <Compile Include="Response\UserWithAccessedCtrls.cs" />
     <Compile Include="Response\ModuleElementVM.cs" />
     <Compile Include="Response\ModuleView.cs" />
-    <Compile Include="Response\RoleVM.cs" />
+    <Compile Include="Response\RoleView.cs" />
     <Compile Include="Response\UserView.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -146,11 +146,18 @@ layui.config({
             mainList();
         }
         , btnAccessModule: function () {
+            var checkStatus = table.checkStatus('mainList')
+               , data = checkStatus.data;
+            if (data.length != 1) {
+                layer.msg("请选择要分配的用户");
+                return;
+            }
+
             var index = layer.open({
                 title: "为用户分配模块",
                 type: 2,
                 area: ['800px', '500px'],
-                content: "/ModuleManager/Assign",
+                content: "/ModuleManager/Assign?type=UserModule&menuType=UserElement&id=" + data[0].Id,
                 success: function(layero, index) {
                     
                 }

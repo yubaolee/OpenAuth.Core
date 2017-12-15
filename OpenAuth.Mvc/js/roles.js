@@ -146,13 +146,20 @@ layui.config({
             mainList();
         }
         , btnAccessModule: function () {
+            var checkStatus = table.checkStatus('mainList')
+               , data = checkStatus.data;
+            if (data.length != 1) {
+                layer.msg("请选择要分配的角色");
+                return;
+            }
+
             var index = layer.open({
-                title: "为用户分配模块",
+                title: "为用角色配模块",
                 type: 2,
                 area: ['800px', '500px'],
-                content: "/ModuleManager/Assign",
-                success: function(layero, index) {
-                    
+                content: "/ModuleManager/Assign?type=RoleModule&menuType=RoleElement&id=" + data[0].Id,
+                success: function (layero, index) {
+
                 }
             });
         }

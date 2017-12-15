@@ -2,6 +2,7 @@
 {
     public static class Define
     {
+        public static string USERROLE = "UserRole";       //用户角色关联KEY
         public const string ROLERESOURCE= "RoleResource";  //角色资源关联KEY
         public const string USERRESOURCE = "UserResource";  //用户资源关联KEY
         public const string USERORG = "UserOrg";  //用户机构关联KEY

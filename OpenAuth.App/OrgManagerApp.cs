@@ -68,7 +68,7 @@ namespace OpenAuth.App
         {
             //用户角色
             var userRoleIds =
-                UnitWork.Find<Relevance>(u => u.FirstId == userId && u.Key == "UserRole").Select(u => u.SecondId).ToList();
+                UnitWork.Find<Relevance>(u => u.FirstId == userId && u.Key == Define.USERROLE).Select(u => u.SecondId).ToList();
 
             //用户角色与自己分配到的角色ID
             var moduleIds =

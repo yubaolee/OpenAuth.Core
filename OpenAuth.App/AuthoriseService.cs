@@ -58,7 +58,7 @@ namespace OpenAuth.App
             set
             {
                 _user = value;
-                _userRoleIds = UnitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == "UserRole").Select(u => u.SecondId).ToList();
+                _userRoleIds = UnitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == Define.USERROLE).Select(u => u.SecondId).ToList();
             }
         }
 

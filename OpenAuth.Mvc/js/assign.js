@@ -1,12 +1,14 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
-    var form = layui.form,
-		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
+}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','queryString'], function () {
+    var //layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
+    var id = $.getUrlParam("id");      //待分配的id
+    var type = $.getUrlParam("type");  //待分配的类型
+    var menuType = $.getUrlParam("menuType");  //待分配菜单的类型
   
     //菜单列表
     var menucon = {};  //table的参数，如搜索key，点击tree的id
@@ -18,6 +20,21 @@ layui.config({
             url: '/ModuleManager/LoadMenus',
             where: menucon
         });
+        //监听列表checkbox,设置是否分配菜单
+        table.on('checkbox(menulist)', function (obj) {
+            var url = "/RelevanceManager/Assign";
+            if (!obj.checked) {
+                url = "/RelevanceManager/UnAssign";
+            }
+            $.post(url, { type: menuType, firstId: id, secIds: [obj.data.Id] }
+                , function (data) {
+                    layer.msg(data.Message);
+                }
+               , "json");
+        });
+
+        //todo:如果该用户已经分配菜单了，则设置相应的状态
+
     }
 
     //左边树状机构列表
@@ -25,7 +42,12 @@ layui.config({
         var url = '/UserSession/QueryModuleList';
         var zTreeObj;
         var setting = {
-            view: { selectedMulti: false },
+            view: { selectedMulti: true },
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+            },
             data: {
                 key: {
                     name: 'Name',
@@ -41,6 +63,18 @@ layui.config({
             callback: {
                 onClick: function (event, treeId, treeNode) {
                     menuList({ moduleId: treeNode.Id });
+                },
+                onCheck: function (event, treeId, treeNode) {
+                    var url = "/RelevanceManager/Assign";
+                    if (!treeNode.checked) {
+                        url = "/RelevanceManager/UnAssign";
+                    }
+
+                    $.post(url, { type: type, firstId: id, secIds: [treeNode.Id] }
+                        , function (data) {
+                            layer.msg(data.Message);
+                        }
+                       , "json");
                 }
             }
         };
@@ -48,6 +82,8 @@ layui.config({
             $.getJSON(url, function (json) {
                 zTreeObj = $.fn.zTree.init($("#tree"), setting);
                 zTreeObj.addNodes(null, json);
+                //todo:如果该用户已经分配模块了，则设置相应的状态
+
                 menuList({ moduleId: json[0].Id });
                 zTreeObj.expandAll(true);
             });
@@ -57,15 +93,5 @@ layui.config({
             reload: load
         }
     }();
-
-    //监听菜单表格内部按钮
-    table.on('tool(menulist)', function (obj) {
-        var data = obj.data;
-        if (obj.event === 'del') {      //删除菜单
-            openauth.del("/moduleManager/delMenu",
-                data.Id,menuList);
-        }
-    });
-
     //监听页面主按钮操作 end
 })

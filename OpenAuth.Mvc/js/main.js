@@ -33,9 +33,9 @@ layui.config({
 	)
 
 	//用户数
-	$.get("/json/usersList.json",
+	$.getJSON("/UserManager/Load?limit=1&page=1",
 		function(data){
-			$(".userAll span").text(data.length);
+			$(".userAll span").text(data.count);
 		}
 	)
 

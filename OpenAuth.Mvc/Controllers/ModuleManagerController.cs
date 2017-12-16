@@ -36,8 +36,17 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadForUser(string firstId)
         {
-            var orgs = App.LoadForUser(firstId);
-            return JsonHelper.Instance.Serialize(orgs);
+            var modules = App.LoadForUser(firstId);
+            return JsonHelper.Instance.Serialize(modules);
+        }
+        /// <summary>
+        /// 根据某用户ID获取可访问某模块的菜单项
+        /// </summary>
+        /// <returns></returns>
+        public string LoadMenusForUser(string moduleId, string firstId)
+        {
+            var menus = App.LoadMenusForUser(moduleId, firstId);
+            return JsonHelper.Instance.Serialize(menus);
         }
 
         /// <summary>
@@ -47,8 +56,18 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadForRole(string firstId)
         {
-            var orgs = App.LoadForRole(firstId);
-            return JsonHelper.Instance.Serialize(orgs);
+            var modules = App.LoadForRole(firstId);
+            return JsonHelper.Instance.Serialize(modules);
+        }
+
+        /// <summary>
+        /// 根据某角色ID获取可访问某模块的菜单项
+        /// </summary>
+        /// <returns></returns>
+        public string LoadMenusForRole(string moduleId, string firstId)
+        {
+            var menus = App.LoadMenusForRole(moduleId, firstId);
+            return JsonHelper.Instance.Serialize(menus);
         }
 
         #region 添加编辑模块

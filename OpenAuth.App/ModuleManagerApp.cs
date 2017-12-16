@@ -37,6 +37,18 @@ namespace OpenAuth.App
         }
 
         /// <summary>
+        /// 根据某用户ID获取可访问某模块的菜单项
+        /// </summary>
+        /// <param name="moduleId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public IEnumerable<ModuleElement> LoadMenusForUser(string moduleId, string userId)
+        {
+            var elementIds = RevelanceManagerApp.Get(Define.USERELEMENT, true, userId);
+            return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id) && u.ModuleId == moduleId);
+        }
+
+        /// <summary>
         /// 加载特定角色的模块
         /// </summary>
         /// <param name="roleId">The role unique identifier.</param>
@@ -45,6 +57,13 @@ namespace OpenAuth.App
             var moduleIds = UnitWork.Find<Relevance>(u => u.FirstId == roleId && u.Key == Define.ROLEMODULE)
                 .Select(u => u.SecondId);
             return UnitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo);
+        }
+
+        public IEnumerable<ModuleElement> LoadMenusForRole(string moduleId, string roleId)
+        {
+            var elementIds = RevelanceManagerApp.Get(Define.ROLEELEMENT, true, roleId);
+            return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id) && u.ModuleId == moduleId);
+
         }
 
         #endregion 用户/角色分配模块
@@ -66,8 +85,6 @@ namespace OpenAuth.App
             UnitWork.Save();
         }
         #endregion
-
-
 
     }
 }

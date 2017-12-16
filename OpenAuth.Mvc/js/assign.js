@@ -33,11 +33,26 @@ layui.config({
                , "json");
         });
 
-        //todo:如果该用户已经分配菜单了，则设置相应的状态
-
+        //如果该用户已经分配菜单了，则设置相应的状态
+        var url = "/ModuleManager/LoadMenusForUser";
+        if (type.indexOf("Role") != -1) {
+            url = "/ModuleManager/LoadMenusForRole";
+        }
+        $.getJSON(url,
+            {
+                firstId: id 
+                , moduleId: options.moduleId
+            }
+            , function (data) {
+                $.each(data,
+                    function (i) {
+                        var that = this;
+                        //todo:怎么给lay table设置选中啊？？？？
+                    });
+            });
     }
 
-    //左边树状机构列表
+    //左边树状模块列表
     var ztree = function () {
         var url = '/UserSession/QueryModuleList';
         var zTreeObj;
@@ -82,7 +97,20 @@ layui.config({
             $.getJSON(url, function (json) {
                 zTreeObj = $.fn.zTree.init($("#tree"), setting);
                 zTreeObj.addNodes(null, json);
-                //todo:如果该用户已经分配模块了，则设置相应的状态
+                //如果该用户已经分配模块了，则设置相应的状态
+                var url = "/ModuleManager/LoadForUser";
+                if (type.indexOf("Role") != -1) {
+                    url = "/ModuleManager/LoadForRole";
+                }
+                $.getJSON(url, { firstId: id }
+                    , function (data) {
+                        $.each(data,
+                            function(i) {
+                                var that = this;
+                                var node = zTreeObj.getNodeByParam("Id", that.Id, null);
+                                zTreeObj.checkNode(node, true, false);
+                            });
+                    });
 
                 menuList({ moduleId: json[0].Id });
                 zTreeObj.expandAll(true);

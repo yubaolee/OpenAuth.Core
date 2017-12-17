@@ -156,7 +156,7 @@ layui.config({
             var index = layer.open({
                 title: "为用户分配模块",
                 type: 2,
-                area: ['800px', '500px'],
+                area: ['450px', '400px'],
                 content: "/ModuleManager/Assign?type=UserModule&menuType=UserElement&id=" + data[0].Id,
                 success: function(layero, index) {
                     

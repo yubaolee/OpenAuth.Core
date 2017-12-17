@@ -12,47 +12,82 @@ layui.config({
   
     //菜单列表
     var menucon = {};  //table的参数，如搜索key，点击tree的id
-    var menuList = function (options) {
-        if (options != undefined) {
-            $.extend(menucon, options);
-        }
-        table.reload('menuList', {
-            url: '/ModuleManager/LoadMenus',
-            where: menucon
-        });
-        //监听列表checkbox,设置是否分配菜单
-        table.on('checkbox(menulist)', function (obj) {
-            var url = "/RelevanceManager/Assign";
-            if (!obj.checked) {
-                url = "/RelevanceManager/UnAssign";
-            }
-            $.post(url, { type: menuType, firstId: id, secIds: [obj.data.Id] }
-                , function (data) {
-                    layer.msg(data.Message);
+    //菜单树状列表，等lay table没问题了，可以换成table
+    var menutree = function () {
+        var url = '/ModuleManager/LoadMenus';
+        var menuTree;
+        var setting = {
+            view: { selectedMulti: true },
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+            },
+            data: {
+                key: {
+                    name: 'Name',
+                    title: 'Name'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: 'Id',
+                    pIdKey: 'ParentId',
+                    rootPId: 'null'
                 }
-               , "json");
-        });
+            },
+            callback: {
+                onClick: function (event, treeId, treeNode) {
+                   //
+                },
+                onCheck: function (event, treeId, treeNode) {
+                    var url = "/RelevanceManager/Assign";
+                    if (!treeNode.checked) {
+                        url = "/RelevanceManager/UnAssign";
+                    }
 
-        //如果该用户已经分配菜单了，则设置相应的状态
-        var url = "/ModuleManager/LoadMenusForUser";
-        if (type.indexOf("Role") != -1) {
-            url = "/ModuleManager/LoadMenusForRole";
-        }
-        $.getJSON(url,
-            {
-                firstId: id 
-                , moduleId: options.moduleId
+                    $.post(url, { type: menuType, firstId: id, secIds: [treeNode.Id] }
+                        , function (data) {
+                            layer.msg(data.Message);
+                        }
+                       , "json");
+                }
             }
-            , function (data) {
-                $.each(data,
-                    function (i) {
-                        var that = this;
-                        //todo:怎么给lay table设置选中啊？？？？
-                    });
-            });
-    }
+        };
+        var load = function (options) {
+            if (options != undefined) {
+                $.extend(menucon, options);
+            }
 
-    //左边树状模块列表
+            $.getJSON(url, menucon, function (json) {
+                menuTree = $.fn.zTree.init($("#menutree"), setting);
+                menuTree.addNodes(null, json.data);
+                //如果该用户已经分配菜单了，则设置相应的状态
+                var url = "/ModuleManager/LoadMenusForUser";
+                if (type.indexOf("Role") != -1) {
+                    url = "/ModuleManager/LoadMenusForRole";
+                }
+                $.getJSON(url,
+                    {
+                        firstId: id
+                        , moduleId: options.moduleId
+                    }
+                    , function (data) {
+                        $.each(data,
+                            function (i) {
+                                var that = this;
+                                var node = menuTree.getNodeByParam("Id", that.Id, null);
+                                menuTree.checkNode(node, true, false);
+                            });
+                    });
+                menuTree.expandAll(true);
+            });
+        };
+        return {
+            load: load
+        }
+    }();
+
+    //模块列表
     var ztree = function () {
         var url = '/UserSession/QueryModuleList';
         var zTreeObj;
@@ -77,7 +112,7 @@ layui.config({
             },
             callback: {
                 onClick: function (event, treeId, treeNode) {
-                    menuList({ moduleId: treeNode.Id });
+                    menutree.load({ moduleId: treeNode.Id });
                 },
                 onCheck: function (event, treeId, treeNode) {
                     var url = "/RelevanceManager/Assign";
@@ -112,7 +147,7 @@ layui.config({
                             });
                     });
 
-                menuList({ moduleId: json[0].Id });
+                menutree.load({ moduleId: json[0].Id });
                 zTreeObj.expandAll(true);
             });
         };

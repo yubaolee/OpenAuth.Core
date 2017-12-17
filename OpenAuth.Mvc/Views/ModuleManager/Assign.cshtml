@@ -5,28 +5,8 @@
 
 <div style="display: flex;">
     <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
-    <!--菜单列表-->
-    <table class="layui-table"
-           lay-data="{height: 'full-80', id:'menuList'}"
-           lay-filter="menulist" lay-size="sm">
-        <thead>
-        <tr>
-            <th lay-data="{checkbox:true, fixed: true}"></th>
-            <th lay-data="{field:'Name', width:120, sort: true, fixed: true}">名称</th>
-            <th lay-data="{field:'DomId', width:80}">DomId</th>
-            <th lay-data="{field:'Class', width:80}">样式</th>
-            <th lay-data="{field:'Icon', width:60,templet: '#miconTpl'}">图标</th>
-            <th lay-data="{field:'SortNo', width:80}">排序号</th>
-        </tr>
-        </thead>
-    </table>
-    <script type="text/html" id="miconTpl">
-        {{#  if( d.Icon != null && d.Icon != ''){ }}
-        <i class="layui-icon">{{ d.Icon }}</i>
-        {{#  } else { }}
-        {{ d.Icon }}
-        {{#  } }}
-    </script>
+    <ul id="menutree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
+        
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>

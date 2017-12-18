@@ -150,6 +150,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FlowInstancesController.cs" />
+    <Compile Include="Controllers\FormsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleManagerController.cs" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <Content Include="js\categories.js" />
     <Content Include="js\assign.js" />
+    <Content Include="js\forms.js" />
     <Content Include="js\openauth.js" />
     <Content Include="js\droptree.js" />
     <Content Include="css\images.css" />
@@ -354,6 +356,7 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\ModuleManager\Assign.cshtml" />
     <Content Include="Views\RoleManager\Index.cshtml" />
+    <Content Include="Views\Forms\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\FlowManage\Models\" />

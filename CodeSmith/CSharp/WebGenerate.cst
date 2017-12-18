@@ -45,6 +45,9 @@ OnChanged="OnSourceDatabaseChanged"%>
 <%@ Register Name="JSGenerateClass"
              Template="Web\index.js.cst"
              MergeProperties="False" %>
+<%@ Register Name="ControllerGenerateClass"
+             Template="Web\Controller.cst"
+             MergeProperties="False" %>
 Generating Entities ...
 <% Generate(); %>
 
@@ -57,6 +60,9 @@ Generating Entities ...
         if (!Directory.Exists(directory))   //根目录
             Directory.CreateDirectory(directory);
 
+        if (!Directory.Exists(directory +"/controllers"))  //controller目录
+            Directory.CreateDirectory(directory +"/controllers");
+
         if (!Directory.Exists(directory +"/views"))  //视图根文件夹
             Directory.CreateDirectory(directory +"/views");
          
@@ -66,6 +72,7 @@ Generating Entities ...
         if (!Directory.Exists(directory +"/views/"+ModuleName +"Manager"))  //视图文件夹
             Directory.CreateDirectory(directory +"/views/"+ModuleName +"Manager");
 
+        CreateControllerClass();
         CreateApplicationClass();
         CreateHtmlClass();
         CreateJSClass();
@@ -80,6 +87,23 @@ Generating Entities ...
         Response.WriteLine("Generate Time: " + watch.ElapsedMilliseconds + " ms");
     }
 
+    //创建控制器,如UserManagerController.cs
+    public void CreateControllerClass()
+    {
+        ControllerGenerateClass generatedClass = this.Create<ControllerGenerateClass>();
+        this.CopyPropertiesTo(generatedClass);
+
+        string rootDirectory = Path.GetFullPath(directory);
+      
+        string generatedFile ="controllers" + ModuleName + "sController.cs";
+        generatedFile = Path.Combine(rootDirectory, generatedFile);
+
+        generatedClass.ModuleName = ModuleName;
+
+        Response.WriteLine(generatedFile);
+        generatedClass.RenderToFile(generatedFile, generatedFile, true);
+    }
+
     //创建APP层,如UserManagerApp.cs
     public void CreateApplicationClass()
     {
@@ -88,11 +112,10 @@ Generating Entities ...
 
         string rootDirectory = Path.GetFullPath(directory);
       
-        string generatedFile = ModuleName + "ManagerApp.cs";
+        string generatedFile = ModuleName + "App.cs";
         generatedFile = Path.Combine(rootDirectory, generatedFile);
 
         generatedClass.ModuleName = ModuleName;
-        generatedClass.NeedViewModel = NeedViewModel;
 
         Response.WriteLine(generatedFile);
         generatedClass.RenderToFile(generatedFile, generatedFile, true);
@@ -104,7 +127,7 @@ Generating Entities ...
         HtmlGenerateClass generatedClass = this.Create<HtmlGenerateClass>();
         this.CopyPropertiesTo(generatedClass);
 
-        string generatedFile = Path.GetFullPath(directory) + "/views/"+ModuleName+"Manager/" + "index.cshtml";
+        string generatedFile = Path.GetFullPath(directory) + "/views/"+ModuleName+"s/index.cshtml";
 
         generatedClass.ModuleName = ModuleName;
         generatedClass.SourceTable = SourceTable;
@@ -119,7 +142,7 @@ Generating Entities ...
         JSGenerateClass generatedClass = this.Create<JSGenerateClass>();
         this.CopyPropertiesTo(generatedClass);
 
-        string generatedFile = Path.GetFullPath(directory) + "/js/"+ModuleName+"Manager.js";
+        string generatedFile = Path.GetFullPath(directory) + "/js/"+ModuleName+"s.js";
 
         generatedClass.ModuleName = ModuleName;
 
@@ -131,7 +154,7 @@ Generating Entities ...
     //更换数据源时，改变ModuleName
     private void OnSourceDatabaseChanged(object sender, EventArgs e)
     {
-        if (SourceTable == null)
+        if (SourceTable == null || ModuleName != null)
             return;
             ModuleName = SourceTable.Name;
     }

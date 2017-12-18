@@ -1,28 +1,17 @@
-﻿<%-- 
-Name: Database Table Properties
-Author: yubaolee
-Description: Create a list of properties from a database table
---%>
-<%@ CodeTemplate Language="C#" Encoding="utf-8" TargetLanguage="C#" Debug="False" Description="控制器" %>
-<%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
-<%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
-<%@ Assembly Name="SchemaExplorer" %>
-<%@ Import Namespace="SchemaExplorer" %>
-
-using System;
+﻿using System;
 using System.Web.Http;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.Request;
-using OpenAuth.App.Response;
 using OpenAuth.Mvc.Models;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
-    public class <%=ModuleName%>sController : BaseController
+    public class FormsController : BaseController
     {
-        public <%=ModuleName%>App App { get; set; }
+        public FormApp App { get; set; }
 
         //
         [Authenticate]
@@ -33,7 +22,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改
         [System.Web.Mvc.HttpPost]
-        public string Add(<%=ModuleName%> obj)
+        public string Add(WFFrmMain obj)
         {
             try
             {
@@ -50,7 +39,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改
         [System.Web.Mvc.HttpPost]
-        public string Update(<%=ModuleName%> obj)
+        public string Update(WFFrmMain obj)
         {
             try
             {
@@ -68,7 +57,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载列表
         /// </summary>
-        public string Load([FromUri]Query<%=ModuleName%>ListReq request)
+        public string Load([FromUri]QueryFormListReq request)
         {
             return JsonHelper.Instance.Serialize(App.Load(request));
         }

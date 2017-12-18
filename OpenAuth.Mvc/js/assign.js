@@ -1,11 +1,9 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','queryString'], function () {
+}).use(['form','vue', 'ztree', 'layer', 'jquery','queryString'], function () {
     var //layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
         $ = layui.jquery;
-    var table = layui.table;
-    var openauth = layui.openauth;
     var id = $.getUrlParam("id");      //待分配的id
     var type = $.getUrlParam("type");  //待分配的类型
     var menuType = $.getUrlParam("menuType");  //待分配菜单的类型
@@ -146,8 +144,8 @@ layui.config({
                                 zTreeObj.checkNode(node, true, false);
                             });
                     });
-
-                menutree.load({ moduleId: json[0].Id });
+                $("#menutree").html("点击左边的模块开始分配菜单");
+               // menutree.load({ moduleId: json[0].Id });
                 zTreeObj.expandAll(true);
             });
         };

@@ -1,17 +1,4 @@
-<%-- 
-Name: 主JS界面
-Author: yubaolee
---%>
-<%@ CodeTemplate Language="C#" TargetLanguage="C#" Debug="False" Encoding="utf-8" Description="添加模块" %>
-<%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
-
-<%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
-<%@ Assembly Name="SchemaExplorer" %>
-<%@ Import Namespace="SchemaExplorer" %>
-<%@ Assembly Src="Util.cs" %>
-<%@ Import Namespace="Util" %>
-
-layui.config({
+﻿layui.config({
     base: "/js/"
 }).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
     var form = layui.form,
@@ -29,49 +16,12 @@ layui.config({
             $.extend(config, options);
         }
         table.reload('mainList', {
-            url: '/<%=ModuleName%>s/Load',
+            url: '/Forms/Load',
             where: config
         });
     }
-    //左边树状机构列表
-    var ztree = function () {
-        var url = '/UserSession/GetOrgs';
-        var zTreeObj;
-        var setting = {
-            view: { selectedMulti: false },
-            data: {
-                key: {
-                    name: 'Name',
-                    title: 'Name'
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: 'Id',
-                    pIdKey: 'ParentId',
-                    rootPId: 'null'
-                }
-            },
-            callback: {
-                onClick: function (event, treeId, treeNode) {
-                    mainList({ orgId: treeNode.Id });
-                }
-            }
-        };
-        var load = function () {
-            $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#tree"), setting);
-                var newNode = { Name: "根节点", Id: null, ParentId: "" };
-                json.push(newNode);
-                zTreeObj.addNodes(null, json);
-                mainList({ orgId: "" });
-                zTreeObj.expandAll(true);
-            });
-        };
-        load();
-        return {
-            reload: load
-        }
-    }();
+    
+    mainList();
 
     //添加（编辑）对话框
     var editDlg = function() {
@@ -91,9 +41,9 @@ layui.config({
                 },
                 end: mainList
             });
-            var url = "/<%=ModuleName%>s/Add";
+            var url = "/Forms/Add";
             if (update) {
-                url = "/<%=ModuleName%>s/Update"; 
+                url = "/Forms/Update"; 
             }
             //提交数据
             form.on('submit(formSubmit)',
@@ -135,7 +85,7 @@ layui.config({
         btnDel: function () {      //批量删除
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
-            openauth.del("/<%=ModuleName%>s/Delete",
+            openauth.del("/Forms/Delete",
                 data.map(function (e) { return e.Id; }),
                 mainList);
         }

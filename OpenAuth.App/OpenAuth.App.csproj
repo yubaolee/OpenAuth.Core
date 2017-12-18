@@ -111,10 +111,12 @@
     <Compile Include="Extention\WF_Runtime.cs" />
     <Compile Include="Extention\WF_RuntimeInitModel.cs" />
     <Compile Include="Extention\WF_RuntimeModel.cs" />
+    <Compile Include="FormApp.cs" />
     <Compile Include="Request\IdPageReq.cs" />
     <Compile Include="Request\PageReq.cs" />
     <Compile Include="Request\QueryCategoriesReq.cs" />
     <Compile Include="Request\QueryRoleListReq.cs" />
+    <Compile Include="Request\QueryFormListReq.cs" />
     <Compile Include="Request\QueryUserListReq.cs" />
     <Compile Include="Response\TableData.cs" />
     <Compile Include="RevelanceManagerApp.cs" />

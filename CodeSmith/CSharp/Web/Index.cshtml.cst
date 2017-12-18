@@ -19,17 +19,7 @@ Description="连接的数据库" %>
     <link rel="stylesheet" href="/css/treetable.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList">
-    <div class="layui-inline">
-        <div class="layui-input-inline">
-            <input class="layui-input" placeholder="请输入关键字"
-                   name="key" id="key" autocomplete="off">
-        </div>
-        <button class="layui-btn" data-type="search">搜索</button>
-    </div>
     @Html.Action("MenuHeader", "Home")
-    @*<button class="layui-btn " data-type="refresh">刷新</button>
-    <button class="layui-btn " data-type="addData">添加</button>
-    <button class="layui-btn layui-btn-danger" data-type="del">批量删除</button>*@
 </blockquote>
 
 <div style="display: flex;">
@@ -96,10 +86,17 @@ Description="连接的数据库" %>
     </div>
 </div>
 <%} %>
+
+     <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
     </form>
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/js/<%=ModuleName%>Manager.js"></script>
+<script type="text/javascript" src="/js/<%=ModuleName%>s.js"></script>
 
 

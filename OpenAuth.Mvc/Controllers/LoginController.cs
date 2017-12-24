@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App.SSO;
+using System.Web;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -24,9 +25,17 @@ namespace OpenAuth.Mvc.Controllers
             try
             {
                 var result = AuthUtil.Login(_appKey, username, password);
-                if (result.Code ==200)
+                if (result.Code == 200)
                 {
-                    resp.Result = "/home/index?Token=" + result.Token;
+
+                    var cookie = new HttpCookie("Token", result.Token)
+                    {
+                        Expires = DateTime.Now.AddDays(10)
+                    };
+                    Response.Cookies.Add(cookie);
+                    resp.Result = "/home/index";
+                    ///拿掉地址栏Token，因为特别不安全。
+                    ///小王，xxx系统的地址是多少。。。然后账号就
                 }
                 else
                 {
@@ -48,9 +57,19 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var result = AuthUtil.Login(_appKey, "System","123456");
-                if (result.Code ==200)
-                    return Redirect("/home/index?Token=" + result.Token);
+                var result = AuthUtil.Login(_appKey, "System", "123456");
+                if (result.Code == 200)
+                {
+
+                    var cookie = new HttpCookie("Token", result.Token)
+                    {
+                        Expires = DateTime.Now.AddDays(10)
+                    };
+                    Response.Cookies.Add(cookie);
+                    return Redirect("/home/index");
+                    ///拿掉地址栏Token，因为特别不安全。
+                    ///小王，xxx系统的地址是多少。。。然后账号就
+                }
                 else
                 {
                     return RedirectToAction("Index", "Login");

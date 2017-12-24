@@ -167,6 +167,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\login\buttonbg.png" />
+    <Content Include="images\login\cloud.png" />
+    <Content Include="images\login\hand.png" />
+    <Content Include="images\login\left_hand.png" />
+    <Content Include="images\login\light.png" />
+    <Content Include="images\login\loginbg1.png" />
+    <Content Include="images\login\loginbg2.png" />
+    <Content Include="images\login\loginbg3.png" />
+    <Content Include="images\login\logininfo.png" />
+    <Content Include="images\login\loginpassword.png" />
+    <Content Include="images\login\loginsj.png" />
+    <Content Include="images\login\loginuser.png" />
+    <Content Include="images\login\logo.png" />
+    <Content Include="images\login\right_hand.png" />
+    <Content Include="images\login\tou.png" />
     <Content Include="js\categories.js" />
     <Content Include="js\assign.js" />
     <Content Include="js\forms.js" />

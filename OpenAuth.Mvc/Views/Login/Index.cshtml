@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null;
 }
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,24 +16,58 @@
     <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="../../css/login.css" media="all" />
 </head>
-<body>
-    <div class="login">
-        <h1>Openauth.net-管理登录</h1>
-        <form class="layui-form">
-            <div class="layui-form-item">
-                <input class="layui-input" name="username" value="admin" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
-            </div>
-            <div class="layui-form-item">
-                <input class="layui-input" name="password" value="admin" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
-            </div>
-            <div class="layui-form-item form_code">
-                <input class="layui-input" name="code" value="jgmrj" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
-                <div class="code"><img src="/images/code.jpg" width="116" height="36"></div>
-            </div>
-            <button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>
-        </form>
+<body class="main" style="background-position: -280.8px 0px;">
+
+    <div id="mainBody">
+        <div id="cloud1" class="cloud" style="background-position: 891.1px 100px;"></div>
+        <div id="cloud2" class="cloud" style="background-position: 401px 460px;"></div>
     </div>
-    <script type="text/javascript" src="/layui/layui.js"></script>
-    <script type="text/javascript" src="/js/login.js"></script>
+
+    <div class="logintop">
+        <span>OpenAuth.Net</span>
+        <ul>
+            <li><a href="http://www.firefox.com.cn/download/" target="_blank"><b><font color="#FFF">推荐Firefox浏览器</font></b></a></li>
+        </ul>
+    </div>
+
+    <div class="loginbody">
+
+        <span class="systemlogo"></span>
+
+        <div class="loginbox" style="position: absolute; left: 294px;">
+            <div style="width:165px; height:96px; position:absolute;top:8px;left:-70px">
+                <div class="tou"></div>
+                <div class="initial_left_hand" id="left_hand"></div>
+                <div class="initial_right_hand" id="right_hand"></div>
+            </div>
+            <form class="layui-form">
+                <ul>
+                    <li>
+                        <input name="username" type="text" class="loginuser" value="admin"
+                               placeholder="请输入用户名/手机号码" lay-verify="required">
+                    </li>
+                    <li>
+                        <input name="password" type="password" id="password" value="admin"
+                               class="loginpwd ipt" placeholder="请输入密码" lay-verify="required">
+                    </li>
+                    <li>
+                        <button class="layui-btn loginbtn" lay-submit  lay-filter="login">登录</button>
+
+                        @*<label>
+                                <input name="" type="checkbox" value="" checked="checked">记住密码
+                            </label>
+                            <label>
+                                <a href="#">忘记密码？</a>
+                            </label>*@
+                    </li>
+                </ul>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="loginbm">版权所有 2017  李玉宝 </div>
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
 </body>
 </html>

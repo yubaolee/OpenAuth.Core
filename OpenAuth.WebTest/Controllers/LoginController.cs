@@ -1,6 +1,8 @@
 ﻿using System.Configuration;
 using System.Web.Mvc;
 using OpenAuth.App.SSO;
+using System.Web;
+using System;
 
 namespace OpenAuth.WebTest.Controllers
 {
@@ -19,7 +21,17 @@ namespace OpenAuth.WebTest.Controllers
         {
             var result = AuthUtil.Login(_appKey, username, password);
             if (result.Code == 200)
-                return Redirect("/home/index?Token=" + result.Token);
+            {
+
+                var cookie = new HttpCookie("Token", result.Token)
+                {
+                    Expires = DateTime.Now.AddDays(10)
+                };
+                Response.Cookies.Add(cookie);
+                return Redirect("/home/index");
+                ///拿掉地址栏Token，因为特别不安全。
+                ///小王，xxx系统的地址是多少。。。然后账号就
+            }
             else
             {
                 return View(result);

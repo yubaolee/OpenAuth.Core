@@ -24,7 +24,7 @@
         //更多其他参数，请参考ueditor.config.js中的配置项
     });
 
-    var leipiFormDesign = {
+   leipiFormDesign = {
         /*执行控件*/
         exec: function (method) {
             leipiEditor.execCommand(method);
@@ -216,7 +216,7 @@
                 //异步提交数据
                 $.ajax({
                     type: 'POST',
-                    url: '/index.php?s=/index/parse.html',
+                    url: '/Forms/AddOrUpdate',
                     //dataType : 'json',
                     data: { 'type': type_value, 'formid': formid, 'parse_form': parse_form },
                     success: function (data) {
@@ -268,7 +268,11 @@
                 return false;
             }
         }
-    };
+   };
+
+    $("#btnSubmit").click(function() {
+        leipiFormDesign.fnCheckForm("save");
+    });
 
 })
 

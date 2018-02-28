@@ -27,7 +27,8 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改
         [System.Web.Mvc.HttpPost]
-        public string Add(WFFrmMain obj)
+        [ValidateInput(false)]
+        public string Add(Form obj)
         {
             try
             {
@@ -44,7 +45,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改
         [System.Web.Mvc.HttpPost]
-        public string Update(WFFrmMain obj)
+        public string Update(Form obj)
         {
             try
             {

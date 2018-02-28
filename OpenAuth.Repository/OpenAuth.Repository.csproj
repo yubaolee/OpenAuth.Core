@@ -60,6 +60,7 @@
     <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\CategoryType.cs" />
     <Compile Include="Core\Entity.cs" />
+    <Compile Include="Domain\Form.cs" />
     <Compile Include="Domain\Module.cs" />
     <Compile Include="Domain\ModuleElement.cs" />
     <Compile Include="Domain\Org.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="Domain\Stock.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\UserExt.cs" />
-    <Compile Include="Domain\WFFrmMain.cs" />
     <Compile Include="Domain\WFProcessInstance.cs" />
     <Compile Include="Domain\WFProcessOperationHistory.cs" />
     <Compile Include="Domain\WFProcessScheme.cs" />
@@ -80,7 +80,7 @@
     <Compile Include="Interface\IUnitWork.cs" />
     <Compile Include="Mapping\ApplicationMap.cs" />
     <Compile Include="Mapping\CategoryTypeMap.cs" />
-    <Compile Include="Mapping\WFFrmMainMap.cs" />
+    <Compile Include="Mapping\FormMap.cs" />
     <Compile Include="Mapping\WFProcessInstanceMap.cs" />
     <Compile Include="Mapping\WFProcessOperationHistoryMap.cs" />
     <Compile Include="Mapping\WFProcessSchemeMap.cs" />

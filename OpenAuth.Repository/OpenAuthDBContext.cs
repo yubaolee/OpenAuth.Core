@@ -38,7 +38,9 @@ namespace OpenAuth.Repository
         public System.Data.Entity.DbSet<Role> Roles { get; set; }
         public System.Data.Entity.DbSet<Stock> Stocks { get; set; }
         public System.Data.Entity.DbSet<User> Users { get; set; }
-        public System.Data.Entity.DbSet<WFFrmMain> WFFrmMains { get; set; }
+
+        public System.Data.Entity.DbSet<Form> Forms { get; set; }
+
         public System.Data.Entity.DbSet<WFProcessInstance> WFProcessInstances { get; set; }
         public System.Data.Entity.DbSet<WFProcessOperationHistory> WFProcessOperationHistories { get; set; }
         public System.Data.Entity.DbSet<WFProcessScheme> WFProcessSchemes { get; set; }
@@ -59,7 +61,7 @@ namespace OpenAuth.Repository
             modelBuilder.Configurations.Add(new RoleMap());
             modelBuilder.Configurations.Add(new StockMap());
             modelBuilder.Configurations.Add(new UserMap());
-            modelBuilder.Configurations.Add(new WFFrmMainMap());
+            modelBuilder.Configurations.Add(new FormMap());
             modelBuilder.Configurations.Add(new WFProcessInstanceMap());
             modelBuilder.Configurations.Add(new WFProcessOperationHistoryMap());
             modelBuilder.Configurations.Add(new WFProcessSchemeMap());

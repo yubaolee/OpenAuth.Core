@@ -122,7 +122,6 @@
     <Compile Include="RevelanceManagerApp.cs" />
     <Compile Include="SystemAuthService.cs" />
     <Compile Include="RoleApp.cs" />
-    <Compile Include="WFFormService.cs" />
     <Compile Include="WFProcessInstanceService.cs" />
     <Compile Include="WFSchemeService.cs" />
     <Compile Include="ModuleManagerApp.cs" />

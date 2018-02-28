@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using OpenAuth.App.Request;
+﻿using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 
 namespace OpenAuth.App
 {
-    public class FormApp : BaseApp<WFFrmMain>
+    public class FormApp : BaseApp<Form>
     {
         public RevelanceManagerApp ReleManagerApp { get; set; }
 
@@ -15,30 +14,24 @@ namespace OpenAuth.App
         /// </summary>
         public TableData Load(QueryFormListReq request)
         {
-            var forms = UnitWork.Find<WFFrmMain>(null)
-                   .OrderBy(u => u.FrmCode)
-                   .Skip((request.page - 1) * request.limit)
-                   .Take(request.limit);
-
-
+            
             return new TableData
             {
                 count = Repository.GetCount(null),
-                data = forms,
+                data = Repository.Find(request.page, request.limit,"CreateDate desc")
             };
         }
 
-        public void Add(WFFrmMain obj)
+        public void Add(Form obj)
         {
             Repository.Add(obj);
         }
         
-        public void Update(WFFrmMain obj)
+        public void Update(Form obj)
         {
-            UnitWork.Update<WFFrmMain>(u => u.Id == obj.Id, u => new WFFrmMain
+            UnitWork.Update<Form>(u => u.Id == obj.Id, u => new Form
             {
-                FrmCode = obj.FrmCode,
-                FrmContent = obj.FrmContent
+               //todo:要修改的
             });
 
         }

@@ -7,33 +7,32 @@
 </blockquote>
 
 <div style="display: flex;">
+    <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
     <table class="layui-table"
            lay-data="{height: 'full-80', page:true, id:'mainList'}"
-           lay-filter="list"  lay-size="sm">
+           lay-filter="list" lay-size="sm">
         <thead>
-        <tr>
-            <th lay-data="{checkbox:true, fixed: true}"></th>
-            <th lay-data="{field:'Id', width:150}">表单模板Id</th>
-            <th lay-data="{field:'FrmCode', width:150}">表单编号</th>
-            <th lay-data="{field:'FrmName', width:150}">表单名称</th>
-            <th lay-data="{field:'FrmType', width:150}">表单分类</th>
-            <th lay-data="{field:'FrmTable', width:150}">数据表</th>
-            <th lay-data="{field:'FrmTableId', width:150}">关联表的主键</th>
-            <th lay-data="{field:'isSystemTable', width:150}">是否需要建表0不建表,1建表</th>
-            <th lay-data="{field:'FrmContent', width:150}">表单内容</th>
-            <th lay-data="{field:'SortCode', width:150}">排序码</th>
-            <th lay-data="{field:'DeleteMark', width:150}">删除标记</th>
-            <th lay-data="{field:'FrmDbId', width:150}">数据库Id</th>
-            <th lay-data="{field:'EnabledMark', width:150}">有效</th>
-            <th lay-data="{field:'Description', width:150}">备注</th>
-            <th lay-data="{field:'CreateDate', width:150}">创建时间</th>
-            <th lay-data="{field:'CreateUserId', width:150}">创建用户主键</th>
-            <th lay-data="{field:'CreateUserName', width:150}">创建用户</th>
-            <th lay-data="{field:'ModifyDate', width:150}">修改时间</th>
-            <th lay-data="{field:'ModifyUserId', width:150}">修改用户主键</th>
-            <th lay-data="{field:'ModifyUserName', width:150}">修改用户</th>
-            <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
-        </tr>
+            <tr>
+                <th lay-data="{checkbox:true, fixed: true}"></th>
+                <th lay-data="{field:'Id', width:150}">表单模板Id</th>
+                <th lay-data="{field:'Name', width:150}">表单名称</th>
+                <th lay-data="{field:'Fields', width:150}">字段个数</th>
+                <th lay-data="{field:'ContentData', width:150}">表单中的字段数据</th>
+                <th lay-data="{field:'ContentParse', width:150}">表单替换的模板 经过处理</th>
+                <th lay-data="{field:'Content', width:150}">表单原html模板未经处理的</th>
+                <th lay-data="{field:'SortCode', width:150}">排序码</th>
+                <th lay-data="{field:'Delete', width:150}">删除标记</th>
+                <th lay-data="{field:'FrmDbId', width:150}">数据库Id</th>
+                <th lay-data="{field:'Enabled', width:150}">有效</th>
+                <th lay-data="{field:'Description', width:150}">备注</th>
+                <th lay-data="{field:'CreateDate', width:150}">创建时间</th>
+                <th lay-data="{field:'CreateUserId', width:150}">创建用户主键</th>
+                <th lay-data="{field:'CreateUserName', width:150}">创建用户</th>
+                <th lay-data="{field:'ModifyDate', width:150}">修改时间</th>
+                <th lay-data="{field:'ModifyUserId', width:150}">修改用户主键</th>
+                <th lay-data="{field:'ModifyUserName', width:150}">修改用户</th>
+                <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
+            </tr>
         </thead>
     </table>
 </div>
@@ -43,134 +42,96 @@
 
 <!--用户添加/编辑窗口-->
 <div id="divEdit" style="display: none">
-    <form class="layui-form" action=""  id="formEdit">
-    <input type="hidden" name="Id" v-model="Id" />
-    <div class="layui-form-item">
-        <label class="layui-form-label">表单编号</label>
-        <div class="layui-input-block">
-            <input type="text" name="FrmCode" v-model="FrmCode" required lay-verify="required"
-                placeholder="表单编号" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">表单名称</label>
-        <div class="layui-input-block">
-            <input type="text" name="FrmName" v-model="FrmName" required lay-verify="required"
-                placeholder="表单名称" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">表单分类</label>
-        <div class="layui-input-block">
-            <input type="text" name="FrmType" v-model="FrmType" required lay-verify="required"
-                placeholder="表单分类" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">数据表</label>
-        <div class="layui-input-block">
-            <input type="text" name="FrmTable" v-model="FrmTable" required lay-verify="required"
-                placeholder="数据表" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">关联表的主键</label>
-        <div class="layui-input-block">
-            <input type="text" name="FrmTableId" v-model="FrmTableId" required lay-verify="required"
-                placeholder="关联表的主键" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">是否需要建表0不建表,1建表</label>
-        <div class="layui-input-block">
-            <input type="radio" name="isSystemTable" value="1" title="value1" checked>
-            <input type="radio" name="isSystemTable" value="0" title="value2">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">表单内容</label>
-        <div class="layui-input-block">
-            <input type="text" name="FrmContent" v-model="FrmContent" required lay-verify="required"
-                placeholder="表单内容" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">排序码</label>
-        <div class="layui-input-block">
-            <input type="radio" name="SortCode" value="1" title="value1" checked>
-            <input type="radio" name="SortCode" value="0" title="value2">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">删除标记</label>
-        <div class="layui-input-block">
-            <input type="radio" name="DeleteMark" value="1" title="value1" checked>
-            <input type="radio" name="DeleteMark" value="0" title="value2">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">数据库Id</label>
-        <div class="layui-input-block">
-            <input type="text" name="FrmDbId" v-model="FrmDbId" required lay-verify="required"
-                placeholder="数据库Id" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">有效</label>
-        <div class="layui-input-block">
-            <input type="radio" name="EnabledMark" value="1" title="value1" checked>
-            <input type="radio" name="EnabledMark" value="0" title="value2">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-block">
-            <input type="text" name="Description" v-model="Description" required lay-verify="required"
-                placeholder="备注" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">创建时间</label>
-        <div class="layui-input-block">
-            <input type="text" name="CreateDate" v-model="CreateDate" required lay-verify="required"
-                placeholder="创建时间" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">创建用户主键</label>
-        <div class="layui-input-block">
-            <input type="text" name="CreateUserId" v-model="CreateUserId" required lay-verify="required"
-                placeholder="创建用户主键" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">创建用户</label>
-        <div class="layui-input-block">
-            <input type="text" name="CreateUserName" v-model="CreateUserName" required lay-verify="required"
-                placeholder="创建用户" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">修改时间</label>
-        <div class="layui-input-block">
-            <input type="text" name="ModifyDate" v-model="ModifyDate" required lay-verify="required"
-                placeholder="修改时间" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">修改用户主键</label>
-        <div class="layui-input-block">
-            <input type="text" name="ModifyUserId" v-model="ModifyUserId" required lay-verify="required"
-                placeholder="修改用户主键" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">修改用户</label>
-        <div class="layui-input-block">
-            <input type="text" name="ModifyUserName" v-model="ModifyUserName" required lay-verify="required"
-                placeholder="修改用户" autocomplete="off" class="layui-input">
-        </div>
-    </div>
+    <form class="layui-form" action="" id="formEdit">
+        <input type="hidden" name="Id" v-model="Id" />
+        
+        <div class="layui-tab layui-tab-brief" lay-filter="tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本信息</li>
+                <li>表单设计</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100px;">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">表单名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                                   placeholder="表单名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序码</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="SortCode" value="1" title="value1" checked>
+                            <input type="radio" name="SortCode" value="0" title="value2">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">删除标记</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="Delete" value="1" title="value1" checked>
+                            <input type="radio" name="Delete" value="0" title="value2">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">有效</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="Enabled" value="1" title="value1" checked>
+                            <input type="radio" name="Enabled" value="0" title="value2">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                                   placeholder="备注" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-tab-item">
+                    <input type="hidden" name="fields" id="fields" value="0">
+
+                    <div class="alert">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>提醒：</strong>单选框和复选框，如：<code>{|-</code>选项<code>-|}</code>两边边界是防止误删除控件，程序会把它们替换为空，请不要手动删除！
+                    </div>
+
+                    <div class="layui-row">
+                        <div class="layui-col-xs2">
+                            <ul class="layui-nav layui-nav-tree layui-inline" style="margin-right: 5px;">
+                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('text');">文本框</a></li>
+                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('textarea');">多行文本</a></li>
+                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('select');">下拉菜单</a></li>
+                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('radios');">单选框</a></li>
+                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('checkboxs');" class="btn btn-link">复选框</a></li>
+                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('macros');" class="btn btn-link">宏控件</a></li>
+                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('progressbar');" class="btn btn-link">进度条</a></li>
+                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('qrcode');" class="btn btn-link">二维码</a></li>
+                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('listctrl');" class="btn btn-link">列表控件</a></li>
+                            </ul>
+                        </div>
+                        <div class="layui-col-xs10">
+                            <script id="myFormDesign" type="text/plain" style="width:100%;">
+                                <input style="text-align: left; width: 150px;" title="文本框" value="OpenAuth.Net"
+                                       name="leipiNewField" orgheight="" orgwidth="150" orgalign="left"
+                                       orgfontsize="" orghide="0" leipiplugins="text" orgtype="text" />
+                                <br />
+                                {|-
+                                <span leipiplugins="radios" title="单选" name="leipiNewField">
+                                    <input value="单选1"
+                                           type="radio" checked="checked" />单选1&nbsp;<input value="单选2" type="radio" />单选2&nbsp;
+                                </span>-|}
+                            </script>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>  
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
@@ -179,8 +140,12 @@
         </div>
     </form>
 </div>
+<script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js?2023"></script>
+<script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.js?2023"> </script>
+<script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js?2023"></script>
+<script type="text/javascript" charset="utf-8" src="/js/ueditor/formdesign/leipi.formdesign.v4.js?2023"></script>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/js/forms.js"></script>
+<script type="text/javascript" src="/userJs/forms.js"></script>
 
 

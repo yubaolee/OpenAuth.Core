@@ -12,13 +12,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenAuth.Repository.Mapping
 {
-    public partial class WFFrmMainMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.WFFrmMain>
+    public partial class FormMap
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.Form>
     {
-        public WFFrmMainMap()
+        public FormMap()
         {
             // table
-            ToTable("WF_FrmMain", "dbo");
+            ToTable("Form", "dbo");
 
             // keys
             HasKey(t => t.Id);
@@ -28,53 +28,42 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("Id")
                 .HasMaxLength(50)
                 .IsRequired();
-            Property(t => t.FrmCode)
-                .HasColumnName("FrmCode")
-                .HasMaxLength(50)
-                .IsOptional();
-            Property(t => t.FrmName)
-                .HasColumnName("FrmName")
+            Property(t => t.Name)
+                .HasColumnName("Name")
                 .HasMaxLength(200)
                 .IsOptional();
-            Property(t => t.FrmType)
-                .HasColumnName("FrmType")
-                .HasMaxLength(50)
+            Property(t => t.Fields)
+                .HasColumnName("Fields")
+                .IsRequired();
+            Property(t => t.ContentData)
+                .HasColumnName("ContentData")
                 .IsOptional();
-            Property(t => t.FrmTable)
-                .HasColumnName("FrmTable")
-                .HasMaxLength(50)
+            Property(t => t.ContentParse)
+                .HasColumnName("ContentParse")
                 .IsOptional();
-            Property(t => t.FrmTableId)
-                .HasColumnName("FrmTableId")
-                .HasMaxLength(50)
-                .IsOptional();
-            Property(t => t.IsSystemTable)
-                .HasColumnName("isSystemTable")
-                .IsOptional();
-            Property(t => t.FrmContent)
-                .HasColumnName("FrmContent")
-                .HasMaxLength(16)
+            Property(t => t.Content)
+                .HasColumnName("Content")
                 .IsOptional();
             Property(t => t.SortCode)
                 .HasColumnName("SortCode")
-                .IsOptional();
-            Property(t => t.DeleteMark)
-                .HasColumnName("DeleteMark")
-                .IsOptional();
+                .IsRequired();
+            Property(t => t.Delete)
+                .HasColumnName("Delete")
+                .IsRequired();
             Property(t => t.FrmDbId)
                 .HasColumnName("FrmDbId")
                 .HasMaxLength(50)
                 .IsOptional();
-            Property(t => t.EnabledMark)
-                .HasColumnName("EnabledMark")
-                .IsOptional();
+            Property(t => t.Enabled)
+                .HasColumnName("Enabled")
+                .IsRequired();
             Property(t => t.Description)
                 .HasColumnName("Description")
                 .HasMaxLength(200)
                 .IsOptional();
             Property(t => t.CreateDate)
                 .HasColumnName("CreateDate")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.CreateUserId)
                 .HasColumnName("CreateUserId")
                 .HasMaxLength(50)

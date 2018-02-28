@@ -16,17 +16,19 @@ namespace OpenAuth.Repository.Domain
     /// <summary>
 	/// 表单模板表
 	/// </summary>
-    public partial class WFFrmMain : Entity
+    public partial class Form : Entity
     {
-        public WFFrmMain()
+        public Form()
         {
-          this.FrmCode= string.Empty;
-          this.FrmName= string.Empty;
-          this.FrmType= string.Empty;
-          this.FrmTable= string.Empty;
-          this.FrmTableId= string.Empty;
-          this.FrmContent= string.Empty;
+          this.Name= string.Empty;
+          this.Fields= 0;
+          this.ContentData= string.Empty;
+          this.ContentParse= string.Empty;
+          this.Content= string.Empty;
+          this.SortCode= 0;
+          this.Delete= 0;
           this.FrmDbId= string.Empty;
+          this.Enabled= 0;
           this.Description= string.Empty;
           this.CreateDate= DateTime.Now;
           this.CreateUserId= string.Empty;
@@ -37,41 +39,33 @@ namespace OpenAuth.Repository.Domain
         }
 
         /// <summary>
-	    /// 表单编号
-	    /// </summary>
-        public string FrmCode { get; set; }
-        /// <summary>
 	    /// 表单名称
 	    /// </summary>
-        public string FrmName { get; set; }
+        public string Name { get; set; }
         /// <summary>
-	    /// 表单分类
+	    /// 字段个数
 	    /// </summary>
-        public string FrmType { get; set; }
+        public int Fields { get; set; }
         /// <summary>
-	    /// 数据表
+	    /// 表单中的字段数据
 	    /// </summary>
-        public string FrmTable { get; set; }
+        public string ContentData { get; set; }
         /// <summary>
-	    /// 关联表的主键
+	    /// 表单替换的模板 经过处理
 	    /// </summary>
-        public string FrmTableId { get; set; }
+        public string ContentParse { get; set; }
         /// <summary>
-	    /// 是否需要建表0不建表,1建表
+	    /// 表单原html模板未经处理的
 	    /// </summary>
-        public int? IsSystemTable { get; set; }
-        /// <summary>
-	    /// 表单内容
-	    /// </summary>
-        public string FrmContent { get; set; }
+        public string Content { get; set; }
         /// <summary>
 	    /// 排序码
 	    /// </summary>
-        public int? SortCode { get; set; }
+        public int SortCode { get; set; }
         /// <summary>
 	    /// 删除标记
 	    /// </summary>
-        public int? DeleteMark { get; set; }
+        public int Delete { get; set; }
         /// <summary>
 	    /// 数据库Id
 	    /// </summary>
@@ -79,7 +73,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 有效
 	    /// </summary>
-        public int? EnabledMark { get; set; }
+        public int Enabled { get; set; }
         /// <summary>
 	    /// 备注
 	    /// </summary>
@@ -87,7 +81,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 创建时间
 	    /// </summary>
-        public System.DateTime? CreateDate { get; set; }
+        public System.DateTime CreateDate { get; set; }
         /// <summary>
 	    /// 创建用户主键
 	    /// </summary>

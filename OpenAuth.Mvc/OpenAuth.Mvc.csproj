@@ -143,7 +143,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FileController.cs" />
-    <Compile Include="Areas\FlowManage\Controllers\FormDesignController.cs" />
     <Compile Include="Areas\FlowManage\Controllers\FlowDesignController.cs" />
     <Compile Include="Areas\FlowManage\FlowManageAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -605,6 +604,7 @@
     <Content Include="js\ueditor\formdesign\textfield.html.ajax.bak" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
     <Content Include="userJs\formBuilder.js" />
+    <Content Include="userJs\forms.js" />
     <Content Include="Views\Home\git.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

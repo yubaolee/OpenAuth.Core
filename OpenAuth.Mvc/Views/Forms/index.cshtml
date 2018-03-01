@@ -44,101 +44,86 @@
 <div id="divEdit" style="display: none">
     <form class="layui-form" action="" id="formEdit">
         <input type="hidden" name="Id" v-model="Id" />
-        
-        <div class="layui-tab layui-tab-brief" lay-filter="tab">
-            <ul class="layui-tab-title">
-                <li class="layui-this">基本信息</li>
-                <li>表单设计</li>
-            </ul>
-            <div class="layui-tab-content" style="height: 100px;">
-                <div class="layui-tab-item layui-show">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">表单名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="Name" v-model="Name" required lay-verify="required"
-                                   placeholder="表单名称" autocomplete="off" class="layui-input">
+        <input type="hidden" name="Fields" id="Fields" value="0">
+        <div class="layui-row">
+            <div class="layui-tab layui-tab-brief" lay-filter="tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">基本信息</li>
+                    <li>表单设计</li>
+                </ul>
+                <div class="layui-tab-content" style="height: 100px;">
+                    <div class="layui-tab-item layui-show">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">表单名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                                       placeholder="表单名称" autocomplete="off" class="layui-input">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">排序码</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="SortCode" value="1" title="value1" checked>
-                            <input type="radio" name="SortCode" value="0" title="value2">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">排序码</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="SortCode" value="1" title="value1" checked>
+                                <input type="radio" name="SortCode" value="0" title="value2">
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">删除标记</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="Delete" value="1" title="value1" checked>
-                            <input type="radio" name="Delete" value="0" title="value2">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">删除标记</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="Delete" value="1" title="value1" checked>
+                                <input type="radio" name="Delete" value="0" title="value2">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">有效</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="Enabled" value="1" title="value1" checked>
-                            <input type="radio" name="Enabled" value="0" title="value2">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">有效</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="Enabled" value="1" title="value1" checked>
+                                <input type="radio" name="Enabled" value="0" title="value2">
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">备注</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="Description" v-model="Description" required lay-verify="required"
-                                   placeholder="备注" autocomplete="off" class="layui-input">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">备注</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                                       placeholder="备注" autocomplete="off" class="layui-input">
+                            </div>
                         </div>
+
                     </div>
-
-                </div>
-                <div class="layui-tab-item">
-                    <input type="hidden" name="fields" id="fields" value="0">
-
-                    <div class="alert">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <strong>提醒：</strong>单选框和复选框，如：<code>{|-</code>选项<code>-|}</code>两边边界是防止误删除控件，程序会把它们替换为空，请不要手动删除！
-                    </div>
-
-                    <div class="layui-row">
-                        <div class="layui-col-xs2">
-                            <ul class="layui-nav layui-nav-tree layui-inline" style="margin-right: 5px;">
-                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('text');">文本框</a></li>
-                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('textarea');">多行文本</a></li>
-                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('select');">下拉菜单</a></li>
-                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('radios');">单选框</a></li>
-                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('checkboxs');" class="btn btn-link">复选框</a></li>
-                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('macros');" class="btn btn-link">宏控件</a></li>
-                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('progressbar');" class="btn btn-link">进度条</a></li>
-                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('qrcode');" class="btn btn-link">二维码</a></li>
-                                <li class="layui-nav-item"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('listctrl');" class="btn btn-link">列表控件</a></li>
+                    <div class="layui-tab-item">
+                        <div class="layui-col-xs3">
+                            <ul class="layui-nav" style="margin-right: 5px;">
+                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('text');">文本框</a></li>
+                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('textarea');">多行文本</a></li>
+                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('select');">下拉菜单</a></li>
+                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('radios');">单选框</a></li>
+                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('checkboxs');" class="btn btn-link">复选框</a></li>
+                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('macros');" class="btn btn-link">宏控件</a></li>
+                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('progressbar');" class="btn btn-link">进度条</a></li>
+                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('qrcode');" class="btn btn-link">二维码</a></li>
+                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('listctrl');" class="btn btn-link">列表控件</a></li>
                             </ul>
                         </div>
-                        <div class="layui-col-xs10">
+                        <div class="layui-col-xs9">
                             <script id="myFormDesign" type="text/plain" style="width:100%;">
                                 <input style="text-align: left; width: 150px;" title="文本框" value="OpenAuth.Net"
-                                       name="leipiNewField" orgheight="" orgwidth="150" orgalign="left"
-                                       orgfontsize="" orghide="0" leipiplugins="text" orgtype="text" />
-                                <br />
-                                {|-
-                                <span leipiplugins="radios" title="单选" name="leipiNewField">
-                                    <input value="单选1"
-                                           type="radio" checked="checked" />单选1&nbsp;<input value="单选2" type="radio" />单选2&nbsp;
-                                </span>-|}
+                                        name="leipiNewField" orgheight="" orgwidth="150" orgalign="left"
+                                        orgfontsize="" orghide="0" leipiplugins="text" orgtype="text" />
                             </script>
                         </div>
                     </div>
-                    
-
                 </div>
             </div>
-        </div>  
-        <div class="layui-form-item">
+        </div>
+        <div class="layui-row">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
-    </form>
+</form>
 </div>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js?2023"></script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.js?2023"> </script>

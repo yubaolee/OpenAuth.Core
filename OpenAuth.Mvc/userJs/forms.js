@@ -21,7 +21,16 @@
         textarea: 'design_content',
         //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
         toolbars: [[
-         'fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'removeformat', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', '|', 'fontfamily', 'fontsize', '|', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'link', 'unlink', '|', 'horizontal', 'spechars', 'wordimage', '|', 'inserttable', 'deletetable', 'mergecells', 'splittocells']],
+          'fullscreen', 'source'
+          , '|', 'undo', 'redo'
+          , '|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'removeformat'
+          , '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist'
+          , '|', 'fontfamily', 'fontsize'
+          , '|', 'indent'
+          , '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify'
+          , '|', 'link', 'unlink'
+          , '|', 'horizontal', 'spechars', 'wordimage'
+          , '|', 'inserttable', 'deletetable', 'mergecells', 'splittocells']],
         //focus时自动清空初始化时的内容
         //autoClearinitialContent:true,
         //关闭字数统计
@@ -221,21 +230,22 @@
         fnReview: function () {
             if (leipiEditor.queryCommandState('source'))
                 leipiEditor.execCommand('source');/*切换到编辑模式才提交，否则部分浏览器有bug*/
-
             if (leipiEditor.hasContents()) {
                 leipiEditor.sync();       /*同步内容*/
-
-                alert("你点击了预览,请自行处理....");
-                return false;
-                //--------------以下仅参考-------------------------------------------------------------------
-
-
+                //--------------以下仅参考-------------------------------------------------------------------  
                 /*设计form的target 然后提交至一个新的窗口进行预览*/
-                document.saveform.target = "mywin";
-                window.open('', 'mywin', "menubar=0,toolbar=0,status=0,resizable=1,left=0,top=0,scrollbars=1,width=" + (screen.availWidth - 10) + ",height=" + (screen.availHeight - 50) + "\"");
+                var fields = $("#Fields").val(), formeditor = '';
+               
+                //获取表单设计器里的内容  
+                formeditor = leipiEditor.getContent();
+                //解析表单设计器控件  
+                var parse_form = this.parse_form(formeditor, fields);
 
-                document.saveform.action = "/index.php?s=/index/preview.html";
-                document.saveform.submit(); //提交表单
+                var forms1 = parse_form.Content;
+                win_parse = window.open('', '', 'width=800,height=400,alwaysRaised=yes,top=100,left=200');
+                var str = '<div style="width:500px;height:300px;border:1px solid grey">' + forms1 + '</div>';
+                win_parse.document.write(forms1);
+                win_parse.focus();
             } else {
                 alert('表单内容不能为空！');
                 return false;
@@ -306,7 +316,8 @@
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
-                area: ["500px", "400px"],
+                zIndex: 888,
+                area: ["800px", "700px"],
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
@@ -322,9 +333,8 @@
             form.on('submit(formSubmit)',
                 function (data) {
 
-
                     //解析表单数据
-                    var formid = 0, fields = $("#fields").val(), formeditor = '';
+                    var fields = $("#Fields").val(), formeditor = '';
                     //获取表单设计器里的内容
                     formeditor = leipiEditor.getContent();
                     //解析表单设计器控件

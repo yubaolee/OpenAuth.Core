@@ -436,7 +436,7 @@ namespace OpenAuth.App
 	 
 	 
         /**
-	 * 功能:  创建数据sql
+	 * 功能:  创建表单数据表格（基于sql server）
 	 */
         public static  string GetSql(Form form){
             // 获取字段并处理
@@ -445,14 +445,21 @@ namespace OpenAuth.App
             // 数据库名称
             string tableName="[Form_"+ form.FrmDbId + "]";
             // 创建数据表
-            StringBuilder sql =new StringBuilder("CREATE TABLE "+tableName+ " (id int(64)  NOT NULL COMMENT '主键' ,") ;
+            StringBuilder sql =new StringBuilder("CREATE TABLE "
+                +tableName
+                + " (   [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,") ;  //主键
 		
             string sqlDefault = "";
 
             foreach (var json in jsonArray)
             {
-                string name = json["name"].ToString();
+                string name;
                 string type = json["leipiplugins"].ToString();
+
+                if ("checkboxs" == (type))
+                    name = json["parse_name"].ToString();
+                else
+                    name = json["name"].ToString();
 
                 sql.Append("[" + name + "] " + field_type_sql(type));//字段拼接
 
@@ -462,9 +469,18 @@ namespace OpenAuth.App
                 else
                     sqlDefault += field_type_sql_default(tableName, name, "''");
             }
-		
-		
-            sql.Append("PRIMARY KEY ([id])) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ROW_FORMAT=COMPACT;");
+
+            sql.Append(");");
+
+            //设置主键
+            sql.Append("ALTER TABLE "+tableName+" ADD CONSTRAINT [PK_"+form.FrmDbId+"] PRIMARY KEY NONCLUSTERED ([Id])");
+            sql.Append(
+                "WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ");
+            sql.Append("ON [PRIMARY];");
+
+            //主键默认值
+            sql.Append("ALTER TABLE "+tableName+" ADD   DEFAULT (newid()) FOR [Id];");
+
             return sql+sqlDefault;
 
         }
@@ -477,7 +493,7 @@ namespace OpenAuth.App
             }
             else if ("checkboxs"==(leipiplugins))
             {
-                return " tinyint NOT NULL ,";
+                return " int NOT NULL ,";
             }
             else
             {
@@ -486,7 +502,7 @@ namespace OpenAuth.App
         }
         private static string field_type_sql_default(string tablename, string field, string defaultValue)
         {
-            return "alter table "+tablename+" alter column `"+field+"` set default "+defaultValue+";";
+            return "ALTER TABLE "+tablename+" ADD  DEFAULT ("+defaultValue+") FOR ["+field+"];";
         }
     }
 }

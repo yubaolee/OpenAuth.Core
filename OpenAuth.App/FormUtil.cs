@@ -438,14 +438,14 @@ namespace OpenAuth.App
         /**
 	 * 功能:  创建数据sql
 	 */
-        public static  string GetSql(Form form,JObject JObject){
+        public static  string GetSql(Form form){
             // 获取字段并处理
-            var jsonArray = JArray.Parse(JObject.GetValue("data").ToString());
+            var jsonArray = JArray.Parse(form.ContentData);
 		
             // 数据库名称
-            string data_name="`from_data_"+ form.Id+"`";
+            string tableName="[Form_"+ form.FrmDbId + "]";
             // 创建数据表
-            StringBuilder sql =new StringBuilder("CREATE TABLE "+data_name+ " (`id` int(64)  NOT NULL COMMENT '主键' ,") ;
+            StringBuilder sql =new StringBuilder("CREATE TABLE "+tableName+ " (id int(64)  NOT NULL COMMENT '主键' ,") ;
 		
             string sqlDefault = "";
 
@@ -454,18 +454,18 @@ namespace OpenAuth.App
                 string name = json["name"].ToString();
                 string type = json["leipiplugins"].ToString();
 
-                sql.Append("`" + name + "` " + field_type_sql(type));//字段拼接
+                sql.Append("[" + name + "] " + field_type_sql(type));//字段拼接
 
 
                 if ("checkboxs" == (type))
-                    sqlDefault += field_type_sql_default(data_name, name, "0");
+                    sqlDefault += field_type_sql_default(tableName, name, "0");
                 else
-                    sqlDefault += field_type_sql_default(data_name, name, "''");
+                    sqlDefault += field_type_sql_default(tableName, name, "''");
             }
 		
 		
-            sql.Append("PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ROW_FORMAT=COMPACT;");
-            return sql.ToString()+sqlDefault;
+            sql.Append("PRIMARY KEY ([id])) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ROW_FORMAT=COMPACT;");
+            return sql+sqlDefault;
 
         }
         //获取控件字段类型 的sql 

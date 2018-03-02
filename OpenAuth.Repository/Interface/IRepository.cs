@@ -58,5 +58,7 @@ namespace OpenAuth.Repository.Interface
         void Delete(Expression<Func<T, bool>> exp);
 
         void Save();
+
+        int ExecuteSql(string sql);
     }
 }

@@ -25,6 +25,7 @@ namespace OpenAuth.App
         public void Add(Form obj)
         {
             Repository.Add(obj);
+            Repository.ExecuteSql(FormUtil.GetSql(obj));
         }
         
         public void Update(Form obj)

@@ -60,6 +60,14 @@
                                        placeholder="表单名称" autocomplete="off" class="layui-input">
                             </div>
                         </div>
+                        
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">关联数据表名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="FrmDbId" v-model="FrmDbId" required lay-verify="required"
+                                       placeholder="关联数据表名称" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
 
                         <div class="layui-form-item">
                             <label class="layui-form-label">排序码</label>
@@ -68,25 +76,12 @@
                                 <input type="radio" name="SortCode" value="0" title="value2">
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">删除标记</label>
-                            <div class="layui-input-block">
-                                <input type="radio" name="Delete" value="1" title="value1" checked>
-                                <input type="radio" name="Delete" value="0" title="value2">
-                            </div>
-                        </div>
+                       
 
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">有效</label>
-                            <div class="layui-input-block">
-                                <input type="radio" name="Enabled" value="1" title="value1" checked>
-                                <input type="radio" name="Enabled" value="0" title="value2">
-                            </div>
-                        </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">备注</label>
                             <div class="layui-input-block">
-                                <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                                <input type="text" name="Description" v-model="Description"
                                        placeholder="备注" autocomplete="off" class="layui-input">
                             </div>
                         </div>

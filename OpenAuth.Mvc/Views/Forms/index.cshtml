@@ -18,19 +18,11 @@
                 <th lay-data="{field:'Name', width:150}">表单名称</th>
                 <th lay-data="{field:'Fields', width:150}">字段个数</th>
                 <th lay-data="{field:'ContentData', width:150}">表单中的字段数据</th>
-                <th lay-data="{field:'ContentParse', width:150}">表单替换的模板 经过处理</th>
-                <th lay-data="{field:'Content', width:150}">表单原html模板未经处理的</th>
-                <th lay-data="{field:'SortCode', width:150}">排序码</th>
-                <th lay-data="{field:'Delete', width:150}">删除标记</th>
-                <th lay-data="{field:'FrmDbId', width:150}">数据库Id</th>
+                <th lay-data="{field:'FrmDbId', width:150}">关联的数据库</th>
                 <th lay-data="{field:'Enabled', width:150}">有效</th>
                 <th lay-data="{field:'Description', width:150}">备注</th>
                 <th lay-data="{field:'CreateDate', width:150}">创建时间</th>
-                <th lay-data="{field:'CreateUserId', width:150}">创建用户主键</th>
-                <th lay-data="{field:'CreateUserName', width:150}">创建用户</th>
                 <th lay-data="{field:'ModifyDate', width:150}">修改时间</th>
-                <th lay-data="{field:'ModifyUserId', width:150}">修改用户主键</th>
-                <th lay-data="{field:'ModifyUserName', width:150}">修改用户</th>
                 <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
             </tr>
         </thead>
@@ -41,10 +33,11 @@
 </script>
 
 <!--用户添加/编辑窗口-->
-<div id="divEdit" style="display: none">
+<div id="divEdit" style="display: none">  
     <form class="layui-form" action="" id="formEdit">
         <input type="hidden" name="Id" v-model="Id" />
         <input type="hidden" name="Fields" id="Fields" value="0">
+
         <div class="layui-row">
             <div class="layui-tab layui-tab-brief" lay-filter="tab">
                 <ul class="layui-tab-title">
@@ -62,7 +55,7 @@
                         </div>
                         
                         <div class="layui-form-item">
-                            <label class="layui-form-label">关联数据表名称</label>
+                            <label class="layui-form-label">关联数据表名称【英文】</label>
                             <div class="layui-input-block">
                                 <input type="text" name="FrmDbId" v-model="FrmDbId" required lay-verify="required"
                                        placeholder="关联数据表名称" autocomplete="off" class="layui-input">
@@ -72,12 +65,10 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">排序码</label>
                             <div class="layui-input-block">
-                                <input type="radio" name="SortCode" value="1" title="value1" checked>
-                                <input type="radio" name="SortCode" value="0" title="value2">
+                                <input type="text" name="SortCode" value="1" v-model="SortCode" class="layui-input">
                             </div>
                         </div>
                        
-
                         <div class="layui-form-item">
                             <label class="layui-form-label">备注</label>
                             <div class="layui-input-block">
@@ -103,15 +94,13 @@
                         </div>
                         <div class="layui-col-xs9">
                             <script id="myFormDesign" type="text/plain" style="width:100%;">
-                                <input style="text-align: left; width: 150px;" title="文本框" value="OpenAuth.Net"
-                                        name="leipiNewField" orgheight="" orgwidth="150" orgalign="left"
-                                        orgfontsize="" orghide="0" leipiplugins="text" orgtype="text" />
                             </script>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         <div class="layui-row">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>

@@ -396,7 +396,20 @@
              }
              editDlg.update(data[0]);
          }
-
+        , btnPreview:function() {
+            var checkStatus = table.checkStatus('mainList')
+            , data = checkStatus.data;
+            if (data.length != 1) {
+                layer.msg("请选择要预览的行，且同时只能编辑一行");
+                return;
+            }
+            
+            layer.open({
+                type: 2,
+                area: ["800px", "700px"],
+                content: '/forms/preview?id=' + data[0].Id
+            });
+        }
         , search: function () {   //搜索
             mainList({ key: $('#key').val() });
         }

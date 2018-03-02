@@ -20,9 +20,21 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public ActionResult Builder()
+        public ActionResult Preview()
         {
             return View();
+        }
+
+        /// <summary>
+        /// 预览表单
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>System.String.</returns>
+        public string PreviewData(string id)
+        {
+            var form = App.FindSingle(id);
+
+            return FormUtil.GetHtml(form, "");
         }
 
         //添加或修改

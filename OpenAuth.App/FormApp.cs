@@ -36,5 +36,10 @@ namespace OpenAuth.App
 
         }
 
+        public Form FindSingle(string id)
+        {
+            return Repository.FindSingle(u => u.Id == id);
+        }
+
     }
 }

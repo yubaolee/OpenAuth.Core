@@ -603,7 +603,7 @@
     <Content Include="json\userface.json" />
     <Content Include="js\ueditor\formdesign\textfield.html.ajax.bak" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
-    <Content Include="userJs\formBuilder.js" />
+    <Content Include="userJs\preview.js" />
     <Content Include="userJs\forms.js" />
     <Content Include="Views\Home\git.cshtml" />
     <Content Include="Web.config">
@@ -627,7 +627,7 @@
     <Content Include="Views\ModuleManager\Assign.cshtml" />
     <Content Include="Views\RoleManager\Index.cshtml" />
     <Content Include="Views\Forms\index.cshtml" />
-    <Content Include="Views\Forms\builder.cshtml" />
+    <Content Include="Views\Forms\Preview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\FlowManage\Models\" />

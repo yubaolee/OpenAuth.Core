@@ -33,7 +33,7 @@
 </script>
 
 <!--用户添加/编辑窗口-->
-<div id="divEdit" style="display: none">  
+<div id="divEdit" style="display: none">
     <form class="layui-form" action="" id="formEdit">
         <input type="hidden" name="Id" v-model="Id" />
         <input type="hidden" name="Fields" id="Fields" value="0">
@@ -53,7 +53,7 @@
                                        placeholder="表单名称" autocomplete="off" class="layui-input">
                             </div>
                         </div>
-                        
+
                         <div class="layui-form-item">
                             <label class="layui-form-label">关联数据表名称【英文】</label>
                             <div class="layui-input-block">
@@ -68,7 +68,7 @@
                                 <input type="text" name="SortCode" value="1" v-model="SortCode" class="layui-input">
                             </div>
                         </div>
-                       
+
                         <div class="layui-form-item">
                             <label class="layui-form-label">备注</label>
                             <div class="layui-input-block">
@@ -79,35 +79,42 @@
 
                     </div>
                     <div class="layui-tab-item">
-                        <div class="layui-col-xs3">
-                            <ul class="layui-nav" style="margin-right: 5px;">
-                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('text');">文本框</a></li>
-                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('textarea');">多行文本</a></li>
-                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('select');">下拉菜单</a></li>
-                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('radios');">单选框</a></li>
-                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('checkboxs');" class="btn btn-link">复选框</a></li>
-                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('macros');" class="btn btn-link">宏控件</a></li>
-                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('progressbar');" class="btn btn-link">进度条</a></li>
-                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('qrcode');" class="btn btn-link">二维码</a></li>
-                                <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('listctrl');" class="btn btn-link">列表控件</a></li>
-                            </ul>
+                        <div class="layui-row">
+                            <blockquote class="layui-elem-quote">
+                                提醒：单选框和复选框，如：{|-选项-|}两边边界是防止误删除控件，程序会把它们替换为空，请不要手动删除！
+                            </blockquote>
                         </div>
-                        <div class="layui-col-xs9">
-                            <script id="myFormDesign" type="text/plain" style="width:100%;">
-                            </script>
+                        <div class="layui-row">
+                            <div class="layui-col-xs3">
+                                <ul class="layui-nav" style="margin-right: 5px;">
+                                    <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('text');">文本框</a></li>
+                                    <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('textarea');">多行文本</a></li>
+                                    <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('select');">下拉菜单</a></li>
+                                    <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('radios');">单选框</a></li>
+                                    <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('checkboxs');" class="btn btn-link">复选框</a></li>
+                                    <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('macros');" class="btn btn-link">宏控件</a></li>
+                                    <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('progressbar');" class="btn btn-link">进度条</a></li>
+                                    <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('qrcode');" class="btn btn-link">二维码</a></li>
+                                    <li class="layui-nav-item" style="line-height: 40px"><a href="javascript:void(0);" onclick="leipiFormDesign.exec('listctrl');" class="btn btn-link">列表控件</a></li>
+                                </ul>
+                            </div>
+                            <div class="layui-col-xs9">
+                                <script id="myFormDesign" type="text/plain" style="width: 100%;">
+                                </script>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="layui-row">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
-</form>
+    </form>
 </div>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js?2023"></script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.js?2023"> </script>
@@ -115,6 +122,6 @@
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/formdesign/leipi.formdesign.v4.js?2023"></script>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/forms.js"></script>
+<script type="text/javascript" src="/userJs/forms.js?v4"></script>
 
 

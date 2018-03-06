@@ -15,7 +15,7 @@
     });
 
     //表单设计器
-    var leipiEditor = UE.getEditor('myFormDesign', {
+    var ue = UE.getEditor('myFormDesign', {
         //allowDivTransToP: false,//阻止转换div 为p
         toolleipi: true,//是否显示，设计器的 toolbars
         textarea: 'design_content',
@@ -31,22 +31,20 @@
           , '|', 'link', 'unlink'
           , '|', 'horizontal', 'spechars', 'wordimage'
           , '|', 'inserttable', 'deletetable', 'mergecells', 'splittocells']],
-        //focus时自动清空初始化时的内容
-        //autoClearinitialContent:true,
         //关闭字数统计
         wordCount: false,
         //关闭elementPath
         elementPathEnabled: false,
         //默认的编辑区域高度
         initialFrameHeight: 300
-        ///,iframeCssUrl:"css/bootstrap/css/bootstrap.css" //引入自身 css使编辑器兼容你网站css
+        , iframeCssUrl: "/js/ueditor/formdesign/bootstrap/css/bootstrap.min.css" //引入自身 css使编辑器兼容你网站css
         //更多其他参数，请参考ueditor.config.js中的配置项
     });
 
     leipiFormDesign = {
         /*执行控件*/
         exec: function (method) {
-            leipiEditor.execCommand(method);
+            ue.execCommand(method);
         },
         /*
             Javascript 解析表单
@@ -212,11 +210,11 @@
         },
         /*type  =  save 保存设计 versions 保存版本  close关闭 */
         fnCheckForm: function (type) {
-            if (leipiEditor.queryCommandState('source'))
-                leipiEditor.execCommand('source');//切换到编辑模式才提交，否则有bug
+            if (ue.queryCommandState('source'))
+                ue.execCommand('source');//切换到编辑模式才提交，否则有bug
 
-            if (leipiEditor.hasContents()) {
-                leipiEditor.sync();/*同步内容*/
+            if (ue.hasContents()) {
+                ue.sync();/*同步内容*/
 
                 return false;
 
@@ -228,16 +226,16 @@
         },
         /*预览表单*/
         fnReview: function () {
-            if (leipiEditor.queryCommandState('source'))
-                leipiEditor.execCommand('source');/*切换到编辑模式才提交，否则部分浏览器有bug*/
-            if (leipiEditor.hasContents()) {
-                leipiEditor.sync();       /*同步内容*/
+            if (ue.queryCommandState('source'))
+                ue.execCommand('source');/*切换到编辑模式才提交，否则部分浏览器有bug*/
+            if (ue.hasContents()) {
+                ue.sync();       /*同步内容*/
                 //--------------以下仅参考-------------------------------------------------------------------  
                 /*设计form的target 然后提交至一个新的窗口进行预览*/
                 var fields = $("#Fields").val(), formeditor = '';
                
                 //获取表单设计器里的内容  
-                formeditor = leipiEditor.getContent();
+                formeditor = ue.getContent();
                 //解析表单设计器控件  
                 var parse_form = this.parse_form(formeditor, fields);
 
@@ -322,6 +320,11 @@
                 content: $('#divEdit'),
                 success: function() {
                     vm.$set('$data', data);
+                    //玄学：加个延迟ueditor才能正常
+                    setTimeout(function() {
+                        ue.setContent(data.Content);
+                    },500);
+                   
                 },
                 end: mainList
             });
@@ -336,7 +339,7 @@
                     //解析表单数据
                     var fields = $("#Fields").val(), formeditor = '';
                     //获取表单设计器里的内容
-                    formeditor = leipiEditor.getContent();
+                    formeditor = ue.getContent();
                     //解析表单设计器控件
                     var parseForm = leipiFormDesign.parse_form(formeditor, fields);
                     //alert(parse_form);\

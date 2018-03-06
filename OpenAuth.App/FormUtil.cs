@@ -445,10 +445,14 @@ namespace OpenAuth.App
             // 数据库名称
             string tableName="[Form_"+ form.FrmDbId + "]";
             // 创建数据表
-            StringBuilder sql =new StringBuilder("CREATE TABLE "
-                +tableName
-                + " (   [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,") ;  //主键
-		
+            StringBuilder sql =new StringBuilder("if exists ( select * from sysobjects where name = '"
+                +tableName+"' and type = 'U') drop table " 
+                + tableName +";") ;  
+
+            sql.Append("CREATE TABLE "
+                       + tableName
+                       + " (   [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,"); //主键
+
             string sqlDefault = "";
 
             foreach (var json in jsonArray)

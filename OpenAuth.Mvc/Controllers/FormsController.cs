@@ -57,6 +57,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改
         [System.Web.Mvc.HttpPost]
+        [ValidateInput(false)]
         public string Update(Form obj)
         {
             try

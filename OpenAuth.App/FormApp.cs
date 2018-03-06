@@ -30,11 +30,16 @@ namespace OpenAuth.App
         
         public void Update(Form obj)
         {
-            UnitWork.Update<Form>(u => u.Id == obj.Id, u => new Form
+            Repository.Update(u => u.Id == obj.Id, u => new Form
             {
-               //todo:要修改的
+               ContentData = obj.ContentData,
+               Content = obj.Content,
+               ContentParse = obj.ContentParse,
+               Name = obj.Name,
+               FrmDbId = obj.FrmDbId
             });
 
+            Repository.ExecuteSql(FormUtil.GetSql(obj));
         }
 
         public Form FindSingle(string id)

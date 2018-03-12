@@ -14,15 +14,16 @@ using System.Text;
 namespace OpenAuth.Repository.Domain
 {
     /// <summary>
-	/// 工作流实例模板对应表
+	/// 工作流实例模板对应表，防止创建实例后原模板被改
 	/// </summary>
-    public partial class WFProcessScheme : Entity
+    public partial class FlowInstanceScheme : Entity
     {
-        public WFProcessScheme()
+        public FlowInstanceScheme()
         {
           this.SchemeContent= string.Empty;
-          this.SchemeInfoId= string.Empty;
+          this.SchemeId= string.Empty;
           this.SchemeVersion= string.Empty;
+          this.ProcessType= 0;
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 流程模板ID
 	    /// </summary>
-        public string SchemeInfoId { get; set; }
+        public string SchemeId { get; set; }
         /// <summary>
 	    /// 流程内容版本
 	    /// </summary>
@@ -40,26 +41,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 类型(0正常,3草稿)
 	    /// </summary>
-        public int? ProcessType { get; set; }
-
-
-        #region 扩展操作
-        /// <summary>
-        /// 新增调用
-        /// </summary>
-        public void Create()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
-        /// <summary>
-        /// 编辑调用
-        /// </summary>
-        /// <param name="keyValue"></param>
-        public void Modify(string keyValue)
-        {
-            this.Id = keyValue;
-        }
-        #endregion
+        public int ProcessType { get; set; }
 
     }
 }

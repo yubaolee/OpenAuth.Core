@@ -12,13 +12,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenAuth.Repository.Mapping
 {
-    public partial class WFProcessTransitionHistoryMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.WFProcessTransitionHistory>
+    public partial class FlowInstanceTransitionHistoryMap
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.FlowInstanceTransitionHistory>
     {
-        public WFProcessTransitionHistoryMap()
+        public FlowInstanceTransitionHistoryMap()
         {
             // table
-            ToTable("WF_ProcessTransitionHistory", "dbo");
+            ToTable("FlowInstanceTransitionHistory", "dbo");
 
             // keys
             HasKey(t => t.Id);
@@ -28,41 +28,41 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("Id")
                 .HasMaxLength(50)
                 .IsRequired();
-            Property(t => t.ProcessId)
-                .HasColumnName("ProcessId")
+            Property(t => t.InstanceId)
+                .HasColumnName("InstanceId")
                 .HasMaxLength(50)
                 .IsRequired();
             Property(t => t.FromNodeId)
-                .HasColumnName("fromNodeId")
+                .HasColumnName("FromNodeId")
                 .HasMaxLength(50)
                 .IsOptional();
             Property(t => t.FromNodeType)
-                .HasColumnName("fromNodeType")
+                .HasColumnName("FromNodeType")
                 .IsOptional();
             Property(t => t.FromNodeName)
-                .HasColumnName("fromNodeName")
+                .HasColumnName("FromNodeName")
                 .HasMaxLength(200)
                 .IsOptional();
             Property(t => t.ToNodeId)
-                .HasColumnName("toNodeId")
+                .HasColumnName("ToNodeId")
                 .HasMaxLength(50)
                 .IsOptional();
             Property(t => t.ToNodeType)
-                .HasColumnName("toNodeType")
+                .HasColumnName("ToNodeType")
                 .IsOptional();
             Property(t => t.ToNodeName)
-                .HasColumnName("toNodeName")
+                .HasColumnName("ToNodeName")
                 .HasMaxLength(200)
                 .IsOptional();
             Property(t => t.TransitionSate)
                 .HasColumnName("TransitionSate")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.IsFinish)
-                .HasColumnName("isFinish")
-                .IsOptional();
+                .HasColumnName("IsFinish")
+                .IsRequired();
             Property(t => t.CreateDate)
                 .HasColumnName("CreateDate")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.CreateUserId)
                 .HasColumnName("CreateUserId")
                 .HasMaxLength(50)

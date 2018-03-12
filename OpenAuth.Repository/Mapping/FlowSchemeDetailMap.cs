@@ -12,13 +12,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenAuth.Repository.Mapping
 {
-    public partial class WFSchemeContentMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.WFSchemeContent>
+    public partial class FlowSchemeDetailMap
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.FlowSchemeDetail>
     {
-        public WFSchemeContentMap()
+        public FlowSchemeDetailMap()
         {
             // table
-            ToTable("WF_SchemeContent", "dbo");
+            ToTable("FlowSchemeDetail", "dbo");
 
             // keys
             HasKey(t => t.Id);
@@ -28,8 +28,8 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("Id")
                 .HasMaxLength(50)
                 .IsRequired();
-            Property(t => t.SchemeInfoId)
-                .HasColumnName("SchemeInfoId")
+            Property(t => t.SchemeId)
+                .HasColumnName("SchemeId")
                 .HasMaxLength(50)
                 .IsRequired();
             Property(t => t.SchemeVersion)
@@ -41,7 +41,7 @@ namespace OpenAuth.Repository.Mapping
                 .IsOptional();
             Property(t => t.CreateDate)
                 .HasColumnName("CreateDate")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.CreateUserId)
                 .HasColumnName("CreateUserId")
                 .HasMaxLength(50)

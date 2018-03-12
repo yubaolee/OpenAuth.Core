@@ -115,6 +115,8 @@
     <Compile Include="Request\IdPageReq.cs" />
     <Compile Include="Request\PageReq.cs" />
     <Compile Include="Request\QueryCategoriesReq.cs" />
+    <Compile Include="Request\QueryFlowInstanceListReq.cs" />
+    <Compile Include="Request\QueryFlowSchemeListReq.cs" />
     <Compile Include="Request\QueryRoleListReq.cs" />
     <Compile Include="Request\QueryFormListReq.cs" />
     <Compile Include="Request\QueryUserListReq.cs" />
@@ -122,8 +124,8 @@
     <Compile Include="RevelanceManagerApp.cs" />
     <Compile Include="SystemAuthService.cs" />
     <Compile Include="RoleApp.cs" />
-    <Compile Include="WFProcessInstanceService.cs" />
-    <Compile Include="WFSchemeService.cs" />
+    <Compile Include="FlowInstanceApp.cs" />
+    <Compile Include="FlowSchemeApp.cs" />
     <Compile Include="ModuleManagerApp.cs" />
     <Compile Include="SSO\AppInfo.cs" />
     <Compile Include="SSO\AppInfoService.cs" />

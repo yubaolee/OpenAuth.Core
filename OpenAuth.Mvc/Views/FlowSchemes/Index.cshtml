@@ -1,0 +1,98 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+}
+<blockquote class="layui-elem-quote news_search toolList">
+    @Html.Action("MenuHeader", "Home")
+</blockquote>
+
+<div style="display: flex;">
+    <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
+    <table class="layui-table"
+           lay-data="{height: 'full-80', page:true, id:'mainList'}"
+           lay-filter="list" lay-size="sm">
+        <thead>
+            <tr>
+                <th lay-data="{checkbox:true, fixed: true}"></th>
+                <th lay-data="{field:'Id', width:150}">主键Id</th>
+                <th lay-data="{field:'SchemeCode', width:150}">流程编号</th>
+                <th lay-data="{field:'SchemeName', width:150}">流程名称</th>
+                <th lay-data="{field:'SchemeVersion', width:150}">流程内容版本</th>
+                <th lay-data="{field:'FrmType', width:150}">表单类型</th>
+                <th lay-data="{field:'AuthorizeType', width:150}">模板权限类型0所有人,1指定成员</th>
+                <th lay-data="{field:'SortCode', width:150}">排序码</th>
+                <th lay-data="{field:'Disabled', width:150}">有效</th>
+                <th lay-data="{field:'Description', width:150}">备注</th>
+                <th lay-data="{field:'CreateDate', width:150}">创建时间</th>
+
+                <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/html" id="barList">
+    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
+</script>
+
+<!--用户添加/编辑窗口-->
+<div id="divEdit" style="display: none">
+    <form class="layui-form" action="" id="formEdit">
+        <input type="hidden" name="Id" v-model="Id" />
+        <div class="layui-form-item">
+            <label class="layui-form-label">流程编号</label>
+            <div class="layui-input-block">
+                <input type="text" name="SchemeCode" v-model="SchemeCode" required lay-verify="required"
+                       placeholder="流程编号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">流程名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="SchemeName" v-model="SchemeName" required lay-verify="required"
+                       placeholder="流程名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">模板权限类型0所有人,1指定成员</label>
+            <div class="layui-input-block">
+                <input type="radio" name="AuthorizeType" value="1" title="value1" checked>
+                <input type="radio" name="AuthorizeType" value="0" title="value2">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序码</label>
+            <div class="layui-input-block">
+                <input type="radio" name="SortCode" value="1" title="value1" checked>
+                <input type="radio" name="SortCode" value="0" title="value2">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">有效</label>
+            <div class="layui-input-block">
+                <input type="radio" name="Disabled" value="1" title="value1" checked>
+                <input type="radio" name="Disabled" value="0" title="value2">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                       placeholder="备注" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/flowSchemes.js"></script>
+
+

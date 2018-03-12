@@ -1,34 +1,32 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Extention;
+using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
-using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
     /// <summary>
-    /// å·¥ä½œæµå®ä¾‹è¡¨æ“ä½œ
-    /// <para>æç‰å®æ–°å¢äº2017-01-16 20:33:48</para>
+    /// ¹¤×÷Á÷ÊµÀı±í²Ù×÷
     /// </summary>
-    public class WFProcessInstanceService 
+    public class FlowInstanceApp :BaseApp<FlowInstance>
     {
-        public IUnitWork _unitWork { get; set; }
 
-        #region è·å–æ•°æ®
+        #region »ñÈ¡Êı¾İ
         /// <summary>
-        /// è·å–å®ä¾‹è¿›ç¨‹ä¿¡æ¯å®ä½“
+        /// »ñÈ¡ÊµÀı½ø³ÌĞÅÏ¢ÊµÌå
         /// </summary>
         /// <param name="keyVlaue">The key vlaue.</param>
-        /// <returns>WFProcessInstance.</returns>
-        public WFProcessInstance GetEntity(string keyVlaue)
+        /// <returns>FlowInstance.</returns>
+        public FlowInstance GetEntity(string keyVlaue)
         {
             try
             {
-                return _unitWork.FindSingle<WFProcessInstance>(u =>u.Id == keyVlaue);
+                return UnitWork.FindSingle<FlowInstance>(u =>u.Id == keyVlaue);
             }
             catch
             {
@@ -37,41 +35,40 @@ namespace OpenAuth.App
         }
         #endregion
 
-        #region æäº¤æ•°æ®
+        #region Ìá½»Êı¾İ
         /// <summary>
-        /// å­˜å‚¨å·¥ä½œæµå®ä¾‹è¿›ç¨‹(ç¼–è¾‘è‰ç¨¿ç”¨)
+        /// ´æ´¢¹¤×÷Á÷ÊµÀı½ø³Ì(±à¼­²İ¸åÓÃ)
         /// </summary>
         /// <param name="processInstanceEntity"></param>
         /// <param name="processSchemeEntity"></param>
         /// <param name="wfOperationHistoryEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(string processId, WFProcessInstance processInstanceEntity, WFProcessScheme processSchemeEntity, WFProcessOperationHistory wfOperationHistoryEntity = null)
+        public int SaveProcess(string processId, FlowInstance processInstanceEntity, FlowInstanceScheme processSchemeEntity, FlowInstanceOperationHistory wfOperationHistoryEntity = null)
         {
             try
             {
                 if (string.Empty ==(processInstanceEntity.Id))
                 {
-                    _unitWork.Add(processSchemeEntity);
+                    UnitWork.Add(processSchemeEntity);
 
-                    processInstanceEntity.Create();
                     processInstanceEntity.Id = processId;
-                    processInstanceEntity.ProcessSchemeId = processSchemeEntity.Id;
-                    _unitWork.Add(processInstanceEntity);
+                    processInstanceEntity.InstanceSchemeId = processSchemeEntity.Id;
+                    UnitWork.Add(processInstanceEntity);
                 }
                 else
                 {
-                    processInstanceEntity.Modify(processId);
-                    _unitWork.Update(processInstanceEntity);
+                    processInstanceEntity.Id = (processId);
+                    UnitWork.Update(processInstanceEntity);
 
-                    processSchemeEntity.Modify(processInstanceEntity.ProcessSchemeId);
-                    _unitWork.Update(processSchemeEntity);
+                    processSchemeEntity.Id=(processInstanceEntity.InstanceSchemeId);
+                    UnitWork.Update(processSchemeEntity);
                 }
                 if (wfOperationHistoryEntity != null)
                 {
-                    wfOperationHistoryEntity.ProcessId = processId;
-                    _unitWork.Add(wfOperationHistoryEntity);
+                    wfOperationHistoryEntity.InstanceId = processId;
+                    UnitWork.Add(wfOperationHistoryEntity);
                 }
-                _unitWork.Save();
+                UnitWork.Save();
                 return 1;
             }
             catch
@@ -80,7 +77,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// å­˜å‚¨å·¥ä½œæµå®ä¾‹è¿›ç¨‹(åˆ›å»ºå®ä¾‹è¿›ç¨‹)
+        /// ´æ´¢¹¤×÷Á÷ÊµÀı½ø³Ì(´´½¨ÊµÀı½ø³Ì)
         /// </summary>
         /// <param name="wfRuntimeModel"></param>
         /// <param name="processInstanceEntity"></param>
@@ -88,36 +85,34 @@ namespace OpenAuth.App
         /// <param name="processOperationHistoryEntity"></param>
         /// <param name="delegateRecordEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(WF_RuntimeModel wfRuntimeModel, WFProcessInstance processInstanceEntity, WFProcessScheme processSchemeEntity, WFProcessOperationHistory processOperationHistoryEntity, WFProcessTransitionHistory processTransitionHistoryEntity)
+        public int SaveProcess(WF_RuntimeModel wfRuntimeModel, FlowInstance processInstanceEntity, FlowInstanceScheme processSchemeEntity, FlowInstanceOperationHistory processOperationHistoryEntity, FlowInstanceTransitionHistory processTransitionHistoryEntity)
         {
             try
             {
                 if (string.Empty == (processInstanceEntity.Id))
                 {
-                    processSchemeEntity.Create();
-                    _unitWork.Add(processSchemeEntity);
+                    UnitWork.Add(processSchemeEntity);
 
-                    processInstanceEntity.Create();
                     processInstanceEntity.Id = (string)(wfRuntimeModel.processId);
-                    processInstanceEntity.ProcessSchemeId = processSchemeEntity.Id;
-                    _unitWork.Add(processInstanceEntity);
+                    processInstanceEntity.InstanceSchemeId = processSchemeEntity.Id;
+                    UnitWork.Add(processInstanceEntity);
                 }
                 else
                 {
-                    processInstanceEntity.Modify(processInstanceEntity.Id);
-                    _unitWork.Update(processSchemeEntity);
-                    _unitWork.Update(processInstanceEntity);
+                    processInstanceEntity.Id =(processInstanceEntity.Id);
+                    UnitWork.Update(processSchemeEntity);
+                    UnitWork.Update(processInstanceEntity);
                 }
-                processOperationHistoryEntity.ProcessId = processInstanceEntity.Id;
-                _unitWork.Add(processOperationHistoryEntity);
+                processOperationHistoryEntity.InstanceId = processInstanceEntity.Id;
+                UnitWork.Add(processOperationHistoryEntity);
 
                 if (processTransitionHistoryEntity != null)
                 {
-                    processTransitionHistoryEntity.ProcessId = processInstanceEntity.Id;
-                    _unitWork.Add(processTransitionHistoryEntity);
+                    processTransitionHistoryEntity.InstanceId = processInstanceEntity.Id;
+                    UnitWork.Add(processTransitionHistoryEntity);
                 }
               
-                _unitWork.Save();
+                UnitWork.Save();
                 return 1;
             }
             catch
@@ -126,32 +121,32 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// å­˜å‚¨å·¥ä½œæµå®ä¾‹è¿›ç¨‹ï¼ˆå®¡æ ¸é©³å›é‡æ–°æäº¤ï¼‰
+        /// ´æ´¢¹¤×÷Á÷ÊµÀı½ø³Ì£¨ÉóºË²µ»ØÖØĞÂÌá½»£©
         /// </summary>
         /// <param name="processInstanceEntity"></param>
         /// <param name="processSchemeEntity"></param>
         /// <param name="processOperationHistoryEntity"></param>
         /// <param name="processTransitionHistoryEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(WFProcessInstance processInstanceEntity, WFProcessScheme processSchemeEntity, 
-            WFProcessOperationHistory processOperationHistoryEntity,  WFProcessTransitionHistory processTransitionHistoryEntity = null)
+        public int SaveProcess(FlowInstance processInstanceEntity, FlowInstanceScheme processSchemeEntity, 
+            FlowInstanceOperationHistory processOperationHistoryEntity,  FlowInstanceTransitionHistory processTransitionHistoryEntity = null)
         {
             try
             {
-                processInstanceEntity.Modify(processInstanceEntity.Id);
-                _unitWork.Update(processSchemeEntity);
-                _unitWork.Update(processInstanceEntity);
+                processInstanceEntity.Id=(processInstanceEntity.Id);
+                UnitWork.Update(processSchemeEntity);
+                UnitWork.Update(processInstanceEntity);
 
-                processOperationHistoryEntity.ProcessId = processInstanceEntity.Id;
-                _unitWork.Add(processOperationHistoryEntity);
+                processOperationHistoryEntity.InstanceId = processInstanceEntity.Id;
+                UnitWork.Add(processOperationHistoryEntity);
 
                 if (processTransitionHistoryEntity != null)
                 {
-                    processTransitionHistoryEntity.ProcessId = processInstanceEntity.Id;
-                    _unitWork.Add(processTransitionHistoryEntity);
+                    processTransitionHistoryEntity.InstanceId = processInstanceEntity.Id;
+                    UnitWork.Add(processTransitionHistoryEntity);
                 }
                
-                _unitWork.Save();
+                UnitWork.Save();
                 return 1;
             }
             catch
@@ -160,7 +155,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        ///  æ›´æ–°æµç¨‹å®ä¾‹ å®¡æ ¸èŠ‚ç‚¹ç”¨
+        ///  ¸üĞÂÁ÷³ÌÊµÀı ÉóºË½ÚµãÓÃ
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="dbbaseId"></param>
@@ -170,29 +165,29 @@ namespace OpenAuth.App
         /// <param name="delegateRecordEntityList"></param>
         /// <param name="processTransitionHistoryEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(string sql,string dbbaseId, WFProcessInstance processInstanceEntity, WFProcessScheme processSchemeEntity, WFProcessOperationHistory processOperationHistoryEntity, WFProcessTransitionHistory processTransitionHistoryEntity = null)
+        public int SaveProcess(string sql,string dbbaseId, FlowInstance processInstanceEntity, FlowInstanceScheme processSchemeEntity, FlowInstanceOperationHistory processOperationHistoryEntity, FlowInstanceTransitionHistory processTransitionHistoryEntity = null)
         {
             try
             {
-                processInstanceEntity.Modify(processInstanceEntity.Id);
-                _unitWork.Update(processSchemeEntity);
-                _unitWork.Update(processInstanceEntity);
+                processInstanceEntity.Id=(processInstanceEntity.Id);
+                UnitWork.Update(processSchemeEntity);
+                UnitWork.Update(processInstanceEntity);
 
-                processOperationHistoryEntity.ProcessId = processInstanceEntity.Id;
-                _unitWork.Add(processOperationHistoryEntity);
+                processOperationHistoryEntity.InstanceId = processInstanceEntity.Id;
+                UnitWork.Add(processOperationHistoryEntity);
 
                 if (processTransitionHistoryEntity != null)
                 {
-                    processTransitionHistoryEntity.ProcessId = processInstanceEntity.Id;
-                    _unitWork.Add(processTransitionHistoryEntity);
+                    processTransitionHistoryEntity.InstanceId = processInstanceEntity.Id;
+                    UnitWork.Add(processTransitionHistoryEntity);
                 }
                
-                //if (!string.IsNullOrEmpty(dbbaseId) && !string.IsNullOrEmpty(sql))//æµ‹è¯•ç¯å¢ƒä¸å…è®¸æ‰§è¡Œsqlè¯­å¥
+                //if (!string.IsNullOrEmpty(dbbaseId) && !string.IsNullOrEmpty(sql))//²âÊÔ»·¾³²»ÔÊĞíÖ´ĞĞsqlÓï¾ä
                 //{
-                //    DataBaseLinkEntity dataBaseLinkEntity = dataBaseLinkService.GetEntity(dbbaseId);//è·å–
+                //    DataBaseLinkEntity dataBaseLinkEntity = dataBaseLinkService.GetEntity(dbbaseId);//»ñÈ¡
                 //    this.BaseRepository(dataBaseLinkEntity.DbConnection).ExecuteBySql(sql.Replace("{0}", processInstanceEntity.Id));
                 //}
-                _unitWork.Save();
+                UnitWork.Save();
                 return 1;
             }
             catch
@@ -202,19 +197,19 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// åˆ é™¤å·¥ä½œæµå®ä¾‹è¿›ç¨‹(åˆ é™¤è‰ç¨¿ä½¿ç”¨)
+        /// É¾³ı¹¤×÷Á÷ÊµÀı½ø³Ì(É¾³ı²İ¸åÊ¹ÓÃ)
         /// </summary>
-        /// <param name="keyValue">ä¸»é”®</param>
+        /// <param name="keyValue">Ö÷¼ü</param>
         /// <returns></returns>
         public int DeleteProcess(string keyValue)
         {
             try
             {
-                WFProcessInstance entity = _unitWork.FindSingle<WFProcessInstance>(u =>u.Id ==keyValue);
+                FlowInstance entity = UnitWork.FindSingle<FlowInstance>(u =>u.Id ==keyValue);
 
-                _unitWork.Delete<WFProcessInstance>(u =>u.Id == keyValue);
-                _unitWork.Delete<WFProcessScheme>(u =>u.Id == entity.ProcessSchemeId);
-                _unitWork.Save();
+                UnitWork.Delete<FlowInstance>(u =>u.Id == keyValue);
+                UnitWork.Delete<FlowInstanceScheme>(u =>u.Id == entity.InstanceSchemeId);
+                UnitWork.Save();
                 return 1;
             }
             catch {
@@ -222,55 +217,55 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// è™šæ‹Ÿæ“ä½œå®ä¾‹
+        /// ĞéÄâ²Ù×÷ÊµÀı
         /// </summary>
         /// <param name="keyValue"></param>
-        /// <param name="state">0æš‚åœ,1å¯ç”¨,2å–æ¶ˆï¼ˆå¬å›ï¼‰</param>
+        /// <param name="state">0ÔİÍ£,1ÆôÓÃ,2È¡Ïû£¨ÕÙ»Ø£©</param>
         /// <returns></returns>
         public int OperateVirtualProcess(string keyValue,int state)
         {
             try
             {
-                WFProcessInstance entity = _unitWork.FindSingle<WFProcessInstance>(u =>u.Id ==keyValue);
+                FlowInstance entity = UnitWork.FindSingle<FlowInstance>(u =>u.Id ==keyValue);
                 if (entity.IsFinish == 1)
                 {
-                    throw new Exception("å®ä¾‹å·²ç»å®¡æ ¸å®Œæˆ,æ“ä½œå¤±è´¥");
+                    throw new Exception("ÊµÀıÒÑ¾­ÉóºËÍê³É,²Ù×÷Ê§°Ü");
                 }
                 else if (entity.IsFinish == 2)
                 {
-                    throw new Exception("å®ä¾‹å·²ç»å–æ¶ˆ,æ“ä½œå¤±è´¥");
+                    throw new Exception("ÊµÀıÒÑ¾­È¡Ïû,²Ù×÷Ê§°Ü");
                 }
-                /// æµç¨‹æ˜¯å¦å®Œæˆ(0è¿è¡Œä¸­,1è¿è¡Œç»“æŸ,2è¢«å¬å›,3ä¸åŒæ„,4è¡¨ç¤ºè¢«é©³å›)
+                /// Á÷³ÌÊÇ·ñÍê³É(0ÔËĞĞÖĞ,1ÔËĞĞ½áÊø,2±»ÕÙ»Ø,3²»Í¬Òâ,4±íÊ¾±»²µ»Ø)
                 string content = "";
                 switch (state)
                 {
                     case 0:
-                        if (entity.EnabledMark == 0)
+                        if (entity.Disabled == 0)
                         {
                             return 1;
                         }
-                        entity.EnabledMark = 0;
-                        content = "ã€æš‚åœã€‘æš‚åœäº†ä¸€ä¸ªæµç¨‹è¿›ç¨‹ã€" + entity.Code + "/" + entity.CustomName + "ã€‘";
+                        entity.Disabled = 0;
+                        content = "¡¾ÔİÍ£¡¿ÔİÍ£ÁËÒ»¸öÁ÷³Ì½ø³Ì¡¾" + entity.Code + "/" + entity.CustomName + "¡¿";
                         break;
                     case 1:
-                        if (entity.EnabledMark == 1)
+                        if (entity.Disabled == 1)
                         {
                             return 1;
                         }
-                        entity.EnabledMark = 1;
-                        content = "ã€å¯ç”¨ã€‘å¯ç”¨äº†ä¸€ä¸ªæµç¨‹è¿›ç¨‹ã€" + entity.Code + "/" + entity.CustomName + "ã€‘";
+                        entity.Disabled = 1;
+                        content = "¡¾ÆôÓÃ¡¿ÆôÓÃÁËÒ»¸öÁ÷³Ì½ø³Ì¡¾" + entity.Code + "/" + entity.CustomName + "¡¿";
                         break;
                     case 2:
                         entity.IsFinish = 2;
-                        content = "ã€å¬å›ã€‘å¬å›äº†ä¸€ä¸ªæµç¨‹è¿›ç¨‹ã€" + entity.Code + "/" + entity.CustomName + "ã€‘";
+                        content = "¡¾ÕÙ»Ø¡¿ÕÙ»ØÁËÒ»¸öÁ÷³Ì½ø³Ì¡¾" + entity.Code + "/" + entity.CustomName + "¡¿";
                         break;
                 }
-                _unitWork.Update(entity);
-                WFProcessOperationHistory processOperationHistoryEntity = new WFProcessOperationHistory();
-                processOperationHistoryEntity.ProcessId = entity.Id;
+                UnitWork.Update(entity);
+                FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory();
+                processOperationHistoryEntity.InstanceId = entity.Id;
                 processOperationHistoryEntity.Content = content;
-                _unitWork.Add(processOperationHistoryEntity);
-                _unitWork.Save();
+                UnitWork.Add(processOperationHistoryEntity);
+                UnitWork.Save();
                 return 1;
             }
             catch
@@ -279,7 +274,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// æµç¨‹æŒ‡æ´¾
+        /// Á÷³ÌÖ¸ÅÉ
         /// </summary>
         /// <param name="processId"></param>
         /// <param name="makeLists"></param>
@@ -287,10 +282,10 @@ namespace OpenAuth.App
         {
             try
             {
-                WFProcessInstance entity = new WFProcessInstance();
+                FlowInstance entity = new FlowInstance();
                 entity.Id = processId;
                 entity.MakerList = makeLists;
-                _unitWork.Update(entity);
+                UnitWork.Update(entity);
             }
             catch {
                 throw;
@@ -298,54 +293,31 @@ namespace OpenAuth.App
         }
         #endregion
 
-        public TableData Load(string userid, string type, int pageCurrent, int pageSize)
-        {
-            //todo:å¾…åŠ/å·²åŠ/æˆ‘çš„
-            var result = new TableData();
-
-            result.count = _unitWork.Find<WFProcessInstance>(u => u.CreateUserId == userid).Count();
-            if (type == "inbox")   //å¾…åŠäº‹é¡¹
-            {
-                result.data = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
-
-            }
-            else if (type == "outbox")  //å·²åŠäº‹é¡¹
-            {
-                result.data = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
-
-            }
-            else  //æˆ‘çš„æµç¨‹
-            {
-                result.data = _unitWork.Find<WFProcessInstance>(pageCurrent, pageSize, "CreateDate descending", null).ToList();
-            }
-
-            return result;
-        }
         
-        #region æµç¨‹å¤„ç†API
+        #region Á÷³Ì´¦ÀíAPI
         /// <summary>
-        /// åˆ›å»ºä¸€ä¸ªå®ä¾‹
+        /// ´´½¨Ò»¸öÊµÀı
         /// </summary>
-        /// <param name="processId">è¿›ç¨‹GUID</param>
-        /// <param name="schemeInfoId">æ¨¡æ¿ä¿¡æ¯ID</param>
+        /// <param name="processId">½ø³ÌGUID</param>
+        /// <param name="schemeInfoId">Ä£°åĞÅÏ¢ID</param>
         /// <param name="wfLevel"></param>
-        /// <param name="code">è¿›ç¨‹ç¼–å·</param>
-        /// <param name="customName">è‡ªå®šä¹‰åç§°</param>
-        /// <param name="description">å¤‡æ³¨</param>
-        /// <param name="frmData">è¡¨å•æ•°æ®ä¿¡æ¯</param>
+        /// <param name="code">½ø³Ì±àºÅ</param>
+        /// <param name="customName">×Ô¶¨ÒåÃû³Æ</param>
+        /// <param name="description">±¸×¢</param>
+        /// <param name="frmData">±íµ¥Êı¾İĞÅÏ¢</param>
         /// <returns></returns>
-        public bool CreateInstance(string processId, string schemeInfoId, WFProcessInstance WFProcessInstance, string frmData = null)
+        public bool CreateInstance(string processId, string schemeInfoId, FlowInstance FlowInstance, string frmData = null)
         {
 
             try
             {
-                WFSchemeInfo WFSchemeInfo = _unitWork.FindSingle<WFSchemeInfo>(u => u.Id == schemeInfoId);
-                WFSchemeContent WFSchemeContent = _unitWork.FindSingle<WFSchemeContent>(u =>
-                u.SchemeInfoId == schemeInfoId && u.SchemeVersion == WFSchemeInfo.SchemeVersion);
+                FlowScheme FlowScheme = UnitWork.FindSingle<FlowScheme>(u => u.Id == schemeInfoId);
+                FlowSchemeDetail FlowSchemeDetail = UnitWork.FindSingle<FlowSchemeDetail>(u =>
+                u.SchemeId == schemeInfoId && u.SchemeVersion == FlowScheme.SchemeVersion);
 
                 WF_RuntimeInitModel wfRuntimeInitModel = new WF_RuntimeInitModel()
                 {
-                    schemeContent = WFSchemeContent.SchemeContent,
+                    schemeContent = FlowSchemeDetail.SchemeContent,
                     currentNodeId = "",
                     frmData = frmData,
                     processId = processId
@@ -354,7 +326,7 @@ namespace OpenAuth.App
 
                 if (frmData == null)
                 {
-                    throw new Exception("è‡ªå®šä¹‰è¡¨å•éœ€è¦æäº¤è¡¨å•æ•°æ®");
+                    throw new Exception("×Ô¶¨Òå±íµ¥ĞèÒªÌá½»±íµ¥Êı¾İ");
                 }
                 else
                 {
@@ -363,42 +335,42 @@ namespace OpenAuth.App
 
 
                 var user = AuthUtil.GetCurrentUser();
-                #region å®ä¾‹ä¿¡æ¯
-                WFProcessInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
-                WFProcessInstance.ActivityType = wfruntime.GetStatus();//-1æ— æ³•è¿è¡Œ,0ä¼šç­¾å¼€å§‹,1ä¼šç­¾ç»“æŸ,2ä¸€èˆ¬èŠ‚ç‚¹,4æµç¨‹è¿è¡Œç»“æŸ
-                WFProcessInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
-                WFProcessInstance.PreviousId = wfruntime.runtimeModel.currentNodeId;
-                WFProcessInstance.SchemeType = WFSchemeInfo.SchemeType;
-                WFProcessInstance.FrmType = WFSchemeInfo.FrmType;
-                WFProcessInstance.EnabledMark = 1;//æ­£å¼è¿è¡Œ
-                WFProcessInstance.CreateUserId = user.User.Id.ToString();
-                WFProcessInstance.CreateUserName = user.User.Account;
-                WFProcessInstance.MakerList = (wfruntime.GetStatus() != 4 ? GetMakerList(wfruntime) : "");//å½“å‰èŠ‚ç‚¹å¯æ‰§è¡Œçš„äººä¿¡æ¯
-                WFProcessInstance.IsFinish = (wfruntime.GetStatus() == 4 ? 1 : 0);
+                #region ÊµÀıĞÅÏ¢
+                FlowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
+                FlowInstance.ActivityType = wfruntime.GetStatus();//-1ÎŞ·¨ÔËĞĞ,0»áÇ©¿ªÊ¼,1»áÇ©½áÊø,2Ò»°ã½Úµã,4Á÷³ÌÔËĞĞ½áÊø
+                FlowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
+                FlowInstance.PreviousId = wfruntime.runtimeModel.currentNodeId;
+                FlowInstance.SchemeType = FlowScheme.SchemeType;
+                FlowInstance.FrmType = FlowScheme.FrmType;
+                FlowInstance.Disabled = 0;//ÕıÊ½ÔËĞĞ
+                FlowInstance.CreateUserId = user.User.Id.ToString();
+                FlowInstance.CreateUserName = user.User.Account;
+                FlowInstance.MakerList = (wfruntime.GetStatus() != 4 ? GetMakerList(wfruntime) : "");//µ±Ç°½Úµã¿ÉÖ´ĞĞµÄÈËĞÅÏ¢
+                FlowInstance.IsFinish = (wfruntime.GetStatus() == 4 ? 1 : 0);
                 #endregion
 
-                #region å®ä¾‹æ¨¡æ¿
+                #region ÊµÀıÄ£°å
                 var data = new
                 {
-                    SchemeContent = WFSchemeContent.SchemeContent,
+                    SchemeContent = FlowSchemeDetail.SchemeContent,
                     frmData = frmData
                 };
-                WFProcessScheme WFProcessScheme = new WFProcessScheme
+                FlowInstanceScheme FlowInstanceScheme = new FlowInstanceScheme
                 {
-                    SchemeInfoId = schemeInfoId,
-                    SchemeVersion = WFSchemeInfo.SchemeVersion,
-                    ProcessType = 1,//1æ­£å¼ï¼Œ0è‰ç¨¿
+                    SchemeId = schemeInfoId,
+                    SchemeVersion = FlowScheme.SchemeVersion,
+                    ProcessType = 1,//1ÕıÊ½£¬0²İ¸å
                     SchemeContent = data.ToJson().ToString()
                 };
                 #endregion
 
-                #region æµç¨‹æ“ä½œè®°å½•
-                WFProcessOperationHistory processOperationHistoryEntity = new WFProcessOperationHistory();
-                processOperationHistoryEntity.Content = "ã€åˆ›å»ºã€‘" + user.User.Name + "åˆ›å»ºäº†ä¸€ä¸ªæµç¨‹è¿›ç¨‹ã€" + WFProcessInstance.Code + "/" + WFProcessInstance.CustomName + "ã€‘";
+                #region Á÷³Ì²Ù×÷¼ÇÂ¼
+                FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory();
+                processOperationHistoryEntity.Content = "¡¾´´½¨¡¿" + user.User.Name + "´´½¨ÁËÒ»¸öÁ÷³Ì½ø³Ì¡¾" + FlowInstance.Code + "/" + FlowInstance.CustomName + "¡¿";
                 #endregion
 
-                #region æµè½¬è®°å½•
-                WFProcessTransitionHistory processTransitionHistoryEntity = new WFProcessTransitionHistory();
+                #region Á÷×ª¼ÇÂ¼
+                FlowInstanceTransitionHistory processTransitionHistoryEntity = new FlowInstanceTransitionHistory();
                 processTransitionHistoryEntity.FromNodeId = wfruntime.runtimeModel.currentNodeId;
                 processTransitionHistoryEntity.FromNodeName = wfruntime.runtimeModel.currentNode.name.Value;
                 processTransitionHistoryEntity.FromNodeType = wfruntime.runtimeModel.currentNodeType;
@@ -409,12 +381,12 @@ namespace OpenAuth.App
                 processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
                 #endregion
 
-                #region å§”æ‰˜è®°å½•
-                //List<WFDelegateRecord> delegateRecordEntitylist = GetDelegateRecordList(schemeInfoId, WFProcessInstance.Code, WFProcessInstance.CustomName, WFProcessInstance.MakerList);
-                //WFProcessInstance.MakerList += delegateUserList;
+                #region Î¯ÍĞ¼ÇÂ¼
+                //List<WFDelegateRecord> delegateRecordEntitylist = GetDelegateRecordList(schemeInfoId, FlowInstance.Code, FlowInstance.CustomName, FlowInstance.MakerList);
+                //FlowInstance.MakerList += delegateUserList;
                 #endregion
 
-                SaveProcess(wfruntime.runtimeModel, WFProcessInstance, WFProcessScheme, processOperationHistoryEntity, processTransitionHistoryEntity);
+                SaveProcess(wfruntime.runtimeModel, FlowInstance, FlowInstanceScheme, processOperationHistoryEntity, processTransitionHistoryEntity);
 
                 return true;
             }
@@ -426,7 +398,7 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// èŠ‚ç‚¹å®¡æ ¸
+        /// ½ÚµãÉóºË
         /// </summary>
         /// <param name="processId"></param>
         /// <returns></returns>
@@ -436,28 +408,28 @@ namespace OpenAuth.App
             try
             {
                 string _sqlstr = "", _dbbaseId = "";
-                WFProcessInstance WFProcessInstance = GetEntity(processId);
-                WFProcessScheme WFProcessScheme = _unitWork.FindSingle<WFProcessScheme>(u => u.Id == WFProcessInstance.ProcessSchemeId);
-                WFProcessOperationHistory WFProcessOperationHistory = new WFProcessOperationHistory();//æ“ä½œè®°å½•
-                WFProcessTransitionHistory processTransitionHistoryEntity = null;//æµè½¬è®°å½•
+                FlowInstance FlowInstance = GetEntity(processId);
+                FlowInstanceScheme FlowInstanceScheme = UnitWork.FindSingle<FlowInstanceScheme>(u => u.Id == FlowInstance.InstanceSchemeId);
+                FlowInstanceOperationHistory FlowInstanceOperationHistory = new FlowInstanceOperationHistory();//²Ù×÷¼ÇÂ¼
+                FlowInstanceTransitionHistory processTransitionHistoryEntity = null;//Á÷×ª¼ÇÂ¼
 
-                dynamic schemeContentJson = WFProcessScheme.SchemeContent.ToJson();//è·å–å·¥ä½œæµæ¨¡æ¿å†…å®¹çš„jsonå¯¹è±¡;
+                dynamic schemeContentJson = FlowInstanceScheme.SchemeContent.ToJson();//»ñÈ¡¹¤×÷Á÷Ä£°åÄÚÈİµÄjson¶ÔÏó;
                 WF_RuntimeInitModel wfRuntimeInitModel = new WF_RuntimeInitModel()
                 {
                     schemeContent = schemeContentJson.SchemeContent.Value,
-                    currentNodeId = WFProcessInstance.ActivityId,
+                    currentNodeId = FlowInstance.ActivityId,
                     frmData = schemeContentJson.frmData.Value,
-                    previousId = WFProcessInstance.PreviousId,
+                    previousId = FlowInstance.PreviousId,
                     processId = processId
                 };
                 IWF_Runtime wfruntime = new WF_Runtime(wfRuntimeInitModel);
 
 
-                #region ä¼šç­¾
-                if (WFProcessInstance.ActivityType == 0)//ä¼šç­¾
+                #region »áÇ©
+                if (FlowInstance.ActivityType == 0)//»áÇ©
                 {
-                    wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 1, "");//æ ‡è®°å½“å‰èŠ‚ç‚¹é€šè¿‡
-                    ///å¯»æ‰¾éœ€è¦å®¡æ ¸çš„èŠ‚ç‚¹Id
+                    wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 1, "");//±ê¼Çµ±Ç°½ÚµãÍ¨¹ı
+                    ///Ñ°ÕÒĞèÒªÉóºËµÄ½ÚµãId
                     string _VerificationNodeId = "";
                     List<string> _nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.currentNodeId);
                     string _makerList = "";
@@ -482,11 +454,11 @@ namespace OpenAuth.App
                     {
                         if (flag)
                         {
-                            WFProcessOperationHistory.Content = "ã€" + "todo name" + "ã€‘ã€" + wfruntime.runtimeModel.nodeDictionary[_VerificationNodeId].name + "ã€‘ã€" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘åŒæ„,å¤‡æ³¨ï¼š" + description;
+                            FlowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾" + wfruntime.runtimeModel.nodeDictionary[_VerificationNodeId].name + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿Í¬Òâ,±¸×¢£º" + description;
                         }
                         else
                         {
-                            WFProcessOperationHistory.Content = "ã€" + "todo name" + "ã€‘ã€" + wfruntime.runtimeModel.nodeDictionary[_VerificationNodeId].name + "ã€‘ã€" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘ä¸åŒæ„,å¤‡æ³¨ï¼š" + description;
+                            FlowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾" + wfruntime.runtimeModel.nodeDictionary[_VerificationNodeId].name + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿²»Í¬Òâ,±¸×¢£º" + description;
                         }
 
                         string _Confluenceres = wfruntime.NodeConfluence(_VerificationNodeId, flag, AuthUtil.GetCurrentUser().User.Id.ToString(), description);
@@ -495,24 +467,24 @@ namespace OpenAuth.App
                             SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
                             frmData = wfruntime.runtimeModel.frmData
                         };
-                        WFProcessScheme.SchemeContent = _data.ToJson().ToString();
+                        FlowInstanceScheme.SchemeContent = _data.ToJson().ToString();
                         switch (_Confluenceres)
                         {
-                            case "-1"://ä¸é€šè¿‡
-                                WFProcessInstance.IsFinish = 3;
+                            case "-1"://²»Í¨¹ı
+                                FlowInstance.IsFinish = 3;
                                 break;
-                            case "1"://ç­‰å¾…
+                            case "1"://µÈ´ı
                                 break;
-                            default://é€šè¿‡
-                                WFProcessInstance.PreviousId = WFProcessInstance.ActivityId;
-                                WFProcessInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
-                                WFProcessInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1æ— æ³•è¿è¡Œ,0ä¼šç­¾å¼€å§‹,1ä¼šç­¾ç»“æŸ,2ä¸€èˆ¬èŠ‚ç‚¹,4æµç¨‹è¿è¡Œç»“æŸ
-                                WFProcessInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
-                                WFProcessInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
-                                WFProcessInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ?"": GetMakerList(wfruntime) );//å½“å‰èŠ‚ç‚¹å¯æ‰§è¡Œçš„äººä¿¡æ¯
+                            default://Í¨¹ı
+                                FlowInstance.PreviousId = FlowInstance.ActivityId;
+                                FlowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
+                                FlowInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1ÎŞ·¨ÔËĞĞ,0»áÇ©¿ªÊ¼,1»áÇ©½áÊø,2Ò»°ã½Úµã,4Á÷³ÌÔËĞĞ½áÊø
+                                FlowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
+                                FlowInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
+                                FlowInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ?"": GetMakerList(wfruntime) );//µ±Ç°½Úµã¿ÉÖ´ĞĞµÄÈËĞÅÏ¢
 
-                                #region æµè½¬è®°å½•
-                                processTransitionHistoryEntity = new WFProcessTransitionHistory();
+                                #region Á÷×ª¼ÇÂ¼
+                                processTransitionHistoryEntity = new FlowInstanceTransitionHistory();
                                 processTransitionHistoryEntity.FromNodeId = wfruntime.runtimeModel.currentNodeId;
                                 processTransitionHistoryEntity.FromNodeName = wfruntime.runtimeModel.currentNode.name.Value;
                                 processTransitionHistoryEntity.FromNodeType = wfruntime.runtimeModel.currentNodeType;
@@ -535,26 +507,26 @@ namespace OpenAuth.App
                     }
                     else
                     {
-                        throw (new Exception("å®¡æ ¸å¼‚å¸¸,æ‰¾ä¸åˆ°å®¡æ ¸èŠ‚ç‚¹"));
+                        throw (new Exception("ÉóºËÒì³£,ÕÒ²»µ½ÉóºË½Úµã"));
                     }
                 }
                 #endregion
 
-                #region ä¸€èˆ¬å®¡æ ¸
-                else//ä¸€èˆ¬å®¡æ ¸
+                #region Ò»°ãÉóºË
+                else//Ò»°ãÉóºË
                 {
                     if (flag)
                     {
                         wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 1, AuthUtil.GetCurrentUser().User.Id.ToString(), description);
-                        WFProcessInstance.PreviousId = WFProcessInstance.ActivityId;
-                        WFProcessInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
-                        WFProcessInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1æ— æ³•è¿è¡Œ,0ä¼šç­¾å¼€å§‹,1ä¼šç­¾ç»“æŸ,2ä¸€èˆ¬èŠ‚ç‚¹,4æµç¨‹è¿è¡Œç»“æŸ
-                        WFProcessInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
-                        WFProcessInstance.MakerList = wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime);//å½“å‰èŠ‚ç‚¹å¯æ‰§è¡Œçš„äººä¿¡æ¯
-                        WFProcessInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
-                        #region æµè½¬è®°å½•
+                        FlowInstance.PreviousId = FlowInstance.ActivityId;
+                        FlowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
+                        FlowInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1ÎŞ·¨ÔËĞĞ,0»áÇ©¿ªÊ¼,1»áÇ©½áÊø,2Ò»°ã½Úµã,4Á÷³ÌÔËĞĞ½áÊø
+                        FlowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
+                        FlowInstance.MakerList = wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime);//µ±Ç°½Úµã¿ÉÖ´ĞĞµÄÈËĞÅÏ¢
+                        FlowInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
+                        #region Á÷×ª¼ÇÂ¼
 
-                        processTransitionHistoryEntity = new WFProcessTransitionHistory
+                        processTransitionHistoryEntity = new FlowInstanceTransitionHistory
                         {
                             FromNodeId = wfruntime.runtimeModel.currentNodeId,
                             FromNodeName = wfruntime.runtimeModel.currentNode.name.Value,
@@ -575,26 +547,26 @@ namespace OpenAuth.App
                             _dbbaseId = wfruntime.runtimeModel.currentNode.setInfo.NodeDataBaseToSQL.Value;
                         }
 
-                        WFProcessOperationHistory.Content = "ã€" + "todo name" + "ã€‘ã€" + wfruntime.runtimeModel.currentNode.name + "ã€‘ã€" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘åŒæ„,å¤‡æ³¨ï¼š" + description;
+                        FlowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾" + wfruntime.runtimeModel.currentNode.name + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿Í¬Òâ,±¸×¢£º" + description;
                     }
                     else
                     {
-                        WFProcessInstance.IsFinish = 3; //è¡¨ç¤ºè¯¥èŠ‚ç‚¹ä¸åŒæ„
+                        FlowInstance.IsFinish = 3; //±íÊ¾¸Ã½Úµã²»Í¬Òâ
                         wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, -1, AuthUtil.GetUserName(), description);
 
-                        WFProcessOperationHistory.Content = "ã€" + "todo name" + "ã€‘ã€" + wfruntime.runtimeModel.currentNode.name + "ã€‘ã€" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘ä¸åŒæ„,å¤‡æ³¨ï¼š" + description;
+                        FlowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾" + wfruntime.runtimeModel.currentNode.name + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿²»Í¬Òâ,±¸×¢£º" + description;
                     }
                     var data = new
                     {
                         SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
                         frmData = wfruntime.runtimeModel.frmData 
                     };
-                    WFProcessScheme.SchemeContent = data.ToJson();
+                    FlowInstanceScheme.SchemeContent = data.ToJson();
                 }
                 #endregion 
 
                 _res = true;
-                SaveProcess(_sqlstr, _dbbaseId, WFProcessInstance, WFProcessScheme, WFProcessOperationHistory, processTransitionHistoryEntity);
+                SaveProcess(_sqlstr, _dbbaseId, FlowInstance, FlowInstanceScheme, FlowInstanceOperationHistory, processTransitionHistoryEntity);
                 return _res;
             }
             catch
@@ -603,7 +575,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// é©³å›
+        /// ²µ»Ø
         /// </summary>
         /// <param name="processId"></param>
         /// <param name="nodeId"></param>
@@ -613,17 +585,17 @@ namespace OpenAuth.App
         {
             try
             {
-                WFProcessInstance WFProcessInstance = GetEntity(processId);
-                WFProcessScheme WFProcessScheme = _unitWork.FindSingle<WFProcessScheme>(u => u.Id == WFProcessInstance.ProcessSchemeId);
-                WFProcessOperationHistory WFProcessOperationHistory = new WFProcessOperationHistory();
-                WFProcessTransitionHistory processTransitionHistoryEntity = null;
-                dynamic schemeContentJson = WFProcessScheme.SchemeContent.ToJson();//è·å–å·¥ä½œæµæ¨¡æ¿å†…å®¹çš„jsonå¯¹è±¡;
+                FlowInstance FlowInstance = GetEntity(processId);
+                FlowInstanceScheme FlowInstanceScheme = UnitWork.FindSingle<FlowInstanceScheme>(u => u.Id == FlowInstance.InstanceSchemeId);
+                FlowInstanceOperationHistory FlowInstanceOperationHistory = new FlowInstanceOperationHistory();
+                FlowInstanceTransitionHistory processTransitionHistoryEntity = null;
+                dynamic schemeContentJson = FlowInstanceScheme.SchemeContent.ToJson();//»ñÈ¡¹¤×÷Á÷Ä£°åÄÚÈİµÄjson¶ÔÏó;
                 WF_RuntimeInitModel wfRuntimeInitModel = new WF_RuntimeInitModel()
                 {
                     schemeContent = schemeContentJson.SchemeContent.Value,
-                    currentNodeId = WFProcessInstance.ActivityId,
+                    currentNodeId = FlowInstance.ActivityId,
                     frmData = schemeContentJson.frmData.Value,
-                    previousId = WFProcessInstance.PreviousId,
+                    previousId = FlowInstance.PreviousId,
                     processId = processId
                 };
                 IWF_Runtime wfruntime = new WF_Runtime(wfRuntimeInitModel);
@@ -639,16 +611,16 @@ namespace OpenAuth.App
                     resnode = nodeId;
                 }
                 wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 0, AuthUtil.GetUserName(), description);
-                WFProcessInstance.IsFinish = 4;//4è¡¨ç¤ºé©³å›ï¼ˆéœ€è¦ç”³è¯·è€…é‡æ–°æäº¤è¡¨å•ï¼‰
+                FlowInstance.IsFinish = 4;//4±íÊ¾²µ»Ø£¨ĞèÒªÉêÇëÕßÖØĞÂÌá½»±íµ¥£©
                 if (resnode != "")
                 {
-                    WFProcessInstance.PreviousId = WFProcessInstance.ActivityId;
-                    WFProcessInstance.ActivityId = resnode;
-                    WFProcessInstance.ActivityType = wfruntime.GetNodeStatus(resnode);//-1æ— æ³•è¿è¡Œ,0ä¼šç­¾å¼€å§‹,1ä¼šç­¾ç»“æŸ,2ä¸€èˆ¬èŠ‚ç‚¹,4æµç¨‹è¿è¡Œç»“æŸ
-                    WFProcessInstance.ActivityName = wfruntime.runtimeModel.nodeDictionary[resnode].name;
-                    WFProcessInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[resnode], WFProcessInstance.PreviousId);//å½“å‰èŠ‚ç‚¹å¯æ‰§è¡Œçš„äººä¿¡æ¯
-                    #region æµè½¬è®°å½•
-                    processTransitionHistoryEntity = new WFProcessTransitionHistory();
+                    FlowInstance.PreviousId = FlowInstance.ActivityId;
+                    FlowInstance.ActivityId = resnode;
+                    FlowInstance.ActivityType = wfruntime.GetNodeStatus(resnode);//-1ÎŞ·¨ÔËĞĞ,0»áÇ©¿ªÊ¼,1»áÇ©½áÊø,2Ò»°ã½Úµã,4Á÷³ÌÔËĞĞ½áÊø
+                    FlowInstance.ActivityName = wfruntime.runtimeModel.nodeDictionary[resnode].name;
+                    FlowInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[resnode], FlowInstance.PreviousId);//µ±Ç°½Úµã¿ÉÖ´ĞĞµÄÈËĞÅÏ¢
+                    #region Á÷×ª¼ÇÂ¼
+                    processTransitionHistoryEntity = new FlowInstanceTransitionHistory();
                     processTransitionHistoryEntity.FromNodeId = wfruntime.runtimeModel.currentNodeId;
                     processTransitionHistoryEntity.FromNodeName = wfruntime.runtimeModel.currentNode.name.Value;
                     processTransitionHistoryEntity.FromNodeType = wfruntime.runtimeModel.currentNodeType;
@@ -662,12 +634,12 @@ namespace OpenAuth.App
                 var data = new
                 {
                     SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
-                    frmData = (WFProcessInstance.FrmType == 0 ? wfruntime.runtimeModel.frmData : null)
+                    frmData = (FlowInstance.FrmType == 0 ? wfruntime.runtimeModel.frmData : null)
                 };
-                WFProcessScheme.SchemeContent = data.ToJson().ToString();
-                WFProcessOperationHistory.Content = "ã€" + "todo name" + "ã€‘ã€" + wfruntime.runtimeModel.currentNode.name + "ã€‘ã€" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘é©³å›,å¤‡æ³¨ï¼š" + description;
+                FlowInstanceScheme.SchemeContent = data.ToJson().ToString();
+                FlowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾" + wfruntime.runtimeModel.currentNode.name + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿²µ»Ø,±¸×¢£º" + description;
 
-                SaveProcess(WFProcessInstance, WFProcessScheme, WFProcessOperationHistory, processTransitionHistoryEntity);
+                SaveProcess(FlowInstance, FlowInstanceScheme, FlowInstanceOperationHistory, processTransitionHistoryEntity);
                 return true;
             }
             catch
@@ -676,7 +648,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// å¬å›æµç¨‹è¿›ç¨‹
+        /// ÕÙ»ØÁ÷³Ì½ø³Ì
         /// </summary>
         /// <param name="processId"></param>
         public void CallingBackProcess(string processId)
@@ -691,7 +663,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// ç»ˆæ­¢ä¸€ä¸ªå®ä¾‹(å½»åº•åˆ é™¤)
+        /// ÖÕÖ¹Ò»¸öÊµÀı(³¹µ×É¾³ı)
         /// </summary>
         /// <param name="processId"></param>
         /// <returns></returns>
@@ -699,7 +671,7 @@ namespace OpenAuth.App
         {
             try
             {
-                _unitWork.Delete<WFProcessInstance>(u => u.Id == processId);
+                UnitWork.Delete<FlowInstance>(u => u.Id == processId);
             }
             catch
             {
@@ -707,7 +679,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// è·å–æŸä¸ªèŠ‚ç‚¹ï¼ˆå®¡æ ¸äººæ‰€èƒ½çœ‹åˆ°çš„æäº¤è¡¨å•çš„æƒé™ï¼‰
+        /// »ñÈ¡Ä³¸ö½Úµã£¨ÉóºËÈËËùÄÜ¿´µ½µÄÌá½»±íµ¥µÄÈ¨ÏŞ£©
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -716,7 +688,7 @@ namespace OpenAuth.App
             try
             {
                 List<dynamic> list = new List<dynamic>();
-                dynamic schemeContentJson = data.ToJson();//è·å–å·¥ä½œæµæ¨¡æ¿å†…å®¹çš„jsonå¯¹è±¡;
+                dynamic schemeContentJson = data.ToJson();//»ñÈ¡¹¤×÷Á÷Ä£°åÄÚÈİµÄjson¶ÔÏó;
                 string schemeContent1 = schemeContentJson.SchemeContent.Value;
                 dynamic schemeContentJson1 = schemeContent1.ToJson();
                 string FrmContent = schemeContentJson1.Frm.FrmContent.Value;
@@ -757,7 +729,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// è·å–æŸä¸ªèŠ‚ç‚¹ï¼ˆå®¡æ ¸äººæ‰€èƒ½çœ‹åˆ°çš„æäº¤è¡¨å•çš„æƒé™ï¼‰
+        /// »ñÈ¡Ä³¸ö½Úµã£¨ÉóºËÈËËùÄÜ¿´µ½µÄÌá½»±íµ¥µÄÈ¨ÏŞ£©
         /// </summary>
         /// <param name="data"></param>
         /// <param name="userId"></param>
@@ -767,7 +739,7 @@ namespace OpenAuth.App
             try
             {
                 List<dynamic> list = new List<dynamic>();
-                dynamic schemeContentJson = data.ToJson();//è·å–å·¥ä½œæµæ¨¡æ¿å†…å®¹çš„jsonå¯¹è±¡;
+                dynamic schemeContentJson = data.ToJson();//»ñÈ¡¹¤×÷Á÷Ä£°åÄÚÈİµÄjson¶ÔÏó;
                 string schemeContent1 = schemeContentJson.SchemeContent.Value;
                 dynamic schemeContentJson1 = schemeContent1.ToJson();
                 string FrmContent = schemeContentJson1.Frm.FrmContent.Value;
@@ -810,7 +782,7 @@ namespace OpenAuth.App
         #endregion
 
         /// <summary>
-        /// å¯»æ‰¾è¯¥èŠ‚ç‚¹æ‰§è¡Œäºº
+        /// Ñ°ÕÒ¸Ã½ÚµãÖ´ĞĞÈË
         /// </summary>
         /// <param name="wfruntime"></param>
         /// <returns></returns>
@@ -821,9 +793,9 @@ namespace OpenAuth.App
                 string makerList = "";
                 if (wfruntime.runtimeModel.nextNodeId == "-1")
                 {
-                    throw (new Exception("æ— æ³•å¯»æ‰¾åˆ°ä¸‹ä¸€ä¸ªèŠ‚ç‚¹"));
+                    throw (new Exception("ÎŞ·¨Ñ°ÕÒµ½ÏÂÒ»¸ö½Úµã"));
                 }
-                if (wfruntime.runtimeModel.nextNodeType == 0)//å¦‚æœæ˜¯ä¼šç­¾èŠ‚ç‚¹
+                if (wfruntime.runtimeModel.nextNodeType == 0)//Èç¹ûÊÇ»áÇ©½Úµã
                 {
                     List<string> _nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.nextNodeId);
                     string _makerList = "";
@@ -832,11 +804,11 @@ namespace OpenAuth.App
                         _makerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[item], wfruntime.runtimeModel.processId);
                         if (_makerList == "-1")
                         {
-                            throw (new Exception("æ— æ³•å¯»æ‰¾åˆ°ä¼šç­¾èŠ‚ç‚¹çš„å®¡æ ¸è€…,è¯·æŸ¥çœ‹æµç¨‹è®¾è®¡æ˜¯å¦æœ‰é—®é¢˜!"));
+                            throw (new Exception("ÎŞ·¨Ñ°ÕÒµ½»áÇ©½ÚµãµÄÉóºËÕß,Çë²é¿´Á÷³ÌÉè¼ÆÊÇ·ñÓĞÎÊÌâ!"));
                         }
                         else if (_makerList == "1")
                         {
-                            throw (new Exception("ä¼šç­¾èŠ‚ç‚¹çš„å®¡æ ¸è€…ä¸èƒ½ä¸ºæ‰€æœ‰äºº,è¯·æŸ¥çœ‹æµç¨‹è®¾è®¡æ˜¯å¦æœ‰é—®é¢˜!"));
+                            throw (new Exception("»áÇ©½ÚµãµÄÉóºËÕß²»ÄÜÎªËùÓĞÈË,Çë²é¿´Á÷³ÌÉè¼ÆÊÇ·ñÓĞÎÊÌâ!"));
                         }
                         else
                         {
@@ -853,7 +825,7 @@ namespace OpenAuth.App
                     makerList = GetMakerList(wfruntime.runtimeModel.nextNode, wfruntime.runtimeModel.processId);
                     if (makerList == "-1")
                     {
-                        throw (new Exception("æ— æ³•å¯»æ‰¾åˆ°èŠ‚ç‚¹çš„å®¡æ ¸è€…,è¯·æŸ¥çœ‹æµç¨‹è®¾è®¡æ˜¯å¦æœ‰é—®é¢˜!"));
+                        throw (new Exception("ÎŞ·¨Ñ°ÕÒµ½½ÚµãµÄÉóºËÕß,Çë²é¿´Á÷³ÌÉè¼ÆÊÇ·ñÓĞÎÊÌâ!"));
                     }
                 }
 
@@ -865,7 +837,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// å¯»æ‰¾è¯¥èŠ‚ç‚¹æ‰§è¡Œäºº
+        /// Ñ°ÕÒ¸Ã½ÚµãÖ´ĞĞÈË
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -881,11 +853,11 @@ namespace OpenAuth.App
                 }
                 else
                 {
-                    if (node.setInfo.NodeDesignate.Value == "NodeDesignateType1")//æ‰€æœ‰æˆå‘˜
+                    if (node.setInfo.NodeDesignate.Value == "NodeDesignateType1")//ËùÓĞ³ÉÔ±
                     {
                         makerlsit = "1";
                     }
-                    else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType2")//æŒ‡å®šæˆå‘˜
+                    else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType2")//Ö¸¶¨³ÉÔ±
                     {
                         makerlsit = ArrwyToString(node.setInfo.NodeDesignateData.role, makerlsit);
                         makerlsit = ArrwyToString(node.setInfo.NodeDesignateData.post, makerlsit);
@@ -897,7 +869,7 @@ namespace OpenAuth.App
                             makerlsit = "-1";
                         }
                     }
-                    //else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType3")//å‘èµ·è€…é¢†å¯¼
+                    //else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType3")//·¢ÆğÕßÁìµ¼
                     //{
                     //    UserEntity userEntity = userService.GetEntity(OperatorProvider.Provider.Current().UserId);
                     //    if (string.IsNullOrEmpty(userEntity.ManagerId))
@@ -909,9 +881,9 @@ namespace OpenAuth.App
                     //        makerlsit = userEntity.ManagerId;
                     //    }
                     //}
-                    //else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType4")//å‰ä¸€æ­¥éª¤é¢†å¯¼
+                    //else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType4")//Ç°Ò»²½ÖèÁìµ¼
                     //{
-                    //    WFProcessTransitionHistory transitionHistoryEntity = wfProcessTransitionHistoryService.GetEntity(processId, node.id.Value);
+                    //    FlowInstanceTransitionHistory transitionHistoryEntity = FlowInstanceTransitionHistoryService.GetEntity(processId, node.id.Value);
                     //    UserEntity userEntity = userService.GetEntity(transitionHistoryEntity.CreateUserId);
                     //    if (string.IsNullOrEmpty(userEntity.ManagerId))
                     //    {
@@ -922,7 +894,7 @@ namespace OpenAuth.App
                     //        makerlsit = userEntity.ManagerId;
                     //    }
                     //}
-                    //else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType5")//å‘èµ·è€…éƒ¨é—¨é¢†å¯¼
+                    //else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType5")//·¢ÆğÕß²¿ÃÅÁìµ¼
                     //{
                     //    UserEntity userEntity = userService.GetEntity(OperatorProvider.Provider.Current().UserId);
                     //    DepartmentEntity departmentEntity = departmentService.GetEntity(userEntity.DepartmentId);
@@ -936,7 +908,7 @@ namespace OpenAuth.App
                     //        makerlsit = departmentEntity.ManagerId;
                     //    }
                     //}
-                    //else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType6")//å‘èµ·è€…å…¬å¸é¢†å¯¼
+                    //else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType6")//·¢ÆğÕß¹«Ë¾Áìµ¼
                     //{
                     //    UserEntity userEntity = userService.GetEntity(OperatorProvider.Provider.Current().UserId);
                     //    OrganizeEntity organizeEntity = organizeService.GetEntity(userEntity.OrganizeId);
@@ -959,7 +931,7 @@ namespace OpenAuth.App
             }
         }
         /// <summary>
-        /// å°†æ•°ç»„è½¬åŒ–æˆé€—å·ç›¸éš”çš„å­—ä¸²
+        /// ½«Êı×é×ª»¯³É¶ººÅÏà¸ôµÄ×Ö´®
         /// </summary>
         /// <param name="data"></param>
         /// <param name="Str"></param>
@@ -978,18 +950,18 @@ namespace OpenAuth.App
             return resStr;
         }
 
-        public WFProcessScheme GetProcessSchemeEntity(string keyValue)
+        public FlowInstanceScheme GetProcessSchemeEntity(string keyValue)
         {
-            return _unitWork.FindSingle<WFProcessScheme>(u => u.Id == keyValue);
+            return UnitWork.FindSingle<FlowInstanceScheme>(u => u.Id == keyValue);
         }
 
         /// <summary>
-        /// å·²åŠæµç¨‹è¿›åº¦æŸ¥çœ‹ï¼Œæ ¹æ®å½“å‰è®¿é—®äººçš„æƒé™æŸ¥çœ‹è¡¨å•å†…å®¹
-        /// <para>æç‰å®äº2017-01-20 15:35:13</para>
+        /// ÒÑ°ìÁ÷³Ì½ø¶È²é¿´£¬¸ù¾İµ±Ç°·ÃÎÊÈËµÄÈ¨ÏŞ²é¿´±íµ¥ÄÚÈİ
+        /// <para>ÀîÓñ±¦ÓÚ2017-01-20 15:35:13</para>
         /// </summary>
         /// <param name="keyValue">The key value.</param>
-        /// <returns>WFProcessScheme.</returns>
-        public WFProcessScheme GetProcessSchemeByUserId(string keyValue)
+        /// <returns>FlowInstanceScheme.</returns>
+        public FlowInstanceScheme GetProcessSchemeByUserId(string keyValue)
         {
             var entity = GetProcessSchemeEntity(keyValue);
             entity.SchemeContent = GetProcessSchemeContentByUserId(entity.SchemeContent, AuthUtil.GetCurrentUser().User.Id.ToString());
@@ -998,27 +970,27 @@ namespace OpenAuth.App
 
 
         /// <summary>
-        /// å·²åŠæµç¨‹è¿›åº¦æŸ¥çœ‹ï¼Œæ ¹æ®å½“å‰èŠ‚ç‚¹çš„æƒé™æŸ¥çœ‹è¡¨å•å†…å®¹
-        /// <para>æç‰å®äº2017-01-20 15:34:35</para>
+        /// ÒÑ°ìÁ÷³Ì½ø¶È²é¿´£¬¸ù¾İµ±Ç°½ÚµãµÄÈ¨ÏŞ²é¿´±íµ¥ÄÚÈİ
+        /// <para>ÀîÓñ±¦ÓÚ2017-01-20 15:34:35</para>
         /// </summary>
         /// <param name="keyValue">The key value.</param>
         /// <param name="nodeId">The node identifier.</param>
-        /// <returns>WFProcessScheme.</returns>
-        public WFProcessScheme GetProcessSchemeEntityByNodeId(string keyValue, string nodeId)
+        /// <returns>FlowInstanceScheme.</returns>
+        public FlowInstanceScheme GetProcessSchemeEntityByNodeId(string keyValue, string nodeId)
         {
             var entity = GetProcessSchemeEntity(keyValue);
             entity.SchemeContent = GetProcessSchemeContentByNodeId(entity.SchemeContent, nodeId);
             return entity;
         }
 
-        public WFProcessInstance GetProcessInstanceEntity(string keyValue)
+        public FlowInstance GetProcessInstanceEntity(string keyValue)
         {
-            return _unitWork.FindSingle<WFProcessInstance>(u => u.Id == keyValue);
+            return UnitWork.FindSingle<FlowInstance>(u => u.Id == keyValue);
         }
 
         /// <summary>
-        /// å®¡æ ¸æµç¨‹
-        /// <para>æç‰å®äº2017-01-20 15:44:45</para>
+        /// ÉóºËÁ÷³Ì
+        /// <para>ÀîÓñ±¦ÓÚ2017-01-20 15:44:45</para>
         /// </summary>
         /// <param name="processId">The process identifier.</param>
         /// <param name="verificationData">The verification data.</param>
@@ -1028,7 +1000,7 @@ namespace OpenAuth.App
             {
                 dynamic verificationDataJson = verificationData.ToJson();
 
-                //é©³å›
+                //²µ»Ø
                 if (verificationDataJson.VerificationFinally.Value == "3")
                 {
                     string _nodeId = "";
@@ -1038,11 +1010,11 @@ namespace OpenAuth.App
                     }
                     NodeReject(processId, _nodeId, verificationDataJson.VerificationOpinion.Value);
                 }
-                else if (verificationDataJson.VerificationFinally.Value == "2")//è¡¨ç¤ºä¸åŒæ„
+                else if (verificationDataJson.VerificationFinally.Value == "2")//±íÊ¾²»Í¬Òâ
                 {
                     NodeVerification(processId, false, verificationDataJson.VerificationOpinion.Value);
                 }
-                else if (verificationDataJson.VerificationFinally.Value == "1")//è¡¨ç¤ºåŒæ„
+                else if (verificationDataJson.VerificationFinally.Value == "1")//±íÊ¾Í¬Òâ
                 {
                     NodeVerification(processId, true, verificationDataJson.VerificationOpinion.Value);
                 }
@@ -1051,6 +1023,44 @@ namespace OpenAuth.App
             {
                 throw;
             }
+        }
+
+
+        public void Add(FlowInstance flowScheme)
+        {
+            Repository.Add(flowScheme);
+        }
+
+        public void Update(FlowInstance flowScheme)
+        {
+           Repository.Update(u => u.Id == flowScheme.Id, u => new FlowInstance
+            {
+                //todo:ÒªĞŞ¸ÄµÄ
+            });
+        }
+
+        public TableData Load(QueryFlowInstanceListReq request)
+        {
+            //todo:´ı°ì/ÒÑ°ì/ÎÒµÄ
+            var result = new TableData();
+
+            result.count = UnitWork.Find<FlowInstance>(u => u.CreateUserId == request.userid).Count();
+            if (request.type == "inbox")   //´ı°ìÊÂÏî
+            {
+                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit, "CreateDate descending", null).ToList();
+
+            }
+            else if (request.type == "outbox")  //ÒÑ°ìÊÂÏî
+            {
+                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit, "CreateDate descending", null).ToList();
+
+            }
+            else  //ÎÒµÄÁ÷³Ì
+            {
+                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit, "CreateDate descending", null).ToList();
+            }
+
+            return result;
         }
     }
 }

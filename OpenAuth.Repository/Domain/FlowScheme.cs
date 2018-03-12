@@ -16,15 +16,20 @@ namespace OpenAuth.Repository.Domain
     /// <summary>
 	/// 工作流模板信息表
 	/// </summary>
-    public partial class WFSchemeInfo : Entity
+    public partial class FlowScheme : Entity
     {
-        public WFSchemeInfo()
+        public FlowScheme()
         {
           this.SchemeCode= string.Empty;
           this.SchemeName= string.Empty;
           this.SchemeType= string.Empty;
           this.SchemeVersion= string.Empty;
           this.SchemeCanUser= string.Empty;
+          this.FrmType= 0;
+          this.AuthorizeType= 0;
+          this.SortCode= 0;
+          this.DeleteMark= 0;
+          this.Disabled= 0;
           this.Description= string.Empty;
           this.CreateDate= DateTime.Now;
           this.CreateUserId= string.Empty;
@@ -57,23 +62,23 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 表单类型
 	    /// </summary>
-        public int? FrmType { get; set; }
+        public int FrmType { get; set; }
         /// <summary>
 	    /// 模板权限类型0所有人,1指定成员
 	    /// </summary>
-        public int? AuthorizeType { get; set; }
+        public int AuthorizeType { get; set; }
         /// <summary>
 	    /// 排序码
 	    /// </summary>
-        public int? SortCode { get; set; }
+        public int SortCode { get; set; }
         /// <summary>
 	    /// 删除标记
 	    /// </summary>
-        public int? DeleteMark { get; set; }
+        public int DeleteMark { get; set; }
         /// <summary>
 	    /// 有效
 	    /// </summary>
-        public int? EnabledMark { get; set; }
+        public int Disabled { get; set; }
         /// <summary>
 	    /// 备注
 	    /// </summary>
@@ -81,7 +86,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 创建时间
 	    /// </summary>
-        public System.DateTime? CreateDate { get; set; }
+        public System.DateTime CreateDate { get; set; }
         /// <summary>
 	    /// 创建用户主键
 	    /// </summary>

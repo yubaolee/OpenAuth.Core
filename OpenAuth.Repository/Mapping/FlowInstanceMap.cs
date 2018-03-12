@@ -12,13 +12,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenAuth.Repository.Mapping
 {
-    public partial class WFProcessInstanceMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.WFProcessInstance>
+    public partial class FlowInstanceMap
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.FlowInstance>
     {
-        public WFProcessInstanceMap()
+        public FlowInstanceMap()
         {
             // table
-            ToTable("WF_ProcessInstance", "dbo");
+            ToTable("FlowInstance", "dbo");
 
             // keys
             HasKey(t => t.Id);
@@ -26,6 +26,10 @@ namespace OpenAuth.Repository.Mapping
             // Properties
             Property(t => t.Id)
                 .HasColumnName("Id")
+                .HasMaxLength(50)
+                .IsRequired();
+            Property(t => t.InstanceSchemeId)
+                .HasColumnName("InstanceSchemeId")
                 .HasMaxLength(50)
                 .IsRequired();
             Property(t => t.Code)
@@ -47,27 +51,23 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("ActivityName")
                 .HasMaxLength(200)
                 .IsOptional();
-            Property(t => t.ProcessSchemeId)
-                .HasColumnName("ProcessSchemeId")
-                .HasMaxLength(50)
-                .IsRequired();
             Property(t => t.PreviousId)
                 .HasColumnName("PreviousId")
                 .HasMaxLength(50)
                 .IsOptional();
             Property(t => t.FrmType)
                 .HasColumnName("FrmType")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.SchemeType)
                 .HasColumnName("SchemeType")
                 .HasMaxLength(50)
                 .IsOptional();
-            Property(t => t.EnabledMark)
-                .HasColumnName("EnabledMark")
-                .IsOptional();
+            Property(t => t.Disabled)
+                .HasColumnName("Disabled")
+                .IsRequired();
             Property(t => t.CreateDate)
                 .HasColumnName("CreateDate")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.CreateUserId)
                 .HasColumnName("CreateUserId")
                 .HasMaxLength(50)
@@ -76,16 +76,16 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("CreateUserName")
                 .HasMaxLength(50)
                 .IsOptional();
-            Property(t => t.WfLevel)
-                .HasColumnName("wfLevel")
-                .IsOptional();
+            Property(t => t.FlowLevel)
+                .HasColumnName("FlowLevel")
+                .IsRequired();
             Property(t => t.Description)
                 .HasColumnName("Description")
                 .HasMaxLength(200)
                 .IsOptional();
             Property(t => t.IsFinish)
-                .HasColumnName("isFinish")
-                .IsOptional();
+                .HasColumnName("IsFinish")
+                .IsRequired();
             Property(t => t.MakerList)
                 .HasColumnName("MakerList")
                 .HasMaxLength(1000)

@@ -41,12 +41,12 @@ namespace OpenAuth.Repository
 
         public System.Data.Entity.DbSet<Form> Forms { get; set; }
 
-        public System.Data.Entity.DbSet<WFProcessInstance> WFProcessInstances { get; set; }
-        public System.Data.Entity.DbSet<WFProcessOperationHistory> WFProcessOperationHistories { get; set; }
-        public System.Data.Entity.DbSet<WFProcessScheme> WFProcessSchemes { get; set; }
-        public System.Data.Entity.DbSet<WFProcessTransitionHistory> WFProcessTransitionHistories { get; set; }
-        public System.Data.Entity.DbSet<WFSchemeContent> WFSchemeContents { get; set; }
-        public System.Data.Entity.DbSet<WFSchemeInfo> WFSchemeInfos { get; set; }
+        public System.Data.Entity.DbSet<FlowInstance> FlowInstances { get; set; }
+        public System.Data.Entity.DbSet<FlowInstanceOperationHistory> FlowInstanceOperationHistories { get; set; }
+        public System.Data.Entity.DbSet<FlowInstanceScheme> FlowInstanceSchemes { get; set; }
+        public System.Data.Entity.DbSet<FlowInstanceTransitionHistory> FlowInstanceTransitionHistories { get; set; }
+        public System.Data.Entity.DbSet<FlowScheme> FlowSchemes { get; set; }
+        public System.Data.Entity.DbSet<FlowSchemeDetail> FlowSchemeDetails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -62,12 +62,12 @@ namespace OpenAuth.Repository
             modelBuilder.Configurations.Add(new StockMap());
             modelBuilder.Configurations.Add(new UserMap());
             modelBuilder.Configurations.Add(new FormMap());
-            modelBuilder.Configurations.Add(new WFProcessInstanceMap());
-            modelBuilder.Configurations.Add(new WFProcessOperationHistoryMap());
-            modelBuilder.Configurations.Add(new WFProcessSchemeMap());
-            modelBuilder.Configurations.Add(new WFProcessTransitionHistoryMap());
-            modelBuilder.Configurations.Add(new WFSchemeContentMap());
-            modelBuilder.Configurations.Add(new WFSchemeInfoMap());
+            modelBuilder.Configurations.Add(new FlowInstanceMap());
+            modelBuilder.Configurations.Add(new FlowInstanceOperationHistoryMap());
+            modelBuilder.Configurations.Add(new FlowInstanceSchemeMap());
+            modelBuilder.Configurations.Add(new FlowInstanceTransitionHistoryMap());
+            modelBuilder.Configurations.Add(new FlowSchemeMap());
+            modelBuilder.Configurations.Add(new FlowSchemeDetailMap());
 
         }
     }

@@ -12,13 +12,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenAuth.Repository.Mapping
 {
-    public partial class WFProcessOperationHistoryMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.WFProcessOperationHistory>
+    public partial class FlowInstanceOperationHistoryMap
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.FlowInstanceOperationHistory>
     {
-        public WFProcessOperationHistoryMap()
+        public FlowInstanceOperationHistoryMap()
         {
             // table
-            ToTable("WF_ProcessOperationHistory", "dbo");
+            ToTable("FlowInstanceOperationHistory", "dbo");
 
             // keys
             HasKey(t => t.Id);
@@ -28,8 +28,8 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("Id")
                 .HasMaxLength(50)
                 .IsRequired();
-            Property(t => t.ProcessId)
-                .HasColumnName("ProcessId")
+            Property(t => t.InstanceId)
+                .HasColumnName("InstanceId")
                 .HasMaxLength(50)
                 .IsRequired();
             Property(t => t.Content)
@@ -38,7 +38,7 @@ namespace OpenAuth.Repository.Mapping
                 .IsOptional();
             Property(t => t.CreateDate)
                 .HasColumnName("CreateDate")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.CreateUserId)
                 .HasColumnName("CreateUserId")
                 .HasMaxLength(50)

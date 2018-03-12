@@ -16,24 +16,32 @@ namespace OpenAuth.Repository.Domain
     /// <summary>
 	/// 工作流流程实例表
 	/// </summary>
-    public partial class WFProcessInstance : Entity
+    public partial class FlowInstance : Entity
     {
-        public WFProcessInstance()
+        public FlowInstance()
         {
+          this.InstanceSchemeId= string.Empty;
           this.Code= string.Empty;
           this.CustomName= string.Empty;
           this.ActivityId= string.Empty;
           this.ActivityName= string.Empty;
-          this.ProcessSchemeId= string.Empty;
           this.PreviousId= string.Empty;
+          this.FrmType= 0;
           this.SchemeType= string.Empty;
+          this.Disabled= 0;
           this.CreateDate= DateTime.Now;
           this.CreateUserId= string.Empty;
           this.CreateUserName= string.Empty;
+          this.FlowLevel= 0;
           this.Description= string.Empty;
+          this.IsFinish= 0;
           this.MakerList= string.Empty;
         }
 
+        /// <summary>
+	    /// 流程实例模板Id
+	    /// </summary>
+        public string InstanceSchemeId { get; set; }
         /// <summary>
 	    /// 实例编号
 	    /// </summary>
@@ -55,17 +63,13 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
         public string ActivityName { get; set; }
         /// <summary>
-	    /// 流程实例模板Id
-	    /// </summary>
-        public string ProcessSchemeId { get; set; }
-        /// <summary>
 	    /// 前一个ID
 	    /// </summary>
         public string PreviousId { get; set; }
         /// <summary>
 	    /// 表单类型
 	    /// </summary>
-        public int? FrmType { get; set; }
+        public int FrmType { get; set; }
         /// <summary>
 	    /// 流程类型
 	    /// </summary>
@@ -73,11 +77,11 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 有效标志
 	    /// </summary>
-        public int? EnabledMark { get; set; }
+        public int Disabled { get; set; }
         /// <summary>
 	    /// 创建时间
 	    /// </summary>
-        public System.DateTime? CreateDate { get; set; }
+        public System.DateTime CreateDate { get; set; }
         /// <summary>
 	    /// 创建用户主键
 	    /// </summary>
@@ -89,7 +93,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 等级
 	    /// </summary>
-        public int? WfLevel { get; set; }
+        public int FlowLevel { get; set; }
         /// <summary>
 	    /// 实例备注
 	    /// </summary>
@@ -97,30 +101,11 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 是否完成
 	    /// </summary>
-        public int? IsFinish { get; set; }
+        public int IsFinish { get; set; }
         /// <summary>
 	    /// 执行人
 	    /// </summary>
         public string MakerList { get; set; }
-
-
-        #region 扩展操作
-        /// <summary>
-        /// 新增调用
-        /// </summary>
-        public void Create()
-        {
-            this.CreateDate = DateTime.Now;
-        }
-        /// <summary>
-        /// 编辑调用
-        /// </summary>
-        /// <param name="keyValue"></param>
-        public void Modify(string keyValue)
-        {
-            this.Id = keyValue;
-        }
-        #endregion
 
     }
 }

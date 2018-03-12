@@ -142,13 +142,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Areas\FlowManage\Controllers\FileController.cs" />
-    <Compile Include="Areas\FlowManage\Controllers\FlowDesignController.cs" />
-    <Compile Include="Areas\FlowManage\FlowManageAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Areas\FlowManage\Controllers\FlowInstancesController.cs" />
+    <Compile Include="Controllers\FlowInstancesController.cs" />
+    <Compile Include="Controllers\FlowSchemesController.cs" />
     <Compile Include="Controllers\FormsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -207,6 +205,8 @@
     <Content Include="images\userface4.jpg" />
     <Content Include="images\userface5.jpg" />
     <Content Include="images\wechat.jpg" />
+    <Content Include="userJs\flowInstances.js" />
+    <Content Include="userJs\flowSchemes.js" />
     <Content Include="userJs\modules.js" />
     <Content Include="js\queryString.js" />
     <Content Include="userJs\orgs.js" />
@@ -578,18 +578,6 @@
     <Content Include="layui\lay\modules\upload.js" />
     <Content Include="layui\lay\modules\util.js" />
     <Content Include="js\ztree.js" />
-    <Content Include="Areas\FlowManage\Views\web.config" />
-    <Content Include="Areas\FlowManage\Views\FlowDesign\FlowLineForm.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowDesign\FlowNodeForm.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowDesign\FlowSchemeBuider.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowDesign\Index.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowInstances\ProcessLookForm.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowInstances\FlowProcessNewForm.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowDesign\PreviewIndex.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowInstances\VerificationForm.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FormDesign\Index.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FormDesign\FormPreview.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FormDesign\FrmBuider.cshtml" />
     <Content Include="layui\font\iconfont.eot" />
     <Content Include="layui\font\iconfont.ttf" />
     <Content Include="layui\font\iconfont.woff" />
@@ -617,7 +605,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Areas\FlowManage\Views\FlowInstances\Index.cshtml" />
     <Content Include="Views\Shared\_FlowForm.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -627,11 +614,10 @@
     <Content Include="Views\RoleManager\Index.cshtml" />
     <Content Include="Views\Forms\index.cshtml" />
     <Content Include="Views\Forms\Preview.cshtml" />
+    <Content Include="Views\FlowInstances\Index.cshtml" />
+    <Content Include="Views\FlowSchemes\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\FlowManage\Models\" />
-    <Folder Include="Areas\FlowManage\Views\Shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>

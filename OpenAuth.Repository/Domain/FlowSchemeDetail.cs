@@ -16,11 +16,11 @@ namespace OpenAuth.Repository.Domain
     /// <summary>
 	/// 工作流模板内容表
 	/// </summary>
-    public partial class WFSchemeContent : Entity
+    public partial class FlowSchemeDetail : Entity
     {
-        public WFSchemeContent()
+        public FlowSchemeDetail()
         {
-          this.SchemeInfoId= string.Empty;
+          this.SchemeId= string.Empty;
           this.SchemeVersion= string.Empty;
           this.SchemeContent= string.Empty;
           this.CreateDate= DateTime.Now;
@@ -31,7 +31,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 工作流模板信息主键Id
 	    /// </summary>
-        public string SchemeInfoId { get; set; }
+        public string SchemeId { get; set; }
         /// <summary>
 	    /// 流程内容版本
 	    /// </summary>
@@ -43,7 +43,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 创建时间
 	    /// </summary>
-        public System.DateTime? CreateDate { get; set; }
+        public System.DateTime CreateDate { get; set; }
         /// <summary>
 	    /// 创建用户主键
 	    /// </summary>

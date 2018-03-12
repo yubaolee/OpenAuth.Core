@@ -12,13 +12,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenAuth.Repository.Mapping
 {
-    public partial class WFSchemeInfoMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.WFSchemeInfo>
+    public partial class FlowSchemeMap
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.FlowScheme>
     {
-        public WFSchemeInfoMap()
+        public FlowSchemeMap()
         {
             // table
-            ToTable("WF_SchemeInfo", "dbo");
+            ToTable("FlowScheme", "dbo");
 
             // keys
             HasKey(t => t.Id);
@@ -49,26 +49,26 @@ namespace OpenAuth.Repository.Mapping
                 .IsOptional();
             Property(t => t.FrmType)
                 .HasColumnName("FrmType")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.AuthorizeType)
                 .HasColumnName("AuthorizeType")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.SortCode)
                 .HasColumnName("SortCode")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.DeleteMark)
                 .HasColumnName("DeleteMark")
-                .IsOptional();
-            Property(t => t.EnabledMark)
-                .HasColumnName("EnabledMark")
-                .IsOptional();
+                .IsRequired();
+            Property(t => t.Disabled)
+                .HasColumnName("Disabled")
+                .IsRequired();
             Property(t => t.Description)
                 .HasColumnName("Description")
                 .HasMaxLength(200)
                 .IsOptional();
             Property(t => t.CreateDate)
                 .HasColumnName("CreateDate")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.CreateUserId)
                 .HasColumnName("CreateUserId")
                 .HasMaxLength(50)

@@ -12,13 +12,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenAuth.Repository.Mapping
 {
-    public partial class WFProcessSchemeMap
-        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.WFProcessScheme>
+    public partial class FlowInstanceSchemeMap
+        : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<OpenAuth.Repository.Domain.FlowInstanceScheme>
     {
-        public WFProcessSchemeMap()
+        public FlowInstanceSchemeMap()
         {
             // table
-            ToTable("WF_ProcessScheme", "dbo");
+            ToTable("FlowInstanceScheme", "dbo");
 
             // keys
             HasKey(t => t.Id);
@@ -31,8 +31,8 @@ namespace OpenAuth.Repository.Mapping
             Property(t => t.SchemeContent)
                 .HasColumnName("SchemeContent")
                 .IsOptional();
-            Property(t => t.SchemeInfoId)
-                .HasColumnName("SchemeInfoId")
+            Property(t => t.SchemeId)
+                .HasColumnName("SchemeId")
                 .HasMaxLength(50)
                 .IsRequired();
             Property(t => t.SchemeVersion)
@@ -41,7 +41,7 @@ namespace OpenAuth.Repository.Mapping
                 .IsOptional();
             Property(t => t.ProcessType)
                 .HasColumnName("ProcessType")
-                .IsOptional();
+                .IsRequired();
 
             // Relationships
         }

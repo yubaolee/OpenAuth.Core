@@ -57,21 +57,6 @@ Generating Entities ...
         Stopwatch watch = Stopwatch.StartNew();
         string outputDirectory = Path.GetFullPath(directory);
 
-        if (!Directory.Exists(directory))   //根目录
-            Directory.CreateDirectory(directory);
-
-        if (!Directory.Exists(directory +"/controllers"))  //controller目录
-            Directory.CreateDirectory(directory +"/controllers");
-
-        if (!Directory.Exists(directory +"/views"))  //视图根文件夹
-            Directory.CreateDirectory(directory +"/views");
-         
-        if (!Directory.Exists(directory +"/js"))  //js根目录
-            Directory.CreateDirectory(directory +"/js");
-
-        if (!Directory.Exists(directory +"/views/"+ModuleName +"Manager"))  //视图文件夹
-            Directory.CreateDirectory(directory +"/views/"+ModuleName +"Manager");
-
         CreateControllerClass();
         CreateApplicationClass();
         CreateHtmlClass();
@@ -95,8 +80,7 @@ Generating Entities ...
 
         string rootDirectory = Path.GetFullPath(directory);
       
-        string generatedFile ="controllers" + ModuleName + "sController.cs";
-        generatedFile = Path.Combine(rootDirectory, generatedFile);
+          string generatedFile = Path.GetFullPath(directory) + "/controllers/"+  ModuleName + "sController.cs";
 
         generatedClass.ModuleName = ModuleName;
 
@@ -112,8 +96,7 @@ Generating Entities ...
 
         string rootDirectory = Path.GetFullPath(directory);
       
-        string generatedFile = ModuleName + "App.cs";
-        generatedFile = Path.Combine(rootDirectory, generatedFile);
+      string generatedFile = Path.GetFullPath(directory) + "/APP/"+  ModuleName + "App.cs";
 
         generatedClass.ModuleName = ModuleName;
 
@@ -142,7 +125,7 @@ Generating Entities ...
         JSGenerateClass generatedClass = this.Create<JSGenerateClass>();
         this.CopyPropertiesTo(generatedClass);
 
-        string generatedFile = Path.GetFullPath(directory) + "/js/"+ModuleName+"s.js";
+        string generatedFile = Path.GetFullPath(directory) + "/userJs/"+ModuleName+"s.js";
 
         generatedClass.ModuleName = ModuleName;
 

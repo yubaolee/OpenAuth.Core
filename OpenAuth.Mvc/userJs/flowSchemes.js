@@ -1,12 +1,18 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
-    var form = layui.form,
+}).use(['form','vue', 'ztree', 'layer','element', 'jquery', 'table','droptree','openauth'], function () {
+    var form = layui.form, element = layui.element,
 		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
+
+    //标签切换
+    element.on('tab(tab)', function (data) {
+        console.log(data);
+    });
+
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
     //主列表加载，可反复调用进行刷新
@@ -70,7 +76,7 @@
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
-                area: ["500px", "400px"],
+                area: ["800px", "600px"],
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
@@ -116,7 +122,6 @@
         } 
     });
 
-
     //监听页面主按钮操作
     var active = {
         btnDel: function () {      //批量删除
@@ -153,4 +158,8 @@
     });
 
     //监听页面主按钮操作 end
+
+
+
+
 })

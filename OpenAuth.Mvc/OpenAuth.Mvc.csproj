@@ -180,7 +180,7 @@
     <Content Include="images\login\right_hand.png" />
     <Content Include="images\login\tou.png" />
     <Content Include="js\flow-ui\flow.css" />
-    <Content Include="js\flow-ui\flow.js" />
+    <Content Include="js\flow-ui\gooflow.js" />
     <Content Include="js\flow-ui\img\1.png" />
     <Content Include="js\flow-ui\img\10.png" />
     <Content Include="js\flow-ui\img\11.png" />
@@ -236,6 +236,7 @@
     <Content Include="userJs\modules.js" />
     <Content Include="js\queryString.js" />
     <Content Include="userJs\orgs.js" />
+    <Content Include="userJs\flowDesign.js" />
     <Content Include="userJs\roles.js" />
     <Content Include="js\ueditor\dialogs\anchor\anchor.html" />
     <Content Include="js\ueditor\dialogs\attachment\attachment.css" />
@@ -642,6 +643,7 @@
     <Content Include="Views\Forms\Preview.cshtml" />
     <Content Include="Views\FlowInstances\Index.cshtml" />
     <Content Include="Views\FlowSchemes\Index.cshtml" />
+    <Content Include="Views\FlowSchemes\Design.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

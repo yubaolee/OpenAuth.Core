@@ -1,6 +1,7 @@
 ﻿@section header
 {
     <link rel="stylesheet" href="/css/treetable.css" />
+    <link href="/js/flow-ui/flow.css" rel="stylesheet" />
 }
 <blockquote class="layui-elem-quote news_search toolList">
     @Html.Action("MenuHeader", "Home")
@@ -43,9 +44,9 @@
             <div class="layui-tab layui-tab-brief" lay-filter="tab">
                 <ul class="layui-tab-title">
                     <li class="layui-this">基本信息</li>
-                    <li>表单设计</li>
+                    <li>流程设计</li>
                 </ul>
-                <div class="layui-tab-content" style="height: 100px;">
+                <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
 
                         <div class="layui-form-item">
@@ -94,11 +95,11 @@
                         </div>
                     </div>
                     <div class="layui-tab-item">
-                        <iframe src="/flowschemes/design" style="margin: 0px;"></iframe>
+                        <div id="flowPanel" style=""></div>
                     </div>
+                </div>
             </div>
-         </div>
-
+        </div>
         <div class="layui-row">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
@@ -109,6 +110,6 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/flowSchemes.js"></script>
+<script type="text/javascript" src="/userJs/flowSchemes.js?v2"></script>
 
 

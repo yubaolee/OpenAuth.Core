@@ -25,6 +25,12 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        //流程节点信息
+        public ActionResult NodeInfo()
+        {
+            return View();
+        }
+
         //添加或修改
         [System.Web.Mvc.HttpPost]
         public string Add(FlowScheme obj)

@@ -205,6 +205,7 @@
     <Content Include="js\flow-ui\img\wallbg.png" />
     <Content Include="js\utils\flowlayout.js" />
     <Content Include="js\utils\ui.js" />
+    <Content Include="userJs\nodeInfo.js" />
     <Content Include="userJs\categories.js" />
     <Content Include="userJs\assign.js" />
     <Content Include="js\openauth.js" />
@@ -236,7 +237,6 @@
     <Content Include="userJs\modules.js" />
     <Content Include="js\queryString.js" />
     <Content Include="userJs\orgs.js" />
-    <Content Include="userJs\flowDesign.js" />
     <Content Include="userJs\roles.js" />
     <Content Include="js\ueditor\dialogs\anchor\anchor.html" />
     <Content Include="js\ueditor\dialogs\attachment\attachment.css" />
@@ -643,7 +643,7 @@
     <Content Include="Views\Forms\Preview.cshtml" />
     <Content Include="Views\FlowInstances\Index.cshtml" />
     <Content Include="Views\FlowSchemes\Index.cshtml" />
-    <Content Include="Views\FlowSchemes\Design.cshtml" />
+    <Content Include="Views\FlowSchemes\NodeInfo.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

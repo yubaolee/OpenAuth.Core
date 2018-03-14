@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer','element', 'jquery', 'table','droptree','openauth'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow-ui/gooflow', 'utils/flowlayout'], function () {
     var form = layui.form, element = layui.element,
 		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
@@ -66,6 +66,55 @@
         }
     }();
 
+    /*=========流程设计（begin）======================*/
+    var flowData = {};
+    var frmData = {};
+    var nodePramData = [];
+    var flowDesignPanel = $('#flowPanel').flowdesign({
+        height: 500,
+        widht: 700,
+        OpenNode: function (object) {
+            if (object.$nodeData[object.$focus].type == 'startround') {
+                return false;
+            }
+
+            layer.open({
+                type: 2,
+                area: ['500px', '450px'], //宽高
+                maxmin: true, //开启最大化最小化按钮
+                title: '节点设置【' + object.$nodeData[object.$focus].name + '】',
+                content: '/flowschemes/nodeInfo',
+                btn: ['保存', '关闭'],
+                yes: function (index, layero) {
+                    var body = layer.getChildFrame('body', index);
+                    var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    var nodedata = iframeWin.getVal();
+                    flowDesignPanel.SetNodeEx(object.$focus, nodedata);
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                }
+            });
+        },
+        OpenLine: function (id, object) {
+            lay.msg("暂不能设置分支条件");
+            return;
+        }
+    });
+    function setFlowInfo(data) {
+        flowDesignPanel.loadData(data);
+    }
+
+    function bindingFlow() {
+        var _content = flowDesignPanel.exportDataEx();
+        if (_content == -1) {
+            return false;
+        }
+        flowData["SchemeContent"] = JSON.stringify({ "Frm": frmData, "Flow": _content });
+        return true;
+    }
+    /*=========流程设计（end）=====================*/
+
     //添加（编辑）对话框
     var editDlg = function() {
         var vm = new Vue({
@@ -90,7 +139,8 @@
             }
             //提交数据
             form.on('submit(formSubmit)',
-                function(data) {
+                function (data) {
+                    $.exentd(data.field, flowData);
                     $.post(url,
                         data.field,
                         function(data) {
@@ -158,8 +208,4 @@
     });
 
     //监听页面主按钮操作 end
-
-
-
-
 })

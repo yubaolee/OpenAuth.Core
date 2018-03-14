@@ -74,6 +74,8 @@
         height: 500,
         widht: 700,
         OpenNode: function (object) {
+            FlowDesignObject = object;
+
             if (object.$nodeData[object.$focus].type == 'startround') {
                 return false;
             }
@@ -90,6 +92,7 @@
                     var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                     var nodedata = iframeWin.getVal();
                     flowDesignPanel.SetNodeEx(object.$focus, nodedata);
+                    layer.close(index);
                 },
                 cancel: function (index) {
                     layer.close(index);

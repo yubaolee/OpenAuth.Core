@@ -4,13 +4,28 @@ layui.config({
     var //layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
         $ = layui.jquery;
+    var users = [];   //节点的执行人
 
-    var users = [];
+    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    //从flowschemes.js进入的节点信息
+    var _FlowDesignObject = parent.FlowDesignObject;
+    var node = _FlowDesignObject.$nodeData[_FlowDesignObject.$focus];
+    node.id = _FlowDesignObject.$focus;
 
+    var vm = new Vue({
+        el: "#formEdit"
+    });
+
+    //初始化节点设置信息
+    if (node.setInfo != null) {
+        vm.$set('$data', node.setInfo);
+        users = node.setInfo.NodeDesignateData.users;
+    }
+    
     //菜单列表
     var menucon = {};  //table的参数，如搜索key，点击tree的id
-    //菜单树状列表，等lay table没问题了，可以换成table
-    var menutree = function () {
+    //副树状结构，等lay table没问题了，可以换成table
+    var subtree = function () {
         var url = '/UserManager/Load';
         var menuTree;
         var setting = {
@@ -82,7 +97,7 @@ layui.config({
             },
             callback: {
                 onClick: function (event, treeId, treeNode) {
-                    menutree.load({ orgId: treeNode.Id });
+                    subtree.load({ orgId: treeNode.Id });
                 }
             }
         };
@@ -92,7 +107,7 @@ layui.config({
                 var newNode = { Name: "全部", Id: null, ParentId: "" };
                 json.push(newNode);
                 zTreeObj.addNodes(null, json);
-                menutree.load({ orgId: '' });
+                subtree.load({ orgId: '' });
                 zTreeObj.expandAll(true);
             });
         };
@@ -102,22 +117,13 @@ layui.config({
         }
     }();
 
-    var vm = new Vue({
-        el: "#formEdit"
-    });
-
-    var _FlowDesignObject = parent.FlowDesignObject;
-    node = _FlowDesignObject.$nodeData[_FlowDesignObject.$focus];
-    node.id = _FlowDesignObject.$focus;
-    vm.set($data.node.setInfo);
-
     //提供给上父页面调用
     getVal = function () {
         var result = {
             NodeDesignateData: {  //节点指定操作人
                 users: users,
                 role: [],
-                org:[]
+                org: []
             }
         };
         $.extend(result, vm.$data);
@@ -125,5 +131,7 @@ layui.config({
         console.log(JSON.stringify(result));
         return result;
     }
-       
+
+    //让层自适应iframe
+    parent.layer.iframeAuto(index);
 })

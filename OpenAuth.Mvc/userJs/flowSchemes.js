@@ -67,14 +67,11 @@
     }();
 
     /*=========流程设计（begin）======================*/
-    var flowData = {};
-    var frmData = {};
-    var nodePramData = [];
     var flowDesignPanel = $('#flowPanel').flowdesign({
         height: 500,
         widht: 700,
         OpenNode: function (object) {
-            FlowDesignObject = object;
+            FlowDesignObject = object;  //为NodeInfo窗口提供调用
 
             if (object.$nodeData[object.$focus].type == 'startround') {
                 return false;
@@ -104,18 +101,6 @@
             return;
         }
     });
-    function setFlowInfo(data) {
-        flowDesignPanel.loadData(data);
-    }
-
-    function bindingFlow() {
-        var _content = flowDesignPanel.exportDataEx();
-        if (_content == -1) {
-            return false;
-        }
-        flowData["SchemeContent"] = JSON.stringify({ "Frm": frmData, "Flow": _content });
-        return true;
-    }
     /*=========流程设计（end）=====================*/
 
     //添加（编辑）对话框
@@ -133,6 +118,9 @@
                 content: $('#divEdit'),
                 success: function() {
                     vm.$set('$data', data);
+                    if (update) {
+                        flowDesignPanel.loadData(JSON.parse(data.SchemeContent));
+                    }
                 },
                 end: mainList
             });
@@ -143,7 +131,12 @@
             //提交数据
             form.on('submit(formSubmit)',
                 function (data) {
-                    $.exentd(data.field, flowData);
+                    var content = flowDesignPanel.exportDataEx();
+                    var schemecontent = {
+                        SchemeContent: JSON.stringify(content)
+                    }
+
+                    $.extend(data.field,schemecontent);
                     $.post(url,
                         data.field,
                         function(data) {

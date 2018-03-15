@@ -312,12 +312,11 @@ namespace OpenAuth.App
             try
             {
                 FlowScheme FlowScheme = UnitWork.FindSingle<FlowScheme>(u => u.Id == schemeInfoId);
-                FlowSchemeDetail FlowSchemeDetail = UnitWork.FindSingle<FlowSchemeDetail>(u =>
-                u.SchemeId == schemeInfoId && u.SchemeVersion == FlowScheme.SchemeVersion);
+               
 
                 WF_RuntimeInitModel wfRuntimeInitModel = new WF_RuntimeInitModel()
                 {
-                    schemeContent = FlowSchemeDetail.SchemeContent,
+                    schemeContent = FlowScheme.SchemeContent,
                     currentNodeId = "",
                     frmData = frmData,
                     processId = processId
@@ -352,14 +351,13 @@ namespace OpenAuth.App
                 #region 实例模板
                 var data = new
                 {
-                    SchemeContent = FlowSchemeDetail.SchemeContent,
+                    SchemeContent = FlowScheme.SchemeContent,
                     frmData = frmData
                 };
                 FlowInstanceScheme FlowInstanceScheme = new FlowInstanceScheme
                 {
                     SchemeId = schemeInfoId,
                     SchemeVersion = FlowScheme.SchemeVersion,
-                    ProcessType = 1,//1正式，0草稿
                     SchemeContent = data.ToJson().ToString()
                 };
                 #endregion

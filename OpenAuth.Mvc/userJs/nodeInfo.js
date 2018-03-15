@@ -127,8 +127,6 @@ layui.config({
             }
         };
         $.extend(result, vm.$data);
-
-        console.log(JSON.stringify(result));
         return result;
     }
 

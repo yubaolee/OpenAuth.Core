@@ -46,7 +46,6 @@ namespace OpenAuth.Repository
         public System.Data.Entity.DbSet<FlowInstanceScheme> FlowInstanceSchemes { get; set; }
         public System.Data.Entity.DbSet<FlowInstanceTransitionHistory> FlowInstanceTransitionHistories { get; set; }
         public System.Data.Entity.DbSet<FlowScheme> FlowSchemes { get; set; }
-        public System.Data.Entity.DbSet<FlowSchemeDetail> FlowSchemeDetails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -67,7 +66,6 @@ namespace OpenAuth.Repository
             modelBuilder.Configurations.Add(new FlowInstanceSchemeMap());
             modelBuilder.Configurations.Add(new FlowInstanceTransitionHistoryMap());
             modelBuilder.Configurations.Add(new FlowSchemeMap());
-            modelBuilder.Configurations.Add(new FlowSchemeDetailMap());
 
         }
     }

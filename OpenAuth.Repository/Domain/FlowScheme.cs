@@ -25,6 +25,8 @@ namespace OpenAuth.Repository.Domain
           this.SchemeType= string.Empty;
           this.SchemeVersion= string.Empty;
           this.SchemeCanUser= string.Empty;
+          this.SchemeContent= string.Empty;
+          this.FrmId= string.Empty;
           this.FrmType= 0;
           this.AuthorizeType= 0;
           this.SortCode= 0;
@@ -60,11 +62,19 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
         public string SchemeCanUser { get; set; }
         /// <summary>
+	    /// 流程内容
+	    /// </summary>
+        public string SchemeContent { get; set; }
+        /// <summary>
+	    /// 表单ID
+	    /// </summary>
+        public string FrmId { get; set; }
+        /// <summary>
 	    /// 表单类型
 	    /// </summary>
         public int FrmType { get; set; }
         /// <summary>
-	    /// 模板权限类型0所有人,1指定成员
+	    /// 模板权限类型：0完全公开,1指定部门/人员
 	    /// </summary>
         public int AuthorizeType { get; set; }
         /// <summary>

@@ -23,7 +23,9 @@ namespace OpenAuth.Repository.Domain
           this.SchemeContent= string.Empty;
           this.SchemeId= string.Empty;
           this.SchemeVersion= string.Empty;
-          this.ProcessType= 0;
+          this.CreateDate= DateTime.Now;
+          this.CreateUserId= string.Empty;
+          this.CreateUserName= string.Empty;
         }
 
         /// <summary>
@@ -39,9 +41,17 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
         public string SchemeVersion { get; set; }
         /// <summary>
-	    /// 类型(0正常,3草稿)
+	    /// 创建时间
 	    /// </summary>
-        public int ProcessType { get; set; }
+        public System.DateTime CreateDate { get; set; }
+        /// <summary>
+	    /// 创建用户主键
+	    /// </summary>
+        public string CreateUserId { get; set; }
+        /// <summary>
+	    /// 创建用户
+	    /// </summary>
+        public string CreateUserName { get; set; }
 
     }
 }

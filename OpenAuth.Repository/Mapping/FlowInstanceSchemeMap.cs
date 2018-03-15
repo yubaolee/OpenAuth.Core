@@ -39,9 +39,17 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("SchemeVersion")
                 .HasMaxLength(50)
                 .IsOptional();
-            Property(t => t.ProcessType)
-                .HasColumnName("ProcessType")
+            Property(t => t.CreateDate)
+                .HasColumnName("CreateDate")
                 .IsRequired();
+            Property(t => t.CreateUserId)
+                .HasColumnName("CreateUserId")
+                .HasMaxLength(50)
+                .IsOptional();
+            Property(t => t.CreateUserName)
+                .HasColumnName("CreateUserName")
+                .HasMaxLength(50)
+                .IsOptional();
 
             // Relationships
         }

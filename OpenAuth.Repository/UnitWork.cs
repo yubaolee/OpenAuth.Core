@@ -142,5 +142,10 @@ namespace OpenAuth.Repository
             return dbSet;
         }
 
+       public void ExecuteSql(string sql)
+       {
+            Context.Database.ExecuteSqlCommand(sql);
+        }
+
     }
 }

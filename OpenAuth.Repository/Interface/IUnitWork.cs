@@ -64,5 +64,6 @@ namespace OpenAuth.Repository.Interface
 
         void Save();
 
+        void ExecuteSql(string sql);
     }
 }

@@ -58,9 +58,9 @@ UE.plugins['text'] = function () {
 			  this.hide();
 		},
 		_delete:function(){
-			if( window.confirm('确认删除该控件吗？') ) {
+			//if( window.confirm('确认删除该控件吗？') ) {
 				baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-			}
+			//}
 			this.hide();
 		}
 	} );
@@ -132,9 +132,9 @@ UE.plugins['macros'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
+          //  if( window.confirm('确认删除该控件吗？') ) {
                 baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+            //}
             this.hide();
         }
     } );
@@ -358,9 +358,9 @@ UE.plugins['radios'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
+           // if( window.confirm('确认删除该控件吗？') ) {
                 baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+            //}
             this.hide();
         }
     } );
@@ -434,9 +434,9 @@ UE.plugins['checkboxs'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
+           // if( window.confirm('确认删除该控件吗？') ) {
                 baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+          //  }
             this.hide();
         }
     } );
@@ -510,9 +510,9 @@ UE.plugins['textarea'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
+          //  if( window.confirm('确认删除该控件吗？') ) {
                 baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+           // }
             this.hide();
         }
     } );
@@ -583,9 +583,9 @@ UE.plugins['select'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
+           // if( window.confirm('确认删除该控件吗？') ) {
                 baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+          //  }
             this.hide();
         }
     } );
@@ -663,9 +663,9 @@ UE.plugins['progressbar'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
+           // if( window.confirm('确认删除该控件吗？') ) {
                 baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+           // }
             this.hide();
         }
     } );
@@ -737,9 +737,9 @@ UE.plugins['qrcode'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
+          //  if( window.confirm('确认删除该控件吗？') ) {
                 baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+          //  }
             this.hide();
         }
     } );
@@ -811,9 +811,9 @@ UE.plugins['listctrl'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
+           // if( window.confirm('确认删除该控件吗？') ) {
                 baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+           // }
             this.hide();
         }
     } );

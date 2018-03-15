@@ -55,7 +55,7 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
         public string ContentParse { get; set; }
         /// <summary>
-	    /// 表单原html模板未经处理的
+	    /// 表单原html模板未经处理的，仅仅用作编辑修改
 	    /// </summary>
         public string Content { get; set; }
         /// <summary>

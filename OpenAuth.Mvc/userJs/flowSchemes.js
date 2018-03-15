@@ -14,9 +14,9 @@
     });
 
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
-   
+
     //主列表加载，可反复调用进行刷新
-    var config= {};  //table的参数，如搜索key，点击tree的id
+    var config = {};  //table的参数，如搜索key，点击tree的id
     var mainList = function (options) {
         if (options != undefined) {
             $.extend(config, options);
@@ -66,6 +66,72 @@
         }
     }();
 
+    var vm = new Vue({
+        el: "#formEdit"
+    });
+
+    //表单选择
+    var frmTree = function () {
+        var zTreeObj;
+        var setting = {
+            view: { selectedMulti: true },
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+            },
+            data: {
+                key: {
+                    name: 'Name',
+                    title: 'Name'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: 'Id',
+                    pIdKey: 'ParentId',
+                    rootPId: 'null'
+                }
+            },
+            callback: {
+                onClick: function (event, treeId, treeNode) {
+                    var id = treeNode.Id;
+                    $.get("/forms/previewdata?id=" + id, function (data) {
+                        $("#frmPreview").html(data);
+                    });
+                },
+                onCheck: function (event, treeId, treeNode) {
+                    $("#FrmId").val(treeNode.Id);
+                }
+            }
+        };
+
+        var load = function () {
+            var url = '/forms/load';
+            $.getJSON(url, function (json) {
+                zTreeObj = $.fn.zTree.init($("#frmTree"), setting);
+                zTreeObj.addNodes(null, json.data);
+
+                $("#menutree").html("点击预览表单效果");
+                zTreeObj.expandAll(true);
+            });
+        };
+
+        var setCheck = function (id) {    //设置已经选中的表单
+            if (id == null | id == '') return;
+            var node = zTreeObj.getNodeByParam("Id", id, null);
+            zTreeObj.checkNode(node, true, false);
+
+            $.get("/forms/previewdata?id=" + id, function (data) {
+                $("#frmPreview").html(data);
+            });
+        }
+
+        return {
+            load: load,
+            setCheck: setCheck
+        }
+    }();
+
     /*=========流程设计（begin）======================*/
     var flowDesignPanel = $('#flowPanel').flowdesign({
         height: 500,
@@ -104,29 +170,31 @@
     /*=========流程设计（end）=====================*/
 
     //添加（编辑）对话框
-    var editDlg = function() {
-        var vm = new Vue({
-            el: "#formEdit"
-        });
+    var editDlg = function () {
+
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
+
+            frmTree.load();
+
             layer.open({
                 title: title,
                 area: ["800px", "600px"],
                 type: 1,
                 content: $('#divEdit'),
-                success: function() {
+                success: function () {
                     vm.$set('$data', data);
                     if (update) {
                         flowDesignPanel.loadData(JSON.parse(data.SchemeContent));
+                        frmTree.setCheck(data.FrmId);
                     }
                 },
                 end: mainList
             });
             var url = "/FlowSchemes/Add";
             if (update) {
-                url = "/FlowSchemes/Update"; 
+                url = "/FlowSchemes/Update";
             }
             //提交数据
             form.on('submit(formSubmit)',
@@ -136,10 +204,10 @@
                         SchemeContent: JSON.stringify(content)
                     }
 
-                    $.extend(data.field,schemecontent);
+                    $.extend(data.field, schemecontent);
                     $.post(url,
                         data.field,
-                        function(data) {
+                        function (data) {
                             layer.msg(data.Message);
                         },
                         "json");
@@ -147,25 +215,25 @@
                 });
         }
         return {
-            add: function() { //弹出添加
+            add: function () { //弹出添加
                 update = false;
                 show({
                     Id: ''
                 });
             },
-            update: function(data) { //弹出编辑框
+            update: function (data) { //弹出编辑框
                 update = true;
                 show(data);
             }
         };
     }();
-    
+
     //监听表格内部按钮
     table.on('tool(list)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {      //查看
             layer.msg('ID：' + data.Id + ' 的查看操作');
-        } 
+        }
     });
 
     //监听页面主按钮操作
@@ -193,7 +261,7 @@
         , search: function () {   //搜索
             mainList({ key: $('#key').val() });
         }
-        , btnRefresh: function() {
+        , btnRefresh: function () {
             mainList();
         }
     };

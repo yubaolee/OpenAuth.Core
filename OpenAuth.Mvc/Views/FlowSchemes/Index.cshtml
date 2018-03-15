@@ -44,11 +44,12 @@
             <div class="layui-tab layui-tab-brief" lay-filter="tab">
                 <ul class="layui-tab-title">
                     <li class="layui-this">基本信息</li>
+                    <li>选择表单</li>
                     <li>流程设计</li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-
+                        <input type="hidden" id="FrmId" name="FrmId" v-model="FrmId" />
                         <div class="layui-form-item">
                             <label class="layui-form-label">流程编号</label>
                             <div class="layui-input-block">
@@ -94,6 +95,12 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="layui-tab-item">
+                        <ul id="frmTree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
+                        <div id="frmPreview"></div>
+                    </div>
+                   
                     <div class="layui-tab-item">
                         <div id="flowPanel" style=""></div>
                     </div>

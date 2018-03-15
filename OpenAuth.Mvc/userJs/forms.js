@@ -219,7 +219,7 @@
                 return false;
 
             } else {
-                alert('表单内容不能为空！')
+                layer.msg('表单内容不能为空！');
                 $('#submitbtn').button('reset');
                 return false;
             }

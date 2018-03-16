@@ -27,7 +27,7 @@ namespace OpenAuth.Repository.Domain
           this.Content= string.Empty;
           this.SortCode= 0;
           this.Delete= 0;
-          this.FrmDbId= string.Empty;
+          this.DbName= string.Empty;
           this.Enabled= 0;
           this.Description= string.Empty;
           this.CreateDate= DateTime.Now;
@@ -55,7 +55,7 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
         public string ContentParse { get; set; }
         /// <summary>
-	    /// 表单原html模板未经处理的，仅仅用作编辑修改
+	    /// 表单原html模板未经处理的
 	    /// </summary>
         public string Content { get; set; }
         /// <summary>
@@ -67,9 +67,9 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
         public int Delete { get; set; }
         /// <summary>
-	    /// 数据库Id
+	    /// 数据库名称
 	    /// </summary>
-        public string FrmDbId { get; set; }
+        public string DbName { get; set; }
         /// <summary>
 	    /// 有效
 	    /// </summary>

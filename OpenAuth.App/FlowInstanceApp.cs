@@ -39,29 +39,22 @@ namespace OpenAuth.App
         /// <summary>
         /// 存储工作流实例进程(编辑草稿用)
         /// </summary>
-        /// <param name="processInstanceEntity"></param>
-        /// <param name="processSchemeEntity"></param>
+        /// <param name="flowInstance"></param>
         /// <param name="wfOperationHistoryEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(string processId, FlowInstance processInstanceEntity, FlowInstanceScheme processSchemeEntity, FlowInstanceOperationHistory wfOperationHistoryEntity = null)
+        public int SaveProcess(string processId, FlowInstance flowInstance, FlowInstanceOperationHistory wfOperationHistoryEntity = null)
         {
             try
             {
-                if (string.Empty ==(processInstanceEntity.Id))
+                if (string.Empty ==(flowInstance.Id))
                 {
-                    UnitWork.Add(processSchemeEntity);
+                    UnitWork.Add(flowInstance);
 
-                    processInstanceEntity.Id = processId;
-                    processInstanceEntity.InstanceSchemeId = processSchemeEntity.Id;
-                    UnitWork.Add(processInstanceEntity);
                 }
                 else
                 {
-                    processInstanceEntity.Id = (processId);
-                    UnitWork.Update(processInstanceEntity);
-
-                    processSchemeEntity.Id=(processInstanceEntity.InstanceSchemeId);
-                    UnitWork.Update(processSchemeEntity);
+                    flowInstance.Id = (processId);
+                    UnitWork.Update(flowInstance);
                 }
                 if (wfOperationHistoryEntity != null)
                 {
@@ -80,35 +73,30 @@ namespace OpenAuth.App
         /// 存储工作流实例进程(创建实例进程)
         /// </summary>
         /// <param name="wfRuntimeModel"></param>
-        /// <param name="processInstanceEntity"></param>
-        /// <param name="processSchemeEntity"></param>
+        /// <param name="flowInstance"></param>
         /// <param name="processOperationHistoryEntity"></param>
-        /// <param name="delegateRecordEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(WF_RuntimeModel wfRuntimeModel, FlowInstance processInstanceEntity, FlowInstanceScheme processSchemeEntity, FlowInstanceOperationHistory processOperationHistoryEntity, FlowInstanceTransitionHistory processTransitionHistoryEntity)
+        public int SaveProcess(WF_RuntimeModel wfRuntimeModel, FlowInstance flowInstance,  FlowInstanceOperationHistory processOperationHistoryEntity, FlowInstanceTransitionHistory processTransitionHistoryEntity)
         {
             try
             {
-                if (string.Empty == (processInstanceEntity.Id))
+                if (string.Empty == (flowInstance.Id))
                 {
-                    UnitWork.Add(processSchemeEntity);
 
-                    processInstanceEntity.Id = (string)(wfRuntimeModel.processId);
-                    processInstanceEntity.InstanceSchemeId = processSchemeEntity.Id;
-                    UnitWork.Add(processInstanceEntity);
+                    flowInstance.Id = (string)(wfRuntimeModel.processId);
+                    UnitWork.Add(flowInstance);
                 }
                 else
                 {
-                    processInstanceEntity.Id =(processInstanceEntity.Id);
-                    UnitWork.Update(processSchemeEntity);
-                    UnitWork.Update(processInstanceEntity);
+                    flowInstance.Id =(flowInstance.Id);
+                    UnitWork.Update(flowInstance);
                 }
-                processOperationHistoryEntity.InstanceId = processInstanceEntity.Id;
+                processOperationHistoryEntity.InstanceId = flowInstance.Id;
                 UnitWork.Add(processOperationHistoryEntity);
 
                 if (processTransitionHistoryEntity != null)
                 {
-                    processTransitionHistoryEntity.InstanceId = processInstanceEntity.Id;
+                    processTransitionHistoryEntity.InstanceId = flowInstance.Id;
                     UnitWork.Add(processTransitionHistoryEntity);
                 }
               
@@ -128,13 +116,12 @@ namespace OpenAuth.App
         /// <param name="processOperationHistoryEntity"></param>
         /// <param name="processTransitionHistoryEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(FlowInstance processInstanceEntity, FlowInstanceScheme processSchemeEntity, 
+        public int SaveProcess(FlowInstance processInstanceEntity,  
             FlowInstanceOperationHistory processOperationHistoryEntity,  FlowInstanceTransitionHistory processTransitionHistoryEntity = null)
         {
             try
             {
                 processInstanceEntity.Id=(processInstanceEntity.Id);
-                UnitWork.Update(processSchemeEntity);
                 UnitWork.Update(processInstanceEntity);
 
                 processOperationHistoryEntity.InstanceId = processInstanceEntity.Id;
@@ -165,12 +152,11 @@ namespace OpenAuth.App
         /// <param name="delegateRecordEntityList"></param>
         /// <param name="processTransitionHistoryEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(string sql,string dbbaseId, FlowInstance processInstanceEntity, FlowInstanceScheme processSchemeEntity, FlowInstanceOperationHistory processOperationHistoryEntity, FlowInstanceTransitionHistory processTransitionHistoryEntity = null)
+        public int SaveProcess(string sql,string dbbaseId, FlowInstance processInstanceEntity,  FlowInstanceOperationHistory processOperationHistoryEntity, FlowInstanceTransitionHistory processTransitionHistoryEntity = null)
         {
             try
             {
                 processInstanceEntity.Id=(processInstanceEntity.Id);
-                UnitWork.Update(processSchemeEntity);
                 UnitWork.Update(processInstanceEntity);
 
                 processOperationHistoryEntity.InstanceId = processInstanceEntity.Id;
@@ -208,7 +194,6 @@ namespace OpenAuth.App
                 FlowInstance entity = UnitWork.FindSingle<FlowInstance>(u =>u.Id ==keyValue);
 
                 UnitWork.Delete<FlowInstance>(u =>u.Id == keyValue);
-                UnitWork.Delete<FlowInstanceScheme>(u =>u.Id == entity.InstanceSchemeId);
                 UnitWork.Save();
                 return 1;
             }
@@ -346,21 +331,10 @@ namespace OpenAuth.App
                 FlowInstance.CreateUserName = user.User.Account;
                 FlowInstance.MakerList = (wfruntime.GetStatus() != 4 ? GetMakerList(wfruntime) : "");//当前节点可执行的人信息
                 FlowInstance.IsFinish = (wfruntime.GetStatus() == 4 ? 1 : 0);
+                FlowInstance.SchemeContent = FlowScheme.SchemeContent;
                 #endregion
 
-                #region 实例模板
-                var data = new
-                {
-                    SchemeContent = FlowScheme.SchemeContent,
-                    frmData = frmData
-                };
-                FlowInstanceScheme FlowInstanceScheme = new FlowInstanceScheme
-                {
-                    SchemeId = schemeInfoId,
-                    SchemeVersion = FlowScheme.SchemeVersion,
-                    SchemeContent = data.ToJson().ToString()
-                };
-                #endregion
+              
 
                 #region 流程操作记录
                 FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory();
@@ -384,7 +358,7 @@ namespace OpenAuth.App
                 //FlowInstance.MakerList += delegateUserList;
                 #endregion
 
-                SaveProcess(wfruntime.runtimeModel, FlowInstance, FlowInstanceScheme, processOperationHistoryEntity, processTransitionHistoryEntity);
+                SaveProcess(wfruntime.runtimeModel, FlowInstance, processOperationHistoryEntity, processTransitionHistoryEntity);
 
                 return true;
             }
@@ -407,16 +381,12 @@ namespace OpenAuth.App
             {
                 string _sqlstr = "", _dbbaseId = "";
                 FlowInstance FlowInstance = GetEntity(processId);
-                FlowInstanceScheme FlowInstanceScheme = UnitWork.FindSingle<FlowInstanceScheme>(u => u.Id == FlowInstance.InstanceSchemeId);
                 FlowInstanceOperationHistory FlowInstanceOperationHistory = new FlowInstanceOperationHistory();//操作记录
                 FlowInstanceTransitionHistory processTransitionHistoryEntity = null;//流转记录
 
-                dynamic schemeContentJson = FlowInstanceScheme.SchemeContent.ToJson();//获取工作流模板内容的json对象;
                 WF_RuntimeInitModel wfRuntimeInitModel = new WF_RuntimeInitModel()
                 {
-                    schemeContent = schemeContentJson.SchemeContent.Value,
                     currentNodeId = FlowInstance.ActivityId,
-                    frmData = schemeContentJson.frmData.Value,
                     previousId = FlowInstance.PreviousId,
                     processId = processId
                 };
@@ -465,7 +435,6 @@ namespace OpenAuth.App
                             SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
                             frmData = wfruntime.runtimeModel.frmData
                         };
-                        FlowInstanceScheme.SchemeContent = _data.ToJson().ToString();
                         switch (_Confluenceres)
                         {
                             case "-1"://不通过
@@ -559,12 +528,11 @@ namespace OpenAuth.App
                         SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
                         frmData = wfruntime.runtimeModel.frmData 
                     };
-                    FlowInstanceScheme.SchemeContent = data.ToJson();
                 }
                 #endregion 
 
                 _res = true;
-                SaveProcess(_sqlstr, _dbbaseId, FlowInstance, FlowInstanceScheme, FlowInstanceOperationHistory, processTransitionHistoryEntity);
+                SaveProcess(_sqlstr, _dbbaseId, FlowInstance, FlowInstanceOperationHistory, processTransitionHistoryEntity);
                 return _res;
             }
             catch
@@ -584,15 +552,11 @@ namespace OpenAuth.App
             try
             {
                 FlowInstance FlowInstance = GetEntity(processId);
-                FlowInstanceScheme FlowInstanceScheme = UnitWork.FindSingle<FlowInstanceScheme>(u => u.Id == FlowInstance.InstanceSchemeId);
                 FlowInstanceOperationHistory FlowInstanceOperationHistory = new FlowInstanceOperationHistory();
                 FlowInstanceTransitionHistory processTransitionHistoryEntity = null;
-                dynamic schemeContentJson = FlowInstanceScheme.SchemeContent.ToJson();//获取工作流模板内容的json对象;
                 WF_RuntimeInitModel wfRuntimeInitModel = new WF_RuntimeInitModel()
                 {
-                    schemeContent = schemeContentJson.SchemeContent.Value,
                     currentNodeId = FlowInstance.ActivityId,
-                    frmData = schemeContentJson.frmData.Value,
                     previousId = FlowInstance.PreviousId,
                     processId = processId
                 };
@@ -634,10 +598,9 @@ namespace OpenAuth.App
                     SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
                     frmData = (FlowInstance.FrmType == 0 ? wfruntime.runtimeModel.frmData : null)
                 };
-                FlowInstanceScheme.SchemeContent = data.ToJson().ToString();
                 FlowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.currentNode.name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】驳回,备注：" + description;
 
-                SaveProcess(FlowInstance, FlowInstanceScheme, FlowInstanceOperationHistory, processTransitionHistoryEntity);
+                SaveProcess(FlowInstance, FlowInstanceOperationHistory, processTransitionHistoryEntity);
                 return true;
             }
             catch
@@ -948,38 +911,6 @@ namespace OpenAuth.App
             return resStr;
         }
 
-        public FlowInstanceScheme GetProcessSchemeEntity(string keyValue)
-        {
-            return UnitWork.FindSingle<FlowInstanceScheme>(u => u.Id == keyValue);
-        }
-
-        /// <summary>
-        /// 已办流程进度查看，根据当前访问人的权限查看表单内容
-        /// <para>李玉宝于2017-01-20 15:35:13</para>
-        /// </summary>
-        /// <param name="keyValue">The key value.</param>
-        /// <returns>FlowInstanceScheme.</returns>
-        public FlowInstanceScheme GetProcessSchemeByUserId(string keyValue)
-        {
-            var entity = GetProcessSchemeEntity(keyValue);
-            entity.SchemeContent = GetProcessSchemeContentByUserId(entity.SchemeContent, AuthUtil.GetCurrentUser().User.Id.ToString());
-            return entity;
-        }
-
-
-        /// <summary>
-        /// 已办流程进度查看，根据当前节点的权限查看表单内容
-        /// <para>李玉宝于2017-01-20 15:34:35</para>
-        /// </summary>
-        /// <param name="keyValue">The key value.</param>
-        /// <param name="nodeId">The node identifier.</param>
-        /// <returns>FlowInstanceScheme.</returns>
-        public FlowInstanceScheme GetProcessSchemeEntityByNodeId(string keyValue, string nodeId)
-        {
-            var entity = GetProcessSchemeEntity(keyValue);
-            entity.SchemeContent = GetProcessSchemeContentByNodeId(entity.SchemeContent, nodeId);
-            return entity;
-        }
 
         public FlowInstance GetProcessInstanceEntity(string keyValue)
         {

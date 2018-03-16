@@ -37,12 +37,15 @@ namespace OpenAuth.Repository.Mapping
                 .IsRequired();
             Property(t => t.ContentData)
                 .HasColumnName("ContentData")
+                .HasMaxLength(16)
                 .IsOptional();
             Property(t => t.ContentParse)
                 .HasColumnName("ContentParse")
+                .HasMaxLength(16)
                 .IsOptional();
             Property(t => t.Content)
                 .HasColumnName("Content")
+                .HasMaxLength(16)
                 .IsOptional();
             Property(t => t.SortCode)
                 .HasColumnName("SortCode")
@@ -50,8 +53,8 @@ namespace OpenAuth.Repository.Mapping
             Property(t => t.Delete)
                 .HasColumnName("Delete")
                 .IsRequired();
-            Property(t => t.FrmDbId)
-                .HasColumnName("FrmDbId")
+            Property(t => t.DbName)
+                .HasColumnName("DbName")
                 .HasMaxLength(50)
                 .IsOptional();
             Property(t => t.Enabled)

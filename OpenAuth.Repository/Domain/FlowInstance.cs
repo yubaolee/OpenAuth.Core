@@ -26,7 +26,13 @@ namespace OpenAuth.Repository.Domain
           this.ActivityId= string.Empty;
           this.ActivityName= string.Empty;
           this.PreviousId= string.Empty;
+          this.SchemeContent= string.Empty;
+          this.SchemeId= string.Empty;
+          this.DbName= string.Empty;
           this.FrmType= 0;
+          this.FrmContentData= string.Empty;
+          this.FrmContentParse= string.Empty;
+          this.FrmId= string.Empty;
           this.SchemeType= string.Empty;
           this.Disabled= 0;
           this.CreateDate= DateTime.Now;
@@ -67,9 +73,33 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
         public string PreviousId { get; set; }
         /// <summary>
+	    /// 流程模板内容
+	    /// </summary>
+        public string SchemeContent { get; set; }
+        /// <summary>
+	    /// 流程模板ID
+	    /// </summary>
+        public string SchemeId { get; set; }
+        /// <summary>
+	    /// 数据库名称
+	    /// </summary>
+        public string DbName { get; set; }
+        /// <summary>
 	    /// 表单类型
 	    /// </summary>
         public int FrmType { get; set; }
+        /// <summary>
+	    /// 表单中的字段数据
+	    /// </summary>
+        public string FrmContentData { get; set; }
+        /// <summary>
+	    /// 表单内容
+	    /// </summary>
+        public string FrmContentParse { get; set; }
+        /// <summary>
+	    /// 表单ID
+	    /// </summary>
+        public string FrmId { get; set; }
         /// <summary>
 	    /// 流程类型
 	    /// </summary>

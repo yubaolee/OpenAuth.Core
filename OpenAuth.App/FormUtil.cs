@@ -443,7 +443,7 @@ namespace OpenAuth.App
             var jsonArray = JArray.Parse(form.ContentData);
 		
             // 数据库名称
-            string tableName="[Form_"+ form.FrmDbId + "]";
+            string tableName="["+ form.DbName + "]";
             // 创建数据表
             StringBuilder sql =new StringBuilder("if exists ( select * from sysobjects where name = '"
                 +tableName+"' and type = 'U') drop table " 
@@ -477,7 +477,7 @@ namespace OpenAuth.App
             sql.Append(");");
 
             //设置主键
-            sql.Append("ALTER TABLE "+tableName+" ADD CONSTRAINT [PK_"+form.FrmDbId+"] PRIMARY KEY NONCLUSTERED ([Id])");
+            sql.Append("ALTER TABLE "+tableName+" ADD CONSTRAINT [PK_"+form.DbName+"] PRIMARY KEY NONCLUSTERED ([Id])");
             sql.Append(
                 "WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ");
             sql.Append("ON [PRIMARY];");

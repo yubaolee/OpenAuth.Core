@@ -37,7 +37,7 @@ namespace OpenAuth.App
                Content = obj.Content,
                ContentParse = obj.ContentParse,
                Name = obj.Name,
-               FrmDbId = obj.FrmDbId
+               DbName = obj.DbName
             });
 
             Repository.ExecuteSql(FormUtil.GetSql(obj));

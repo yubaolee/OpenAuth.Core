@@ -43,7 +43,6 @@ namespace OpenAuth.Repository
 
         public System.Data.Entity.DbSet<FlowInstance> FlowInstances { get; set; }
         public System.Data.Entity.DbSet<FlowInstanceOperationHistory> FlowInstanceOperationHistories { get; set; }
-        public System.Data.Entity.DbSet<FlowInstanceScheme> FlowInstanceSchemes { get; set; }
         public System.Data.Entity.DbSet<FlowInstanceTransitionHistory> FlowInstanceTransitionHistories { get; set; }
         public System.Data.Entity.DbSet<FlowScheme> FlowSchemes { get; set; }
 
@@ -63,7 +62,6 @@ namespace OpenAuth.Repository
             modelBuilder.Configurations.Add(new FormMap());
             modelBuilder.Configurations.Add(new FlowInstanceMap());
             modelBuilder.Configurations.Add(new FlowInstanceOperationHistoryMap());
-            modelBuilder.Configurations.Add(new FlowInstanceSchemeMap());
             modelBuilder.Configurations.Add(new FlowInstanceTransitionHistoryMap());
             modelBuilder.Configurations.Add(new FlowSchemeMap());
 

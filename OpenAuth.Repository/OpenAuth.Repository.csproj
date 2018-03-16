@@ -62,7 +62,6 @@
     <Compile Include="Core\Entity.cs" />
     <Compile Include="Domain\FlowInstance.cs" />
     <Compile Include="Domain\FlowInstanceOperationHistory.cs" />
-    <Compile Include="Domain\FlowInstanceScheme.cs" />
     <Compile Include="Domain\FlowInstanceTransitionHistory.cs" />
     <Compile Include="Domain\FlowScheme.cs" />
     <Compile Include="Domain\Form.cs" />
@@ -81,7 +80,6 @@
     <Compile Include="Mapping\CategoryTypeMap.cs" />
     <Compile Include="Mapping\FlowInstanceMap.cs" />
     <Compile Include="Mapping\FlowInstanceOperationHistoryMap.cs" />
-    <Compile Include="Mapping\FlowInstanceSchemeMap.cs" />
     <Compile Include="Mapping\FlowInstanceTransitionHistoryMap.cs" />
     <Compile Include="Mapping\FlowSchemeMap.cs" />
     <Compile Include="Mapping\FormMap.cs" />

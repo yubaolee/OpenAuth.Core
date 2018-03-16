@@ -55,9 +55,32 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("PreviousId")
                 .HasMaxLength(50)
                 .IsOptional();
+            Property(t => t.SchemeContent)
+                .HasColumnName("SchemeContent")
+                .IsOptional();
+            Property(t => t.SchemeId)
+                .HasColumnName("SchemeId")
+                .HasMaxLength(50)
+                .IsOptional();
+            Property(t => t.DbName)
+                .HasColumnName("DbName")
+                .HasMaxLength(50)
+                .IsOptional();
             Property(t => t.FrmType)
                 .HasColumnName("FrmType")
                 .IsRequired();
+            Property(t => t.FrmContentData)
+                .HasColumnName("FrmContentData")
+                .HasMaxLength(16)
+                .IsOptional();
+            Property(t => t.FrmContentParse)
+                .HasColumnName("FrmContentParse")
+                .HasMaxLength(16)
+                .IsOptional();
+            Property(t => t.FrmId)
+                .HasColumnName("FrmId")
+                .HasMaxLength(50)
+                .IsOptional();
             Property(t => t.SchemeType)
                 .HasColumnName("SchemeType")
                 .HasMaxLength(50)

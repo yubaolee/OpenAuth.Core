@@ -33,6 +33,11 @@ namespace OpenAuth.App
             Repository.Delete(u => ids.Contains(u.Id));
         }
 
+        public T Get(string id)
+        {
+            return Repository.FindSingle(u => u.Id == id);
+        }
+
         /// <summary>
         /// 如果一个类有层级结构（树状），则修改该节点时，要修改该节点的所有子节点
         /// //修改对象的级联ID，生成类似XXX.XXX.X.XX

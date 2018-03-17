@@ -84,7 +84,6 @@
                 yes: function (index, layero) {
                     var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                     iframeWin.submit();
-                    layer.close(index);
                     mainList();
                 },
                 cancel: function (index) {

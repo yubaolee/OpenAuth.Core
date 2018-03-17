@@ -13,14 +13,6 @@ namespace OpenAuth.App
     public class FlowSchemeApp :BaseApp<FlowScheme>
     {
         
-
-
-        public FlowScheme GetEntity(string keyValue)
-        {
-            return UnitWork.FindSingle<FlowScheme>(u => u.Id == keyValue);
-        }
-
-
         public void UpdateState(string keyValue, int state)
         {
             throw new NotImplementedException();

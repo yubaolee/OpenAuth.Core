@@ -7,8 +7,10 @@
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
+
+    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
      var id = $.getUrlParam("id");   //ID
-    var update = (id != '');
+    var update = (id !=null && id != '');
     //提交的URL
     var url = "/FlowSchemes/Add";
 
@@ -23,7 +25,8 @@
             view: { selectedMulti: true },
             check: {
                 enable: true,
-                chkStyle: "checkbox",
+                chkStyle: "radio",
+                radioType: "all",  //整个节点一个分组
                 chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
             },
             data: {
@@ -40,13 +43,15 @@
             },
             callback: {
                 onClick: function (event, treeId, treeNode) {
-                    var id = treeNode.Id;
-                    $.get("/forms/previewdata?id=" + id, function (data) {
+                    $.get("/forms/previewdata?id=" + treeNode.Id, function (data) {
                         $("#frmPreview").html(data);
                     });
                 },
                 onCheck: function (event, treeId, treeNode) {
                     $("#FrmId").val(treeNode.Id);
+                    $.get("/forms/previewdata?id=" + treeNode.Id, function (data) {
+                        $("#frmPreview").html(data);
+                    });
                 }
             }
         };
@@ -119,12 +124,13 @@
     frmTree.load();
 
     if (update) {
-        $.get('/fllowschemes/get?id=' + id,
+        $.getJSON('/flowschemes/get?id=' + id,
             function (data) {
+                var obj = data.Result;
                 url = "/FlowSchemes/Update";
-                vm.$set('$data', data);
-                flowDesignPanel.loadData(JSON.parse(data.SchemeContent));
-                frmTree.setCheck(data.FrmId);
+                vm.$set('$data', obj);
+                flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
+                frmTree.setCheck(obj.FrmId);
             });
     } else {
         vm.$set('$data',
@@ -135,10 +141,12 @@
 
 
     //提交数据
-    form.on('submit()',
+    form.on('submit(formSubmit)',
         function (data) {
             var content = flowDesignPanel.exportDataEx();
-            if (content == -1) return false;
+            if (content == -1) {
+                return false; //阻止表单跳转。
+            }
             var schemecontent = {
                 SchemeContent: JSON.stringify(content)
             }
@@ -150,10 +158,14 @@
                     layer.msg(result.Message);
                 },
                 "json");
-            return false;
         });
 
-      submit = function() {
-         $("#formEdit").submit();
-     }
+    //该函数供给父窗口确定时调用
+    submit = function () {
+        //只能用隐藏的submit btn才行，用form.submit()时data.field里没有数据
+        $("#btnSubmit").click();
+    }
+
+    //让层自适应iframe
+    parent.layer.iframeAuto(index);
 })

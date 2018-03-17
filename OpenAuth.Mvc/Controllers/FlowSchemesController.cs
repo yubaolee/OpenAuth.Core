@@ -31,6 +31,21 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        public string Get(string id)
+        {
+            try
+            {
+                var result = new Response<FlowScheme> {Result = App.Get(id)};
+                return JsonHelper.Instance.Serialize(result);
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
         //添加或修改
         [System.Web.Mvc.HttpPost]
         public string Add(FlowScheme obj)

@@ -205,6 +205,7 @@
     <Content Include="js\flow-ui\img\wallbg.png" />
     <Content Include="js\utils\flowlayout.js" />
     <Content Include="js\utils\ui.js" />
+    <Content Include="userJs\flowSchemes.js" />
     <Content Include="userJs\nodeInfo.js" />
     <Content Include="userJs\categories.js" />
     <Content Include="userJs\assign.js" />
@@ -233,7 +234,7 @@
     <Content Include="images\userface5.jpg" />
     <Content Include="images\wechat.jpg" />
     <Content Include="userJs\flowInstances.js" />
-    <Content Include="userJs\flowSchemes.js" />
+    <Content Include="userJs\flowSchemeDesign.js" />
     <Content Include="userJs\modules.js" />
     <Content Include="js\queryString.js" />
     <Content Include="userJs\orgs.js" />
@@ -644,6 +645,7 @@
     <Content Include="Views\FlowInstances\Index.cshtml" />
     <Content Include="Views\FlowSchemes\Index.cshtml" />
     <Content Include="Views\FlowSchemes\NodeInfo.cshtml" />
+    <Content Include="Views\FlowSchemes\Design.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,0 +1,89 @@
+﻿
+@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+    <link href="/js/flow-ui/flow.css" rel="stylesheet" />
+}
+
+<form class="layui-form" action="" id="formEdit">
+    <input type="hidden" name="Id" v-model="Id" />
+
+    <div class="layui-row">
+        <div class="layui-tab layui-tab-brief" lay-filter="tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本信息</li>
+                <li>选择表单</li>
+                <li>流程设计</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <input type="hidden" id="FrmId" name="FrmId" v-model="FrmId" />
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">流程编号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="SchemeCode" v-model="SchemeCode" required lay-verify="required"
+                                   placeholder="流程编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">流程名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="SchemeName" v-model="SchemeName" required lay-verify="required"
+                                   placeholder="流程名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">模板权限类型0所有人,1指定成员</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="AuthorizeType" value="1" title="value1" checked>
+                            <input type="radio" name="AuthorizeType" value="0" title="value2">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序码</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="SortCode" value="1" title="value1" checked>
+                            <input type="radio" name="SortCode" value="0" title="value2">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">有效</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="Disabled" value="1" title="value1" checked>
+                            <input type="radio" name="Disabled" value="0" title="value2">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="Description" v-model="Description"
+                                   placeholder="备注" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-tab-item">
+                    <ul id="frmTree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
+                    <div id="frmPreview"></div>
+                </div>
+
+                <div class="layui-tab-item">
+                    <div id="flowPanel" style=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit>立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/flowSchemeDesign.js?v2"></script>
+

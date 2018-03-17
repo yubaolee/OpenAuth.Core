@@ -1,7 +1,7 @@
-﻿layui.define("jquery",
+﻿layui.define(["jquery","layer"],
     function(exports) {
         var $ = layui.jquery;
-
+        var layer = layui.layer;
         //初始化设计流程器
         $.fn.flowdesign = function(options) {
             var $frmpreview = $(this);
@@ -84,14 +84,14 @@
                     case "startround":
                         _startroundFlag++;
                         if (_fromlines[_node.id] == undefined) {
-                            dialogTop("开始节点无法流转到下一个节点", "error");
+                            layer.msg("开始节点无法流转到下一个节点");
                             return -1;
                         }
                         break;
                     case "endround":
                         _endroundFlag++;
                         if (_tolines[_node.id] == undefined) {
-                            dialogTop("无法流转到结束节点", "error");
+                            layer.msg("无法流转到结束节点");
                             return -1;
                         }
                         break;
@@ -107,43 +107,43 @@
                         _flag = true;
                         break;
                     default:
-                        dialogTop("节点数据异常,请重新登录下系统！", "error");
+                        layer.msg("节点数据异常,请重新登录下系统！");
                         return -1;
                         break;
                     }
                     if (_flag) {
                         if (_tolines[_node.id] == undefined) {
                             labellingRedNode(_node.id);
-                            dialogTop("标注红色的节点没有【进来】的连接线段", "error");
+                            layer.msg("标注红色的节点没有【进来】的连接线段");
                             return -1;
                         }
                         if (_fromlines[_node.id] == undefined) {
                             labellingRedNode(_node.id);
-                            dialogTop("标注红色的节点没有【出去】的连接线段", "error");
+                            layer.msg("标注红色的节点没有【出去】的连接线段");
                             return -1;
                         }
                     }
                     _nodes[_node.id] = _node;
                 }
                 if (_startroundFlag == 0) {
-                    dialogTop("必须有开始节点", "error");
+                    layer.msg("必须有开始节点");
                     return -1;
                 }
 
                 if (_endroundFlag == 0) {
-                    dialogTop("必须有结束节点", "error");
+                    layer.msg("必须有结束节点");
                     return -1;
                 }
 
                 if (_fnodes.length != _hnodes.length) {
-                    dialogTop("分流节点必须等于合流节点", "error");
+                    layer.msg("分流节点必须等于合流节点");
                     return -1;
                 }
                 for (var a in _fnodes) {
                     var aNondeid = _fnodes[a];
                     if (_fromlines[aNondeid].length == 1) {
                         labellingRedNode(aNondeid);
-                        dialogTop("标注红色的分流节点不允许只有一条【出去】的线段", "error");
+                        layer.msg("标注红色的分流节点不允许只有一条【出去】的线段");
                         return -1;
                     }
                     var _hhnodeid = {};
@@ -155,33 +155,33 @@
                             var _nextNode = _nodes[_nextLine[0]];
                             if (_nextNode.type != "confluencenode") {
                                 labellingRedNode(_nodes[btoNode].id);
-                                dialogTop("标注红色的普通节点下一个节点必须是合流节点", "error");
+                                layer.msg("标注红色的普通节点下一个节点必须是合流节点");
                                 return -1;
                             } else {
                                 _hhnodeid[_nextLine[0]] = 0;
                                 if (_hhnodeid.length > 1) {
                                     labellingRedNode(aNondeid);
-                                    dialogTop("标注红色的分流节点与之对应的合流节点只能有一个", "error");
+                                    layer.msg("标注红色的分流节点与之对应的合流节点只能有一个");
                                     return -1;
                                 }
                                 if (_tolines[_nextLine[0]].length != _fromlines[aNondeid].length) {
                                     labellingRedNode(_nextLine[0]);
-                                    dialogTop("标注红色的合流节点与之对应的分流节点只能有一个", "error");
+                                    layer.msg("标注红色的合流节点与之对应的分流节点只能有一个");
                                     return -1;
                                 }
                             }
                             if (_nextLine.length > 1) {
                                 labellingRedNode(_nodes[btoNode].id);
-                                dialogTop("标注红色的节点只能有一条出去的线条【分流合流之间】", "error");
+                                layer.msg("标注红色的节点只能有一条出去的线条【分流合流之间】");
                                 return -1;
                             } else if (_tolines[_nodes[btoNode].id], length > 1) {
                                 labellingRedNode(_nodes[btoNode].id);
-                                dialogTop("标注红色的节点只能有一条进来的线条【分流合流之间】", "error");
+                                layer.msg("标注红色的节点只能有一条进来的线条【分流合流之间】");
                                 return -1;
                             }
                         } else {
                             labellingRedNode(aNondeid);
-                            dialogTop("标注红色的分流节点必须经过一个普通节点到合流节点", "error");
+                            layer.msg("标注红色的分流节点必须经过一个普通节点到合流节点");
                             return -1;
                         }
                     }

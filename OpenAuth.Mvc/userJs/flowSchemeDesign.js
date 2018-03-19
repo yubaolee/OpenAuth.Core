@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'queryString', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow-ui/gooflow', 'utils/flowlayout'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'queryString', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow/gooflow', 'utils/flowlayout'], function () {
     var form = layui.form, element = layui.element,
 		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
@@ -85,12 +85,13 @@
 
     /*=========流程设计（begin）======================*/
     var flowDesignPanel = $('#flowPanel').flowdesign({
-        height: 500,
-        widht: 700,
+        height: 300,
+        widht: 300,
         OpenNode: function (object) {
             FlowDesignObject = object;  //为NodeInfo窗口提供调用
 
-            if (object.$nodeData[object.$focus].type == 'startround') {
+            if (object.type == 'start round mix' || object.type == 'end round') {
+                layer.msg("开始节点与结束节点不能设置");
                 return false;
             }
 
@@ -98,14 +99,14 @@
                 type: 2,
                 area: ['500px', '450px'], //宽高
                 maxmin: true, //开启最大化最小化按钮
-                title: '节点设置【' + object.$nodeData[object.$focus].name + '】',
+                title: '节点设置【' + object.name + '】',
                 content: '/flowschemes/nodeInfo',
                 btn: ['保存', '关闭'],
                 yes: function (index, layero) {
                     var body = layer.getChildFrame('body', index);
                     var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                     var nodedata = iframeWin.getVal();
-                    flowDesignPanel.SetNodeEx(object.$focus, nodedata);
+                    flowDesignPanel.SetNodeEx(object.id, nodedata);
                     layer.close(index);
                 },
                 cancel: function (index) {
@@ -143,7 +144,7 @@
     //提交数据
     form.on('submit(formSubmit)',
         function (data) {
-            var content = flowDesignPanel.exportDataEx();
+            var content = flowDesignPanel.exportData();
             if (content == -1) {
                 return false; //阻止表单跳转。
             }
@@ -158,7 +159,13 @@
                     layer.msg(result.Message);
                 },
                 "json");
+
+            return false; //阻止表单跳转。
         });
+
+    $(window).resize(function() {
+        flowDesignPanel.reinitSize($(window).width()-30, $(window).height()-100);
+    });
 
     //该函数供给父窗口确定时调用
     submit = function () {

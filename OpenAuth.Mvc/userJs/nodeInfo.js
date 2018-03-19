@@ -8,9 +8,8 @@ layui.config({
 
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
     //从flowschemes.js进入的节点信息
-    var _FlowDesignObject = parent.FlowDesignObject;
-    var node = _FlowDesignObject.$nodeData[_FlowDesignObject.$focus];
-    node.id = _FlowDesignObject.$focus;
+    var node = parent.FlowDesignObject;
+    console.log(JSON.stringify(node));
 
     var vm = new Vue({
         el: "#formEdit"

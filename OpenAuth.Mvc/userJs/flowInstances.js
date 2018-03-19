@@ -61,47 +61,37 @@
     }();
 
     //添加（编辑）对话框
-    var editDlg = function() {
-        var vm = new Vue({
-            el: "#formEdit"
-        });
+    var editDlg = function () {
+
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
+
             layer.open({
+                type: 2,
+                area: ['600px', '500px'], //宽高
+                maxmin: true, //开启最大化最小化按钮
                 title: title,
-                area: ["500px", "400px"],
-                type: 1,
-                content: $('#divEdit'),
-                success: function() {
-                    vm.$set('$data', data);
+                content: '/flowInstances/edit?id=' + data.Id,
+                btn: ['保存', '关闭'],
+                yes: function (index, layero) {
+                    var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    iframeWin.submit();
                 },
-                end: mainList
+                cancel: function (index) {
+                    layer.close(index);
+                    mainList();
+                }
             });
-            var url = "/FlowInstances/Add";
-            if (update) {
-                url = "/FlowInstances/Update"; 
-            }
-            //提交数据
-            form.on('submit(formSubmit)',
-                function(data) {
-                    $.post(url,
-                        data.field,
-                        function(data) {
-                            layer.msg(data.Message);
-                        },
-                        "json");
-                    return false;
-                });
         }
         return {
-            add: function() { //弹出添加
+            add: function () { //弹出添加
                 update = false;
                 show({
                     Id: ''
                 });
             },
-            update: function(data) { //弹出编辑框
+            update: function (data) { //弹出编辑框
                 update = true;
                 show(data);
             }
@@ -115,7 +105,6 @@
             layer.msg('ID：' + data.Id + ' 的查看操作');
         } 
     });
-
 
     //监听页面主按钮操作
     var active = {

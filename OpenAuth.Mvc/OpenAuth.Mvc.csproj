@@ -195,6 +195,7 @@
     <Content Include="js\flow\img\gooflow_icon.png" />
     <Content Include="js\utils\flowlayout.js" />
     <Content Include="js\utils\ui.js" />
+    <Content Include="userJs\flowInstanceEdit.js" />
     <Content Include="userJs\flowSchemes.js" />
     <Content Include="userJs\nodeInfo.js" />
     <Content Include="userJs\categories.js" />
@@ -639,6 +640,7 @@
     <Content Include="Views\FlowSchemes\Index.cshtml" />
     <Content Include="Views\FlowSchemes\NodeInfo.cshtml" />
     <Content Include="Views\FlowSchemes\Design.cshtml" />
+    <Content Include="Views\FlowInstances\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

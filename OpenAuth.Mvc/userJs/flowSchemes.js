@@ -1,17 +1,12 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'element', 'jquery', 'table', 'droptree', 'openauth'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth'], function () {
     var form = layui.form, element = layui.element,
 		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
-
-    //标签切换
-    element.on('tab(tab)', function (data) {
-        console.log(data);
-    });
 
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
 
@@ -84,10 +79,10 @@
                 yes: function (index, layero) {
                     var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                     iframeWin.submit();
-                    mainList();
                 },
                 cancel: function (index) {
                     layer.close(index);
+                    mainList();
                 }
             });
         }

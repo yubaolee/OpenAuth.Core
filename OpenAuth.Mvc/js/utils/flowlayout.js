@@ -9,20 +9,23 @@
                 return false;
             }
             $frmpreview.html("");
-            
 
-            var flowPanel = $.createGooFlow($(this),
-            {
-                width: options.width,
-                height: options.height,
-                
+            var defaultcnf = {
+                width: 500,
+                height: 400,
+
                 haveHead: false,
                 haveTool: true,
                 headLabel: true,
                 toolBtns: ["start round mix", "end round", "node", "join", "fork"],
                 haveGroup: true,
                 useOperStack: true
-            });
+            };
+            if (options != undefined ) {
+                $.extend(defaultcnf, options);
+            }
+
+            var flowPanel = $.createGooFlow($(this),defaultcnf);
             flowPanel.setNodeRemarks({
                 cursor: "选择指针",
                 direct: "转换连线",

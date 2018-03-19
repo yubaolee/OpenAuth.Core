@@ -1,0 +1,55 @@
+﻿
+@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+<link href="/js/flow/GooFlow.css" rel="stylesheet" />
+}
+
+<form class="layui-form" action="" id="formEdit">
+    <input type="hidden" name="Id" v-model="Id" />
+    <input type="hidden" id="FrmId" name="FrmId" v-model="FrmId" />
+    <input type="hidden" id="SchemeContent" name="SchemeContent" v-model="SchemeContent" />
+
+    <div class="layui-row">
+        <div class="layui-tab layui-tab-brief" lay-filter="tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本信息</li>
+                <li>选择流程模板</li>
+            </ul>
+
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="CustomName" v-model="CustomName" required lay-verify="required"
+                                   placeholder="自定义名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="Description" v-model="Description"
+                                   placeholder="备注" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-tab-item">
+                    <ul id="frmTree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
+                    <div id="flowPanel" ></div>
+                    <div id="frmPreview"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <input type="hidden" lay-submit id="btnSubmit" lay-filter="formSubmit"/>
+</form>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/flowInstanceEdit.js?v2"></script>
+

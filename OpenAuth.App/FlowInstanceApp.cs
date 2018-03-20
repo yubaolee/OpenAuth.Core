@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
-using OpenAuth.App.Extention;
+using OpenAuth.App.Flow;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
@@ -72,18 +72,18 @@ namespace OpenAuth.App
         /// <summary>
         /// 存储工作流实例进程(创建实例进程)
         /// </summary>
-        /// <param name="wfRuntimeModel"></param>
+        /// <param name="flowRuntimeModel"></param>
         /// <param name="flowInstance"></param>
         /// <param name="processOperationHistoryEntity"></param>
         /// <returns></returns>
-        public int SaveProcess(WF_RuntimeModel wfRuntimeModel, FlowInstance flowInstance,  FlowInstanceOperationHistory processOperationHistoryEntity, FlowInstanceTransitionHistory processTransitionHistoryEntity)
+        public int SaveProcess(FlowRuntimeModel flowRuntimeModel, FlowInstance flowInstance,  FlowInstanceOperationHistory processOperationHistoryEntity, FlowInstanceTransitionHistory processTransitionHistoryEntity)
         {
             try
             {
                 if (string.Empty == (flowInstance.Id))
                 {
 
-                    flowInstance.Id = (string)(wfRuntimeModel.processId);
+                    flowInstance.Id = (string)(flowRuntimeModel.flowInstanceId);
                     UnitWork.Add(flowInstance);
                 }
                 else
@@ -205,14 +205,14 @@ namespace OpenAuth.App
                 FlowScheme FlowScheme = UnitWork.FindSingle<FlowScheme>(u => u.Id == schemeInfoId);
                
 
-                WF_RuntimeInitModel wfRuntimeInitModel = new WF_RuntimeInitModel()
+                FlowRuntimeInitModel flowRuntimeInitModel = new FlowRuntimeInitModel()
                 {
                     schemeContent = FlowScheme.SchemeContent,
                     currentNodeId = "",
                     frmData = frmData,
                     processId = processId
                 };
-                WF_Runtime wfruntime = null;
+                FlowRuntime wfruntime = null;
 
                 if (frmData == null)
                 {
@@ -220,7 +220,7 @@ namespace OpenAuth.App
                 }
                 else
                 {
-                    wfruntime = new WF_Runtime(wfRuntimeInitModel);
+                    wfruntime = new FlowRuntime(flowRuntimeInitModel);
                 }
 
 
@@ -253,7 +253,7 @@ namespace OpenAuth.App
                 processTransitionHistoryEntity.FromNodeName = wfruntime.runtimeModel.currentNode.name.Value;
                 processTransitionHistoryEntity.FromNodeType = wfruntime.runtimeModel.currentNodeType;
                 processTransitionHistoryEntity.ToNodeId = wfruntime.runtimeModel.nextNodeId;
-                processTransitionHistoryEntity.ToNodeName = wfruntime.runtimeModel.nextNode.name.Value;
+                processTransitionHistoryEntity.ToNodeName = wfruntime.runtimeModel.nextNode.name;
                 processTransitionHistoryEntity.ToNodeType = wfruntime.runtimeModel.nextNodeType;
                 processTransitionHistoryEntity.TransitionSate = 0;
                 processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
@@ -290,13 +290,13 @@ namespace OpenAuth.App
                 FlowInstanceOperationHistory FlowInstanceOperationHistory = new FlowInstanceOperationHistory();//操作记录
                 FlowInstanceTransitionHistory processTransitionHistoryEntity = null;//流转记录
 
-                WF_RuntimeInitModel wfRuntimeInitModel = new WF_RuntimeInitModel()
+                FlowRuntimeInitModel flowRuntimeInitModel = new FlowRuntimeInitModel()
                 {
                     currentNodeId = FlowInstance.ActivityId,
                     previousId = FlowInstance.PreviousId,
                     processId = processId
                 };
-                WF_Runtime wfruntime = new WF_Runtime(wfRuntimeInitModel);
+                FlowRuntime wfruntime = new FlowRuntime(flowRuntimeInitModel);
 
 
                 #region 会签
@@ -309,7 +309,7 @@ namespace OpenAuth.App
                     string _makerList = "";
                     foreach (string item in _nodelist)
                     {
-                        _makerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[item], wfruntime.runtimeModel.processId);
+                        _makerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[item], wfruntime.runtimeModel.flowInstanceId);
                         if (_makerList != "-1")
                         {
                             var id = AuthUtil.GetCurrentUser().User.Id.ToString();
@@ -362,7 +362,7 @@ namespace OpenAuth.App
                                 processTransitionHistoryEntity.FromNodeName = wfruntime.runtimeModel.currentNode.name.Value;
                                 processTransitionHistoryEntity.FromNodeType = wfruntime.runtimeModel.currentNodeType;
                                 processTransitionHistoryEntity.ToNodeId = wfruntime.runtimeModel.nextNodeId;
-                                processTransitionHistoryEntity.ToNodeName = wfruntime.runtimeModel.nextNode.name.Value;
+                                processTransitionHistoryEntity.ToNodeName = wfruntime.runtimeModel.nextNode.name;
                                 processTransitionHistoryEntity.ToNodeType = wfruntime.runtimeModel.nextNodeType;
                                 processTransitionHistoryEntity.TransitionSate = 0;
                                 processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
@@ -405,7 +405,7 @@ namespace OpenAuth.App
                             FromNodeName = wfruntime.runtimeModel.currentNode.name.Value,
                             FromNodeType = wfruntime.runtimeModel.currentNodeType,
                             ToNodeId = wfruntime.runtimeModel.nextNodeId,
-                            ToNodeName = wfruntime.runtimeModel.nextNode.name.Value,
+                            ToNodeName = wfruntime.runtimeModel.nextNode.name,
                             ToNodeType = wfruntime.runtimeModel.nextNodeType,
                             TransitionSate = 0
                         };
@@ -460,13 +460,13 @@ namespace OpenAuth.App
                 FlowInstance FlowInstance = GetEntity(processId);
                 FlowInstanceOperationHistory FlowInstanceOperationHistory = new FlowInstanceOperationHistory();
                 FlowInstanceTransitionHistory processTransitionHistoryEntity = null;
-                WF_RuntimeInitModel wfRuntimeInitModel = new WF_RuntimeInitModel()
+                FlowRuntimeInitModel flowRuntimeInitModel = new FlowRuntimeInitModel()
                 {
                     currentNodeId = FlowInstance.ActivityId,
                     previousId = FlowInstance.PreviousId,
                     processId = processId
                 };
-                WF_Runtime wfruntime = new WF_Runtime(wfRuntimeInitModel);
+                FlowRuntime wfruntime = new FlowRuntime(flowRuntimeInitModel);
 
 
                 string resnode = "";
@@ -493,7 +493,7 @@ namespace OpenAuth.App
                     processTransitionHistoryEntity.FromNodeName = wfruntime.runtimeModel.currentNode.name.Value;
                     processTransitionHistoryEntity.FromNodeType = wfruntime.runtimeModel.currentNodeType;
                     processTransitionHistoryEntity.ToNodeId = wfruntime.runtimeModel.nextNodeId;
-                    processTransitionHistoryEntity.ToNodeName = wfruntime.runtimeModel.nextNode.name.Value;
+                    processTransitionHistoryEntity.ToNodeName = wfruntime.runtimeModel.nextNode.name;
                     processTransitionHistoryEntity.ToNodeType = wfruntime.runtimeModel.nextNodeType;
                     processTransitionHistoryEntity.TransitionSate = 1;//
                     processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
@@ -521,7 +521,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="wfruntime"></param>
         /// <returns></returns>
-        private string GetMakerList(WF_Runtime wfruntime)
+        private string GetMakerList(FlowRuntime wfruntime)
         {
             try
             {
@@ -536,7 +536,7 @@ namespace OpenAuth.App
                     string _makerList = "";
                     foreach (string item in _nodelist)
                     {
-                        _makerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[item], wfruntime.runtimeModel.processId);
+                        _makerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[item], wfruntime.runtimeModel.flowInstanceId);
                         if (_makerList == "-1")
                         {
                             throw (new Exception("无法寻找到会签节点的审核者,请查看流程设计是否有问题!"));
@@ -557,7 +557,7 @@ namespace OpenAuth.App
                 }
                 else
                 {
-                    makerList = GetMakerList(wfruntime.runtimeModel.nextNode, wfruntime.runtimeModel.processId);
+                    makerList = GetMakerList(wfruntime.runtimeModel.nextNode, wfruntime.runtimeModel.flowInstanceId);
                     if (makerList == "-1")
                     {
                         throw (new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!"));
@@ -618,7 +618,7 @@ namespace OpenAuth.App
                     //}
                     //else if (node.setInfo.NodeDesignate.Value == "NodeDesignateType4")//前一步骤领导
                     //{
-                    //    FlowInstanceTransitionHistory transitionHistoryEntity = FlowInstanceTransitionHistoryService.GetEntity(processId, node.id.Value);
+                    //    FlowInstanceTransitionHistory transitionHistoryEntity = FlowInstanceTransitionHistoryService.GetEntity(flowInstanceId, node.id.Value);
                     //    UserEntity userEntity = userService.GetEntity(transitionHistoryEntity.CreateUserId);
                     //    if (string.IsNullOrEmpty(userEntity.ManagerId))
                     //    {

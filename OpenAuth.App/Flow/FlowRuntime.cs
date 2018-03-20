@@ -1,41 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Infrastructure;
 
-namespace OpenAuth.App.Extention
+namespace OpenAuth.App.Flow
 {
-    public class WF_Runtime 
+    public class FlowRuntime 
     {
-        private WF_RuntimeModel _runtimeModel = null;
+        private FlowRuntimeModel _runtimeModel = null;
 
-        private GetFrmData _getFrmData = null;
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="schemeContent">流程模板</param>
         /// <param name="currentNodeId">当前节点</param>
         /// <param name="frmData">表单数据</param>
-        public WF_Runtime(WF_RuntimeInitModel wfRuntimeInitModel,GetFrmData getFrmData = null)
+        public FlowRuntime(FlowRuntimeInitModel flowRuntimeInitModel)
         {
-            _runtimeModel = new WF_RuntimeModel();
-            _getFrmData = getFrmData;
-            dynamic schemeContentJson = wfRuntimeInitModel.schemeContent.ToJson();//获取工作流模板内容的json对象;
+            _runtimeModel = new FlowRuntimeModel();
+            dynamic schemeContentJson = flowRuntimeInitModel.schemeContent.ToJson();//获取工作流模板内容的json对象;
             _runtimeModel.schemeContentJson = schemeContentJson;//模板流程json对象
             _runtimeModel.nodeDictionary = GetNodeDictionary(schemeContentJson);//节点集合
             _runtimeModel.lineDictionary = GetLineDictionary(schemeContentJson);//线条集合
-            _runtimeModel.currentNodeId = (wfRuntimeInitModel.currentNodeId == "" ? _runtimeModel.startNodeId : wfRuntimeInitModel.currentNodeId);
+            _runtimeModel.currentNodeId = (flowRuntimeInitModel.currentNodeId == "" ? _runtimeModel.startNodeId : flowRuntimeInitModel.currentNodeId);
             _runtimeModel.currentNodeType = GetNodeStatus(_runtimeModel.currentNodeId);
-            _runtimeModel.frmData = wfRuntimeInitModel.frmData;
-            if (getFrmData != null)
-            {
-                _runtimeModel.frmType = 1;
-                wfRuntimeInitModel.frmData = GetNodeFrmData(getFrmData);
-            }
-            else
-            {
-                _runtimeModel.frmType = 0;
-            }
+            _runtimeModel.frmData = flowRuntimeInitModel.frmData;
+          
+              //  flowRuntimeInitModel.frmData = GetNodeFrmData(getFrmData);
+        
 
             if (_runtimeModel.currentNodeType == 0 || _runtimeModel.currentNodeType == 4)
             {
@@ -44,14 +35,13 @@ namespace OpenAuth.App.Extention
             }
             else
             {
-                _runtimeModel.nextNodeId = GetNextNode(wfRuntimeInitModel.frmData);//下一个节点
+                _runtimeModel.nextNodeId = GetNextNode(flowRuntimeInitModel.frmData);//下一个节点
                 _runtimeModel.nextNodeType = GetNodeStatus(_runtimeModel.nextNodeId);
             }
 
-            _runtimeModel.previousId = wfRuntimeInitModel.previousId;
+            _runtimeModel.previousId = flowRuntimeInitModel.previousId;
 
-            _runtimeModel.processId = wfRuntimeInitModel.processId.ToString();
-            _runtimeModel.sqlFrm = SqlBuider(schemeContentJson, wfRuntimeInitModel.frmData, wfRuntimeInitModel.processId.ToString());
+            _runtimeModel.flowInstanceId = flowRuntimeInitModel.processId.ToString();
 
         }
 
@@ -199,77 +189,7 @@ namespace OpenAuth.App.Extention
             return res;
         }
 
-        /// <summary>
-        /// 获取SQL语句
-        /// </summary>
-        /// <param name="tablename"></param>
-        /// <param name="frmData"></param>
-        /// <returns></returns>
-        private string SqlBuider(dynamic schemeContentJson, string frmData, string keyValue)
-        {
-            return "";
-            try
-            {
-                if (schemeContentJson.Frm.isSystemTable.Value == 1)
-                {
-                    var strSql = new StringBuilder();
-                    var frmDataParam = frmData.ToJObject();
-                    string sqlname = schemeContentJson.Frm.FrmTableId.Value, sqlvalues = "'" + keyValue + "'";
-                    foreach (var item in frmDataParam)
-                    {
-                        if (item.Key != "__RequestVerificationToken")
-                        {
-                            sqlname += "," + item.Key;
-                            if (item.Value.Type.ToString() == "String")
-                            {
-                                sqlvalues += ",'" + item.Value + "'";
-                            }
-                            else
-                            {
-                                sqlvalues += "," + item.Value;
-                            }
-                        }
-                    }
-                    strSql.Append(string.Format("insert into " + schemeContentJson.Frm.FrmTable.Value + " ({0})values({1})", sqlname, sqlvalues));
-                    return strSql.ToString();
-                }
-                else
-                {
-                    return "";
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// 系统表单获取表单数据
-        /// </summary>
-        /// <param name="getFrmData"></param>
-        /// <param name="nodeId"></param>
-        /// <returns></returns>
-        private string GetNodeFrmData(GetFrmData getFrmData,string nodeId = null)
-        {
-            try
-            {
-                string _nodeId = (nodeId == null ? _runtimeModel.currentNodeId : nodeId);
-                dynamic _node = _runtimeModel.nodeDictionary[_nodeId];
-                if (_node.setInfo != null)
-                {
-                    return getFrmData(_node.setInfo.NodeDataBase.Value, _node.setInfo.NodeTable.Value, _node.setInfo.NodePram.Value, _runtimeModel.processId);
-                }
-                else
-                {
-                    return "";
-                }
-                
-            }
-            catch
-            {
-                throw;
-            }
-        }
+
         /// <summary>
         /// 获取下一个节点
         /// </summary>
@@ -348,7 +268,7 @@ namespace OpenAuth.App.Extention
         /// 工作流实例运行信息
         /// </summary>
         /// <returns></returns>
-        public WF_RuntimeModel runtimeModel
+        public FlowRuntimeModel runtimeModel
         {
             get { return _runtimeModel; }
         }
@@ -445,14 +365,9 @@ namespace OpenAuth.App.Extention
             try
             {
                 string frmData = "";
-                if (_runtimeModel.frmType == 0)
-                {
-                    frmData = _runtimeModel.frmData;
-                }
-                else
-                {
-                    frmData = GetNodeFrmData(_getFrmData, nodeId);
-                }
+                
+               //     frmData = GetNodeFrmData(_getFrmData, nodeId);
+                
                 return GetNextNode(frmData, nodeId);
             }
             catch

@@ -182,100 +182,6 @@ namespace OpenAuth.App
             }
         }
 
-        /// <summary>
-        /// 删除工作流实例进程(删除草稿使用)
-        /// </summary>
-        /// <param name="keyValue">主键</param>
-        /// <returns></returns>
-        public int DeleteProcess(string keyValue)
-        {
-            try
-            {
-                FlowInstance entity = UnitWork.FindSingle<FlowInstance>(u =>u.Id ==keyValue);
-
-                UnitWork.Delete<FlowInstance>(u =>u.Id == keyValue);
-                UnitWork.Save();
-                return 1;
-            }
-            catch {
-                throw;
-            }
-        }
-        /// <summary>
-        /// 虚拟操作实例
-        /// </summary>
-        /// <param name="keyValue"></param>
-        /// <param name="state">0暂停,1启用,2取消（召回）</param>
-        /// <returns></returns>
-        public int OperateVirtualProcess(string keyValue,int state)
-        {
-            try
-            {
-                FlowInstance entity = UnitWork.FindSingle<FlowInstance>(u =>u.Id ==keyValue);
-                if (entity.IsFinish == 1)
-                {
-                    throw new Exception("实例已经审核完成,操作失败");
-                }
-                else if (entity.IsFinish == 2)
-                {
-                    throw new Exception("实例已经取消,操作失败");
-                }
-                /// 流程是否完成(0运行中,1运行结束,2被召回,3不同意,4表示被驳回)
-                string content = "";
-                switch (state)
-                {
-                    case 0:
-                        if (entity.Disabled == 0)
-                        {
-                            return 1;
-                        }
-                        entity.Disabled = 0;
-                        content = "【暂停】暂停了一个流程进程【" + entity.Code + "/" + entity.CustomName + "】";
-                        break;
-                    case 1:
-                        if (entity.Disabled == 1)
-                        {
-                            return 1;
-                        }
-                        entity.Disabled = 1;
-                        content = "【启用】启用了一个流程进程【" + entity.Code + "/" + entity.CustomName + "】";
-                        break;
-                    case 2:
-                        entity.IsFinish = 2;
-                        content = "【召回】召回了一个流程进程【" + entity.Code + "/" + entity.CustomName + "】";
-                        break;
-                }
-                UnitWork.Update(entity);
-                FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory();
-                processOperationHistoryEntity.InstanceId = entity.Id;
-                processOperationHistoryEntity.Content = content;
-                UnitWork.Add(processOperationHistoryEntity);
-                UnitWork.Save();
-                return 1;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// 流程指派
-        /// </summary>
-        /// <param name="processId"></param>
-        /// <param name="makeLists"></param>
-        public void DesignateProcess(string processId, string makeLists)
-        {
-            try
-            {
-                FlowInstance entity = new FlowInstance();
-                entity.Id = processId;
-                entity.MakerList = makeLists;
-                UnitWork.Update(entity);
-            }
-            catch {
-                throw;
-            }
-        }
         #endregion
 
         
@@ -306,7 +212,7 @@ namespace OpenAuth.App
                     frmData = frmData,
                     processId = processId
                 };
-                IWF_Runtime wfruntime = null;
+                WF_Runtime wfruntime = null;
 
                 if (frmData == null)
                 {
@@ -390,7 +296,7 @@ namespace OpenAuth.App
                     previousId = FlowInstance.PreviousId,
                     processId = processId
                 };
-                IWF_Runtime wfruntime = new WF_Runtime(wfRuntimeInitModel);
+                WF_Runtime wfruntime = new WF_Runtime(wfRuntimeInitModel);
 
 
                 #region 会签
@@ -560,7 +466,7 @@ namespace OpenAuth.App
                     previousId = FlowInstance.PreviousId,
                     processId = processId
                 };
-                IWF_Runtime wfruntime = new WF_Runtime(wfRuntimeInitModel);
+                WF_Runtime wfruntime = new WF_Runtime(wfRuntimeInitModel);
 
 
                 string resnode = "";
@@ -608,138 +514,6 @@ namespace OpenAuth.App
                 throw;
             }
         }
-        /// <summary>
-        /// 召回流程进程
-        /// </summary>
-        /// <param name="processId"></param>
-        public void CallingBackProcess(string processId)
-        {
-            try
-            {
-                OperateVirtualProcess(processId, 2);
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// 终止一个实例(彻底删除)
-        /// </summary>
-        /// <param name="processId"></param>
-        /// <returns></returns>
-        public void KillProcess(string processId)
-        {
-            try
-            {
-                UnitWork.Delete<FlowInstance>(u => u.Id == processId);
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// 获取某个节点（审核人所能看到的提交表单的权限）
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public string GetProcessSchemeContentByNodeId(string data, string nodeId)
-        {
-            try
-            {
-                List<dynamic> list = new List<dynamic>();
-                dynamic schemeContentJson = data.ToJson();//获取工作流模板内容的json对象;
-                string schemeContent1 = schemeContentJson.SchemeContent.Value;
-                dynamic schemeContentJson1 = schemeContent1.ToJson();
-                string FrmContent = schemeContentJson1.Frm.FrmContent.Value;
-                dynamic FrmContentJson = FrmContent.ToJson();
-
-                foreach (var item in schemeContentJson1.Flow.nodes)
-                {
-                    if (item.id.Value == nodeId && item.setInfo != null)
-                    {
-                        foreach (var item1 in item.setInfo.frmPermissionInfo)
-                        {
-                            foreach (var item2 in FrmContentJson)
-                            {
-                                if (item2.control_field.Value == item1.fieldid.Value)
-                                {
-                                    if (item1.look.Value == true)
-                                    {
-                                        if (item1.down != null)
-                                        {
-                                            item2.down = item1.down.Value;
-                                        }
-                                        list.Add(item2);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-                schemeContentJson1.Frm.FrmContent = list.ToJson().ToString();
-                schemeContentJson.SchemeContent = schemeContentJson1.ToString();
-                return schemeContentJson.ToString();
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// 获取某个节点（审核人所能看到的提交表单的权限）
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public string GetProcessSchemeContentByUserId(string data, string userId)
-        {
-            try
-            {
-                List<dynamic> list = new List<dynamic>();
-                dynamic schemeContentJson = data.ToJson();//获取工作流模板内容的json对象;
-                string schemeContent1 = schemeContentJson.SchemeContent.Value;
-                dynamic schemeContentJson1 = schemeContent1.ToJson();
-                string FrmContent = schemeContentJson1.Frm.FrmContent.Value;
-                dynamic FrmContentJson = FrmContent.ToJson();
-
-                foreach (var item in schemeContentJson1.Flow.nodes)
-                {
-                    if (item.setInfo != null && item.setInfo.UserId != null && item.setInfo.UserId.Value == userId)
-                    {
-                        foreach (var item1 in item.setInfo.frmPermissionInfo)
-                        {
-                            foreach (var item2 in FrmContentJson)
-                            {
-                                if (item2.control_field.Value == item1.fieldid.Value)
-                                {
-                                    if (item1.look.Value == true)
-                                    {
-                                        if (item1.down != null)
-                                        {
-                                            item2.down = item1.down.Value;
-                                        }
-                                        list.Add(item2);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-                schemeContentJson1.Frm.FrmContent = list.ToJson().ToString();
-                schemeContentJson.SchemeContent = schemeContentJson1.ToString();
-                return schemeContentJson.ToString();
-            }
-            catch
-            {
-                throw;
-            }
-        }
         #endregion
 
         /// <summary>
@@ -747,7 +521,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="wfruntime"></param>
         /// <returns></returns>
-        private string GetMakerList(IWF_Runtime wfruntime)
+        private string GetMakerList(WF_Runtime wfruntime)
         {
             try
             {
@@ -912,11 +686,6 @@ namespace OpenAuth.App
         }
 
 
-        public FlowInstance GetProcessInstanceEntity(string keyValue)
-        {
-            return UnitWork.FindSingle<FlowInstance>(u => u.Id == keyValue);
-        }
-
         /// <summary>
         /// 审核流程
         /// <para>李玉宝于2017-01-20 15:44:45</para>
@@ -955,9 +724,9 @@ namespace OpenAuth.App
         }
 
 
-        public void Add(FlowInstance flowScheme)
+        public void Add(FlowInstance instance)
         {
-            Repository.Add(flowScheme);
+            Repository.Add(instance);
         }
 
         public void Update(FlowInstance flowScheme)

@@ -103,16 +103,15 @@
             }
         };
 
-        var load = function () {
-            var url = '/flowschemes/load';
-            $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#frmTree"), setting);
-                zTreeObj.addNodes(null, json.data);
 
-                $("#menutree").html("点击预览表单效果");
-                zTreeObj.expandAll(true);
-            });
-        };
+        var url = '/flowschemes/load';
+        $.getJSON(url, function (json) {
+            zTreeObj = $.fn.zTree.init($("#frmTree"), setting);
+            zTreeObj.addNodes(null, json.data);
+
+            $("#menutree").html("点击预览表单效果");
+            zTreeObj.expandAll(true);
+        });
 
         var setCheck = function (id) {    //设置已经选中的表单
             if (id == null | id == '') return;
@@ -125,12 +124,9 @@
         }
 
         return {
-            load: load,
             setCheck: setCheck
         }
     }();
-
-    frmTree.load();
 
     if (update) {
         $.getJSON('/FlowInstances/get?id=' + id,

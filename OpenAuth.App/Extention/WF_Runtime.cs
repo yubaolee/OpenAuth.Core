@@ -5,7 +5,7 @@ using Infrastructure;
 
 namespace OpenAuth.App.Extention
 {
-    public class WF_Runtime : IWF_Runtime
+    public class WF_Runtime 
     {
         private WF_RuntimeModel _runtimeModel = null;
 

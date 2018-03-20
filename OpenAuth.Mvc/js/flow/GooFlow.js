@@ -1605,13 +1605,22 @@ GooFlow.prototype={
 		var t=this.$editable;
 		this.$editable=false;
 		if(data.title)	this.setTitle(data.title);
-		if(data.initNum)	this.$max=data.initNum;
-		for(var i in data.nodes)
-			this.addNode(i,data.nodes[i]);
-		for(var j in data.lines)
-			this.addLine(j,data.lines[j]);
-		for(var k in data.areas)
-			this.addArea(k,data.areas[k]);
+		if (data.initNum) this.$max = data.initNum;
+
+		if (data != "") {
+		    var length,k;
+		    for (k = 0, length = data.nodes.length; k < length; k++) {
+		        this.addNode(data.nodes[k].id, data.nodes[k]);
+		    }
+		    for (k = 0, length = data.lines.length; k < length; k++) {
+		        this.addLine(data.lines[k].id, data.lines[k]);
+		    }
+		    for (k = 0,length = data.areas.length; k < length; k++) {
+		        this.addArea(data.areas[k].id, data.areas[k]);
+		    }
+        }
+		
+
 		this.$editable=t;
 		this.$deletedItem={};
 		//自行重构工作区，使之大小自适应
@@ -1657,27 +1666,31 @@ GooFlow.prototype={
 	exportData:function(){
 		var ret={};
 		ret.title=this.$title;
-		ret.nodes={};
-		ret.lines={};
-		ret.areas={};
+		ret.nodes=[];
+		ret.lines=[];
+		ret.areas=[];
 		ret.initNum=this.$max;
 		for(var k1 in this.$nodeData){
 			if(!this.$nodeData[k1].marked){
 				delete this.$nodeData[k1]["marked"];
 			}
-			ret.nodes[k1]=JSON.parse(JSON.stringify(this.$nodeData[k1]));
+			ret.nodes.push(JSON.parse(JSON.stringify(this.$nodeData[k1])));
+			//ret.nodes[k1]=JSON.parse(JSON.stringify(this.$nodeData[k1]));
         }
 		for(var k2 in this.$lineData){
 			if(!this.$lineData[k2].marked){
 				delete this.$lineData[k2]["marked"];
 			}
-            ret.lines[k2]=JSON.parse(JSON.stringify(this.$lineData[k2]));
+			ret.lines.push(JSON.parse(JSON.stringify(this.$lineData[k2])));
+           // ret.lines[k2]=JSON.parse(JSON.stringify(this.$lineData[k2]));
 		}
         for(var k3 in this.$areaData){
             if(!this.$areaData[k3].marked){
                 delete this.$areaData[k3]["marked"];
             }
-            ret.areas[k3]=JSON.parse(JSON.stringify(this.$areaData[k3]));
+
+            ret.areas.push(JSON.parse(JSON.stringify(this.$areaData[k3])));
+            // ret.areas[k3]=JSON.parse(JSON.stringify(this.$areaData[k3]));
         }
 		return ret;
 	},
@@ -1953,7 +1966,10 @@ GooFlow.prototype={
         }
 	},
 	//增加一条线
-	addLine:function(id,json){
+	addLine: function (id, json) {
+	    if (json.id == undefined) {
+	        $.extend(json, { id: id });
+	    }
 		if(typeof this.onItemAdd==='function' && this.onItemAdd(id,"line",json)===false)return;
 		if(this.$undoStack&&this.$editable){
 			this.pushOper("delLine",[id]);

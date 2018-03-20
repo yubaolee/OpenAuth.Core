@@ -13,22 +13,15 @@ namespace OpenAuth.App
 	 * view 
 	 */
         private static  string temp_view = "<div style=\"{0}\"/>{1}</div>";
-	
-	
-        /**
-	 * 
-	 * 功能:  html 
-	 */
-        public static string GetHtml(Form form, string action){
-		
-            //action=action!=null && !""==(action)?action:"view";
-		
-            var tableData =new Dictionary<string, Object>();//表单数据
-	
-            string html = form.ContentParse;
-            foreach (var json in form.ContentData.ToList<JObject>())
-            {
 
+
+        public static string GetHtml(string contentData, string contentParse, string action)
+        {
+            var tableData = new Dictionary<string, Object>();//表单数据
+
+            string html = contentParse;
+            foreach (var json in contentData.ToList<JObject>())
+            {
                 string name = "";
                 string leipiplugins = json.GetValue("leipiplugins").ToString();
                 if ("checkboxs" == (leipiplugins))
@@ -54,11 +47,11 @@ namespace OpenAuth.App
                     case "checkboxs":
                         temp_html = GetCheckboxs(json, tableData, action);
                         break;
-                
+
                     case "qrcode"://二维码
                         temp_html = GetQrcode(json, tableData, action);
                         break;
-              
+
                     case "progressbar"://进度条 (未做处理)
                         /*temp_html = GetProgressbar(json, tableData, action);*/
                         break;
@@ -69,9 +62,20 @@ namespace OpenAuth.App
 
                 html = html.Replace("{" + name + "}", temp_html);
             }
-		
-		
+
+
             return html;
+        }
+	
+        /**
+	 * 
+	 * 功能:  html 
+	 */
+        public static string GetHtml(Form form, string action){
+		
+            //action=action!=null && !""==(action)?action:"view";
+            return GetHtml(form.ContentData, form.ContentParse, action);
+
         }
 	
         //text

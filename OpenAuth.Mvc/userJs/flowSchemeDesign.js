@@ -56,16 +56,14 @@
             }
         };
 
-        var load = function () {
-            var url = '/forms/load';
-            $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#frmTree"), setting);
-                zTreeObj.addNodes(null, json.data);
+        var url = '/forms/load';
+        $.getJSON(url, function (json) {  //todo：这个地方要用同步方式，不然后面的setCheck会出问题
+            zTreeObj = $.fn.zTree.init($("#frmTree"), setting);
+            zTreeObj.addNodes(null, json.data);
 
-                $("#menutree").html("点击预览表单效果");
-                zTreeObj.expandAll(true);
-            });
-        };
+            $("#menutree").html("点击预览表单效果");
+            zTreeObj.expandAll(true);
+        });
 
         var setCheck = function (id) {    //设置已经选中的表单
             if (id == null | id == '') return;
@@ -78,7 +76,6 @@
         }
 
         return {
-            load: load,
             setCheck: setCheck
         }
     }();
@@ -120,9 +117,6 @@
         }
     });
     /*=========流程设计（end）=====================*/
-
-
-    frmTree.load();
 
     if (update) {
         $.getJSON('/flowschemes/get?id=' + id,

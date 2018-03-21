@@ -47,8 +47,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                App.Add(obj);
-
+                App.CreateInstance(obj, null);
             }
             catch (Exception ex)
             {

@@ -15,99 +15,8 @@ namespace OpenAuth.App
     /// </summary>
     public class FlowInstanceApp :BaseApp<FlowInstance>
     {
-
-        #region 获取数据
-        /// <summary>
-        /// 获取实例进程信息实体
-        /// </summary>
-        /// <param name="keyVlaue">The key vlaue.</param>
-        /// <returns>FlowInstance.</returns>
-        public FlowInstance GetEntity(string keyVlaue)
-        {
-            try
-            {
-                return UnitWork.FindSingle<FlowInstance>(u =>u.Id == keyVlaue);
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        #endregion
-
         #region 提交数据
-        /// <summary>
-        /// 存储工作流实例进程(编辑草稿用)
-        /// </summary>
-        /// <param name="flowInstance"></param>
-        /// <param name="wfOperationHistoryEntity"></param>
-        /// <returns></returns>
-        public int SaveProcess(string processId, FlowInstance flowInstance, FlowInstanceOperationHistory wfOperationHistoryEntity = null)
-        {
-            try
-            {
-                if (string.Empty ==(flowInstance.Id))
-                {
-                    UnitWork.Add(flowInstance);
 
-                }
-                else
-                {
-                    flowInstance.Id = (processId);
-                    UnitWork.Update(flowInstance);
-                }
-                if (wfOperationHistoryEntity != null)
-                {
-                    wfOperationHistoryEntity.InstanceId = processId;
-                    UnitWork.Add(wfOperationHistoryEntity);
-                }
-                UnitWork.Save();
-                return 1;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// 存储工作流实例进程(创建实例进程)
-        /// </summary>
-        /// <param name="flowRuntimeModel"></param>
-        /// <param name="flowInstance"></param>
-        /// <param name="processOperationHistoryEntity"></param>
-        /// <returns></returns>
-        public int SaveProcess(FlowRuntimeModel flowRuntimeModel, FlowInstance flowInstance,  FlowInstanceOperationHistory processOperationHistoryEntity, FlowInstanceTransitionHistory processTransitionHistoryEntity)
-        {
-            try
-            {
-                if (string.Empty == (flowInstance.Id))
-                {
-
-                    flowInstance.Id = (string)(flowRuntimeModel.flowInstanceId);
-                    UnitWork.Add(flowInstance);
-                }
-                else
-                {
-                    flowInstance.Id =(flowInstance.Id);
-                    UnitWork.Update(flowInstance);
-                }
-                processOperationHistoryEntity.InstanceId = flowInstance.Id;
-                UnitWork.Add(processOperationHistoryEntity);
-
-                if (processTransitionHistoryEntity != null)
-                {
-                    processTransitionHistoryEntity.InstanceId = flowInstance.Id;
-                    UnitWork.Add(processTransitionHistoryEntity);
-                }
-              
-                UnitWork.Save();
-                return 1;
-            }
-            catch
-            {
-                throw;
-            }
-        }
         /// <summary>
         /// 存储工作流实例进程（审核驳回重新提交）
         /// </summary>
@@ -197,82 +106,61 @@ namespace OpenAuth.App
         /// <param name="description">备注</param>
         /// <param name="frmData">表单数据信息</param>
         /// <returns></returns>
-        public bool CreateInstance(string processId, string schemeInfoId, FlowInstance FlowInstance, string frmData = null)
+        public bool CreateInstance(FlowInstance flowInstance, string frmData = null)
         {
-
-            try
+            if (frmData == null)
             {
-                FlowScheme FlowScheme = UnitWork.FindSingle<FlowScheme>(u => u.Id == schemeInfoId);
-               
-
-                FlowRuntimeInitModel flowRuntimeInitModel = new FlowRuntimeInitModel()
-                {
-                    schemeContent = FlowScheme.SchemeContent,
-                    currentNodeId = "",
-                    frmData = frmData,
-                    processId = processId
-                };
-                FlowRuntime wfruntime = null;
-
-                if (frmData == null)
-                {
-                    throw new Exception("自定义表单需要提交表单数据");
-                }
-                else
-                {
-                    wfruntime = new FlowRuntime(flowRuntimeInitModel);
-                }
-
-
-                var user = AuthUtil.GetCurrentUser();
-                #region 实例信息
-                FlowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
-                FlowInstance.ActivityType = wfruntime.GetStatus();//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
-                FlowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
-                FlowInstance.PreviousId = wfruntime.runtimeModel.currentNodeId;
-                FlowInstance.SchemeType = FlowScheme.SchemeType;
-                FlowInstance.FrmType = FlowScheme.FrmType;
-                FlowInstance.Disabled = 0;//正式运行
-                FlowInstance.CreateUserId = user.User.Id.ToString();
-                FlowInstance.CreateUserName = user.User.Account;
-                FlowInstance.MakerList = (wfruntime.GetStatus() != 4 ? GetMakerList(wfruntime) : "");//当前节点可执行的人信息
-                FlowInstance.IsFinish = (wfruntime.GetStatus() == 4 ? 1 : 0);
-                FlowInstance.SchemeContent = FlowScheme.SchemeContent;
-                #endregion
-
-              
-
-                #region 流程操作记录
-                FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory();
-                processOperationHistoryEntity.Content = "【创建】" + user.User.Name + "创建了一个流程进程【" + FlowInstance.Code + "/" + FlowInstance.CustomName + "】";
-                #endregion
-
-                #region 流转记录
-                FlowInstanceTransitionHistory processTransitionHistoryEntity = new FlowInstanceTransitionHistory();
-                processTransitionHistoryEntity.FromNodeId = wfruntime.runtimeModel.currentNodeId;
-                processTransitionHistoryEntity.FromNodeName = wfruntime.runtimeModel.currentNode.name.Value;
-                processTransitionHistoryEntity.FromNodeType = wfruntime.runtimeModel.currentNodeType;
-                processTransitionHistoryEntity.ToNodeId = wfruntime.runtimeModel.nextNodeId;
-                processTransitionHistoryEntity.ToNodeName = wfruntime.runtimeModel.nextNode.name;
-                processTransitionHistoryEntity.ToNodeType = wfruntime.runtimeModel.nextNodeType;
-                processTransitionHistoryEntity.TransitionSate = 0;
-                processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
-                #endregion
-
-                #region 委托记录
-                //List<WFDelegateRecord> delegateRecordEntitylist = GetDelegateRecordList(schemeInfoId, FlowInstance.Code, FlowInstance.CustomName, FlowInstance.MakerList);
-                //FlowInstance.MakerList += delegateUserList;
-                #endregion
-
-                SaveProcess(wfruntime.runtimeModel, FlowInstance, processOperationHistoryEntity, processTransitionHistoryEntity);
-
-                return true;
+                throw new Exception("自定义表单需要提交表单数据");
             }
-            catch
+            var wfruntime = new FlowRuntime(flowInstance);
+
+
+            var user = AuthUtil.GetCurrentUser();
+            #region 实例信息
+            flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
+            flowInstance.ActivityType = wfruntime.GetNextNodeType();//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
+            flowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
+            flowInstance.PreviousId = wfruntime.runtimeModel.currentNodeId;
+            flowInstance.CreateUserId = user.User.Id;
+            flowInstance.CreateUserName = user.User.Account;
+            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetMakerList(wfruntime) : "");//当前节点可执行的人信息
+            flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4 ? 1 : 0);
+            #endregion
+
+            #region 流程操作记录
+            FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory
             {
-                throw;
-            }
+                InstanceId = flowInstance.Id,
+                Content = "【创建】"
+                          + user.User.Name
+                          + "创建了一个流程进程【"
+                          + flowInstance.Code + "/"
+                          + flowInstance.CustomName + "】"
+            };
 
+            #endregion
+
+            #region 流转记录
+
+            FlowInstanceTransitionHistory processTransitionHistoryEntity = new FlowInstanceTransitionHistory
+            {
+                InstanceId = flowInstance.Id,
+                FromNodeId = wfruntime.runtimeModel.currentNodeId,
+                FromNodeName = wfruntime.runtimeModel.currentNode.name.Value,
+                FromNodeType = wfruntime.runtimeModel.currentNodeType,
+                ToNodeId = wfruntime.runtimeModel.nextNodeId,
+                ToNodeName = wfruntime.runtimeModel.nextNode.name,
+                ToNodeType = wfruntime.runtimeModel.nextNodeType,
+                TransitionSate = 0
+            };
+            processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
+            #endregion
+            
+            UnitWork.Add(flowInstance);
+            UnitWork.Add(processOperationHistoryEntity);
+            UnitWork.Add(processTransitionHistoryEntity);
+            UnitWork.Save();
+            return true;
         }
 
         /// <summary>
@@ -286,17 +174,11 @@ namespace OpenAuth.App
             try
             {
                 string _sqlstr = "", _dbbaseId = "";
-                FlowInstance FlowInstance = GetEntity(processId);
+                FlowInstance FlowInstance = Get(processId);
                 FlowInstanceOperationHistory FlowInstanceOperationHistory = new FlowInstanceOperationHistory();//操作记录
                 FlowInstanceTransitionHistory processTransitionHistoryEntity = null;//流转记录
 
-                FlowRuntimeInitModel flowRuntimeInitModel = new FlowRuntimeInitModel()
-                {
-                    currentNodeId = FlowInstance.ActivityId,
-                    previousId = FlowInstance.PreviousId,
-                    processId = processId
-                };
-                FlowRuntime wfruntime = new FlowRuntime(flowRuntimeInitModel);
+                FlowRuntime wfruntime = new FlowRuntime(FlowInstance);
 
 
                 #region 会签
@@ -309,10 +191,10 @@ namespace OpenAuth.App
                     string _makerList = "";
                     foreach (string item in _nodelist)
                     {
-                        _makerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[item], wfruntime.runtimeModel.flowInstanceId);
+                        _makerList = GetMakerList(wfruntime.runtimeModel.nodes[item], wfruntime.runtimeModel.flowInstanceId);
                         if (_makerList != "-1")
                         {
-                            var id = AuthUtil.GetCurrentUser().User.Id.ToString();
+                            var id = AuthUtil.GetCurrentUser().User.Id;
                             foreach (string one in _makerList.Split(','))
                             {
                                 if (id == one || id.IndexOf(one) != -1)
@@ -328,18 +210,17 @@ namespace OpenAuth.App
                     {
                         if (flag)
                         {
-                            FlowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.nodeDictionary[_VerificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】同意,备注：" + description;
+                            FlowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.nodes[_VerificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】同意,备注：" + description;
                         }
                         else
                         {
-                            FlowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.nodeDictionary[_VerificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注：" + description;
+                            FlowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.nodes[_VerificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注：" + description;
                         }
 
-                        string _Confluenceres = wfruntime.NodeConfluence(_VerificationNodeId, flag, AuthUtil.GetCurrentUser().User.Id.ToString(), description);
+                        string _Confluenceres = wfruntime.NodeConfluence(_VerificationNodeId, flag, AuthUtil.GetCurrentUser().User.Id, description);
                         var _data = new
                         {
-                            SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
-                            frmData = wfruntime.runtimeModel.frmData
+                            SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(), wfruntime.runtimeModel.frmData
                         };
                         switch (_Confluenceres)
                         {
@@ -390,7 +271,7 @@ namespace OpenAuth.App
                 {
                     if (flag)
                     {
-                        wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 1, AuthUtil.GetCurrentUser().User.Id.ToString(), description);
+                        wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 1, AuthUtil.GetCurrentUser().User.Id, description);
                         FlowInstance.PreviousId = FlowInstance.ActivityId;
                         FlowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
                         FlowInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
@@ -431,8 +312,7 @@ namespace OpenAuth.App
                     }
                     var data = new
                     {
-                        SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
-                        frmData = wfruntime.runtimeModel.frmData 
+                        SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(), wfruntime.runtimeModel.frmData 
                     };
                 }
                 #endregion 
@@ -457,16 +337,11 @@ namespace OpenAuth.App
         {
             try
             {
-                FlowInstance FlowInstance = GetEntity(processId);
-                FlowInstanceOperationHistory FlowInstanceOperationHistory = new FlowInstanceOperationHistory();
+                FlowInstance flowInstance = Get(processId);
+                FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory();
                 FlowInstanceTransitionHistory processTransitionHistoryEntity = null;
-                FlowRuntimeInitModel flowRuntimeInitModel = new FlowRuntimeInitModel()
-                {
-                    currentNodeId = FlowInstance.ActivityId,
-                    previousId = FlowInstance.PreviousId,
-                    processId = processId
-                };
-                FlowRuntime wfruntime = new FlowRuntime(flowRuntimeInitModel);
+               
+                FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
 
                 string resnode = "";
@@ -479,14 +354,14 @@ namespace OpenAuth.App
                     resnode = nodeId;
                 }
                 wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 0, AuthUtil.GetUserName(), description);
-                FlowInstance.IsFinish = 4;//4表示驳回（需要申请者重新提交表单）
+                flowInstance.IsFinish = 4;//4表示驳回（需要申请者重新提交表单）
                 if (resnode != "")
                 {
-                    FlowInstance.PreviousId = FlowInstance.ActivityId;
-                    FlowInstance.ActivityId = resnode;
-                    FlowInstance.ActivityType = wfruntime.GetNodeStatus(resnode);//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
-                    FlowInstance.ActivityName = wfruntime.runtimeModel.nodeDictionary[resnode].name;
-                    FlowInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[resnode], FlowInstance.PreviousId);//当前节点可执行的人信息
+                    flowInstance.PreviousId = flowInstance.ActivityId;
+                    flowInstance.ActivityId = resnode;
+                    flowInstance.ActivityType = wfruntime.GetNodeType(resnode);//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
+                    flowInstance.ActivityName = wfruntime.runtimeModel.nodes[resnode].name;
+                    flowInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodes[resnode], flowInstance.PreviousId);//当前节点可执行的人信息
                     #region 流转记录
                     processTransitionHistoryEntity = new FlowInstanceTransitionHistory();
                     processTransitionHistoryEntity.FromNodeId = wfruntime.runtimeModel.currentNodeId;
@@ -502,11 +377,11 @@ namespace OpenAuth.App
                 var data = new
                 {
                     SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
-                    frmData = (FlowInstance.FrmType == 0 ? wfruntime.runtimeModel.frmData : null)
+                    frmData = (flowInstance.FrmType == 0 ? wfruntime.runtimeModel.frmData : null)
                 };
-                FlowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.currentNode.name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】驳回,备注：" + description;
+                flowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.currentNode.name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】驳回,备注：" + description;
 
-                SaveProcess(FlowInstance, FlowInstanceOperationHistory, processTransitionHistoryEntity);
+                SaveProcess(flowInstance, flowInstanceOperationHistory, processTransitionHistoryEntity);
                 return true;
             }
             catch
@@ -536,23 +411,20 @@ namespace OpenAuth.App
                     string _makerList = "";
                     foreach (string item in _nodelist)
                     {
-                        _makerList = GetMakerList(wfruntime.runtimeModel.nodeDictionary[item], wfruntime.runtimeModel.flowInstanceId);
+                        _makerList = GetMakerList(wfruntime.runtimeModel.nodes[item], wfruntime.runtimeModel.flowInstanceId);
                         if (_makerList == "-1")
                         {
                             throw (new Exception("无法寻找到会签节点的审核者,请查看流程设计是否有问题!"));
                         }
-                        else if (_makerList == "1")
+                        if (_makerList == "1")
                         {
                             throw (new Exception("会签节点的审核者不能为所有人,请查看流程设计是否有问题!"));
                         }
-                        else
+                        if (makerList != "")
                         {
-                            if (makerList != "")
-                            {
-                                makerList += ",";
-                            }
-                            makerList += _makerList;
+                            makerList += ",";
                         }
+                        makerList += _makerList;
                     }
                 }
                 else
@@ -722,19 +594,11 @@ namespace OpenAuth.App
                 throw;
             }
         }
-
-
-        public void Add(FlowInstance instance)
-        {
-            Repository.Add(instance);
-        }
+        
 
         public void Update(FlowInstance flowScheme)
         {
-           Repository.Update(u => u.Id == flowScheme.Id, u => new FlowInstance
-            {
-                //todo:要修改的
-            });
+           Repository.Update(u => u.Id == flowScheme.Id, u => new FlowInstance());
         }
 
         public TableData Load(QueryFlowInstanceListReq request)

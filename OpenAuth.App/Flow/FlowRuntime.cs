@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using Infrastructure;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.Flow
 {
-    public class FlowRuntime 
+    public class FlowRuntime
     {
         private FlowRuntimeModel _runtimeModel = null;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="schemeContent">流程模板</param>
         /// <param name="currentNodeId">当前节点</param>
         /// <param name="frmData">表单数据</param>
-        public FlowRuntime(FlowRuntimeInitModel flowRuntimeInitModel)
+        /// <param name="instance"></param>
+        public FlowRuntime(FlowInstance instance)
         {
             _runtimeModel = new FlowRuntimeModel();
-            dynamic schemeContentJson = flowRuntimeInitModel.schemeContent.ToJson();//获取工作流模板内容的json对象;
+            dynamic schemeContentJson = instance.SchemeContent.ToJson();//获取工作流模板内容的json对象;
             _runtimeModel.schemeContentJson = schemeContentJson;//模板流程json对象
-            _runtimeModel.nodeDictionary = GetNodeDictionary(schemeContentJson);//节点集合
-            _runtimeModel.lineDictionary = GetLineDictionary(schemeContentJson);//线条集合
-            _runtimeModel.currentNodeId = (flowRuntimeInitModel.currentNodeId == "" ? _runtimeModel.startNodeId : flowRuntimeInitModel.currentNodeId);
-            _runtimeModel.currentNodeType = GetNodeStatus(_runtimeModel.currentNodeId);
-            _runtimeModel.frmData = flowRuntimeInitModel.frmData;
-          
-              //  flowRuntimeInitModel.frmData = GetNodeFrmData(getFrmData);
-        
+            _runtimeModel.nodes = GetNodeDictionary(schemeContentJson);//节点集合
+            _runtimeModel.lines = GetLineDictionary(schemeContentJson);//线条集合
+            _runtimeModel.currentNodeId = (instance.ActivityId == "" ? _runtimeModel.startNodeId : instance.ActivityId);
+            _runtimeModel.currentNodeType = GetNodeType(_runtimeModel.currentNodeId);
+            //todo:要获取表单数据
+            // _runtimeModel.frmData = flowRuntimeInitModel.frmData;
 
             if (_runtimeModel.currentNodeType == 0 || _runtimeModel.currentNodeType == 4)
             {
@@ -35,13 +34,12 @@ namespace OpenAuth.App.Flow
             }
             else
             {
-                _runtimeModel.nextNodeId = GetNextNode(flowRuntimeInitModel.frmData);//下一个节点
-                _runtimeModel.nextNodeType = GetNodeStatus(_runtimeModel.nextNodeId);
+                _runtimeModel.nextNodeId = GetNextNode(_runtimeModel.frmData);//下一个节点
+                _runtimeModel.nextNodeType = GetNodeType(_runtimeModel.nextNodeId);
             }
 
-            _runtimeModel.previousId = flowRuntimeInitModel.previousId;
-
-            _runtimeModel.flowInstanceId = flowRuntimeInitModel.processId.ToString();
+            _runtimeModel.previousId = instance.PreviousId;
+            _runtimeModel.flowInstanceId = instance.Id;
 
         }
 
@@ -51,16 +49,16 @@ namespace OpenAuth.App.Flow
         /// </summary>
         /// <param name="schemeContentJson"></param>
         /// <returns></returns>
-        private Dictionary<string, dynamic> GetNodeDictionary(dynamic schemeContentJson)
+        private Dictionary<string, FlowNode> GetNodeDictionary(dynamic schemeContentJson)
         {
-            Dictionary<string, dynamic> nodeDictionary = new Dictionary<string, dynamic>();
+            Dictionary<string, FlowNode> nodeDictionary = new Dictionary<string, FlowNode>();
             foreach (var item in schemeContentJson.Flow.nodes)
             {
                 if (!nodeDictionary.ContainsKey(item.id.Value))
                 {
                     nodeDictionary.Add(item.id.Value, item);
                 }
-                if (item.type == "startround")
+                if (item.type == FlowNode.START)
                 {
                     this._runtimeModel.startNodeId = item.id.Value;
                 }
@@ -72,15 +70,14 @@ namespace OpenAuth.App.Flow
         /// </summary>
         /// <param name="schemeContentJson"></param>
         /// <returns></returns>
-        private Dictionary<string, List<dynamic>> GetLineDictionary(dynamic schemeContentJson)
+        private Dictionary<string, List<FlowLine>> GetLineDictionary(dynamic schemeContentJson)
         {
-            Dictionary<string, List<dynamic>> lineDictionary = new Dictionary<string, List<dynamic>>();
+            Dictionary<string, List<FlowLine>> lineDictionary = new Dictionary<string, List<FlowLine>>();
             foreach (var item in schemeContentJson.Flow.lines)
             {
                 if (!lineDictionary.ContainsKey(item.from.Value))
                 {
-                    List<dynamic> d = new List<dynamic>();
-                    d.Add(item);
+                    List<FlowLine> d = new List<FlowLine> { item };
                     lineDictionary.Add(item.from.Value, d);
                 }
                 else
@@ -95,15 +92,14 @@ namespace OpenAuth.App.Flow
         /// </summary>
         /// <param name="schemeContentJson"></param>
         /// <returns></returns>
-        private Dictionary<string, List<dynamic>> GetToLineDictionary(dynamic schemeContentJson)
+        private Dictionary<string, List<FlowLine>> GetToLineDictionary(dynamic schemeContentJson)
         {
-            Dictionary<string, List<dynamic>> lineDictionary = new Dictionary<string, List<dynamic>>();
+            Dictionary<string, List<FlowLine>> lineDictionary = new Dictionary<string, List<FlowLine>>();
             foreach (var item in schemeContentJson.Flow.lines)
             {
                 if (!lineDictionary.ContainsKey(item.to.Value))
                 {
-                    List<dynamic> d = new List<dynamic>();
-                    d.Add(item);
+                    List<FlowLine> d = new List<FlowLine> { item };
                     lineDictionary.Add(item.to.Value, d);
                 }
                 else
@@ -113,153 +109,42 @@ namespace OpenAuth.App.Flow
             }
             return lineDictionary;
         }
-        /// <summary>
-        /// 工作流流转条件比较函数
-        /// </summary>
-        /// <param name="frmvalue">表单数据</param>
-        /// <param name="operation"></param>
-        /// <param name="paramValue"></param>
-        /// <returns></returns>
-        private bool LineCompared(string frmvalue, string operation, string paramValue)
-        {
-            bool res = false;
-            switch (operation)
-            {
-                case "Equal"://等于
-                    if (decimal.Parse(frmvalue) == decimal.Parse(paramValue))
-                    {
-                        res = true;
-                    }
-                    break;
-                case "NotEqual"://不等于
-                    if (decimal.Parse(frmvalue) != decimal.Parse(paramValue))
-                    {
-                        res = true;
-                    }
-                    break;
-                case "Greater"://大于
-                    if (decimal.Parse(frmvalue) > decimal.Parse(paramValue))
-                    {
-                        res = true;
-                    }
-                    break;
-                case "GreaterThan"://大于等于
-                    if (decimal.Parse(frmvalue) >= decimal.Parse(paramValue))
-                    {
-                        res = true;
-                    }
-                    break;
-                case "Less"://小于
-                    if (decimal.Parse(frmvalue) < decimal.Parse(paramValue))
-                    {
-                        res = true;
-                    }
-                    break;
-                case "LessThan"://小于等于
-                    if (decimal.Parse(frmvalue) <= decimal.Parse(paramValue))
-                    {
-                        res = true;
-                    }
-                    break;
-                case "Null"://为空
-                    if (string.IsNullOrEmpty(frmvalue))
-                    {
-                        res = true;
-                    }
-                    break;
-                case "NotNull"://不为空
-                    if (!string.IsNullOrEmpty(frmvalue))
-                    {
-                        res = true;
-                    }
-                    break;
-                case "Like"://包含
-                    if (frmvalue.IndexOf(paramValue) != -1)
-                    {
-                        res = true;
-                    }
-                    break;
-                case "NotLike"://不包含
-                    if (frmvalue.IndexOf(paramValue) == -1)
-                    {
-                        res = true;
-                    }
-                    break;
-            }
-            return res;
-        }
-
 
         /// <summary>
         /// 获取下一个节点
         /// </summary>
         /// <param name="frmData">表单数据（用于判断流转条件）</param>
-        private string GetNextNode(string frmData,string nodeId = null)
+        private string GetNextNode(string frmData, string nodeId = null)
         {
-            try
+            List<FlowLine> LineList = null;
+            if (nodeId == null)
             {
-                List<dynamic> LineList = null;
-                if (nodeId == null)
-                {
-                    LineList = runtimeModel.lineDictionary[runtimeModel.currentNodeId];
-                }
-                else
-                {
-                    LineList = runtimeModel.lineDictionary[nodeId];
-                }
-                if (LineList.Count == 1)
-                {
-                    return LineList[0].to.Value;
-                }
-                else if (frmData != "")
-                {
-                    frmData = frmData.ToLower();//统一转小写
-                    var frmDataJson = frmData.ToJObject();//获取数据内容
-                    bool flag = false;
-                    foreach (var item in LineList)//轮训该节点所有连接的线路
-                    {
-                        if (item.setInfo == null)//表示该线路没有设置条件，所以流转到下一个节点
-                        {
-                            return item.to.Value;
-                        }
-                        foreach (var _item in item.setInfo.ConditionValueJson)//轮询该线条上的所有条件
-                        {
-                            if (!string.IsNullOrEmpty(frmDataJson[_item.ParamName.Value.ToLower()].Value))
-                            {
-                                string frmvalue = frmDataJson[_item.ParamName.Value.ToLower()].ToString();
-                                string operation = _item.Operation.Value;
-                                string paramValue = _item.ParamValue.Value;
-                                bool compareValue = LineCompared(frmvalue, operation, paramValue);
+                LineList = runtimeModel.lines[runtimeModel.currentNodeId];
+            }
+            else
+            {
+                LineList = runtimeModel.lines[nodeId];
+            }
+            if (LineList.Count == 1)  //只有一条流程
+            {
+                return LineList[0].to;
+            }
 
-                                if (_item.Operation.Value == "AND")
-                                {
-                                    flag = compareValue;
-                                    if (!compareValue)
-                                    {
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    if (compareValue)
-                                    {
-                                        flag = compareValue;
-                                    }
-                                }
-                            }
-                        }
-                        if (flag)//如果满足条件，
-                        {
-                            return item.to.Value;
-                        }
-                    }
-                }
-                return "-1";//表示寻找不到节点
-            }
-            catch
+            if (frmData != "")  //有分支的情况
             {
-                throw;
+                frmData = frmData.ToLower();//统一转小写
+                var frmDataJson = frmData.ToJObject();//获取数据内容
+                bool flag = false;
+                foreach (var item in LineList)//轮训该节点所有连接的线路
+                {
+
+                    return item.to;
+
+
+
+                }
             }
+            return "-1";//表示寻找不到节点
         }
         #endregion
 
@@ -276,52 +161,35 @@ namespace OpenAuth.App.Flow
         /// 获取实例接下来运行的状态
         /// </summary>
         /// <returns>-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束</returns>
-        public int GetStatus()
+        public int GetNextNodeType()
         {
             if (_runtimeModel.nextNodeId != "-1")
             {
-                if (_runtimeModel.nextNode.type == "shuntnode")//会签开始节点
-                {
-                    return 0;
-                }
-                else if (_runtimeModel.nextNode.type == "confluencenode")//会签结束节点
-                {
-                    return 1;
-                }
-                else if (_runtimeModel.nextNode.type == "endround")//结束节点
-                {
-                    return 4;
-                }
-                else
-                {
-                    return 2;
-                }
+                return GetNodeType(_runtimeModel.nextNodeId);
+                
             }
-            else
-            {
-                return -1;
-            }
+            return -1;
         }
         /// <summary>
         /// 获取节点类型 0会签开始,1会签结束,2一般节点,开始节点,4流程运行结束
         /// </summary>
         /// <param name="nodeId"></param>
         /// <returns></returns>
-        public int GetNodeStatus(string nodeId)
+        public int GetNodeType(string nodeId)
         {
-            if (_runtimeModel.nodeDictionary[nodeId].type == "shuntnode")//会签开始节点
+            if (_runtimeModel.nodes[nodeId].type == "shuntnode")//会签开始节点
             {
                 return 0;
             }
-            else if (_runtimeModel.nodeDictionary[nodeId].type == "confluencenode")//会签结束节点
+            else if (_runtimeModel.nodes[nodeId].type == "confluencenode")//会签结束节点
             {
                 return 1;
             }
-            else if (_runtimeModel.nodeDictionary[nodeId].type == "endround")//结束节点
+            else if (_runtimeModel.nodes[nodeId].type == FlowNode.END)//结束节点
             {
                 return 4;
             }
-            else if (_runtimeModel.nodeDictionary[nodeId].type == "startround")//开始节点
+            else if (_runtimeModel.nodes[nodeId].type == FlowNode.START)//开始节点
             {
                 return 3;
             }
@@ -337,23 +205,16 @@ namespace OpenAuth.App.Flow
         /// <returns></returns>
         public List<string> GetCountersigningNodeIdList(string shuntnodeId)
         {
-            try
+            List<string> list = new List<string>();
+
+            List<FlowLine> listline = _runtimeModel.lines[shuntnodeId];
+
+            foreach (var item in listline)
             {
-                List<string> list = new List<string>();
-
-                List<dynamic> listline = _runtimeModel.lineDictionary[shuntnodeId];
-
-                foreach (var item in listline)
-                {
-                    list.Add(item.to.Value);
-                }
-
-                return list;
+                list.Add(item.to);
             }
-            catch
-            {
-                throw;
-            }
+
+            return list;
         }
         /// <summary>
         /// 通过节点Id获取下一个节点Id
@@ -362,18 +223,11 @@ namespace OpenAuth.App.Flow
         /// <returns></returns>
         public string GetNextNodeByNodeId(string nodeId)
         {
-            try
-            {
-                string frmData = "";
-                
-               //     frmData = GetNodeFrmData(_getFrmData, nodeId);
-                
-                return GetNextNode(frmData, nodeId);
-            }
-            catch
-            {
-                throw;
-            }
+            string frmData = "";
+
+            //     frmData = GetNodeFrmData(_getFrmData, nodeId);
+
+            return GetNextNode(frmData, nodeId);
         }
         /// <summary>
         /// 节点会签审核 
@@ -381,7 +235,7 @@ namespace OpenAuth.App.Flow
         /// <param name="nodeId"></param>
         /// <param name="flag"></param>
         /// <returns>-1不通过,1等待,其它通过</returns>
-        public string NodeConfluence(string nodeId, bool flag,string userId, string description = "")
+        public string NodeConfluence(string nodeId, bool flag, string userId, string description = "")
         {
             string res = "-1";
             try
@@ -398,16 +252,16 @@ namespace OpenAuth.App.Flow
                 string _nextNodeId = GetNextNodeByNodeId(nodeId);//获取下一个节点
                 if (_nextNodeId != "-1")
                 {
-                    Dictionary<string, List<dynamic>> toLines = GetToLineDictionary(_runtimeModel.schemeContentJson);
+                    Dictionary<string, List<FlowLine>> toLines = GetToLineDictionary(_runtimeModel.schemeContentJson);
                     int allnum = toLines[_nextNodeId].Count;
                     int i = 0;
                     foreach (var item in _runtimeModel.schemeContentJson.Flow.nodes)
                     {
                         if (item.id.Value == _nextNodeId)
                         {
-                            if(item.setInfo.NodeConfluenceType.Value == "")//0所有步骤通过  todo:先用空格
+                            if (item.setInfo.NodeConfluenceType.Value == "")//0所有步骤通过  todo:先用空格
                             {
-                                if(flag)
+                                if (flag)
                                 {
                                     if (item.setInfo.ConfluenceOk == null)
                                     {
@@ -429,7 +283,7 @@ namespace OpenAuth.App.Flow
                                     }
                                 }
                             }
-                            else if(item.setInfo.NodeConfluenceType.Value == "1")//1一个步骤通过即可
+                            else if (item.setInfo.NodeConfluenceType.Value == "1")//1一个步骤通过即可
                             {
                                 if (flag)
                                 {
@@ -510,12 +364,12 @@ namespace OpenAuth.App.Flow
                     {
                         MakeTagNode(_nextNodeId, 1, userId);
                         _runtimeModel.nextNodeId = res;
-                        _runtimeModel.nextNodeType = GetNodeStatus(res);
+                        _runtimeModel.nextNodeType = GetNodeType(res);
                     }
                     else
                     {
                         _runtimeModel.nextNodeId = _nextNodeId;
-                        _runtimeModel.nextNodeType = GetNodeStatus(_nextNodeId);
+                        _runtimeModel.nextNodeType = GetNodeType(_nextNodeId);
                     }
                     return res;
                 }
@@ -546,7 +400,7 @@ namespace OpenAuth.App.Flow
         {
             try
             {
-                dynamic _node = _runtimeModel.nodeDictionary[nodeId];
+                dynamic _node = _runtimeModel.nodes[nodeId];
                 if (_node.setInfo != null)
                 {
                     if (_node.setInfo.NodeRejectType.Value == "0")
@@ -561,7 +415,7 @@ namespace OpenAuth.App.Flow
                     {
                         return _node.setInfo.NodeRejectStep.Value;
                     }
-                    else 
+                    else
                     {
                         return "";
                     }

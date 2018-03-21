@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenAuth.App.Flow
+﻿namespace OpenAuth.App.Flow
 {
-   public class FlowLine
+    /// <summary>
+    /// 流程连线
+    /// </summary>
+    public class FlowLine
     {
         public string id { get; set; }
         public string type { get; set; }

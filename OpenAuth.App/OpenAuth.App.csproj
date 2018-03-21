@@ -108,7 +108,6 @@
     <Compile Include="CategoryApp.cs" />
     <Compile Include="Define.cs" />
     <Compile Include="Flow\FlowRuntime.cs" />
-    <Compile Include="Flow\FlowRuntimeInitModel.cs" />
     <Compile Include="Flow\FlowRuntimeModel.cs" />
     <Compile Include="Flow\FlowLine.cs" />
     <Compile Include="Flow\FlowNode.cs" />

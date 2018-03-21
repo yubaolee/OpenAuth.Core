@@ -24,7 +24,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 当前节点的对象
         /// </summary>
-        public dynamic currentNode { get { return this.nodeDictionary[this.currentNodeId]; } }
+        public dynamic currentNode { get { return nodes[currentNodeId]; } }
         /// <summary>
         /// 下一个节点
         /// </summary>
@@ -32,11 +32,12 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 下一个节点类型
         /// </summary>
+        /// <value>The type of the next node.</value>
         public int nextNodeType { get; set; }
         /// <summary>
         /// 下一个节点对象
         /// </summary>
-        public FlowNode nextNode { get { return nodeDictionary[this.nextNodeId]; } }
+        public FlowNode nextNode { get { return nodes[nextNodeId]; } }
 
         /// <summary>
         /// 上一个节点
@@ -46,11 +47,11 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 实例节点集合
         /// </summary>
-        public Dictionary<string, FlowNode> nodeDictionary { get; set; }
+        public Dictionary<string, FlowNode> nodes { get; set; }
         /// <summary>
         /// 流转的线段集合
         /// </summary>
-        public Dictionary<string, List<dynamic>> lineDictionary { get; set; }
+        public Dictionary<string, List<FlowLine>> lines { get; set; }
 
         /// <summary>
         /// 模板json数据

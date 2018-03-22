@@ -20,12 +20,11 @@ namespace OpenAuth.App.Flow
             _runtimeModel = new FlowRuntimeModel();
             dynamic schemeContentJson = instance.SchemeContent.ToJson();//获取工作流模板内容的json对象;
             _runtimeModel.schemeContentJson = schemeContentJson;//模板流程json对象
+            _runtimeModel.frmData = instance.FrmData;
             _runtimeModel.nodes = GetNodeDictionary(schemeContentJson);//节点集合
             _runtimeModel.lines = GetLineDictionary(schemeContentJson);//线条集合
             _runtimeModel.currentNodeId = (instance.ActivityId == "" ? _runtimeModel.startNodeId : instance.ActivityId);
             _runtimeModel.currentNodeType = GetNodeType(_runtimeModel.currentNodeId);
-            //todo:要获取表单数据
-            // _runtimeModel.frmData = flowRuntimeInitModel.frmData;
 
             if (_runtimeModel.currentNodeType == 0 || _runtimeModel.currentNodeType == 4)
             {

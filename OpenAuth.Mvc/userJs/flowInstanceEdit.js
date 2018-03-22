@@ -1,13 +1,13 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'queryString', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow/gooflow', 'utils/flowlayout'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'queryString', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
     var form = layui.form, element = layui.element,
 		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
-
+    var frmdata = {};
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
      var id = $.getUrlParam("id");   //ID
     var update = (id !=null && id != '');
@@ -55,7 +55,7 @@
     /*=========流程设计（end）=====================*/
 
     //流程模板选择
-    var frmTree = function () {
+    var tree = function () {
         var zTreeObj;
         var setting = {
             view: { selectedMulti: true },
@@ -90,11 +90,20 @@
                 onCheck: function (event, treeId, treeNode) {
                     $("#FrmId").val(treeNode.FrmId);   //把流程模板的表单ID设置成流程实例的表单ID
                     $("#SchemeContent").val(treeNode.SchemeContent);
-                    
 
-                    //预览表单
-                    $.get("/forms/previewdata?id=" + treeNode.FrmId, function (data) {
-                        $("#frmPreview").html(data);
+                    //取表单的结构数据
+                    $.getJSON("/forms/get?id=" + treeNode.FrmId, function (data) {
+                        if (data.Code != 500) {
+                            $("#FrmContentData").val(data.Result.ContentData);
+                            $("#FrmContentParse").val(data.Result.ContentParse);
+                            $("#frmPreview").html(data.Result.Content);
+                            frmdata = arrayToObj(JSON.parse(data.Result.ContentData));
+                            $.extend(frmdata, vm.data);
+                            vm = new Vue({
+                                el: "#formEdit",
+                                data:frmdata
+                            });
+                        }
                     });
 
                     //预览流程
@@ -122,10 +131,6 @@
             if (id == null | id == '') return;
             var node = zTreeObj.getNodeByParam("Id", id, null);
             zTreeObj.checkNode(node, true, false);
-
-            $.get("/forms/previewdata?id=" + id, function (data) {
-                $("#frmPreview").html(data);
-            });
         }
 
         return {
@@ -140,7 +145,7 @@
                 url = "/FlowInstances/Update";
                 vm.$set('$data', obj);
                 flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
-                frmTree.setCheck(obj.FrmId);
+                tree.setCheck(obj.FrmId);
             });
     } else {
         vm.$set('$data',
@@ -157,11 +162,12 @@
             if (content == -1) {
                 return false; //阻止表单跳转。
             }
-            var schemecontent = {
-                SchemeContent: JSON.stringify(content)
-            }
 
-            $.extend(data.field, schemecontent);
+            $.extend(data.field,
+            {
+                SchemeContent: JSON.stringify(content),
+                FrmData: JSON.stringify(frmdata)
+            });
             $.post(url,
                 data.field,
                 function (result) {

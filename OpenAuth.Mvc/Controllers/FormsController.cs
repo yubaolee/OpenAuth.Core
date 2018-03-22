@@ -37,6 +37,24 @@ namespace OpenAuth.Mvc.Controllers
             return FormUtil.GetHtml(form, "");
         }
 
+        public string Get(string id)
+        {
+            try
+            {
+                var result = new Response<Form>
+                {
+                    Result = App.FindSingle(id)
+                };
+                return JsonHelper.Instance.Serialize(result);
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.Message;
+                return JsonHelper.Instance.Serialize(Result);
+            }
+        }
+
         //添加或修改
         [System.Web.Mvc.HttpPost]
         [ValidateInput(false)]

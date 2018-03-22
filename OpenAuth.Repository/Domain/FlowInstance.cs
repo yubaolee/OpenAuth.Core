@@ -30,6 +30,7 @@ namespace OpenAuth.Repository.Domain
           this.SchemeId= string.Empty;
           this.DbName= string.Empty;
           this.FrmType= 0;
+          this.FrmData = string.Empty;
           this.FrmContentData= string.Empty;
           this.FrmContentParse= string.Empty;
           this.FrmId= string.Empty;
@@ -136,6 +137,8 @@ namespace OpenAuth.Repository.Domain
 	    /// 执行人
 	    /// </summary>
         public string MakerList { get; set; }
+
+        public string FrmData { get; set; }
 
     }
 }

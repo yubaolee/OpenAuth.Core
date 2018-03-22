@@ -398,7 +398,7 @@
             return flowPanel;
         }
 
-        exports('utils/flowlayout');   //只有这样写才能找到utils/flowlayout？？好尴尬
+        exports('flowlayout');   //只有这样写才能找到flowlayout？？好尴尬
     });
 
 

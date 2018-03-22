@@ -106,12 +106,8 @@ namespace OpenAuth.App
         /// <param name="description">备注</param>
         /// <param name="frmData">表单数据信息</param>
         /// <returns></returns>
-        public bool CreateInstance(FlowInstance flowInstance, string frmData = null)
+        public bool CreateInstance(FlowInstance flowInstance)
         {
-            if (frmData == null)
-            {
-                throw new Exception("自定义表单需要提交表单数据");
-            }
             var wfruntime = new FlowRuntime(flowInstance);
 
 

@@ -9,6 +9,9 @@
     <input type="hidden" name="Id" v-model="Id" />
     <input type="hidden" id="FrmId" name="FrmId" v-model="FrmId" />
     <input type="hidden" id="SchemeContent" name="SchemeContent" v-model="SchemeContent" />
+    <input type="hidden" id="FrmContentData" name="FrmContentData" v-model="FrmContentData" />
+    <input type="hidden" id="FrmContentParse" name="FrmContentParse" v-model="FrmContentParse" />
+    <input type="hidden" id="FrmData" name="FrmData" v-model="FrmData" />
 
     <div class="layui-row">
         <div class="layui-tab layui-tab-brief" lay-filter="tab">
@@ -49,7 +52,7 @@
     
     <input type="hidden" lay-submit id="btnSubmit" lay-filter="formSubmit"/>
 </form>
-
+<script src="/js/utils.js"></script>
 <script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript" src="/userJs/flowInstanceEdit.js?v2"></script>
 

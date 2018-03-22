@@ -58,6 +58,9 @@ namespace OpenAuth.Repository.Mapping
             Property(t => t.SchemeContent)
                 .HasColumnName("SchemeContent")
                 .IsOptional();
+            Property(t => t.FrmData)
+              .HasColumnName("FrmData")
+              .IsOptional();
             Property(t => t.SchemeId)
                 .HasColumnName("SchemeId")
                 .HasMaxLength(50)

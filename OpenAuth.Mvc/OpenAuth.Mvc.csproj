@@ -139,7 +139,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -193,8 +192,8 @@
     <Content Include="js\flow\GooFlow.print.js" />
     <Content Include="js\flow\GooFunc.js" />
     <Content Include="js\flow\img\gooflow_icon.png" />
-    <Content Include="js\utils\flowlayout.js" />
-    <Content Include="js\utils\ui.js" />
+    <Content Include="js\flowlayout.js" />
+    <Content Include="js\utils.js" />
     <Content Include="userJs\flowInstanceEdit.js" />
     <Content Include="userJs\flowSchemes.js" />
     <Content Include="userJs\nodeInfo.js" />

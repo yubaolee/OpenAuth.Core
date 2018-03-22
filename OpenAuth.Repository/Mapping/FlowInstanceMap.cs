@@ -74,11 +74,9 @@ namespace OpenAuth.Repository.Mapping
                 .IsRequired();
             Property(t => t.FrmContentData)
                 .HasColumnName("FrmContentData")
-                .HasMaxLength(16)
                 .IsOptional();
             Property(t => t.FrmContentParse)
                 .HasColumnName("FrmContentParse")
-                .HasMaxLength(16)
                 .IsOptional();
             Property(t => t.FrmId)
                 .HasColumnName("FrmId")

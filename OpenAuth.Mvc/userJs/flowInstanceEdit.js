@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'queryString', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
     var form = layui.form, element = layui.element,
 		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
@@ -97,7 +97,7 @@
                             $("#FrmContentData").val(data.Result.ContentData);
                             $("#FrmContentParse").val(data.Result.ContentParse);
                             $("#frmPreview").html(data.Result.Content);
-                            frmdata = arrayToObj(JSON.parse(data.Result.ContentData));
+                            frmdata = $.arrayToObj(JSON.parse(data.Result.ContentData));
                             $.extend(frmdata, vm.data);
                             vm = new Vue({
                                 el: "#formEdit",
@@ -121,8 +121,6 @@
                     var json = JSON.parse(data);
                     zTreeObj = $.fn.zTree.init($("#frmTree"), setting);
                     zTreeObj.addNodes(null, json.data);
-
-                    $("#menutree").html("点击预览表单效果");
                     zTreeObj.expandAll(true);
                 }
             });

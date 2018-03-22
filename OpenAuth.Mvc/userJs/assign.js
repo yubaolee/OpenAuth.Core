@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery','queryString'], function () {
+}).use(['form','vue', 'ztree', 'layer', 'jquery','utils'], function () {
     var //layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
         $ = layui.jquery;

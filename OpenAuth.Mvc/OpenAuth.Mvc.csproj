@@ -226,7 +226,6 @@
     <Content Include="userJs\flowInstances.js" />
     <Content Include="userJs\flowSchemeDesign.js" />
     <Content Include="userJs\modules.js" />
-    <Content Include="js\queryString.js" />
     <Content Include="userJs\orgs.js" />
     <Content Include="userJs\roles.js" />
     <Content Include="js\ueditor\dialogs\anchor\anchor.html" />

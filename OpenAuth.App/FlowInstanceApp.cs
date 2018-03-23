@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
+using Newtonsoft.Json.Linq;
 using OpenAuth.App.Flow;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -98,21 +99,24 @@ namespace OpenAuth.App
         /// <summary>
         /// 创建一个实例
         /// </summary>
-        /// <param name="processId">进程GUID</param>
-        /// <param name="schemeInfoId">模板信息ID</param>
-        /// <param name="wfLevel"></param>
-        /// <param name="code">进程编号</param>
-        /// <param name="customName">自定义名称</param>
-        /// <param name="description">备注</param>
-        /// <param name="frmData">表单数据信息</param>
         /// <returns></returns>
-        public bool CreateInstance(FlowInstance flowInstance)
+        public bool CreateInstance(JObject obj)
         {
+            var flowInstance = obj.ToObject<FlowInstance>();
+
+            //获取提交的表单数据
+            var frmdata = new JObject();
+            foreach (var property in obj.Properties().Where(U => U.Name.Contains("data_")))
+            {
+                frmdata[property.Name] = property.Value;
+            }
+            flowInstance.FrmData = JsonHelper.Instance.Serialize(frmdata);
+
+            //创建运行实例
             var wfruntime = new FlowRuntime(flowInstance);
-
-
             var user = AuthUtil.GetCurrentUser();
-            #region 实例信息
+
+            #region 根据运行实例改变当前节点状态
             flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
             flowInstance.ActivityType = wfruntime.GetNextNodeType();//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
             flowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;

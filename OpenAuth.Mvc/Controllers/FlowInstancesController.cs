@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
 using Infrastructure;
+using Newtonsoft.Json.Linq;
 using OpenAuth.App;
 using OpenAuth.App.Request;
 using OpenAuth.Mvc.Models;
@@ -43,7 +45,8 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改
         [System.Web.Mvc.HttpPost]
-        public string Add(FlowInstance obj)
+        [ValidateInput(false)]
+        public string Add(JObject obj)
         {
             try
             {

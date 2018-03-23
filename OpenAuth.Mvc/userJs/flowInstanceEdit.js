@@ -7,7 +7,6 @@
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
-    var frmdata = {};
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
      var id = $.getUrlParam("id");   //ID
     var update = (id !=null && id != '');
@@ -97,12 +96,6 @@
                             $("#FrmContentData").val(data.Result.ContentData);
                             $("#FrmContentParse").val(data.Result.ContentParse);
                             $("#frmPreview").html(data.Result.Content);
-                            frmdata = $.arrayToObj(JSON.parse(data.Result.ContentData));
-                            $.extend(frmdata, vm.data);
-                            vm = new Vue({
-                                el: "#formEdit",
-                                data:frmdata
-                            });
                         }
                     });
 
@@ -163,9 +156,9 @@
 
             $.extend(data.field,
             {
-                SchemeContent: JSON.stringify(content),
-                FrmData: JSON.stringify(frmdata)
+                SchemeContent: JSON.stringify(content)
             });
+
             $.post(url,
                 data.field,
                 function (result) {

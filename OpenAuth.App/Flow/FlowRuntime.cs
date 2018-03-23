@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Infrastructure;
+using Newtonsoft.Json.Linq;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.Flow
@@ -19,8 +21,8 @@ namespace OpenAuth.App.Flow
         {
             _runtimeModel = new FlowRuntimeModel();
             dynamic schemeContentJson = instance.SchemeContent.ToJson();//获取工作流模板内容的json对象;
-            _runtimeModel.schemeContentJson = schemeContentJson;//模板流程json对象
             _runtimeModel.frmData = instance.FrmData;
+            _runtimeModel.schemeContentJson = schemeContentJson;//模板流程json对象
             _runtimeModel.nodes = GetNodeDictionary(schemeContentJson);//节点集合
             _runtimeModel.lines = GetLineDictionary(schemeContentJson);//线条集合
             _runtimeModel.currentNodeId = (instance.ActivityId == "" ? _runtimeModel.startNodeId : instance.ActivityId);
@@ -51,15 +53,16 @@ namespace OpenAuth.App.Flow
         private Dictionary<string, FlowNode> GetNodeDictionary(dynamic schemeContentJson)
         {
             Dictionary<string, FlowNode> nodeDictionary = new Dictionary<string, FlowNode>();
-            foreach (var item in schemeContentJson.Flow.nodes)
+            foreach (JObject item in schemeContentJson.nodes)
             {
-                if (!nodeDictionary.ContainsKey(item.id.Value))
+                var node = item.ToObject<FlowNode>();
+                if (!nodeDictionary.ContainsKey(node.id))
                 {
-                    nodeDictionary.Add(item.id.Value, item);
+                    nodeDictionary.Add(node.id, node);
                 }
-                if (item.type == FlowNode.START)
+                if (node.type == FlowNode.START)
                 {
-                    this._runtimeModel.startNodeId = item.id.Value;
+                    this._runtimeModel.startNodeId = node.id;
                 }
             }
             return nodeDictionary;
@@ -72,16 +75,17 @@ namespace OpenAuth.App.Flow
         private Dictionary<string, List<FlowLine>> GetLineDictionary(dynamic schemeContentJson)
         {
             Dictionary<string, List<FlowLine>> lineDictionary = new Dictionary<string, List<FlowLine>>();
-            foreach (var item in schemeContentJson.Flow.lines)
+            foreach (JObject item in schemeContentJson.lines)
             {
-                if (!lineDictionary.ContainsKey(item.from.Value))
+                var line = item.ToObject<FlowLine>();
+                if (!lineDictionary.ContainsKey(line.from))
                 {
-                    List<FlowLine> d = new List<FlowLine> { item };
-                    lineDictionary.Add(item.from.Value, d);
+                    List<FlowLine> d = new List<FlowLine> { line };
+                    lineDictionary.Add(line.from, d);
                 }
                 else
                 {
-                    lineDictionary[item.from.Value].Add(item);
+                    lineDictionary[line.from].Add(line);
                 }
             }
             return lineDictionary;
@@ -94,16 +98,17 @@ namespace OpenAuth.App.Flow
         private Dictionary<string, List<FlowLine>> GetToLineDictionary(dynamic schemeContentJson)
         {
             Dictionary<string, List<FlowLine>> lineDictionary = new Dictionary<string, List<FlowLine>>();
-            foreach (var item in schemeContentJson.Flow.lines)
+            foreach (JObject item in schemeContentJson.lines)
             {
-                if (!lineDictionary.ContainsKey(item.to.Value))
+                var line = item.ToObject<FlowLine>();
+                if (!lineDictionary.ContainsKey(line.to))
                 {
-                    List<FlowLine> d = new List<FlowLine> { item };
-                    lineDictionary.Add(item.to.Value, d);
+                    List<FlowLine> d = new List<FlowLine> { line };
+                    lineDictionary.Add(line.to, d);
                 }
                 else
                 {
-                    lineDictionary[item.to.Value].Add(item);
+                    lineDictionary[line.to].Add(line);
                 }
             }
             return lineDictionary;

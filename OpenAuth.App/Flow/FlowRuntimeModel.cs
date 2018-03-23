@@ -24,7 +24,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 当前节点的对象
         /// </summary>
-        public dynamic currentNode { get { return nodes[currentNodeId]; } }
+        public FlowNode currentNode { get { return nodes[currentNodeId]; } }
         /// <summary>
         /// 下一个节点
         /// </summary>

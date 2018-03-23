@@ -444,14 +444,14 @@ namespace OpenAuth.App.Flow
         public void MakeTagNode(string nodeId, int flag, string userId, string description = "")
         {
             int i = 0;
-            foreach (var item in _runtimeModel.schemeContentJson.Flow.nodes)
+            foreach (var item in _runtimeModel.schemeContentJson.nodes)
             {
                 if (item.id.Value == nodeId)
                 {
-                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.Taged = flag;
-                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.UserId = userId;
-                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.description = description;
-                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.TagedTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+                    _runtimeModel.schemeContentJson.nodes[i].setInfo.Taged = flag;
+                    _runtimeModel.schemeContentJson.nodes[i].setInfo.UserId = userId;
+                    _runtimeModel.schemeContentJson.nodes[i].setInfo.description = description;
+                    _runtimeModel.schemeContentJson.nodes[i].setInfo.TagedTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
                     break;
                 }
                 i++;

@@ -21,6 +21,11 @@
         /// </summary>
         /// <value>The set information.</value>
         public Setinfo setInfo { get; set; }
+
+        public FlowNode()
+        {
+            setInfo = new Setinfo();
+        }
     }
 
     public class Setinfo
@@ -28,6 +33,11 @@
         public Nodedesignatedata NodeDesignateData { get; set; }
         public string NodeCode { get; set; }
         public string NodeName { get; set; }
+
+        public Setinfo()
+        {
+            NodeDesignateData = new Nodedesignatedata();
+        }
     }
 
     /// <summary>

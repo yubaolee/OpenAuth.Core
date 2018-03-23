@@ -330,13 +330,13 @@
                                 }
 
                                 _rowstr = "";
-                                for (var i in item.setInfo.NodeDesignateData.user) {
-                                    var _postitem = item.setInfo.NodeDesignateData.user[i];
+                                for (var i in item.setInfo.NodeDesignateData.users) {
+                                    var _postitem = item.setInfo.NodeDesignateData.users[i];
                                     var _one = clientuserData[_postitem];
                                     _rowstr += ' <span class="label label-danger">' +
                                         (_one == undefined ? _postitem : _one.RealName) +
                                         '</span>';
-                                    if (i == item.setInfo.NodeDesignateData.user.length - 1) {
+                                    if (i == item.setInfo.NodeDesignateData.users.length - 1) {
                                         _popoverhtml += '<li>用户:' + _rowstr + '</li>';
                                     }
                                 }

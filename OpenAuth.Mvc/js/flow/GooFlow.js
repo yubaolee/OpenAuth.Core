@@ -1991,6 +1991,7 @@ GooFlow.prototype={
 		else	this.$lineData[id].type="sl";//默认为直线
 		this.$lineData[id].from=json.from;
 		this.$lineData[id].to = json.to;
+		this.$lineData[id].id = json.id;  //赋值ID
 		this.$lineData[id].setInfo = json.setInfo;
 		this.$lineData[id].name=json.name;
 		if(json.marked)	this.$lineData[id].marked=json.marked;

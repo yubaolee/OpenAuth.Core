@@ -1,4 +1,5 @@
-﻿using OpenAuth.App.Request;
+﻿using Infrastructure;
+using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
@@ -43,9 +44,10 @@ namespace OpenAuth.App
             Repository.ExecuteSql(FormUtil.GetSql(obj));
         }
 
-        public Form FindSingle(string id)
+        public FormResp FindSingle(string id)
         {
-            return Repository.FindSingle(u => u.Id == id);
+            var form =  Get(id);
+            return form.MapTo<FormResp>();
         }
 
     }

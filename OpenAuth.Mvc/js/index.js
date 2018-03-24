@@ -226,7 +226,7 @@ layui.config({
 	        btn: ['火速围观'],
 	        moveType: 1,
 	        content: '<div style="padding:15px 20px; text-align:justify; line-height: 22px; text-indent:2em;border-bottom:1px solid #e2e2e2;">' +
-	            '<p>浴火重生，OpenAuth.Net 4.0正式上线，界面采用贤心的layui 2.10及马哥的layuicms</p>' +
+	            '<p>浴火重生，OpenAuth.Net 4.0正式上线，界面采用贤心最新版layui及马哥的layuicms</p>' +
 	            '<p>喜欢的，快快star吧！</p></div>',
 	        success: function(layero){
 				var btn = layero.find('.layui-layer-btn');

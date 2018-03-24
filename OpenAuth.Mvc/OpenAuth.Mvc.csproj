@@ -163,6 +163,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\formpreview.css" />
     <Content Include="images\login\buttonbg.png" />
     <Content Include="images\login\cloud.png" />
     <Content Include="images\login\hand.png" />
@@ -204,13 +205,11 @@
     <Content Include="css\images.css" />
     <Content Include="css\login.css" />
     <Content Include="css\main.css" />
-    <Content Include="css\message.css" />
     <Content Include="css\metroStyle\img\line_conn.png" />
     <Content Include="css\metroStyle\img\loading.gif" />
     <Content Include="css\metroStyle\img\metro.gif" />
     <Content Include="css\metroStyle\img\metro.png" />
     <Content Include="css\metroStyle\metroStyle.css" />
-    <Content Include="css\news.css" />
     <Content Include="css\treetable.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

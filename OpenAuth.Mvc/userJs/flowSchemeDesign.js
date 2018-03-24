@@ -9,8 +9,8 @@
     var openauth = layui.openauth;
 
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-     var id = $.getUrlParam("id");   //ID
-    var update = (id !=null && id != '');
+    var id = $.getUrlParam("id");   //ID
+    var update = (id != null && id != '');
     //提交的URL
     var url = "/FlowSchemes/Add";
 
@@ -43,14 +43,14 @@
             },
             callback: {
                 onClick: function (event, treeId, treeNode) {
-                    $.get("/forms/previewdata?id=" + treeNode.Id, function (data) {
-                        $("#frmPreview").html(data);
+                    $.getJSON("/forms/get?id=" + treeNode.Id, function (data) {
+                        $("#frmPreview").html(data.Result.Html);
                     });
                 },
                 onCheck: function (event, treeId, treeNode) {
                     $("#FrmId").val(treeNode.Id);
-                    $.get("/forms/previewdata?id=" + treeNode.Id, function (data) {
-                        $("#frmPreview").html(data);
+                    $.getJSON("/forms/get?id=" + treeNode.Id, function (data) {
+                        $("#frmPreview").html(data.Result.Html);
                     });
                 }
             }
@@ -69,7 +69,7 @@
                     $("#menutree").html("点击预览表单效果");
                     zTreeObj.expandAll(true);
                 }
-           });
+            });
 
         var setCheck = function (id) {    //设置已经选中的表单
             if (id == null | id == '') return;
@@ -140,7 +140,6 @@
             });
     }
 
-
     //提交数据
     form.on('submit(formSubmit)',
         function (data) {
@@ -163,8 +162,8 @@
             return false; //阻止表单跳转。
         });
 
-    $(window).resize(function() {
-        flowDesignPanel.reinitSize($(window).width()-30, $(window).height()-100);
+    $(window).resize(function () {
+        flowDesignPanel.reinitSize($(window).width() - 30, $(window).height() - 100);
     });
 
     //该函数供给父窗口确定时调用

@@ -7,8 +7,8 @@
         layer = layui.layer,
         $ = layui.jquery;
     var id = $.getUrlParam("id");
-    $.get("/forms/previewdata?id=" + id, function (data) {
-        $("#content").html(data);
+    $.getJSON("/forms/get?id=" + id, function (data) {
+        $("#content").html(data.Result.Html);
     });
 
 })

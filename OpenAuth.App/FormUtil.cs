@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Infrastructure;
 using Newtonsoft.Json.Linq;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App
@@ -71,7 +72,7 @@ namespace OpenAuth.App
 	 * 
 	 * 功能:  html 
 	 */
-        public static string GetHtml(Form form, string action){
+        public static string GetHtml(FormResp form, string action){
 		
             //action=action!=null && !""==(action)?action:"view";
             return GetHtml(form.ContentData, form.ContentParse, action);

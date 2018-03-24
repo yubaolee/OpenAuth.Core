@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.Request;
+using OpenAuth.App.Response;
 using OpenAuth.Mvc.Models;
 using OpenAuth.Repository.Domain;
 
@@ -25,23 +26,11 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 预览表单
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>System.String.</returns>
-        public string PreviewData(string id)
-        {
-            var form = App.FindSingle(id);
-
-            return FormUtil.GetHtml(form, "");
-        }
-
         public string Get(string id)
         {
             try
             {
-                var result = new Response<Form>
+                var result = new Response<FormResp>
                 {
                     Result = App.FindSingle(id)
                 };

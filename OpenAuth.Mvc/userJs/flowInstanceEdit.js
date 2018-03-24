@@ -95,7 +95,7 @@
                         if (data.Code != 500) {
                             $("#FrmContentData").val(data.Result.ContentData);
                             $("#FrmContentParse").val(data.Result.ContentParse);
-                            $("#frmPreview").html(data.Result.Content);
+                            $("#frmPreview").html(data.Result.Html);
                         }
                     });
 

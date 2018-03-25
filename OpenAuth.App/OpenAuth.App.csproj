@@ -120,6 +120,7 @@
     <Compile Include="Request\QueryRoleListReq.cs" />
     <Compile Include="Request\QueryFormListReq.cs" />
     <Compile Include="Request\QueryUserListReq.cs" />
+    <Compile Include="Request\VerificationReq.cs" />
     <Compile Include="Response\FormResp.cs" />
     <Compile Include="Response\TableData.cs" />
     <Compile Include="RevelanceManagerApp.cs" />

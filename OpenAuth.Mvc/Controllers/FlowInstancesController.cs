@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Web.Http;
 using System.Web.Mvc;
 using Infrastructure;
 using Newtonsoft.Json.Linq;
@@ -27,6 +26,26 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        public ActionResult Verification()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public string Verification(VerificationReq request)
+        {
+            try
+            {
+                App.Verification(request);
+
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
 
         public string Get(string id)
         {
@@ -80,7 +99,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载列表
         /// </summary>
-        public string Load([FromUri]QueryFlowInstanceListReq request)
+        public string Load([System.Web.Http.FromUri]QueryFlowInstanceListReq request)
         {
             return JsonHelper.Instance.Serialize(App.Load(request));
         }

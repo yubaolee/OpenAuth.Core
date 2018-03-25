@@ -43,5 +43,33 @@ namespace Infrastructure
                 };
             }
         }
+        /// <summary>
+        /// 把数组转为逗号连接的字符串
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="Str"></param>
+        /// <returns></returns>
+        public static string ArrayToString(dynamic data, string Str)
+        {
+            string resStr = Str;
+            foreach (var item in data)
+            {
+                if (resStr != "")
+                {
+                    resStr += ",";
+                }
+
+                if (item is string)
+                {
+                    resStr += item;
+                }
+                else
+                {
+                    resStr += item.Value;
+
+                }
+            }
+            return resStr;
+        }
     }
 }

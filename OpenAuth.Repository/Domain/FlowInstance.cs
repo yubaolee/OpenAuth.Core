@@ -62,7 +62,7 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
         public string ActivityId { get; set; }
         /// <summary>
-	    /// 当前节点类型（0会签节点）
+	    /// 当前节点类型 -1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
 	    /// </summary>
         public int? ActivityType { get; set; }
         /// <summary>
@@ -130,7 +130,7 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
         public string Description { get; set; }
         /// <summary>
-	    /// 是否完成
+	    /// 是否完成 0未完成，1完成并同意，2被召回，3完成但不同意， 4被驳回需要重新提交
 	    /// </summary>
         public int IsFinish { get; set; }
         /// <summary>

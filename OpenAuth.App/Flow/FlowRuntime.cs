@@ -181,11 +181,11 @@ namespace OpenAuth.App.Flow
         /// <returns></returns>
         public int GetNodeType(string nodeId)
         {
-            if (_runtimeModel.nodes[nodeId].type == "shuntnode")//会签开始节点
+            if (_runtimeModel.nodes[nodeId].type == FlowNode.FORK)//会签开始节点
             {
                 return 0;
             }
-            else if (_runtimeModel.nodes[nodeId].type == "confluencenode")//会签结束节点
+            else if (_runtimeModel.nodes[nodeId].type == FlowNode.JOIN)//会签结束节点
             {
                 return 1;
             }
@@ -435,6 +435,7 @@ namespace OpenAuth.App.Flow
                 throw;
             }
         }
+       ///<summary>
         /// 标记节点1通过，-1不通过，0驳回
         /// </summary>
         /// <param name="nodeId"></param>
@@ -446,7 +447,7 @@ namespace OpenAuth.App.Flow
             int i = 0;
             foreach (var item in _runtimeModel.schemeContentJson.nodes)
             {
-                if (item.id.Value == nodeId)
+                if (item.id.Value.ToString() == nodeId)
                 {
                     _runtimeModel.schemeContentJson.nodes[i].setInfo.Taged = flag;
                     _runtimeModel.schemeContentJson.nodes[i].setInfo.UserId = userId;

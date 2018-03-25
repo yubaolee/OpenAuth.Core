@@ -128,6 +128,32 @@
              editDlg.update(data[0]);
          }
 
+        , btnVerification: function () {  //处理
+            var checkStatus = table.checkStatus('mainList')
+                , data = checkStatus.data;
+            if (data.length != 1) {
+                layer.msg("请选择要处理的流程，且同时只能选择一条");
+                return;
+            }
+
+            layer.open({
+                type: 2,
+                area: ['600px', '500px'], //宽高
+                maxmin: true, //开启最大化最小化按钮
+                title: '处理流程',
+                content: '/flowInstances/Verification?id=' + data[0].Id,
+                btn: ['保存', '关闭'],
+                yes: function (index, layero) {
+                    var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    iframeWin.submit();
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                    mainList();
+                }
+            });
+        }
+
         , search: function () {   //搜索
             mainList({ key: $('#key').val() });
         }

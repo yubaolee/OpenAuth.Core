@@ -8,6 +8,8 @@
         public const string START = "start round mix";
         public const string END = "end round";
         public const string NODE = "node";
+        public const string FORK = "fork";   //会签开始节点
+        public const string JOIN = "join";   //会签结束节点
 
         public string id { get; set; }
 
@@ -21,11 +23,6 @@
         /// </summary>
         /// <value>The set information.</value>
         public Setinfo setInfo { get; set; }
-
-        public FlowNode()
-        {
-            setInfo = new Setinfo();
-        }
     }
 
     public class Setinfo
@@ -33,11 +30,6 @@
         public Nodedesignatedata NodeDesignateData { get; set; }
         public string NodeCode { get; set; }
         public string NodeName { get; set; }
-
-        public Setinfo()
-        {
-            NodeDesignateData = new Nodedesignatedata();
-        }
     }
 
     /// <summary>

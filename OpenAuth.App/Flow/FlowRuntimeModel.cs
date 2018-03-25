@@ -30,7 +30,7 @@ namespace OpenAuth.App.Flow
         /// </summary>
         public string nextNodeId { get; set; }
         /// <summary>
-        /// 下一个节点类型
+        /// 下一个节点类型 -1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
         /// </summary>
         /// <value>The type of the next node.</value>
         public int nextNodeType { get; set; }

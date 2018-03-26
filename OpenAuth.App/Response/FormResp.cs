@@ -46,7 +46,7 @@ namespace OpenAuth.App.Response
         /// </summary>
         public string Html
         {
-            get { return FormUtil.GetHtml(this, ""); }
+            get { return FormUtil.GetHtml(this); }
         }
 
     }

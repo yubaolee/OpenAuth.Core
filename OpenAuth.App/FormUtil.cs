@@ -16,9 +16,13 @@ namespace OpenAuth.App
         private static  string temp_view = "<div style=\"{0}\"/>{1}</div>";
 
 
-        public static string GetHtml(string contentData, string contentParse, string action)
+        public static string GetHtml(string contentData, string contentParse,string frmData, string action)
         {
-            var tableData = new Dictionary<string, Object>();//表单数据
+            JObject tableData = null;//表单数据
+            if (!string.IsNullOrEmpty(frmData))
+            {
+               tableData = JsonHelper.Instance.Deserialize<JObject>(frmData);
+            }
 
             string html = contentParse;
             foreach (var json in contentData.ToList<JObject>())
@@ -67,44 +71,67 @@ namespace OpenAuth.App
 
             return html;
         }
-	
-        /**
-	 * 
-	 * 功能:  html 
-	 */
-        public static string GetHtml(FormResp form, string action){
+
+        /// <summary>
+        /// 只显示编辑框
+        /// </summary>
+        /// <param name="form">The form.</param>
+        /// <returns>System.String.</returns>
+        public static string GetHtml(FormResp form){
 		
-            //action=action!=null && !""==(action)?action:"view";
-            return GetHtml(form.ContentData, form.ContentParse, action);
+            return GetHtml(form.ContentData, form.ContentParse,null,  "");
 
         }
-	
+
+        /// <summary>
+        /// 显示编辑框和里面的用户数据
+        /// </summary>
+        /// <param name="contentdata">The contentdata.</param>
+        /// <param name="contentParse">The content parse.</param>
+        /// <param name="frmData">The FRM data.</param>
+        /// <returns>System.String.</returns>
+        public static string Preview(string contentdata, string contentParse, string frmData)
+        {
+            return GetHtml(contentdata, contentParse, frmData, "view");
+        }
+
         //text
-        private static string GetTextBox(JObject item, Dictionary<string,Object> formData,string action)
+        private static string GetTextBox(JObject item, JObject formData,string action)
         {
             string temp = "<input type=\"text\" value=\"{0}\"  name=\"{1}\"  style=\"{2}\"/>";
             string name = item.GetValue("name").ToString();
 
-            string value = formData.ContainsKey(name)?formData[name].ToString():null;
+            var data = formData.GetValue(name);
+            string value =null;
+            if (data != null)
+            {
+                value = data.ToString();
+            }
+
             if (value == null)
                 value = item.GetValue("value") == null ? "" : item.GetValue("value").ToString();
             string style =item.GetValue("style") == null ? "" : item.GetValue("style").ToString();
             string temp_html =  string.Format(temp, value, name, style);
             if("view"==(action))
                 return string.Format(temp_view,style,value);
-            else
-                return temp_html;
+            return temp_html;
         }
 	
         //TextArea
-        private static string GetTextArea(JObject item, Dictionary<string,Object> formData,string action)
+        private static string GetTextArea(JObject item, JObject formData,string action)
         {
             string script = "";
             if (item.GetValue("orgrich") != null && "1"==(item.GetValue("orgrich").ToString()))
                 script = "orgrich=\"true\" ";
             string name = item.GetValue("name").ToString();
 
-            string value = formData.ContainsKey(name)?formData[name].ToString():null;
+            var data = formData.GetValue(name);
+            string value = null;
+            if (data != null)
+            {
+                value = data.ToString();
+            }
+
             if (value == null)
                 value = item.GetValue("value")== null ? "" : item.GetValue("value").ToString();
             string style = item.GetValue("style") == null ? "" : item.GetValue("style").ToString();
@@ -116,20 +143,26 @@ namespace OpenAuth.App
         
             if("view"==(action))
                 return string.Format(temp_view,style,value);
-            else
-                return temp_html;
+            return temp_html;
         }
 	
         //Radios
-        private static string GetRadios(JObject item, Dictionary<string,Object> formData,string action)
+        private static string GetRadios(JObject item, JObject formData,string action)
         {
             var radiosOptions = JArray.Parse(item.GetValue("options").ToString());
             //JArray radiosOptions = item["options"] as JArray;
             string temp = "<input type=\"radio\" name=\"{0}\" value=\"{1}\"  {2}>{3}&nbsp;";
             string temp_html = "";
             string name = item.GetValue("name").ToString();
-            string value = formData.ContainsKey(name)?formData[name].ToString():null;
-		
+
+            var data = formData.GetValue(name);
+            string value = null;
+            if (data != null)
+            {
+                value = data.ToString();
+            }
+
+
             string cvalue_="";
             foreach (var json in radiosOptions)
             {
@@ -152,12 +185,11 @@ namespace OpenAuth.App
 		
             if("view"==(action))
                 return string.Format(temp_view,"&nbsp;",cvalue_);
-            else
-                return temp_html;
+            return temp_html;
         }
 	
         //Checkboxs
-        private static string GetCheckboxs(JObject item, Dictionary<string,Object> formData,string action){
+        private static string GetCheckboxs(JObject item, JObject formData,string action){
             string temp_html = "";
             string temp = "<input type=\"checkbox\" name=\"{0}\" value=\"{1}\" {2}>{3}&nbsp;";
 		
@@ -167,7 +199,14 @@ namespace OpenAuth.App
             foreach (var json in checkOptions)
             {
                 string name = json["name"].ToString();
-                string value = formData.ContainsKey(name) ? formData[name].ToString() : null;
+
+                var data = formData.GetValue(name);
+                string value = null;
+                if (data != null)
+                {
+                    value = data.ToString();
+                }
+
                 string cvalue = json["value"].ToString();
                 string Ischecked = "";
                 if (value == null)
@@ -191,16 +230,21 @@ namespace OpenAuth.App
        
             if("view"==(action))
                 return string.Format(temp_view,"&nbsp;",view_value);
-            else
-                return temp_html;
+            return temp_html;
         }
 	
         //Select(比较特殊)
-        private static string GetSelect(JObject item, Dictionary<string,Object> formData, string action)
+        private static string GetSelect(JObject item, JObject formData, string action)
         {
 
             string name = item.GetValue("name").ToString();
-            string value = formData.ContainsKey(name)?formData[name].ToString():null;
+
+            var data = formData.GetValue(name);
+            string value = null;
+            if (data != null)
+            {
+                value = data.ToString();
+            }
 
             string temp_html =item.GetValue("content").ToString();
             if (value != null)//用户设置过值
@@ -216,10 +260,17 @@ namespace OpenAuth.App
 	
 	
         //Qrcode 二维码
-        private static string GetQrcode(JObject item, Dictionary<string,Object> formData, string action)
+        private static string GetQrcode(JObject item, JObject formData, string action)
         {
             string name = item.GetValue("name").ToString();
-            string value = formData.ContainsKey(name)?formData[name].ToString():null;
+
+            var data = formData.GetValue(name);
+            string value = null;
+            if (data != null)
+            {
+                value = data.ToString();
+            }
+
             string temp_html = "";
             string temp = "";
             string orgType = item.GetValue("orgtype").ToString();

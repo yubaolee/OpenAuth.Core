@@ -76,8 +76,8 @@
             var node = zTreeObj.getNodeByParam("Id", id, null);
             zTreeObj.checkNode(node, true, false);
 
-            $.get("/forms/previewdata?id=" + id, function (data) {
-                $("#frmPreview").html(data);
+            $.getJSON("/forms/get?id=" + id, function (data) {
+                $("#frmPreview").html(data.Result.Html);
             });
         }
 

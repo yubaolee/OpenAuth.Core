@@ -26,20 +26,20 @@
             </div>
         </div>
         
-        <input type="hidden" id="FlowInstanceId" name="FlowInstanceId" v-model="FlowInstanceId" />
+        <input type="hidden" id="FlowInstanceId" name="FlowInstanceId" />
         <div class="layui-form-item">
             <label class="layui-form-label">审核结果</label>
             <div class="layui-input-block">
-                <input type="radio" name="VerificationFinally" v-model="VerificationFinally" value="1" title="同意" checked>
-                <input type="radio" name="VerificationFinally" v-model="VerificationFinally" value="2" title="不同意">
-                <input type="radio" name="VerificationFinally" v-model="VerificationFinally" value="3" title="驳回">
+                <input type="radio" name="VerificationFinally" value="1" title="同意" checked>
+                <input type="radio" name="VerificationFinally" value="2" title="不同意">
+                <input type="radio" name="VerificationFinally" value="3" title="驳回">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">审核意见</label>
             <div class="layui-input-block">
-                <input type="text" name="VerificationOpinion" v-model="VerificationOpinion"
+                <input type="text" name="VerificationOpinion"
                        placeholder="" autocomplete="off" class="layui-input">
             </div>
         </div>

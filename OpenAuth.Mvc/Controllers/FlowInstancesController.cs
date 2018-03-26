@@ -5,6 +5,7 @@ using Infrastructure;
 using Newtonsoft.Json.Linq;
 using OpenAuth.App;
 using OpenAuth.App.Request;
+using OpenAuth.App.Response;
 using OpenAuth.Mvc.Models;
 using OpenAuth.Repository.Domain;
 
@@ -51,7 +52,12 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var result = new Response<FlowInstance> { Result = App.Get(id) };
+                var flowinstance = App.Get(id);
+
+                var result = new Response<FlowVerificationResp>
+                {
+                    Result = flowinstance.MapTo<FlowVerificationResp>()
+                };
                 return JsonHelper.Instance.Serialize(result);
             }
             catch (Exception ex)

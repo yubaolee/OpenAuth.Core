@@ -79,8 +79,11 @@
             callback: {
                 onClick: function (event, treeId, treeNode) {
                     //预览表单
-                    $.get("/forms/previewdata?id=" + treeNode.FrmId, function (data) {
-                        $("#frmPreview").html(data);
+                    //取表单的结构数据
+                    $.getJSON("/forms/get?id=" + treeNode.FrmId, function (data) {
+                        if (data.Code != 500) {
+                            $("#frmPreview").html(data.Result.Html);
+                        }
                     });
 
                     //预览流程

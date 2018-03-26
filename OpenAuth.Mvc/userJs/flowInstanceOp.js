@@ -8,11 +8,7 @@
     var openauth = layui.openauth;
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 
-    var vm = new Vue({
-        el: "#formEdit"
-    });
-
-    var id = $.getUrlParam("id");   //ID
+   var id = $.getUrlParam("id");   //ID
     $("#FlowInstanceId").val(id);
 
     //标签切换
@@ -32,13 +28,7 @@
         function (data) {
             var obj = data.Result;
             flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
-
-            //取表单的结构数据
-            $.getJSON("/forms/get?id=" + obj.FrmId, function (data) {
-                if (data.Code != 500) {
-                    $("#frmPreview").html(data.Result.Html);
-                }
-            });
+            $("#frmPreview").html(data.Result.FrmDataHtml);
         });
 
     //提交数据

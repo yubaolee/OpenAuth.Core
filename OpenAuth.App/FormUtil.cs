@@ -101,9 +101,9 @@ namespace OpenAuth.App
             string temp = "<input type=\"text\" value=\"{0}\"  name=\"{1}\"  style=\"{2}\"/>";
             string name = item.GetValue("name").ToString();
 
-            var data = formData.GetValue(name);
             string value =null;
-            if (data != null)
+            JToken data;
+            if (formData != null && ((data = formData.GetValue(name)) != null))
             {
                 value = data.ToString();
             }
@@ -125,9 +125,9 @@ namespace OpenAuth.App
                 script = "orgrich=\"true\" ";
             string name = item.GetValue("name").ToString();
 
-            var data = formData.GetValue(name);
             string value = null;
-            if (data != null)
+            JToken data;
+            if (formData != null && ((data = formData.GetValue(name)) != null))
             {
                 value = data.ToString();
             }
@@ -155,14 +155,13 @@ namespace OpenAuth.App
             string temp_html = "";
             string name = item.GetValue("name").ToString();
 
-            var data = formData.GetValue(name);
             string value = null;
-            if (data != null)
+            JToken data;
+            if (formData != null && ((data = formData.GetValue(name)) != null))
             {
                 value = data.ToString();
             }
-
-
+            
             string cvalue_="";
             foreach (var json in radiosOptions)
             {
@@ -200,9 +199,9 @@ namespace OpenAuth.App
             {
                 string name = json["name"].ToString();
 
-                var data = formData.GetValue(name);
                 string value = null;
-                if (data != null)
+                JToken data;
+                if (formData != null && ((data = formData.GetValue(name)) != null))
                 {
                     value = data.ToString();
                 }
@@ -239,9 +238,9 @@ namespace OpenAuth.App
 
             string name = item.GetValue("name").ToString();
 
-            var data = formData.GetValue(name);
             string value = null;
-            if (data != null)
+            JToken data;
+            if (formData != null && ((data = formData.GetValue(name)) != null))
             {
                 value = data.ToString();
             }
@@ -264,9 +263,9 @@ namespace OpenAuth.App
         {
             string name = item.GetValue("name").ToString();
 
-            var data = formData.GetValue(name);
             string value = null;
-            if (data != null)
+            JToken data;
+            if (formData != null && ((data = formData.GetValue(name)) != null))
             {
                 value = data.ToString();
             }

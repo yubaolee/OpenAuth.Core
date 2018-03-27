@@ -1,9 +1,9 @@
-﻿layui.define(["jquery","layer","bootstrap"],
-    function(exports) {
+﻿layui.define(["jquery", "layer", "bootstrap"],
+    function (exports) {
         var $ = layui.jquery;
         var layer = layui.layer;
         //初始化设计流程器
-        $.fn.flowdesign = function(options) {
+        $.fn.flowdesign = function (options) {
             var $frmpreview = $(this);
             if (!$frmpreview.attr('id')) {
                 return false;
@@ -21,11 +21,11 @@
                 haveGroup: true,
                 useOperStack: true
             };
-            if (options != undefined ) {
+            if (options != undefined) {
                 $.extend(defaultcnf, options);
             }
 
-            var flowPanel = $.createGooFlow($(this),defaultcnf);
+            var flowPanel = $.createGooFlow($(this), defaultcnf);
             flowPanel.setNodeRemarks({
                 cursor: "选择指针",
                 direct: "转换连线",
@@ -48,10 +48,93 @@
                 flowPanel.loadData(options.flowcontent);
             }
 
-            flowPanel.SetNodeEx = function(id, data) {
+            //导出数据扩展方法
+            //所有节点必须有进出线段
+            //必须有开始结束节点（且只能为一个）
+            //分流合流节点必须成对出现
+            //分流合流节点必须一一对应且中间必须有且只能有一个普通节点
+            //分流节点与合流节点之前的审核节点必须有且只能有一条出去和进来节点
+            flowPanel.exportDataEx = function () {
+                var data = flowPanel.exportData();
+                var fromlines = {},
+                    tolines = {},
+                    nodes = {},
+                    fnodes = [],   //会签分流节点
+                    hnodes = [],  //会签合流节点
+                    startroundFlag = 0,   //开始节点标识
+                    endroundFlag = 0;   //结束节点标识
+                for (var i in data.lines) {
+                    if (fromlines[data.lines[i].from] == undefined) {
+                        fromlines[data.lines[i].from] = [];
+                    }
+                    fromlines[data.lines[i].from].push(data.lines[i].to);
+
+                    if (tolines[data.lines[i].to] == undefined) {
+                        tolines[data.lines[i].to] = [];
+                    }
+                    tolines[data.lines[i].to].push(data.lines[i].from);
+                }
+                for (var j in data.nodes) {
+                    var _node = data.nodes[j];
+                    var _flag = false;
+                    switch (_node.type) {
+                        case "start round mix":
+                            startroundFlag++;
+                            if (fromlines[_node.id] == undefined) {
+                                layer.msg("开始节点无法流转到下一个节点");
+                                return -1;
+                            }
+                            break;
+                        case "end round":
+                            endroundFlag++;
+                            if (tolines[_node.id] == undefined) {
+                                layer.msg("无法流转到结束节点");
+                                return -1;
+                            }
+                            break;
+                        case "node":
+                            if (_node.setInfo == null) {
+                                layer.msg("请设置节点【"+_node.name+"】操作人员");
+                                return -1;
+                            }
+                            _flag = true;
+                            break;
+                        case "fork":
+                            _flag = true;
+                            fnodes.push(_node.id);
+                            break;
+                        case "join":
+                            hnodes.push(_node.id);
+                            _flag = true;
+                            break;
+                        default:
+                            layer.msg("节点数据异常！");
+                            return -1;
+                            break;
+                    }
+                    nodes[_node.id] = _node;
+                }
+                if (startroundFlag == 0) {
+                    layer.msg("必须有开始节点");
+                    return -1;
+                }
+
+                if (endroundFlag == 0) {
+                    layer.msg("必须有结束节点");
+                    return -1;
+                }
+
+                if (fnodes.length != hnodes.length) {
+                    layer.msg("分流节点必须等于合流节点");
+                    return -1;
+                }
+                return data;
+            }
+
+            flowPanel.SetNodeEx = function (id, data) {
                 flowPanel.setName(id, data.NodeName, "node", data);
             }
-            flowPanel.SetLineEx = function(id, data) {
+            flowPanel.SetLineEx = function (id, data) {
                 flowPanel.setName(id, data.LineName, "line", data);
             }
             flowPanel.onItemDbClick = function (id, type) {
@@ -91,7 +174,7 @@
                     function (i, item) {
                         $("#" + item.id).css("background", "#999");
                         if (item.type == "start round mix") {
-                           $("#" + item.id).css("background", "#5cb85c");
+                            $("#" + item.id).css("background", "#5cb85c");
                         } else {
                             if (item.id == options.activityId) {
                                 $("#" + item.id).css("background", "#5bc0de"); //正在处理
@@ -107,19 +190,22 @@
                             }
                         }
                         if (item.setInfo != undefined && item.setInfo.Taged != undefined) {
-                            var _row = '<div style="text-align:left">';
+                            var tips = '<div style="text-align:left">';
                             var tagname = { "-1": "不通过", "1": "通过", "0": "驳回" };
-                            _row += "<p>处理人：" +  item.setInfo.UserName  + "</p>";
-                            _row += "<p>结果：" + tagname[item.setInfo.Taged] + "</p>";
-                            _row += "<p>处理时间：" + item.setInfo.TagedTime + "</p>";
-                            _row += "<p>备注：" + item.setInfo.Description + "</p></div>";
+                            tips += "<p>处理人：" + item.setInfo.UserName + "</p>";
+                            tips += "<p>结果：" + tagname[item.setInfo.Taged] + "</p>";
+                            tips += "<p>处理时间：" + item.setInfo.TagedTime + "</p>";
+                            tips += "<p>备注：" + item.setInfo.Description + "</p></div>";
 
-                            $('#' + item.id).attr('data-toggle', 'tooltip');
-                            $('#' + item.id).attr('data-placement', 'bottom');
-                            $('#' + item.id).attr('title', _row);
+                            $('#' + item.id).click(function () {
+                                layer.tips(tips, '#' + item.id);
+                            });
+                        } else {
+                            $('#' + item.id).click(function () {
+                                layer.tips('暂无处理信息', '#' + item.id);
+                            });
                         }
                     });
-                $('[data-toggle="tooltip"]').tooltip({ "html": true });
             }
             if (options.preview == 1) {
                 preview();
@@ -147,7 +233,7 @@
                 };
                 var _NodeConfluenceType = { "0": "所有步骤通过", "1": "一个步骤通过即可", "2": "按百分比计算" };
                 $.each(options.flowcontent.nodes,
-                    function(i, item) {
+                    function (i, item) {
                         if (item.setInfo != undefined) {
                             var _popoverhtml = "";
                             _popoverhtml +=
@@ -264,7 +350,7 @@
             return flowPanel;
         }
 
-        exports('flowlayout');  
+        exports('flowlayout');
     });
 
 

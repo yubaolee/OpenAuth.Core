@@ -316,50 +316,43 @@ namespace OpenAuth.App
         /// <returns></returns>
         private string GetMakerList(FlowRuntime wfruntime)
         {
-            try
+            string makerList = "";
+            if (wfruntime.runtimeModel.nextNodeId == "-1")
             {
-                string makerList = "";
-                if (wfruntime.runtimeModel.nextNodeId == "-1")
+                throw (new Exception("无法寻找到下一个节点"));
+            }
+            if (wfruntime.runtimeModel.nextNodeType == 0)//如果是会签节点
+            {
+                List<string> _nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.nextNodeId);
+                string _makerList = "";
+                foreach (string item in _nodelist)
                 {
-                    throw (new Exception("无法寻找到下一个节点"));
-                }
-                if (wfruntime.runtimeModel.nextNodeType == 0)//如果是会签节点
-                {
-                    List<string> _nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.nextNodeId);
-                    string _makerList = "";
-                    foreach (string item in _nodelist)
+                    _makerList = GetMakerList(wfruntime.runtimeModel.nodes[item], wfruntime.runtimeModel.flowInstanceId);
+                    if (_makerList == "-1")
                     {
-                        _makerList = GetMakerList(wfruntime.runtimeModel.nodes[item], wfruntime.runtimeModel.flowInstanceId);
-                        if (_makerList == "-1")
-                        {
-                            throw (new Exception("无法寻找到会签节点的审核者,请查看流程设计是否有问题!"));
-                        }
-                        if (_makerList == "1")
-                        {
-                            throw (new Exception("会签节点的审核者不能为所有人,请查看流程设计是否有问题!"));
-                        }
-                        if (makerList != "")
-                        {
-                            makerList += ",";
-                        }
-                        makerList += _makerList;
+                        throw (new Exception("无法寻找到会签节点的审核者,请查看流程设计是否有问题!"));
                     }
-                }
-                else
-                {
-                    makerList = GetMakerList(wfruntime.runtimeModel.nextNode, wfruntime.runtimeModel.flowInstanceId);
-                    if (makerList == "-1")
+                    if (_makerList == "1")
                     {
-                        throw (new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!"));
+                        throw (new Exception("会签节点的审核者不能为所有人,请查看流程设计是否有问题!"));
                     }
+                    if (makerList != "")
+                    {
+                        makerList += ",";
+                    }
+                    makerList += _makerList;
                 }
+            }
+            else
+            {
+                makerList = GetMakerList(wfruntime.runtimeModel.nextNode, wfruntime.runtimeModel.flowInstanceId);
+                if (makerList == "-1")
+                {
+                    throw (new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!"));
+                }
+            }
 
-                return makerList;
-            }
-            catch
-            {
-                throw;
-            }
+            return makerList;
         }
         /// <summary>
         /// 寻找该节点执行人

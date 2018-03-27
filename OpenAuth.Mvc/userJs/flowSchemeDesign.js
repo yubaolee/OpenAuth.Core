@@ -143,7 +143,7 @@
     //提交数据
     form.on('submit(formSubmit)',
         function (data) {
-            var content = flowDesignPanel.exportData();
+            var content = flowDesignPanel.exportDataEx();
             if (content == -1) {
                 return false; //阻止表单跳转。
             }

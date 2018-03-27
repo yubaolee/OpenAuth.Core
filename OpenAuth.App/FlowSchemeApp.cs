@@ -28,7 +28,10 @@ namespace OpenAuth.App
         {
             UnitWork.Update<FlowScheme>(u => u.Id == flowScheme.Id, u => new FlowScheme
             {
-                //todo:要修改的
+                SchemeContent = flowScheme.SchemeContent,
+                SchemeName = flowScheme.SchemeName,
+                ModifyDate = DateTime.Now,
+                FrmId = flowScheme.FrmId
             });
         }
 

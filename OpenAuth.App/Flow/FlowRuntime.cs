@@ -239,57 +239,29 @@ namespace OpenAuth.App.Flow
         /// <param name="nodeId"></param>
         /// <param name="flag"></param>
         /// <returns>-1不通过,1等待,其它通过</returns>
-        public string NodeConfluence(string nodeId, bool flag, string userId, string description = "")
+        public string NodeConfluence(string nodeId, Tag tag)
         {
             string res = "-1";
-            try
+            string _nextNodeId = GetNextNodeByNodeId(nodeId);//获取下一个节点
+            if (_nextNodeId != "-1")
             {
-                if (flag)
+                Dictionary<string, List<FlowLine>> toLines = GetToLineDictionary(_runtimeModel.schemeContentJson);
+                int allnum = toLines[_nextNodeId].Count;
+                int i = 0;
+                foreach (var item in _runtimeModel.schemeContentJson.Flow.nodes)
                 {
-                    MakeTagNode(nodeId, 1, userId, description);
-                }
-                else
-                {
-                    MakeTagNode(nodeId, -1, userId, description);
-                }
-
-                string _nextNodeId = GetNextNodeByNodeId(nodeId);//获取下一个节点
-                if (_nextNodeId != "-1")
-                {
-                    Dictionary<string, List<FlowLine>> toLines = GetToLineDictionary(_runtimeModel.schemeContentJson);
-                    int allnum = toLines[_nextNodeId].Count;
-                    int i = 0;
-                    foreach (var item in _runtimeModel.schemeContentJson.Flow.nodes)
+                    if (item.id.Value == _nextNodeId)
                     {
-                        if (item.id.Value == _nextNodeId)
+                        if (item.setInfo.NodeConfluenceType.Value == "")//0所有步骤通过  todo:先用空格
                         {
-                            if (item.setInfo.NodeConfluenceType.Value == "")//0所有步骤通过  todo:先用空格
+                            if (tag.Taged == 1)
                             {
-                                if (flag)
+                                if (item.setInfo.ConfluenceOk == null)
                                 {
-                                    if (item.setInfo.ConfluenceOk == null)
-                                    {
-                                        _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk = 1;
-                                        res = "1";
-                                    }
-                                    else if (item.setInfo.ConfluenceOk.Value == (allnum - 1))
-                                    {
-                                        res = GetNextNodeByNodeId(_nextNodeId);
-                                        if (res == "-1")
-                                        {
-                                            throw (new Exception("会签成功寻找不到下一个节点"));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk++;
-                                        res = "1";
-                                    }
+                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk = 1;
+                                    res = "1";
                                 }
-                            }
-                            else if (item.setInfo.NodeConfluenceType.Value == "1")//1一个步骤通过即可
-                            {
-                                if (flag)
+                                else if (item.setInfo.ConfluenceOk.Value == (allnum - 1))
                                 {
                                     res = GetNextNodeByNodeId(_nextNodeId);
                                     if (res == "-1")
@@ -299,93 +271,105 @@ namespace OpenAuth.App.Flow
                                 }
                                 else
                                 {
-                                    if (item.setInfo.ConfluenceNo == null)
-                                    {
-                                        _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo = 1;
-                                        res = "1";
-                                    }
-                                    else if (item.setInfo.ConfluenceNo.Value == (allnum - 1))
-                                    {
-                                        res = "-1";
-                                    }
-                                    else
-                                    {
-                                        _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo++;
-                                        res = "1";
-                                    }
+                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk++;
+                                    res = "1";
                                 }
                             }
-                            else//2按百分比计算
+                        }
+                        else if (item.setInfo.NodeConfluenceType.Value == "1")//1一个步骤通过即可
+                        {
+                            if (tag.Taged ==1)
                             {
-                                if (flag)
+                                res = GetNextNodeByNodeId(_nextNodeId);
+                                if (res == "-1")
                                 {
-                                    if (item.setInfo.ConfluenceOk == null)
-                                    {
-                                        _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk = 1;
-                                    }
-                                    else
-                                    {
-                                        _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk++;
-                                    }
+                                    throw (new Exception("会签成功寻找不到下一个节点"));
                                 }
-                                else
+                            }
+                            else
+                            {
+                                if (item.setInfo.ConfluenceNo == null)
                                 {
-                                    if (item.setInfo.ConfluenceNo == null)
-                                    {
-                                        _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo = 1;
-                                    }
-                                    else
-                                    {
-                                        _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo++;
-                                    }
+                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo = 1;
+                                    res = "1";
                                 }
-                                if ((item.setInfo.ConfluenceNo.Value + item.setInfo.ConfluenceOk.Value) / allnum * 100 > int.Parse(item.setInfo.NodeConfluenceRate.Value))
-                                {
-                                    res = GetNextNodeByNodeId(_nextNodeId);
-                                    if (res == "-1")
-                                    {
-                                        throw (new Exception("会签成功寻找不到下一个节点"));
-                                    }
-                                }
-                                else if ((item.setInfo.ConfluenceNo.Value + item.setInfo.ConfluenceOk.Value) == allnum)
+                                else if (item.setInfo.ConfluenceNo.Value == (allnum - 1))
                                 {
                                     res = "-1";
                                 }
                                 else
                                 {
+                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo++;
                                     res = "1";
                                 }
                             }
-                            break;
                         }
-                        i++;
+                        else//2按百分比计算
+                        {
+                            if (tag.Taged == 1)
+                            {
+                                if (item.setInfo.ConfluenceOk == null)
+                                {
+                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk = 1;
+                                }
+                                else
+                                {
+                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk++;
+                                }
+                            }
+                            else
+                            {
+                                if (item.setInfo.ConfluenceNo == null)
+                                {
+                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo = 1;
+                                }
+                                else
+                                {
+                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo++;
+                                }
+                            }
+                            if ((item.setInfo.ConfluenceNo.Value + item.setInfo.ConfluenceOk.Value) / allnum * 100 > int.Parse(item.setInfo.NodeConfluenceRate.Value))
+                            {
+                                res = GetNextNodeByNodeId(_nextNodeId);
+                                if (res == "-1")
+                                {
+                                    throw (new Exception("会签成功寻找不到下一个节点"));
+                                }
+                            }
+                            else if ((item.setInfo.ConfluenceNo.Value + item.setInfo.ConfluenceOk.Value) == allnum)
+                            {
+                                res = "-1";
+                            }
+                            else
+                            {
+                                res = "1";
+                            }
+                        }
+                        break;
                     }
-                    if (res == "-1")
-                    {
-                        MakeTagNode(_nextNodeId, -1, userId);
-                    }
-                    else if (res != "1")  //则时res是会签结束节点的ID
-                    {
-                        MakeTagNode(_nextNodeId, 1, userId);
-                        _runtimeModel.nextNodeId = res;
-                        _runtimeModel.nextNodeType = GetNodeType(res);
-                    }
-                    else
-                    {
-                        _runtimeModel.nextNodeId = _nextNodeId;
-                        _runtimeModel.nextNodeType = GetNodeType(_nextNodeId);
-                    }
-                    return res;
+                    i++;
+                }
+                if (res == "-1")
+                {
+                    tag.Taged = -1;
+                    MakeTagNode(_nextNodeId, tag);
+                }
+                else if (res != "1")  //则时res是会签结束节点的ID
+                {
+                    tag.Taged = 1;
+                    MakeTagNode(_nextNodeId,tag);
+                    _runtimeModel.nextNodeId = res;
+                    _runtimeModel.nextNodeType = GetNodeType(res);
                 }
                 else
                 {
-                    throw (new Exception("寻找不到会签下合流节点"));
+                    _runtimeModel.nextNodeId = _nextNodeId;
+                    _runtimeModel.nextNodeType = GetNodeType(_nextNodeId);
                 }
+                return res;
             }
-            catch
-            {
-                throw;
-            }
+
+            throw (new Exception("寻找不到会签下合流节点"));
         }
         /// <summary>
         /// 驳回节点0"前一步"1"第一步"2"某一步" 3"不处理"
@@ -439,19 +423,17 @@ namespace OpenAuth.App.Flow
         /// 标记节点1通过，-1不通过，0驳回
         /// </summary>
         /// <param name="nodeId"></param>
-        /// <param name="flag"></param>
-        /// <param name="userId"></param>
-        /// <param name="description"></param>
-        public void MakeTagNode(string nodeId, int flag, string userId, string description = "")
+        public void MakeTagNode(string nodeId, Tag tag)
         {
             int i = 0;
             foreach (var item in _runtimeModel.schemeContentJson.nodes)
             {
                 if (item.id.Value.ToString() == nodeId)
                 {
-                    _runtimeModel.schemeContentJson.nodes[i].setInfo.Taged = flag;
-                    _runtimeModel.schemeContentJson.nodes[i].setInfo.UserId = userId;
-                    _runtimeModel.schemeContentJson.nodes[i].setInfo.description = description;
+                    _runtimeModel.schemeContentJson.nodes[i].setInfo.Taged = tag.Taged;
+                    _runtimeModel.schemeContentJson.nodes[i].setInfo.UserId = tag.UserId;
+                    _runtimeModel.schemeContentJson.nodes[i].setInfo.UserName = tag.UserName;
+                    _runtimeModel.schemeContentJson.nodes[i].setInfo.Description = tag.Description;
                     _runtimeModel.schemeContentJson.nodes[i].setInfo.TagedTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
                     break;
                 }

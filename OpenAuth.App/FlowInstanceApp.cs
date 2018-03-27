@@ -98,11 +98,18 @@ namespace OpenAuth.App
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
-
+            var user = AuthUtil.GetCurrentUser().User;
+            var tag = new Tag
+            {
+                UserName = user.Name,
+                UserId = user.Id,
+                Description = description
+            };
             #region 会签
             if (flowInstance.ActivityType == 0)//会签
             {
-                wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 1, "");//标记当前节点通过
+                tag.Taged = 1;
+                wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);//标记当前节点通过
                 ///寻找需要审核的节点Id
                 string _VerificationNodeId = "";
                 List<string> _nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.currentNodeId);
@@ -128,20 +135,19 @@ namespace OpenAuth.App
                 {
                     if (flag)
                     {
+                        tag.Taged = 1;
                         flowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.nodes[_VerificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】同意,备注：" + description;
                     }
                     else
                     {
+                        tag.Taged = -1;
                         flowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.nodes[_VerificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注：" + description;
                     }
 
-                    string _Confluenceres = wfruntime.NodeConfluence(_VerificationNodeId, flag, AuthUtil.GetCurrentUser().User.Id, description);
-                    var _data = new
-                    {
-                        SchemeContent = wfruntime.runtimeModel.schemeContentJson.ToString(),
-                        wfruntime.runtimeModel.frmData
-                    };
-                    switch (_Confluenceres)
+
+                    string confluenceres = wfruntime.NodeConfluence(_VerificationNodeId, tag);
+                    
+                    switch (confluenceres)
                     {
                         case "-1"://不通过
                             flowInstance.IsFinish = 3;
@@ -157,14 +163,17 @@ namespace OpenAuth.App
                             flowInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime));//当前节点可执行的人信息
 
                             #region 流转记录
-                            processTransitionHistoryEntity = new FlowInstanceTransitionHistory();
-                            processTransitionHistoryEntity.FromNodeId = wfruntime.runtimeModel.currentNodeId;
-                            processTransitionHistoryEntity.FromNodeName = wfruntime.runtimeModel.currentNode.name;
-                            processTransitionHistoryEntity.FromNodeType = wfruntime.runtimeModel.currentNodeType;
-                            processTransitionHistoryEntity.ToNodeId = wfruntime.runtimeModel.nextNodeId;
-                            processTransitionHistoryEntity.ToNodeName = wfruntime.runtimeModel.nextNode.name;
-                            processTransitionHistoryEntity.ToNodeType = wfruntime.runtimeModel.nextNodeType;
-                            processTransitionHistoryEntity.TransitionSate = 0;
+
+                            processTransitionHistoryEntity = new FlowInstanceTransitionHistory
+                            {
+                                FromNodeId = wfruntime.runtimeModel.currentNodeId,
+                                FromNodeName = wfruntime.runtimeModel.currentNode.name,
+                                FromNodeType = wfruntime.runtimeModel.currentNodeType,
+                                ToNodeId = wfruntime.runtimeModel.nextNodeId,
+                                ToNodeName = wfruntime.runtimeModel.nextNode.name,
+                                ToNodeType = wfruntime.runtimeModel.nextNodeType,
+                                TransitionSate = 0
+                            };
                             processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
                             #endregion
                                 
@@ -183,8 +192,8 @@ namespace OpenAuth.App
             {
                 if (flag)
                 {
-                    wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 1
-                        , AuthUtil.GetCurrentUser().User.Id, description);
+                    tag.Taged = 1;
+                    wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);
                     flowInstance.PreviousId = flowInstance.ActivityId;
                     flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
                     flowInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;
@@ -212,12 +221,15 @@ namespace OpenAuth.App
                 else
                 {
                     flowInstance.IsFinish = 3; //表示该节点不同意
-                    wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, -1, AuthUtil.GetUserName(), description);
+                    tag.Taged = -1;
+                    wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId,tag);
 
                     flowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.currentNode.name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注：" + description;
                 }
             }
-            #endregion 
+            #endregion
+
+            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.runtimeModel.schemeContentJson);
 
             UnitWork.Update(flowInstance);
             UnitWork.Add(flowInstanceOperationHistory);
@@ -250,7 +262,17 @@ namespace OpenAuth.App
             {
                 resnode = nodeId;
             }
-            wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, 0, AuthUtil.GetUserName(), description);
+
+            var user = AuthUtil.GetCurrentUser().User;
+            var tag = new Tag
+            {
+                Description = description,
+                Taged = 0,
+                UserId = user.Id,
+                UserName = user.Name
+            };
+
+            wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);
             flowInstance.IsFinish = 4;//4表示驳回（需要申请者重新提交表单）
             if (resnode != "")
             {

@@ -16,18 +16,20 @@
         parent.layer.iframeAuto(index);
     });
 
-    /*=========流程设计（begin）======================*/
-    var flowDesignPanel = $('#flowPanel').flowdesign({
-        height: 300,
-        widht: 300,
-        haveTool: false
-    });
-    /*=========流程设计（end）=====================*/
-
     $.getJSON('/FlowInstances/get?id=' + id,
         function (data) {
             var obj = data.Result;
-            flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
+            var schemeContent = JSON.parse(obj.SchemeContent);
+            var flowDesignPanel = $('#flowPanel').flowdesign({
+                height: 300,
+                widht: 300,
+                haveTool: false
+                , isprocessing: true
+                , activityId: obj.ActivityId
+                , nodeData: schemeContent.nodes
+                , flowcontent:schemeContent
+            });
+
             $("#frmPreview").html(data.Result.FrmDataHtml);
         });
 

@@ -1,4 +1,4 @@
-﻿layui.define(["jquery","layer"],
+﻿layui.define(["jquery","layer","bootstrap"],
     function(exports) {
         var $ = layui.jquery;
         var layer = layui.layer;
@@ -42,145 +42,12 @@
                 complex: "复合结点",
                 group: "组织划分框编辑开"
             });
-            flowPanel.loadData("");
-            //导出数据扩展方法
-            //所有节点必须有进出线段
-            //必须有开始结束节点（且只能为一个）
-            //分流合流节点必须成对出现
-            //分流合流节点必须一一对应且中间必须有且只能有一个普通节点
-            //分流节点与合流节点之前的审核节点必须有且只能有一条出去和进来节点
-            //flowPanel.exportDataEx = function() {
-            //    var _data = flowPanel.exportData();
-            //    var _fromlines = {},
-            //        _tolines = {},
-            //        _nodes = {},
-            //        _fnodes = [],
-            //        _hnodes = [],
-            //        _startroundFlag = 0,
-            //        _endroundFlag = 0;
-            //    for (var i in _data.lines) {
-            //        if (_fromlines[_data.lines[i].from] == undefined) {
-            //            _fromlines[_data.lines[i].from] = [];
-            //        }
-            //        _fromlines[_data.lines[i].from].push(_data.lines[i].to);
+            if (options != undefined
+                && options.flowcontent != undefined
+                && options.flowcontent != null) {  //加载内容
+                flowPanel.loadData(options.flowcontent);
+            }
 
-            //        if (_tolines[_data.lines[i].to] == undefined) {
-            //            _tolines[_data.lines[i].to] = [];
-            //        }
-            //        _tolines[_data.lines[i].to].push(_data.lines[i].from);
-            //    }
-            //    for (var j in _data.nodes) {
-            //        var _node = _data.nodes[j];
-            //        var _flag = false;
-            //        switch (_node.type) {
-            //            case "start round mix":
-            //            _startroundFlag++;
-            //            if (_fromlines[_node.id] == undefined) {
-            //                layer.msg("开始节点无法流转到下一个节点");
-            //                return -1;
-            //            }
-            //            break;
-            //            case "end round":
-            //            _endroundFlag++;
-            //            if (_tolines[_node.id] == undefined) {
-            //                layer.msg("无法流转到结束节点");
-            //                return -1;
-            //            }
-            //            break;
-            //            case "node":
-            //            _flag = true;
-            //            break;
-            //        case "shuntnode":
-            //            _flag = true;
-            //            _fnodes.push(_node.id);
-            //            break;
-            //        case "confluencenode":
-            //            _hnodes.push(_node.id);
-            //            _flag = true;
-            //            break;
-            //        default:
-            //            layer.msg("节点数据异常,请重新登录下系统！");
-            //            return -1;
-            //            break;
-            //        }
-            //        if (_flag) {
-            //            if (_tolines[_node.id] == undefined) {
-            //                labellingRedNode(_node.id);
-            //                layer.msg("标注红色的节点没有【进来】的连接线段");
-            //                return -1;
-            //            }
-            //            if (_fromlines[_node.id] == undefined) {
-            //                labellingRedNode(_node.id);
-            //                layer.msg("标注红色的节点没有【出去】的连接线段");
-            //                return -1;
-            //            }
-            //        }
-            //        _nodes[_node.id] = _node;
-            //    }
-            //    if (_startroundFlag == 0) {
-            //        layer.msg("必须有开始节点");
-            //        return -1;
-            //    }
-
-            //    if (_endroundFlag == 0) {
-            //        layer.msg("必须有结束节点");
-            //        return -1;
-            //    }
-
-            //    if (_fnodes.length != _hnodes.length) {
-            //        layer.msg("分流节点必须等于合流节点");
-            //        return -1;
-            //    }
-            //    for (var a in _fnodes) {
-            //        var aNondeid = _fnodes[a];
-            //        if (_fromlines[aNondeid].length == 1) {
-            //            labellingRedNode(aNondeid);
-            //            layer.msg("标注红色的分流节点不允许只有一条【出去】的线段");
-            //            return -1;
-            //        }
-            //        var _hhnodeid = {};
-            //        for (var b in _fromlines[aNondeid]) {
-            //            btoNode = _fromlines[aNondeid][b];
-            //            if (_nodes[btoNode].type == "stepnode") {
-            //                var _nextLine = _fromlines[_nodes[btoNode].id];
-
-            //                var _nextNode = _nodes[_nextLine[0]];
-            //                if (_nextNode.type != "confluencenode") {
-            //                    labellingRedNode(_nodes[btoNode].id);
-            //                    layer.msg("标注红色的普通节点下一个节点必须是合流节点");
-            //                    return -1;
-            //                } else {
-            //                    _hhnodeid[_nextLine[0]] = 0;
-            //                    if (_hhnodeid.length > 1) {
-            //                        labellingRedNode(aNondeid);
-            //                        layer.msg("标注红色的分流节点与之对应的合流节点只能有一个");
-            //                        return -1;
-            //                    }
-            //                    if (_tolines[_nextLine[0]].length != _fromlines[aNondeid].length) {
-            //                        labellingRedNode(_nextLine[0]);
-            //                        layer.msg("标注红色的合流节点与之对应的分流节点只能有一个");
-            //                        return -1;
-            //                    }
-            //                }
-            //                if (_nextLine.length > 1) {
-            //                    labellingRedNode(_nodes[btoNode].id);
-            //                    layer.msg("标注红色的节点只能有一条出去的线条【分流合流之间】");
-            //                    return -1;
-            //                } else if (_tolines[_nodes[btoNode].id], length > 1) {
-            //                    labellingRedNode(_nodes[btoNode].id);
-            //                    layer.msg("标注红色的节点只能有一条进来的线条【分流合流之间】");
-            //                    return -1;
-            //                }
-            //            } else {
-            //                labellingRedNode(aNondeid);
-            //                layer.msg("标注红色的分流节点必须经过一个普通节点到合流节点");
-            //                return -1;
-            //            }
-            //        }
-
-            //    }
-            //    return _data;
-            //}
             flowPanel.SetNodeEx = function(id, data) {
                 flowPanel.setName(id, data.NodeName, "node", data);
             }
@@ -204,53 +71,52 @@
                 var tipHtml =
                     '<div style="position:absolute;left:10px;margin-top: 10px;padding:10px;border-radius:5px;background:rgba(0,0,0,0.05);z-index:1000;display:inline-block;">';
                 tipHtml +=
-                    '<div style="display: inline-block;"><i style="padding-right:5px;color:#5cb85c;" class="fa fa-flag"></i><span>已处理</span></div>';
+                    '<div style="display: inline-block;"><i style="padding-right:5px;color:#5cb85c;" class="layui-icon">&#xe612;</i><span>已处理</span></div>';
                 tipHtml +=
-                    '<div style="display: inline-block;margin-left: 10px;"><i style="padding-right:5px;color:#5bc0de;" class="fa fa-flag"></i><span>正在处理</span></div>';
+                    '<div style="display: inline-block;margin-left: 10px;"><i style="padding-right:5px;color:#5bc0de;" class="layui-icon">&#xe612;</i><span>正在处理</span></div>';
                 tipHtml +=
-                    '<div style="display: inline-block;margin-left: 10px;"><i style="padding-right:5px;color:#d9534f;" class="fa fa-flag"></i><span>不通过</span></div>';
+                    '<div style="display: inline-block;margin-left: 10px;"><i style="padding-right:5px;color:#d9534f;" class="layui-icon">&#xe612;</i><span>不通过</span></div>';
                 tipHtml +=
-                    '<div style="display: inline-block;margin-left: 10px;"><i style="padding-right:5px;color:#f0ad4e;" class="fa fa-flag"></i><span>驳回</span></div>';
+                    '<div style="display: inline-block;margin-left: 10px;"><i style="padding-right:5px;color:#f0ad4e;" class="layui-icon">&#xe612;</i><span>驳回</span></div>';
                 tipHtml +=
-                    '<div style="display: inline-block;margin-left: 10px;"><i style="padding-right:5px;color:#999;" class="fa fa-flag"></i><span>未处理</span></div></div>';
+                    '<div style="display: inline-block;margin-left: 10px;"><i style="padding-right:5px;color:#999;" class="layui-icon">&#xe612;</i><span>未处理</span></div></div>';
 
-                $frmpreview.find('.GooFlow_work .GooFlow_work_inner').css('background-image', 'none');
-                $frmpreview.find('td').css('color', '#fff');
+                $('.GooFlow_work .GooFlow_work_inner').css('background-image', 'none');
+                $('td').css('color', '#fff');
                 $frmpreview.css('background', '#fff');
-                $frmpreview.find('.ico').remove();
-                $frmpreview.find('.GooFlow_item').css('border', '0px');
+                $('.ico').remove();
+                $('.GooFlow_item').css('border', '0px');
                 $frmpreview.append(tipHtml);
                 $.each(options.nodeData,
-                    function(i, item) {
-                        $frmpreview.find("#" + item.id).css("background", "#999");
-                        if (item.type == "startround") {
-                            $frmpreview.find("#" + item.id).css("background", "#5cb85c");
+                    function (i, item) {
+                        $("#" + item.id).css("background", "#999");
+                        if (item.type == "start round mix") {
+                           $("#" + item.id).css("background", "#5cb85c");
                         } else {
                             if (item.id == options.activityId) {
-                                $frmpreview.find("#" + item.id).css("background", "#5bc0de"); //正在处理
+                                $("#" + item.id).css("background", "#5bc0de"); //正在处理
                             }
                             if (item.setInfo != undefined && item.setInfo.Taged != undefined) {
                                 if (item.setInfo.Taged == -1) {
-                                    $frmpreview.find("#" + item.id).css("background", "#d9534f"); //不通过
+                                    $("#" + item.id).css("background", "#d9534f"); //不通过
                                 } else if (item.setInfo.Taged == 1) {
-                                    $frmpreview.find("#" + item.id).css("background", "#5cb85c"); //通过
+                                    $("#" + item.id).css("background", "#5cb85c"); //通过
                                 } else {
-                                    $frmpreview.find("#" + item.id).css("background", "#f0ad4e"); //驳回
+                                    $("#" + item.id).css("background", "#f0ad4e"); //驳回
                                 }
                             }
                         }
                         if (item.setInfo != undefined && item.setInfo.Taged != undefined) {
-                            var _one = clientuserData[item.setInfo.UserId];
                             var _row = '<div style="text-align:left">';
                             var tagname = { "-1": "不通过", "1": "通过", "0": "驳回" };
-                            _row += "<p>处理人：" + (_one == undefined ? item.setInfo.UserId : _one.RealName) + "</p>";
+                            _row += "<p>处理人：" +  item.setInfo.UserName  + "</p>";
                             _row += "<p>结果：" + tagname[item.setInfo.Taged] + "</p>";
                             _row += "<p>处理时间：" + item.setInfo.TagedTime + "</p>";
-                            _row += "<p>备注：" + item.setInfo.description + "</p></div>";
+                            _row += "<p>备注：" + item.setInfo.Description + "</p></div>";
 
-                            $frmpreview.find('#' + item.id).attr('data-toggle', 'tooltip');
-                            $frmpreview.find('#' + item.id).attr('data-placement', 'bottom');
-                            $frmpreview.find('#' + item.id).attr('title', _row);
+                            $('#' + item.id).attr('data-toggle', 'tooltip');
+                            $('#' + item.id).attr('data-placement', 'bottom');
+                            $('#' + item.id).attr('title', _row);
                         }
                     });
                 $('[data-toggle="tooltip"]').tooltip({ "html": true });
@@ -376,29 +242,29 @@
                                 _popoverhtml += '</ul>';
                             }
 
-                            $frmpreview.find('#' + item.id).attr('title', item.name);
-                            $frmpreview.find('#' + item.id).attr('data-toggle', 'popover');
-                            $frmpreview.find('#' + item.id).attr('data-placement', 'bottom');
-                            $frmpreview.find('#' + item.id).attr('data-content', _popoverhtml);
+                            $('#' + item.id).attr('title', item.name);
+                            $('#' + item.id).attr('data-toggle', 'popover');
+                            $('#' + item.id).attr('data-placement', 'bottom');
+                            $('#' + item.id).attr('data-content', _popoverhtml);
                         } else {
-                            $frmpreview.find('#' + item.id).attr('title', item.name);
-                            $frmpreview.find('#' + item.id).attr('data-toggle', 'popover');
-                            $frmpreview.find('#' + item.id).attr('data-placement', 'bottom');
-                            $frmpreview.find('#' + item.id).attr('data-content', "该节点未被设置");
+                            $('#' + item.id).attr('title', item.name);
+                            $('#' + item.id).attr('data-toggle', 'popover');
+                            $('#' + item.id).attr('data-placement', 'bottom');
+                            $('#' + item.id).attr('data-content', "该节点未被设置");
                         }
                     });
-                $frmpreview.find('.GooFlow_item').popover({ html: true });
+                $('.GooFlow_item').popover({ html: true });
             }
 
             function labellingRedNode(id) {
-                $frmpreview.find('.flow-labellingnode-red').removeClass('flow-labellingnode-red');
-                $frmpreview.find('#' + id).addClass('flow-labellingnode-red');
+                $('.flow-labellingnode-red').removeClass('flow-labellingnode-red');
+                $('#' + id).addClass('flow-labellingnode-red');
             }
 
             return flowPanel;
         }
 
-        exports('flowlayout');   //只有这样写才能找到flowlayout？？好尴尬
+        exports('flowlayout');  
     });
 
 

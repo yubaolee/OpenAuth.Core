@@ -179,6 +179,7 @@
     <Content Include="images\login\logo.png" />
     <Content Include="images\login\right_hand.png" />
     <Content Include="images\login\tou.png" />
+    <Content Include="js\bootstrap.js" />
     <Content Include="js\flow\config.js" />
     <Content Include="js\flow\fonts\demo.css" />
     <Content Include="js\flow\fonts\demo_fontclass.html" />

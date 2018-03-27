@@ -327,7 +327,7 @@ var GooFlow = function(selector,property){
         var ev=_mouseP(e),t=_elCsys(this);
         X=ev.x-t.left+this.parentNode.scrollLeft;
         Y=ev.y-t.top+this.parentNode.scrollTop;
-        This.addNode(new Date().getTime(),{name:"node_"+This.$max,left:X,top:Y,type:This.$nowType});
+        This.addNode(new Date().getTime().toString(),{name:"node_"+This.$max,left:X,top:Y,type:This.$nowType});
         This.$max++;
     });
 
@@ -807,7 +807,7 @@ GooFlow.prototype={
 				if(This.$nowType==="dashed"){
 					tmp.dash=true;
 				}
-				This.addLine(new Date().getTime(),tmp);
+				This.addLine(new Date().getTime().toString(),tmp);
 				This.$max++;
 			}
 			else{

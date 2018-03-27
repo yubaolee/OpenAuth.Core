@@ -43,4 +43,13 @@
     }
 
 
+    public class Tag
+    {
+        public int Taged { get; set; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+        public string Description { get; set; }
+        public string TagedTime { get; set; }
+    }
+
 }

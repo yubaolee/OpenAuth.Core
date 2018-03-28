@@ -26,6 +26,11 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        public ActionResult Edit()
+        {
+            return View();
+        }
+
         public string Get(string id)
         {
             try

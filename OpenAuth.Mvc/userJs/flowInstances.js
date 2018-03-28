@@ -69,7 +69,7 @@
 
             layer.open({
                 type: 2,
-                area: ['600px', '500px'], //宽高
+                area: ['750px', '550px'], //宽高
                 maxmin: true, //开启最大化最小化按钮
                 title: title,
                 content: '/flowInstances/edit?id=' + data.Id,
@@ -142,7 +142,7 @@
 
             layer.open({
                 type: 2,
-                area: ['600px', '500px'], //宽高
+                area: ['750px', '550px'], //宽高
                 maxmin: true, //开启最大化最小化按钮
                 title: '处理流程',
                 content: '/flowInstances/Verification?id=' + data[0].Id,

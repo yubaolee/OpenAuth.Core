@@ -199,6 +199,7 @@
     <Content Include="userJs\flowInstanceOp.js" />
     <Content Include="userJs\flowInstanceEdit.js" />
     <Content Include="userJs\flowSchemes.js" />
+    <Content Include="userJs\formEdit.js" />
     <Content Include="userJs\nodeInfo.js" />
     <Content Include="userJs\categories.js" />
     <Content Include="userJs\assign.js" />
@@ -641,6 +642,7 @@
     <Content Include="Views\FlowSchemes\Design.cshtml" />
     <Content Include="Views\FlowInstances\Edit.cshtml" />
     <Content Include="Views\FlowInstances\Verification.cshtml" />
+    <Content Include="Views\Forms\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,6 +1,12 @@
 layui.config({
     base: "/js/"
 }).use(['form', 'layer'], function () {
+
+    if (self != top) {
+        //如果在iframe中，则跳转
+        top.location.replace("/Login/Index");
+    }
+
     var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		$ = layui.jquery;

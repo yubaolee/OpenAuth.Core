@@ -124,6 +124,7 @@
     <Compile Include="TestLogin.cs" />
     <Compile Include="TestAuthen.cs" />
     <Compile Include="TestOrg.cs" />
+    <Compile Include="TestForm.cs" />
     <Compile Include="TestUser.cs" />
     <Compile Include="TestWorkflow.cs" />
   </ItemGroup>

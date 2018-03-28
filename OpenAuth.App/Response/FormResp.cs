@@ -36,6 +36,13 @@ namespace OpenAuth.App.Response
 	    /// </summary>
         public string Content { get; set; }
 
+        /// <summary>
+        /// 排序码
+        /// </summary>
+        public int SortCode { get; set; }
+
+        public string Description { get; set; }
+
 
         /// <summary>
 	    /// 数据库名称

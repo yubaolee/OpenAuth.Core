@@ -498,7 +498,7 @@ namespace OpenAuth.App
             var jsonArray = JArray.Parse(form.ContentData);
 		
             // 数据库名称
-            string tableName="["+ form.DbName + "]";
+            string tableName= form.DbName ;
             // 创建数据表
             StringBuilder sql =new StringBuilder("if exists ( select * from sysobjects where name = '"
                 +tableName+"' and type = 'U') drop table " 

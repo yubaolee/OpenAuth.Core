@@ -9,7 +9,7 @@
 }
 
 
-<form class="layui-form" action="" id="formEdit">
+<form class="layui-form layui-form-pane" action="" id="formEdit">
     <input type="hidden" name="Id" v-model="Id" />
     <input type="hidden" name="Fields" id="Fields" value="0">
 
@@ -21,7 +21,7 @@
             </ul>
             <div class="layui-tab-content" style="height: 100px;">
                 <div class="layui-tab-item layui-show">
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" pane>
                         <label class="layui-form-label">表单名称</label>
                         <div class="layui-input-block">
                             <input type="text" name="Name" v-model="Name" required lay-verify="required"
@@ -29,26 +29,26 @@
                         </div>
                     </div>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">关联数据表名称【英文】</label>
+                    <div class="layui-form-item" pane>
+                        <label class="layui-form-label">关联数据表名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="DbName" v-model="DbName" required lay-verify="required"
+                            <input type="text" name="DbName" v-model="DbName" required 
                                    placeholder="关联数据表名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
 
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" pane>
                         <label class="layui-form-label">排序码</label>
                         <div class="layui-input-block">
-                            <input type="text" name="SortCode" value="1" v-model="SortCode" class="layui-input">
+                            <input type="text" name="SortCode" v-model="SortCode" class="layui-input">
                         </div>
                     </div>
 
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" pane>
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-block">
-                            <input type="text" name="Description" v-model="Description"
-                                   placeholder="备注" autocomplete="off" class="layui-input">
+                            <textarea  name="Description" v-model="Description"
+                                   placeholder="备注" class="layui-textarea"></textarea>
                         </div>
                     </div>
 
@@ -60,16 +60,16 @@
                         </blockquote>
                     </div>
                     <div class="layui-row">
-                        <div class="layui-col-xs2">
-                            <button class="layui-btn layui-btn-radius layui-btn-fluid" onclick="leipiFormDesign.exec('text');">文本框</button>
-                            <button class="layui-btn layui-btn-radius layui-btn-fluid" onclick="leipiFormDesign.exec('textarea');">多行文本</button>
-                            <button class="layui-btn layui-btn-radius layui-btn-fluid" onclick="leipiFormDesign.exec('select');">下拉菜单</button>
-                            <button class="layui-btn layui-btn-radius layui-btn-fluid" onclick="leipiFormDesign.exec('radios');">单选框</button>
-                            <button class="layui-btn layui-btn-radius layui-btn-fluid" onclick="leipiFormDesign.exec('checkboxs');">复选框</button>
-                            <button class="layui-btn layui-btn-radius layui-btn-fluid" onclick="leipiFormDesign.exec('macros');">宏控件</button>
-                            <button class="layui-btn layui-btn-radius layui-btn-fluid" onclick="leipiFormDesign.exec('progressbar');">进度条</button>
-                            <button class="layui-btn layui-btn-radius layui-btn-fluid" onclick="leipiFormDesign.exec('qrcode');">二维码</button>
-                            <button class="layui-btn layui-btn-radius layui-btn-fluid" onclick="leipiFormDesign.exec('listctrl');">列表控件</button>
+                        <div class="layui-col-xs2 layui-btn-container">
+                            <button class="layui-btn layui-btn-primary layui-btn-fluid" onclick="leipiFormDesign.exec('text');">文本框</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-fluid" onclick="leipiFormDesign.exec('textarea');">多行文本</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-fluid" onclick="leipiFormDesign.exec('select');">下拉菜单</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-fluid" onclick="leipiFormDesign.exec('radios');">单选框</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-fluid" onclick="leipiFormDesign.exec('checkboxs');">复选框</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-fluid" onclick="leipiFormDesign.exec('macros');">宏控件</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-fluid" onclick="leipiFormDesign.exec('progressbar');">进度条</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-fluid" onclick="leipiFormDesign.exec('qrcode');">二维码</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-fluid" onclick="leipiFormDesign.exec('listctrl');">列表控件</button>
                         </div>
                         <div class="layui-col-xs10">
                             <script id="myFormDesign" type="text/plain" style="width: 100%;">

@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer','utils', 'jquery', 'table','droptree','openauth','element'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'jquery', 'table', 'droptree', 'openauth', 'element'], function () {
     var form = layui.form,
         element = layui.element,
 		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
@@ -14,6 +14,13 @@
     var update = (id != null && id != '');
     //提交的URL
     var url = "/Forms/Add";
+
+    $('input[name="DbName"]').focus(function () {
+        layer.tips('如果为空，则不创建数据库表', 'input[name="DbName"]',
+        {
+            tips: 1  //1 上方  3下方
+        });
+    });
 
     var vm = new Vue({
         el: "#formEdit"
@@ -40,7 +47,7 @@
         wordCount: false,
         //关闭elementPath
         elementPathEnabled: false,
-        autoHeightEnabled:true
+        autoHeightEnabled: true
         //默认的编辑区域高度
         , initialFrameHeight: 430
         , iframeCssUrl: "/js/ueditor/formdesign/bootstrap/css/bootstrap.min.css" //引入自身 css使编辑器兼容你网站css
@@ -239,7 +246,7 @@
                 //--------------以下仅参考-------------------------------------------------------------------  
                 /*设计form的target 然后提交至一个新的窗口进行预览*/
                 var fields = $("#Fields").val(), formeditor = '';
-               
+
                 //获取表单设计器里的内容  
                 formeditor = ue.getContent();
                 //解析表单设计器控件  
@@ -271,7 +278,8 @@
     } else {
         vm.$set('$data',
             {
-                Id: ''
+                Id: '',
+                SortCode:1
             });
     }
 
@@ -308,5 +316,5 @@
 
     //让层自适应iframe
     //parent.layer.iframeAuto(index);
-   
+
 })

@@ -23,14 +23,15 @@ namespace OpenAuth.App.Flow
             dynamic schemeContentJson = instance.SchemeContent.ToJson();//获取工作流模板内容的json对象;
             _runtimeModel.frmData = instance.FrmData;
             _runtimeModel.schemeContentJson = schemeContentJson;//模板流程json对象
-            _runtimeModel.nodes = GetNodeDictionary(schemeContentJson);//节点集合
+            _runtimeModel.nodes = GetNodes(schemeContentJson);//节点集合
             _runtimeModel.lines = GetLineDictionary(schemeContentJson);//线条集合
             _runtimeModel.currentNodeId = (instance.ActivityId == "" ? _runtimeModel.startNodeId : instance.ActivityId);
             _runtimeModel.currentNodeType = GetNodeType(_runtimeModel.currentNodeId);
 
+            //会签开始节点和流程结束节点没有下一步
             if (_runtimeModel.currentNodeType == 0 || _runtimeModel.currentNodeType == 4)
             {
-                _runtimeModel.nextNodeId = "-1";//下一个节点
+                _runtimeModel.nextNodeId = "-1";
                 _runtimeModel.nextNodeType = -1;
             }
             else
@@ -50,22 +51,22 @@ namespace OpenAuth.App.Flow
         /// </summary>
         /// <param name="schemeContentJson"></param>
         /// <returns></returns>
-        private Dictionary<string, FlowNode> GetNodeDictionary(dynamic schemeContentJson)
+        private Dictionary<string, FlowNode> GetNodes(dynamic schemeContentJson)
         {
-            Dictionary<string, FlowNode> nodeDictionary = new Dictionary<string, FlowNode>();
+            Dictionary<string, FlowNode> nodes = new Dictionary<string, FlowNode>();
             foreach (JObject item in schemeContentJson.nodes)
             {
                 var node = item.ToObject<FlowNode>();
-                if (!nodeDictionary.ContainsKey(node.id))
+                if (!nodes.ContainsKey(node.id))
                 {
-                    nodeDictionary.Add(node.id, node);
+                    nodes.Add(node.id, node);
                 }
                 if (node.type == FlowNode.START)
                 {
                     this._runtimeModel.startNodeId = node.id;
                 }
             }
-            return nodeDictionary;
+            return nodes;
         }
         /// <summary>
         /// 获取工作流线段的字典列表:key开始节点id，value线条实体列表
@@ -379,45 +380,27 @@ namespace OpenAuth.App.Flow
         {
             return RejectNode(_runtimeModel.currentNodeId);
         }
-        /// <summary>
-        /// 驳回节点0"前一步"1"第一步"2"某一步" 3"不处理"
-        /// </summary>
-        /// <param name="nodeId"></param>
-        /// <returns></returns>
+
         public string RejectNode(string nodeId)
         {
-            try
+            dynamic _node = _runtimeModel.nodes[nodeId];
+            if (_node.setInfo != null)
             {
-                dynamic _node = _runtimeModel.nodes[nodeId];
-                if (_node.setInfo != null)
-                {
-                    if (_node.setInfo.NodeRejectType.Value == "0")
-                    {
-                        return _runtimeModel.previousId;
-                    }
-                    else if (_node.setInfo.NodeRejectType.Value == "1")
-                    {
-                        return GetNextNodeByNodeId(_runtimeModel.startNodeId);
-                    }
-                    else if (_node.setInfo.NodeRejectType.Value == "2")
-                    {
-                        return _node.setInfo.NodeRejectStep.Value;
-                    }
-                    else
-                    {
-                        return "";
-                    }
-
-                }
-                else//前一步
+                if (_node.setInfo.NodeRejectType.Value == "0")
                 {
                     return _runtimeModel.previousId;
                 }
+                if (_node.setInfo.NodeRejectType.Value == "1")
+                {
+                    return GetNextNodeByNodeId(_runtimeModel.startNodeId);
+                }
+                if (_node.setInfo.NodeRejectType.Value == "2")
+                {
+                    return _node.setInfo.NodeRejectStep.Value;
+                }
+                return "";
             }
-            catch
-            {
-                throw;
-            }
+            return _runtimeModel.previousId;
         }
        ///<summary>
         /// 标记节点1通过，-1不通过，0驳回

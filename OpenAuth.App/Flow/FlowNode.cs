@@ -27,9 +27,20 @@
 
     public class Setinfo
     {
+        public const string SPECIAL_USER = "SPECIAL_USER";  //指定用户
+        public const string ALL_USER = "ALL_USER";  //所有用户
+        /// <summary>
+        /// 节点执行权限类型
+        /// </summary>
+        public string NodeDesignate { get; set; }
         public Nodedesignatedata NodeDesignateData { get; set; }
         public string NodeCode { get; set; }
         public string NodeName { get; set; }
+
+        /// <summary>
+        /// 驳回节点0"前一步"1"第一步"2"某一步" 3"不处理"
+        /// </summary>
+        public string NodeRejectType { get; set; }
     }
 
     /// <summary>
@@ -43,6 +54,9 @@
     }
 
 
+    /// <summary>
+    /// 节点执行结果标签
+    /// </summary>
     public class Tag
     {
         public int Taged { get; set; }

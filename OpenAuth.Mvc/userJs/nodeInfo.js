@@ -20,7 +20,7 @@ layui.config({
         vm.$set('$data', node.setInfo);
         users = node.setInfo.NodeDesignateData.users;
     }
-    
+
     //菜单列表
     var menucon = {};  //table的参数，如搜索key，点击tree的id
     //副树状结构，等lay table没问题了，可以换成table
@@ -119,7 +119,7 @@ layui.config({
     //提供给上父页面调用
     getVal = function () {
         var result = {
-            NodeDesignateData: {  //节点指定操作人
+             NodeDesignateData: {  //节点指定操作人
                 users: users,
                 role: [],
                 org: []

@@ -14,7 +14,7 @@
         public string VerificationOpinion { get; set; }
 
         /// <summary>
-        /// 驳回的步骤
+        /// 驳回的步骤，即驳回到的节点ID
         /// </summary>
         public string NodeRejectStep { get; set; }
     }

@@ -2,6 +2,7 @@
 using Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
+using OpenAuth.App.Request;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.UnitTest
@@ -23,9 +24,13 @@ namespace OpenAuth.UnitTest
         /// <para>李玉宝于2017-01-20 9:59:11</para>
         /// </summary>
         [TestMethod]
-        public void AddProcessInstance()
+        public void Verify()
         {
-            
+            _runApp.Verification(new VerificationReq
+            {
+                FlowInstanceId = "c4aa73f2-d5ea-43c3-8b7e-903e31ba5828",
+                VerificationFinally = "3"
+            });
         }
 
     }

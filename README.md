@@ -10,25 +10,35 @@
 
 `官方QQ交流群`  
 
+1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、1V1专属咨询服务等，如何加入VIP请移步社区置顶帖**
+
 1. 484498493【已满】
-2. 626433139【将满】
-3. 566344079
 
-`4.0版演示直达`
+1. 626433139【将满】
 
-*好吧，加群可见：） 
+1. 566344079
 
-`3.0版演示直达`  
+`演示直达`
 
-*联通：http://113.204.18.84:1802
+* 联通：http://113.204.18.84:1802
 
-*电信：http://222.178.90.18:1802
+* 电信：http://222.178.90.18:1802
 
 ####当前版本
 
 `4.0 颠覆版(2018-)`
 
-* 重生，最重要的一个版本；
+* 版本重构，最重要的一个版本；
+
+* 前后端完全分离，结构更加清晰。`我们不限制规则，只用主流的技术构建强大的框架`；
+
+* 前端采用 vue + layui + ztree + gooflow + leipiformdesign
+
+* 后端采用 asp.net mvc + EF + autofac + swagger + json.net
+
+* 代码生成工具 CodeSmith
+
+* 设计工具 PowerDesigner + Enterprise Architect
 
 `3.0 alpha版(2017-2-7)`
 
@@ -70,9 +80,10 @@
 1. OpenAuth.Domain 系统领域层
 2. OpenAuth.Repository 系统仓储层，用于数据库操作
 3. OpenAuth.App 应用层，为界面提供接口
-4. OpenAuth.Mvc 采用基于jquery与bootstrap的B-JUI界面
+4. OpenAuth.Mvc Web站点
 5. OpenAuth.UnitTest 单元测试
 6. Infrastructure 通用工具集合
+7. OpenAuth.WebApi SSO服务及为第三方提供接口服务
 
 ####使用
 管理员可直接在登录界面点击`基于精典DDD的权限管理 - 点击以开发者账号登录`登录；

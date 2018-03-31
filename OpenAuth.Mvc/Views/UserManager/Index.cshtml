@@ -30,7 +30,7 @@
 
 <!--用户添加/编辑窗口-->
 <div id="divEdit" style="display: none">
-    <form class="layui-form" action=""  id="formEdit">
+    <form class="layui-form layui-form-pane" action=""  id="formEdit">
 
         <input type="hidden" name="Id" v-model="Id" />
 
@@ -60,14 +60,14 @@
             </div>
         </div>
 
-        <div class="layui-form-item">
+        <div class="layui-form-item" pane>
             <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
                 <input type="radio" name="Sex" value="1" title="男" checked>
                 <input type="radio" name="Sex" value="0" title="女">
             </div>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item" pane>
             <label class="layui-form-label">是否可用</label>
             <div class="layui-input-block">
                 <input type="checkbox" name="Status" v-model="Status" lay-skin="switch" value="1">

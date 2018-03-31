@@ -6,7 +6,7 @@
     <link href="/css/formpreview.css" rel="stylesheet" />
 }
 
-<form class="layui-form" action="" id="formEdit">
+<form class="layui-form layui-form-pane" action="" id="formEdit">
     <input type="hidden" name="Id" v-model="Id" />
 
     <div class="layui-row">
@@ -41,18 +41,17 @@
                         </div>
                     </div>
 
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" pane>
                         <label class="layui-form-label">禁用</label>
                         <div class="layui-input-block">
                             <input type="checkbox" value="1" v-model="Disabled" name="Disabled"
                                     lay-skin="switch" lay-text="是|否">
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" pane>
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-block">
-                            <input type="text" name="Description" v-model="Description"
-                                   placeholder="备注" autocomplete="off" class="layui-input">
+                            <textarea name="Description" v-model="Description"  placeholder="请输入" class="layui-textarea"></textarea>
                         </div>
                     </div>
                 </div>

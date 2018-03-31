@@ -6,7 +6,7 @@
     <link href="/css/formpreview.css" rel="stylesheet" />
 }
 
-<form class="layui-form" action="" id="formEdit">
+<form class="layui-form layui-form-pane" action="" id="formEdit">
     <input type="hidden" name="Id" v-model="Id" />
     <input type="hidden" id="FrmId" name="FrmId" v-model="FrmId" />
     <input type="hidden" id="SchemeContent" name="SchemeContent" v-model="SchemeContent" />
@@ -23,6 +23,14 @@
 
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">实例编号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="Code" v-model="Code" required lay-verify="required"
+                                   placeholder="实例编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">标题</label>
@@ -32,11 +40,10 @@
                         </div>
                     </div>
 
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" pane>
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-block">
-                            <input type="text" name="Description" v-model="Description"
-                                   placeholder="备注" autocomplete="off" class="layui-input">
+                            <textarea name="Description" v-model="Description"  placeholder="请输入" class="layui-textarea"></textarea>
                         </div>
                     </div>
                 </div>

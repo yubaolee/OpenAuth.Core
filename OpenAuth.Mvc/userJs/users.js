@@ -75,6 +75,12 @@ layui.config({
                 content: $('#divEdit'),
                 success: function() {
                     vm.$set('$data', data);
+
+                    $(":radio[name='Sex'][value='" + data.Sex + "']").prop("checked", "checked");
+                    $("input:checkbox[name='Status']").prop("checked", data.Status == 1);
+                    //下面这种方式适合单独开页面，不然上次选中的结果会对本次有影响
+                   // $('input:checkbox[name="Status"][value="' + data.Status + '"]').prop('checked', true);
+                    form.render();
                 },
                 end: mainList
             });

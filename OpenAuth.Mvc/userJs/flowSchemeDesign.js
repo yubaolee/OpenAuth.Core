@@ -143,7 +143,7 @@ layui.config({
             {
                 Id: ''
                 , SchemeCode: new Date().getTime()
-                , SortCode:'1'
+                , SortCode: '1'
             });
     }
 

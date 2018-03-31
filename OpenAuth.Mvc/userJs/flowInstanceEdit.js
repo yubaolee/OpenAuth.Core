@@ -145,6 +145,7 @@
         vm.$set('$data',
             {
                 Id: ''
+                , Code: new Date().getTime()
             });
     }
 

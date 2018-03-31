@@ -60,6 +60,8 @@ layui.config({
         }
     }();
 
+    $("#tree").height( $("div.layui-table-view").height());
+
     //添加（编辑）对话框
     var editDlg = function() {
         var vm = new Vue({

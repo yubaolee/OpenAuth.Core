@@ -6,23 +6,29 @@
     @Html.Action("MenuHeader", "Home")
 </blockquote>
 
-<div style="display: flex;">
-    <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
-    <table class="layui-table"
-           lay-data="{height: 'full-80', page:true, id:'mainList'}"
-           lay-filter="list" lay-size="sm">
-        <thead>
-        <tr>
-            <th lay-data="{checkbox:true, fixed: true}"></th>
-            <th lay-data="{field:'Name', width:150, sort: true, fixed: true}">组织名称</th>
-            <th lay-data="{field:'CascadeId', width:150}">层级ID</th>
-            <th lay-data="{field:'ParentName', width:135}">父节点名称</th>
-            <th lay-data="{field:'SortNo', width:180}">排序号</th>
-            <th lay-data="{field:'Id', width:180}">ID</th>
-            <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
-        </tr>
-        </thead>
-    </table>
+<div class="layui-row">
+    <div class="layui-col-xs3">
+        <ul id="tree" class="ztree"
+            style="padding: 2px; border: 1px solid #ddd; overflow: auto;">
+        </ul>
+    </div>
+    <div class="layui-col-xs9">
+        <table class="layui-table"
+               lay-data="{height: 'full-80', page:true, id:'mainList'}"
+               lay-filter="list" lay-size="sm">
+            <thead>
+            <tr>
+                <th lay-data="{checkbox:true, fixed: true}"></th>
+                <th lay-data="{field:'Name', width:150, sort: true, fixed: true}">组织名称</th>
+                <th lay-data="{field:'CascadeId', width:150}">层级ID</th>
+                <th lay-data="{field:'ParentName', width:135}">父节点名称</th>
+                <th lay-data="{field:'SortNo', width:180}">排序号</th>
+                <th lay-data="{field:'Id', width:180}">ID</th>
+                <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
 <!--列表右边的按钮-->

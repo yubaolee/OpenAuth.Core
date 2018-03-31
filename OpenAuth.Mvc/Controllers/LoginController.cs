@@ -34,8 +34,6 @@ namespace OpenAuth.Mvc.Controllers
                     };
                     Response.Cookies.Add(cookie);
                     resp.Result = "/home/index";
-                    ///拿掉地址栏Token，因为特别不安全。
-                    ///小王，xxx系统的地址是多少。。。然后账号就
                 }
                 else
                 {
@@ -53,34 +51,34 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 开发者登录
         /// </summary>
-        public ActionResult LoginByDev()
+        public string LoginByDev()
         {
+            var resp = new Response();
             try
             {
                 var result = AuthUtil.Login(_appKey, "System", "123456");
                 if (result.Code == 200)
                 {
-
                     var cookie = new HttpCookie("Token", result.Token)
                     {
                         Expires = DateTime.Now.AddDays(10)
                     };
                     Response.Cookies.Add(cookie);
-                    return Redirect("/home/index");
-                    ///拿掉地址栏Token，因为特别不安全。
-                    ///小王，xxx系统的地址是多少。。。然后账号就
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Login");
-
+                    resp.Code = 500;
+                    resp.Message = result.Message;
                 }
 
             }
             catch (Exception e)
             {
-                return RedirectToAction("Index", "Login");
+                resp.Code = 500;
+                resp.Message = e.Message;
             }
+
+            return JsonHelper.Instance.Serialize(resp);
         }
 
         public ActionResult Logout()

@@ -92,7 +92,14 @@ layui.config({
 
     //登录按钮事件
     form.on("submit(login)", function (data) {
-        window.location.href = "/Login/LoginByDev";
+        $.getJSON("/Login/LoginByDev",
+            function(data) {
+                if (data.Code == 200) {
+                    window.location.href = "/Home/Index";
+                } else {
+                    layer.msg(data.Message);
+                }
+            });
         return false;
     })
 })

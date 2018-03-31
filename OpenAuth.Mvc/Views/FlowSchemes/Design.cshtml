@@ -35,25 +35,17 @@
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">模板权限类型0所有人,1指定成员</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="AuthorizeType" value="1" title="value1" checked>
-                            <input type="radio" name="AuthorizeType" value="0" title="value2">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
                         <label class="layui-form-label">排序码</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="SortCode" value="1" title="value1" checked>
-                            <input type="radio" name="SortCode" value="0" title="value2">
+                            <input type="text" name="SortCode" v-model="SortCode" required lay-verify="required"  autocomplete="off" class="layui-input"> 
                         </div>
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">有效</label>
+                        <label class="layui-form-label">禁用</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="Disabled" value="1" title="value1" checked>
-                            <input type="radio" name="Disabled" value="0" title="value2">
+                            <input type="checkbox" value="1" v-model="Disabled" name="Disabled"
+                                    lay-skin="switch" lay-text="是|否">
                         </div>
                     </div>
                     <div class="layui-form-item">

@@ -1,4 +1,5 @@
-﻿layui.config({
+﻿/// <reference path="flowInstanceOp.js" />
+layui.config({
     base: "/js/"
 }).use(['form', 'vue', 'ztree', 'layer', 'utils', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
     var form = layui.form, element = layui.element,
@@ -104,7 +105,7 @@
                 maxmin: true, //开启最大化最小化按钮
                 title: '节点设置【' + object.name + '】',
                 content: '/flowschemes/nodeInfo',
-                btn: ['保存', '关闭'],
+                btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     var body = layer.getChildFrame('body', index);
                     var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -130,6 +131,10 @@
                 var obj = data.Result;
                 url = "/FlowSchemes/Update";
                 vm.$set('$data', obj);
+
+                $('input:checkbox[name="Disabled"][value="' + obj.Disabled + '"]').prop('checked', true);
+                form.render();
+
                 flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
                 frmTree.setCheck(obj.FrmId);
             });
@@ -137,6 +142,8 @@
         vm.$set('$data',
             {
                 Id: ''
+                , SchemeCode: new Date().getTime()
+                , SortCode:'1'
             });
     }
 

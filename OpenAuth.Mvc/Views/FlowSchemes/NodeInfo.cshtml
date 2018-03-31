@@ -31,7 +31,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">驳回类型</label>
                         <div class="layui-input-block">
-                            <select name="NodeRejectType" v-model="NodeRejectType" required lay-verify="required">
+                            <select id="NodeRejectType" name="NodeRejectType" v-model="NodeRejectType" required lay-verify="required">
                                 <option value="0">上一步</option>
                                 <option value="1">第一步</option>
                                 <option value="2">指定步骤</option>
@@ -51,8 +51,8 @@
                 <div class="layui-tab-item">
                     <div class="layui-row">
                         <div class="layui-input-block">
-                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" value="SPECIAL_USER" title="指定用户" checked>
-                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" value="ALL_USER" title="所有用户">
+                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" lay-filter="NodeDesignate" value="SPECIAL_USER" title="指定用户" checked>
+                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" lay-filter="NodeDesignate" value="ALL_USER" title="所有用户">
                         </div>
                     </div>
                     <div class="layui-row">

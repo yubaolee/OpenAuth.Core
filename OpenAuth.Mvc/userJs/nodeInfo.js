@@ -4,6 +4,7 @@ layui.config({
     var //layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
         $ = layui.jquery;
+    var form = layui.form;
     var users = [];   //节点的执行人
 
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -12,14 +13,33 @@ layui.config({
     console.log(JSON.stringify(node));
 
     var vm = new Vue({
-        el: "#formEdit"
+        el: "#formEdit",
+        data: {
+            NodeName: node.name
+            ,NodeCode: node.name   //默认的code
+        }
     });
 
     //初始化节点设置信息
     if (node.setInfo != null) {
         vm.$set('$data', node.setInfo);
         users = node.setInfo.NodeDesignateData.users;
+
+        //layui与vue不兼容，要重新赋值select radio(lll￢ω￢)
+        $("#NodeRejectType").val(node.setInfo.NodeRejectType);
+        $(":radio[name='NodeDesignate'][value='" + node.setInfo.NodeDesignate + "']").prop("checked", "checked");
+        form.render();
     }
+
+    form.on('select',
+        function (data) {
+            vm.NodeRejectType = data.value;
+        });
+
+    form.on('radio(NodeDesignate)',
+        function (data) {
+            vm.NodeDesignate = data.value;
+        });
 
     //菜单列表
     var menucon = {};  //table的参数，如搜索key，点击tree的id
@@ -119,7 +139,7 @@ layui.config({
     //提供给上父页面调用
     getVal = function () {
         var result = {
-             NodeDesignateData: {  //节点指定操作人
+            NodeDesignateData: {  //节点指定操作人
                 users: users,
                 role: [],
                 org: []

@@ -600,13 +600,6 @@
     <Content Include="layui\font\iconfont.eot" />
     <Content Include="layui\font\iconfont.ttf" />
     <Content Include="layui\font\iconfont.woff" />
-    <Content Include="json\images.json" />
-    <Content Include="json\linksList.json" />
-    <Content Include="json\message.json" />
-    <Content Include="json\navs.json" />
-    <Content Include="json\newsList.json" />
-    <Content Include="json\systemParameter.json" />
-    <Content Include="json\userface.json" />
     <Content Include="js\ueditor\formdesign\textfield.html.ajax.bak" />
     <Content Include="js\flow\fonts\iconflow.eot" />
     <Content Include="js\flow\fonts\iconflow.ttf" />

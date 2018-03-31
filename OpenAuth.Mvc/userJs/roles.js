@@ -76,6 +76,9 @@ layui.config({
                 content: $('#divEdit'),
                 success: function() {
                     vm.$set('$data', data);
+
+                    $("input:checkbox[name='Status']").prop("checked", data.Status == 1);
+                    form.render();
                 },
                 end: mainList
             });

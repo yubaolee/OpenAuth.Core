@@ -10,27 +10,6 @@ layui.config({
 		window.parent.addTab($(this));
 	})
 
-	//动态获取文章总数和待审核文章数量,最新文章
-	$.get("/json/newsList.json",
-		function(data){
-			var waitNews = [];
-			$(".allNews span").text(data.length);  //文章总数
-			for(var i=0;i<data.length;i++){
-				var newsStr = data[i];
-				if(newsStr["newsStatus"] == "待审核"){
-					waitNews.push(newsStr);
-				}
-			}
-			$(".waitNews span").text(waitNews.length);  //待审核文章
-		}
-	)
-
-	//图片总数
-	$.get("/json/images.json",
-		function(data){
-			$(".imgAll span").text(data.length);
-		}
-	)
 
 	//用户数
 	$.getJSON("/UserManager/Load?limit=1&page=1",
@@ -39,13 +18,40 @@ layui.config({
 		}
 	)
 
-	//新消息
-	$.get("/json/message.json",
-		function(data){
-			$(".newMessage span").text(data.length);
-		}
-	)
+    //机构
+	$.getJSON("/UserSession/GetOrgs",
+        function (data) {
+            $(".orgs span").text(data.length);
+        }
+    )
 
+    //机构
+    $.getJSON("/RoleManager/Load?limit=1&page=1",
+        function (data) {
+            $(".roles span").text(data.count);
+        }
+    )
+
+    //我的流程
+    $.getJSON("/Flowinstances/Load?limit=1&page=1",
+        function (data) {
+            $(".flows span").text(data.count);
+        }
+    )
+
+    //流程模板
+    $.getJSON("/flowschemes/Load?limit=1&page=1",
+        function (data) {
+            $(".flowschemes span").text(data.count);
+        }
+    )
+
+    //表单
+    $.getJSON("/Forms/Load?limit=1&page=1",
+        function (data) {
+            $(".forms span").text(data.count);
+        }
+    )
 
 	//数字格式化
 	$(".panel span").each(function(){
@@ -53,37 +59,12 @@ layui.config({
 	})
 
 	//系统基本参数
-	if(window.sessionStorage.getItem("systemParameter")){
-		var systemParameter = JSON.parse(window.sessionStorage.getItem("systemParameter"));
-		fillParameter(systemParameter);
-	}else{
-		$.ajax({
-			url : "/json/systemParameter.json",
-			type : "get",
-			dataType : "json",
-			success : function(data){
-				fillParameter(data);
-			}
-		})
-	}
-
-	//填充数据方法
- 	function fillParameter(data){
- 		//判断字段数据是否存在
- 		function nullData(data){
- 			if(data == '' || data == "undefined"){
- 				return "未定义";
- 			}else{
- 				return data;
- 			}
- 		}
- 		$(".version").text(nullData(data.version));      //当前版本
-		$(".author").text(nullData(data.author));        //开发作者
-		$(".homePage").text(nullData(data.homePage));    //网站首页
-		$(".server").text(nullData(data.server));        //服务器环境
-		$(".dataBase").text(nullData(data.dataBase));    //数据库版本
-		$(".maxUpload").text(nullData(data.maxUpload));    //最大上传限制
-		$(".userRights").text(nullData(data.userRights));//当前用户权限
- 	}
+    $(".version").text("4.0");      //当前版本
+    $(".author").text("yubaolee");        //开发作者
+    $(".homePage").text("/Home/Index");    //网站首页
+    $(".server").text("Windows Server 2012");        //服务器环境
+    $(".dataBase").text("Sql Server 2012");    //数据库版本
+    $(".maxUpload").text("100M");    //最大上传限制
+    $(".userRights").text("管理员");//当前用户权限
 
 })

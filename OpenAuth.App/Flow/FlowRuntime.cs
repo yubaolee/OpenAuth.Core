@@ -383,20 +383,20 @@ namespace OpenAuth.App.Flow
 
         public string RejectNode(string nodeId)
         {
-            dynamic _node = _runtimeModel.nodes[nodeId];
-            if (_node.setInfo != null)
+            dynamic node = _runtimeModel.nodes[nodeId];
+            if (node.setInfo != null)
             {
-                if (_node.setInfo.NodeRejectType.Value == "0")
+                if (node.setInfo.NodeRejectType == "0")
                 {
                     return _runtimeModel.previousId;
                 }
-                if (_node.setInfo.NodeRejectType.Value == "1")
+                if (node.setInfo.NodeRejectType == "1")
                 {
                     return GetNextNodeByNodeId(_runtimeModel.startNodeId);
                 }
-                if (_node.setInfo.NodeRejectType.Value == "2")
+                if (node.setInfo.NodeRejectType == "2")
                 {
-                    return _node.setInfo.NodeRejectStep.Value;
+                    return node.setInfo.NodeRejectStep;
                 }
                 return "";
             }

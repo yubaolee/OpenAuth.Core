@@ -16,7 +16,9 @@ layui.config({
         el: "#formEdit",
         data: {
             NodeName: node.name
-            ,NodeCode: node.name   //默认的code
+            , NodeCode: node.name   //默认的code
+            , NodeRejectType:'0'
+            , NodeDesignate:"SPECIAL_USER"
         }
     });
 

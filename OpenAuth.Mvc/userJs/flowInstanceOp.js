@@ -2,8 +2,7 @@
     base: "/js/"
 }).use(['form', 'vue', 'ztree', 'layer', 'utils', 'element', 'jquery', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
     var form = layui.form, element = layui.element,
-		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
-        layer = layui.layer,
+		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
     var openauth = layui.openauth;
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引

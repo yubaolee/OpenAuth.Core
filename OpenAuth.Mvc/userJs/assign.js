@@ -1,8 +1,7 @@
 layui.config({
     base: "/js/"
 }).use(['form','vue', 'ztree', 'layer', 'jquery','utils'], function () {
-    var //layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
-        layer = layui.layer,
+    var layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
     var id = $.getUrlParam("id");      //待分配的id
     var type = $.getUrlParam("type");  //待分配的类型

@@ -3,8 +3,7 @@
 }).use(['form','vue', 'layer', 'jquery', 'table','droptree','utils'], function () {
     var form = layui.form,
         element = layui.element,
-		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
-        layer = layui.layer,
+		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
     var id = $.getUrlParam("id");
     $.getJSON("/forms/get?id=" + id, function (data) {

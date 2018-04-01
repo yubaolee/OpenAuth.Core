@@ -1,8 +1,7 @@
 layui.config({
     base: "/js/"
 }).use(['form', 'vue', 'ztree', 'layer', 'element', 'jquery', 'utils'], function () {
-    var //layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
-        layer = layui.layer,
+    var layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
     var form = layui.form;
     var users = [];   //节点的执行人

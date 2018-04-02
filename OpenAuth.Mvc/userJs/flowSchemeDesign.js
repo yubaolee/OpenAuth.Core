@@ -5,10 +5,11 @@ layui.config({
     var form = layui.form, element = layui.element,
 		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
+    var thiswin = (top == undefined) ? window : top.window;
     var table = layui.table;
     var openauth = layui.openauth;
 
-    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    var index = layer.getFrameIndex(window.name); //获取窗口索引
     var id = $.getUrlParam("id");   //ID
     var update = (id != null && id != '');
     //提交的URL
@@ -107,7 +108,7 @@ layui.config({
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     var body = layer.getChildFrame('body', index);
-                    var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                     var nodedata = iframeWin.getVal();
                     flowDesignPanel.SetNodeEx(object.id, nodedata);
                     layer.close(index);
@@ -179,5 +180,5 @@ layui.config({
     }
 
     //让层自适应iframe
-    parent.layer.iframeAuto(index);
+    layer.iframeAuto(index);
 })

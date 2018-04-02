@@ -8,6 +8,8 @@
     var table = layui.table;
     var openauth = layui.openauth;
 
+    var thiswin = (top == undefined) ? window : top.window;
+
 
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
@@ -77,7 +79,7 @@
                 content: '/forms/edit?id=' + data.Id,
                 btn: ['保存', '关闭'],
                 yes: function (index, layero) {
-                    var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                     iframeWin.submit();
                 },
                 btn2: function (index) {

@@ -6,7 +6,7 @@ layui.config({
     var form = layui.form;
     var users = [];   //节点的执行人
 
-    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    var index = layer.getFrameIndex(window.name); //获取窗口索引
     //从flowschemes.js进入的节点信息
     var node = parent.FlowDesignObject;
     console.log(JSON.stringify(node));
@@ -151,5 +151,5 @@ layui.config({
     }
 
     //让层自适应iframe
-    parent.layer.iframeAuto(index);
+    layer.iframeAuto(index);
 })

@@ -2,7 +2,6 @@ layui.config({
     base: "/js/"
 }).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
     var form = layui.form,
-		//layer = (parent == undefined || parent.layer === undefined )? layui.layer : parent.layer,
         layer = layui.layer,
         $ = layui.jquery;
     var table = layui.table;

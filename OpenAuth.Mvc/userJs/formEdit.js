@@ -5,10 +5,11 @@
         element = layui.element,
 		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
+    var thiswin = (top == undefined) ? window : top.window;
     var table = layui.table;
     var openauth = layui.openauth;
 
-    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    var index = layer.getFrameIndex(window.name); //获取窗口索引
     var id = $.getUrlParam("id");   //ID
     var update = (id != null && id != '');
     //提交的URL
@@ -314,6 +315,6 @@
     }
 
     //让层自适应iframe
-    //parent.layer.iframeAuto(index);
+    //layer.iframeAuto(index);
 
 })

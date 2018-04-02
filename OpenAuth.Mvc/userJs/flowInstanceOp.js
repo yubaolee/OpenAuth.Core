@@ -5,14 +5,14 @@
 		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
     var openauth = layui.openauth;
-    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    var index = layer.getFrameIndex(window.name); //获取窗口索引
 
    var id = $.getUrlParam("id");   //ID
     $("#FlowInstanceId").val(id);
 
     //标签切换
     element.on('tab(tab)', function (data) {
-        parent.layer.iframeAuto(index);
+        layer.iframeAuto(index);
     });
 
     $.getJSON('/FlowInstances/get?id=' + id,
@@ -56,5 +56,5 @@
     }
 
     //让层自适应iframe
-    parent.layer.iframeAuto(index);
+    layer.iframeAuto(index);
 })

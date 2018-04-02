@@ -6,7 +6,7 @@
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
-    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    var index = layer.getFrameIndex(window.name); //获取窗口索引
      var id = $.getUrlParam("id");   //ID
     var update = (id !=null && id != '');
     //提交的URL
@@ -18,7 +18,7 @@
 
     //标签切换
     element.on('tab(tab)', function (data) {
-        parent.layer.iframeAuto(index);
+        layer.iframeAuto(index);
     });
 
     /*=========流程设计（begin）======================*/
@@ -183,5 +183,5 @@
     }
 
     //让层自适应iframe
-    parent.layer.iframeAuto(index);
+    layer.iframeAuto(index);
 })

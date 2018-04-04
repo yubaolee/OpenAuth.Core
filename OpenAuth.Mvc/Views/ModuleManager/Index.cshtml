@@ -15,6 +15,7 @@
             <th lay-data="{checkbox:true, fixed: true}"></th>
             <th lay-data="{field:'Name', width:120, sort: true, fixed: true}">模块名称</th>
             <th lay-data="{field:'CascadeId', width:80}">层级ID</th>
+            <th lay-data="{field:'Code', width:80}">模块标识</th>
             <th lay-data="{field:'Url', width:200}">Url</th>
             <th lay-data="{field:'IconName', width:60,templet: '#iconTpl'}">图标</th>
             <th lay-data="{field:'ParentName', width:135}">父节点名称</th>
@@ -79,7 +80,13 @@
                        placeholder="请输入部门名称" autocomplete="off" class="layui-input">
             </div>
         </div>
-        
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块标识</label>
+            <div class="layui-input-block">
+                <input type="text" name="Code" v-model="Code" 
+                       placeholder="比如：Module" autocomplete="off" class="layui-input">
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">URL地址</label>
             <div class="layui-input-block">

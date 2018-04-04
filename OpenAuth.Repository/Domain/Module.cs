@@ -27,6 +27,7 @@ namespace OpenAuth.Repository.Domain
           this.Status= 0;
           this.Vector= string.Empty;
           this.SortNo= 0;
+          this.Code = string.Empty;
         }
 
         /// <summary>
@@ -62,6 +63,12 @@ namespace OpenAuth.Repository.Domain
 	    /// 排序号
 	    /// </summary>
         public int SortNo { get; set; }
+
+        /// <summary>
+        /// 模块标识
+        /// </summary>
+        /// <value>The code.</value>
+        public string Code { get; set; }
 
     }
 }

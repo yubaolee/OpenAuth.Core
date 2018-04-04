@@ -8,7 +8,7 @@ layui.config({
     var openauth = layui.openauth;
     layui.droptree("/UserSession/QueryModuleList", "#ParentName", "#ParentId", false);
    
-    $("#menus").loadMenus();
+    $("#menus").loadMenus("Module");
 
     //主列表加载，可反复调用进行刷新
     var config= {};  //table的参数，如搜索key，点击tree的id

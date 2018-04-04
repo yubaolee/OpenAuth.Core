@@ -1,23 +1,26 @@
-layui.config({
+﻿layui.config({
     base: "/js/"
 }).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
     var form = layui.form,
-        layer = layui.layer,
+		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
+    var thiswin = (top == undefined) ? window : top.window;
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
-   
-    $("#menus").loadMenus("Role");
 
+    $("#menus").loadMenus("FlowInstanceWait");
+   
     //主列表加载，可反复调用进行刷新
-    var config= {};  //table的参数，如搜索key，点击tree的id
+    var config= {
+        type:'wait'
+    };  //table的参数，如搜索key，点击tree的id
     var mainList = function (options) {
         if (options != undefined) {
             $.extend(config, options);
         }
         table.reload('mainList', {
-            url: '/RoleManager/Load',
+            url: '/FlowInstances/Load',
             where: config
         });
     }
@@ -36,7 +39,7 @@ layui.config({
                     enable: true,
                     idKey: 'Id',
                     pIdKey: 'ParentId',
-                    rootPId: ""
+                    rootPId: 'null'
                 }
             },
             callback: {
@@ -48,8 +51,8 @@ layui.config({
         var load = function () {
             $.getJSON(url, function (json) {
                 zTreeObj = $.fn.zTree.init($("#tree"), setting);
-                var newNode = { Name: "根节点", Id: null,ParentId:"" };
-                 json.push(newNode);
+                var newNode = { Name: "根节点", Id: null, ParentId: "" };
+                json.push(newNode);
                 zTreeObj.addNodes(null, json);
                 mainList({ orgId: "" });
                 zTreeObj.expandAll(true);
@@ -63,50 +66,41 @@ layui.config({
     $("#tree").height($("div.layui-table-view").height());
 
     //添加（编辑）对话框
-    var editDlg = function() {
-        var vm = new Vue({
-            el: "#formEdit"
-        });
+    var editDlg = function () {
+
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
-            layer.open({
-                title: title,
-                area: ["500px", "400px"],
-                type: 1,
-                content: $('#divEdit'),
-                success: function() {
-                    vm.$set('$data', data);
 
-                    $("input:checkbox[name='Status']").prop("checked", data.Status == 1);
-                    form.render();
+            layer.open({
+                type: 2,
+                area: ['800px', '700px'], //宽高
+                maxmin: true, //开启最大化最小化按钮
+                title: title,
+                content: '/flowInstances/edit?id=' + data.Id,
+                btn: ['保存', '关闭'],
+                yes: function (index, layero) {
+                    var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    iframeWin.submit();
                 },
-                end: mainList
+                btn2: function (index) {
+                    layer.close(index);
+                    mainList();
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                    mainList();
+                }
             });
-            var url = "/RoleManager/Add";
-            if (update) {
-                url = "/RoleManager/Update"; 
-            }
-            //提交数据
-            form.on('submit(formSubmit)',
-                function(data) {
-                    $.post(url,
-                        data.field,
-                        function(data) {
-                            layer.msg(data.Message);
-                        },
-                        "json");
-                    return false;
-                });
         }
         return {
-            add: function() { //弹出添加
+            add: function () { //弹出添加
                 update = false;
                 show({
                     Id: ''
                 });
             },
-            update: function(data) { //弹出编辑框
+            update: function (data) { //弹出编辑框
                 update = true;
                 show(data);
             }
@@ -121,13 +115,12 @@ layui.config({
         } 
     });
 
-
     //监听页面主按钮操作
     var active = {
         btnDel: function () {      //批量删除
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
-            openauth.del("/RoleManager/Delete",
+            openauth.del("/FlowInstances/Delete",
                 data.map(function (e) { return e.Id; }),
                 mainList);
         }
@@ -144,29 +137,41 @@ layui.config({
              editDlg.update(data[0]);
          }
 
+        , btnVerification: function () {  //处理
+            var checkStatus = table.checkStatus('mainList')
+                , data = checkStatus.data;
+            if (data.length != 1) {
+                layer.msg("请选择要处理的流程，且同时只能选择一条");
+                return;
+            }
+
+            layer.open({
+                type: 2,
+                area: ['750px', '550px'], //宽高
+                maxmin: true, //开启最大化最小化按钮
+                title: '处理流程',
+                content: '/flowInstances/Verification?id=' + data[0].Id,
+                btn: ['保存', '关闭'],
+                yes: function (index, layero) {
+                    var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    iframeWin.submit();
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                    mainList();
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                    mainList();
+                }
+            });
+        }
+
         , search: function () {   //搜索
             mainList({ key: $('#key').val() });
         }
         , btnRefresh: function() {
             mainList();
-        }
-        , btnAccessModule: function () {
-            var checkStatus = table.checkStatus('mainList')
-               , data = checkStatus.data;
-            if (data.length != 1) {
-                layer.msg("请选择要分配的角色");
-                return;
-            }
-
-            var index = layer.open({
-                title: "为用角色配模块",
-                type: 2,
-                area: ['450px', '400px'],
-                content: "/ModuleManager/Assign?type=RoleModule&menuType=RoleElement&id=" + data[0].Id,
-                success: function (layero, index) {
-
-                }
-            });
         }
     };
 

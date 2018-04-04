@@ -198,6 +198,8 @@
     <Content Include="js\utils.js" />
     <Content Include="userJs\flowInstanceOp.js" />
     <Content Include="userJs\flowInstanceEdit.js" />
+    <Content Include="userJs\flowInstanceWait.js" />
+    <Content Include="userJs\flowInstanceDisposed.js" />
     <Content Include="userJs\flowSchemes.js" />
     <Content Include="userJs\formEdit.js" />
     <Content Include="userJs\nodeInfo.js" />
@@ -635,6 +637,8 @@
     <Content Include="Views\FlowInstances\Edit.cshtml" />
     <Content Include="Views\FlowInstances\Verification.cshtml" />
     <Content Include="Views\Forms\Edit.cshtml" />
+    <Content Include="Views\FlowInstances\Disposed.cshtml" />
+    <Content Include="Views\FlowInstances\Wait.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

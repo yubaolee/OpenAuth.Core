@@ -22,6 +22,22 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 待处理的流程
+        /// </summary>
+        public ActionResult Wait()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 已完成的流程
+        /// </summary>
+        public ActionResult Disposed()
+        {
+            return View();
+        }
+
         public ActionResult Edit()
         {
             return View();

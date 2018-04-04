@@ -53,6 +53,8 @@ namespace OpenAuth.App
             FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory
             {
                 InstanceId = flowInstance.Id,
+                CreateUserId = user.User.Id,
+                CreateUserName = user.User.Name,
                 Content = "【创建】"
                           + user.User.Name
                           + "创建了一个流程进程【"
@@ -73,9 +75,11 @@ namespace OpenAuth.App
                 ToNodeId = wfruntime.runtimeModel.nextNodeId,
                 ToNodeName = wfruntime.runtimeModel.nextNode.name,
                 ToNodeType = wfruntime.runtimeModel.nextNodeType,
-                TransitionSate = 0
+                IsFinish =  wfruntime.runtimeModel.nextNodeType == 4?1:0,
+                TransitionSate = 0,
+                CreateUserId = user.User.Id,
+                CreateUserName = user.User.Name
             };
-            processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
             #endregion
 
             UnitWork.Add(flowInstance);
@@ -93,7 +97,10 @@ namespace OpenAuth.App
         public bool NodeVerification(string instanceId, bool flag, string description = "")
         {
             FlowInstance flowInstance = Get(instanceId);
-            FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory();//操作记录
+            FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
+            {
+                InstanceId = instanceId
+            };//操作记录
             FlowInstanceTransitionHistory processTransitionHistoryEntity = null;//流转记录
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
@@ -166,15 +173,18 @@ namespace OpenAuth.App
 
                             processTransitionHistoryEntity = new FlowInstanceTransitionHistory
                             {
+                                InstanceId = flowInstance.Id,
+                                CreateUserId = user.Id,
+                                CreateUserName = user.Name,
                                 FromNodeId = wfruntime.runtimeModel.currentNodeId,
                                 FromNodeName = wfruntime.runtimeModel.currentNode.name,
                                 FromNodeType = wfruntime.runtimeModel.currentNodeType,
                                 ToNodeId = wfruntime.runtimeModel.nextNodeId,
                                 ToNodeName = wfruntime.runtimeModel.nextNode.name,
                                 ToNodeType = wfruntime.runtimeModel.nextNodeType,
+                                IsFinish = wfruntime.runtimeModel.nextNodeType ==4?1:0,
                                 TransitionSate = 0
                             };
-                            processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
                             #endregion
 
                             break;
@@ -204,19 +214,23 @@ namespace OpenAuth.App
 
                     processTransitionHistoryEntity = new FlowInstanceTransitionHistory
                     {
+                        InstanceId = flowInstance.Id,
+                        CreateUserId = user.Id,
+                        CreateUserName = user.Name,
                         FromNodeId = wfruntime.runtimeModel.currentNodeId,
                         FromNodeName = wfruntime.runtimeModel.currentNode.name,
                         FromNodeType = wfruntime.runtimeModel.currentNodeType,
                         ToNodeId = wfruntime.runtimeModel.nextNodeId,
                         ToNodeName = wfruntime.runtimeModel.nextNode.name,
                         ToNodeType = wfruntime.runtimeModel.nextNodeType,
+                        IsFinish = wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0,
                         TransitionSate = 0
                     };
-                    processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
                     #endregion
 
 
-                    flowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.currentNode.name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】同意,备注：" + description;
+                    flowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.currentNode.name 
+                        + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】同意,备注：" + description;
                 }
                 else
                 {
@@ -224,7 +238,9 @@ namespace OpenAuth.App
                     tag.Taged = -1;
                     wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);
 
-                    flowInstanceOperationHistory.Content = "【" + "todo name" + "】【" + wfruntime.runtimeModel.currentNode.name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注：" + description;
+                    flowInstanceOperationHistory.Content = "【" + "todo name" + "】【" 
+                        + wfruntime.runtimeModel.currentNode.name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注："
+                        + description;
                 }
             }
             #endregion
@@ -243,9 +259,15 @@ namespace OpenAuth.App
         /// <returns></returns>
         public bool NodeReject(VerificationReq reqest)
         {
+            var user = AuthUtil.GetCurrentUser().User;
+
             FlowInstance flowInstance = Get(reqest.FlowInstanceId);
-            FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory();
-            FlowInstanceTransitionHistory processTransitionHistoryEntity = null;
+            FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
+            {
+                InstanceId = reqest.FlowInstanceId,
+                CreateUserId = user.Id,
+                CreateUserName = user.Name
+            };
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
@@ -260,7 +282,6 @@ namespace OpenAuth.App
                 resnode = reqest.NodeRejectStep;
             }
 
-            var user = AuthUtil.GetCurrentUser().User;
             var tag = new Tag
             {
                 Description = reqest.VerificationOpinion,
@@ -280,21 +301,25 @@ namespace OpenAuth.App
                 flowInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodes[resnode], flowInstance.PreviousId);//当前节点可执行的人信息
                 #region 流转记录
 
-                processTransitionHistoryEntity = new FlowInstanceTransitionHistory
+                var processTransitionHistoryEntity = new FlowInstanceTransitionHistory
                 {
+                    InstanceId = flowInstance.Id,
+                    CreateUserId = user.Id,
+                    CreateUserName = user.Name,
                     FromNodeId = wfruntime.runtimeModel.currentNodeId,
                     FromNodeName = wfruntime.runtimeModel.currentNode.name,
                     FromNodeType = wfruntime.runtimeModel.currentNodeType,
                     ToNodeId = wfruntime.runtimeModel.nextNodeId,
                     ToNodeName = wfruntime.runtimeModel.nextNode.name,
                     ToNodeType = wfruntime.runtimeModel.nextNodeType,
+                    IsFinish = wfruntime.runtimeModel.nextNodeType ==4?1:0,
                     TransitionSate = 1
                 };
-                //
-                processTransitionHistoryEntity.IsFinish = (processTransitionHistoryEntity.ToNodeType == 4 ? 1 : 0);
+
+                UnitWork.Add(processTransitionHistoryEntity);
+
                 #endregion
             }
-
 
             flowInstanceOperationHistory.Content = "【" + "todo name" + "】【"
                 + wfruntime.runtimeModel.currentNode.name
@@ -302,7 +327,6 @@ namespace OpenAuth.App
 
             UnitWork.Update(flowInstance);
             UnitWork.Add(flowInstanceOperationHistory);
-            UnitWork.Add(processTransitionHistoryEntity);
             UnitWork.Save();
 
             return true;
@@ -361,32 +385,38 @@ namespace OpenAuth.App
         /// <returns></returns>
         private string GetMakerList(FlowNode node, string processId)
         {
-            string makerlsit = "";
+            string makerList = "";
 
             if (node.setInfo == null)
             {
-                makerlsit = "-1";
+                makerList = "-1";
             }
             else
             {
                 if (node.setInfo.NodeDesignate == Setinfo.ALL_USER)//所有成员
                 {
-                    makerlsit = "1";
+                    makerList = "1";
                 }
                 else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_USER)//指定成员
                 {
-                    //    makerlsit = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.role, makerlsit);
-                    // makerlsit = ArrwyToString(node.setInfo.NodeDesignateData.post, makerlsit);
-                    //   makerlsit = ArrwyToString(node.setInfo.NodeDesignateData.usergroup, makerlsit);
-                    makerlsit = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.users, makerlsit);
+                    makerList = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.users, makerList);
 
-                    if (makerlsit == "")
+                    if (makerList == "")
                     {
-                        makerlsit = "-1";
+                        makerList = "-1";
+                    }
+                }
+                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_ROLE)
+                {
+                    makerList = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.role, makerList);
+
+                    if (makerList == "")
+                    {
+                        makerList = "-1";
                     }
                 }
             }
-            return makerlsit;
+            return makerList;
         }
 
         /// <summary>
@@ -419,21 +449,25 @@ namespace OpenAuth.App
         {
             //todo:待办/已办/我的
             var result = new TableData();
+            var user = AuthUtil.GetCurrentUser();
 
-            result.count = UnitWork.Find<FlowInstance>(u => u.CreateUserId == request.userid).Count();
-            if (request.type == "inbox")   //待办事项
+            if (request.type == "wait")   //待办事项
             {
-                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit, "CreateDate descending", null).ToList();
+                result.count = UnitWork.Find<FlowInstance>(u => u.MakerList =="1" || u.MakerList.Contains(user.User.Id)).Count();
+
+                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit, "CreateDate descending", 
+                    u => u.MakerList == "1" || u.MakerList.Contains(user.User.Id)).ToList();
 
             }
-            else if (request.type == "outbox")  //已办事项
+            else if (request.type == "disposed")  //已办事项
             {
                 result.data = UnitWork.Find<FlowInstance>(request.page, request.limit, "CreateDate descending", null).ToList();
-
             }
             else  //我的流程
             {
-                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit, "CreateDate descending", null).ToList();
+                result.count = UnitWork.Find<FlowInstance>(u => u.CreateUserId == user.User.Id).Count();
+                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit,
+                    "CreateDate descending", u => u.CreateUserId == user.User.Id).ToList();
             }
 
             return result;

@@ -26,9 +26,9 @@ layui.define("jquery", function (exports) {
 
     //加载菜单
     $.fn.extend({
-        loadMenus: function () {
+        loadMenus: function (modulecode) {
             var dom = $(this);
-            $.ajax("/ModuleManager/LoadAuthorizedMenus",
+            $.ajax("/ModuleManager/LoadAuthorizedMenus?modulecode=" + modulecode,
            {
                async: false
                , success: function (data) {

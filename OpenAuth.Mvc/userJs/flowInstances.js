@@ -9,7 +9,7 @@
     var thiswin = (top == undefined) ? window : top.window;
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
 
-    $("#menus").loadMenus();
+    $("#menus").loadMenus("FlowInstance");
    
     //主列表加载，可反复调用进行刷新
     var config= {};  //table的参数，如搜索key，点击tree的id
@@ -151,7 +151,7 @@
                 content: '/flowInstances/Verification?id=' + data[0].Id,
                 btn: ['保存', '关闭'],
                 yes: function (index, layero) {
-                    var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                     iframeWin.submit();
                 },
                 btn2: function (index) {

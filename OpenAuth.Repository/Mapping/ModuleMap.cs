@@ -72,6 +72,10 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("ParentId")
                 .HasMaxLength(50)
                 .IsOptional();
+            Property(t => t.Code)
+                .HasColumnName("Code")
+                .HasMaxLength(50)
+                .IsOptional();
 
             // Relationships
         }

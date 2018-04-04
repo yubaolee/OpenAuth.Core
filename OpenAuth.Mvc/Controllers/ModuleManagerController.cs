@@ -70,10 +70,20 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(menus);
         }
 
-
-        public string LoadAuthorizedMenus()
+        /// <summary>
+        /// 获取发起页面的菜单权限
+        /// </summary>
+        /// <returns>System.String.</returns>
+        public string LoadAuthorizedMenus(string modulecode)
         {
-            return JsonHelper.Instance.Serialize(CurrentModule.Elements);
+            var user = AuthUtil.GetCurrentUser();
+            var module = user.Modules.First(u =>u.Code == modulecode);
+            if (module != null)
+            {
+                return JsonHelper.Instance.Serialize(module.Elements);
+
+            }
+            return "";
         }
 
 

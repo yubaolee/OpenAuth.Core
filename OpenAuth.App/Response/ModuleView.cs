@@ -55,6 +55,8 @@ namespace OpenAuth.App.Response
         /// </summary>
         public int SortNo { get; set; }
 
+        public string Code { get; set; }
+
         /// <summary>
         /// 模块中的元素
         /// </summary>

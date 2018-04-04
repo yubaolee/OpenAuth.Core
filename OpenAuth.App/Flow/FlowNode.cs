@@ -29,6 +29,7 @@
     {
         public const string SPECIAL_USER = "SPECIAL_USER";  //指定用户
         public const string ALL_USER = "ALL_USER";  //所有用户
+        public const string SPECIAL_ROLE = "SPECIAL_ROLE";
         /// <summary>
         /// 节点执行权限类型
         /// </summary>

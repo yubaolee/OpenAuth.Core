@@ -11,6 +11,7 @@
 
 using System;
 using System.Web.Http;
+using Infrastructure;
 using Infrastructure.Cache;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
@@ -34,14 +35,20 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         /// <param name="token">The token.</param>
         /// <param name="requestid">备用参数.</param>
         [System.Web.Mvc.HttpGet]
-        public bool GetStatus(string token, string requestid = "")
+        public Response<bool> GetStatus(string token, string requestid = "")
         {
-            if (_objCacheProvider.GetCache(token) != null)
+            var result = new Response<bool>();
+            try
             {
-                return true;
+                result.Result = _objCacheProvider.GetCache(token) != null;
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
             }
 
-            return false;
+            return result;
         }
 
         /// <summary>
@@ -50,15 +57,25 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         /// <param name="token"></param>
         /// <param name="requestid">备用参数.</param>
         [System.Web.Mvc.HttpGet]
-        public UserWithAccessedCtrls GetUser(string token, string requestid = "")
+        public Response<UserWithAccessedCtrls> GetUser(string token, string requestid = "")
         {
-            string userName = GetUserName(token, requestid);
-            if (!string.IsNullOrEmpty(userName))
+            var result = new Response<UserWithAccessedCtrls>();
+            try
             {
-                return _app.GetAccessedControls(userName);
+                var user = _objCacheProvider.GetCache(token);
+                if (user != null)
+                {
+                    result.Result = _app.GetAccessedControls(user.UserName);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
             }
 
-            return null;
+            return result;
+
         }
 
         /// <summary>
@@ -67,15 +84,24 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         /// <param name="token"></param>
         /// <param name="requestid">备用参数.</param>
         [System.Web.Mvc.HttpGet]
-        public string GetUserName(string token, string requestid = "")
+        public Response<string> GetUserName(string token, string requestid = "")
         {
-            var user = _objCacheProvider.GetCache(token);
-            if (user != null)
+            var result = new Response<string>();
+            try
             {
-                return user.UserName;
+                var user = _objCacheProvider.GetCache(token);
+                if (user != null)
+                {
+                    result.Result = user.UserName;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
             }
 
-            return string.Empty;
+            return result;
         }
 
         /// <summary>
@@ -86,7 +112,18 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         [System.Web.Mvc.HttpPost]
         public LoginResult Login(PassportLoginRequest request)
         {
-            return SSOAuthUtil.Parse(request);
+            var result = new LoginResult();
+            try
+            {
+                result = SSOAuthUtil.Parse(request);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -95,7 +132,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         /// <param name="token"></param>
         /// <param name="requestid">备用参数.</param>
         [System.Web.Mvc.HttpPost]
-        public bool Logout(string token, string requestid="")
+        public bool Logout(string token, string requestid = "")
         {
             try
             {

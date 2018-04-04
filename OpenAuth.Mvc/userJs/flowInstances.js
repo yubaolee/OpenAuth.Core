@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
+}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
     var form = layui.form,
 		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
@@ -8,6 +8,8 @@
     var openauth = layui.openauth;
     var thiswin = (top == undefined) ? window : top.window;
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+
+    $("#menus").loadMenus();
    
     //主列表加载，可反复调用进行刷新
     var config= {};  //table的参数，如搜索key，点击tree的id
@@ -70,7 +72,7 @@
 
             layer.open({
                 type: 2,
-                area: ['750px', '550px'], //宽高
+                area: ['800px', '700px'], //宽高
                 maxmin: true, //开启最大化最小化按钮
                 title: title,
                 content: '/flowInstances/edit?id=' + data.Id,

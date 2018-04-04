@@ -2,8 +2,7 @@
 {
     <link rel="stylesheet" href="/css/treetable.css" />
 }
-<blockquote class="layui-elem-quote news_search toolList">
-    @Html.Action("MenuHeader", "Home")
+<blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
 
 <div style="display: flex;">
@@ -69,7 +68,7 @@
 
 <!--模块添加/编辑窗口-->
 <div id="divEdit" style="display: none">
-    <form class="layui-form" action="" id="formEdit">
+    <form class="layui-form layui-form-pane" action="" id="formEdit">
 
         <input type="hidden" name="Id" v-model="Id" />
 

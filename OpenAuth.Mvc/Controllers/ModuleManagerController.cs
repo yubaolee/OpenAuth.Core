@@ -70,6 +70,13 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(menus);
         }
 
+
+        public string LoadAuthorizedMenus()
+        {
+            return JsonHelper.Instance.Serialize(CurrentModule.Elements);
+        }
+
+
         #region 添加编辑模块
 
         //添加模块

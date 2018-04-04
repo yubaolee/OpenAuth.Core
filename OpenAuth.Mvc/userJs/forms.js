@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
+}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
     var form = layui.form,
         element = layui.element,
 		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
@@ -12,7 +12,7 @@
 
 
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
-   
+    $("#menus").loadMenus();
     //主列表加载，可反复调用进行刷新
     var config= {};  //table的参数，如搜索key，点击tree的id
     var mainList = function (options) {

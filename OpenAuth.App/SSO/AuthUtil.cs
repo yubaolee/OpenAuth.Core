@@ -50,7 +50,12 @@ namespace OpenAuth.App.SSO
             try
             {
                 var value = _helper.Get(null, requestUri);
-                return Boolean.Parse(value);
+                var result = JsonHelper.Instance.Deserialize<Response<bool>>(value);
+                if (result.Code == 200)
+                {
+                    return result.Result;
+                }
+                throw new Exception(result.Message);
             }
             catch (Exception ex)
             {
@@ -81,8 +86,13 @@ namespace OpenAuth.App.SSO
 
             try
             {
-                var value = _helper.Get<UserWithAccessedCtrls>(null, requestUri);
-                return value;
+                var value = _helper.Get(null, requestUri);
+                var result = JsonHelper.Instance.Deserialize<Response<UserWithAccessedCtrls>>(value);
+                if (result.Code == 200)
+                {
+                    return result.Result;
+                }
+                throw new Exception(result.Message);
             }
             catch (Exception ex)
             {
@@ -103,8 +113,13 @@ namespace OpenAuth.App.SSO
 
             try
             {
-                var value = _helper.Get<string>(null, requestUri);
-                return value;
+                var value = _helper.Get(null, requestUri);
+                var result = JsonHelper.Instance.Deserialize<Response<string>>(value);
+                if (result.Code == 200)
+                {
+                    return result.Result;
+                }
+                throw new Exception(result.Message);
             }
             catch (Exception ex)
             {

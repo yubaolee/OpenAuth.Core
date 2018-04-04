@@ -1,12 +1,14 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth'], function () {
+}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
     layui.droptree("/Categories/AllTypes", "#TypeName", "#TypeId", false);
+
+    $("#menus").loadMenus();
    
     //主列表加载，可反复调用进行刷新
     var config= {};  //table的参数，如搜索key，点击tree的id

@@ -169,6 +169,7 @@ layui.config({
             return false; //阻止表单跳转。
         });
 
+    flowDesignPanel.reinitSize($(window).width() - 30, $(window).height() - 100);
     $(window).resize(function () {
         flowDesignPanel.reinitSize($(window).width() - 30, $(window).height() - 100);
     });

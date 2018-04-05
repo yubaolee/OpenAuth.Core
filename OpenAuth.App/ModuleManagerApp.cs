@@ -86,5 +86,10 @@ namespace OpenAuth.App
         }
         #endregion
 
+        public void UpdateMenu(ModuleElement model)
+        {
+            UnitWork.Update<ModuleElement>(u =>u.Id, model);
+            UnitWork.Save();
+        }
     }
 }

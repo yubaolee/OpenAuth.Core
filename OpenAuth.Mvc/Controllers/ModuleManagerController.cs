@@ -177,6 +177,24 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
 
+        //添加菜单
+        [HttpPost]
+        [ValidateInput(false)]
+        public string UpdateMenu(ModuleElement model)
+        {
+            try
+            {
+                App.UpdateMenu(model);
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
+
         /// <summary>
         /// 删除菜单
         /// </summary>

@@ -73,7 +73,7 @@ layui.config({
             reload: load
         }
     }();
-
+    $("#tree").height($("div.layui-table-view").height());
     //添加（编辑）模块对话框
     var editDlg = function() {
         var vm = new Vue({
@@ -163,7 +163,7 @@ layui.config({
                 show({
                     Id: "",
                     ModuleId:moduleId,
-                    SortNo: 1
+                    Sort: 1
                 });
             },
             update: function (data) { //弹出编辑框
@@ -182,24 +182,21 @@ layui.config({
         } 
     });
 
-    //监听菜单表格内部按钮
-    table.on('tool(menulist)', function (obj) {
-        var data = obj.data;
-        if (obj.event === 'del') {      //删除菜单
-            openauth.del("/moduleManager/delMenu",
-                data.Id,menuList);
-        }
-    });
-
-
     //监听页面主按钮操作
     var active = {
-        btnDel: function () {      //批量删除
+        btnDel: function () {      //删除模块
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
             openauth.del("/moduleManager/Delete",
                 data.map(function (e) { return e.Id; }),
                 mainList);
+        }
+        , btnDelMenu: function () {      //删除菜单
+            var checkStatus = table.checkStatus('menuList')
+                , data = checkStatus.data;
+            openauth.del("/moduleManager/DelMenu",
+                data.map(function (e) { return e.Id; }),
+                menuList);
         }
         , btnAdd: function () {  //添加模块
             editDlg.add();
@@ -223,21 +220,21 @@ layui.config({
              editDlg.update(data[0]);
          }
 
+        , btnEditMenu: function () {  //编辑菜单
+            var checkStatus = table.checkStatus('menuList')
+                , data = checkStatus.data;
+            if (data.length != 1) {
+                layer.msg("请选择编辑的菜单");
+                return;
+            }
+            meditDlg.update(data[0]);
+        }
+
         , search: function () {   //搜索
             mainList({ key: $('#key').val() });
         }
         , btnRefresh: function() {
             mainList();
-        }
-        , btnAccessModule: function () {
-            var index = layer.open({
-                title: "为用户分配模块",
-                type: 2,
-                content: "newsAdd.html",
-                success: function(layero, index) {
-                    
-                }
-            });
         }
     };
 

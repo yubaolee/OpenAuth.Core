@@ -9,6 +9,7 @@
 // File: AuthenService.cs
 // ***********************************************************************
 
+using System;
 using System.Linq;
 using OpenAuth.Repository.Domain;
 
@@ -17,15 +18,21 @@ namespace OpenAuth.App
     /// <summary>
     /// 领域服务
     /// <para>超级管理员权限</para>
+    /// <para>todo:超级管理员使用guid.empty为ID，可以根据需要修改</para>
     /// </summary>
     public class SystemAuthService : AuthoriseService
     {
         public SystemAuthService()
         {
-            _user = new User { Account = "System", Id = string.Empty };
+            _user = new User
+            {
+                Account = "System",
+                Name = "超级管理员",
+                Id = Guid.Empty.ToString()
+            };
         }
 
-       
+
 
         public override IQueryable<Org> GetOrgsQuery()
         {

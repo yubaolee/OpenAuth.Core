@@ -48,15 +48,12 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(resp);
         }
 
-        /// <summary>
-        /// 开发者登录
-        /// </summary>
-        public string LoginByDev()
+        public string Login(string username, string password)
         {
             var resp = new Response();
             try
             {
-                var result = AuthUtil.Login(_appKey, "System", "123456");
+                var result = AuthUtil.Login(_appKey, username, password);
                 if (result.Code == 200)
                 {
                     var cookie = new HttpCookie("Token", result.Token)

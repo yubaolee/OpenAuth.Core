@@ -196,7 +196,7 @@
     <Content Include="js\flow\img\gooflow_icon.png" />
     <Content Include="js\flowlayout.js" />
     <Content Include="js\utils.js" />
-    <Content Include="userJs\flowInstanceOp.js" />
+    <Content Include="userJs\verification.js" />
     <Content Include="userJs\flowInstanceEdit.js" />
     <Content Include="userJs\flowInstanceWait.js" />
     <Content Include="userJs\flowInstanceDisposed.js" />

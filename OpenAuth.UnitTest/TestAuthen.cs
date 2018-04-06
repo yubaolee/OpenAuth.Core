@@ -22,7 +22,7 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            var service=  app.Create("System");
+            var service=  app.Create("admin");
 
             var modules = service.Modules;
            

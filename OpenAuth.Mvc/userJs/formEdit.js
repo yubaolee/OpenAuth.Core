@@ -3,9 +3,8 @@
 }).use(['form', 'vue', 'ztree', 'layer', 'utils', 'jquery', 'table', 'droptree', 'openauth', 'element'], function () {
     var form = layui.form,
         element = layui.element,
-		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
+		layer =  layui.layer ,
         $ = layui.jquery;
-    var thiswin = (top == undefined) ? window : top.window;
     var table = layui.table;
     var openauth = layui.openauth;
 

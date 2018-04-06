@@ -143,7 +143,7 @@ namespace OpenAuth.App.SSO
                 var value = _helper.Post(new
                 {
                     AppKey = appKey,
-                    UserName = username,
+                    Account = username,
                     Password = pwd
                 }, requestUri);
 

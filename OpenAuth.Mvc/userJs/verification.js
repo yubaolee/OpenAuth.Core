@@ -10,18 +10,12 @@
    var id = $.getUrlParam("id");   //ID
     $("#FlowInstanceId").val(id);
 
-    //标签切换
-    element.on('tab(tab)', function (data) {
-        layer.iframeAuto(index);
-    });
-
+   
     $.getJSON('/FlowInstances/get?id=' + id,
         function (data) {
             var obj = data.Result;
             var schemeContent = JSON.parse(obj.SchemeContent);
             var flowDesignPanel = $('#flowPanel').flowdesign({
-                height: 300,
-                widht: 300,
                 haveTool: false
                 , isprocessing: true
                 , activityId: obj.ActivityId
@@ -56,5 +50,5 @@
     }
 
     //让层自适应iframe
-    layer.iframeAuto(index);
+     layer.iframeAuto(index);
 })

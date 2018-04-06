@@ -243,28 +243,28 @@ namespace OpenAuth.App.Flow
         public string NodeConfluence(string nodeId, Tag tag)
         {
             string res = "-1";
-            string _nextNodeId = GetNextNodeByNodeId(nodeId);//获取下一个节点
-            if (_nextNodeId != "-1")
+            string nextNodeId = GetNextNodeByNodeId(nodeId);//获取下一个节点
+            if (nextNodeId != "-1")
             {
                 Dictionary<string, List<FlowLine>> toLines = GetToLineDictionary(_runtimeModel.schemeContentJson);
-                int allnum = toLines[_nextNodeId].Count;
+                int allnum = toLines[nextNodeId].Count;
                 int i = 0;
-                foreach (var item in _runtimeModel.schemeContentJson.Flow.nodes)
+                foreach (var item in _runtimeModel.schemeContentJson.nodes)
                 {
-                    if (item.id.Value == _nextNodeId)
+                    if (item.id == nextNodeId)
                     {
-                        if (item.setInfo.NodeConfluenceType.Value == "")//0所有步骤通过  todo:先用空格
+                        if (string.IsNullOrEmpty(item.setInfo.NodeConfluenceType))//0所有步骤通过  todo:先用空格
                         {
                             if (tag.Taged == 1)
                             {
                                 if (item.setInfo.ConfluenceOk == null)
                                 {
-                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk = 1;
+                                    _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceOk = 1;
                                     res = "1";
                                 }
-                                else if (item.setInfo.ConfluenceOk.Value == (allnum - 1))
+                                else if (item.setInfo.ConfluenceOk == (allnum - 1))
                                 {
-                                    res = GetNextNodeByNodeId(_nextNodeId);
+                                    res = GetNextNodeByNodeId(nextNodeId);
                                     if (res == "-1")
                                     {
                                         throw (new Exception("会签成功寻找不到下一个节点"));
@@ -272,16 +272,16 @@ namespace OpenAuth.App.Flow
                                 }
                                 else
                                 {
-                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk++;
+                                    _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceOk++;
                                     res = "1";
                                 }
                             }
                         }
-                        else if (item.setInfo.NodeConfluenceType.Value == "1")//1一个步骤通过即可
+                        else if (item.setInfo.NodeConfluenceType == "1")//1一个步骤通过即可
                         {
                             if (tag.Taged ==1)
                             {
-                                res = GetNextNodeByNodeId(_nextNodeId);
+                                res = GetNextNodeByNodeId(nextNodeId);
                                 if (res == "-1")
                                 {
                                     throw (new Exception("会签成功寻找不到下一个节点"));
@@ -291,16 +291,16 @@ namespace OpenAuth.App.Flow
                             {
                                 if (item.setInfo.ConfluenceNo == null)
                                 {
-                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo = 1;
+                                    _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceNo = 1;
                                     res = "1";
                                 }
-                                else if (item.setInfo.ConfluenceNo.Value == (allnum - 1))
+                                else if (item.setInfo.ConfluenceNo == (allnum - 1))
                                 {
                                     res = "-1";
                                 }
                                 else
                                 {
-                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo++;
+                                    _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceNo++;
                                     res = "1";
                                 }
                             }
@@ -311,33 +311,33 @@ namespace OpenAuth.App.Flow
                             {
                                 if (item.setInfo.ConfluenceOk == null)
                                 {
-                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk = 1;
+                                    _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceOk = 1;
                                 }
                                 else
                                 {
-                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceOk++;
+                                    _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceOk++;
                                 }
                             }
                             else
                             {
                                 if (item.setInfo.ConfluenceNo == null)
                                 {
-                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo = 1;
+                                    _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceNo = 1;
                                 }
                                 else
                                 {
-                                    _runtimeModel.schemeContentJson.Flow.nodes[i].setInfo.ConfluenceNo++;
+                                    _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceNo++;
                                 }
                             }
-                            if ((item.setInfo.ConfluenceNo.Value + item.setInfo.ConfluenceOk.Value) / allnum * 100 > int.Parse(item.setInfo.NodeConfluenceRate.Value))
+                            if ((item.setInfo.ConfluenceNo + item.setInfo.ConfluenceOk) / allnum * 100 > int.Parse(item.setInfo.NodeConfluenceRate))
                             {
-                                res = GetNextNodeByNodeId(_nextNodeId);
+                                res = GetNextNodeByNodeId(nextNodeId);
                                 if (res == "-1")
                                 {
                                     throw (new Exception("会签成功寻找不到下一个节点"));
                                 }
                             }
-                            else if ((item.setInfo.ConfluenceNo.Value + item.setInfo.ConfluenceOk.Value) == allnum)
+                            else if ((item.setInfo.ConfluenceNo + item.setInfo.ConfluenceOk) == allnum)
                             {
                                 res = "-1";
                             }
@@ -353,19 +353,19 @@ namespace OpenAuth.App.Flow
                 if (res == "-1")
                 {
                     tag.Taged = -1;
-                    MakeTagNode(_nextNodeId, tag);
+                    MakeTagNode(nextNodeId, tag);
                 }
                 else if (res != "1")  //则时res是会签结束节点的ID
                 {
                     tag.Taged = 1;
-                    MakeTagNode(_nextNodeId,tag);
+                    MakeTagNode(nextNodeId,tag);
                     _runtimeModel.nextNodeId = res;
                     _runtimeModel.nextNodeType = GetNodeType(res);
                 }
                 else
                 {
-                    _runtimeModel.nextNodeId = _nextNodeId;
-                    _runtimeModel.nextNodeType = GetNodeType(_nextNodeId);
+                    _runtimeModel.nextNodeId = nextNodeId;
+                    _runtimeModel.nextNodeType = GetNodeType(nextNodeId);
                 }
                 return res;
             }
@@ -411,7 +411,7 @@ namespace OpenAuth.App.Flow
             int i = 0;
             foreach (var item in _runtimeModel.schemeContentJson.nodes)
             {
-                if (item.id.Value.ToString() == nodeId)
+                if (item.id == nodeId)
                 {
                     _runtimeModel.schemeContentJson.nodes[i].setInfo.Taged = tag.Taged;
                     _runtimeModel.schemeContentJson.nodes[i].setInfo.UserId = tag.UserId;

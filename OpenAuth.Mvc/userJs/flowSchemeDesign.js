@@ -5,7 +5,6 @@ layui.config({
     var form = layui.form, element = layui.element,
         layer = layui.layer,
         $ = layui.jquery;
-    var thiswin = (top == undefined) ? window : top.window;
     var table = layui.table;
     var openauth = layui.openauth;
 
@@ -108,7 +107,7 @@ layui.config({
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     var body = layer.getChildFrame('body', index);
-                    var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                     var nodedata = iframeWin.getVal();
                     flowDesignPanel.SetNodeEx(object.id, nodedata);
                     layer.close(index);

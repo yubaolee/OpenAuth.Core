@@ -65,7 +65,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
                 var user = _objCacheProvider.GetCache(token);
                 if (user != null)
                 {
-                    result.Result = _app.GetAccessedControls(user.UserName);
+                    result.Result = _app.GetAccessedControls(user.Account);
                 }
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
                 var user = _objCacheProvider.GetCache(token);
                 if (user != null)
                 {
-                    result.Result = user.UserName;
+                    result.Result = user.Account;
                 }
             }
             catch (Exception ex)

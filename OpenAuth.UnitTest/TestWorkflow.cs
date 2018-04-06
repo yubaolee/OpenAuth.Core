@@ -12,11 +12,13 @@ namespace OpenAuth.UnitTest
     {
         private FlowSchemeApp _app;
         private FlowInstanceApp _runApp;
+        private AuthorizeApp authenApp;
 
         public TestWorkflow()
         {
             _app = AutofacExt.GetFromFac<FlowSchemeApp>();
             _runApp = AutofacExt.GetFromFac<FlowInstanceApp>();
+            authenApp = AutofacExt.GetFromFac<AuthorizeApp>();
         }
 
         /// <summary>
@@ -26,9 +28,10 @@ namespace OpenAuth.UnitTest
         [TestMethod]
         public void Verify()
         {
+            authenApp.Create("System");
             _runApp.Verification(new VerificationReq
             {
-                FlowInstanceId = "132333fe-d8db-4373-b101-b0ac574d3b1a",
+                FlowInstanceId = "7335d82f-5c3d-43e5-a53b-7d51a7cb1f59",
                 VerificationFinally = "3"
             });
         }

@@ -65,48 +65,7 @@
     }();
     $("#tree").height($("div.layui-table-view").height());
 
-    //添加（编辑）对话框
-    var editDlg = function () {
-
-        var update = false;  //是否为更新
-        var show = function (data) {
-            var title = update ? "编辑信息" : "添加";
-
-            layer.open({
-                type: 2,
-                area: ['800px', '700px'], //宽高
-                maxmin: true, //开启最大化最小化按钮
-                title: title,
-                content: '/flowInstances/edit?id=' + data.Id,
-                btn: ['保存', '关闭'],
-                yes: function (index, layero) {
-                    var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                    iframeWin.submit();
-                },
-                btn2: function (index) {
-                    layer.close(index);
-                    mainList();
-                },
-                cancel: function (index) {
-                    layer.close(index);
-                    mainList();
-                }
-            });
-        }
-        return {
-            add: function () { //弹出添加
-                update = false;
-                show({
-                    Id: ''
-                });
-            },
-            update: function (data) { //弹出编辑框
-                update = true;
-                show(data);
-            }
-        };
-    }();
-    
+  
     //监听表格内部按钮
     table.on('tool(list)', function (obj) {
         var data = obj.data;
@@ -117,27 +76,7 @@
 
     //监听页面主按钮操作
     var active = {
-        btnDel: function () {      //批量删除
-            var checkStatus = table.checkStatus('mainList')
-                , data = checkStatus.data;
-            openauth.del("/FlowInstances/Delete",
-                data.map(function (e) { return e.Id; }),
-                mainList);
-        }
-        , btnAdd: function () {  //添加
-            editDlg.add();
-        }
-         , btnEdit: function () {  //编辑
-             var checkStatus = table.checkStatus('mainList')
-               , data = checkStatus.data;
-             if (data.length != 1) {
-                 layer.msg("请选择编辑的行，且同时只能编辑一行");
-                 return;
-             }
-             editDlg.update(data[0]);
-         }
-
-        , btnVerification: function () {  //处理
+       btnDetail: function () {  //处理
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
             if (data.length != 1) {
@@ -147,16 +86,12 @@
 
             layer.open({
                 type: 2,
-                area: ['750px', '550px'], //宽高
+                area: ['800px', '600px'], //宽高
                 maxmin: true, //开启最大化最小化按钮
                 title: '处理流程',
-                content: '/flowInstances/Verification?id=' + data[0].Id,
-                btn: ['保存', '关闭'],
-                yes: function (index, layero) {
-                    var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                    iframeWin.submit();
-                },
-                btn2: function (index) {
+                content: ['/flowInstances/Verification?id=' + data[0].Id, 'no'],
+                btn: ['关闭'],
+                yes: function (index) {
                     layer.close(index);
                     mainList();
                 },
@@ -165,13 +100,6 @@
                     mainList();
                 }
             });
-        }
-
-        , search: function () {   //搜索
-            mainList({ key: $('#key').val() });
-        }
-        , btnRefresh: function() {
-            mainList();
         }
     };
 

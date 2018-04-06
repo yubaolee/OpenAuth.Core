@@ -135,7 +135,7 @@
              editDlg.update(data[0]);
          }
 
-        , btnVerification: function () {  //处理
+        , btnDetail: function () {  //处理
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
             if (data.length != 1) {
@@ -145,16 +145,12 @@
 
             layer.open({
                 type: 2,
-                area: ['750px', '550px'], //宽高
+                area: ['800px', '600px'], //宽高
                 maxmin: true, //开启最大化最小化按钮
                 title: '处理流程',
-                content: '/flowInstances/Verification?id=' + data[0].Id,
-                btn: ['保存', '关闭'],
-                yes: function (index, layero) {
-                    var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                    iframeWin.submit();
-                },
-                btn2: function (index) {
+                content: ['/flowInstances/Verification?id=' + data[0].Id, 'no'],
+                btn: ['关闭'],
+                yes: function (index) {
                     layer.close(index);
                     mainList();
                 },

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
@@ -12,21 +12,21 @@ using OpenAuth.Repository.Domain;
 namespace OpenAuth.App
 {
     /// <summary>
-    /// ¹¤×÷Á÷ÊµÀı±í²Ù×÷
+    /// å·¥ä½œæµå®ä¾‹è¡¨æ“ä½œ
     /// </summary>
     public class FlowInstanceApp : BaseApp<FlowInstance>
     {
 
-        #region Á÷³Ì´¦ÀíAPI
+        #region æµç¨‹å¤„ç†API
         /// <summary>
-        /// ´´½¨Ò»¸öÊµÀı
+        /// åˆ›å»ºä¸€ä¸ªå®ä¾‹
         /// </summary>
         /// <returns></returns>
         public bool CreateInstance(JObject obj)
         {
             var flowInstance = obj.ToObject<FlowInstance>();
 
-            //»ñÈ¡Ìá½»µÄ±íµ¥Êı¾İ
+            //è·å–æäº¤çš„è¡¨å•æ•°æ®
             var frmdata = new JObject();
             foreach (var property in obj.Properties().Where(U => U.Name.Contains("data_")))
             {
@@ -34,37 +34,40 @@ namespace OpenAuth.App
             }
             flowInstance.FrmData = JsonHelper.Instance.Serialize(frmdata);
 
-            //´´½¨ÔËĞĞÊµÀı
+            //åˆ›å»ºè¿è¡Œå®ä¾‹
             var wfruntime = new FlowRuntime(flowInstance);
             var user = AuthUtil.GetCurrentUser();
 
-            #region ¸ù¾İÔËĞĞÊµÀı¸Ä±äµ±Ç°½Úµã×´Ì¬
+            #region æ ¹æ®è¿è¡Œå®ä¾‹æ”¹å˜å½“å‰èŠ‚ç‚¹çŠ¶æ€
             flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
-            flowInstance.ActivityType = wfruntime.GetNextNodeType();//-1ÎŞ·¨ÔËĞĞ,0»áÇ©¿ªÊ¼,1»áÇ©½áÊø,2Ò»°ã½Úµã,4Á÷³ÌÔËĞĞ½áÊø
+            flowInstance.ActivityType = wfruntime.GetNextNodeType();//-1æ— æ³•è¿è¡Œ,0ä¼šç­¾å¼€å§‹,1ä¼šç­¾ç»“æŸ,2ä¸€èˆ¬èŠ‚ç‚¹,4æµç¨‹è¿è¡Œç»“æŸ
             flowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
             flowInstance.PreviousId = wfruntime.runtimeModel.currentNodeId;
             flowInstance.CreateUserId = user.User.Id;
             flowInstance.CreateUserName = user.User.Account;
-            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetMakerList(wfruntime) : "");//µ±Ç°½Úµã¿ÉÖ´ĞĞµÄÈËĞÅÏ¢
+            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetMakerList(wfruntime) : "");//å½“å‰èŠ‚ç‚¹å¯æ‰§è¡Œçš„äººä¿¡æ¯
             flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4 ? 1 : 0);
+
+            UnitWork.Add(flowInstance);
             #endregion
 
-            #region Á÷³Ì²Ù×÷¼ÇÂ¼
+            #region æµç¨‹æ“ä½œè®°å½•
             FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory
             {
                 InstanceId = flowInstance.Id,
                 CreateUserId = user.User.Id,
                 CreateUserName = user.User.Name,
-                Content = "¡¾´´½¨¡¿"
+                CreateDate = DateTime.Now,
+                Content = "ã€åˆ›å»ºã€‘"
                           + user.User.Name
-                          + "´´½¨ÁËÒ»¸öÁ÷³Ì½ø³Ì¡¾"
+                          + "åˆ›å»ºäº†ä¸€ä¸ªæµç¨‹è¿›ç¨‹ã€"
                           + flowInstance.Code + "/"
-                          + flowInstance.CustomName + "¡¿"
+                          + flowInstance.CustomName + "ã€‘"
             };
-
+            UnitWork.Add(processOperationHistoryEntity);
             #endregion
 
-            #region Á÷×ª¼ÇÂ¼
+            #region æµè½¬è®°å½•
 
             FlowInstanceTransitionHistory processTransitionHistoryEntity = new FlowInstanceTransitionHistory
             {
@@ -82,96 +85,91 @@ namespace OpenAuth.App
             };
             #endregion
 
-            UnitWork.Add(flowInstance);
-            UnitWork.Add(processOperationHistoryEntity);
             UnitWork.Add(processTransitionHistoryEntity);
             UnitWork.Save();
             return true;
         }
 
         /// <summary>
-        /// ½ÚµãÉóºË
+        /// èŠ‚ç‚¹å®¡æ ¸
         /// </summary>
         /// <param name="instanceId"></param>
         /// <returns></returns>
         public bool NodeVerification(string instanceId, bool flag, string description = "")
         {
+            var user = AuthUtil.GetCurrentUser().User;
             FlowInstance flowInstance = Get(instanceId);
             FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
             {
-                InstanceId = instanceId
-            };//²Ù×÷¼ÇÂ¼
-            FlowInstanceTransitionHistory processTransitionHistoryEntity = null;//Á÷×ª¼ÇÂ¼
-
+                InstanceId = instanceId,
+                CreateUserId = user.Id,
+                CreateUserName = user.Name,
+                CreateDate = DateTime.Now
+            };//æ“ä½œè®°å½•
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
-            var user = AuthUtil.GetCurrentUser().User;
             var tag = new Tag
             {
                 UserName = user.Name,
                 UserId = user.Id,
                 Description = description
             };
-            #region »áÇ©
-            if (flowInstance.ActivityType == 0)//»áÇ©
+            #region ä¼šç­¾
+            if (flowInstance.ActivityType == 0)//ä¼šç­¾
             {
                 tag.Taged = 1;
-                wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);//±ê¼Çµ±Ç°½ÚµãÍ¨¹ı
-                ///Ñ°ÕÒĞèÒªÉóºËµÄ½ÚµãId
-                string _VerificationNodeId = "";
-                List<string> _nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.currentNodeId);
-                string _makerList = "";
-                foreach (string item in _nodelist)
+                wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);//æ ‡è®°å½“å‰èŠ‚ç‚¹é€šè¿‡
+                
+                string verificationNodeId = ""; //å¯»æ‰¾éœ€è¦å®¡æ ¸çš„èŠ‚ç‚¹Id
+                List<string> nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.currentNodeId);
+                foreach (string item in nodelist)
                 {
-                    _makerList = GetMakerList(wfruntime.runtimeModel.nodes[item], wfruntime.runtimeModel.flowInstanceId);
-                    if (_makerList != "-1")
+                    var makerList = GetMakerList(wfruntime.runtimeModel.nodes[item]
+                        , wfruntime.runtimeModel.flowInstanceId);
+                    if (makerList != "-1")
                     {
-                        var id = AuthUtil.GetCurrentUser().User.Id;
-                        foreach (string one in _makerList.Split(','))
+                        foreach (string one in makerList.Split(','))
                         {
-                            if (id == one || id.IndexOf(one) != -1)
+                            if (user.Id == one || user.Id.IndexOf(one) != -1)
                             {
-                                _VerificationNodeId = item;
+                                verificationNodeId = item;
                                 break;
                             }
                         }
                     }
                 }
 
-                if (_VerificationNodeId != "")
+                if (verificationNodeId != "")
                 {
                     if (flag)
                     {
                         tag.Taged = 1;
-                        flowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾" + wfruntime.runtimeModel.nodes[_VerificationNodeId].name + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿Í¬Òâ,±¸×¢£º" + description;
+                        flowInstanceOperationHistory.Content = "ã€" + wfruntime.runtimeModel.nodes[verificationNodeId].name + "ã€‘ã€" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘åŒæ„,å¤‡æ³¨ï¼š" + description;
                     }
                     else
                     {
                         tag.Taged = -1;
-                        flowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾" + wfruntime.runtimeModel.nodes[_VerificationNodeId].name + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿²»Í¬Òâ,±¸×¢£º" + description;
+                        flowInstanceOperationHistory.Content = "ã€" + wfruntime.runtimeModel.nodes[verificationNodeId].name + "ã€‘ã€" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘ä¸åŒæ„,å¤‡æ³¨ï¼š" + description;
                     }
 
-
-                    string confluenceres = wfruntime.NodeConfluence(_VerificationNodeId, tag);
-
+                    string confluenceres = wfruntime.NodeConfluence(verificationNodeId, tag);
                     switch (confluenceres)
                     {
-                        case "-1"://²»Í¨¹ı
+                        case "-1"://ä¸é€šè¿‡
                             flowInstance.IsFinish = 3;
                             break;
-                        case "1"://µÈ´ı
+                        case "1"://ç­‰å¾…
                             break;
-                        default://Í¨¹ı
+                        default://é€šè¿‡
                             flowInstance.PreviousId = flowInstance.ActivityId;
                             flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
-                            flowInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1ÎŞ·¨ÔËĞĞ,0»áÇ©¿ªÊ¼,1»áÇ©½áÊø,2Ò»°ã½Úµã,4Á÷³ÌÔËĞĞ½áÊø
+                            flowInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1æ— æ³•è¿è¡Œ,0ä¼šç­¾å¼€å§‹,1ä¼šç­¾ç»“æŸ,2ä¸€èˆ¬èŠ‚ç‚¹,4æµç¨‹è¿è¡Œç»“æŸ
                             flowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
                             flowInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
-                            flowInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime));//µ±Ç°½Úµã¿ÉÖ´ĞĞµÄÈËĞÅÏ¢
+                            flowInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime));//å½“å‰èŠ‚ç‚¹å¯æ‰§è¡Œçš„äººä¿¡æ¯
 
-                            #region Á÷×ª¼ÇÂ¼
-
-                            processTransitionHistoryEntity = new FlowInstanceTransitionHistory
+                            #region æµè½¬è®°å½•
+                            UnitWork.Add(new FlowInstanceTransitionHistory
                             {
                                 InstanceId = flowInstance.Id,
                                 CreateUserId = user.Id,
@@ -184,7 +182,7 @@ namespace OpenAuth.App
                                 ToNodeType = wfruntime.runtimeModel.nextNodeType,
                                 IsFinish = wfruntime.runtimeModel.nextNodeType ==4?1:0,
                                 TransitionSate = 0
-                            };
+                            });
                             #endregion
 
                             break;
@@ -192,13 +190,13 @@ namespace OpenAuth.App
                 }
                 else
                 {
-                    throw (new Exception("ÉóºËÒì³£,ÕÒ²»µ½ÉóºË½Úµã"));
+                    throw (new Exception("å®¡æ ¸å¼‚å¸¸,æ‰¾ä¸åˆ°å®¡æ ¸èŠ‚ç‚¹"));
                 }
             }
             #endregion
 
-            #region Ò»°ãÉóºË
-            else//Ò»°ãÉóºË
+            #region ä¸€èˆ¬å®¡æ ¸
+            else//ä¸€èˆ¬å®¡æ ¸
             {
                 if (flag)
                 {
@@ -208,11 +206,11 @@ namespace OpenAuth.App
                     flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
                     flowInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;
                     flowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
-                    flowInstance.MakerList = wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime);//µ±Ç°½Úµã¿ÉÖ´ĞĞµÄÈËĞÅÏ¢
+                    flowInstance.MakerList = wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime);//å½“å‰èŠ‚ç‚¹å¯æ‰§è¡Œçš„äººä¿¡æ¯
                     flowInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
-                    #region Á÷×ª¼ÇÂ¼
+                    #region æµè½¬è®°å½•
 
-                    processTransitionHistoryEntity = new FlowInstanceTransitionHistory
+                   UnitWork.Add(new FlowInstanceTransitionHistory
                     {
                         InstanceId = flowInstance.Id,
                         CreateUserId = user.Id,
@@ -225,21 +223,21 @@ namespace OpenAuth.App
                         ToNodeType = wfruntime.runtimeModel.nextNodeType,
                         IsFinish = wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0,
                         TransitionSate = 0
-                    };
+                    });
                     #endregion
 
-
-                    flowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾" + wfruntime.runtimeModel.currentNode.name 
-                        + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿Í¬Òâ,±¸×¢£º" + description;
+                    flowInstanceOperationHistory.Content = "ã€" + wfruntime.runtimeModel.currentNode.name 
+                        + "ã€‘ã€" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘åŒæ„,å¤‡æ³¨ï¼š" + description;
                 }
                 else
                 {
-                    flowInstance.IsFinish = 3; //±íÊ¾¸Ã½Úµã²»Í¬Òâ
+                    flowInstance.IsFinish = 3; //è¡¨ç¤ºè¯¥èŠ‚ç‚¹ä¸åŒæ„
                     tag.Taged = -1;
                     wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);
 
-                    flowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾" 
-                        + wfruntime.runtimeModel.currentNode.name + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿²»Í¬Òâ,±¸×¢£º"
+                    flowInstanceOperationHistory.Content = "ã€" 
+                        + wfruntime.runtimeModel.currentNode.name + "ã€‘ã€"
+                        + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘ä¸åŒæ„,å¤‡æ³¨ï¼š"
                         + description;
                 }
             }
@@ -249,12 +247,11 @@ namespace OpenAuth.App
 
             UnitWork.Update(flowInstance);
             UnitWork.Add(flowInstanceOperationHistory);
-            UnitWork.Add(processTransitionHistoryEntity);
             UnitWork.Save();
             return true;
         }
         /// <summary>
-        /// ²µ»Ø
+        /// é©³å›
         /// </summary>
         /// <returns></returns>
         public bool NodeReject(VerificationReq reqest)
@@ -262,15 +259,8 @@ namespace OpenAuth.App
             var user = AuthUtil.GetCurrentUser().User;
 
             FlowInstance flowInstance = Get(reqest.FlowInstanceId);
-            FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
-            {
-                InstanceId = reqest.FlowInstanceId,
-                CreateUserId = user.Id,
-                CreateUserName = user.Name
-            };
-
+         
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
-
 
             string resnode = "";
             if (string.IsNullOrEmpty(reqest.NodeRejectStep))
@@ -291,17 +281,17 @@ namespace OpenAuth.App
             };
 
             wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);
-            flowInstance.IsFinish = 4;//4±íÊ¾²µ»Ø£¨ĞèÒªÉêÇëÕßÖØĞÂÌá½»±íµ¥£©
+            flowInstance.IsFinish = 4;//4è¡¨ç¤ºé©³å›ï¼ˆéœ€è¦ç”³è¯·è€…é‡æ–°æäº¤è¡¨å•ï¼‰
             if (resnode != "")
             {
                 flowInstance.PreviousId = flowInstance.ActivityId;
                 flowInstance.ActivityId = resnode;
                 flowInstance.ActivityType = wfruntime.GetNodeType(resnode);
                 flowInstance.ActivityName = wfruntime.runtimeModel.nodes[resnode].name;
-                flowInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodes[resnode], flowInstance.PreviousId);//µ±Ç°½Úµã¿ÉÖ´ĞĞµÄÈËĞÅÏ¢
-                #region Á÷×ª¼ÇÂ¼
+                flowInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodes[resnode], flowInstance.PreviousId);//å½“å‰èŠ‚ç‚¹å¯æ‰§è¡Œçš„äººä¿¡æ¯
+                #region æµè½¬è®°å½•
 
-                var processTransitionHistoryEntity = new FlowInstanceTransitionHistory
+                UnitWork.Add(new FlowInstanceTransitionHistory
                 {
                     InstanceId = flowInstance.Id,
                     CreateUserId = user.Id,
@@ -312,21 +302,27 @@ namespace OpenAuth.App
                     ToNodeId = wfruntime.runtimeModel.nextNodeId,
                     ToNodeName = wfruntime.runtimeModel.nextNode.name,
                     ToNodeType = wfruntime.runtimeModel.nextNodeType,
-                    IsFinish = wfruntime.runtimeModel.nextNodeType ==4?1:0,
+                    IsFinish = wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0,
                     TransitionSate = 1
-                };
-
-                UnitWork.Add(processTransitionHistoryEntity);
-
+                });
                 #endregion
             }
 
-            flowInstanceOperationHistory.Content = "¡¾" + "todo name" + "¡¿¡¾"
-                + wfruntime.runtimeModel.currentNode.name
-                + "¡¿¡¾" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "¡¿²µ»Ø,±¸×¢£º" + reqest.VerificationOpinion;
-
             UnitWork.Update(flowInstance);
-            UnitWork.Add(flowInstanceOperationHistory);
+
+            UnitWork.Add(new FlowInstanceOperationHistory
+            {
+                InstanceId = reqest.FlowInstanceId
+                ,CreateUserId = user.Id
+                ,CreateUserName = user.Name
+                ,CreateDate = DateTime.Now
+                ,Content = "ã€"
+                          + wfruntime.runtimeModel.currentNode.name
+                          + "ã€‘ã€" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "ã€‘é©³å›,å¤‡æ³¨ï¼š" 
+                          + reqest.VerificationOpinion
+
+        });
+
             UnitWork.Save();
 
             return true;
@@ -334,7 +330,7 @@ namespace OpenAuth.App
         #endregion
 
         /// <summary>
-        /// Ñ°ÕÒ¸Ã½ÚµãÖ´ĞĞÈË
+        /// å¯»æ‰¾è¯¥èŠ‚ç‚¹æ‰§è¡Œäºº
         /// </summary>
         /// <param name="wfruntime"></param>
         /// <returns></returns>
@@ -343,9 +339,9 @@ namespace OpenAuth.App
             string makerList = "";
             if (wfruntime.runtimeModel.nextNodeId == "-1")
             {
-                throw (new Exception("ÎŞ·¨Ñ°ÕÒµ½ÏÂÒ»¸ö½Úµã"));
+                throw (new Exception("æ— æ³•å¯»æ‰¾åˆ°ä¸‹ä¸€ä¸ªèŠ‚ç‚¹"));
             }
-            if (wfruntime.runtimeModel.nextNodeType == 0)//Èç¹ûÊÇ»áÇ©½Úµã
+            if (wfruntime.runtimeModel.nextNodeType == 0)//å¦‚æœæ˜¯ä¼šç­¾èŠ‚ç‚¹
             {
                 List<string> _nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.nextNodeId);
                 string _makerList = "";
@@ -354,11 +350,11 @@ namespace OpenAuth.App
                     _makerList = GetMakerList(wfruntime.runtimeModel.nodes[item], wfruntime.runtimeModel.flowInstanceId);
                     if (_makerList == "-1")
                     {
-                        throw (new Exception("ÎŞ·¨Ñ°ÕÒµ½»áÇ©½ÚµãµÄÉóºËÕß,Çë²é¿´Á÷³ÌÉè¼ÆÊÇ·ñÓĞÎÊÌâ!"));
+                        throw (new Exception("æ— æ³•å¯»æ‰¾åˆ°ä¼šç­¾èŠ‚ç‚¹çš„å®¡æ ¸è€…,è¯·æŸ¥çœ‹æµç¨‹è®¾è®¡æ˜¯å¦æœ‰é—®é¢˜!"));
                     }
                     if (_makerList == "1")
                     {
-                        throw (new Exception("»áÇ©½ÚµãµÄÉóºËÕß²»ÄÜÎªËùÓĞÈË,Çë²é¿´Á÷³ÌÉè¼ÆÊÇ·ñÓĞÎÊÌâ!"));
+                        throw (new Exception("ä¼šç­¾èŠ‚ç‚¹çš„å®¡æ ¸è€…ä¸èƒ½ä¸ºæ‰€æœ‰äºº,è¯·æŸ¥çœ‹æµç¨‹è®¾è®¡æ˜¯å¦æœ‰é—®é¢˜!"));
                     }
                     if (makerList != "")
                     {
@@ -372,14 +368,14 @@ namespace OpenAuth.App
                 makerList = GetMakerList(wfruntime.runtimeModel.nextNode, wfruntime.runtimeModel.flowInstanceId);
                 if (makerList == "-1")
                 {
-                    throw (new Exception("ÎŞ·¨Ñ°ÕÒµ½½ÚµãµÄÉóºËÕß,Çë²é¿´Á÷³ÌÉè¼ÆÊÇ·ñÓĞÎÊÌâ!"));
+                    throw (new Exception("æ— æ³•å¯»æ‰¾åˆ°èŠ‚ç‚¹çš„å®¡æ ¸è€…,è¯·æŸ¥çœ‹æµç¨‹è®¾è®¡æ˜¯å¦æœ‰é—®é¢˜!"));
                 }
             }
 
             return makerList;
         }
         /// <summary>
-        /// Ñ°ÕÒ¸Ã½ÚµãÖ´ĞĞÈË
+        /// å¯»æ‰¾è¯¥èŠ‚ç‚¹æ‰§è¡Œäºº
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -393,11 +389,11 @@ namespace OpenAuth.App
             }
             else
             {
-                if (node.setInfo.NodeDesignate == Setinfo.ALL_USER)//ËùÓĞ³ÉÔ±
+                if (node.setInfo.NodeDesignate == Setinfo.ALL_USER)//æ‰€æœ‰æˆå‘˜
                 {
                     makerList = "1";
                 }
-                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_USER)//Ö¸¶¨³ÉÔ±
+                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_USER)//æŒ‡å®šæˆå‘˜
                 {
                     makerList = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.users, makerList);
 
@@ -420,21 +416,21 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// ÉóºËÁ÷³Ì
-        /// <para>ÀîÓñ±¦ÓÚ2017-01-20 15:44:45</para>
+        /// å®¡æ ¸æµç¨‹
+        /// <para>æç‰å®äº2017-01-20 15:44:45</para>
         /// </summary>
         public void Verification(VerificationReq request)
         {
-            //²µ»Ø
+            //é©³å›
             if (request.VerificationFinally == "3")
             {
                 NodeReject(request);
             }
-            else if (request.VerificationFinally == "2")//±íÊ¾²»Í¬Òâ
+            else if (request.VerificationFinally == "2")//è¡¨ç¤ºä¸åŒæ„
             {
                 NodeVerification(request.FlowInstanceId, false, request.VerificationOpinion);
             }
-            else if (request.VerificationFinally == "1")//±íÊ¾Í¬Òâ
+            else if (request.VerificationFinally == "1")//è¡¨ç¤ºåŒæ„
             {
                 NodeVerification(request.FlowInstanceId, true, request.VerificationOpinion);
             }
@@ -447,11 +443,11 @@ namespace OpenAuth.App
 
         public TableData Load(QueryFlowInstanceListReq request)
         {
-            //todo:´ı°ì/ÒÑ°ì/ÎÒµÄ
+            //todo:å¾…åŠ/å·²åŠ/æˆ‘çš„
             var result = new TableData();
             var user = AuthUtil.GetCurrentUser();
 
-            if (request.type == "wait")   //´ı°ìÊÂÏî
+            if (request.type == "wait")   //å¾…åŠäº‹é¡¹
             {
                 result.count = UnitWork.Find<FlowInstance>(u => u.MakerList =="1" || u.MakerList.Contains(user.User.Id)).Count();
 
@@ -459,11 +455,22 @@ namespace OpenAuth.App
                     u => u.MakerList == "1" || u.MakerList.Contains(user.User.Id)).ToList();
 
             }
-            else if (request.type == "disposed")  //ÒÑ°ìÊÂÏî
+            else if (request.type == "disposed")  //å·²åŠäº‹é¡¹ï¼ˆå³æˆ‘å‚ä¸è¿‡çš„æµç¨‹ï¼‰
             {
-                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit, "CreateDate descending", null).ToList();
+                var instances = UnitWork.Find<FlowInstanceTransitionHistory>(u => u.CreateUserId == user.User.Id)
+                    .Select(u => u.InstanceId).Distinct();
+                var query = from ti in instances
+                    join ct in UnitWork.Find<FlowInstance>(null) on ti equals ct.Id
+                        into tmp
+                    from ct in tmp.DefaultIfEmpty()
+                    select ct;
+
+                result.data = query.OrderByDescending(u => u.CreateDate)
+                    .Skip((request.page - 1) * request.limit)
+                    .Take(request.limit).ToList();
+                result.count = instances.Count();
             }
-            else  //ÎÒµÄÁ÷³Ì
+            else  //æˆ‘çš„æµç¨‹
             {
                 result.count = UnitWork.Find<FlowInstance>(u => u.CreateUserId == user.User.Id).Count();
                 result.data = UnitWork.Find<FlowInstance>(request.page, request.limit,

@@ -23,7 +23,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             var viewModel = new PassportLoginRequest
             {
                 AppKey = appKey,
-                UserName = username,
+                Account = username,
             };
 
             return View(viewModel);
@@ -37,7 +37,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
 
             if (result.Code ==200)
             {
-                var redirectUrl = string.Format("{0}?token={1}&sessionusername={2}", result.ReturnUrl, result.Token, model.UserName);
+                var redirectUrl = string.Format("{0}?token={1}&sessionusername={2}", result.ReturnUrl, result.Token, model.Account);
 
                 //跳转默认回调页面
                 return Redirect(redirectUrl);

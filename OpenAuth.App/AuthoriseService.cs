@@ -105,7 +105,7 @@ namespace OpenAuth.App
         {
             var elementIds = UnitWork.Find<Relevance>(
                 u =>
-                    (u.FirstId == _user.Id && u.Key == Define.ROLERESOURCE) ||
+                    (u.FirstId == _user.Id && u.Key == Define.USERELEMENT) ||
                     (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
             return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
         }

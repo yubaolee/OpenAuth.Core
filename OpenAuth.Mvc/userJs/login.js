@@ -92,8 +92,9 @@ layui.config({
 
     //登录按钮事件
     form.on("submit(login)", function (data) {
-        $.getJSON("/Login/LoginByDev",
-            function(data) {
+        $.getJSON("/Login/Login"
+            , data.field
+            ,function(data) {
                 if (data.Code == 200) {
                     window.location.href = "/Home/Index";
                 } else {

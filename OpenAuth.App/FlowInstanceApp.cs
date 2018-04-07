@@ -115,27 +115,22 @@ namespace OpenAuth.App
                 Description = description
             };
             #region 会签
-            if (flowInstance.ActivityType == 0)//会签
+            if (flowInstance.ActivityType == 0)//当前节点是会签节点
             {
                 tag.Taged = 1;
-                wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);//标记当前节点通过
+                wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);//标记会签节点状态
                 
-                string verificationNodeId = ""; //寻找需要审核的节点Id
+                string verificationNodeId = ""; //寻找当前登陆用户可审核的节点Id
                 List<string> nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.currentNodeId);
                 foreach (string item in nodelist)
                 {
                     var makerList = GetMakerList(wfruntime.runtimeModel.nodes[item]
                         , wfruntime.runtimeModel.flowInstanceId);
-                    if (makerList != "-1")
+                    if (makerList == "-1") continue;
+
+                    if (makerList.Split(',').Any(one => user.Id == one))
                     {
-                        foreach (string one in makerList.Split(','))
-                        {
-                            if (user.Id == one || user.Id.IndexOf(one) != -1)
-                            {
-                                verificationNodeId = item;
-                                break;
-                            }
-                        }
+                        verificationNodeId = item;
                     }
                 }
 
@@ -152,13 +147,14 @@ namespace OpenAuth.App
                         flowInstanceOperationHistory.Content = "【" + wfruntime.runtimeModel.nodes[verificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注：" + description;
                     }
 
+                    wfruntime.MakeTagNode(verificationNodeId, tag);//标记审核节点状态
                     string confluenceres = wfruntime.NodeConfluence(verificationNodeId, tag);
                     switch (confluenceres)
                     {
                         case "-1"://不通过
                             flowInstance.IsFinish = 3;
                             break;
-                        case "1"://等待
+                        case "1"://等待，当前节点还是会签开始节点，不跳转
                             break;
                         default://通过
                             flowInstance.PreviousId = flowInstance.ActivityId;

@@ -21,6 +21,11 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        public ActionResult Assign()
+        {
+            return View();
+        }
+
         //添加或修改组织
         [System.Web.Mvc.HttpPost]
         public string Add(RoleView obj)

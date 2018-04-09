@@ -196,6 +196,8 @@
     <Content Include="js\flow\img\gooflow_icon.png" />
     <Content Include="js\flowlayout.js" />
     <Content Include="js\utils.js" />
+    <Content Include="layui\css\modules\laydate\default\font.css" />
+    <Content Include="userJs\assignRole.js" />
     <Content Include="userJs\verification.js" />
     <Content Include="userJs\flowInstanceEdit.js" />
     <Content Include="userJs\flowInstanceWait.js" />
@@ -204,7 +206,7 @@
     <Content Include="userJs\formEdit.js" />
     <Content Include="userJs\nodeInfo.js" />
     <Content Include="userJs\categories.js" />
-    <Content Include="userJs\assign.js" />
+    <Content Include="userJs\assignModule.js" />
     <Content Include="js\openauth.js" />
     <Content Include="js\droptree.js" />
     <Content Include="css\images.css" />
@@ -639,8 +641,11 @@
     <Content Include="Views\Forms\Edit.cshtml" />
     <Content Include="Views\FlowInstances\Disposed.cshtml" />
     <Content Include="Views\FlowInstances\Wait.cshtml" />
+    <Content Include="Views\RoleManager\Assign.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="layui\lay\modules\mobile\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>

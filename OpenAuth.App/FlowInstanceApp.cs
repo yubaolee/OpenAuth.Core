@@ -400,7 +400,7 @@ namespace OpenAuth.App
                 }
                 else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_ROLE)
                 {
-                    makerList = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.role, makerList);
+                    makerList = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.roles, makerList);
 
                     if (makerList == "")
                     {

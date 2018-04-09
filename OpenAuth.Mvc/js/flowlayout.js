@@ -270,13 +270,13 @@
                             _popoverhtml += '<li>类型:' + _NodeDesignate[item.setInfo.NodeDesignate] + '</li>';
                             if (item.setInfo.NodeDesignateData != undefined) {
                                 var _rowstr = "";
-                                for (var i in item.setInfo.NodeDesignateData.role) {
-                                    var _postitem = item.setInfo.NodeDesignateData.role[i];
+                                for (var i in item.setInfo.NodeDesignateData.roles) {
+                                    var _postitem = item.setInfo.NodeDesignateData.roles[i];
                                     var _one = top.clientroleData[_postitem];
                                     _rowstr += ' <span class="label label-success">' +
                                         (_one == undefined ? _postitem : _one.FullName) +
                                         '</span>';
-                                    if (i == item.setInfo.NodeDesignateData.role.length - 1) {
+                                    if (i == item.setInfo.NodeDesignateData.roles.length - 1) {
                                         _popoverhtml += '<li>角色:' + _rowstr + '</li>';
                                     }
                                 }

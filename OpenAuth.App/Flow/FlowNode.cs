@@ -50,8 +50,8 @@
     public class Nodedesignatedata
     {
         public string[] users { get; set; }
-        public string[] role { get; set; }
-        public string[] org { get; set; }
+        public string[] roles { get; set; }
+        public string[] orgs { get; set; }
     }
 
 

@@ -6,6 +6,7 @@ layui.config({
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
+    var id = $.getUrlParam("id");      //待分配的id
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
     //主列表加载，可反复调用进行刷新
@@ -21,15 +22,16 @@ layui.config({
                 //如果是异步请求数据方式，res即为你接口返回的信息。
                 //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
 
-                $.ajax("",{
+                $.ajax("/RoleManager/LoadForUser?userId=" + id,{
                     async: false
                     , success: function (data) {
                         var json = JSON.parse(data);
-                        
+                        if (json.Code == 500) return;
+                        var roles = json.Result;
                         //循环所有数据，找出对应关系，设置checkbox选中状态
                         for (var i = 0; i < res.data.length; i++) {
-                            for (var j = 0; j < json.length; j++) {
-                                if (res.data[i].Id != json[j].Id) continue;
+                            for (var j = 0; j < roles.length; j++) {
+                                if (res.data[i].Id != roles[j]) continue;
 
                                 //这里才是真正的有效勾选
                                 res.data[i]["LAY_CHECKED"] = true;
@@ -40,16 +42,18 @@ layui.config({
                             }
                             
                         }
+
+                        //如果构成全选
+                        var checkStatus = table.checkStatus('mainList');
+                        if (checkStatus.isAll) {
+                            $('.layui-table-header th[data-field="0"] input[type="checkbox"]').prop('checked', true);
+                            $('.layui-table-header th[data-field="0"] input[type="checkbox"]').next().addClass('layui-form-checked');
+                        }
                     }
                 });
                 
 
-                //如果构成全选
-                var checkStatus = table.checkStatus('mainList');
-                if (checkStatus.isAll) {
-                    $('.layui-table-header th[data-field="0"] input[type="checkbox"]').prop('checked', true);
-                    $('.layui-table-header th[data-field="0"] input[type="checkbox"]').next().addClass('layui-form-checked');
-                }
+                
 
             }
         });
@@ -95,5 +99,22 @@ layui.config({
     }();
     $("#tree").height($("div.layui-table-view").height());
 
+
+    //分配及取消分配
+    table.on('checkbox(list)', function (obj) {
+        console.log(obj.checked); //当前是否选中状态
+        console.log(obj.data); //选中行的相关数据
+        console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+
+        var url = "/RelevanceManager/Assign";
+        if (!obj.checked) {
+            url = "/RelevanceManager/UnAssign";
+        }
+        $.post(url, { type: "UserRole", firstId: id, secIds: [obj.data.Id] }
+                       , function (data) {
+                           layer.msg(data.Message);
+                       }
+                      , "json");
+    });
     //监听页面主按钮操作 end
 })

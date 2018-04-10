@@ -15,17 +15,13 @@
             <thead>
             <tr>
                 <th lay-data="{checkbox:true, fixed: true}"></th>
-                <th lay-data="{field:'Name', width:150}">菜单名称</th>
-                <th lay-data="{field:'DomId', width:150}">DomID</th>
-                <th lay-data="{templet:'#icontmpl', width:150}">按钮图标</th>
+                <th lay-data="{field:'Name', width:150}">角色名称</th>
+                <th lay-data="{field:'Organizations', width:250}">所属部门</th>
             </tr>
             </thead>
         </table>
-        <script type="text/html" id="icontmpl">
-            <i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">{{ d.Icon }}</i>
-        </script>
     </div>
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/assignModule.js"></script>
+<script type="text/javascript" src="/userJs/assignRole.js"></script>

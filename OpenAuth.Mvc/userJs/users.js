@@ -6,6 +6,7 @@ layui.config({
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
+    var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
     $("#menus").loadMenus("User");
@@ -158,14 +159,14 @@ layui.config({
             var checkStatus = table.checkStatus('mainList')
                , data = checkStatus.data;
             if (data.length != 1) {
-                layer.msg("请选择要分配的用户");
+                toplayer.msg("请选择要分配的用户");
                 return;
             }
 
-            var index = layer.open({
-                title: "为用户分配模块",
+            var index = toplayer.open({
+                title: "为用户【" + data[0].Name + "】分配模块",
                 type: 2,
-                area: ['450px', '400px'],
+                area: ['750px', '600px'],
                 content: "/ModuleManager/Assign?type=UserModule&menuType=UserElement&id=" + data[0].Id,
                 success: function(layero, index) {
                     
@@ -176,14 +177,14 @@ layui.config({
             var checkStatus = table.checkStatus('mainList')
                , data = checkStatus.data;
             if (data.length != 1) {
-                layer.msg("请选择要分配的用户");
+                toplayer.msg("请选择要分配的用户");
                 return;
             }
 
-            var index = layer.open({
-                title: "为用户分配角色",
+            var index = toplayer.open({
+                title: "为用户【"+ data[0].Name + "】分配角色",
                 type: 2,
-                area: ['450px', '400px'],
+                area: ['750px', '600px'],
                 content: "/RoleManager/Assign?type=UserRole&id=" + data[0].Id,
                 success: function (layero, index) {
 

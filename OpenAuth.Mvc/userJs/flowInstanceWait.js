@@ -118,8 +118,8 @@
                type: 2,
                area: ['800px', '600px'], //宽高
                maxmin: true, //开启最大化最小化按钮
-               title: '处理流程',
-               content: ['/flowInstances/Verification?id=' + data[0].Id, 'no'],
+               title: '进度详情',
+               content: ['/flowInstances/detail?id=' + data[0].Id, 'no'],
                btn: ['关闭'],
                yes: function (index) {
                    layer.close(index);

@@ -198,6 +198,7 @@
     <Content Include="js\utils.js" />
     <Content Include="layui\css\modules\laydate\default\font.css" />
     <Content Include="userJs\assignRole.js" />
+    <Content Include="userJs\flowinstanceDetail.js" />
     <Content Include="userJs\verification.js" />
     <Content Include="userJs\flowInstanceEdit.js" />
     <Content Include="userJs\flowInstanceWait.js" />
@@ -642,6 +643,7 @@
     <Content Include="Views\FlowInstances\Disposed.cshtml" />
     <Content Include="Views\FlowInstances\Wait.cshtml" />
     <Content Include="Views\RoleManager\Assign.cshtml" />
+    <Content Include="Views\FlowInstances\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="layui\lay\modules\mobile\" />

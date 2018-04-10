@@ -111,10 +111,10 @@ namespace OpenAuth.App
             if (value == null)
                 value = item.GetValue("value") == null ? "" : item.GetValue("value").ToString();
             string style =item.GetValue("style") == null ? "" : item.GetValue("style").ToString();
-            string temp_html =  string.Format(temp, value, name, style);
-            if("view"==(action))
+            string tempHtml =  string.Format(temp, value, name, style);
+            if("view"==action)
                 return string.Format(temp_view,style,value);
-            return temp_html;
+            return tempHtml;
         }
 	
         //TextArea
@@ -182,7 +182,7 @@ namespace OpenAuth.App
                 temp_html += string.Format(temp, name, cvalue, Ischecked, cvalue);
             }
 		
-            if("view"==(action))
+            if("view"==action)
                 return string.Format(temp_view,"&nbsp;",cvalue_);
             return temp_html;
         }

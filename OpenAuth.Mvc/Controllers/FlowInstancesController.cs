@@ -38,7 +38,20 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 编辑
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Edit()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 进度详情
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Detail()
         {
             return View();
         }

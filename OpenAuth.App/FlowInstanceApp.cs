@@ -16,6 +16,7 @@ namespace OpenAuth.App
     /// </summary>
     public class FlowInstanceApp : BaseApp<FlowInstance>
     {
+        public RevelanceManagerApp RevelanceManagerApp { get; set; }
 
         #region 流程处理API
         /// <summary>
@@ -398,9 +399,10 @@ namespace OpenAuth.App
                         makerList = "-1";
                     }
                 }
-                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_ROLE)
+                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_ROLE)  //指定角色
                 {
-                    makerList = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.roles, makerList);
+                    var users = RevelanceManagerApp.Get(Define.USERROLE, false, node.setInfo.NodeDesignateData.roles);
+                    makerList = GenericHelpers.ArrayToString(users, makerList);
 
                     if (makerList == "")
                     {

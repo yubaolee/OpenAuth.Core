@@ -6,6 +6,7 @@ layui.config({
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
+    var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
     layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
     $("#menus").loadMenus("Role");
@@ -159,9 +160,9 @@ layui.config({
             }
 
             var index = layer.open({
-                title: "为用角色配模块",
+                title: "为角色【" + data[0].Name + "】分配模块",
                 type: 2,
-                area: ['450px', '400px'],
+                area: ['750px', '600px'],
                 content: "/ModuleManager/Assign?type=RoleModule&menuType=RoleElement&id=" + data[0].Id,
                 success: function (layero, index) {
 

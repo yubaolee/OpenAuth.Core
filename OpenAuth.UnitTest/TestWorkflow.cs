@@ -3,6 +3,7 @@ using Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenAuth.App;
 using OpenAuth.App.Request;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.UnitTest
@@ -34,6 +35,18 @@ namespace OpenAuth.UnitTest
                 FlowInstanceId = "7335d82f-5c3d-43e5-a53b-7d51a7cb1f59",
                 VerificationFinally = "3"
             });
+        }
+
+        [TestMethod]
+        public void GetInstance()
+        {
+            var instance = _runApp.Get("51a80784-55a6-405e-b296-935287122806");
+            var result = new Response<FlowVerificationResp>
+            {
+                Result = instance.MapTo<FlowVerificationResp>()
+            };
+
+            Console.WriteLine(JsonHelper.Instance.Serialize(result.Result.FrmPreviewHtml));
         }
 
     }

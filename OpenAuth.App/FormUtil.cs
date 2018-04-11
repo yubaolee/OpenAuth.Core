@@ -10,12 +10,6 @@ namespace OpenAuth.App
 {
     public class FormUtil {
 	
-        /**
-	 * view 
-	 */
-        private static  string temp_view = "<div style=\"{0}\"/>{1}</div>";
-
-
         public static string GetHtml(string contentData, string contentParse,string frmData, string action)
         {
             JObject tableData = null;//表单数据
@@ -29,43 +23,43 @@ namespace OpenAuth.App
             {
                 string name = "";
                 string leipiplugins = json.GetValue("leipiplugins").ToString();
-                if ("checkboxs" == (leipiplugins))
+                if ("checkboxs" == leipiplugins)
                     name = json.GetValue("parse_name").ToString();
                 else
                     name = json.GetValue("name").ToString();
 
-                string temp_html = "";
+                string tempHtml = "";
                 switch (leipiplugins)
                 {
                     case "text":
-                        temp_html = GetTextBox(json, tableData, action);
+                        tempHtml = GetTextBox(json, tableData, action);
                         break;
                     case "textarea":
-                        temp_html = GetTextArea(json, tableData, action);
+                        tempHtml = GetTextArea(json, tableData, action);
                         break;
                     case "radios":
-                        temp_html = GetRadios(json, tableData, action);
+                        tempHtml = GetRadios(json, tableData, action);
                         break;
                     case "select":
-                        temp_html = GetSelect(json, tableData, action);
+                        tempHtml = GetSelect(json, tableData, action);
                         break;
                     case "checkboxs":
-                        temp_html = GetCheckboxs(json, tableData, action);
+                        tempHtml = GetCheckboxs(json, tableData, action);
                         break;
 
                     case "qrcode"://二维码
-                        temp_html = GetQrcode(json, tableData, action);
+                        tempHtml = GetQrcode(json, tableData, action);
                         break;
 
                     case "progressbar"://进度条 (未做处理)
                         /*temp_html = GetProgressbar(json, tableData, action);*/
                         break;
                     default:
-                        temp_html = json.GetValue("content").ToString();
+                        tempHtml = json.GetValue("content").ToString();
                         break;
                 }
 
-                html = html.Replace("{" + name + "}", temp_html);
+                html = html.Replace("{" + name + "}", tempHtml);
             }
 
 
@@ -103,7 +97,7 @@ namespace OpenAuth.App
 
             string value =null;
             JToken data;
-            if (formData != null && ((data = formData.GetValue(name)) != null))
+            if (formData != null && (data = formData.GetValue(name)) != null)
             {
                 value = data.ToString();
             }
@@ -113,7 +107,7 @@ namespace OpenAuth.App
             string style =item.GetValue("style") == null ? "" : item.GetValue("style").ToString();
             string tempHtml =  string.Format(temp, value, name, style);
             if("view"==action)
-                return string.Format(temp_view,style,value);
+                return string.Format("<label style=\"{0}\">{1}</label>",style,value);
             return tempHtml;
         }
 	
@@ -121,13 +115,13 @@ namespace OpenAuth.App
         private static string GetTextArea(JObject item, JObject formData,string action)
         {
             string script = "";
-            if (item.GetValue("orgrich") != null && "1"==(item.GetValue("orgrich").ToString()))
+            if (item.GetValue("orgrich") != null && "1"==item.GetValue("orgrich").ToString())
                 script = "orgrich=\"true\" ";
             string name = item.GetValue("name").ToString();
 
             string value = null;
             JToken data;
-            if (formData != null && ((data = formData.GetValue(name)) != null))
+            if (formData != null && (data = formData.GetValue(name)) != null)
             {
                 value = data.ToString();
             }
@@ -141,8 +135,8 @@ namespace OpenAuth.App
         
             string temp_html = string.Format(temp, name, name, style, script, value);
         
-            if("view"==(action))
-                return string.Format(temp_view,style,value);
+            if("view"==action)
+                return string.Format("<label style=\"{0}\">{1}</label>", style, value);
             return temp_html;
         }
 	
@@ -157,12 +151,11 @@ namespace OpenAuth.App
 
             string value = null;
             JToken data;
-            if (formData != null && ((data = formData.GetValue(name)) != null))
+            if (formData != null && (data = formData.GetValue(name)) != null)
             {
                 value = data.ToString();
             }
             
-            string cvalue_="";
             foreach (var json in radiosOptions)
             {
                 string cvalue = json["value"].ToString();
@@ -170,21 +163,18 @@ namespace OpenAuth.App
 
                 if (value == null)
                 {
-                    string check = (json["checked"] != null) ? json["checked"].ToString() : "";
-                    if ("checked" == (check) || "true" == (check))
+                    string check = json["checked"] != null ? json["checked"].ToString() : "";
+                    if ("checked" == check || "true" == check)
                     {
                         Ischecked = " checked=\"checked\" ";
-                        cvalue_ = cvalue;
+                        value = json["value"].ToString();
                     }
-
                 }
 
                 temp_html += string.Format(temp, name, cvalue, Ischecked, cvalue);
             }
 		
-            if("view"==action)
-                return string.Format(temp_view,"&nbsp;",cvalue_);
-            return temp_html;
+            return "view"==action ? string.Format("<label style=\"{0}\">{1}</label>", "", value) : temp_html;
         }
 	
         //Checkboxs
@@ -201,7 +191,7 @@ namespace OpenAuth.App
 
                 string value = null;
                 JToken data;
-                if (formData != null && ((data = formData.GetValue(name)) != null))
+                if (formData != null && (data = formData.GetValue(name)) != null)
                 {
                     value = data.ToString();
                 }
@@ -210,14 +200,14 @@ namespace OpenAuth.App
                 string Ischecked = "";
                 if (value == null)
                 {
-                    string check = (json["checked"] != null) ? json["checked"].ToString() : "";
-                    if (check == ("checked") || check == ("true"))
+                    string check = json["checked"] != null ? json["checked"].ToString() : "";
+                    if (check == "checked" || check == "true")
                     {
                         Ischecked = " checked=\"checked\" ";
                         view_value += cvalue + "&nbsp";//view 查看值
                     }
                 }
-                else if (value != null && value == (cvalue))
+                else if (value != null && value == cvalue)
                 {
                     Ischecked = " checked=\"checked\" ";
                     view_value += cvalue + "&nbsp";//view 查看值
@@ -226,35 +216,32 @@ namespace OpenAuth.App
                 temp_html += string.Format(temp, name, cvalue, Ischecked, cvalue);
 
             }
-       
-            if("view"==(action))
-                return string.Format(temp_view,"&nbsp;",view_value);
-            return temp_html;
+
+            return "view" == action ? string.Format("<label style=\"{0}\">{1}</label>", "", view_value) : temp_html;
         }
 	
         //Select(比较特殊)
         private static string GetSelect(JObject item, JObject formData, string action)
         {
-
-            string name = item.GetValue("name").ToString();
-
+            string name = item.GetValue("name").ToString();  //控件的名称
             string value = null;
             JToken data;
-            if (formData != null && ((data = formData.GetValue(name)) != null))
+
+            if (formData != null && (data = formData.GetValue(name)) != null)
             {
                 value = data.ToString();
             }
 
-            string temp_html =item.GetValue("content").ToString();
+            string content =item.GetValue("content").ToString();
             if (value != null)//用户设置过值
             {
-                temp_html = temp_html.Replace("selected=\"selected\"", "");
-                value = "value=\"" + value + "\"";
-                string r = value + " selected=\"selected\"";
-                temp_html = temp_html.Replace(value, r);
+                content = content.Replace("selected=\"selected\"", "");  //先去掉模板中的选中项
+                var option = "value=\"" + value + "\"";        //组成选项
+                string selected = option + " selected=\"selected\"";  //组成选中项
+                content = content.Replace(option, selected);      //把选项替换成选中项
             }
 
-            return temp_html;
+            return "view" == action ? string.Format("<label style=\"{0}\">{1}</label>", "", value) : content;
         }
 	
 	
@@ -265,7 +252,7 @@ namespace OpenAuth.App
 
             string value = null;
             JToken data;
-            if (formData != null && ((data = formData.GetValue(name)) != null))
+            if (formData != null && (data = formData.GetValue(name)) != null)
             {
                 value = data.ToString();
             }
@@ -274,15 +261,15 @@ namespace OpenAuth.App
             string temp = "";
             string orgType = item.GetValue("orgtype").ToString();
             string style = item.GetValue("style").ToString();
-            if ("text"==(orgType))
+            if ("text"==orgType)
             {
                 orgType = "文本";
             }
-            else if ("url"==(orgType))
+            else if ("url"==orgType)
             {
                 orgType = "超链接";
             }
-            else if ("tel"==(orgType))
+            else if ("tel"==orgType)
             {
                 orgType = "电话";
             }
@@ -290,39 +277,39 @@ namespace OpenAuth.App
             if (item.GetValue("value")!= null)
                 qrcode_value = item.GetValue("value").ToString();
             //print_R($qrcode_value);exit;  //array(value,qrcode_url)
-            if ( "edit"==(action))
+            if ( "edit"==action)
             {
                 temp = orgType + "二维码 <input type=\"text\" name=\"{0}\" value=\"{1}\"/>";
                 temp_html =  string.Format(temp, name, value);
             }
-            else if ("view"==(action))
+            else if ("view"==action)
             {
                 //可以采用  http://qrcode.leipi.org/ 
 
                 style = "";
                 if (item.GetValue("orgwidth") != null)
                 {
-                    style = "width:" + item.GetValue("orgwidth").ToString() + "px;";
+                    style = "width:" + item.GetValue("orgwidth") + "px;";
                 }
                 if (item.GetValue("orgheight") != null)
                 {
-                    style += "height:" + item.GetValue("orgheight").ToString() + "px;";
+                    style += "height:" + item.GetValue("orgheight") + "px;";
                 }
                 temp = "<img src=\"{0}\" title=\"{1}\" style=\"{2}\"/>";
                 temp_html = string.Format(temp_html, name, value, style);
 
 
             }
-            else if ( "preview"==(action))
+            else if ( "preview"==action)
             {
                 style = "";
                 if (item.GetValue("orgwidth")!= null)
                 {
-                    style = "width:" + item.GetValue("orgwidth").ToString() + "px;";
+                    style = "width:" + item.GetValue("orgwidth") + "px;";
                 }
                 if (item.GetValue("orgheight")!= null)
                 {
-                    style += "height:" + item.GetValue("orgheight").ToString() + "px;";
+                    style += "height:" + item.GetValue("orgheight") + "px;";
                 }
                 temp = "<img src=\"{0}\" title=\"{1}\" style=\"{2}\"/>";
                 temp_html = string.Format(temp_html, name, value, style);
@@ -515,7 +502,7 @@ namespace OpenAuth.App
                 string name;
                 string type = json["leipiplugins"].ToString();
 
-                if ("checkboxs" == (type))
+                if ("checkboxs" == type)
                     name = json["parse_name"].ToString();
                 else
                     name = json["name"].ToString();
@@ -523,7 +510,7 @@ namespace OpenAuth.App
                 sql.Append("[" + name + "] " + field_type_sql(type));//字段拼接
 
 
-                if ("checkboxs" == (type))
+                if ("checkboxs" == type)
                     sqlDefault += field_type_sql_default(tableName, name, "0");
                 else
                     sqlDefault += field_type_sql_default(tableName, name, "''");
@@ -546,11 +533,11 @@ namespace OpenAuth.App
         //获取控件字段类型 的sql 
         private static string field_type_sql(string leipiplugins)
         {
-            if ("textarea"==(leipiplugins) || "listctrl"==(leipiplugins))
+            if ("textarea"==leipiplugins || "listctrl"==leipiplugins)
             {
                 return " text  NULL ,";
             }
-            else if ("checkboxs"==(leipiplugins))
+            else if ("checkboxs"==leipiplugins)
             {
                 return " int NOT NULL ,";
             }

@@ -23,7 +23,7 @@
                 , flowcontent:schemeContent
             });
 
-            $("#frmPreview").html(data.Result.FrmDataHtml);
+            $("#frmPreview").html(data.Result.FrmPreviewHtml);
         });
 
     //提交数据

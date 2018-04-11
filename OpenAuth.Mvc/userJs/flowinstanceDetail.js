@@ -22,7 +22,7 @@
                 , flowcontent:schemeContent
             });
 
-            $("#frmPreview").html(data.Result.FrmDataHtml);
+            $("#frmPreview").html(data.Result.FrmPreviewHtml);
             flowDesignPanel.reinitSize($(window).width() - 30, $(window).height() - 100);
         });
 

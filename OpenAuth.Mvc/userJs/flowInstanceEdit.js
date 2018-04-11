@@ -4,8 +4,6 @@
     var form = layui.form, element = layui.element,
         layer = layui.layer,
         $ = layui.jquery;
-    var table = layui.table;
-    var openauth = layui.openauth;
     var index = layer.getFrameIndex(window.name); //获取窗口索引
      var id = $.getUrlParam("id");   //ID
     var update = (id !=null && id != '');
@@ -16,16 +14,17 @@
         el: "#formEdit"
     });
 
-    //标签切换
-    element.on('tab(tab)', function (data) {
-        layer.iframeAuto(index);
-    });
+    ////标签切换
+    //element.on('tab(tab)', function (data) {
+    //    layer.iframeAuto(index);
+    //});
 
     /*=========流程设计（begin）======================*/
     var flowDesignPanel = $('#flowPanel').flowdesign({
         height: 300,
-        widht: 300,
+        widht: $(window).width() - 250,
         haveTool: false,
+        preview:1,
         OpenNode: function (object) {
             FlowDesignObject = object;  //为NodeInfo窗口提供调用
 
@@ -111,7 +110,6 @@
         $.ajax(url,
             {
                 async: false
-
                 , success: function (data) {
                     var json = JSON.parse(data);
                     zTreeObj = $.fn.zTree.init($("#frmTree"), setting);
@@ -125,7 +123,6 @@
             var node = zTreeObj.getNodeByParam("Id", id, null);
             zTreeObj.checkNode(node, true, false);
         }
-
         return {
             setCheck: setCheck
         }
@@ -147,7 +144,6 @@
                 , Code: new Date().getTime()
             });
     }
-
 
     //提交数据
     form.on('submit(formSubmit)',
@@ -172,16 +168,13 @@
             return false; //阻止表单跳转。
         });
 
-    //$(window).resize(function() {
-    //    flowDesignPanel.reinitSize($(window).width()-30, $(window).height()-100);
-    //});
+    $(window).resize(function() {
+        flowDesignPanel.reinitSize($(window).width()-250, $(window).height()-100);
+    });
 
     //该函数供给父窗口确定时调用
     submit = function () {
         //只能用隐藏的submit btn才行，用form.submit()时data.field里没有数据
         $("#btnSubmit").click();
     }
-
-    //让层自适应iframe
-    layer.iframeAuto(index);
 })

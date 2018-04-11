@@ -8,6 +8,22 @@
 /*模拟加载层图标样式*/
 .layui-layer-dialog .layui-layer-content .layui-layer-ico16{ background-size:100% 100% !important; }
 
+.layui-header {
+    height: 50px;
+}
+
+.layui-layout-admin .layui-body {
+    top: 50px;
+}
+
+.layui-layout-admin .layui-side {
+    top: 50px;
+}
+
+.layui-nav .layui-nav-item {
+    line-height: 50px;
+}
+
 /*样式改变的过渡*/
 .showMenu .layui-body,.showMenu .layui-footer,.showMenu.layui-layout-admin .layui-side,.logo,.top_menu .layui-nav-item[pc],.component,.top_menu .layui-nav-item[mobile],.layui-nav,.layui-layout-admin .layui-main,.site-mobile .layui-side,.layui-layout-admin .layui-side,.site-mobile .site-tree-mobile,.layui-body,.layui-layout-admin .layui-footer,.layui-layout-admin .layui-side,.panel,.panel .panel_icon i{ transition: all 0.3s ease-in-out;-webkit-transition: all 0.3s ease-in-out;-o-transition: all 0.3s ease-in-out;-moz-transition: all 0.3s ease-in-out;-ms-transition: all 0.3s ease-in-out; }
 
@@ -15,11 +31,11 @@
 .showMenu.layui-layout-admin .layui-side{ left:-200px; }
 .showMenu .layui-body,.showMenu .layui-footer{ left:0; }
 .layui-layout-admin .layui-main{ margin:0; }
-.logo{ color: #fff; float: left; line-height:60px; font-size:20px; padding:0 25px; text-align: center; width:150px;}
-.hideMenu{ float:left; width:20px; height:20px; margin:15px 15px 0 0; font-size:17px; text-align:center; padding:5px 5px; color:#fff; background-color:#1AA094; }
+.logo{ color: #fff; float: left; line-height:50px; font-size:20px; padding:0 25px; text-align: center; width:150px;}
+.hideMenu{ float:left; width:20px; height:20px; margin:10px 15px 0 0; font-size:17px; text-align:center; padding:5px 5px; color:#fff; background-color:#1AA094; }
 .hideMenu:hover{ color:#fff; }
-.weather{ color:#fff; float:left; margin:15px 0 0 50px;}
-.component{ float: left; width:200px; height:30px; margin-top: 15px; position: relative;}
+.weather{ color:#fff; float:left; margin:10px 0 0 50px;}
+.component{ float: left; width:200px; height:30px; margin-top: 10px; position: relative;}
 .component .layui-input{ height:30px; line-height: 30px; font-size:12px; border:none; transition: all 0.3s; }
 .component .layui-input:focus{ background:#fff; color:#000; }
 .component .layui-form-select dl{ top:33px; background:#fff; }

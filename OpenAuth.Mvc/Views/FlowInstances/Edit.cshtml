@@ -15,7 +15,7 @@
     <input type="hidden" id="FrmData" name="FrmData" v-model="FrmData" />
 
     <div class="layui-row">
-        <div class="layui-tab layui-tab-brief" lay-filter="tab">
+        <div class="layui-tab layui-tab-brief" lay-filter="tab" style="margin: 0px">
             <ul class="layui-tab-title">
                 <li class="layui-this">基本信息</li>
                 <li>选择流程模板</li>
@@ -52,11 +52,26 @@
 
                     <div class="layui-row">
                         <div class="layui-col-xs3">
-                            <ul id="frmTree" class="ztree" style="padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
+                            <ul id="frmTree" class="ztree"
+                                style="padding: 2px; border: 1px solid #ddd; overflow: auto;"></ul>
                         </div>
-                        <div class="layui-col-xs9">
-                            <div class="layui-row"><div id="flowPanel"></div></div>
-                            <div class="layui-row"><div id="frmPreview"></div></div>
+                        <div class="layui-col-xs9 layui-col-space10">
+                            <div class="layui-row">
+                                <fieldset class="layui-elem-field">
+                                    <legend>申请内容</legend>
+                                    <div class="layui-field-box">
+                                        <div id="frmPreview"></div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="layui-row">
+                                <fieldset class="layui-elem-field">
+                                    <legend>流程预览</legend>
+                                    <div class="layui-field-box">
+                                        <div id="flowPanel"></div>
+                                    </div>
+                                </fieldset>
+                            </div>
                         </div>
                     </div>
                 </div>

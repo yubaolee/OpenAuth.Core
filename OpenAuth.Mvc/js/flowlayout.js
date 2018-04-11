@@ -232,6 +232,7 @@
                     "NodeDesignateType6": "发起者公司领导"
                 };
                 var _NodeConfluenceType = { "0": "所有步骤通过", "1": "一个步骤通过即可", "2": "按百分比计算" };
+                if (options.flowcontent == undefined) return;
                 $.each(options.flowcontent.nodes,
                     function (i, item) {
                         if (item.setInfo != undefined) {
@@ -339,15 +340,10 @@
                             $('#' + item.id).attr('data-content', "该节点未被设置");
                         }
                     });
-                $('.GooFlow_item').popover({ html: true });
+                //$('.GooFlow_item').popover({ html: true });
             }
 
-            function labellingRedNode(id) {
-                $('.flow-labellingnode-red').removeClass('flow-labellingnode-red');
-                $('#' + id).addClass('flow-labellingnode-red');
-            }
-
-            return flowPanel;
+           return flowPanel;
         }
 
         exports('flowlayout');

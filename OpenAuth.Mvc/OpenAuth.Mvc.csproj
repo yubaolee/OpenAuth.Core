@@ -195,6 +195,7 @@
     <Content Include="js\flow\GooFunc.js" />
     <Content Include="js\flow\img\gooflow_icon.png" />
     <Content Include="js\flowlayout.js" />
+    <Content Include="js\slimscroll.js" />
     <Content Include="js\utils.js" />
     <Content Include="layui\css\modules\laydate\default\font.css" />
     <Content Include="userJs\assignRole.js" />

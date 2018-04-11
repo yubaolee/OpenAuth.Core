@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'element', 'jquery', 'table', 'slimscroll', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
     var form = layui.form, element = layui.element,
         layer = layui.layer,
         $ = layui.jquery;
@@ -177,4 +177,9 @@
         //只能用隐藏的submit btn才行，用form.submit()时data.field里没有数据
         $("#btnSubmit").click();
     }
+
+    $(".GooFlow_work").slimScroll({
+        height: 'auto'
+    });
+
 })

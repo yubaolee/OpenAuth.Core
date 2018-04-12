@@ -105,6 +105,7 @@
     <Compile Include="AutofacExt.cs" />
     <Compile Include="BaseApp.cs" />
     <Compile Include="AuthorizeApp.cs" />
+    <Compile Include="ResourceApp.cs" />
     <Compile Include="CategoryApp.cs" />
     <Compile Include="Define.cs" />
     <Compile Include="Flow\FlowRuntime.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="FormApp.cs" />
     <Compile Include="Request\IdPageReq.cs" />
     <Compile Include="Request\PageReq.cs" />
+    <Compile Include="Request\QueryResourcesReq.cs" />
     <Compile Include="Request\QueryCategoriesReq.cs" />
     <Compile Include="Request\QueryFlowInstanceListReq.cs" />
     <Compile Include="Request\QueryFlowSchemeListReq.cs" />

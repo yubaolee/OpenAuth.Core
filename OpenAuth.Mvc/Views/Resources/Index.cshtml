@@ -1,0 +1,131 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+}
+<blockquote class="layui-elem-quote news_search toolList" id="menus"></blockquote>
+
+<div class="layui-row">
+    <div class="layui-col-xs2">
+        <ul id="tree" class="ztree"
+            style="padding: 2px; border: 1px solid #ddd; overflow: auto;"></ul>
+    </div>
+    <div class="layui-col-xs10">
+        <table class="layui-table"
+               lay-data="{height: 'full-80', page:true, id:'mainList'}"
+               lay-filter="list" lay-size="sm">
+            <thead>
+                <tr>
+                    <th lay-data="{checkbox:true, fixed: true}"></th>
+                    <th lay-data="{field:'Id', width:150}">资源表ID</th>
+                    <th lay-data="{field:'CascadeId', width:150}">节点语义ID</th>
+                    <th lay-data="{field:'Key', width:150}">资源英文唯一标识</th>
+                    <th lay-data="{field:'Name', width:150}">名称</th>
+                    <th lay-data="{field:'Status', width:150}">当前状态</th>
+                    <th lay-data="{field:'SortNo', width:150}">排序号</th>
+                    <th lay-data="{field:'Description', width:150}">描述</th>
+                    <th lay-data="{field:'ParentId', width:150}">父节点流水号</th>
+                    <th lay-data="{field:'AppId', width:150}">资源所属应用</th>
+                    <th lay-data="{field:'TypeName', width:150}">分类名称</th>
+                    <th lay-data="{field:'TypeId', width:150}">分类ID</th>
+                    <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<script type="text/html" id="barList">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+</script>
+
+
+<!--添加/编辑窗口-->
+<div id="divEdit" style="display: none">
+    <form class="layui-form" action="" id="formEdit">
+        <input type="hidden" name="Id" v-model="Id" />
+        <div class="layui-form-item">
+            <label class="layui-form-label">节点语义ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="CascadeId" v-model="CascadeId" required lay-verify="required"
+                       placeholder="节点语义ID" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源英文唯一标识</label>
+            <div class="layui-input-block">
+                <input type="text" name="Key" v-model="Key" required lay-verify="required"
+                       placeholder="资源英文唯一标识" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                       placeholder="名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">当前状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="Status" value="1" title="value1" checked>
+                <input type="radio" name="Status" value="0" title="value2">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序号</label>
+            <div class="layui-input-block">
+                <input type="radio" name="SortNo" value="1" title="value1" checked>
+                <input type="radio" name="SortNo" value="0" title="value2">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+                <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                       placeholder="描述" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">父节点流水号</label>
+            <div class="layui-input-block">
+                <input type="text" name="ParentId" v-model="ParentId" required lay-verify="required"
+                       placeholder="父节点流水号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源所属应用</label>
+            <div class="layui-input-block">
+                <input type="text" name="AppId" v-model="AppId" required lay-verify="required"
+                       placeholder="资源所属应用" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">分类名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="TypeName" v-model="TypeName" required lay-verify="required"
+                       placeholder="分类名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">分类ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="TypeId" v-model="TypeId" required lay-verify="required"
+                       placeholder="分类ID" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+       
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/Resources.js"></script>
+
+

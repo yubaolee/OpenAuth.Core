@@ -18,31 +18,38 @@ Description="连接的数据库" %>
 {
     <link rel="stylesheet" href="/css/treetable.css" />
 }
-<blockquote class="layui-elem-quote news_search toolList">
-    @Html.Action("MenuHeader", "Home")
+<blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
 
-<div style="display: flex;">
-    <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
-    <table class="layui-table"
-           lay-data="{height: 'full-80', page:true, id:'mainList'}"
-           lay-filter="list"  lay-size="sm">
-        <thead>
-        <tr>
-            <th lay-data="{checkbox:true, fixed: true}"></th>
-        <% foreach (ColumnSchema column in this.SourceTable.Columns) {%>
-            <th lay-data="{field:'<%=column.Name%>', width:150}"><%=Tools.GetDescription(column)%></th>
-        <% }%>
-            <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
-        </tr>
-        </thead>
-    </table>
-</div>
+    <div class="layui-row">
+        <div class="layui-col-xs2">
+            <ul id="tree" class="ztree"
+                style="padding: 2px; border: 1px solid #ddd; overflow: auto;">
+            </ul>
+        </div>
+        <div class="layui-col-xs10">
+            <table class="layui-table"
+                lay-data="{height: 'full-80', page:true, id:'mainList'}"
+                lay-filter="list"  lay-size="sm">
+                <thead>
+                <tr>
+                    <th lay-data="{checkbox:true, fixed: true}"></th>
+                <% foreach (ColumnSchema column in this.SourceTable.Columns) {%>
+                    <th lay-data="{field:'<%=column.Name%>', width:150}"><%=Tools.GetDescription(column)%></th>
+                <% }%>
+                    <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
 <script type="text/html" id="barList">
-    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
 </script>
 
-<!--用户添加/编辑窗口-->
+
+<!--添加/编辑窗口-->
 <div id="divEdit" style="display: none">
     <form class="layui-form" action=""  id="formEdit">
 <% foreach (ColumnSchema column in this.SourceTable.Columns) {
@@ -97,6 +104,6 @@ Description="连接的数据库" %>
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/js/<%=ModuleName%>s.js"></script>
+<script type="text/javascript" src="/userJs/<%=ModuleName%>s.js"></script>
 
 

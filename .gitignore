@@ -25,3 +25,12 @@
 /OpenAuth.sln.GhostDoc.xml
 /类结构.mdj
 /数据库设计关系图/OpenAuthDB.pdb
+/OpenAuth.WebTest/obj/Release
+/OpenAuth.UnitTest/obj/Release
+/OpenAuth.WebApi/obj/Release
+/OpenAuth.Repository/bin/Release
+/OpenAuth.Repository/obj/Release
+/OpenAuth.Mvc/obj/Release
+/OpenAuth.App/obj/Release
+/Infrastructure/bin/Release
+/Infrastructure/obj/Release

@@ -33,7 +33,7 @@ namespace OpenAuth.App
         }
 
 
-        public TableData All(QueryResourcesReq request)
+        public TableData Load(QueryResourcesReq request)
         {
             var result = new TableData();
             var resources =  UnitWork.Find<Resource>(null) ;

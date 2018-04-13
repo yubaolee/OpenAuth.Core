@@ -105,6 +105,8 @@
     <Compile Include="AutofacExt.cs" />
     <Compile Include="BaseApp.cs" />
     <Compile Include="AuthorizeApp.cs" />
+    <Compile Include="Request\QueryAppListReq.cs" />
+    <Compile Include="AppManager.cs" />
     <Compile Include="ResourceApp.cs" />
     <Compile Include="CategoryApp.cs" />
     <Compile Include="Define.cs" />

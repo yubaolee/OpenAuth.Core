@@ -20,9 +20,7 @@
 
 `演示直达`
 
-* 联通：http://113.204.18.84:1802
-
-* 电信：http://222.178.90.18:1802
+* http://demo.openauth.me:1802
 
 ####当前版本
 
@@ -34,7 +32,7 @@
 
 * 前端采用 vue + layui + ztree + gooflow + leipiformdesign
 
-* 后端采用 asp.net mvc + EF + autofac + swagger + json.net
+* 后端采用 asp.net mvc + Web API + EF + autofac + swagger + json.net
 
 * 代码生成工具 CodeSmith
 

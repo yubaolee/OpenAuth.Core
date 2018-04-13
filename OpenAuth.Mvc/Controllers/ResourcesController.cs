@@ -20,11 +20,9 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public string All([FromUri]QueryResourcesReq request)
+        public string Load([FromUri]QueryResourcesReq request)
         {
-            TableData data = new TableData();
-            data = App.All(request);
-            return JsonHelper.Instance.Serialize(data);
+            return JsonHelper.Instance.Serialize(App.Load(request));
         }
 
         [System.Web.Mvc.HttpPost]

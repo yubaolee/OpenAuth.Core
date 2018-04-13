@@ -7,61 +7,25 @@
     var table = layui.table;
     var openauth = layui.openauth;
     var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
-    //layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
 
     $("#menus").loadMenus("Resource");
 
+    layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
+
     //主列表加载，可反复调用进行刷新
     var config = {};  //table的参数，如搜索key，点击tree的id
-    var mainList = function (options) {
+    var mainList = function(options) {
         if (options != undefined) {
             $.extend(config, options);
         }
-        table.reload('mainList', {
-            url: '/Resources/Load',
-            where: config
-        });
-    }
-    //左边树状机构列表
-    var ztree = function () {
-        var url = '/UserSession/GetOrgs';
-        var zTreeObj;
-        var setting = {
-            view: { selectedMulti: false },
-            data: {
-                key: {
-                    name: 'Name',
-                    title: 'Name'
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: 'Id',
-                    pIdKey: 'ParentId',
-                    rootPId: 'null'
-                }
-            },
-            callback: {
-                onClick: function (event, treeId, treeNode) {
-                    mainList({ orgId: treeNode.Id });
-                }
-            }
-        };
-        var load = function () {
-            $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#tree"), setting);
-                var newNode = { Name: "根节点", Id: null, ParentId: "" };
-                json.push(newNode);
-                zTreeObj.addNodes(null, json);
-                mainList({ orgId: "" });
-                zTreeObj.expandAll(true);
+        table.reload('mainList',
+            {
+                url: '/Resources/Load',
+                where: config
             });
-        };
-        load();
-        return {
-            reload: load
-        }
-    }();
-
+    };
+    mainList();
+ 
     //添加（编辑）对话框
     var editDlg = function () {
         var vm = new Vue({

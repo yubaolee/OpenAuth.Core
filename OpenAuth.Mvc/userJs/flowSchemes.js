@@ -1,8 +1,8 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth','utils'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'utils'], function () {
     var form = layui.form, element = layui.element,
-		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
+        layer = (top == undefined || top.layer === undefined) ? layui.layer : top.layer,
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
@@ -76,7 +76,7 @@
                 area: ['800px', '700px'], //宽高
                 maxmin: true, //开启最大化最小化按钮
                 title: title,
-                content: '/flowschemes/design?id='+data.Id,
+                content: '/flowschemes/design?id=' + data.Id,
                 btn: ['保存', '关闭'],
                 yes: function (index, layero) {
                     var iframeWin = thiswin[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -126,15 +126,33 @@
         , btnAdd: function () {  //添加
             editDlg.add();
         }
-         , btnEdit: function () {  //编辑
-             var checkStatus = table.checkStatus('mainList')
-               , data = checkStatus.data;
-             if (data.length != 1) {
-                 layer.msg("请选择编辑的行，且同时只能编辑一行");
-                 return;
-             }
-             editDlg.update(data[0]);
-         }
+        , btnEdit: function () {  //编辑
+            var checkStatus = table.checkStatus('mainList')
+                , data = checkStatus.data;
+            if (data.length != 1) {
+                layer.msg("请选择编辑的行，且同时只能编辑一行");
+                return;
+            }
+            editDlg.update(data[0]);
+        }
+
+        , btnPreview: function () {  //预览
+            var checkStatus = table.checkStatus('mainList')
+                , data = checkStatus.data;
+            if (data.length != 1) {
+                layer.msg("请选择要处理的流程，且同时只能选择一条");
+                return;
+            }
+
+            layer.open({
+                type: 2,
+                area: ['800px', '600px'], //宽高
+                maxmin: true, //开启最大化最小化按钮
+                title: '进度详情',
+                content: ['/flowSchemes/preview?id=' + data[0].Id, 'no'],
+                btn: ['关闭']
+            });
+        }
 
         , search: function () {   //搜索
             mainList({ key: $('#key').val() });

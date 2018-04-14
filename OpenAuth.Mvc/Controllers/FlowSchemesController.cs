@@ -24,6 +24,10 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
+        public ActionResult Preview()
+        {
+            return View();
+        }
 
         //流程节点信息
         public ActionResult NodeInfo()

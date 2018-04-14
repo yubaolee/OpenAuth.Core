@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'element', 'jquery', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'element', 'slimscroll', 'jquery', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
     var form = layui.form, element = layui.element,
 		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
@@ -24,6 +24,13 @@
             });
 
             $("#frmPreview").html(data.Result.FrmPreviewHtml);
+
+            //让层自适应iframe
+            layer.iframeAuto(index);
+
+            $(".GooFlow_work").slimScroll({
+                height: 'auto'
+            });
         });
 
     //提交数据
@@ -48,7 +55,4 @@
         //只能用隐藏的submit btn才行，用form.submit()时data.field里没有数据
         $("#btnSubmit").click();
     }
-
-    //让层自适应iframe
-     layer.iframeAuto(index);
 })

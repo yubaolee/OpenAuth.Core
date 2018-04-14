@@ -203,6 +203,7 @@
     <Content Include="layui\css\modules\laydate\default\font.css" />
     <Content Include="userJs\assignResource.js" />
     <Content Include="userJs\assignRole.js" />
+    <Content Include="userJs\flowSchemePreview.js" />
     <Content Include="userJs\flowinstanceDetail.js" />
     <Content Include="userJs\resources.js" />
     <Content Include="userJs\verification.js" />
@@ -652,6 +653,7 @@
     <Content Include="Views\FlowInstances\Detail.cshtml" />
     <Content Include="Views\Resources\Index.cshtml" />
     <Content Include="Views\Resources\Assign.cshtml" />
+    <Content Include="Views\FlowSchemes\Preview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="layui\lay\modules\mobile\" />

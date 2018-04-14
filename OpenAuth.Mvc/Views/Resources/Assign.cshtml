@@ -1,0 +1,31 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+}
+
+
+<table class="layui-table"
+       lay-data="{height: 'full-5', page:true, id:'mainList'}"
+       lay-filter="list" lay-size="sm">
+    <thead>
+        <tr>
+            <th lay-data="{checkbox:true, fixed: true}"></th>
+            <th lay-data="{field:'Id', width:200}">资源标识</th>
+            <th lay-data="{field:'Name', width:150}">名称</th>
+            <th lay-data="{field:'Disable', width:150, templet:'#Disable'}">是否可用</th>
+            <th lay-data="{field:'Description', width:200}">描述</th>
+            <th lay-data="{field:'AppName', width:150}">所属应用</th>
+            <th lay-data="{field:'TypeName', width:150}">分类名称</th>
+        </tr>
+    </thead>
+</table>
+<script type="text/html" id="Disable">
+    {{# if(d.Disable){ }}
+    <span class="layui-badge">已禁用</span>
+    {{# } else{}}
+    <span class="layui-badge layui-bg-green">正常</span>
+    {{# } }}
+</script>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/assignResource.js"></script>

@@ -201,6 +201,7 @@
     <Content Include="js\slimscroll.js" />
     <Content Include="js\utils.js" />
     <Content Include="layui\css\modules\laydate\default\font.css" />
+    <Content Include="userJs\assignResource.js" />
     <Content Include="userJs\assignRole.js" />
     <Content Include="userJs\flowinstanceDetail.js" />
     <Content Include="userJs\resources.js" />
@@ -650,6 +651,7 @@
     <Content Include="Views\RoleManager\Assign.cshtml" />
     <Content Include="Views\FlowInstances\Detail.cshtml" />
     <Content Include="Views\Resources\Index.cshtml" />
+    <Content Include="Views\Resources\Assign.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="layui\lay\modules\mobile\" />

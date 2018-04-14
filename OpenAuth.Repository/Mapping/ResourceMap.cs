@@ -32,16 +32,9 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("CascadeId")
                 .HasMaxLength(255)
                 .IsRequired();
-            Property(t => t.Key)
-                .HasColumnName("Key")
-                .HasMaxLength(200)
-                .IsRequired();
             Property(t => t.Name)
                 .HasColumnName("Name")
                 .HasMaxLength(255)
-                .IsRequired();
-            Property(t => t.Status)
-                .HasColumnName("Status")
                 .IsRequired();
             Property(t => t.SortNo)
                 .HasColumnName("SortNo")
@@ -50,12 +43,20 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("Description")
                 .HasMaxLength(500)
                 .IsRequired();
+            Property(t => t.ParentName)
+                .HasColumnName("ParentName")
+                .HasMaxLength(50)
+                .IsOptional();
             Property(t => t.ParentId)
                 .HasColumnName("ParentId")
                 .HasMaxLength(50)
                 .IsOptional();
             Property(t => t.AppId)
                 .HasColumnName("AppId")
+                .HasMaxLength(50)
+                .IsOptional();
+            Property(t => t.AppName)
+                .HasColumnName("AppName")
                 .HasMaxLength(50)
                 .IsOptional();
             Property(t => t.TypeName)
@@ -66,6 +67,9 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("TypeId")
                 .HasMaxLength(50)
                 .IsOptional();
+            Property(t => t.Disable)
+                .HasColumnName("Disable")
+                .IsRequired();
 
             // Relationships
         }

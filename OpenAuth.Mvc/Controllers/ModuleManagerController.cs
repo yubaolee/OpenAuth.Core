@@ -28,9 +28,9 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
-        
+
         /// <summary>
-        /// 加载用户模块
+        /// 加载特定用户的模块
         /// </summary>
         /// <param name="firstId">The user identifier.</param>
         /// <returns>System.String.</returns>

@@ -24,8 +24,8 @@ layui.config({
 
                 $.ajax("/RoleManager/LoadForUser?userId=" + id,{
                     async: false
-                    , success: function (data) {
-                        var json = JSON.parse(data);
+                    , dataType: 'json'
+                    , success: function (json) {
                         if (json.Code == 500) return;
                         var roles = json.Result;
                         //循环所有数据，找出对应关系，设置checkbox选中状态

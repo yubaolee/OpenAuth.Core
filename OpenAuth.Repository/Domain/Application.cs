@@ -21,8 +21,7 @@ namespace OpenAuth.Repository.Domain
         public Application()
         {
           this.Name= string.Empty;
-          this.AppId= string.Empty;
-          this.AppKey= string.Empty;
+          this.AppSecret= string.Empty;
           this.Description= string.Empty;
           this.Icon= string.Empty;
           this.CreateTime= DateTime.Now;
@@ -30,17 +29,13 @@ namespace OpenAuth.Repository.Domain
         }
 
         /// <summary>
-	    /// 名称
+	    /// 应用名称
 	    /// </summary>
         public string Name { get; set; }
         /// <summary>
-	    /// 应用ID
-	    /// </summary>
-        public string AppId { get; set; }
-        /// <summary>
 	    /// 应用密钥
 	    /// </summary>
-        public string AppKey { get; set; }
+        public string AppSecret { get; set; }
         /// <summary>
 	    /// 应用描述
 	    /// </summary>
@@ -56,7 +51,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 创建日期
 	    /// </summary>
-        public System.DateTime? CreateTime { get; set; }
+        public System.DateTime CreateTime { get; set; }
         /// <summary>
 	    /// 创建人
 	    /// </summary>

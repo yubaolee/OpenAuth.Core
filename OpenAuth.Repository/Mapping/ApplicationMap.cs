@@ -32,12 +32,8 @@ namespace OpenAuth.Repository.Mapping
                 .HasColumnName("Name")
                 .HasMaxLength(255)
                 .IsRequired();
-            Property(t => t.AppId)
-                .HasColumnName("AppId")
-                .HasMaxLength(255)
-                .IsOptional();
-            Property(t => t.AppKey)
-                .HasColumnName("AppKey")
+            Property(t => t.AppSecret)
+                .HasColumnName("AppSecret")
                 .HasMaxLength(255)
                 .IsOptional();
             Property(t => t.Description)
@@ -53,7 +49,7 @@ namespace OpenAuth.Repository.Mapping
                 .IsRequired();
             Property(t => t.CreateTime)
                 .HasColumnName("CreateTime")
-                .IsOptional();
+                .IsRequired();
             Property(t => t.CreateUser)
                 .HasColumnName("CreateUser")
                 .HasMaxLength(50)

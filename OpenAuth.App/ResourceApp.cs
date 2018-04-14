@@ -12,6 +12,7 @@ namespace OpenAuth.App
     /// </summary>
     public class ResourceApp:BaseApp<Resource>
     {
+        public RevelanceManagerApp RevelanceManagerApp { get; set; }
 
         public IEnumerable<Resource> Get(string type)
         {
@@ -31,6 +32,19 @@ namespace OpenAuth.App
         {
             Repository.Update(u =>u.Id,resource);
         }
+
+        public IEnumerable<Resource> LoadForUser(string appId, string userId)
+        {
+            var elementIds = RevelanceManagerApp.Get(Define.USERRESOURCE, true, userId);
+            return UnitWork.Find<Resource>(u => elementIds.Contains(u.Id) && (appId == "" || u.AppId == appId));
+        }
+
+        public IEnumerable<Resource> LoadForRole(string appId, string userId)
+        {
+            var elementIds = RevelanceManagerApp.Get(Define.ROLERESOURCE, true, userId);
+            return UnitWork.Find<Resource>(u => elementIds.Contains(u.Id) && (appId =="" || u.AppId == appId));
+        }
+
 
 
         public TableData Load(QueryResourcesReq request)

@@ -191,6 +191,24 @@ layui.config({
                 }
             });
         }
+        , btnAssignReource: function () {
+            var checkStatus = table.checkStatus('mainList')
+                , data = checkStatus.data;
+            if (data.length != 1) {
+                toplayer.msg("请选择要分配的用户");
+                return;
+            }
+
+            var index = toplayer.open({
+                title: "为用户【" + data[0].Name + "】分配资源",
+                type: 2,
+                area: ['750px', '600px'],
+                content: "/Resources/Assign?type=UserResource&id=" + data[0].Id,
+                success: function (layero, index) {
+
+                }
+            });
+        }
     };
 
     $('.toolList .layui-btn').on('click', function () {

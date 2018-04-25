@@ -1,3 +1,5 @@
+![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
+
 ####项目简介：
 
 项目采用经典DDD架构(用沃恩.弗农大神的话，其实这是DDD-Lite）思想进行开发，简洁而不简单，实用至上，并且所写每一行代码都经过深思熟虑，符合SOLID规则！
@@ -49,13 +51,13 @@
 ![输入图片说明](https://gitee.com/uploads/images/2018/0313/001504_5dda4a47_362401.png "列表页面")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/173337_6e017075_362401.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/150758_26ef9d61_362401.png "流程设计")
-![输入图片说明](http://git.oschina.net/uploads/images/2017/0209/162617_c1250da6_362401.png "在这里输入图片标题")
+![输入图片说明](https://gitee.com/uploads/images/2017/0209/162617_c1250da6_362401.png "在这里输入图片标题")
 
 `慧中`
 
 教科书级的分层思想，哪怕苛刻的你阅读的是大神级精典大作（如：《企业应用架构模式》《重构与模式》《ASP.NET设计模式》等），你也可以参考本项目。不信？有图为证，Resharper自动生成的项目引用关系，毫无PS痕迹！
 
-![输入图片说明](http://git.oschina.net/uploads/images/2015/1113/233705_271ecb3a_362401.jpeg "在这里输入图片标题")
+![输入图片说明](https://gitee.com/uploads/images/2015/1113/233705_271ecb3a_362401.jpeg "在这里输入图片标题")
 
 `实用`
 

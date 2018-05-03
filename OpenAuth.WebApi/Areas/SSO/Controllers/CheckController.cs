@@ -71,7 +71,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             catch (Exception ex)
             {
                 result.Code = 500;
-                result.Message = ex.Message;
+                result.Message ="OpenAuth.WebAPI数据库访问失败:" +  ex.Message;
             }
 
             return result;

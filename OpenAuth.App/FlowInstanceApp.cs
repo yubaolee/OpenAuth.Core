@@ -436,7 +436,7 @@ namespace OpenAuth.App
 
         public void Update(FlowInstance flowScheme)
         {
-            Repository.Update(u => u.Id == flowScheme.Id, u => new FlowInstance());
+            Repository.Update(flowScheme);
         }
 
         public TableData Load(QueryFlowInstanceListReq request)

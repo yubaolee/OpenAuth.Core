@@ -49,5 +49,12 @@ namespace OpenAuth.UnitTest
             Console.WriteLine(JsonHelper.Instance.Serialize(result.Result.FrmPreviewHtml));
         }
 
+        [TestMethod]
+        public void TestUpdate()
+        { //测试数据没有任何修改时EF报错的问题
+            var instance = _runApp.Get("d73e4412-9c49-4511-a30e-0d2f844afcee");
+            _runApp.Update(instance);
+        }
+
     }
 }

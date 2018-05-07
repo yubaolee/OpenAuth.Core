@@ -19,9 +19,13 @@ namespace OpenAuth.Repository
         {
             Database.SetInitializer< OpenAuthDBContext>(null);
         }
+
         public OpenAuthDBContext()
-            :base("Name=OpenAuthDBContext")
-        { }
+            : base("Name=OpenAuthDBContext")
+        {
+            // 关闭语义可空判断
+            Configuration.UseDatabaseNullSemantics = true;
+        }
 
         public OpenAuthDBContext(string nameOrConnectionString)
             : base(nameOrConnectionString)

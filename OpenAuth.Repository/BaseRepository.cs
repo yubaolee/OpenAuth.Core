@@ -30,7 +30,7 @@ namespace OpenAuth.Repository
         }
 
         /// <summary>
-        /// 查找单个
+        /// 查找单个，且不被上下文所跟踪
         /// </summary>
         public T FindSingle(Expression<Func<T, bool>> exp)
         {
@@ -87,8 +87,13 @@ namespace OpenAuth.Repository
         public void Update(T entity)
         {
             var entry = this.Context.Entry(entity);
-            //todo:如果状态没有任何更改，会报错
             entry.State = EntityState.Modified;
+
+            //如果数据没有发生变化
+            if (!this.Context.ChangeTracker.HasChanges())
+            {
+                return;
+            }
 
             Save();
         }

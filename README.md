@@ -10,7 +10,7 @@
 
 **官方网站** http://www.openauth.me
 
-**项目详细描述**  http://www.cnblogs.com/yubaolee/p/OpenAuth.html 
+**官方文档**  http://doc.openauth.me 
 
 ## 官方QQ交流群  
 

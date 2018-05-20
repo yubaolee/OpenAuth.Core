@@ -78,7 +78,13 @@ namespace OpenAuth.Mvc.Controllers
             {
                 var org = user.Orgs.SingleOrDefault(u => u.Id == orgId);
                 if (org == null)
-                    throw new Exception("未能找到指定对象信息");
+                {
+                    return JsonHelper.Instance.Serialize(new TableData
+                    {
+                        msg ="未找到指定的节点",
+                        code = 500,
+                    });
+                }
                 cascadeId = org.CascadeId;
             }
 

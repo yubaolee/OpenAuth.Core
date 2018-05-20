@@ -85,8 +85,13 @@ namespace OpenAuth.Repository
         public void Update<T>(T entity) where T:class
         {
             var entry = this.Context.Entry(entity);
-            //todo:如果状态没有任何更改，会报错
             entry.State = EntityState.Modified;
+
+            //如果数据没有发生变化
+            if (!this.Context.ChangeTracker.HasChanges())
+            {
+                entry.State = EntityState.Unchanged;
+            }
 
         }
 
@@ -136,7 +141,7 @@ namespace OpenAuth.Repository
 
         private IQueryable<T> Filter<T>(Expression<Func<T, bool>> exp) where T : class
         {
-            var dbSet = Context.Set<T>().AsQueryable();
+            var dbSet = Context.Set<T>().AsNoTracking().AsQueryable();
             if (exp != null)
                 dbSet = dbSet.Where(exp);
             return dbSet;

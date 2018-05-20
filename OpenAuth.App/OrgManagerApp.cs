@@ -43,6 +43,8 @@ namespace OpenAuth.App
                 UnitWork.Update(a);
             }
 
+            UnitWork.Save();
+
             return org.Id;
         }
 

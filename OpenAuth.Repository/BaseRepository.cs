@@ -145,7 +145,7 @@ namespace OpenAuth.Repository
 
         private IQueryable<T> Filter(Expression<Func<T, bool>> exp)
         {
-            var dbSet = Context.Set<T>().AsQueryable();
+            var dbSet = Context.Set<T>().AsNoTracking().AsQueryable();
             if (exp != null)
                 dbSet = dbSet.Where(exp);
             return dbSet;

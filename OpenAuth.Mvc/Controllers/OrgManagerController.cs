@@ -18,13 +18,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
-        public ActionResult Assign(string firstId, string key)
-        {
-            ViewBag.FirstId = firstId;
-            ViewBag.ModuleType = key;
-            return View();
-        }
-
+       
         public string LoadForUser(string firstId)
         {
             var orgs = OrgApp.LoadForUser(firstId);
@@ -72,7 +66,6 @@ namespace OpenAuth.Mvc.Controllers
 
        /// <summary>
         /// 删除指定ID的组织
-        /// <para>Id为逗号分开的字符串</para>
         /// </summary>
         /// <returns>System.String.</returns>
         [HttpPost]

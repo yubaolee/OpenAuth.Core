@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Mapping;
 
@@ -25,6 +26,11 @@ namespace OpenAuth.Repository
         {
             // 关闭语义可空判断
             Configuration.UseDatabaseNullSemantics = true;
+
+            //与变量的值为null比较
+            //ef判断为null的时候，不能用变量比较：https://stackoverflow.com/questions/682429/how-can-i-query-for-null-values-in-entity-framework?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+            (this as IObjectContextAdapter).ObjectContext.ContextOptions.UseCSharpNullComparisonBehavior = true;
+            Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
 
         public OpenAuthDBContext(string nameOrConnectionString)

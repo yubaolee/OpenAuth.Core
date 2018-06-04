@@ -10,6 +10,7 @@
 // ***********************************************************************
 
 using System;
+using System.Data.Entity.Core;
 using System.Web.Http;
 using Infrastructure;
 using Infrastructure.Cache;
@@ -71,7 +72,9 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             catch (Exception ex)
             {
                 result.Code = 500;
-                result.Message ="OpenAuth.WebAPI数据库访问失败:" +  ex.Message;
+                result.Message = ex.InnerException != null
+                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
             }
 
             return result;

@@ -32,7 +32,6 @@ namespace OpenAuth.Mvc.Controllers
     public class BaseController : SSOController
     {
         protected Response Result = new Response();
-        protected ModuleView CurrentModule;
         protected string Controllername;   //当前控制器小写名称
         protected string Actionname;        //当前Action小写名称
 
@@ -48,11 +47,15 @@ namespace OpenAuth.Mvc.Controllers
             var function = this.GetType().GetMethods().FirstOrDefault(u => u.Name.ToLower() == Actionname);
             if (function == null)
                 throw new Exception("未能找到Action");
-
+            //权限验证标识
             var authorize = function.GetCustomAttribute(typeof(AuthenticateAttribute));
-            CurrentModule = AuthUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(Controllername));
+            if (authorize == null)
+            {
+                return;
+            }
+            var currentModule = AuthUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(Controllername));
             //当前登录用户没有Action记录&&Action有authenticate标识
-            if (authorize != null && CurrentModule == null)
+            if ( currentModule == null)
             {
                 filterContext.Result = new RedirectResult("/Login/Index");
                 return;

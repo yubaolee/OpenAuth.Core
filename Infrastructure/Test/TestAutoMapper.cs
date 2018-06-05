@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Infrastructure.Test
 {
-    [TestClass]
     class TestAutoMapper
     {
-        [TestMethod]
+        [Test]
         public void TestConvert()
         {
             var my = new MyClass
@@ -18,6 +17,19 @@ namespace Infrastructure.Test
             };
 
             var dest = my.MapTo<DestClass>();
+            Console.WriteLine(JsonHelper.Instance.Serialize(dest));
+        }
+        [Test]
+        public void TestConvertList()
+        {
+            var users = new List<MyClass> {
+                new MyClass {Name = "yubaolee1"}
+                , new MyClass{Name = "yubaolee2"}
+
+            };
+
+            var dest = users.MapToList<DestClass>();
+            Console.WriteLine(JsonHelper.Instance.Serialize(dest));
         }
     }
 

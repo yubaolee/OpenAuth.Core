@@ -1,37 +1,97 @@
-# OpenAuth.Core
+![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
 
-#### 项目介绍
-OpenAuth.Net core 2.1版
+**logo图标含义** 
 
-#### 软件架构
-软件架构说明
+## 项目简介：
+
+项目采用经典DDD架构(用沃恩.弗农大神的话，其实这是DDD-Lite）思想进行开发，简洁而不简单，实用至上，并且所写每一行代码都经过深思熟虑，符合SOLID规则！
+
+当然，如果你想学习完整的DDD框架，可以参考我的另一个项目（[BestQ&A--开源中国推荐项目/集`CQRS` `AES`等DDD高级特性于一体的问答系统](http://git.oschina.net/yubaolee/BestQA)）
+
+**官方网站** http://www.openauth.me
+
+**官方文档**  http://doc.openauth.me 
+
+## 官方QQ交流群  
+
+1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、1V1专属咨询服务等，如何加入VIP请移步社区置顶帖**
+
+1. 484498493【已满】
+
+1. 626433139【已满】
+
+1. [![快速加群](https://img.shields.io/badge/qq%E7%BE%A4-566344079-blue.svg)](http://shang.qq.com/wpa/qunwpa?idkey=aa850ac69f1f43ab4be39ecddd6030a937e9236d95966a707fcb667491049fdc)
+
+## 演示直达
+
+* http://demo.openauth.me:1802
+
+## 当前版本
+
+`4.0 颠覆版(2018-)`
+
+* 版本重构，最重要的一个版本；
+
+* 前后端完全分离，结构更加清晰。`我们不限制规则，只用主流的技术构建强大的框架`；
+
+* 前端采用 vue + layui + ztree + gooflow + leipiformdesign
+
+* 后端采用 asp.net mvc + Web API + EF + autofac + swagger + json.net
+
+* 代码生成工具 CodeSmith
+
+* 设计工具 PowerDesigner + Enterprise Architect
+
+`3.0 alpha版(2017-2-7)`
+
+* 采用全新工作流，实现自定义表单处理；
 
 
-#### 安装教程
+## 秀外
 
-1. xxxx
-2. xxxx
-3. xxxx
+![输入图片说明](https://gitee.com/uploads/images/2018/0328/150659_6900820e_362401.png "首页")
+![输入图片说明](https://gitee.com/uploads/images/2018/0313/001504_5dda4a47_362401.png "列表页面")
+![输入图片说明](https://gitee.com/uploads/images/2018/0328/173337_6e017075_362401.png "表单设计")
+![输入图片说明](https://gitee.com/uploads/images/2018/0328/150758_26ef9d61_362401.png "流程设计")
+![输入图片说明](https://gitee.com/uploads/images/2017/0209/162617_c1250da6_362401.png "在这里输入图片标题")
 
-#### 使用说明
+## 慧中
 
-1. xxxx
-2. xxxx
-3. xxxx
+教科书级的分层思想，哪怕苛刻的你阅读的是大神级精典大作（如：《企业应用架构模式》《重构与模式》《ASP.NET设计模式》等），你也可以参考本项目。不信？有图为证，Resharper自动生成的项目引用关系，毫无PS痕迹！
 
-#### 参与贡献
+![输入图片说明](https://gitee.com/uploads/images/2015/1113/233705_271ecb3a_362401.jpeg "在这里输入图片标题")
 
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+## 权限资源
+
+符合国情的RBAC（基于角色的访问控制），可以直接应用到你的系统。
+
+1. 菜单权限  经理和业务员登陆系统拥有的功能菜单是不一样的
+2. 按钮权限  经理能够审批，而业务员不可以
+3. 数据权限  A业务员看不到B业务员的单据
+4. 字段权限  某些人查询客户信息时看不到客户的手机号或其它字段
+
+**用户**应用系统的具体操作者，我这里设计用户是可以直接给用户分配菜单/按钮，也可以通过角色分配权限。
+
+**角色**为了对许多拥有相似权限的用户进行分类管理，定义了角色的概念，以上所有的权限资源都可以分配给角色，角色和用户N:N的关系。
+
+**机构**树形的公司部门结构，国内公司用的比较多，它实际上就是一个用户组，机构和用户设计成N:N的关系，也就是说有时候一个用户可以从属于两个部门，这种情况在我们客户需求中的确都出现过。
+
+## 系统工程结构：
+1. OpenAuth.Domain 系统领域层
+2. OpenAuth.Repository 系统仓储层，用于数据库操作
+3. OpenAuth.App 应用层，为界面提供接口
+4. OpenAuth.Mvc Web站点
+5. OpenAuth.UnitTest 单元测试
+6. Infrastructure 通用工具集合
+7. OpenAuth.WebApi SSO服务及为第三方提供接口服务
+
+## 使用
+管理员可直接在登录界面用System登录；
+
+普通应用账号使用用户列表的用户登录，初始密码与用户名相同；
+
+## 后续
+更多`狂野`的功能，正在玩命加载中，敬请期待...
+更多文档正在整理中....
 
 
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [http://git.mydoc.io/](http://git.mydoc.io/)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)

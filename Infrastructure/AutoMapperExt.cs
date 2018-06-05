@@ -16,6 +16,7 @@ using AutoMapper;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace Infrastructure
 {
@@ -27,8 +28,10 @@ namespace Infrastructure
         public static T MapTo<T>(this object obj)
         {
             if (obj == null) return default(T);
-         //   Mapper.CreateMap(obj.GetType(), typeof(T));
-            return Mapper.Map<T>(obj);
+
+            var config = new MapperConfiguration(cfg=>cfg.CreateMap(obj.GetType(),typeof(T)));
+            var mapper = config.CreateMapper();
+            return mapper.Map<T>(obj);
         }
 
         /// <summary>
@@ -36,13 +39,10 @@ namespace Infrastructure
         /// </summary>
         public static List<TDestination> MapToList<TDestination>(this IEnumerable source)
         {
-            foreach (var first in source)
-            {
-                var type = first.GetType();
-           //     Mapper.CreateMap(type, typeof(TDestination));
-                break;
-            }
-            return Mapper.Map<List<TDestination>>(source);
+            var config = new MapperConfiguration(cfg => cfg.CreateMap(source.GetType(), typeof(List<TDestination>)));
+            var mapper = config.CreateMapper();
+
+            return mapper.Map<List<TDestination>>(source);
         }
 
         /// <summary>
@@ -50,9 +50,10 @@ namespace Infrastructure
         /// </summary>
         public static List<TDestination> MapToList<TSource, TDestination>(this IEnumerable<TSource> source)
         {
-            //IEnumerable<T> 类型需要创建元素的映射
-         //   Mapper.CreateMap<TSource, TDestination>();
-            return Mapper.Map<List<TDestination>>(source);
+            var config = new MapperConfiguration(cfg => cfg.CreateMap(source.GetType(), typeof(List<TDestination>)));
+            var mapper = config.CreateMapper();
+
+            return mapper.Map<List<TDestination>>(source);
         }
 
         /// <summary>
@@ -63,8 +64,10 @@ namespace Infrastructure
             where TDestination : class
         {
             if (source == null) return destination;
-         //   Mapper.CreateMap<TSource, TDestination>();
-            return Mapper.Map(source, destination);
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap(typeof(TSource), typeof(TDestination)));
+            var mapper = config.CreateMapper();
+            return mapper.Map<TDestination>(source);
         }
 
     }

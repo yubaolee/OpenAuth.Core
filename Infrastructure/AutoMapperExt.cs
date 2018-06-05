@@ -12,11 +12,10 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System;
 using AutoMapper;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 
 namespace Infrastructure
 {
@@ -39,7 +38,8 @@ namespace Infrastructure
         /// </summary>
         public static List<TDestination> MapToList<TDestination>(this IEnumerable source)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap(source.GetType(), typeof(List<TDestination>)));
+            Type sourceType = source.GetType().GetGenericArguments()[0];  //获取枚举的成员类型
+            var config = new MapperConfiguration(cfg => cfg.CreateMap(sourceType, typeof(TDestination)));
             var mapper = config.CreateMapper();
 
             return mapper.Map<List<TDestination>>(source);
@@ -50,7 +50,7 @@ namespace Infrastructure
         /// </summary>
         public static List<TDestination> MapToList<TSource, TDestination>(this IEnumerable<TSource> source)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap(source.GetType(), typeof(List<TDestination>)));
+            var config = new MapperConfiguration(cfg => cfg.CreateMap(typeof(TSource), typeof(TDestination)));
             var mapper = config.CreateMapper();
 
             return mapper.Map<List<TDestination>>(source);

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27705.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.WebApi", "OpenAuth.WebApi\OpenAuth.WebApi.csproj", "{A44BD472-84E3-4D70-9DC5-06210617D6EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenAuth.WebApi", "OpenAuth.WebApi\OpenAuth.WebApi.csproj", "{A44BD472-84E3-4D70-9DC5-06210617D6EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{8F9EAD1A-9407-41BA-844A-02282B4646F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{8F9EAD1A-9407-41BA-844A-02282B4646F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Repository", "OpenAuth.Repository\OpenAuth.Repository.csproj", "{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8F9EAD1A-9407-41BA-844A-02282B4646F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F9EAD1A-9407-41BA-844A-02282B4646F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F9EAD1A-9407-41BA-844A-02282B4646F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

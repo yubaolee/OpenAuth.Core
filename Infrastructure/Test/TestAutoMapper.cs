@@ -28,8 +28,12 @@ namespace Infrastructure.Test
 
             };
 
-            var dest = users.MapToList<DestClass>();
+            var dest = users.MapToList<MyClass, DestClass>();
             Console.WriteLine(JsonHelper.Instance.Serialize(dest));
+
+            var dest2 = users.MapToList<DestClass>();
+            Console.WriteLine(JsonHelper.Instance.Serialize(dest2));
+
         }
     }
 

@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27705.2000
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.WebApi", "OpenAuth.WebApi\OpenAuth.WebApi.csproj", "{A44BD472-84E3-4D70-9DC5-06210617D6EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{8F9EAD1A-9407-41BA-844A-02282B4646F3}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A44BD472-84E3-4D70-9DC5-06210617D6EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A44BD472-84E3-4D70-9DC5-06210617D6EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A44BD472-84E3-4D70-9DC5-06210617D6EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A44BD472-84E3-4D70-9DC5-06210617D6EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F9EAD1A-9407-41BA-844A-02282B4646F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F9EAD1A-9407-41BA-844A-02282B4646F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F9EAD1A-9407-41BA-844A-02282B4646F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F9EAD1A-9407-41BA-844A-02282B4646F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

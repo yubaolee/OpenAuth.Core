@@ -1,0 +1,31 @@
+﻿
+@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+    <link href="/js/flow/GooFlow.css" rel="stylesheet" />
+    <link href="/css/formpreview.css" rel="stylesheet" />
+}
+
+<form class="layui-form " action="" id="formEdit">
+
+    <div class="layui-tab layui-tab-brief" lay-filter="tab" style="margin: 0px">
+        <ul class="layui-tab-title">
+            <li class="layui-this">流程信息</li>
+            <li>表单信息</li>
+        </ul>
+
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div id="flowPanel"></div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div id="frmPreview" style="min-height: 600px"></div>
+            </div>
+
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/flowinstanceDetail.js?v2"></script>
+

@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenAuth.WebApi", "OpenAuth
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{8F9EAD1A-9407-41BA-844A-02282B4646F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Repository", "OpenAuth.Repository\OpenAuth.Repository.csproj", "{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenAuth.Repository", "OpenAuth.Repository\OpenAuth.Repository.csproj", "{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.App", "OpenAuth.App\OpenAuth.App.csproj", "{00D63D11-D95D-4960-9F49-B102344303A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAuth.Mvc", "OpenAuth.Mvc\OpenAuth.Mvc.csproj", "{4BCDEC12-AAED-4AC1-81D7-4BD114CB679A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BD1F522-FC5C-4DEB-ACE9-1242BCE235BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00D63D11-D95D-4960-9F49-B102344303A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00D63D11-D95D-4960-9F49-B102344303A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00D63D11-D95D-4960-9F49-B102344303A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00D63D11-D95D-4960-9F49-B102344303A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BCDEC12-AAED-4AC1-81D7-4BD114CB679A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCDEC12-AAED-4AC1-81D7-4BD114CB679A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCDEC12-AAED-4AC1-81D7-4BD114CB679A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCDEC12-AAED-4AC1-81D7-4BD114CB679A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

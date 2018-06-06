@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
     [Table("FlowInstanceOperationHistory")]
-    public partial class FlowInstanceOperationHistory
+    public partial class FlowInstanceOperationHistory :Entity
     {
-        public string Id { get; set; }
         public string InstanceId { get; set; }
         public string Content { get; set; }
         public DateTime CreateDate { get; set; }

@@ -1,0 +1,57 @@
+﻿
+@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+    <link href="/js/flow/GooFlow.css" rel="stylesheet" />
+    <link href="/css/formpreview.css" rel="stylesheet" />
+}
+
+<form class="layui-form " action="" id="formEdit">
+    <div class="layui-row ">
+        <div class="layui-col-xs8">
+            <div class="layui-tab layui-tab-brief" lay-filter="tab" style="margin: 0px">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">流程信息</li>
+                    <li>表单信息</li>
+                </ul>
+
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <div id="flowPanel"></div>
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <div id="frmPreview"></div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-col-xs4" style="background-color: gainsboro; min-height: 600px">
+            <input type="hidden" id="FlowInstanceId" name="FlowInstanceId"/>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">审核结果</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="VerificationFinally" value="1" title="同意" checked>
+                    <input type="radio" name="VerificationFinally" value="2" title="不同意">
+                    <input type="radio" name="VerificationFinally" value="3" title="驳回">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">审核意见</label>
+                <div class="layui-input-block">
+                    <textarea name="VerificationOpinion"
+                           placeholder="" autocomplete="off" class="layui-textarea" ></textarea>
+                </div>
+            </div>
+        </div>
+        </div>
+    
+    <input type="hidden" lay-submit id="btnSubmit" lay-filter="formSubmit"/>
+</form>
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/verification.js?v2"></script>
+

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
     [Table("Role")]
-    public partial class Role
+    public partial class Role :Entity
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public int Status { get; set; }
         public DateTime CreateTime { get; set; }

@@ -1,0 +1,83 @@
+﻿
+@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+    <link href="/js/flow/GooFlow.css" rel="stylesheet" />
+    <link href="/css/formpreview.css" rel="stylesheet" />
+}
+
+<form class="layui-form layui-form-pane" action="" id="formEdit">
+    <input type="hidden" name="Id" v-model="Id" />
+
+    <div class="layui-row">
+        <div class="layui-tab layui-tab-brief" lay-filter="tab" style="margin: 0px">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本信息</li>
+                <li>选择表单</li>
+                <li>流程设计</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <input type="hidden" id="FrmId" name="FrmId" v-model="FrmId" />
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">流程编号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="SchemeCode" v-model="SchemeCode" required lay-verify="required"
+                                   placeholder="流程编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">流程名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="SchemeName" v-model="SchemeName" required lay-verify="required"
+                                   placeholder="流程名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="SortCode" v-model="SortCode" required lay-verify="required"  autocomplete="off" class="layui-input"> 
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" pane>
+                        <label class="layui-form-label">禁用</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" value="1" v-model="Disabled" name="Disabled"
+                                    lay-skin="switch" lay-text="是|否">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" pane>
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <textarea name="Description" v-model="Description"  placeholder="请输入" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="layui-tab-item layui-fluid">
+                    <div class="layui-row">
+                        <div class="layui-col-xs3">
+                            <ul id="frmTree" class="ztree" style=" padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
+                        </div>
+                        <div class="layui-col-xs9">
+                            <div id="frmPreview"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-tab-item">
+                    <div id="flowPanel" style=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <input type="hidden" lay-submit id="btnSubmit" lay-filter="formSubmit"/>
+</form>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/flowSchemeDesign.js?v2"></script>
+

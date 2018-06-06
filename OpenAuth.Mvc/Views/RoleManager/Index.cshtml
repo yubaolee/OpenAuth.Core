@@ -1,0 +1,73 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+}
+<blockquote class="layui-elem-quote news_search toolList" id ="menus">
+</blockquote>
+
+<div class="layui-row">
+    <div class="layui-col-xs2">
+        <ul id="tree" class="ztree"
+            style="padding: 2px; border: 1px solid #ddd; overflow: auto;"></ul>
+    </div>
+    <div class="layui-col-xs10">
+        <table class="layui-table"
+               lay-data="{height: 'full-80', page:true, id:'mainList'}"
+               lay-filter="list" lay-size="sm">
+            <thead>
+            <tr>
+                <th lay-data="{checkbox:true, fixed: true}"></th>
+                <th lay-data="{field:'Name', width:150}">角色名称</th>
+                <th lay-data="{field:'Organizations', width:250}">所属部门</th>
+                <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<script type="text/html" id="barList">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+</script>
+
+<!--角色添加/编辑窗口-->
+<div id="divEdit" style="display: none">
+    <form class="layui-form layui-form-pane" action=""  id="formEdit">
+
+        <input type="hidden" name="Id" v-model="Id" />
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                       placeholder="请输入角色名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属部门</label>
+            <div class="layui-input-block">
+                <input id="Organizations" name="Organizations" v-model="Organizations" required lay-verify="required" class="layui-input" />
+                <input id="OrganizationIds" name="OrganizationIds" v-model="OrganizationIds" required lay-verify="required" type="hidden" />
+                <div id="menuContent" class="menuContent" style="display: none;">
+                    <ul id="org" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" pane>
+            <label class="layui-form-label">是否可用</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="Status" v-model="Status" lay-skin="switch" value="1">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/roles.js"></script>

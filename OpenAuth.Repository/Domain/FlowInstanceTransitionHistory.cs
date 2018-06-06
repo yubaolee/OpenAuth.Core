@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
     [Table("FlowInstanceTransitionHistory")]
-    public partial class FlowInstanceTransitionHistory
+    public partial class FlowInstanceTransitionHistory :Entity
     {
-        public string Id { get; set; }
         public string InstanceId { get; set; }
         public string FromNodeId { get; set; }
         public int? FromNodeType { get; set; }

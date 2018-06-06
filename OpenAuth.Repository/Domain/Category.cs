@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
     [Table("Category")]
-    public partial class Category
+    public partial class Category :Entity
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public bool Disabled { get; set; }
         public int SortNo { get; set; }

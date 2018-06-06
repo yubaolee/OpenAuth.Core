@@ -1,0 +1,80 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+}
+
+<form class="layui-form" action="" id="formEdit">
+    <div class="layui-row">
+        <div class="layui-tab layui-tab-brief" lay-filter="tab" style="margin: 0px">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本信息</li>
+                <li>执行人</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">节点标识</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="NodeCode" id="NodeCode" v-model="NodeCode" required lay-verify="required"
+                                   placeholder="流程编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">节点名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="NodeName" v-model="NodeName" required lay-verify="required"
+                                   placeholder="节点名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">驳回类型</label>
+                        <div class="layui-input-block">
+                            <select id="NodeRejectType" name="NodeRejectType" v-model="NodeRejectType" required lay-verify="required">
+                                <option value="0">上一步</option>
+                                <option value="1">第一步</option>
+                                <option value="2">指定步骤</option>
+                                <option value="3">不处理</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                                   placeholder="备注" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-row">
+                        <div class="layui-input-block">
+                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" lay-filter="NodeDesignate" value="ALL_USER" title="所有用户" checked>
+                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" lay-filter="NodeDesignate" value="SPECIAL_USER" title="指定用户">
+                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" lay-filter="NodeDesignate" value="SPECIAL_ROLE" title="指定角色">
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <div v-if="NodeDesignate === 'SPECIAL_USER'">
+                            <ul id="tree" class="ztree layui-nav-tree" style="float: left;border-right: 1px solid #eee;"></ul>
+                            <ul id="userstree" class="ztree" style="margin-left: 220px; "></ul>
+                        </div>
+                        <div v-if="NodeDesignate === 'SPECIAL_ROLE'">
+                            <ul id="tree" class="ztree layui-nav-tree" style="float: left;border-right: 1px solid #eee;"></ul>
+                            <ul id="rolestree" class="ztree" style="margin-left: 220px; "></ul>
+
+                        </div>
+                        <div v-if="NodeDesignate === 'ALL_USER'">
+                            所有人都可以审核
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/nodeInfo.js"></script>

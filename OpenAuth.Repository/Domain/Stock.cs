@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
     [Table("Stock")]
-    public partial class Stock
+    public partial class Stock :Entity
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public int Number { get; set; }
         public decimal Price { get; set; }

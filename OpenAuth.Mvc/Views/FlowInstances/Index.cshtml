@@ -1,0 +1,53 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+}
+<blockquote class="layui-elem-quote news_search toolList" id="menus">
+</blockquote>
+
+<div class="layui-row">
+    <div class="layui-col-xs2">
+        <ul id="tree" class="ztree"
+            style="padding: 2px; border: 1px solid #ddd; overflow: auto;">
+        </ul>
+    </div>
+    <div class="layui-col-xs10">
+        <table class="layui-table"
+               lay-data="{height: 'full-80', page:true, id:'mainList'}"
+               lay-filter="list" lay-size="sm">
+            <thead>
+            <tr>
+                <th lay-data="{checkbox:true, fixed: true}"></th>
+                <th lay-data="{field:'Id', width:150}">主键Id</th>
+                <th lay-data="{field:'IsFinish', width:150, templet:'#IsFinish'}">是否完成</th>
+                <th lay-data="{field:'CustomName', width:150}">实例名称</th>
+                <th lay-data="{field:'Code', width:150}">实例编号</th>
+                <th lay-data="{field:'ActivityName', width:150}">当前节点名称</th>
+                <th lay-data="{field:'CreateDate', width:150}">创建时间</th>
+                <th lay-data="{field:'CreateUserName', width:150}">创建用户</th>
+                <th lay-data="{field:'Description', width:150}">实例备注</th>
+                <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
+            </tr>
+            </thead>
+        </table>
+    
+        <script type="text/html" id="IsFinish">
+            {{# if(d.IsFinish == 0){ }}
+            <span class="layui-badge layui-bg-blue">正在运行</span>
+            {{# } else if(d.IsFinish == 4){ }}
+            <span class="layui-badge">被驳回</span>
+            {{# } else{}}
+            <span class="layui-badge layui-bg-green">已完成</span>
+            {{# } }}
+        </script>
+    </div>
+</div>
+
+<script type="text/html" id="barList">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+</script>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/flowInstances.js"></script>
+
+

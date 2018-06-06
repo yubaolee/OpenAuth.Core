@@ -1,0 +1,80 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+}
+<blockquote class="layui-elem-quote news_search toolList" id="menus">
+</blockquote>
+
+<div style="display: flex;">
+    <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
+    <table class="layui-table"
+           lay-data="{height: 'full-80', page:true, id:'mainList'}"
+           lay-filter="list"  lay-size="sm">
+        <thead>
+            <tr>
+                <th lay-data="{checkbox:true, fixed: true}"></th>
+                <th lay-data="{field:'Id', width:180}">ID</th>
+                <th lay-data="{field:'Name', width:180}">类型名称</th>
+                <th lay-data="{field:'TypeId', width:180}">类型分类</th>
+                <th lay-data="{field:'TypeName', width:180}">类型分类</th>
+                <th lay-data="{field:'Description', width:180}">描述</th>
+                <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/html" id="barList">
+    @*<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>*@
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<!--用户添加/编辑窗口-->
+<div id="divEdit" style="display: none">
+    <form class="layui-form layui-form-pane" action="" id="formEdit">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型标识</label>
+            <div class="layui-input-block">
+                <input type="text" name="Id" v-model="Id" required lay-verify="required"
+                       placeholder="请输入类型标识" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                       placeholder="请输入名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型分类</label>
+            <div class="layui-input-block">
+                <input id="TypeName" name="TypeName" v-model="TypeName" required lay-verify="required" class="layui-input" />
+                <input id="TypeId" name="TypeId" v-model="TypeId" required lay-verify="required" type="hidden" />
+                <div id="menuContent" class="menuContent" style="display: none;">
+                    <ul id="org" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+                <input type="text" name="Description" v-model="Description"
+                       placeholder="请输入描述" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/categories.js"></script>

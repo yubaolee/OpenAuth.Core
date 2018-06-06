@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using OpenAuth.Repository.Domain;
 
-namespace OpenAuth.Repository.Domain
+namespace OpenAuth.Repository
 {
     public partial class OpenAuthDBContext : DbContext
     {

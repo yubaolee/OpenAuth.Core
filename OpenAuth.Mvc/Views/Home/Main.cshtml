@@ -1,0 +1,143 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/main.css" media="all" />
+}
+<div class="panel_box row">
+    <div class="panel col">
+        <a href="javascript:;" data-url="/orgmanager/index">
+            <div class="panel_icon">
+                <i class="layui-icon" data-icon="&#xe63a;">&#xe63a;</i>
+            </div>
+            <div class="panel_word orgs">
+                <span></span>
+                <cite>机构总数</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel col">
+        <a href="javascript:;" data-url="/Rolemanager/index">
+            <div class="panel_icon" style="background-color:#FF5722;">
+                <i class="iconfont icon-dongtaifensishu" data-icon="icon-dongtaifensishu"></i>
+            </div>
+            <div class="panel_word roles">
+                <span></span>
+                <cite>角色总数</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel col">
+        <a href="javascript:;" data-url="/UserManager/Index">
+            <div class="panel_icon" style="background-color:#009688;">
+                <i class="layui-icon" data-icon="&#xe613;">&#xe613;</i>
+            </div>
+            <div class="panel_word userAll">
+                <span></span>
+                <cite>用户总数</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel col">
+        <a href="javascript:;" data-url="/forms/index">
+            <div class="panel_icon" style="background-color:#5FB878;">
+                <i class="layui-icon" data-icon="&#xe64a;">&#xe64a;</i>
+            </div>
+            <div class="panel_word forms">
+                <span></span>
+                <cite>表单总数</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel col">
+        <a href="javascript:;" data-url="/flowinstances/index">
+            <div class="panel_icon" style="background-color:#F7B824;">
+                <i class="iconfont icon-wenben" data-icon="icon-wenben"></i>
+            </div>
+            <div class="panel_word flows">
+                <span></span>
+                <cite>我的流程</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel col max_panel">
+        <a href="javascript:;" data-url="/flowschemes/index">
+            <div class="panel_icon" style="background-color:#2F4056;">
+                <i class="iconfont icon-text" data-icon="icon-text"></i>
+            </div>
+            <div class="panel_word flowschemes">
+                <span></span>
+                <cite>流程模板</cite>
+            </div>
+        </a>
+    </div>
+</div>
+<blockquote class="layui-elem-quote explain">
+    <p>官方博客：<a href="http://www.cnblogs.com/yubaolee/">http://www.cnblogs.com/yubaolee/</a> </p>
+    <p>
+        系统默认System账号登录，可以查看所有权限，如果用其他账号（如：admin/test）可以查看相应的授权情况。
+        数据库密码明文存储，不要问为什么不加密，因为你要问这些账号的密码我也记不住啊O(∩_∩)O
+    </p>
+    <p>
+        <span style="color: #1E9FFF;">郑重提示：为安全起见，关闭了所有修改请求，如想体验完整功能可搭建本地环境，并将version置为空字符串</span>
+    </p>
+    <p>
+        <a href="https://git.oschina.net/yubaolee/OpenAuth.Net" target="_blank" class="layui-btn layui-btn-xs layui-btn-danger">项目地址</a>
+        <a class="layui-btn layui-btn-xs" target="_blank" href="https://www.w3cschool.cn/openauthdotnet/e8931tly.html">在线文档</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank" href="http://git.oschina.net/yubaolee/OpenAuth.Net/stargazers">喜欢就Star一下吧</a>
+        <span style="color: #f00;">注：【本框架遵循LGPL开源协议，企业单位如商用请联系作者授权，谢谢】</span>
+    </p>
+    <p>技术交流QQ群：484498493【已满】 &nbsp; &nbsp; 626433139【已满】 &nbsp;&nbsp; 566344079</p>
+</blockquote>
+<div class="row">
+    <div class="sysNotice col">
+        <blockquote class="layui-elem-quote title">更新日志</blockquote>
+        <div class="layui-elem-quote layui-quote-nm">
+            <h3># v4.0（颠覆） - 2018</h3>
+            <p>* 引入最新版layui，这是有史以来最酷的Openauth.net</p>
+            <p>* 全面优化数据结构</p>
+            <p>* 全面优化流程引擎</p>
+        </div>
+    </div>
+    <div class="sysNotice col">
+        <blockquote class="layui-elem-quote title">系统基本参数</blockquote>
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>当前版本</td>
+                    <td class="version"></td>
+                </tr>
+                <tr>
+                    <td>开发作者</td>
+                    <td class="author"></td>
+                </tr>
+                <tr>
+                    <td>网站首页</td>
+                    <td class="homePage"></td>
+                </tr>
+                <tr>
+                    <td>服务器环境</td>
+                    <td class="server"></td>
+                </tr>
+                <tr>
+                    <td>数据库版本</td>
+                    <td class="dataBase"></td>
+                </tr>
+                <tr>
+                    <td>最大上传限制</td>
+                    <td class="maxUpload"></td>
+                </tr>
+                <tr>
+                    <td>当前用户权限</td>
+                    <td class="userRights"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/main.js"></script>

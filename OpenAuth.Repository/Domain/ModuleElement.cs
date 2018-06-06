@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
     [Table("ModuleElement")]
-    public partial class ModuleElement
+    public partial class ModuleElement :Entity
     {
-        public string Id { get; set; }
         public string DomId { get; set; }
         public string Name { get; set; }
         public string Attr { get; set; }

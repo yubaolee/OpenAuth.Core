@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
     [Table("FlowInstance")]
-    public partial class FlowInstance
+    public partial class FlowInstance :Entity
     {
-        public string Id { get; set; }
         public string InstanceSchemeId { get; set; }
         public string Code { get; set; }
         public string CustomName { get; set; }

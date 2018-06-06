@@ -1,0 +1,67 @@
+﻿@using OpenAuth.App.SSO
+@model  PassportLoginRequest
+@{
+    var appinfo = TempData["AppInfo"] as AppInfo;
+}
+
+<head>
+    <link href="/Areas/SSO/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="/Areas/SSO/Content/Site.css" rel="stylesheet">
+    <style id="igtranslator-color" type="text/css"></style>
+    <title>OpenAuth.net统一登录授权中心</title>
+</head>
+<html>
+<body>
+    <div class="row">
+
+        @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form-horizontal", style = "max-width: 390px; padding-top:50px;  margin: 0 auto;" }))
+        {
+            if (appinfo != null)
+            {
+                <div class="form-group">
+                    <div class="col-md-11 col-md-offset-1">
+                        <div style="text-align: center;">
+                            <img src="@appinfo.Icon" style="width: 128px; height: 128px;" title="@appinfo.Title">
+                            <div class="caption">
+                                <h3>@appinfo.Title</h3>
+                                <p style="text-align: left;">
+                                    <small>@appinfo.Remark</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="UserName">用户名</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.Account, new { @class = "form-control input-lg", style = "width: 280px" })
+                    @Html.HiddenFor(model => model.AppKey)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="Password">密码</label>
+                <div class="col-md-9">
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control input-lg", style = "width: 280px" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    @Html.ValidationSummary(false)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3 ">
+                    <button type="submit" class="btn btn-primary">登录</button>
+                </div>
+            </div>
+        }
+
+    </div>
+</body>
+</html>
+

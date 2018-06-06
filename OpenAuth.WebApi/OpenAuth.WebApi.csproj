@@ -5,15 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\SSO\Data\" />
+    <Folder Include="Areas\SSO\Models\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\OpenAuth.App\OpenAuth.App.csproj" />
+    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj" />
   </ItemGroup>
 
 </Project>

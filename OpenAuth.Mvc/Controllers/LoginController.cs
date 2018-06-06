@@ -10,7 +10,7 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class LoginController : Controller
     {
-        private string _appKey = "OpenAuth.Net";
+        private string _appKey = "openauth";
 
         // GET: Login
         public ActionResult Index()

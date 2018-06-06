@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -19,6 +19,12 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\OpenAuth.App\OpenAuth.App.csproj" />
     <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Autofac.Extensions.DependencyInjection">
+      <HintPath>..\..\..\Users\Administrator\.nuget\packages\autofac.extensions.dependencyinjection\4.0.0\lib\netstandard1.1\Autofac.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

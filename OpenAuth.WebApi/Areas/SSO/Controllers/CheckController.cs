@@ -27,8 +27,16 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// </summary>
     public class CheckController : ControllerBase
     {
-        public AuthorizeApp _app { get; set; }
-        private ObjCacheProvider<UserAuthSession> _objCacheProvider = new ObjCacheProvider<UserAuthSession>();
+        private AuthorizeApp _app;
+        private SSOAuthUtil _ssoAuthUtil;
+        private ObjCacheProvider<UserAuthSession> _objCacheProvider;
+
+        public CheckController(AuthorizeApp app, ObjCacheProvider<UserAuthSession> objCacheProvider, SSOAuthUtil ssoAuthUtil)
+        {
+            _app = app;
+            _objCacheProvider = objCacheProvider;
+            _ssoAuthUtil = ssoAuthUtil;
+        }
 
         /// <summary>
         /// 检验token是否有效
@@ -118,7 +126,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             var result = new LoginResult();
             try
             {
-                result = SSOAuthUtil.Parse(request);
+                result = _ssoAuthUtil.Parse(request);
             }
             catch (Exception ex)
             {

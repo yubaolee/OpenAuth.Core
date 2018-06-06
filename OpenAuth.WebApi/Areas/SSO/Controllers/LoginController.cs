@@ -11,7 +11,9 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// </summary>
     public class LoginController : Controller
     {
-        public AppInfoService _appInfoService { get; set; }
+        private AppInfoService _appInfoService;
+
+        private SSOAuthUtil _ssoAuthUtil;
 
         private const string AppInfo = "AppInfo";
 
@@ -33,7 +35,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         [HttpPost]
         public ActionResult Index(PassportLoginRequest model)
         {
-            var result = SSOAuthUtil.Parse(model);
+            var result = _ssoAuthUtil.Parse(model);
 
             if (result.Code ==200)
             {

@@ -20,9 +20,9 @@ namespace Infrastructure.Cache
     /// </summary>
     public class ObjCacheProvider<T> : CacheProvider
     {
-        public ObjCacheProvider()
+        public ObjCacheProvider(ICacheContext context)
         {
-            SetCacheInstance(new CacheContext());
+            SetCacheInstance(context);
         }
 
         public bool Create(string key, T val, DateTime expire)

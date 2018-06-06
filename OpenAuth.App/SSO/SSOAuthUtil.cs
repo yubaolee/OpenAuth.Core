@@ -8,7 +8,16 @@ namespace OpenAuth.App.SSO
 {
     public class SSOAuthUtil
     {
-        public static  LoginResult Parse(PassportLoginRequest model)
+        private UserManagerApp _userManager;
+        private ObjCacheProvider<UserAuthSession> _objCacheProvider;
+
+        public SSOAuthUtil(ObjCacheProvider<UserAuthSession> objCacheProvider, UserManagerApp userManager)
+        {
+            _objCacheProvider = objCacheProvider;
+            _userManager = userManager;
+        }
+
+        public  LoginResult Parse(PassportLoginRequest model)
         {
             var result = new LoginResult();
             try
@@ -35,8 +44,7 @@ namespace OpenAuth.App.SSO
                 else
                 {
                     //todo:get user
-                    //var usermanager = (UserManagerApp)DependencyResolver.Current.GetService(typeof(UserManagerApp));
-                    //userInfo = usermanager.Get(model.Account);
+                    userInfo = _userManager.Get(model.Account);
                 }
                
                 if (userInfo == null)
@@ -59,7 +67,7 @@ namespace OpenAuth.App.SSO
                 };
 
                 //创建Session
-                new ObjCacheProvider<UserAuthSession>().Create(currentSession.Token, currentSession, DateTime.Now.AddDays(10));
+                _objCacheProvider.Create(currentSession.Token, currentSession, DateTime.Now.AddDays(10));
 
                 result.Code = 200;
                 result.ReturnUrl = appInfo.ReturnUrl;

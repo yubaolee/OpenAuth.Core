@@ -17,7 +17,13 @@ namespace Infrastructure.Cache
 {
     public class CacheContext : ICacheContext
     {
-        private static MemoryCache _objCache = new MemoryCache(new MemoryCacheOptions());
+        private IMemoryCache _objCache;
+
+        public CacheContext(IMemoryCache objCache)
+        {
+            _objCache = objCache;
+        }
+
         public override T Get<T>(string key)
         {
             return  _objCache.Get<T>(key);

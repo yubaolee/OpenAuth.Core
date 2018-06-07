@@ -13,6 +13,8 @@ namespace OpenAuth.App.SSO
     {
         public const string Token = "Token";
 
+        public AuthUtil AuthUtil { get; set; }
+
         public new  void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var token = "";

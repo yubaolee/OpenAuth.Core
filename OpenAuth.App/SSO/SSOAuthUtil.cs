@@ -10,11 +10,15 @@ namespace OpenAuth.App.SSO
     {
         private UserManagerApp _userManager;
         private ObjCacheProvider<UserAuthSession> _objCacheProvider;
+        private AppInfoService _appInfoService;
 
-        public SSOAuthUtil(ObjCacheProvider<UserAuthSession> objCacheProvider, UserManagerApp userManager)
+        public SSOAuthUtil(ObjCacheProvider<UserAuthSession> objCacheProvider
+            , UserManagerApp userManager
+            , AppInfoService infoService)
         {
             _objCacheProvider = objCacheProvider;
             _userManager = userManager;
+            _appInfoService = infoService;
         }
 
         public  LoginResult Parse(PassportLoginRequest model)
@@ -24,7 +28,7 @@ namespace OpenAuth.App.SSO
             {
                 model.Trim();
                 //获取应用信息
-                var appInfo = new AppInfoService().Get(model.AppKey);
+                var appInfo = _appInfoService.Get(model.AppKey);
                 if (appInfo == null)
                 {
                     throw  new Exception("应用不存在");

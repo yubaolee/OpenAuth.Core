@@ -18,6 +18,8 @@ namespace OpenAuth.App
     {
         public RevelanceManagerApp RevelanceManagerApp { get; set; }
 
+        public AuthUtil AuthUtil { get; set; }
+
         #region 流程处理API
         /// <summary>
         /// 创建一个实例

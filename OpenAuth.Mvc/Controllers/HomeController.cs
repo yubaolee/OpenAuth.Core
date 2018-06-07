@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -22,6 +23,9 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-      
+
+        public HomeController(AuthUtil authUtil) : base(authUtil)
+        {
+        }
     }
 }

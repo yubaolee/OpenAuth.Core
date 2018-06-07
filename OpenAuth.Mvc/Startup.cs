@@ -35,6 +35,9 @@ namespace OpenAuth.Mvc
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();
+            services.AddOptions();
+            //映射配置文件
+            services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
 
             //使用AutoFac进行注入
             return new AutofacServiceProvider(AutofacExt.InitAutofac(services));

@@ -37,11 +37,16 @@ namespace OpenAuth.Mvc.Controllers
         protected string Controllername;   //当前控制器小写名称
         protected string Actionname;        //当前Action小写名称
 
+        public BaseController(AuthUtil authUtil) : base(authUtil)
+        {
+        }
+
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
 
-            if (!AuthUtil.CheckLogin()) return;
+            if (!_authUtil.CheckLogin()) return;
 
             Controllername = filterContext.Controller.ToString().ToLower();
             Actionname = filterContext.ActionDescriptor.DisplayName.ToLower();
@@ -55,7 +60,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 return;
             }
-            var currentModule = AuthUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(Controllername));
+            var currentModule = _authUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(Controllername));
             //当前登录用户没有Action记录&&Action有authenticate标识
             if ( currentModule == null)
             {
@@ -70,5 +75,7 @@ namespace OpenAuth.Mvc.Controllers
             //}
 
         }
+
+       
     }
 }

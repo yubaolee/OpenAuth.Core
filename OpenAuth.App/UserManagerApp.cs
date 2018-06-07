@@ -13,6 +13,8 @@ namespace OpenAuth.App
     {
         public RevelanceManagerApp ReleManagerApp { get; set; }
 
+        public AuthUtil AuthUtil { get; set; }
+
         public User Get(string account)
         {
             return Repository.FindSingle(u => u.Account == account);

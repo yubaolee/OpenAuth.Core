@@ -26,11 +26,14 @@ namespace OpenAuth.App
 {
     public static  class AutofacExt
     {
+        private static IContainer _container;
         public static IContainer InitAutofac(IServiceCollection services)
         {
             var builder = new ContainerBuilder();
-
-            builder.Populate(services);
+            if (services != null)
+            {
+                builder.Populate(services);
+            }
 
             //注册数据库基础操作和工作单元
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();
@@ -44,7 +47,8 @@ namespace OpenAuth.App
             builder.RegisterType<CacheContext>().As<ICacheContext>();
             builder.RegisterGeneric(typeof(ObjCacheProvider<>));
 
-            return builder.Build();
+            _container = builder.Build();
+            return _container;
 
         }
 
@@ -52,10 +56,9 @@ namespace OpenAuth.App
         /// 从容器中获取对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        //public static T GetFromFac<T>()
-        //{
-        //    return _container.Resolve<T>();
-        //    //   return (T)DependencyResolver.Current.GetService(typeof(T));
-        //}
+        public static T GetFromFac<T>()
+        {
+            return _container.Resolve<T>();
+        }
     }
 }

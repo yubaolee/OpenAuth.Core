@@ -13,6 +13,8 @@ namespace OpenAuth.App
     {
         public RevelanceManagerApp ReleManagerApp { get; set; }
 
+        public AuthUtil AuthUtil { get; set; }
+
         /// <summary>
         /// 加载当前登录用户可访问的一个部门及子部门全部角色
         /// </summary>

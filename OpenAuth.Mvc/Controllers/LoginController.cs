@@ -12,6 +12,13 @@ namespace OpenAuth.Mvc.Controllers
     {
         private string _appKey = "openauth";
 
+        private AuthUtil _authUtil;
+
+        public LoginController(AuthUtil authUtil)
+        {
+            _authUtil = authUtil;
+        }
+
         // GET: Login
         public ActionResult Index()
         {
@@ -25,7 +32,7 @@ namespace OpenAuth.Mvc.Controllers
             var resp = new LoginResult();
             try
             {
-                var result = AuthUtil.Login(_appKey, username, password);
+                var result = _authUtil.Login(_appKey, username, password);
                 if (result.Code == 200)
                 {
 
@@ -50,7 +57,7 @@ namespace OpenAuth.Mvc.Controllers
             var resp = new Response();
             try
             {
-                var result = AuthUtil.Login(_appKey, username, password);
+                var result = _authUtil.Login(_appKey, username, password);
                 if (result.Code == 200)
                 {
                     Response.Cookies.Append("Token", result.Token);
@@ -74,7 +81,7 @@ namespace OpenAuth.Mvc.Controllers
         public ActionResult Logout()
         {
 
-            AuthUtil.Logout();
+            _authUtil.Logout();
             return RedirectToAction("Index", "Login");
         }
     }

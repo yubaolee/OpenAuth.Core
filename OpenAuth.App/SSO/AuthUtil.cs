@@ -31,10 +31,16 @@ namespace OpenAuth.App.SSO
     /// </summary>
     public class AuthUtil
     {
-        private static readonly IOptions<AppSetting> _appConfiguration;
-        static HttpHelper _helper = new HttpHelper(_appConfiguration.Value.SSOPassport);
+        private IOptions<AppSetting> _appConfiguration;
+        private HttpHelper _helper;
 
-        private static string GetToken()
+       public AuthUtil(IOptions<AppSetting> appConfiguration)
+        {
+            _appConfiguration = appConfiguration;
+            _helper = new HttpHelper(_appConfiguration.Value.SSOPassport);
+        }
+
+        private string GetToken()
         {
             //todo:get token
             //string token = HttpContext.Current.Request.QueryString["Token"];
@@ -45,7 +51,7 @@ namespace OpenAuth.App.SSO
             return string.Empty;
         }
 
-        public static bool CheckLogin(string token, string remark = "")
+        public bool CheckLogin(string token, string remark = "")
         {
             if (String.IsNullOrEmpty(token) || String.IsNullOrEmpty(GetToken()))
                 return false;
@@ -73,7 +79,7 @@ namespace OpenAuth.App.SSO
         /// <para>通过URL中的Token参数或Cookie中的Token</para>
         /// </summary>
         /// <param name="remark">备注信息</param>
-        public static bool CheckLogin(string remark="")
+        public bool CheckLogin(string remark="")
         {
             return CheckLogin(GetToken(), remark);
         }
@@ -84,7 +90,7 @@ namespace OpenAuth.App.SSO
         /// </summary>
         /// <param name="remark">The remark.</param>
         /// <returns>LoginUserVM.</returns>
-        public static UserWithAccessedCtrls GetCurrentUser(string remark = "")
+        public UserWithAccessedCtrls GetCurrentUser(string remark = "")
         {
 
             var requestUri = String.Format("/api/Check/GetUser?token={0}&requestid={1}", GetToken(), remark);
@@ -112,7 +118,7 @@ namespace OpenAuth.App.SSO
         /// </summary>
         /// <param name="remark">The remark.</param>
         /// <returns>System.String.</returns>
-        public static string GetUserName(string remark = "")
+        public string GetUserName(string remark = "")
         {
             var requestUri = String.Format("/api/Check/GetUserName?token={0}&requestid={1}", GetToken(), remark);
 
@@ -139,7 +145,7 @@ namespace OpenAuth.App.SSO
         /// <param name="username">用户名</param>
         /// <param name="pwd">密码</param>
         /// <returns>System.String.</returns>
-        public static LoginResult Login(string appKey, string username, string pwd)
+        public LoginResult Login(string appKey, string username, string pwd)
         {
             var requestUri = "/api/Check/Login";
 
@@ -165,7 +171,7 @@ namespace OpenAuth.App.SSO
         /// <summary>
         /// 注销
         /// </summary>
-        public static bool Logout()
+        public bool Logout()
         {
             var token = GetToken();
             if (String.IsNullOrEmpty(token)) return true;

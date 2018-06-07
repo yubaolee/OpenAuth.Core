@@ -27,6 +27,13 @@ namespace OpenAuth.App.SSO
     {
         public const string Token = "Token";
 
+        protected AuthUtil _authUtil;
+
+        public SSOController(AuthUtil authUtil)
+        {
+            _authUtil = authUtil;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var token = "";
@@ -45,7 +52,7 @@ namespace OpenAuth.App.SSO
                 return;
             }
             //验证
-            if (AuthUtil.CheckLogin(token, request.Path) == false)
+            if (_authUtil.CheckLogin(token, request.Path) == false)
             {
                 //会话丢失，跳转到登录页面
                 filterContext.Result = LoginResult("");

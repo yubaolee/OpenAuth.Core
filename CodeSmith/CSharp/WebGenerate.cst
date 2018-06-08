@@ -39,6 +39,9 @@ OnChanged="OnSourceDatabaseChanged"%>
 <%@ Register Name="ApplicationGenerateClass"
              Template="Web\Application.cst"
              MergeProperties="False" %>
+<%@ Register Name="RequestGenerateClass"
+             Template="Web\Request.cst"
+             MergeProperties="False" %>
 <%@ Register Name="HtmlGenerateClass"
              Template="Web\Index.cshtml.cst"
              MergeProperties="False" %>
@@ -59,6 +62,7 @@ Generating Entities ...
 
         CreateControllerClass();
         CreateApplicationClass();
+        CreateReqClass();
         CreateHtmlClass();
         CreateJSClass();
         
@@ -103,6 +107,23 @@ Generating Entities ...
         Response.WriteLine(generatedFile);
         generatedClass.RenderToFile(generatedFile, generatedFile, true);
     }
+    
+    
+    //创建请求参数,如QueryUserListReq.cs
+    public void CreateReqClass()
+    {
+        RequestGenerateClass generatedClass = this.Create<RequestGenerateClass>();
+        this.CopyPropertiesTo(generatedClass);
+
+        string rootDirectory = Path.GetFullPath(directory);
+      
+      string generatedFile = Path.GetFullPath(directory) + "/APP/Request/Query"+  ModuleName + "ListReq.cs";
+
+        generatedClass.ModuleName = ModuleName;
+
+        Response.WriteLine(generatedFile);
+        generatedClass.RenderToFile(generatedFile, generatedFile, true);
+    }
 
      //创建视图,如views/Users/index.html
      public void CreateHtmlClass()
@@ -125,7 +146,7 @@ Generating Entities ...
         JSGenerateClass generatedClass = this.Create<JSGenerateClass>();
         this.CopyPropertiesTo(generatedClass);
 
-        string generatedFile = Path.GetFullPath(directory) + "/userJs/"+ModuleName+"s.js";
+        string generatedFile = Path.GetFullPath(directory) + "/userJs/"+ModuleName.ToLower()+"s.js";
 
         generatedClass.ModuleName = ModuleName;
 

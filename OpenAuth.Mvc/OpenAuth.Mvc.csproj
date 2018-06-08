@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Base\**" />
+    <Content Remove="Views\Base\**" />
+    <EmbeddedResource Remove="Views\Base\**" />
+    <None Remove="Views\Base\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
@@ -13,10 +20,6 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\OpenAuth.App\OpenAuth.App.csproj" />
     <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Base\" />
   </ItemGroup>
 
   <ItemGroup>

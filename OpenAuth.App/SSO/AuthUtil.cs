@@ -33,22 +33,23 @@ namespace OpenAuth.App.SSO
     {
         private IOptions<AppSetting> _appConfiguration;
         private HttpHelper _helper;
+        private IHttpContextAccessor _httpContextAccessor;
 
-       public AuthUtil(IOptions<AppSetting> appConfiguration)
+       public AuthUtil(IOptions<AppSetting> appConfiguration, IHttpContextAccessor httpContextAccessor)
         {
             _appConfiguration = appConfiguration;
             _helper = new HttpHelper(_appConfiguration.Value.SSOPassport);
+
+            _httpContextAccessor = httpContextAccessor;
         }
 
         private string GetToken()
         {
-            //todo:get token
-            //string token = HttpContext.Current.Request.QueryString["Token"];
-            //if (!String.IsNullOrEmpty(token)) return token;
+            string token = _httpContextAccessor.HttpContext.Request.Query["Token"];
+            if (!String.IsNullOrEmpty(token)) return token;
 
-            //var cookie = HttpContext.Current.Request.Cookies["Token"];
-            //return cookie == null ? String.Empty : cookie.Value;
-            return string.Empty;
+            var cookie = _httpContextAccessor.HttpContext.Request.Cookies["Token"];
+            return cookie == null ? String.Empty : cookie;
         }
 
         public bool CheckLogin(string token, string remark = "")

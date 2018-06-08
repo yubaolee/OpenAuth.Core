@@ -56,7 +56,7 @@ namespace OpenAuth.Mvc
             }
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();  暂时停止不然不能写cookie
 
             app.UseMvcWithDefaultRoute();
 

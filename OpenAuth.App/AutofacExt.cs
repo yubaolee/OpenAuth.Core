@@ -16,6 +16,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Infrastructure.Cache;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository;
@@ -46,6 +47,8 @@ namespace OpenAuth.App
             builder.RegisterType(typeof(UserAuthSession));
             builder.RegisterType<CacheContext>().As<ICacheContext>();
             builder.RegisterGeneric(typeof(ObjCacheProvider<>));
+
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
 
             _container = builder.Build();
             return _container;

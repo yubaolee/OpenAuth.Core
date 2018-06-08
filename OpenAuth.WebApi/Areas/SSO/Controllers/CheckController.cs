@@ -121,7 +121,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         /// <param name="request">登录参数</param>
         /// <returns></returns>
         [HttpPost]
-        public LoginResult Login(PassportLoginRequest request)
+        public LoginResult Login([FromBody]PassportLoginRequest request)
         {
             var result = new LoginResult();
             try

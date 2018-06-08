@@ -9,6 +9,12 @@ namespace OpenAuth.App
     /// </summary>
     public class AppSetting
     {
+        public AppSetting()
+        {
+            //TODO:在openauth.app中竟然获取不到appsettings.josn的值
+            SSOPassport = "http://localhost:9980";  
+            Version = "";
+        }
         /// <summary>
         /// SSO地址
         /// </summary>

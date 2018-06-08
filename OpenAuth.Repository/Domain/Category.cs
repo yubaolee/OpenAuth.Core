@@ -8,6 +8,15 @@ namespace OpenAuth.Repository.Domain
     [Table("Category")]
     public partial class Category :Entity
     {
+        public Category()
+        {
+            this.Name = string.Empty;
+            this.SortNo = 0;
+            this.Icon = string.Empty;
+            this.Description = string.Empty;
+            this.TypeId = string.Empty;
+        }
+
         public string Name { get; set; }
         public bool Disabled { get; set; }
         public int SortNo { get; set; }

@@ -20,9 +20,7 @@ namespace OpenAuth.Repository.Test
             {
                 Account = account,
                 Name = account,
-                BizCode = "",
                 Password = "000000"
-                ,CreateTime = DateTime.Now
                 ,Id=Guid.NewGuid().ToString()
             });
             dbcontext.SaveChanges();

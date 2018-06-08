@@ -8,6 +8,20 @@ namespace OpenAuth.Repository.Domain
     [Table("ModuleElement")]
     public partial class ModuleElement :Entity
     {
+        public ModuleElement()
+        {
+            this.DomId = string.Empty;
+            this.Name = string.Empty;
+            this.Attr = string.Empty;
+            this.Script = string.Empty;
+            this.Icon = string.Empty;
+            this.Class = string.Empty;
+            this.Remark = string.Empty;
+            this.Sort = 0;
+            this.ModuleId = string.Empty;
+            this.TypeName = string.Empty;
+            this.TypeId = string.Empty;
+        }
         public string DomId { get; set; }
         public string Name { get; set; }
         public string Attr { get; set; }

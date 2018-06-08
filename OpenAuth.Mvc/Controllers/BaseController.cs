@@ -12,16 +12,11 @@
 
 using OpenAuth.Mvc.Models;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.IdentityModel.Protocols;
-using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
@@ -48,10 +43,14 @@ namespace OpenAuth.Mvc.Controllers
 
             if (!_authUtil.CheckLogin()) return;
 
-            Controllername = filterContext.Controller.ToString().ToLower();
-            Actionname = filterContext.ActionDescriptor.DisplayName.ToLower();
+            var description =
+                (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor) filterContext.ActionDescriptor;
 
-            var function = this.GetType().GetMethods().FirstOrDefault(u => u.Name.ToLower() == Actionname);
+            Controllername = description.ControllerName.ToLower();
+            Actionname = description.ActionName.ToLower();
+
+            var function = ((TypeInfo)GetType()).DeclaredMethods.FirstOrDefault(u => u.Name.ToLower() == Actionname);
+
             if (function == null)
                 throw new Exception("未能找到Action");
             //权限验证标识

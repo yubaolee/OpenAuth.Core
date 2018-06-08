@@ -8,6 +8,16 @@ namespace OpenAuth.Repository.Domain
     [Table("Module")]
     public partial class Module :TreeEntity
     {
+        public Module()
+        {
+            this.Url = string.Empty;
+            this.HotKey = string.Empty;
+            this.IconName = string.Empty;
+            this.Status = 0;
+            this.Vector = string.Empty;
+            this.SortNo = 0;
+            this.Code = string.Empty;
+        }
 
         public string Url { get; set; }
         public string HotKey { get; set; }

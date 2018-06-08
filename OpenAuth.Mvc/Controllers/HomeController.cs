@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers

@@ -8,6 +8,17 @@ namespace OpenAuth.Repository.Domain
     [Table("Stock")]
     public partial class Stock :Entity
     {
+        public Stock()
+        {
+            this.Name = string.Empty;
+            this.Number = 0;
+            this.Price = 0;
+            this.Status = 0;
+            this.Viewable = string.Empty;
+            this.User = string.Empty;
+            this.Time = DateTime.Now;
+            this.OrgId = string.Empty;
+        }
         public string Name { get; set; }
         public int Number { get; set; }
         public decimal Price { get; set; }

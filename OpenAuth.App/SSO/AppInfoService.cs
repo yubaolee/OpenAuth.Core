@@ -21,7 +21,7 @@ namespace OpenAuth.App.SSO
                 IsEnable = true,
                 Remark = "基于DDDLite的权限管理系统",
                 ReturnUrl = "http://localhost:56813",
-                Title = "OpenAuth.Net",
+                Title = "OpenAuth.Core",
                 CreateTime = DateTime.Now,
             },
             new AppInfo
@@ -31,7 +31,7 @@ namespace OpenAuth.App.SSO
                 IsEnable = true,
                 Remark = "这只是个模拟的测试站点",
                 ReturnUrl = "http://localhost:53050",
-                Title = "OpenAuth.Net测试站点",
+                Title = "OpenAuth.Core测试站点",
                 CreateTime = DateTime.Now,
             }
         };

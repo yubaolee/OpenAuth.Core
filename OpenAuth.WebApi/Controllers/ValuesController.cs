@@ -14,7 +14,7 @@ namespace OpenAuth.WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "OpenAuth.Net", "OpenAuth.Core" };
+            return new string[] { "OpenAuth.Core", "OpenAuth.Core" };
         }
 
     }

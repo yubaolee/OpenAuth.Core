@@ -8,6 +8,20 @@ namespace OpenAuth.Repository.Domain
     [Table("FlowInstanceTransitionHistory")]
     public partial class FlowInstanceTransitionHistory :Entity
     {
+        public FlowInstanceTransitionHistory()
+        {
+            this.InstanceId = string.Empty;
+            this.FromNodeId = string.Empty;
+            this.FromNodeName = string.Empty;
+            this.ToNodeId = string.Empty;
+            this.ToNodeName = string.Empty;
+            this.TransitionSate = 0;
+            this.IsFinish = 0;
+            this.CreateDate = DateTime.Now;
+            this.CreateUserId = string.Empty;
+            this.CreateUserName = string.Empty;
+        }
+
         public string InstanceId { get; set; }
         public string FromNodeId { get; set; }
         public int? FromNodeType { get; set; }

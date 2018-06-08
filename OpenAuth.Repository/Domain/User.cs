@@ -8,6 +8,19 @@ namespace OpenAuth.Repository.Domain
     [Table("User")]
     public partial class User : Entity
     {
+        public User()
+        {
+            this.Account = string.Empty;
+            this.Password = string.Empty;
+            this.Name = string.Empty;
+            this.Sex = 0;
+            this.Status = 0;
+            this.BizCode = string.Empty;
+            this.CreateTime = DateTime.Now;
+            this.CrateId = string.Empty;
+            this.TypeName = string.Empty;
+            this.TypeId = string.Empty;
+        }
         public string Account { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }

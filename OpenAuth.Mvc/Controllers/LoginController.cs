@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Configuration;
 using Infrastructure;
 using OpenAuth.App.SSO;
-using System.Web;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Protocols;
 
 namespace OpenAuth.Mvc.Controllers
 {

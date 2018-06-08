@@ -8,6 +8,16 @@ namespace OpenAuth.Repository.Domain
     [Table("Relevance")]
     public partial class Relevance :Entity
     {
+        public Relevance()
+        {
+            this.Description = string.Empty;
+            this.Key = string.Empty;
+            this.Status = 0;
+            this.OperateTime = DateTime.Now;
+            this.OperatorId = string.Empty;
+            this.FirstId = string.Empty;
+            this.SecondId = string.Empty;
+        }
         public string Description { get; set; }
         public string Key { get; set; }
         public int Status { get; set; }

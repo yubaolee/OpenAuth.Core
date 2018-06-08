@@ -41,7 +41,7 @@ namespace OpenAuth.App
 
 
             var roleViews = new List<RoleView>();
-            foreach (var role in roles)
+            foreach (var role in roles.ToList())
             {
                 RoleView uv = role;
                 var orgs = LoadByRole(role.Id);

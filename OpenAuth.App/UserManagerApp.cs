@@ -46,7 +46,7 @@ namespace OpenAuth.App
 
 
             var userviews = new List<UserView>();
-            foreach (var user in users)
+            foreach (var user in users.ToList())
             {
                 UserView uv = user;
                 var orgs = LoadByUser(user.Id);

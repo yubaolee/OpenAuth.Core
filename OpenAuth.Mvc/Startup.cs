@@ -28,7 +28,8 @@ namespace OpenAuth.Mvc
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                //关闭GDPR规范
+                options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -56,7 +57,7 @@ namespace OpenAuth.Mvc
             }
 
             app.UseStaticFiles();
-            //app.UseCookiePolicy();  暂时停止不然不能写cookie
+            app.UseCookiePolicy();  
 
             app.UseMvcWithDefaultRoute();
 

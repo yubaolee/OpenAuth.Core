@@ -1,12 +1,7 @@
 ![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
 
-**logo图标含义** 
 
-## 项目简介：
-
-项目采用经典DDD架构(用沃恩.弗农大神的话，其实这是DDD-Lite）思想进行开发，简洁而不简单，实用至上，并且所写每一行代码都经过深思熟虑，符合SOLID规则！
-
-当然，如果你想学习完整的DDD框架，可以参考我的另一个项目（[BestQ&A--开源中国推荐项目/集`CQRS` `AES`等DDD高级特性于一体的问答系统](http://git.oschina.net/yubaolee/BestQA)）
+本项目为OpenAuth.Net基于.net core 2.1的跨平台版本，**数据库初始脚本、数据库设计结构**及使用.net 4.5的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
 
 **官方网站** http://www.openauth.me
 
@@ -28,32 +23,26 @@
 
 ## 当前版本
 
-`4.0 颠覆版(2018-)`
+`core 1.0`
 
-* 版本重构，最重要的一个版本；
+* 基于.Net Core 2.1开发；
 
-* 前后端完全分离，结构更加清晰。`我们不限制规则，只用主流的技术构建强大的框架`；
+* 采用NUnit测试，去掉OpenAuth.UnitTest项目；
+
+* 前后端完全分离。`我们不限制规则，只用主流的技术构建强大的框架`；
 
 * 前端采用 vue + layui + ztree + gooflow + leipiformdesign
 
-* 后端采用 asp.net mvc + Web API + EF + autofac + swagger + json.net
+* 后端采用 asp.net mvc core 2.1  + EF core+ autofac + json.net
 
 * 代码生成工具 CodeSmith
 
 * 设计工具 PowerDesigner + Enterprise Architect
 
-`3.0 alpha版(2017-2-7)`
-
-* 采用全新工作流，实现自定义表单处理；
-
-
 ## 秀外
 
-![输入图片说明](https://gitee.com/uploads/images/2018/0328/150659_6900820e_362401.png "首页")
-![输入图片说明](https://gitee.com/uploads/images/2018/0313/001504_5dda4a47_362401.png "列表页面")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/173337_6e017075_362401.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/150758_26ef9d61_362401.png "流程设计")
-![输入图片说明](https://gitee.com/uploads/images/2017/0209/162617_c1250da6_362401.png "在这里输入图片标题")
 
 ## 慧中
 
@@ -77,13 +66,11 @@
 **机构**树形的公司部门结构，国内公司用的比较多，它实际上就是一个用户组，机构和用户设计成N:N的关系，也就是说有时候一个用户可以从属于两个部门，这种情况在我们客户需求中的确都出现过。
 
 ## 系统工程结构：
-1. OpenAuth.Domain 系统领域层
-2. OpenAuth.Repository 系统仓储层，用于数据库操作
-3. OpenAuth.App 应用层，为界面提供接口
-4. OpenAuth.Mvc Web站点
-5. OpenAuth.UnitTest 单元测试
-6. Infrastructure 通用工具集合
-7. OpenAuth.WebApi SSO服务及为第三方提供接口服务
+1. Infrastructure 通用工具集合
+1. OpenAuth.Repository 系统仓储层，用于数据库操作
+1. OpenAuth.App 应用层，为界面提供接口
+1. OpenAuth.Mvc Web站点
+1. OpenAuth.WebApi SSO服务及为第三方提供接口服务
 
 ## 使用
 管理员可直接在登录界面用System登录；
@@ -91,7 +78,6 @@
 普通应用账号使用用户列表的用户登录，初始密码与用户名相同；
 
 ## 后续
-更多`狂野`的功能，正在玩命加载中，敬请期待...
-更多文档正在整理中....
+功能方面.net core版本将与.net同步更新
 
 

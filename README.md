@@ -1,3 +1,11 @@
+## 重磅推荐：
+
+全新.net core 2.1正式提交，喜欢的同学快快star吧：
+
+**GitHub** https://github.com/yubaolee/OpenAuth.Core
+
+**码云**  https://gitee.com/yubaolee/OpenAuth.Core
+
 ![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
 
 **logo图标含义** OpenAuth中OA字母的结合体；整体像鱼，授人以渔；你非说像咸鱼，那也是积极向上的咸鱼；中心是个笑脸，微笑面对生活(✿◡‿◡)。

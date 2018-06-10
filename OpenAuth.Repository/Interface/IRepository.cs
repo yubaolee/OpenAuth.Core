@@ -40,10 +40,6 @@ namespace OpenAuth.Repository.Interface
 
         void Delete(T entity);
 
-        /// <summary>
-        /// 按指定的ID进行批量更新
-        /// </summary>
-        void Update(Expression<Func<T, object>> identityExp, T entity);
 
         /// <summary>
         /// 实现按需要只更新部分更新

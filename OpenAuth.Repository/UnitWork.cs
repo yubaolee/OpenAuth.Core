@@ -5,6 +5,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Interface;
+using Z.EntityFramework.Plus;
 
 namespace OpenAuth.Repository
 {
@@ -116,12 +117,12 @@ namespace OpenAuth.Repository
         /// <param name="entity">The entity.</param>
         public void Update<T>(Expression<Func<T, bool>> where, Expression<Func<T, T>> entity) where T:class
         {
-          //  Context.Set<T>().Where(where).Update(entity);
+            Context.Set<T>().Where(where).Update(entity);
         }
 
         public virtual void Delete<T>(Expression<Func<T, bool>> exp) where T : class
         {
-          //  Context.Set<T>().Where(exp).Delete();
+            Context.Set<T>().RemoveRange(Filter(exp));
         }
 
         public void Save()

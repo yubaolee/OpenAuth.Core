@@ -29,7 +29,7 @@ namespace OpenAuth.App
 
         public void Update(Category category)
         {
-            Repository.Update(u =>u.Id,category);
+            Repository.Update(category);
         }
 
 

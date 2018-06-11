@@ -117,8 +117,7 @@ namespace OpenAuth.Repository
 
         public virtual void Delete(Expression<Func<T, bool>> exp)
         {
-            Context.Set<T>().RemoveRange(Filter(exp));
-            Save();
+            Context.Set<T>().Where(exp).DeleteAsync();
         }
 
         public void Save()

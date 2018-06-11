@@ -30,34 +30,43 @@ namespace OpenAuth.Repository.Test
             Assert.AreEqual(aftercount, count + 1);
         }
 
+        //测试独立的repository
         [Test]
         public void TestBaseRepository()
         {
-            var repository = new BaseRepository<User>();
             var account = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
-            repository.Add(new User
+            var id = account;
+
+            Console.WriteLine(account);
+
+            //新增
+            new BaseRepository<User>().Add(new User
             {
                 Account = account,
                 Name = account,
-                Password = "000000"
-                ,
-                Id = account
+                Password = "000000",
+                Id = id
             });
 
-            var user = repository.FindSingle(u => u.Id == account);
+            var user = new BaseRepository<User>().FindSingle(u => u.Id == id);
             Assert.NotNull(user);
 
+            //修改一个实体
             account = "newuser_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
             user.Account = account;
-            repository.Update(user);
+            new BaseRepository<User>().Update(user);
+            var newuser = new BaseRepository<User>().FindSingle(u => u.Account == account);
+            Assert.NotNull(newuser);
 
-            var newuser = repository.FindSingle(u => u.Id == account);
-            Assert.AreEqual(newuser.Account, account);
+            //批量修改
+            new BaseRepository<User>().Update(u => u.Id == id, u =>new User{ Name = account});
+            newuser = new BaseRepository<User>().FindSingle(u => u.Name == account);
+            Assert.NotNull(newuser);
 
-            repository.Update(u => u.Account == account, u =>new User{ Name = account});
-            newuser = repository.FindSingle(u => u.Account == account);
-            Assert.AreEqual(newuser.Name, account);
-
+            //删除
+            new BaseRepository<User>().Delete(u =>u.Id == id);
+            newuser = new BaseRepository<User>().FindSingle(u => u.Id == id);
+            Assert.IsNull(newuser);
         }
     }
 }

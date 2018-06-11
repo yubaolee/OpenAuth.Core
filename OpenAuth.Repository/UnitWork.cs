@@ -100,16 +100,6 @@ namespace OpenAuth.Repository
         }
 
         /// <summary>
-        /// 按指定id更新实体,会更新整个实体
-        /// </summary>
-        /// <param name="identityExp">The identity exp.</param>
-        /// <param name="entity">The entity.</param>
-        public void Update<T>(Expression<Func<T, object>> identityExp, T entity) where T:class
-        {
-            //Context.Set<T>().AddOrUpdate(identityExp, entity);
-        }
-
-        /// <summary>
         /// 实现按需要只更新部分更新
         /// <para>如：Update(u =>u.Id==1,u =>new User{Name="ok"});</para>
         /// </summary>

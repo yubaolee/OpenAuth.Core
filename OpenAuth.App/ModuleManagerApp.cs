@@ -16,7 +16,7 @@ namespace OpenAuth.App
         public void Update(Module model)
         {
             ChangeModuleCascade(model);
-            Repository.Update(u =>u.Id, model);
+            Repository.Update(model);
         }
 
         #region 用户/角色分配模块
@@ -88,7 +88,7 @@ namespace OpenAuth.App
 
         public void UpdateMenu(ModuleElement model)
         {
-            UnitWork.Update<ModuleElement>(u =>u.Id, model);
+            UnitWork.Update<ModuleElement>(model);
             UnitWork.Save();
         }
     }

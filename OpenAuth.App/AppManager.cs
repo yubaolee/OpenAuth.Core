@@ -23,7 +23,7 @@ namespace OpenAuth.App
 
         public void Update(Application Application)
         {
-            Repository.Update(u =>u.Id,Application);
+            Repository.Update(Application);
         }
 
 

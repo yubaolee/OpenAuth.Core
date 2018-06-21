@@ -75,7 +75,7 @@ namespace OpenAuth.App
                 }
                 user.CreateTime = DateTime.Now;
                 user.Password = user.Account; //初始密码与账号相同
-                Repository.Add(user);
+                UnitWork.Add(user);
                 view.Id = user.Id;   //要把保存后的ID存入view
             }
             else
@@ -89,6 +89,7 @@ namespace OpenAuth.App
                     Status = user.Status
                 });
             }
+            UnitWork.Save();
             string[] orgIds = view.OrganizationIds.Split(',').ToArray();
 
             ReleManagerApp.DeleteBy(Define.USERORG, user.Id);

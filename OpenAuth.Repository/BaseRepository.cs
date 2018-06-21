@@ -5,6 +5,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Interface;
+using Z.EntityFramework.Plus;
 
 namespace OpenAuth.Repository
 {
@@ -102,16 +103,6 @@ namespace OpenAuth.Repository
             Save();
         }
 
-        /// <summary>
-        /// 按指定id更新实体,会更新整个实体
-        /// </summary>
-        /// <param name="identityExp">The identity exp.</param>
-        /// <param name="entity">The entity.</param>
-        public void Update(Expression<Func<T, object>> identityExp, T entity)
-        {
-        //    Context.Set<T>().AddOrUpdate(identityExp, entity);
-            Save();
-        }
 
         /// <summary>
         /// 实现按需要只更新部分更新
@@ -121,12 +112,12 @@ namespace OpenAuth.Repository
         /// <param name="entity">The entity.</param>
         public void Update(Expression<Func<T, bool>> where, Expression<Func<T, T>> entity)
         {
-        //    Context.Set<T>().Where(where).Update(entity);
+           Context.Set<T>().Where(where).Update(entity);
         }
 
         public virtual void Delete(Expression<Func<T, bool>> exp)
         {
-        //    Context.Set<T>().Where(exp).Delete();
+            Context.Set<T>().Where(exp).Delete();
         }
 
         public void Save()

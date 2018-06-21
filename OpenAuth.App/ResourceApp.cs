@@ -30,7 +30,7 @@ namespace OpenAuth.App
 
         public void Update(Resource resource)
         {
-            Repository.Update(u =>u.Id,resource);
+            Repository.Update(resource);
         }
 
         public IEnumerable<Resource> LoadForUser(string appId, string userId)

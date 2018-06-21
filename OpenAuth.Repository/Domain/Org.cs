@@ -24,6 +24,7 @@ namespace OpenAuth.Repository.Domain
             this.ParentId = string.Empty;
             this.TypeName = string.Empty;
             this.TypeId = string.Empty;
+            this.IsLeaf = false;
         }
 
         public string HotKey { get; set; }

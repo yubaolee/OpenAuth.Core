@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OpenAuth.App.Interface;
 using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
@@ -23,7 +24,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
 
-        public HomeController(AuthUtil authUtil) : base(authUtil)
+        public HomeController(IAuth authUtil) : base(authUtil)
         {
         }
     }

@@ -2,6 +2,7 @@
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
@@ -12,7 +13,7 @@ namespace OpenAuth.Mvc.Controllers
     public class CategoriesController : BaseController
     {
         private readonly CategoryApp _app;
-        public CategoriesController(AuthUtil authUtil, CategoryApp app) : base(authUtil)
+        public CategoriesController(IAuth authUtil, CategoryApp app) : base(authUtil)
         {
             _app = app;
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using Infrastructure;
 using Newtonsoft.Json.Linq;
 using OpenAuth.App.Flow;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
@@ -18,7 +19,7 @@ namespace OpenAuth.App
     {
         public RevelanceManagerApp RevelanceManagerApp { get; set; }
 
-        public AuthUtil AuthUtil { get; set; }
+        public IAuth IAuth { get; set; }
 
         #region 流程处理API
         /// <summary>
@@ -39,7 +40,7 @@ namespace OpenAuth.App
 
             //创建运行实例
             var wfruntime = new FlowRuntime(flowInstance);
-            var user = AuthUtil.GetCurrentUser();
+            var user = IAuth.GetCurrentUser();
 
             #region 根据运行实例改变当前节点状态
             flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
@@ -100,7 +101,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public bool NodeVerification(string instanceId, bool flag, string description = "")
         {
-            var user = AuthUtil.GetCurrentUser().User;
+            var user = IAuth.GetCurrentUser().User;
             FlowInstance flowInstance = Get(instanceId);
             FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
             {
@@ -123,7 +124,7 @@ namespace OpenAuth.App
                 tag.Taged = 1;
                 wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);//标记会签节点状态
                 
-                string verificationNodeId = ""; //寻找当前登陆用户可审核的节点Id
+                string verificationNodeId = ""; //寻找当前登录用户可审核的节点Id
                 List<string> nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.currentNodeId);
                 foreach (string item in nodelist)
                 {
@@ -255,7 +256,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public bool NodeReject(VerificationReq reqest)
         {
-            var user = AuthUtil.GetCurrentUser().User;
+            var user = IAuth.GetCurrentUser().User;
 
             FlowInstance flowInstance = Get(reqest.FlowInstanceId);
          
@@ -443,9 +444,8 @@ namespace OpenAuth.App
 
         public TableData Load(QueryFlowInstanceListReq request)
         {
-            //todo:待办/已办/我的
             var result = new TableData();
-            var user = AuthUtil.GetCurrentUser();
+            var user = IAuth.GetCurrentUser();
 
             if (request.type == "wait")   //待办事项
             {

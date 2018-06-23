@@ -4,6 +4,7 @@ using System.Linq;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
@@ -14,7 +15,7 @@ namespace OpenAuth.Mvc.Controllers
     {
         private readonly ResourceApp _app;
 
-        public ResourcesController(AuthUtil authUtil, ResourceApp app) : base(authUtil)
+        public ResourcesController(IAuth authUtil, ResourceApp app) : base(authUtil)
         {
             _app = app;
         }

@@ -14,11 +14,6 @@ namespace OpenAuth.App
     {
         public RevelanceManagerApp RevelanceManagerApp { get; set; }
 
-        public IEnumerable<Resource> Get(string type)
-        {
-            return Repository.Find(u => u.TypeId == type);
-        }
-
         public void Add(Resource resource)
         {
             if (string.IsNullOrEmpty(resource.Id))

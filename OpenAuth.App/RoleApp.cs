@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
@@ -13,14 +14,14 @@ namespace OpenAuth.App
     {
         public RevelanceManagerApp ReleManagerApp { get; set; }
 
-        public AuthUtil AuthUtil { get; set; }
+        public IAuth IAuth { get; set; }
 
         /// <summary>
         /// 加载当前登录用户可访问的一个部门及子部门全部角色
         /// </summary>
         public TableData Load(QueryRoleListReq request)
         {
-            var loginUser = AuthUtil.GetCurrentUser();
+            var loginUser = IAuth.GetCurrentUser();
 
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(request.orgId))

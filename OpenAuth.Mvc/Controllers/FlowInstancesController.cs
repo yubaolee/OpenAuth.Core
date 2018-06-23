@@ -3,6 +3,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
@@ -14,7 +15,7 @@ namespace OpenAuth.Mvc.Controllers
     public class FlowInstancesController : BaseController
     {
         private readonly FlowInstanceApp _app;
-        public FlowInstancesController(AuthUtil authUtil, FlowInstanceApp app) : base(authUtil)
+        public FlowInstancesController(IAuth authUtil, FlowInstanceApp app) : base(authUtil)
         {
             _app = app;
         }

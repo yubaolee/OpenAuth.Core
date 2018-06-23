@@ -3,6 +3,7 @@ using OpenAuth.App;
 using OpenAuth.Mvc.Models;
 using System;
 using Microsoft.AspNetCore.Mvc;
+using OpenAuth.App.Interface;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
 
@@ -11,7 +12,7 @@ namespace OpenAuth.Mvc.Controllers
     public class OrgManagerController : BaseController
     {
         private OrgManagerApp _orgApp;
-        public OrgManagerController(AuthUtil authUtil, OrgManagerApp orgApp) : base(authUtil)
+        public OrgManagerController(IAuth authUtil, OrgManagerApp orgApp) : base(authUtil)
         {
             _orgApp = orgApp;
         }

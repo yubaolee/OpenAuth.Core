@@ -5,8 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\SSO\Data\" />
-    <Folder Include="Areas\SSO\Models\" />
+    <Compile Remove="Areas\SSO\Data\**" />
+    <Compile Remove="Areas\SSO\Models\**" />
+    <Content Remove="Areas\SSO\Data\**" />
+    <Content Remove="Areas\SSO\Models\**" />
+    <EmbeddedResource Remove="Areas\SSO\Data\**" />
+    <EmbeddedResource Remove="Areas\SSO\Models\**" />
+    <None Remove="Areas\SSO\Data\**" />
+    <None Remove="Areas\SSO\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

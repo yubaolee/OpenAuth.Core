@@ -2,6 +2,7 @@
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
@@ -10,7 +11,7 @@ namespace OpenAuth.Mvc.Controllers
     {
         private readonly RevelanceManagerApp _app;
 
-        public RelevanceManagerController(AuthUtil authUtil, RevelanceManagerApp app) : base(authUtil)
+        public RelevanceManagerController(IAuth authUtil, RevelanceManagerApp app) : base(authUtil)
         {
             _app = app;
         }

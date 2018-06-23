@@ -17,6 +17,7 @@ using System.Reflection;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using OpenAuth.App.Interface;
 using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
@@ -32,7 +33,7 @@ namespace OpenAuth.Mvc.Controllers
         protected string Controllername;   //当前控制器小写名称
         protected string Actionname;        //当前Action小写名称
 
-        public BaseController(AuthUtil authUtil) : base(authUtil)
+        public BaseController(IAuth authUtil) : base(authUtil)
         {
         }
 

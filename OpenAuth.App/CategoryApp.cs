@@ -13,11 +13,6 @@ namespace OpenAuth.App
     public class CategoryApp:BaseApp<Category>
     {
 
-        public IEnumerable<Category> Get(string type)
-        {
-            return Repository.Find(u => u.TypeId == type);
-        }
-
         public void Add(Category category)
         {
             if (string.IsNullOrEmpty(category.Id))

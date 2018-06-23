@@ -1,27 +1,31 @@
-﻿using System;
-using System.Web;
+﻿/*
+ * 登录解析
+ * 处理登录逻辑，验证客户段提交的账号密码，保存登录信息
+ */
+using System;
 using Infrastructure.Cache;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App.SSO
 {
-    public class SSOAuthUtil
+    public class LoginParse
     {
-        private UserManagerApp _userManager;
+
+        //这个地方使用IRepository<User> 而不使用UserManagerApp是防止循环依赖
+        public IRepository<User> _app { get; set; }
         private ObjCacheProvider<UserAuthSession> _objCacheProvider;
         private AppInfoService _appInfoService;
 
-        public SSOAuthUtil(ObjCacheProvider<UserAuthSession> objCacheProvider
-            , UserManagerApp userManager
+        public LoginParse(ObjCacheProvider<UserAuthSession> objCacheProvider
             , AppInfoService infoService)
         {
             _objCacheProvider = objCacheProvider;
-            _userManager = userManager;
             _appInfoService = infoService;
         }
 
-        public  LoginResult Parse(PassportLoginRequest model)
+        public  LoginResult Do(PassportLoginRequest model)
         {
             var result = new LoginResult();
             try
@@ -39,7 +43,7 @@ namespace OpenAuth.App.SSO
                 {
                     userInfo = new User
                     {
-                        Id = Guid.Empty.ToString(),  //TODO:可以根据需要调整
+                        Id = Guid.Empty.ToString(), 
                         Account = "System",
                         Name ="超级管理员",
                         Password = "123456"
@@ -47,8 +51,7 @@ namespace OpenAuth.App.SSO
                 }
                 else
                 {
-                    //todo:get user
-                    userInfo = _userManager.Get(model.Account);
+                    userInfo = _app.FindSingle(u =>u.Account == model.Account);
                 }
                
                 if (userInfo == null)

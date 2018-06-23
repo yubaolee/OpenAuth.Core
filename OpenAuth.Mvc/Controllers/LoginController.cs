@@ -2,6 +2,7 @@
 using Infrastructure;
 using OpenAuth.App.SSO;
 using Microsoft.AspNetCore.Mvc;
+using OpenAuth.App.Interface;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -9,9 +10,9 @@ namespace OpenAuth.Mvc.Controllers
     {
         private string _appKey = "openauth";
 
-        private AuthUtil _authUtil;
+        private IAuth _authUtil;
 
-        public LoginController(AuthUtil authUtil)
+        public LoginController(IAuth authUtil)
         {
             _authUtil = authUtil;
         }

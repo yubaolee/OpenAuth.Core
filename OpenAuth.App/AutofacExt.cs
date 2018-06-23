@@ -12,14 +12,13 @@
 // <summary>IOC扩展</summary>
 // ***********************************************************************
 
-using System;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using OpenAuth.App.Interface;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Interface;
@@ -42,13 +41,10 @@ namespace OpenAuth.App
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();
             builder.RegisterType(typeof(UnitWork)).As(typeof(IUnitWork)).PropertiesAutowired();
 
-            //单元测试的时候注入controller
-            //todo:但是在openauth.app/repository中测试时会失败，因为他们肯定没有opeanuth.webapi。。。
-            //builder.RegisterAssemblyTypes(Assembly.Load("OpenAuth.WebApi"))
-            //    .Where(
-            //        t =>
-            //            typeof(ControllerBase).IsAssignableFrom(t) &&
-            //            t.Name.EndsWith("Controller", StringComparison.Ordinal));
+
+            builder.RegisterType<LocalAuth>().As<IAuth>();
+            //如果想使用WebApi SSO授权，请使用下面这种方式
+            // builder.RegisterType<ApiAuth>().As<IAuth>();
 
             //注册app层
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).PropertiesAutowired();

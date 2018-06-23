@@ -20,6 +20,7 @@ using System;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using OpenAuth.App.Interface;
 
 namespace OpenAuth.App.SSO
 {
@@ -27,9 +28,9 @@ namespace OpenAuth.App.SSO
     {
         public const string Token = "Token";
 
-        protected AuthUtil _authUtil;
+        protected IAuth _authUtil;
 
-        public SSOController(AuthUtil authUtil)
+        public SSOController(IAuth authUtil)
         {
             _authUtil = authUtil;
         }

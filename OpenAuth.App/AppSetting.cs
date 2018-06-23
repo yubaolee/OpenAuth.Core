@@ -11,8 +11,6 @@ namespace OpenAuth.App
     {
         public AppSetting()
         {
-            //TODO:在openauth.app中竟然获取不到appsettings.josn的值
-            //2018-06-09 在家里电脑竟然可以获取到值了？？什么鬼？😭
             SSOPassport = "http://localhost:52789";  
             Version = "";
         }

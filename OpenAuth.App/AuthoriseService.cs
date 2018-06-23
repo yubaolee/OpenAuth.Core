@@ -69,8 +69,11 @@ namespace OpenAuth.App
             {
                 throw new Exception("用户帐号不存在");
             }
-            //todo:check password
-           // _user.CheckPassword(password);
+
+            if (_user.Password != password)
+            {
+                throw new Exception("密码错误");
+            }
         }
 
         /// <summary>

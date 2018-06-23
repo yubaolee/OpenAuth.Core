@@ -5,6 +5,7 @@ using OpenAuth.Mvc.Models;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
@@ -13,7 +14,7 @@ namespace OpenAuth.Mvc.Controllers
     public class ModuleManagerController : BaseController
     {
         private ModuleManagerApp _app;
-        public ModuleManagerController(AuthUtil authUtil, ModuleManagerApp app) : base(authUtil)
+        public ModuleManagerController(IAuth authUtil, ModuleManagerApp app) : base(authUtil)
         {
             _app = app;
         }

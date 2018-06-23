@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
@@ -14,7 +15,7 @@ namespace OpenAuth.Mvc.Controllers
     {
         private readonly RoleApp _app;
         private readonly RevelanceManagerApp _revelanceManagerApp;
-        public RoleManagerController(AuthUtil authUtil, RevelanceManagerApp revelanceManagerApp, RoleApp app) : base(authUtil)
+        public RoleManagerController(IAuth authUtil, RevelanceManagerApp revelanceManagerApp, RoleApp app) : base(authUtil)
         {
             _revelanceManagerApp = revelanceManagerApp;
             _app = app;

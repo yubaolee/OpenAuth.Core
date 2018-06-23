@@ -23,19 +23,19 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// <summary>
     ///  sso验证
     /// <para>其他站点通过后台Post来认证</para>
-    /// <para>或使用静态类OpenAuth.App.SSO.AuthUtil访问</para>
+    /// <para>或使用静态类OpenAuth.App.SSO.IAuth访问</para>
     /// </summary>
     public class CheckController : ControllerBase
     {
         private AuthorizeApp _app;
-        private SSOAuthUtil _ssoAuthUtil;
+        private LoginParse _loginParse;
         private ObjCacheProvider<UserAuthSession> _objCacheProvider;
 
-        public CheckController(AuthorizeApp app, ObjCacheProvider<UserAuthSession> objCacheProvider, SSOAuthUtil ssoAuthUtil)
+        public CheckController(AuthorizeApp app, ObjCacheProvider<UserAuthSession> objCacheProvider, LoginParse loginParse)
         {
             _app = app;
             _objCacheProvider = objCacheProvider;
-            _ssoAuthUtil = ssoAuthUtil;
+            _loginParse = loginParse;
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             var result = new LoginResult();
             try
             {
-                result = _ssoAuthUtil.Parse(request);
+                result = _loginParse.Do(request);
             }
             catch (Exception ex)
             {

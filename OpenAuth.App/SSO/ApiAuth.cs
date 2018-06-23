@@ -6,7 +6,7 @@
 // Last Modified By : yubaolee
 // Last Modified On : 07-08-2016
 // Contact : Microsoft
-// File: AuthUtil.cs
+// File: IAuth.cs
 // ***********************************************************************
 
 
@@ -16,6 +16,7 @@ using System.Web;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 
 namespace OpenAuth.App.SSO
@@ -24,18 +25,18 @@ namespace OpenAuth.App.SSO
     /// 第三方网站登录验证类
     /// <para>登录时：</para>
     /// <code>
-    ///  var result = AuthUtil.Login(AppKey, username, password);
+    ///  var result = IAuth.Login(AppKey, username, password);
     ///  if (result.Success)
     ///       return Redirect("/home/index?Token=" + result.Token);
     /// </code>
     /// </summary>
-    public class AuthUtil
+    public class ApiAuth :IAuth
     {
         private IOptions<AppSetting> _appConfiguration;
         private HttpHelper _helper;
         private IHttpContextAccessor _httpContextAccessor;
 
-       public AuthUtil(IOptions<AppSetting> appConfiguration, IHttpContextAccessor httpContextAccessor)
+       public ApiAuth(IOptions<AppSetting> appConfiguration, IHttpContextAccessor httpContextAccessor)
         {
             _appConfiguration = appConfiguration;
             _helper = new HttpHelper(_appConfiguration.Value.SSOPassport);
@@ -52,12 +53,19 @@ namespace OpenAuth.App.SSO
             return cookie == null ? String.Empty : cookie;
         }
 
-        public bool CheckLogin(string token, string remark = "")
+        public bool CheckLogin(string token="", string otherInfo = "")
         {
-            if (String.IsNullOrEmpty(token) || String.IsNullOrEmpty(GetToken()))
-                return false;
+            if (string.IsNullOrEmpty(token))
+            {
+                token = GetToken();
+            }
 
-            var requestUri = String.Format("/api/Check/GetStatus?token={0}&requestid={1}", token, remark);
+            if (string.IsNullOrEmpty(token))
+            {
+                return false;
+            }
+         
+            var requestUri = String.Format("/api/Check/GetStatus?token={0}&requestid={1}", token, otherInfo);
 
             try
             {
@@ -76,25 +84,15 @@ namespace OpenAuth.App.SSO
         }
 
         /// <summary>
-        /// 检查用户登录状态
-        /// <para>通过URL中的Token参数或Cookie中的Token</para>
-        /// </summary>
-        /// <param name="remark">备注信息</param>
-        public bool CheckLogin(string remark="")
-        {
-            return CheckLogin(GetToken(), remark);
-        }
-
-        /// <summary>
         /// 获取当前登录的用户信息
         /// <para>通过URL中的Token参数或Cookie中的Token</para>
         /// </summary>
-        /// <param name="remark">The remark.</param>
+        /// <param name="otherInfo">The otherInfo.</param>
         /// <returns>LoginUserVM.</returns>
-        public UserWithAccessedCtrls GetCurrentUser(string remark = "")
+        public UserWithAccessedCtrls GetCurrentUser(string otherInfo = "")
         {
 
-            var requestUri = String.Format("/api/Check/GetUser?token={0}&requestid={1}", GetToken(), remark);
+            var requestUri = String.Format("/api/Check/GetUser?token={0}&requestid={1}", GetToken(), otherInfo);
 
             try
             {
@@ -117,11 +115,11 @@ namespace OpenAuth.App.SSO
         /// 获取当前登录的用户名
         /// <para>通过URL中的Token参数或Cookie中的Token</para>
         /// </summary>
-        /// <param name="remark">The remark.</param>
+        /// <param name="otherInfo">The otherInfo.</param>
         /// <returns>System.String.</returns>
-        public string GetUserName(string remark = "")
+        public string GetUserName(string otherInfo = "")
         {
-            var requestUri = String.Format("/api/Check/GetUserName?token={0}&requestid={1}", GetToken(), remark);
+            var requestUri = String.Format("/api/Check/GetUserName?token={0}&requestid={1}", GetToken(), otherInfo);
 
             try
             {

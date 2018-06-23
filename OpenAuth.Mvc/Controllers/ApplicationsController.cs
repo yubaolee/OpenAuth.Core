@@ -2,6 +2,7 @@
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
@@ -67,7 +68,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
 
-        public ApplicationsController(AuthUtil authUtil, AppManager app) : base(authUtil)
+        public ApplicationsController(IAuth authUtil, AppManager app) : base(authUtil)
         {
             _app = app;
         }

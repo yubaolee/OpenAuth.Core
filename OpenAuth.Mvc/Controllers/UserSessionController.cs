@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Infrastructure;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
 
@@ -13,7 +14,7 @@ namespace OpenAuth.Mvc.Controllers
     public class UserSessionController : BaseController
     {
         private UserWithAccessedCtrls user;
-        public UserSessionController(AuthUtil authUtil) : base(authUtil)
+        public UserSessionController(IAuth authUtil) : base(authUtil)
         {
             user = _authUtil.GetCurrentUser();
         }

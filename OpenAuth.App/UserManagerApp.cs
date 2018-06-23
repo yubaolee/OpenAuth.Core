@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
 
 
@@ -13,9 +13,9 @@ namespace OpenAuth.App
     {
         public RevelanceManagerApp ReleManagerApp { get; set; }
 
-        public AuthUtil AuthUtil { get; set; }
+        public IAuth IAuth { get; set; }
 
-        public User Get(string account)
+        public User GetByAccount(string account)
         {
             return Repository.FindSingle(u => u.Account == account);
         }
@@ -25,7 +25,7 @@ namespace OpenAuth.App
         /// </summary>
         public TableData Load(QueryUserListReq request)
         {
-            var loginUser = AuthUtil.GetCurrentUser();
+            var loginUser = IAuth.GetCurrentUser();
 
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(request.orgId))

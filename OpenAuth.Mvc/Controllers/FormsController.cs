@@ -2,6 +2,7 @@
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
@@ -109,7 +110,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
 
-        public FormsController(AuthUtil authUtil, FormApp app) : base(authUtil)
+        public FormsController(IAuth authUtil, FormApp app) : base(authUtil)
         {
             _app = app;
         }

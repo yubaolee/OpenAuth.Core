@@ -2,6 +2,7 @@
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.SSO;
 using OpenAuth.Mvc.Models;
@@ -108,7 +109,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
 
-        public FlowSchemesController(AuthUtil authUtil, FlowSchemeApp app) : base(authUtil)
+        public FlowSchemesController(IAuth authUtil, FlowSchemeApp app) : base(authUtil)
         {
             _app = app;
         }

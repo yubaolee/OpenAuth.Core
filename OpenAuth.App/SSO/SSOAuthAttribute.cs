@@ -2,6 +2,7 @@
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using OpenAuth.App.Interface;
 
 namespace OpenAuth.App.SSO
 {
@@ -13,7 +14,7 @@ namespace OpenAuth.App.SSO
     {
         public const string Token = "Token";
 
-        public AuthUtil AuthUtil { get; set; }
+        public IAuth IAuth { get; set; }
 
         public new  void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -41,7 +42,7 @@ namespace OpenAuth.App.SSO
             else
             {
                 //验证
-                if (AuthUtil.CheckLogin(token, request.Path) == false)
+                if (IAuth.CheckLogin(token, request.Path) == false)
                 {
                     //会话丢失，跳转到登录页面
                     filterContext.Result = LoginResult("");

@@ -32,16 +32,11 @@ namespace OpenAuth.App
         public static IContainer InitAutofac(IServiceCollection services)
         {
             var builder = new ContainerBuilder();
-            if (services != null)
-            {
-                builder.Populate(services);
-            }
-
+           
             //注册数据库基础操作和工作单元
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();
             builder.RegisterType(typeof(UnitWork)).As(typeof(IUnitWork)).PropertiesAutowired();
-
-
+            
             builder.RegisterType<LocalAuth>().As<IAuth>();
             //如果想使用WebApi SSO授权，请使用下面这种方式
             // builder.RegisterType<ApiAuth>().As<IAuth>();
@@ -55,6 +50,11 @@ namespace OpenAuth.App
             builder.RegisterGeneric(typeof(ObjCacheProvider<>));
 
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
+
+            if (services != null)
+            {
+                builder.Populate(services);
+            }
 
             _container = builder.Build();
             return _container;

@@ -5,7 +5,10 @@ namespace OpenAuth.Repository
 {
     public partial class OpenAuthDBContext : DbContext
     {
-        
+
+        public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options)
+            : base(options)
+        { }
 
         public virtual DbSet<Application> Applications { get; set; }
         public virtual DbSet<Category> Categorys { get; set; }
@@ -23,14 +26,6 @@ namespace OpenAuth.Repository
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<User> Users { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000;Integrated Security=True");
-            }
-        }
 
     }
 }

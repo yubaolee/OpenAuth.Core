@@ -11,7 +11,12 @@ namespace OpenAuth.Repository
 {
    public  class UnitWork: IUnitWork
    {
-       protected OpenAuthDBContext Context = new OpenAuthDBContext();
+       private OpenAuthDBContext _context;
+
+       public UnitWork(OpenAuthDBContext context)
+       {
+           _context = context;
+       }
 
 
        /// <summary>
@@ -25,7 +30,7 @@ namespace OpenAuth.Repository
 
         public bool IsExist<T>(Expression<Func<T, bool>> exp) where T : class
         {
-            return Context.Set<T>().Any(exp);
+            return _context.Set<T>().Any(exp);
         }
 
         /// <summary>
@@ -33,7 +38,7 @@ namespace OpenAuth.Repository
         /// </summary>
         public T FindSingle<T>(Expression<Func<T, bool>> exp) where T:class 
         {
-            return Context.Set<T>().AsNoTracking().FirstOrDefault(exp);
+            return _context.Set<T>().AsNoTracking().FirstOrDefault(exp);
         }
 
         /// <summary>
@@ -65,7 +70,7 @@ namespace OpenAuth.Repository
             {
                 entity.Id = Guid.NewGuid().ToString();
             }
-            Context.Set<T>().Add(entity);
+            _context.Set<T>().Add(entity);
         }
 
         /// <summary>
@@ -78,16 +83,16 @@ namespace OpenAuth.Repository
             {
                 entity.Id = Guid.NewGuid().ToString();
             }
-            Context.Set<T>().AddRange(entities);
+            _context.Set<T>().AddRange(entities);
         }
 
         public void Update<T>(T entity) where T:class
         {
-            var entry = this.Context.Entry(entity);
+            var entry = this._context.Entry(entity);
             entry.State = EntityState.Modified;
 
             //如果数据没有发生变化
-            if (!this.Context.ChangeTracker.HasChanges())
+            if (!this._context.ChangeTracker.HasChanges())
             {
                 entry.State = EntityState.Unchanged;
             }
@@ -96,7 +101,7 @@ namespace OpenAuth.Repository
 
         public void Delete<T>(T entity) where T:class
         {
-            Context.Set<T>().Remove(entity);
+            _context.Set<T>().Remove(entity);
         }
 
         /// <summary>
@@ -107,19 +112,19 @@ namespace OpenAuth.Repository
         /// <param name="entity">The entity.</param>
         public void Update<T>(Expression<Func<T, bool>> where, Expression<Func<T, T>> entity) where T:class
         {
-            Context.Set<T>().Where(where).Update(entity);
+            _context.Set<T>().Where(where).Update(entity);
         }
 
         public virtual void Delete<T>(Expression<Func<T, bool>> exp) where T : class
         {
-            Context.Set<T>().RemoveRange(Filter(exp));
+            _context.Set<T>().RemoveRange(Filter(exp));
         }
 
         public void Save()
         {
             //try
             //{
-                Context.SaveChanges();
+                _context.SaveChanges();
             //}
             //catch (DbEntityValidationException e)
             //{
@@ -130,7 +135,7 @@ namespace OpenAuth.Repository
 
         private IQueryable<T> Filter<T>(Expression<Func<T, bool>> exp) where T : class
         {
-            var dbSet = Context.Set<T>().AsNoTracking().AsQueryable();
+            var dbSet = _context.Set<T>().AsNoTracking().AsQueryable();
             if (exp != null)
                 dbSet = dbSet.Where(exp);
             return dbSet;
@@ -138,7 +143,7 @@ namespace OpenAuth.Repository
 
        public void ExecuteSql(string sql)
        {
-            Context.Database.ExecuteSqlCommand(sql);
+            _context.Database.ExecuteSqlCommand(sql);
         }
 
     }

@@ -1,6 +1,9 @@
 ﻿using Autofac.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using OpenAuth.Repository;
 
 namespace OpenAuth.App.Test
 {
@@ -14,7 +17,10 @@ namespace OpenAuth.App.Test
             var serviceCollection = GetService();
             serviceCollection.AddMemoryCache();
             serviceCollection.AddOptions();
-            
+
+            serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
+                options.UseSqlServer("Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000;Integrated Security=True"));
+
             var container = AutofacExt.InitAutofac(serviceCollection);
             _autofacServiceProvider = new AutofacServiceProvider(container);
         }

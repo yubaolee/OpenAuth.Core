@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Reflection;
 using Infrastructure;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using OpenAuth.App.SSO;
 using OpenAuth.App.Test;
 using OpenAuth.WebApi.Areas.SSO.Controllers;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using OpenAuth.App;
-using OpenAuth.WebApi.Controllers;
 
 namespace OpenAuth.WebApi.Test
 {
@@ -20,8 +20,14 @@ namespace OpenAuth.WebApi.Test
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddMvc().AddControllersAsServices();
             serviceCollection.AddScoped<CheckController>();
-            //todo: 还不能读取配置文件
-         //   serviceCollection.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
+
+            //读取配置文件
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            // Duplicate here any configuration sources you use.
+            configurationBuilder.AddJsonFile("AppSettings.json");
+            IConfiguration configuration = configurationBuilder.Build();
+            serviceCollection.Configure<AppSetting>(configuration.GetSection("AppSetting"));
+
             return serviceCollection;
         }
 

@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAuth.App;
+using OpenAuth.Repository;
 
 namespace OpenAuth.Mvc
 {
@@ -34,6 +36,8 @@ namespace OpenAuth.Mvc
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();
             services.AddOptions();
+            services.AddDbContext<OpenAuthDBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
             //”≥…‰≈‰÷√Œƒº˛
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
 

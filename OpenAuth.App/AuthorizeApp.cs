@@ -16,7 +16,7 @@ namespace OpenAuth.App
         public  AuthoriseService AuthoriseService { get; set; }
 
         public IUnitWork _unitWork { get; set; }
-        public AuthoriseService Create(string loginuser)
+        private AuthoriseService Create(string loginuser)
         {
             if (loginuser == "System")
             {

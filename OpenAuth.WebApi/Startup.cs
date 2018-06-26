@@ -3,9 +3,11 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAuth.App;
+using OpenAuth.Repository;
 
 namespace OpenAuth.WebApi
 {
@@ -23,6 +25,8 @@ namespace OpenAuth.WebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();
+            services.AddDbContext<OpenAuthDBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
 
             return new AutofacServiceProvider(AutofacExt.InitAutofac(services));
         }

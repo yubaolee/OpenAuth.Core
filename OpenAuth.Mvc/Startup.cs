@@ -33,7 +33,10 @@ namespace OpenAuth.Mvc
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(option =>
+            {
+                option.ModelBinderProviders.Insert(0, new JsonBinderProvider());
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();
             services.AddOptions();
             services.AddDbContext<OpenAuthDBContext>(options =>
@@ -61,7 +64,6 @@ namespace OpenAuth.Mvc
             app.UseCookiePolicy();  
 
             app.UseMvcWithDefaultRoute();
-
             
         }
     }

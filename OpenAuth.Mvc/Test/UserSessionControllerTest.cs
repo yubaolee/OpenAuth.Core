@@ -67,13 +67,9 @@ namespace OpenAuth.Mvc.Test
             Stopwatch watch = Stopwatch.StartNew();
             var controller = _autofacServiceProvider.GetService<UserSessionController>();
 
+            var result =  controller.GetModulesTree();
             watch.Stop();
             Console.WriteLine($"总耗时:{watch.ElapsedMilliseconds}");
-
-            var result =  controller.GetModulesTree();
-
-            Console.WriteLine(JsonHelper.Instance.Serialize(result));
-          
         }
     }
 }

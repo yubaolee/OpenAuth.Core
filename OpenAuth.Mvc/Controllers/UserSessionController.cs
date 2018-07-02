@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -16,7 +17,10 @@ namespace OpenAuth.Mvc.Controllers
         private UserWithAccessedCtrls user;
         public UserSessionController(IAuth authUtil) : base(authUtil)
         {
+            var watch = Stopwatch.StartNew();
             user = _authUtil.GetCurrentUser();
+            watch.Stop();
+            Console.WriteLine($"获取用户时间：{watch.ElapsedMilliseconds}");
         }
         /// <summary>
         /// 获取登录用户可访问的所有模块，及模块的操作菜单

@@ -79,7 +79,13 @@ namespace OpenAuth.App.SSO
                 var user = _cacheContext.Get<UserAuthSession>(GetToken());
                 if (user != null)
                 {
-                   userctrls = _app.GetAccessedControls(user.Account);
+                    string ctrlskey = GetToken() + "_CTRLS";
+                    userctrls = _cacheContext.Get<UserWithAccessedCtrls>(ctrlskey);
+                    if (userctrls == null)
+                    {
+                        userctrls = _app.GetAccessedControls(user.Account);
+                        _cacheContext.Set(ctrlskey, userctrls, DateTime.Now.AddMinutes(10));
+                    }
                 }
 
                 return userctrls;

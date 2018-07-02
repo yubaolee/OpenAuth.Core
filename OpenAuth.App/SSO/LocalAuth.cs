@@ -18,19 +18,19 @@ namespace OpenAuth.App.SSO
 
         private AuthorizeApp _app;
         private LoginParse _loginParse;
-        private ObjCacheProvider<UserAuthSession> _objCacheProvider;
+        private ICacheContext _cacheContext;
 
         public LocalAuth(IOptions<AppSetting> appConfiguration
             , IHttpContextAccessor httpContextAccessor
             , AuthorizeApp app
             , LoginParse loginParse
-            , ObjCacheProvider<UserAuthSession> objCacheProvider)
+            , ICacheContext cacheContext)
         {
             _appConfiguration = appConfiguration;
             _httpContextAccessor = httpContextAccessor;
             _app = app;
             _loginParse = loginParse;
-            _objCacheProvider = objCacheProvider;
+            _cacheContext = cacheContext;
         }
 
         private string GetToken()
@@ -56,7 +56,7 @@ namespace OpenAuth.App.SSO
          
             try
             {
-                var result = _objCacheProvider.GetCache(token) != null;
+                var result = _cacheContext.Get<UserAuthSession>(token) != null;
                 return result;
             }
             catch (Exception ex)
@@ -76,7 +76,7 @@ namespace OpenAuth.App.SSO
             try
             {
                 var userctrls = new UserWithAccessedCtrls();
-                var user = _objCacheProvider.GetCache(GetToken());
+                var user = _cacheContext.Get<UserAuthSession>(GetToken());
                 if (user != null)
                 {
                    userctrls = _app.GetAccessedControls(user.Account);
@@ -101,7 +101,7 @@ namespace OpenAuth.App.SSO
         {
            try
             {
-                var user = _objCacheProvider.GetCache(GetToken());
+                var user = _cacheContext.Get<UserAuthSession>(GetToken());
                 if (user != null)
                 {
                     return user.Account;
@@ -151,7 +151,7 @@ namespace OpenAuth.App.SSO
 
             try
             {
-                _objCacheProvider.Remove(token);
+                _cacheContext.Remove(token);
 
                 return true;
             }

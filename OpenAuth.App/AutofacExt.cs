@@ -45,10 +45,7 @@ namespace OpenAuth.App
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).PropertiesAutowired();
 
             //缓存注入
-            builder.RegisterType(typeof(UserAuthSession));
             builder.RegisterType<CacheContext>().As<ICacheContext>();
-            builder.RegisterGeneric(typeof(ObjCacheProvider<>));
-
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
 
             if (services != null)

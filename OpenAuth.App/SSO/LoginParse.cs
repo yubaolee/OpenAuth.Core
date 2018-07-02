@@ -15,14 +15,13 @@ namespace OpenAuth.App.SSO
 
         //这个地方使用IRepository<User> 而不使用UserManagerApp是防止循环依赖
         public IRepository<User> _app { get; set; }
-        private ObjCacheProvider<UserAuthSession> _objCacheProvider;
+        private ICacheContext _cacheContext;
         private AppInfoService _appInfoService;
 
-        public LoginParse(ObjCacheProvider<UserAuthSession> objCacheProvider
-            , AppInfoService infoService)
+        public LoginParse( AppInfoService infoService, ICacheContext cacheContext)
         {
-            _objCacheProvider = objCacheProvider;
             _appInfoService = infoService;
+            _cacheContext = cacheContext;
         }
 
         public  LoginResult Do(PassportLoginRequest model)
@@ -74,7 +73,7 @@ namespace OpenAuth.App.SSO
                 };
 
                 //创建Session
-                _objCacheProvider.Create(currentSession.Token, currentSession, DateTime.Now.AddDays(10));
+                _cacheContext.Set(currentSession.Token, currentSession, DateTime.Now.AddDays(10));
 
                 result.Code = 200;
                 result.ReturnUrl = appInfo.ReturnUrl;

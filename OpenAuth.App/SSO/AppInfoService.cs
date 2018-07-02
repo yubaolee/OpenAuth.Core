@@ -4,7 +4,7 @@ using Infrastructure.Cache;
 
 namespace OpenAuth.App.SSO
 {
-    public class AppInfoService : CacheProvider
+    public class AppInfoService 
     {
         public AppInfo Get(string appKey)
         {

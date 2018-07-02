@@ -29,13 +29,13 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     {
         private AuthorizeApp _app;
         private LoginParse _loginParse;
-        private ObjCacheProvider<UserAuthSession> _objCacheProvider;
+        private ICacheContext _cacheContext;
 
-        public CheckController(AuthorizeApp app, ObjCacheProvider<UserAuthSession> objCacheProvider, LoginParse loginParse)
+        public CheckController(AuthorizeApp app,  LoginParse loginParse, ICacheContext cacheContext)
         {
             _app = app;
-            _objCacheProvider = objCacheProvider;
             _loginParse = loginParse;
+            _cacheContext = cacheContext;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             var result = new Response<bool>();
             try
             {
-                result.Result = _objCacheProvider.GetCache(token) != null;
+                result.Result = _cacheContext.Get<UserAuthSession>(token) != null;
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             var result = new Response<UserWithAccessedCtrls>();
             try
             {
-                var user = _objCacheProvider.GetCache(token);
+                var user = _cacheContext.Get<UserAuthSession>(token);
                 if (user != null)
                 {
                     result.Result = _app.GetAccessedControls(user.Account);
@@ -100,7 +100,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             var result = new Response<string>();
             try
             {
-                var user = _objCacheProvider.GetCache(token);
+                var user = _cacheContext.Get<UserAuthSession>(token);
                 if (user != null)
                 {
                     result.Result = user.Account;
@@ -147,7 +147,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         {
             try
             {
-                _objCacheProvider.Remove(token);
+                _cacheContext.Remove(token);
                 return true;
             }
             catch (Exception)

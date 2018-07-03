@@ -4,6 +4,7 @@ using System.Linq;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -12,7 +13,7 @@ namespace OpenAuth.App
     /// </summary>
     public class ResourceApp:BaseApp<Resource>
     {
-        public RevelanceManagerApp RevelanceManagerApp { get; set; }
+        private RevelanceManagerApp _revelanceApp;
 
         public void Add(Resource resource)
         {
@@ -30,13 +31,13 @@ namespace OpenAuth.App
 
         public IEnumerable<Resource> LoadForUser(string appId, string userId)
         {
-            var elementIds = RevelanceManagerApp.Get(Define.USERRESOURCE, true, userId);
+            var elementIds = _revelanceApp.Get(Define.USERRESOURCE, true, userId);
             return UnitWork.Find<Resource>(u => elementIds.Contains(u.Id) && (appId == "" || u.AppId == appId));
         }
 
         public IEnumerable<Resource> LoadForRole(string appId, string userId)
         {
-            var elementIds = RevelanceManagerApp.Get(Define.ROLERESOURCE, true, userId);
+            var elementIds = _revelanceApp.Get(Define.ROLERESOURCE, true, userId);
             return UnitWork.Find<Resource>(u => elementIds.Contains(u.Id) && (appId =="" || u.AppId == appId));
         }
 
@@ -64,5 +65,10 @@ namespace OpenAuth.App
             return result;
         }
 
+        public ResourceApp(IUnitWork unitWork, IRepository<Resource> repository
+        ,RevelanceManagerApp app) : base(unitWork, repository)
+        {
+            _revelanceApp = app;
+        }
     }
 }

@@ -68,6 +68,7 @@ namespace OpenAuth.Mvc.Test
             var controller = _autofacServiceProvider.GetService<UserSessionController>();
 
             var result =  controller.GetModulesTree();
+            Console.WriteLine(JsonHelper.Instance.Serialize(result));
             watch.Stop();
             Console.WriteLine($"总耗时:{watch.ElapsedMilliseconds}");
         }

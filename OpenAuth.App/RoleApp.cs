@@ -6,22 +6,23 @@ using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
     public class RoleApp : BaseApp<Role>
     {
-        public RevelanceManagerApp ReleManagerApp { get; set; }
+        private RevelanceManagerApp _revelanceApp;
 
-        public IAuth IAuth { get; set; }
+        private IAuth _auth;
 
         /// <summary>
         /// 加载当前登录用户可访问的一个部门及子部门全部角色
         /// </summary>
         public TableData Load(QueryRoleListReq request)
         {
-            var loginUser = IAuth.GetCurrentUser();
+            var loginUser = _auth.GetCurrentUser();
 
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(request.orgId))
@@ -31,7 +32,7 @@ namespace OpenAuth.App
             }
 
             var ids = loginUser.Orgs.Where(u => u.CascadeId.Contains(cascadeId)).Select(u => u.Id).ToArray();
-            var roleIds = ReleManagerApp.Get(Define.ROLEORG, false, ids);
+            var roleIds = _revelanceApp.Get(Define.ROLEORG, false, ids);
 
             var roles = UnitWork.Find<Role>(u => roleIds.Contains(u.Id))
                    .OrderBy(u => u.Name)
@@ -105,8 +106,15 @@ namespace OpenAuth.App
         private void UpdateRele(RoleView view)
         {
             string[] orgIds = view.OrganizationIds.Split(',').ToArray();
-            ReleManagerApp.DeleteBy(Define.ROLEORG, view.Id);
-            ReleManagerApp.AddRelevance(Define.ROLEORG, orgIds.ToLookup(u => view.Id));
+            _revelanceApp.DeleteBy(Define.ROLEORG, view.Id);
+            _revelanceApp.AddRelevance(Define.ROLEORG, orgIds.ToLookup(u => view.Id));
+        }
+
+        public RoleApp(IUnitWork unitWork, IRepository<Role> repository,
+            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository)
+        {
+            _revelanceApp = app;
+            _auth = auth;
         }
     }
 }

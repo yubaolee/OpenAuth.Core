@@ -12,20 +12,26 @@ namespace OpenAuth.App
     /// </summary>
     public class AuthorizeApp
     {
-        public SystemAuthService AuthService { get; set; }
-        public  AuthoriseService AuthoriseService { get; set; }
+        private SystemAuthService _systemAuth;
+        private AuthoriseService _authoriseService;
+
+        public AuthorizeApp(SystemAuthService sysService, AuthoriseService authoriseService)
+        {
+            _systemAuth = sysService;
+            _authoriseService = authoriseService;
+        }
 
         public IUnitWork _unitWork { get; set; }
         private AuthoriseService Create(string loginuser)
         {
             if (loginuser == "System")
             {
-                return AuthService;
+                return _systemAuth;
             }
             else
             {
-                AuthoriseService.User = _unitWork.FindSingle<User>(u => u.Account == loginuser);
-                return AuthoriseService;
+                _authoriseService.User = _unitWork.FindSingle<User>(u => u.Account == loginuser);
+                return _authoriseService;
             }
         }
 
@@ -36,16 +42,10 @@ namespace OpenAuth.App
             {
                 User = service.User,
                 Orgs = service.Orgs,
-                Modules = service.Modules.OrderBy(u => u.SortNo).ToList().MapToList<ModuleView>(),
+                Modules = service.Modules,
                 Resources = service.Resources,
                 Roles = service.Roles
             };
-
-            foreach (var moduleView in user.Modules)
-            {
-                moduleView.Elements =
-                    service.ModuleElements.Where(u => u.ModuleId == moduleView.Id).OrderBy(u => u.Sort).ToList();
-            }
             
             return user;
         }

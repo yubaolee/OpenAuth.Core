@@ -10,8 +10,13 @@
 // ***********************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Infrastructure;
+using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -22,7 +27,7 @@ namespace OpenAuth.App
     /// </summary>
     public class SystemAuthService : AuthoriseService
     {
-        public SystemAuthService()
+        public SystemAuthService(IUnitWork unitWork, IRepository<User> repository) : base(unitWork, repository)
         {
             _user = new User
             {
@@ -31,8 +36,7 @@ namespace OpenAuth.App
                 Id = Guid.Empty.ToString()
             };
         }
-
-
+      
 
         public override IQueryable<Org> GetOrgsQuery()
         {
@@ -49,9 +53,26 @@ namespace OpenAuth.App
             return UnitWork.Find<ModuleElement>(null);
         }
 
-        public override IQueryable<Module> GetModulesQuery()
+        public override List<ModuleView> GetModulesQuery()
         {
-            return UnitWork.Find<Module>(null);
+            var modules = (from module in UnitWork.Find<Module>(null)
+                select new ModuleView
+                {
+                    Name = module.Name,
+                    Id = module.Id,
+                    Code = module.Code,
+                    IconName = module.IconName,
+                    Url = module.Url,
+                    ParentId = module.ParentId,
+                    ParentName = module.ParentName
+                }).ToList();
+
+            foreach (var module in modules)
+            {
+                module.Elements = UnitWork.Find<ModuleElement>(u => u.ModuleId == module.Id).ToList();
+            }
+
+            return modules;
         }
 
         public override IQueryable<Role> GetRolesQuery()
@@ -59,5 +80,7 @@ namespace OpenAuth.App
             //用户角色
             return UnitWork.Find<Role>(null);
         }
+
+      
     }
 }

@@ -17,12 +17,19 @@ namespace OpenAuth.App
         /// 用于事务操作
         /// </summary>
         /// <value>The unit work.</value>
-        public IUnitWork UnitWork { get; set; }
+        protected IUnitWork UnitWork;
+
+        public BaseApp(IUnitWork unitWork, IRepository<T> repository)
+        {
+            UnitWork = unitWork;
+            Repository = repository;
+        }
+
         /// <summary>
         /// 用于普通的数据库操作
         /// </summary>
         /// <value>The repository.</value>
-        public IRepository<T> Repository { get; set; }
+        protected IRepository<T> Repository;
 
         /// <summary>
         /// 按id批量删除

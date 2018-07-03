@@ -5,15 +5,16 @@ using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
     public class UserManagerApp : BaseApp<User>
     {
-        public RevelanceManagerApp ReleManagerApp { get; set; }
+        private RevelanceManagerApp _revelanceApp;
 
-        public IAuth IAuth { get; set; }
+        private IAuth _auth;
 
         public User GetByAccount(string account)
         {
@@ -25,7 +26,7 @@ namespace OpenAuth.App
         /// </summary>
         public TableData Load(QueryUserListReq request)
         {
-            var loginUser = IAuth.GetCurrentUser();
+            var loginUser = _auth.GetCurrentUser();
 
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(request.orgId))
@@ -35,7 +36,7 @@ namespace OpenAuth.App
             }
 
             var ids = loginUser.Orgs.Where(u => u.CascadeId.Contains(cascadeId)).Select(u => u.Id).ToArray();
-            var userIds = ReleManagerApp.Get(Define.USERORG, false, ids);
+            var userIds = _revelanceApp.Get(Define.USERORG, false, ids);
 
             var users = UnitWork.Find<User>(u => userIds.Contains(u.Id))
                    .OrderBy(u => u.Name)
@@ -92,8 +93,8 @@ namespace OpenAuth.App
             UnitWork.Save();
             string[] orgIds = view.OrganizationIds.Split(',').ToArray();
 
-            ReleManagerApp.DeleteBy(Define.USERORG, user.Id);
-            ReleManagerApp.AddRelevance(Define.USERORG, orgIds.ToLookup(u => user.Id));
+            _revelanceApp.DeleteBy(Define.USERORG, user.Id);
+            _revelanceApp.AddRelevance(Define.USERORG, orgIds.ToLookup(u => user.Id));
         }
 
         /// <summary>
@@ -109,5 +110,11 @@ namespace OpenAuth.App
         }
 
 
+        public UserManagerApp(IUnitWork unitWork, IRepository<User> repository,
+            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository)
+        {
+            _revelanceApp = app;
+            _auth = auth;
+        }
     }
 }

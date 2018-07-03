@@ -4,6 +4,7 @@ using System.Linq;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -34,5 +35,8 @@ namespace OpenAuth.App
             return applications.ToList();
         }
 
+        public AppManager(IUnitWork unitWork, IRepository<Application> repository) : base(unitWork, repository)
+        {
+        }
     }
 }

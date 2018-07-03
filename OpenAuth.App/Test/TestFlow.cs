@@ -1,4 +1,5 @@
 ﻿using System;
+using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,6 +7,7 @@ using Moq;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.Test
@@ -17,23 +19,12 @@ namespace OpenAuth.App.Test
         {
             var services = new ServiceCollection();
 
-            var authMock = new Mock<IAuth>();
-            authMock.Setup(x => x.GetUserName("tokentest")).Returns("System");
-            authMock.Setup(x => x.GetCurrentUser("")).Returns(new UserWithAccessedCtrls
-            {
-                User = new User
-                {
-                    Account = "System",
-                    Id = Guid.Empty.ToString(),
-                    Name = "System"
-                }
-            });
-            services.AddScoped(x => authMock.Object);
+            var cachemock = new Mock<ICacheContext>();
+            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "System" });
+            services.AddScoped(x => cachemock.Object);
 
-            var httpContextMock = new Mock<HttpContext>();
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Cookies["token"]).Returns("tokentest");
-            httpContextAccessorMock.Setup(x => x.HttpContext).Returns(httpContextMock.Object);
+            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query["Token"]).Returns("tokentest");
 
             services.AddScoped(x => httpContextAccessorMock.Object);
 

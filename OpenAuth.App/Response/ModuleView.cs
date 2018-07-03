@@ -60,7 +60,7 @@ namespace OpenAuth.App.Response
         /// <summary>
         /// 模块中的元素
         /// </summary>
-        public List<ModuleElement> Elements = new List<ModuleElement>();
+        public List<ModuleElement> Elements { get; set; }
 
         public static implicit operator ModuleView(Module module)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -106,6 +107,10 @@ namespace OpenAuth.App
                 return Repository.Find(u => u.Key == key
                      && ids.Contains(u.SecondId)).Select(u => u.FirstId).ToList();
             }
+        }
+
+        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository) : base(unitWork, repository)
+        {
         }
     }
 }

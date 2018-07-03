@@ -3,13 +3,14 @@ using Infrastructure;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
     public class FormApp : BaseApp<Form>
     {
-        public RevelanceManagerApp ReleManagerApp { get; set; }
+        private RevelanceManagerApp _revelanceApp;
 
         /// <summary>
         /// 加载列表
@@ -60,5 +61,10 @@ namespace OpenAuth.App
             return form.MapTo<FormResp>();
         }
 
+        public FormApp(IUnitWork unitWork, IRepository<Form> repository,
+            RevelanceManagerApp app) : base(unitWork, repository)
+        {
+            _revelanceApp = app;
+        }
     }
 }

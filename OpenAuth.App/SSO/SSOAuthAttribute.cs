@@ -14,7 +14,13 @@ namespace OpenAuth.App.SSO
     {
         public const string Token = "Token";
 
-        public IAuth IAuth { get; set; }
+        private IAuth _auth;
+
+        public SSOAuthAttribute(IAuth auth)
+        {
+            _auth = auth;
+        }
+
 
         public new  void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -42,7 +48,7 @@ namespace OpenAuth.App.SSO
             else
             {
                 //验证
-                if (IAuth.CheckLogin(token, request.Path) == false)
+                if (_auth.CheckLogin(token, request.Path) == false)
                 {
                     //会话丢失，跳转到登录页面
                     filterContext.Result = LoginResult("");

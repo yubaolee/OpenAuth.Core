@@ -26,6 +26,7 @@ namespace OpenAuth.Repository.Interface
     /// </summary>
     public interface IUnitWork
     {
+        OpenAuthDBContext GetDbContext();
         T FindSingle<T>(Expression<Func<T, bool>> exp = null) where T:class;
         bool IsExist<T>(Expression<Func<T, bool>> exp) where T:class;
         IQueryable<T> Find<T>(Expression<Func<T, bool>> exp = null) where T:class;

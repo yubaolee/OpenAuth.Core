@@ -12,7 +12,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Infrastructure;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -27,9 +30,9 @@ namespace OpenAuth.App
 
         private List<string> _userRoleIds;    //用户角色GUID
 
-        public List<Module> Modules
+        public List<ModuleView> Modules
         {
-            get { return GetModulesQuery().ToList(); }
+            get { return GetModulesQuery(); }
         }
 
         public List<Role> Roles
@@ -117,19 +120,41 @@ namespace OpenAuth.App
         /// <summary>
         /// 得出最终用户拥有的模块
         /// </summary>
-        public virtual IQueryable<Module> GetModulesQuery()
+        public virtual List<ModuleView> GetModulesQuery()
         {
             var moduleIds = UnitWork.Find<Relevance>(
                 u =>
                     (u.FirstId == _user.Id && u.Key == Define.USERMODULE) ||
                     (u.Key == Define.ROLEMODULE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            return UnitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo);
+
+            var modules = (from module in UnitWork.Find<Module>(u =>moduleIds.Contains(u.Id))
+                select new ModuleView
+                {
+                    Name = module.Name,
+                    Code = module.Code,
+                    Id = module.Id,
+                    IconName = module.IconName,
+                    Url = module.Url,
+                    ParentId = module.ParentId,
+                    ParentName = module.ParentName
+                }).ToList();
+
+            foreach (var module in modules)
+            {
+                module.Elements = UnitWork.Find<ModuleElement>(u => u.ModuleId == module.Id).ToList();
+            }
+
+            return modules;
         }
 
         //用户角色
         public virtual IQueryable<Role> GetRolesQuery()
         {
             return UnitWork.Find<Role>(u => _userRoleIds.Contains(u.Id));
+        }
+
+        public AuthoriseService(IUnitWork unitWork, IRepository<User> repository) : base(unitWork, repository)
+        {
         }
     }
 }

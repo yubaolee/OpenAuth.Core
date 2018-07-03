@@ -9,6 +9,7 @@ using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -17,9 +18,9 @@ namespace OpenAuth.App
     /// </summary>
     public class FlowInstanceApp : BaseApp<FlowInstance>
     {
-        public RevelanceManagerApp RevelanceManagerApp { get; set; }
+        private RevelanceManagerApp _revelanceApp;
 
-        public IAuth IAuth { get; set; }
+        private IAuth _auth;
 
         #region 流程处理API
         /// <summary>
@@ -40,7 +41,7 @@ namespace OpenAuth.App
 
             //创建运行实例
             var wfruntime = new FlowRuntime(flowInstance);
-            var user = IAuth.GetCurrentUser();
+            var user = _auth.GetCurrentUser();
 
             #region 根据运行实例改变当前节点状态
             flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
@@ -101,7 +102,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public bool NodeVerification(string instanceId, bool flag, string description = "")
         {
-            var user = IAuth.GetCurrentUser().User;
+            var user = _auth.GetCurrentUser().User;
             FlowInstance flowInstance = Get(instanceId);
             FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
             {
@@ -256,7 +257,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public bool NodeReject(VerificationReq reqest)
         {
-            var user = IAuth.GetCurrentUser().User;
+            var user = _auth.GetCurrentUser().User;
 
             FlowInstance flowInstance = Get(reqest.FlowInstanceId);
          
@@ -404,7 +405,7 @@ namespace OpenAuth.App
                 }
                 else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_ROLE)  //指定角色
                 {
-                    var users = RevelanceManagerApp.Get(Define.USERROLE, false, node.setInfo.NodeDesignateData.roles);
+                    var users = _revelanceApp.Get(Define.USERROLE, false, node.setInfo.NodeDesignateData.roles);
                     makerList = GenericHelpers.ArrayToString(users, makerList);
 
                     if (makerList == "")
@@ -445,7 +446,7 @@ namespace OpenAuth.App
         public TableData Load(QueryFlowInstanceListReq request)
         {
             var result = new TableData();
-            var user = IAuth.GetCurrentUser();
+            var user = _auth.GetCurrentUser();
 
             if (request.type == "wait")   //待办事项
             {
@@ -478,6 +479,13 @@ namespace OpenAuth.App
             }
 
             return result;
+        }
+
+        public FlowInstanceApp(IUnitWork unitWork, IRepository<FlowInstance> repository
+        ,IAuth auth ,RevelanceManagerApp app) : base(unitWork, repository)
+        {
+            _auth = auth;
+            _revelanceApp = app;
         }
     }
 }

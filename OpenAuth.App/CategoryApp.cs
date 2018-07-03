@@ -4,6 +4,7 @@ using System.Linq;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -65,6 +66,10 @@ namespace OpenAuth.App
         public List<CategoryType> AllTypes()
         {
             return UnitWork.Find<CategoryType>(null).ToList();
+        }
+
+        public CategoryApp(IUnitWork unitWork, IRepository<Category> repository) : base(unitWork, repository)
+        {
         }
     }
 }

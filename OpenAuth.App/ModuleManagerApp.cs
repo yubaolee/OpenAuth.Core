@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
     public class ModuleManagerApp :BaseApp<Module>
     {
-        public RevelanceManagerApp RevelanceManagerApp { get; set; }
+        private RevelanceManagerApp _revelanceApp;
         public void Add(Module model)
         {
             ChangeModuleCascade(model);
@@ -28,7 +29,7 @@ namespace OpenAuth.App
         /// <param name="userId">The user unique identifier.</param>
         public IEnumerable<Module> LoadForUser(string userId)
         {
-            var roleIds = RevelanceManagerApp.Get(Define.USERROLE, true, userId);
+            var roleIds = _revelanceApp.Get(Define.USERROLE, true, userId);
             var moduleIds = UnitWork.Find<Relevance>(
                 u =>
                     (u.FirstId == userId && u.Key == Define.USERMODULE) ||
@@ -44,7 +45,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public IEnumerable<ModuleElement> LoadMenusForUser(string moduleId, string userId)
         {
-            var elementIds = RevelanceManagerApp.Get(Define.USERELEMENT, true, userId);
+            var elementIds = _revelanceApp.Get(Define.USERELEMENT, true, userId);
             return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id) && u.ModuleId == moduleId);
         }
 
@@ -61,7 +62,7 @@ namespace OpenAuth.App
 
         public IEnumerable<ModuleElement> LoadMenusForRole(string moduleId, string roleId)
         {
-            var elementIds = RevelanceManagerApp.Get(Define.ROLEELEMENT, true, roleId);
+            var elementIds = _revelanceApp.Get(Define.ROLEELEMENT, true, roleId);
             return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id) && u.ModuleId == moduleId);
 
         }
@@ -90,6 +91,12 @@ namespace OpenAuth.App
         {
             UnitWork.Update<ModuleElement>(model);
             UnitWork.Save();
+        }
+
+        public ModuleManagerApp(IUnitWork unitWork, IRepository<Module> repository
+        ,RevelanceManagerApp app) : base(unitWork, repository)
+        {
+            _revelanceApp = app;
         }
     }
 }

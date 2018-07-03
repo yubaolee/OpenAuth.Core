@@ -2,6 +2,7 @@
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -32,6 +33,10 @@ namespace OpenAuth.App
                 count = Repository.GetCount(null),
                 data = Repository.Find(request.page, request.limit, "CreateDate desc")
             };
+        }
+
+        public FlowSchemeApp(IUnitWork unitWork, IRepository<FlowScheme> repository) : base(unitWork, repository)
+        {
         }
     }
 }

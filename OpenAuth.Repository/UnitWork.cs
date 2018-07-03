@@ -17,9 +17,12 @@ namespace OpenAuth.Repository
        {
            _context = context;
        }
+       public OpenAuthDBContext GetDbContext()
+       {
+           return _context;
+       }
 
-
-       /// <summary>
+        /// <summary>
         /// 根据过滤条件，获取记录
         /// </summary>
         /// <param name="exp">The exp.</param>
@@ -146,5 +149,6 @@ namespace OpenAuth.Repository
             _context.Database.ExecuteSqlCommand(sql);
         }
 
+        
     }
 }

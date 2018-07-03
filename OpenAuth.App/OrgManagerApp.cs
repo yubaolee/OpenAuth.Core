@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -97,5 +98,8 @@ namespace OpenAuth.App
             return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
         }
 
+        public OrgManagerApp(IUnitWork unitWork, IRepository<Org> repository) : base(unitWork, repository)
+        {
+        }
     }
 }

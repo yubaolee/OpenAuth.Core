@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Infrastructure;
-using OpenAuth.App.Response;
+﻿using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -14,25 +12,24 @@ namespace OpenAuth.App
     {
         private SystemAuthService _systemAuth;
         private AuthoriseService _authoriseService;
+        private readonly IUnitWork _unitWork;
 
-        public AuthorizeApp(SystemAuthService sysService, AuthoriseService authoriseService)
+        public AuthorizeApp(SystemAuthService sysService, AuthoriseService authoriseService, IUnitWork unitWork)
         {
             _systemAuth = sysService;
             _authoriseService = authoriseService;
+            _unitWork = unitWork;
         }
 
-        public IUnitWork _unitWork { get; set; }
         private AuthoriseService Create(string loginuser)
         {
             if (loginuser == "System")
             {
                 return _systemAuth;
             }
-            else
-            {
-                _authoriseService.User = _unitWork.FindSingle<User>(u => u.Account == loginuser);
-                return _authoriseService;
-            }
+
+            _authoriseService.User = _unitWork.FindSingle<User>(u => u.Account == loginuser);
+            return _authoriseService;
         }
 
         public UserWithAccessedCtrls GetAccessedControls(string username)
@@ -46,7 +43,7 @@ namespace OpenAuth.App
                 Resources = service.Resources,
                 Roles = service.Roles
             };
-            
+
             return user;
         }
     }

@@ -48,11 +48,6 @@ namespace OpenAuth.App
             return UnitWork.Find<Resource>(null);
         }
 
-        public override IQueryable<ModuleElement> GetModuleElementsQuery()
-        {
-            return UnitWork.Find<ModuleElement>(null);
-        }
-
         public override List<ModuleView> GetModulesQuery()
         {
             var modules = (from module in UnitWork.Find<Module>(null)
@@ -60,6 +55,7 @@ namespace OpenAuth.App
                 {
                     Name = module.Name,
                     Id = module.Id,
+                    CascadeId = module.CascadeId,
                     Code = module.Code,
                     IconName = module.IconName,
                     Url = module.Url,

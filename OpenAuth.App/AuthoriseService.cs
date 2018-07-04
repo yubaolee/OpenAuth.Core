@@ -40,11 +40,6 @@ namespace OpenAuth.App
             get { return GetRolesQuery().ToList(); }
         }
 
-        public List<ModuleElement> ModuleElements
-        {
-            get { return GetModuleElementsQuery().ToList(); }
-        }
-
         public List<Resource> Resources
         {
             get { return GetResourcesQuery().ToList(); }
@@ -62,20 +57,6 @@ namespace OpenAuth.App
             {
                 _user = value;
                 _userRoleIds = UnitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == Define.USERROLE).Select(u => u.SecondId).ToList();
-            }
-        }
-
-        public void Check(string userName, string password)
-        {
-            var _user = Repository.FindSingle(u => u.Account == userName);
-            if (_user == null)
-            {
-                throw new Exception("用户帐号不存在");
-            }
-
-            if (_user.Password != password)
-            {
-                throw new Exception("密码错误");
             }
         }
 
@@ -132,6 +113,7 @@ namespace OpenAuth.App
                 {
                     Name = module.Name,
                     Code = module.Code,
+                    CascadeId = module.CascadeId,
                     Id = module.Id,
                     IconName = module.IconName,
                     Url = module.Url,
@@ -139,9 +121,11 @@ namespace OpenAuth.App
                     ParentName = module.ParentName
                 }).ToList();
 
+            var usermoduleelements = GetModuleElementsQuery();
+
             foreach (var module in modules)
             {
-                module.Elements = UnitWork.Find<ModuleElement>(u => u.ModuleId == module.Id).ToList();
+                module.Elements =usermoduleelements.Where(u => u.ModuleId == module.Id).ToList();
             }
 
             return modules;

@@ -9,7 +9,13 @@ layui.config({
 		tab = layui.bodyTab({
 			openTabNum : "50",  //最大可打开窗口数量
 			url: "/UserSession/GetModulesTree" //获取菜单json地址
-		});
+    });
+
+    $.get('/UserSession/GetUserName',
+        function(data) {
+            $("#username").html(data);
+            $("#usernametop").html(data);
+        });
 
 	//更换皮肤
 	function skins(){

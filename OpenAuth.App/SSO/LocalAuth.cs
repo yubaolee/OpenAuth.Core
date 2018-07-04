@@ -1,17 +1,16 @@
-
-using System;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
+using System;
 
 namespace OpenAuth.App.SSO
 {
     /// <summary>
     /// 使用本地登录。这个注入IAuth时，只需要OpenAuth.Mvc一个项目即可，无需webapi的支持
     /// </summary>
-    public class LocalAuth :IAuth
+    public class LocalAuth : IAuth
     {
         private IOptions<AppSetting> _appConfiguration;
         private IHttpContextAccessor _httpContextAccessor;
@@ -39,10 +38,10 @@ namespace OpenAuth.App.SSO
             if (!String.IsNullOrEmpty(token)) return token;
 
             var cookie = _httpContextAccessor.HttpContext.Request.Cookies["Token"];
-            return cookie == null ? String.Empty : cookie;
+            return cookie ?? String.Empty;
         }
 
-        public bool CheckLogin(string token="", string otherInfo = "")
+        public bool CheckLogin(string token = "", string otherInfo = "")
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -53,7 +52,7 @@ namespace OpenAuth.App.SSO
             {
                 return false;
             }
-         
+
             try
             {
                 var result = _cacheContext.Get<UserAuthSession>(token) != null;
@@ -73,29 +72,20 @@ namespace OpenAuth.App.SSO
         /// <returns>LoginUserVM.</returns>
         public UserWithAccessedCtrls GetCurrentUser(string otherInfo = "")
         {
-            try
+            UserWithAccessedCtrls userctrls = null;
+            var user = _cacheContext.Get<UserAuthSession>(GetToken());
+            if (user != null)
             {
-                var userctrls = new UserWithAccessedCtrls();
-                var user = _cacheContext.Get<UserAuthSession>(GetToken());
-                if (user != null)
+                string ctrlskey = GetToken() + "_CTRLS";
+                userctrls = _cacheContext.Get<UserWithAccessedCtrls>(ctrlskey);
+                if (userctrls == null)
                 {
-                    string ctrlskey = GetToken() + "_CTRLS";
-                    userctrls = _cacheContext.Get<UserWithAccessedCtrls>(ctrlskey);
-                    if (userctrls == null)
-                    {
-                        userctrls = _app.GetAccessedControls(user.Account);
-                        _cacheContext.Set(ctrlskey, userctrls, DateTime.Now.AddMinutes(10));
-                    }
+                    userctrls = _app.GetAccessedControls(user.Account);
+                    _cacheContext.Set(ctrlskey, userctrls, DateTime.Now.AddMinutes(10));
                 }
-
-                return userctrls;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return userctrls;
         }
-
 
         /// <summary>
         /// 获取当前登录的用户名
@@ -105,22 +95,13 @@ namespace OpenAuth.App.SSO
         /// <returns>System.String.</returns>
         public string GetUserName(string otherInfo = "")
         {
-           try
-            {
                 var user = _cacheContext.Get<UserAuthSession>(GetToken());
                 if (user != null)
                 {
                     return user.Account;
                 }
-                else
-                {
-                    return "";
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
+                return "";
         }
 
         /// <summary>
@@ -132,19 +113,12 @@ namespace OpenAuth.App.SSO
         /// <returns>System.String.</returns>
         public LoginResult Login(string appKey, string username, string pwd)
         {
-          try
-            {
-                return  _loginParse.Do(new PassportLoginRequest
+                return _loginParse.Do(new PassportLoginRequest
                 {
                     AppKey = appKey,
                     Account = username,
                     Password = pwd
                 });
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
         }
 
         /// <summary>

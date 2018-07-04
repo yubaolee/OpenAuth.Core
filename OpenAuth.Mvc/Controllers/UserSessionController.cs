@@ -1,17 +1,29 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : OpenAuth.Mvc
+// Author           : 李玉宝
+// Created          : 06-08-2018
+//
+// Last Modified By : 李玉宝
+// Last Modified On : 07-04-2018
+// ***********************************************************************
+// <copyright file="UserSessionController.cs" company="OpenAuth.Mvc">
+//     Copyright (c) http://www.openauth.me. All rights reserved.
+// </copyright>
+// <summary>
+// 获取登录用户的全部信息
+// 所有和当前登录用户相关的操作都在这里
+// </summary>
+// ***********************************************************************
+
+using System;
 using System.Diagnostics;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
-using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
 {
-    /// <summary>
-    /// 获取登录用户的全部信息
-    /// <para>所有和当前登录用户相关的操作都在这里</para>
-    /// </summary>
     public class UserSessionController : BaseController
     {
         private UserWithAccessedCtrls user;
@@ -21,6 +33,11 @@ namespace OpenAuth.Mvc.Controllers
             user = _authUtil.GetCurrentUser();
             watch.Stop();
             Console.WriteLine($"获取用户时间：{watch.ElapsedMilliseconds}");
+        }
+
+        public string GetUserName()
+        {
+            return _authUtil.GetUserName();
         }
         /// <summary>
         /// 获取登录用户可访问的所有模块，及模块的操作菜单
@@ -62,8 +79,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string QueryModuleList()
         {
-            var orgs = user.Modules.MapToList<ModuleView>();
-            return JsonHelper.Instance.Serialize(orgs);
+            return JsonHelper.Instance.Serialize(user.Modules);
         }
 
         /// <summary>
@@ -104,13 +120,6 @@ namespace OpenAuth.Mvc.Controllers
                 data = query.ToList(),
                 count = query.Count(),
             });
-        }
-
-        //获取当前页面菜单
-        public string GetButtonns()
-        {
-            var module = user.Modules.Single(u => u.Name.Contains(""));
-            return JsonHelper.Instance.Serialize(module.Elements);
         }
 
     }

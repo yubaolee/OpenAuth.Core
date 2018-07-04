@@ -14,14 +14,15 @@ namespace OpenAuth.App.SSO
     {
 
         //这个地方使用IRepository<User> 而不使用UserManagerApp是防止循环依赖
-        public IRepository<User> _app { get; set; }
+        public IRepository<User> _app;
         private ICacheContext _cacheContext;
         private AppInfoService _appInfoService;
 
-        public LoginParse( AppInfoService infoService, ICacheContext cacheContext)
+        public LoginParse( AppInfoService infoService, ICacheContext cacheContext, IRepository<User> userApp)
         {
             _appInfoService = infoService;
             _cacheContext = cacheContext;
+            _app = userApp;
         }
 
         public  LoginResult Do(PassportLoginRequest model)

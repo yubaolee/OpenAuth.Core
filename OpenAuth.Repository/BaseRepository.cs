@@ -72,6 +72,7 @@ namespace OpenAuth.Repository
             }
             _context.Set<T>().Add(entity);
             Save();
+            _context.Entry(entity).State = EntityState.Detached;
         }
 
         /// <summary>

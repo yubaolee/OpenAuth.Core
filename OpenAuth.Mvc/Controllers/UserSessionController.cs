@@ -19,6 +19,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using Infrastructure;
+using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 
@@ -26,11 +27,11 @@ namespace OpenAuth.Mvc.Controllers
 {
     public class UserSessionController : BaseController
     {
-        private UserWithAccessedCtrls user;
+        private readonly AuthStrategyContext _authStrategyContext;
         public UserSessionController(IAuth authUtil) : base(authUtil)
         {
             var watch = Stopwatch.StartNew();
-            user = _authUtil.GetCurrentUser();
+            _authStrategyContext = _authUtil.GetCurrentUser();
             watch.Stop();
             Console.WriteLine($"获取用户时间：{watch.ElapsedMilliseconds}");
         }
@@ -44,7 +45,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetModulesTree()
         {
-            var moduleTree = user.Modules.GenerateTree(u => u.Id, u => u.ParentId);
+            var moduleTree = _authStrategyContext.Modules.GenerateTree(u => u.Id, u => u.ParentId);
             return JsonHelper.Instance.Serialize(moduleTree);
         }
 
@@ -58,13 +59,13 @@ namespace OpenAuth.Mvc.Controllers
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(pId))
             {
-                var obj = user.Modules.SingleOrDefault(u => u.Id == pId);
+                var obj = _authStrategyContext.Modules.SingleOrDefault(u => u.Id == pId);
                 if (obj == null)
                     throw new Exception("未能找到指定对象信息");
                 cascadeId = obj.CascadeId;
             }
 
-            var query = user.Modules.Where(u => u.CascadeId.Contains(cascadeId));
+            var query = _authStrategyContext.Modules.Where(u => u.CascadeId.Contains(cascadeId));
 
             return JsonHelper.Instance.Serialize(new TableData
             {
@@ -79,7 +80,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string QueryModuleList()
         {
-            return JsonHelper.Instance.Serialize(user.Modules);
+            return JsonHelper.Instance.Serialize(_authStrategyContext.Modules);
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetOrgs()
         {
-            return JsonHelper.Instance.Serialize(user.Orgs);
+            return JsonHelper.Instance.Serialize(_authStrategyContext.Orgs);
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace OpenAuth.Mvc.Controllers
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(orgId))
             {
-                var org = user.Orgs.SingleOrDefault(u => u.Id == orgId);
+                var org = _authStrategyContext.Orgs.SingleOrDefault(u => u.Id == orgId);
                 if (org == null)
                 {
                     return JsonHelper.Instance.Serialize(new TableData
@@ -113,7 +114,7 @@ namespace OpenAuth.Mvc.Controllers
                 cascadeId = org.CascadeId;
             }
 
-            var query = user.Orgs.Where(u => u.CascadeId.Contains(cascadeId));
+            var query = _authStrategyContext.Orgs.Where(u => u.CascadeId.Contains(cascadeId));
 
             return JsonHelper.Instance.Serialize(new TableData
             {

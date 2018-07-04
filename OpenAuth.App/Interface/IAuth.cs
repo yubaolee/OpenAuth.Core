@@ -17,7 +17,7 @@ namespace OpenAuth.App.Interface
         /// <param name="otherInfo"></param>
         /// <returns></returns>
         bool CheckLogin(string token="", string otherInfo = "");
-        UserWithAccessedCtrls GetCurrentUser(string otherInfo = "");
+        AuthStrategyContext GetCurrentUser(string otherInfo = "");
         string GetUserName(string otherInfo = "");
         /// <summary>
         /// 登录接口

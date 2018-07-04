@@ -1,13 +1,19 @@
 ﻿// ***********************************************************************
-// Assembly         : OpenAuth.Domain
-// Author           : yubaolee
-// Created          : 04-21-2016
+// Assembly         : OpenAuth.App
+// Author           : 李玉宝
+// Created          : 06-06-2018
 //
-// Last Modified By : yubaolee
-// Last Modified On : 04-21-2016
-// Contact : Microsoft
-// File: AuthenService.cs
+// Last Modified By : 李玉宝
+// Last Modified On : 07-04-2018
 // ***********************************************************************
+// <copyright file="NormalAuthStrategy.cs" company="OpenAuth.App">
+//     Copyright (c) http://www.openauth.me. All rights reserved.
+// </copyright>
+// <summary>
+// 普通用户授权策略
+// </summary>
+// ***********************************************************************
+
 
 using System;
 using System.Collections.Generic;
@@ -20,10 +26,9 @@ using OpenAuth.Repository.Interface;
 namespace OpenAuth.App
 {
     /// <summary>
-    /// 领域服务
-    /// <para>用户授权服务</para>
+    /// 普通用户授权策略
     /// </summary>
-    public class AuthoriseService :BaseApp<User>
+    public class NormalAuthStrategy :BaseApp<User>
     {
         
         protected User _user;
@@ -137,7 +142,7 @@ namespace OpenAuth.App
             return UnitWork.Find<Role>(u => _userRoleIds.Contains(u.Id));
         }
 
-        public AuthoriseService(IUnitWork unitWork, IRepository<User> repository) : base(unitWork, repository)
+        public NormalAuthStrategy(IUnitWork unitWork, IRepository<User> repository) : base(unitWork, repository)
         {
         }
     }

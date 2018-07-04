@@ -1,5 +1,4 @@
-﻿using OpenAuth.App.Response;
-using OpenAuth.Repository.Domain;
+﻿using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
@@ -10,41 +9,32 @@ namespace OpenAuth.App
     /// </summary>
     public class AuthorizeApp
     {
-        private SystemAuthService _systemAuth;
-        private AuthoriseService _authoriseService;
+        private SystemAuthStrategy _systemAuth;
+        private NormalAuthStrategy _normalAuthStrategy;
         private readonly IUnitWork _unitWork;
 
-        public AuthorizeApp(SystemAuthService sysService, AuthoriseService authoriseService, IUnitWork unitWork)
+        public AuthorizeApp(SystemAuthStrategy sysStrategy, NormalAuthStrategy normalAuthStrategy, IUnitWork unitWork)
         {
-            _systemAuth = sysService;
-            _authoriseService = authoriseService;
+            _systemAuth = sysStrategy;
+            _normalAuthStrategy = normalAuthStrategy;
             _unitWork = unitWork;
         }
 
-        private AuthoriseService Create(string loginuser)
+        private NormalAuthStrategy Create(string loginuser)
         {
             if (loginuser == "System")
             {
                 return _systemAuth;
             }
 
-            _authoriseService.User = _unitWork.FindSingle<User>(u => u.Account == loginuser);
-            return _authoriseService;
+            _normalAuthStrategy.User = _unitWork.FindSingle<User>(u => u.Account == loginuser);
+            return _normalAuthStrategy;
         }
 
-        public UserWithAccessedCtrls GetAccessedControls(string username)
+        public AuthStrategyContext GetAuthStrategyContext(string username)
         {
             var service = Create(username);
-            var user = new UserWithAccessedCtrls
-            {
-                User = service.User,
-                Orgs = service.Orgs,
-                Modules = service.Modules,
-                Resources = service.Resources,
-                Roles = service.Roles
-            };
-
-            return user;
+            return new AuthStrategyContext(service);
         }
     }
 }

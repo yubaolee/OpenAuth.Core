@@ -1,8 +1,6 @@
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
-using OpenAuth.App.Response;
 using System;
 
 namespace OpenAuth.App.SSO
@@ -12,20 +10,17 @@ namespace OpenAuth.App.SSO
     /// </summary>
     public class LocalAuth : IAuth
     {
-        private IOptions<AppSetting> _appConfiguration;
         private IHttpContextAccessor _httpContextAccessor;
 
         private AuthorizeApp _app;
         private LoginParse _loginParse;
         private ICacheContext _cacheContext;
 
-        public LocalAuth(IOptions<AppSetting> appConfiguration
-            , IHttpContextAccessor httpContextAccessor
+        public LocalAuth(IHttpContextAccessor httpContextAccessor
             , AuthorizeApp app
             , LoginParse loginParse
             , ICacheContext cacheContext)
         {
-            _appConfiguration = appConfiguration;
             _httpContextAccessor = httpContextAccessor;
             _app = app;
             _loginParse = loginParse;
@@ -70,21 +65,15 @@ namespace OpenAuth.App.SSO
         /// </summary>
         /// <param name="otherInfo">The otherInfo.</param>
         /// <returns>LoginUserVM.</returns>
-        public UserWithAccessedCtrls GetCurrentUser(string otherInfo = "")
+        public AuthStrategyContext GetCurrentUser(string otherInfo = "")
         {
-            UserWithAccessedCtrls userctrls = null;
+            AuthStrategyContext context = null;
             var user = _cacheContext.Get<UserAuthSession>(GetToken());
             if (user != null)
             {
-                string ctrlskey = GetToken() + "_CTRLS";
-                userctrls = _cacheContext.Get<UserWithAccessedCtrls>(ctrlskey);
-                if (userctrls == null)
-                {
-                    userctrls = _app.GetAccessedControls(user.Account);
-                    _cacheContext.Set(ctrlskey, userctrls, DateTime.Now.AddMinutes(10));
-                }
+                context = _app.GetAuthStrategyContext(user.Account);
             }
-            return userctrls;
+            return context;
         }
 
         /// <summary>
@@ -95,13 +84,13 @@ namespace OpenAuth.App.SSO
         /// <returns>System.String.</returns>
         public string GetUserName(string otherInfo = "")
         {
-                var user = _cacheContext.Get<UserAuthSession>(GetToken());
-                if (user != null)
-                {
-                    return user.Account;
-                }
+            var user = _cacheContext.Get<UserAuthSession>(GetToken());
+            if (user != null)
+            {
+                return user.Account;
+            }
 
-                return "";
+            return "";
         }
 
         /// <summary>
@@ -113,12 +102,12 @@ namespace OpenAuth.App.SSO
         /// <returns>System.String.</returns>
         public LoginResult Login(string appKey, string username, string pwd)
         {
-                return _loginParse.Do(new PassportLoginRequest
-                {
-                    AppKey = appKey,
-                    Account = username,
-                    Password = pwd
-                });
+            return _loginParse.Do(new PassportLoginRequest
+            {
+                AppKey = appKey,
+                Account = username,
+                Password = pwd
+            });
         }
 
         /// <summary>
@@ -132,7 +121,6 @@ namespace OpenAuth.App.SSO
             try
             {
                 _cacheContext.Remove(token);
-
                 return true;
             }
             catch (Exception ex)

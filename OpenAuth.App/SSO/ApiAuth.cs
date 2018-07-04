@@ -14,10 +14,12 @@ using System;
 using System.Configuration;
 using System.Web;
 using Infrastructure;
+using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.SSO
 {
@@ -36,12 +38,16 @@ namespace OpenAuth.App.SSO
         private HttpHelper _helper;
         private IHttpContextAccessor _httpContextAccessor;
 
-       public ApiAuth(IOptions<AppSetting> appConfiguration, IHttpContextAccessor httpContextAccessor)
+        private ApiAuthStrategy _apiAuthStrategy;
+
+        public ApiAuth(IOptions<AppSetting> appConfiguration, IHttpContextAccessor httpContextAccessor
+            , ApiAuthStrategy apiAuthStrategy)
         {
             _appConfiguration = appConfiguration;
             _helper = new HttpHelper(_appConfiguration.Value.SSOPassport);
 
             _httpContextAccessor = httpContextAccessor;
+            _apiAuthStrategy = apiAuthStrategy;
         }
 
         private string GetToken()
@@ -89,25 +95,15 @@ namespace OpenAuth.App.SSO
         /// </summary>
         /// <param name="otherInfo">The otherInfo.</param>
         /// <returns>LoginUserVM.</returns>
-        public UserWithAccessedCtrls GetCurrentUser(string otherInfo = "")
+        public AuthStrategyContext GetCurrentUser(string otherInfo = "")
         {
-
-            var requestUri = String.Format("/api/Check/GetUser?token={0}&requestid={1}", GetToken(), otherInfo);
-
-            try
-            {
-                var value = _helper.Get(null, requestUri);
-                var result = JsonHelper.Instance.Deserialize<Response<UserWithAccessedCtrls>>(value);
-                if (result.Code == 200)
+            string username = GetUserName();
+                _apiAuthStrategy.User = new User
                 {
-                    return result.Result;
-                }
-                throw new Exception(result.Message);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+                    Account = username,
+                    Name = username
+                };
+            return new AuthStrategyContext(_apiAuthStrategy);
         }
 
 

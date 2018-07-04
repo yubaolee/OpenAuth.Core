@@ -5,18 +5,21 @@
 //
 // Last Modified By : yubaolee
 // Last Modified On : 07-11-2016
-// Contact : 
+// Contact :
 // File: CheckController.cs
 // ***********************************************************************
 
-using System;
-using System.Web.Http;
 using Infrastructure;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.SSO;
+using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using NUnit.Framework;
 using OpenAuth.App.Response;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Areas.SSO.Controllers
 {
@@ -31,7 +34,7 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         private LoginParse _loginParse;
         private ICacheContext _cacheContext;
 
-        public CheckController(AuthorizeApp app,  LoginParse loginParse, ICacheContext cacheContext)
+        public CheckController(AuthorizeApp app, LoginParse loginParse, ICacheContext cacheContext)
         {
             _app = app;
             _loginParse = loginParse;
@@ -60,21 +63,16 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             return result;
         }
 
-        /// <summary>
-        /// 根据token获取用户及用户可访问的所有资源
-        /// </summary>
-        /// <param name="token"></param>
-        /// <param name="requestid">备用参数.</param>
         [HttpGet]
-        public Response<UserWithAccessedCtrls> GetUser(string token, string requestid = "")
+        public Response<List<Role>> GetRoles(string token, string requestid = "")
         {
-            var result = new Response<UserWithAccessedCtrls>();
+            var result = new Response<List<Role>>();
             try
             {
                 var user = _cacheContext.Get<UserAuthSession>(token);
                 if (user != null)
                 {
-                    result.Result = _app.GetAccessedControls(user.Account);
+                    result.Result = GetAuthStrategyContext(token, requestid).Roles;
                 }
             }
             catch (Exception ex)
@@ -86,7 +84,88 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
             }
 
             return result;
+        }
 
+        [HttpGet]
+        public Response<List<Org>> GetOrgs(string token, string requestid = "")
+        {
+            var result = new Response<List<Org>>();
+            try
+            {
+                var user = _cacheContext.Get<UserAuthSession>(token);
+                if (user != null)
+                {
+                    result.Result = GetAuthStrategyContext(token, requestid).Orgs;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException != null
+                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpGet]
+        public Response<List<ModuleView>> GetModules(string token, string requestid = "")
+        {
+            var result = new Response<List<ModuleView>>();
+            try
+            {
+                var user = _cacheContext.Get<UserAuthSession>(token);
+                if (user != null)
+                {
+                    result.Result = GetAuthStrategyContext(token, requestid).Modules;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException != null
+                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpGet]
+        public Response<List<Resource>> GgetResources(string token, string requestid = "")
+        {
+            var result = new Response<List<Resource>>();
+            try
+            {
+                var user = _cacheContext.Get<UserAuthSession>(token);
+                if (user != null)
+                {
+                    result.Result = GetAuthStrategyContext(token, requestid).Resources;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException != null
+                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+            }
+
+            return result;
+        }
+
+        private AuthStrategyContext GetAuthStrategyContext(string token, string requestid = "")
+        {
+            AuthStrategyContext result = null;
+
+            var user = _cacheContext.Get<UserAuthSession>(token);
+            if (user != null)
+            {
+                result = _app.GetAuthStrategyContext(user.Account);
+            }
+
+            return result;
         }
 
         /// <summary>

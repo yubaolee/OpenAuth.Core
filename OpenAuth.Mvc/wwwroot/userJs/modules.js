@@ -6,7 +6,7 @@ layui.config({
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
-    layui.droptree("/UserSession/QueryModuleList", "#ParentName", "#ParentId", false);
+    layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
    
     $("#menus").loadMenus("Module");
 
@@ -17,7 +17,7 @@ layui.config({
             $.extend(config, options);
         }
         table.reload('mainList', {
-            url: '/UserSession/GetModules',
+            url: '/UserSession/GetModulesTable',
             where: config
         });
     }
@@ -36,7 +36,7 @@ layui.config({
 
     //左边树状机构列表
     var ztree = function () {
-        var url = '/UserSession/QueryModuleList';
+        var url = '/UserSession/GetModules';
         var zTreeObj;
         var setting = {
             view: { selectedMulti: false },

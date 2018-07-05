@@ -16,8 +16,6 @@ using OpenAuth.App;
 using OpenAuth.App.SSO;
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
-using NUnit.Framework;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
@@ -30,11 +28,11 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
     /// </summary>
     public class CheckController : ControllerBase
     {
-        private AuthorizeApp _app;
+        private AuthContextFactory _app;
         private LoginParse _loginParse;
         private ICacheContext _cacheContext;
 
-        public CheckController(AuthorizeApp app, LoginParse loginParse, ICacheContext cacheContext)
+        public CheckController(AuthContextFactory app, LoginParse loginParse, ICacheContext cacheContext)
         {
             _app = app;
             _loginParse = loginParse;
@@ -157,15 +155,15 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
 
         private AuthStrategyContext GetAuthStrategyContext(string token, string requestid = "")
         {
-            AuthStrategyContext result = null;
+            AuthStrategyContext context = null;
 
             var user = _cacheContext.Get<UserAuthSession>(token);
             if (user != null)
             {
-                result = _app.GetAuthStrategyContext(user.Account);
+                context = _app.GetAuthStrategyContext(user.Account);
             }
 
-            return result;
+            return context;
         }
 
         /// <summary>

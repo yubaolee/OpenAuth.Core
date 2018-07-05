@@ -1,25 +1,23 @@
 // ***********************************************************************
 // Assembly         : OpenAuth.App
-// Author           : yubaolee
-// Created          : 07-08-2016
+// Author           : 李玉宝
+// Created          : 07-05-2018
 //
-// Last Modified By : yubaolee
-// Last Modified On : 07-08-2016
-// Contact : Microsoft
-// File: IAuth.cs
+// Last Modified By : 李玉宝
+// Last Modified On : 07-05-2018
+// ***********************************************************************
+// <copyright file="ApiAuth.cs" company="OpenAuth.App">
+//     Copyright (c) http://www.openauth.me. All rights reserved.
+// </copyright>
+// <summary></summary>
 // ***********************************************************************
 
 
 using System;
-using System.Configuration;
-using System.Web;
 using Infrastructure;
-using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
-using OpenAuth.App.Response;
-using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.SSO
 {
@@ -37,17 +35,18 @@ namespace OpenAuth.App.SSO
         private IOptions<AppSetting> _appConfiguration;
         private HttpHelper _helper;
         private IHttpContextAccessor _httpContextAccessor;
+        private AuthContextFactory _authContextFactory;
 
-        private ApiAuthStrategy _apiAuthStrategy;
 
-        public ApiAuth(IOptions<AppSetting> appConfiguration, IHttpContextAccessor httpContextAccessor
-            , ApiAuthStrategy apiAuthStrategy)
+        public ApiAuth(IOptions<AppSetting> appConfiguration
+            , IHttpContextAccessor httpContextAccessor
+            ,AuthContextFactory authContextFactory
+            )
         {
             _appConfiguration = appConfiguration;
             _helper = new HttpHelper(_appConfiguration.Value.SSOPassport);
-
+            _authContextFactory = authContextFactory;
             _httpContextAccessor = httpContextAccessor;
-            _apiAuthStrategy = apiAuthStrategy;
         }
 
         private string GetToken()
@@ -58,7 +57,10 @@ namespace OpenAuth.App.SSO
             var cookie = _httpContextAccessor.HttpContext.Request.Cookies["Token"];
             return cookie == null ? String.Empty : cookie;
         }
-
+        /// <summary>
+        /// 通过WebApi检验token是否有效
+        /// </summary>
+        /// <remarks>http://www.openauth.me</remarks>
         public bool CheckLogin(string token="", string otherInfo = "")
         {
             if (string.IsNullOrEmpty(token))
@@ -98,17 +100,12 @@ namespace OpenAuth.App.SSO
         public AuthStrategyContext GetCurrentUser(string otherInfo = "")
         {
             string username = GetUserName();
-                _apiAuthStrategy.User = new User
-                {
-                    Account = username,
-                    Name = username
-                };
-            return new AuthStrategyContext(_apiAuthStrategy);
+            return _authContextFactory.GetAuthStrategyContext(username);
         }
 
 
         /// <summary>
-        /// 获取当前登录的用户名
+        /// 获取WebApi中当前登录的用户名
         /// <para>通过URL中的Token参数或Cookie中的Token</para>
         /// </summary>
         /// <param name="otherInfo">The otherInfo.</param>
@@ -134,7 +131,7 @@ namespace OpenAuth.App.SSO
         }
 
         /// <summary>
-        /// 登录接口
+        /// 通过WebApi登录，用户信息存放在webapi中
         /// </summary>
         /// <param name="appKey">应用程序key.</param>
         /// <param name="username">用户名</param>

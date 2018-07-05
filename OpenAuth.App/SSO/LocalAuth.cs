@@ -12,12 +12,12 @@ namespace OpenAuth.App.SSO
     {
         private IHttpContextAccessor _httpContextAccessor;
 
-        private AuthorizeApp _app;
+        private AuthContextFactory _app;
         private LoginParse _loginParse;
         private ICacheContext _cacheContext;
 
         public LocalAuth(IHttpContextAccessor httpContextAccessor
-            , AuthorizeApp app
+            , AuthContextFactory app
             , LoginParse loginParse
             , ICacheContext cacheContext)
         {

@@ -68,7 +68,7 @@ layui.config({
 
     //模块列表
     var ztree = function () {
-        var url = '/UserSession/QueryModuleList';
+        var url = '/UserSession/GetModules';
         var zTreeObj;
         var setting = {
             view: { selectedMulti: true },

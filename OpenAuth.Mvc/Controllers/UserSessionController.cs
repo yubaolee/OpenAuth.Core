@@ -30,10 +30,7 @@ namespace OpenAuth.Mvc.Controllers
         private readonly AuthStrategyContext _authStrategyContext;
         public UserSessionController(IAuth authUtil) : base(authUtil)
         {
-            var watch = Stopwatch.StartNew();
             _authStrategyContext = _authUtil.GetCurrentUser();
-            watch.Stop();
-            Console.WriteLine($"获取用户时间：{watch.ElapsedMilliseconds}");
         }
 
         public string GetUserName()
@@ -54,7 +51,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <param name="pId"></param>
         /// <returns></returns>
-        public string GetModules(string pId)
+        public string GetModulesTable(string pId)
         {
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(pId))
@@ -78,7 +75,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 获取用户可访问的模块列表
         /// </summary>
-        public string QueryModuleList()
+        public string GetModules()
         {
             return JsonHelper.Instance.Serialize(_authStrategyContext.Modules);
         }

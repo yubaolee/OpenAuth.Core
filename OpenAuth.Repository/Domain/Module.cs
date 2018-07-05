@@ -17,6 +17,7 @@ namespace OpenAuth.Repository.Domain
             this.Vector = string.Empty;
             this.SortNo = 0;
             this.Code = string.Empty;
+            this.IsLeaf = false;
         }
 
         public string Url { get; set; }

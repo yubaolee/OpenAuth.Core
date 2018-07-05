@@ -72,7 +72,7 @@
             <label class="layui-form-label">模块名称</label>
             <div class="layui-input-block">
                 <input type="text" name="Name" v-model="Name" required lay-verify="required"
-                       placeholder="请输入部门名称" autocomplete="off" class="layui-input">
+                       placeholder="请输入模块名称" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -92,8 +92,15 @@
         <div class="layui-form-item">
             <label class="layui-form-label">图标</label>
             <div class="layui-input-block">
-                <input type="text" name="IconName" v-model="IconName"
-                       placeholder="请选择图标" autocomplete="off" class="layui-input">
+                <select name="IconName" v-model="IconName" required lay-verify="required">
+                    <option value="" selected="selected"></option>
+                    <option value="&#xe678;" >手机</option>
+                    <option value="&#xe679;">盾牌</option>
+                    <option value="&#xe672;;">授权</option>
+                    <option value="&#xe674;">高级</option>
+                    <option value="&#xe665;">控制台</option>
+                </select>
+
             </div>
         </div>
         <div class="layui-form-item">

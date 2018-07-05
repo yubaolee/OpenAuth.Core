@@ -18,7 +18,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	} else if (window.layui && layui.define) {
 		//layui加载
 		layui.define(['jquery'], function (exports) {
-			exports('formSelects', factory());
+			exports('formSelects/formSelects', factory());
 		});
 	} else {
 		window.formSelects = factory();

@@ -26,7 +26,7 @@ namespace OpenAuth.Mvc.Controllers
             catch (Exception ex)
             {
                   Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -40,7 +40,7 @@ namespace OpenAuth.Mvc.Controllers
             catch (Exception ex)
             {
                   Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }

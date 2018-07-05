@@ -1,9 +1,10 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
+  
     var table = layui.table;
     var openauth = layui.openauth;
     layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
@@ -103,6 +104,9 @@ layui.config({
                         data.field,
                         function(data) {
                             layer.msg(data.Message);
+                            if ((!update) && data.Code == 200) {  //添加成功要刷新左边的树
+                                ztree.reload();
+                            }
                         },
                         "json");
                     return false;
@@ -113,7 +117,8 @@ layui.config({
                 update = false;
                 show({
                     Id: "",
-                    SortNo:1
+                    SortNo: 1,
+                    IconName:'&#xe678;'
                 });
             },
             update: function(data) { //弹出编辑框
@@ -189,7 +194,10 @@ layui.config({
                 , data = checkStatus.data;
             openauth.del("/moduleManager/Delete",
                 data.map(function (e) { return e.Id; }),
-                mainList);
+                function () {
+                    mainList();
+                    ztree.reload();
+                });
         }
         , btnDelMenu: function () {      //删除菜单
             var checkStatus = table.checkStatus('menuList')

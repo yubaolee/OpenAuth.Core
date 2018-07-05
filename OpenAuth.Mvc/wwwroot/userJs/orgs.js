@@ -91,6 +91,9 @@ layui.config({
                         data.field,
                         function(data) {
                             layer.msg(data.Message);
+                            if ((!update) && data.Code == 200) {  //添加成功要刷新左边的树
+                                ztree.reload();
+                            }
                         },
                         "json");
                     return false;
@@ -127,7 +130,10 @@ layui.config({
                 , data = checkStatus.data;
             openauth.del("/OrgManager/Delete",
                 data.map(function (e) { return e.Id; }),
-                mainList);
+                function() {
+                    mainList();
+                    ztree.reload();
+                });
         }
         , btnAdd: function () {  //添加
             editDlg.add();

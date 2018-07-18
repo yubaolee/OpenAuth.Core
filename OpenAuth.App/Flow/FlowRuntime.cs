@@ -9,40 +9,38 @@ namespace OpenAuth.App.Flow
 {
     public class FlowRuntime
     {
-        private readonly FlowRuntimeModel _runtimeModel = null;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         public FlowRuntime(FlowInstance instance)
         {
-            _runtimeModel = new FlowRuntimeModel();
             dynamic schemeContentJson = instance.SchemeContent.ToJson();//获取工作流模板内容的json对象;
-            _runtimeModel.frmData = instance.FrmData;
-            _runtimeModel.lines = GetLines(schemeContentJson);
-            _runtimeModel.nodes = GetNodes(schemeContentJson);//节点集合
-            _runtimeModel.FromCurrentLines = GetFromLines(schemeContentJson);//线条集合
-            _runtimeModel.ToCurrentLines = GetToLines(schemeContentJson);
-            _runtimeModel.currentNodeId = (instance.ActivityId == "" ? _runtimeModel.startNodeId : instance.ActivityId);
-            _runtimeModel.currentNodeType = GetNodeType(_runtimeModel.currentNodeId);
+            frmData = instance.FrmData;
+            lines = GetLines(schemeContentJson);
+            nodes = GetNodes(schemeContentJson);//节点集合
+            FromCurrentLines = GetFromLines(schemeContentJson);//线条集合
+            ToCurrentLines = GetToLines(schemeContentJson);
+            currentNodeId = (instance.ActivityId == "" ? startNodeId : instance.ActivityId);
+            currentNodeType = GetNodeType(currentNodeId);
 
-            _runtimeModel.title = schemeContentJson.title;
-            _runtimeModel.initNum = schemeContentJson.initNum;
+            title = schemeContentJson.title;
+            initNum = schemeContentJson.initNum;
 
             //会签开始节点和流程结束节点没有下一步
-            if (_runtimeModel.currentNodeType == 0 || _runtimeModel.currentNodeType == 4)
+            if (currentNodeType == 0 || currentNodeType == 4)
             {
-                _runtimeModel.nextNodeId = "-1";
-                _runtimeModel.nextNodeType = -1;
+                nextNodeId = "-1";
+                nextNodeType = -1;
             }
             else
             {
-                _runtimeModel.nextNodeId = GetNextNodeId(_runtimeModel.frmData);//下一个节点
-                _runtimeModel.nextNodeType = GetNodeType(_runtimeModel.nextNodeId);
+                nextNodeId = GetNextNodeId(frmData);//下一个节点
+                nextNodeType = GetNodeType(nextNodeId);
             }
 
-            _runtimeModel.previousId = instance.PreviousId;
-            _runtimeModel.flowInstanceId = instance.Id;
+            previousId = instance.PreviousId;
+            flowInstanceId = instance.Id;
 
         }
 
@@ -64,7 +62,7 @@ namespace OpenAuth.App.Flow
                 }
                 if (node.type == FlowNode.START)
                 {
-                    this._runtimeModel.startNodeId = node.id;
+                    this.startNodeId = node.id;
                 }
             }
             return nodes;
@@ -135,11 +133,11 @@ namespace OpenAuth.App.Flow
             List<FlowLine> LineList = null;
             if (nodeId == null)
             {
-                LineList = runtimeModel.FromCurrentLines[runtimeModel.currentNodeId];
+                LineList = FromCurrentLines[currentNodeId];
             }
             else
             {
-                LineList = runtimeModel.FromCurrentLines[nodeId];
+                LineList = FromCurrentLines[nodeId];
             }
             if (LineList.Count == 1)  //只有一条流程
             {
@@ -176,22 +174,14 @@ namespace OpenAuth.App.Flow
 
         #region 工作流实例流转API
         /// <summary>
-        /// 工作流实例运行信息
-        /// </summary>
-        /// <returns></returns>
-        public FlowRuntimeModel runtimeModel
-        {
-            get { return _runtimeModel; }
-        }
-        /// <summary>
         /// 获取实例接下来运行的状态
         /// </summary>
         /// <returns>-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束</returns>
         public int GetNextNodeType()
         {
-            if (_runtimeModel.nextNodeId != "-1")
+            if (nextNodeId != "-1")
             {
-                return GetNodeType(_runtimeModel.nextNodeId);
+                return GetNodeType(nextNodeId);
 
             }
             return -1;
@@ -203,7 +193,7 @@ namespace OpenAuth.App.Flow
         /// <returns></returns>
         public int GetNodeType(string nodeId)
         {
-            switch (_runtimeModel.nodes[nodeId].type)
+            switch (nodes[nodeId].type)
             {
                 //会签开始节点
                 case FlowNode.FORK:
@@ -228,7 +218,7 @@ namespace OpenAuth.App.Flow
         /// <returns></returns>
         public List<string> GetCountersigningNodeIdList(string forknodeId)
         {
-            return _runtimeModel.FromCurrentLines[forknodeId].Select(item => item.to).ToList();
+            return FromCurrentLines[forknodeId].Select(item => item.to).ToList();
         }
         
         /// <summary>
@@ -247,10 +237,10 @@ namespace OpenAuth.App.Flow
                 throw (new Exception("寻找不到会签下合流节点"));
             }
 
-            int allnum = _runtimeModel.ToCurrentLines[joinNodeId].Count;   //总会签数量
+            int allnum = ToCurrentLines[joinNodeId].Count;   //总会签数量
           
             int i = 0;
-            foreach (var item in _runtimeModel.nodes)
+            foreach (var item in nodes)
             {
                 if (item.Key != joinNodeId)
                 {
@@ -296,7 +286,7 @@ namespace OpenAuth.App.Flow
                 //    {
                 //        if (item.setInfo.ConfluenceNo == null)
                 //        {
-                //            _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceNo = 1;
+                //            schemeContentJson.nodes[i].setInfo.ConfluenceNo = 1;
                 //            res = "1";
                 //        }
                 //        else if (item.setInfo.ConfluenceNo == (allnum - 1))
@@ -305,7 +295,7 @@ namespace OpenAuth.App.Flow
                 //        }
                 //        else
                 //        {
-                //            _runtimeModel.schemeContentJson.nodes[i].setInfo.ConfluenceNo++;
+                //            schemeContentJson.nodes[i].setInfo.ConfluenceNo++;
                 //            res = "1";
                 //        }
                 //    }
@@ -323,13 +313,13 @@ namespace OpenAuth.App.Flow
             {
                 tag.Taged = 1;
                 MakeTagNode(joinNodeId, tag);
-                _runtimeModel.nextNodeId = res;
-                _runtimeModel.nextNodeType = GetNodeType(res);
+                nextNodeId = res;
+                nextNodeType = GetNodeType(res);
             }
             else
             {
-                _runtimeModel.nextNodeId = joinNodeId;
-                _runtimeModel.nextNodeType = GetNodeType(joinNodeId);
+                nextNodeId = joinNodeId;
+                nextNodeType = GetNodeType(joinNodeId);
             }
             return res;
         }
@@ -340,21 +330,21 @@ namespace OpenAuth.App.Flow
         /// <returns></returns>
         public string RejectNode()
         {
-            return RejectNode(_runtimeModel.currentNodeId);
+            return RejectNode(currentNodeId);
         }
 
         public string RejectNode(string nodeId)
         {
-            dynamic node = _runtimeModel.nodes[nodeId];
+            dynamic node = nodes[nodeId];
             if (node.setInfo != null)
             {
                 if (node.setInfo.NodeRejectType == "0")
                 {
-                    return _runtimeModel.previousId;
+                    return previousId;
                 }
                 if (node.setInfo.NodeRejectType == "1")
                 {
-                    return GetNextNode(_runtimeModel.startNodeId);
+                    return GetNextNode(startNodeId);
                 }
                 if (node.setInfo.NodeRejectType == "2")
                 {
@@ -362,7 +352,7 @@ namespace OpenAuth.App.Flow
                 }
                 return "";
             }
-            return _runtimeModel.previousId;
+            return previousId;
         }
         ///<summary>
         /// 标记节点1通过，-1不通过，0驳回
@@ -370,7 +360,7 @@ namespace OpenAuth.App.Flow
         /// <param name="nodeId"></param>
         public void MakeTagNode(string nodeId, Tag tag)
         {
-            foreach (var item in _runtimeModel.nodes)
+            foreach (var item in nodes)
             {
                 if (item.Key == nodeId)
                 {
@@ -382,6 +372,81 @@ namespace OpenAuth.App.Flow
                     break;
                 }
             }
+        }
+
+
+
+        public string title { get; set; }
+
+        public int initNum { get; set; }
+        /// <summary>
+        /// 运行实例的Id
+        /// </summary>
+        public string flowInstanceId { get; set; }
+        /// <summary>
+        /// 开始节点的ID
+        /// </summary>
+        public string startNodeId { get; set; }
+
+        /// <summary>
+        /// 当前节点的ID
+        /// </summary>
+        public string currentNodeId { get; set; }
+        /// <summary>
+        /// 当前节点类型 0会签开始,1会签结束,2一般节点,开始节点,4流程运行结束
+        /// </summary>
+        public int currentNodeType { get; set; }
+        /// <summary>
+        /// 当前节点的对象
+        /// </summary>
+        public FlowNode currentNode => nodes[currentNodeId];
+
+        /// <summary>
+        /// 下一个节点
+        /// </summary>
+        public string nextNodeId { get; set; }
+        /// <summary>
+        /// 下一个节点类型 -1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
+        /// </summary>
+        /// <value>The type of the next node.</value>
+        public int nextNodeType { get; set; }
+        /// <summary>
+        /// 下一个节点对象
+        /// </summary>
+        public FlowNode nextNode => nodes[nextNodeId];
+
+        /// <summary>
+        /// 上一个节点
+        /// </summary>
+        public string previousId { get; set; }
+
+        /// <summary>
+        /// 实例节点集合
+        /// </summary>
+        public Dictionary<string, FlowNode> nodes { get; set; }
+        public List<FlowLine> lines { get; set; }
+        /// <summary>
+        /// 流转的线段集合
+        /// </summary>
+        public Dictionary<string, List<FlowLine>> FromCurrentLines { get; set; }
+
+        public Dictionary<string, List<FlowLine>> ToCurrentLines { get; set; }
+
+        /// <summary>
+        /// 表单数据
+        /// </summary>
+        public string frmData { get; set; }
+
+        public object ToSchemeObj()
+        {
+            return new
+            {
+                title = this.title,
+                initNum = this.initNum,
+                lines = lines,
+                nodes = nodes.Select(u => u.Value),
+                areas = new string[0]
+            };
         }
     }
     #endregion

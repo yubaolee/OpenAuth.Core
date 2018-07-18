@@ -44,10 +44,10 @@ namespace OpenAuth.App
             var user = _auth.GetCurrentUser();
 
             #region 根据运行实例改变当前节点状态
-            flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
+            flowInstance.ActivityId = wfruntime.nextNodeId;
             flowInstance.ActivityType = wfruntime.GetNextNodeType();//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
-            flowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
-            flowInstance.PreviousId = wfruntime.runtimeModel.currentNodeId;
+            flowInstance.ActivityName = wfruntime.nextNode.name;
+            flowInstance.PreviousId = wfruntime.currentNodeId;
             flowInstance.CreateUserId = user.User.Id;
             flowInstance.CreateUserName = user.User.Account;
             flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetMakerList(wfruntime) : "");//当前节点可执行的人信息
@@ -105,13 +105,13 @@ namespace OpenAuth.App
             if (flowInstance.ActivityType == 0)//当前节点是会签节点
             {
                 tag.Taged = 1;
-                wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);//标记会签节点状态
+                wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);//标记会签节点状态
                 
                 string verificationNodeId = ""; //寻找当前登录用户可审核的节点Id
-                List<string> nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.currentNodeId);
+                List<string> nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.currentNodeId);
                 foreach (string item in nodelist)
                 {
-                    var makerList = GetMakerList(wfruntime.runtimeModel.nodes[item]);
+                    var makerList = GetMakerList(wfruntime.nodes[item]);
                     if (makerList == "-1") continue;
 
                     if (makerList.Split(',').Any(one => user.Id == one))
@@ -125,12 +125,12 @@ namespace OpenAuth.App
                     if (flag)
                     {
                         tag.Taged = 1;
-                        flowInstanceOperationHistory.Content = "【" + wfruntime.runtimeModel.nodes[verificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】同意,备注：" + description;
+                        flowInstanceOperationHistory.Content = "【" + wfruntime.nodes[verificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】同意,备注：" + description;
                     }
                     else
                     {
                         tag.Taged = -1;
-                        flowInstanceOperationHistory.Content = "【" + wfruntime.runtimeModel.nodes[verificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注：" + description;
+                        flowInstanceOperationHistory.Content = "【" + wfruntime.nodes[verificationNodeId].name + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注：" + description;
                     }
 
                     wfruntime.MakeTagNode(verificationNodeId, tag);//标记审核节点状态
@@ -144,11 +144,11 @@ namespace OpenAuth.App
                             break;
                         default://通过
                             flowInstance.PreviousId = flowInstance.ActivityId;
-                            flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
-                            flowInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
-                            flowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
-                            flowInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
-                            flowInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime));//当前节点可执行的人信息
+                            flowInstance.ActivityId = wfruntime.nextNodeId;
+                            flowInstance.ActivityType = wfruntime.nextNodeType;//-1无法运行,0会签开始,1会签结束,2一般节点,4流程运行结束
+                            flowInstance.ActivityName = wfruntime.nextNode.name;
+                            flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? 1 : 0);
+                            flowInstance.MakerList = (wfruntime.nextNodeType == 4 ? "" : GetMakerList(wfruntime));//当前节点可执行的人信息
 
                             AddTransHistory(user, wfruntime);
 
@@ -168,34 +168,34 @@ namespace OpenAuth.App
                 if (flag)
                 {
                     tag.Taged = 1;
-                    wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);
+                    wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
                     flowInstance.PreviousId = flowInstance.ActivityId;
-                    flowInstance.ActivityId = wfruntime.runtimeModel.nextNodeId;
-                    flowInstance.ActivityType = wfruntime.runtimeModel.nextNodeType;
-                    flowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
-                    flowInstance.MakerList = wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime);//当前节点可执行的人信息
-                    flowInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
+                    flowInstance.ActivityId = wfruntime.nextNodeId;
+                    flowInstance.ActivityType = wfruntime.nextNodeType;
+                    flowInstance.ActivityName = wfruntime.nextNode.name;
+                    flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetMakerList(wfruntime);//当前节点可执行的人信息
+                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? 1 : 0);
 
                     AddTransHistory(user, wfruntime);
 
-                    flowInstanceOperationHistory.Content = "【" + wfruntime.runtimeModel.currentNode.name 
+                    flowInstanceOperationHistory.Content = "【" + wfruntime.currentNode.name 
                         + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】同意,备注：" + description;
                 }
                 else
                 {
                     flowInstance.IsFinish = 3; //表示该节点不同意
                     tag.Taged = -1;
-                    wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);
+                    wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
 
                     flowInstanceOperationHistory.Content = "【" 
-                        + wfruntime.runtimeModel.currentNode.name + "】【"
+                        + wfruntime.currentNode.name + "】【"
                         + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】不同意,备注："
                         + description;
                 }
             }
             #endregion
 
-            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.runtimeModel.ToSchemeObj());
+            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
 
             UnitWork.Update(flowInstance);
             UnitWork.Add(flowInstanceOperationHistory);
@@ -226,15 +226,15 @@ namespace OpenAuth.App
                 UserName = user.Name
             };
 
-            wfruntime.MakeTagNode(wfruntime.runtimeModel.currentNodeId, tag);
+            wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
             flowInstance.IsFinish = 4;//4表示驳回（需要申请者重新提交表单）
             if (resnode != "")
             {
                 flowInstance.PreviousId = flowInstance.ActivityId;
                 flowInstance.ActivityId = resnode;
                 flowInstance.ActivityType = wfruntime.GetNodeType(resnode);
-                flowInstance.ActivityName = wfruntime.runtimeModel.nodes[resnode].name;
-                flowInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodes[resnode]);//当前节点可执行的人信息
+                flowInstance.ActivityName = wfruntime.nodes[resnode].name;
+                flowInstance.MakerList = GetMakerList(wfruntime.nodes[resnode]);//当前节点可执行的人信息
 
                 AddTransHistory(user, wfruntime);
             }
@@ -248,7 +248,7 @@ namespace OpenAuth.App
                 ,CreateUserName = user.Name
                 ,CreateDate = DateTime.Now
                 ,Content = "【"
-                          + wfruntime.runtimeModel.currentNode.name
+                          + wfruntime.currentNode.name
                           + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】驳回,备注：" 
                           + reqest.VerificationOpinion
 
@@ -268,17 +268,17 @@ namespace OpenAuth.App
         private string GetMakerList(FlowRuntime wfruntime)
         {
             string makerList = "";
-            if (wfruntime.runtimeModel.nextNodeId == "-1")
+            if (wfruntime.nextNodeId == "-1")
             {
                 throw (new Exception("无法寻找到下一个节点"));
             }
-            if (wfruntime.runtimeModel.nextNodeType == 0)//如果是会签节点
+            if (wfruntime.nextNodeType == 0)//如果是会签节点
             {
-                List<string> _nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.nextNodeId);
+                List<string> _nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.nextNodeId);
                 string _makerList = "";
                 foreach (string item in _nodelist)
                 {
-                    _makerList = GetMakerList(wfruntime.runtimeModel.nodes[item]);
+                    _makerList = GetMakerList(wfruntime.nodes[item]);
                     if (_makerList == "-1")
                     {
                         throw (new Exception("无法寻找到会签节点的审核者,请查看流程设计是否有问题!"));
@@ -296,7 +296,7 @@ namespace OpenAuth.App
             }
             else
             {
-                makerList = GetMakerList(wfruntime.runtimeModel.nextNode);
+                makerList = GetMakerList(wfruntime.nextNode);
                 if (makerList == "-1")
                 {
                     throw (new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!"));
@@ -418,16 +418,16 @@ namespace OpenAuth.App
         {
             UnitWork.Add(new FlowInstanceTransitionHistory
             {
-                InstanceId = wfruntime.runtimeModel.flowInstanceId,
+                InstanceId = wfruntime.flowInstanceId,
                 CreateUserId = user.Id,
                 CreateUserName = user.Name,
-                FromNodeId = wfruntime.runtimeModel.currentNodeId,
-                FromNodeName = wfruntime.runtimeModel.currentNode.name,
-                FromNodeType = wfruntime.runtimeModel.currentNodeType,
-                ToNodeId = wfruntime.runtimeModel.nextNodeId,
-                ToNodeName = wfruntime.runtimeModel.nextNode.name,
-                ToNodeType = wfruntime.runtimeModel.nextNodeType,
-                IsFinish = wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0,
+                FromNodeId = wfruntime.currentNodeId,
+                FromNodeName = wfruntime.currentNode.name,
+                FromNodeType = wfruntime.currentNodeType,
+                ToNodeId = wfruntime.nextNodeId,
+                ToNodeName = wfruntime.nextNode.name,
+                ToNodeType = wfruntime.nextNodeType,
+                IsFinish = wfruntime.nextNodeType == 4 ? 1 : 0,
                 TransitionSate = 0
             });
         }

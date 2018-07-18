@@ -72,26 +72,8 @@ namespace OpenAuth.App
             UnitWork.Add(processOperationHistoryEntity);
             #endregion
 
-            #region 流转记录
+            AddTransHistory(user.User, wfruntime);
 
-            FlowInstanceTransitionHistory processTransitionHistoryEntity = new FlowInstanceTransitionHistory
-            {
-                InstanceId = flowInstance.Id,
-                FromNodeId = wfruntime.runtimeModel.currentNodeId,
-                FromNodeName = wfruntime.runtimeModel.currentNode.name,
-                FromNodeType = wfruntime.runtimeModel.currentNodeType,
-                ToNodeId = wfruntime.runtimeModel.nextNodeId,
-                ToNodeName = wfruntime.runtimeModel.nextNode.name,
-                ToNodeType = wfruntime.runtimeModel.nextNodeType,
-                IsFinish =  wfruntime.runtimeModel.nextNodeType == 4?1:0,
-                TransitionSate = 0,
-                CreateUserId = user.User.Id,
-                CreateUserName = user.User.Name
-            };
-            #endregion
-
-            UnitWork.Add(processTransitionHistoryEntity);
-            UnitWork.Save();
             return true;
         }
 
@@ -129,8 +111,7 @@ namespace OpenAuth.App
                 List<string> nodelist = wfruntime.GetCountersigningNodeIdList(wfruntime.runtimeModel.currentNodeId);
                 foreach (string item in nodelist)
                 {
-                    var makerList = GetMakerList(wfruntime.runtimeModel.nodes[item]
-                        , wfruntime.runtimeModel.flowInstanceId);
+                    var makerList = GetMakerList(wfruntime.runtimeModel.nodes[item]);
                     if (makerList == "-1") continue;
 
                     if (makerList.Split(',').Any(one => user.Id == one))
@@ -169,22 +150,7 @@ namespace OpenAuth.App
                             flowInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
                             flowInstance.MakerList = (wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime));//当前节点可执行的人信息
 
-                            #region 流转记录
-                            UnitWork.Add(new FlowInstanceTransitionHistory
-                            {
-                                InstanceId = flowInstance.Id,
-                                CreateUserId = user.Id,
-                                CreateUserName = user.Name,
-                                FromNodeId = wfruntime.runtimeModel.currentNodeId,
-                                FromNodeName = wfruntime.runtimeModel.currentNode.name,
-                                FromNodeType = wfruntime.runtimeModel.currentNodeType,
-                                ToNodeId = wfruntime.runtimeModel.nextNodeId,
-                                ToNodeName = wfruntime.runtimeModel.nextNode.name,
-                                ToNodeType = wfruntime.runtimeModel.nextNodeType,
-                                IsFinish = wfruntime.runtimeModel.nextNodeType ==4?1:0,
-                                TransitionSate = 0
-                            });
-                            #endregion
+                            AddTransHistory(user, wfruntime);
 
                             break;
                     }
@@ -209,23 +175,8 @@ namespace OpenAuth.App
                     flowInstance.ActivityName = wfruntime.runtimeModel.nextNode.name;
                     flowInstance.MakerList = wfruntime.runtimeModel.nextNodeType == 4 ? "" : GetMakerList(wfruntime);//当前节点可执行的人信息
                     flowInstance.IsFinish = (wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0);
-                    #region 流转记录
 
-                   UnitWork.Add(new FlowInstanceTransitionHistory
-                    {
-                        InstanceId = flowInstance.Id,
-                        CreateUserId = user.Id,
-                        CreateUserName = user.Name,
-                        FromNodeId = wfruntime.runtimeModel.currentNodeId,
-                        FromNodeName = wfruntime.runtimeModel.currentNode.name,
-                        FromNodeType = wfruntime.runtimeModel.currentNodeType,
-                        ToNodeId = wfruntime.runtimeModel.nextNodeId,
-                        ToNodeName = wfruntime.runtimeModel.nextNode.name,
-                        ToNodeType = wfruntime.runtimeModel.nextNodeType,
-                        IsFinish = wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0,
-                        TransitionSate = 0
-                    });
-                    #endregion
+                    AddTransHistory(user, wfruntime);
 
                     flowInstanceOperationHistory.Content = "【" + wfruntime.runtimeModel.currentNode.name 
                         + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】同意,备注：" + description;
@@ -244,13 +195,14 @@ namespace OpenAuth.App
             }
             #endregion
 
-            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.runtimeModel.schemeContentJson);
+            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.runtimeModel.ToSchemeObj());
 
             UnitWork.Update(flowInstance);
             UnitWork.Add(flowInstanceOperationHistory);
             UnitWork.Save();
             return true;
         }
+
         /// <summary>
         /// 驳回
         /// </summary>
@@ -264,14 +216,7 @@ namespace OpenAuth.App
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
             string resnode = "";
-            if (string.IsNullOrEmpty(reqest.NodeRejectStep))
-            {
-                resnode = wfruntime.RejectNode();
-            }
-            else
-            {
-                resnode = reqest.NodeRejectStep;
-            }
+            resnode = string.IsNullOrEmpty(reqest.NodeRejectStep) ? wfruntime.RejectNode() : reqest.NodeRejectStep;
 
             var tag = new Tag
             {
@@ -289,24 +234,9 @@ namespace OpenAuth.App
                 flowInstance.ActivityId = resnode;
                 flowInstance.ActivityType = wfruntime.GetNodeType(resnode);
                 flowInstance.ActivityName = wfruntime.runtimeModel.nodes[resnode].name;
-                flowInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodes[resnode], flowInstance.PreviousId);//当前节点可执行的人信息
-                #region 流转记录
+                flowInstance.MakerList = GetMakerList(wfruntime.runtimeModel.nodes[resnode]);//当前节点可执行的人信息
 
-                UnitWork.Add(new FlowInstanceTransitionHistory
-                {
-                    InstanceId = flowInstance.Id,
-                    CreateUserId = user.Id,
-                    CreateUserName = user.Name,
-                    FromNodeId = wfruntime.runtimeModel.currentNodeId,
-                    FromNodeName = wfruntime.runtimeModel.currentNode.name,
-                    FromNodeType = wfruntime.runtimeModel.currentNodeType,
-                    ToNodeId = wfruntime.runtimeModel.nextNodeId,
-                    ToNodeName = wfruntime.runtimeModel.nextNode.name,
-                    ToNodeType = wfruntime.runtimeModel.nextNodeType,
-                    IsFinish = wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0,
-                    TransitionSate = 1
-                });
-                #endregion
+                AddTransHistory(user, wfruntime);
             }
 
             UnitWork.Update(flowInstance);
@@ -348,7 +278,7 @@ namespace OpenAuth.App
                 string _makerList = "";
                 foreach (string item in _nodelist)
                 {
-                    _makerList = GetMakerList(wfruntime.runtimeModel.nodes[item], wfruntime.runtimeModel.flowInstanceId);
+                    _makerList = GetMakerList(wfruntime.runtimeModel.nodes[item]);
                     if (_makerList == "-1")
                     {
                         throw (new Exception("无法寻找到会签节点的审核者,请查看流程设计是否有问题!"));
@@ -366,7 +296,7 @@ namespace OpenAuth.App
             }
             else
             {
-                makerList = GetMakerList(wfruntime.runtimeModel.nextNode, wfruntime.runtimeModel.flowInstanceId);
+                makerList = GetMakerList(wfruntime.runtimeModel.nextNode);
                 if (makerList == "-1")
                 {
                     throw (new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!"));
@@ -380,7 +310,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private string GetMakerList(FlowNode node, string processId)
+        private string GetMakerList(FlowNode node)
         {
             string makerList = "";
 
@@ -479,6 +409,27 @@ namespace OpenAuth.App
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 添加扭转记录
+        /// </summary>
+        private void AddTransHistory(User user, FlowRuntime wfruntime)
+        {
+            UnitWork.Add(new FlowInstanceTransitionHistory
+            {
+                InstanceId = wfruntime.runtimeModel.flowInstanceId,
+                CreateUserId = user.Id,
+                CreateUserName = user.Name,
+                FromNodeId = wfruntime.runtimeModel.currentNodeId,
+                FromNodeName = wfruntime.runtimeModel.currentNode.name,
+                FromNodeType = wfruntime.runtimeModel.currentNodeType,
+                ToNodeId = wfruntime.runtimeModel.nextNodeId,
+                ToNodeName = wfruntime.runtimeModel.nextNode.name,
+                ToNodeType = wfruntime.runtimeModel.nextNodeType,
+                IsFinish = wfruntime.runtimeModel.nextNodeType == 4 ? 1 : 0,
+                TransitionSate = 0
+            });
         }
 
         public FlowInstanceApp(IUnitWork unitWork, IRepository<FlowInstance> repository

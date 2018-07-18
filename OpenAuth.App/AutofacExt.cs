@@ -12,6 +12,7 @@
 // <summary>IOC扩展</summary>
 // ***********************************************************************
 
+using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -44,10 +45,17 @@ namespace OpenAuth.App
             //注册app层
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());
 
-            //缓存注入
-            services.AddScoped(typeof(ICacheContext), typeof(CacheContext));
-            services.AddScoped(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
-            
+            //防止单元测试时已经注入
+            if (services.All(u => u.ServiceType != typeof(ICacheContext)))
+            {
+                services.AddScoped(typeof(ICacheContext), typeof(CacheContext));
+            }
+
+            if (services.All(u => u.ServiceType != typeof(IHttpContextAccessor)))
+            {
+                services.AddScoped(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
+            }
+
             builder.Populate(services);
 
             _container = builder.Build();

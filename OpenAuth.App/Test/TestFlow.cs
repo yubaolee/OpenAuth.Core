@@ -1,14 +1,10 @@
-﻿using System;
-using Infrastructure.Cache;
+﻿using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
-using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
-using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.Test
 {
@@ -20,7 +16,7 @@ namespace OpenAuth.App.Test
             var services = new ServiceCollection();
 
             var cachemock = new Mock<ICacheContext>();
-            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "System" });
+            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "admin" });
             services.AddScoped(x => cachemock.Object);
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();

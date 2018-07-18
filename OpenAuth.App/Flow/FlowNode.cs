@@ -17,6 +17,13 @@
 
         public string type { get; set; }
 
+        public int left { get; set; }
+        public int top { get; set; }
+
+        public int width { get; set; }
+        public int height { get; set; }
+        public bool alt { get; set; }
+
 
         /// <summary>
         /// 节点的附加数据项
@@ -25,11 +32,12 @@
         public Setinfo setInfo { get; set; }
     }
 
+
     public class Setinfo
     {
         public const string SPECIAL_USER = "SPECIAL_USER";  //指定用户
         public const string ALL_USER = "ALL_USER";  //所有用户
-        public const string SPECIAL_ROLE = "SPECIAL_ROLE";
+        public const string SPECIAL_ROLE = "SPECIAL_ROLE";  //指定角色
         /// <summary>
         /// 节点执行权限类型
         /// </summary>
@@ -42,6 +50,20 @@
         /// 驳回节点0"前一步"1"第一步"2"某一步" 3"不处理"
         /// </summary>
         public string NodeRejectType { get; set; }
+
+        //节点会签方式，默认为全部通过
+        public string NodeConfluenceType { get; set; }
+
+        /// <summary>
+        /// 会签通过的个数
+        /// </summary>
+        public int? ConfluenceOk { get; set; }
+
+        public int? Taged { get; set; }
+        public string UserName { get; set; }
+        public string UserId { get; set; }
+        public string Description { get; set; }
+        public string TagedTime { get; set; }
     }
 
     /// <summary>
@@ -68,3 +90,4 @@
     }
 
 }
+

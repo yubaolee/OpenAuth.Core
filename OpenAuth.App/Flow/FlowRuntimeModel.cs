@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenAuth.App.Flow
 {
     public class FlowRuntimeModel
     {
+        public string title { get; set; }
+
+        public int initNum { get; set; }
         /// <summary>
         /// 运行实例的Id
         /// </summary>
@@ -24,7 +28,8 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 当前节点的对象
         /// </summary>
-        public FlowNode currentNode { get { return nodes[currentNodeId]; } }
+        public FlowNode currentNode => nodes[currentNodeId];
+
         /// <summary>
         /// 下一个节点
         /// </summary>
@@ -37,7 +42,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 下一个节点对象
         /// </summary>
-        public FlowNode nextNode { get { return nodes[nextNodeId]; } }
+        public FlowNode nextNode => nodes[nextNodeId];
 
         /// <summary>
         /// 上一个节点
@@ -48,20 +53,29 @@ namespace OpenAuth.App.Flow
         /// 实例节点集合
         /// </summary>
         public Dictionary<string, FlowNode> nodes { get; set; }
+        public List<FlowLine> lines { get; set; }
         /// <summary>
         /// 流转的线段集合
         /// </summary>
-        public Dictionary<string, List<FlowLine>> lines { get; set; }
+        public Dictionary<string, List<FlowLine>> FromCurrentLines { get; set; }
 
-        /// <summary>
-        /// 模板json数据
-        /// </summary>
-        public dynamic schemeContentJson { get; set; }
+        public Dictionary<string, List<FlowLine>> ToCurrentLines { get; set; }
+
         /// <summary>
         /// 表单数据
         /// </summary>
         public string frmData { get; set; }
 
+        public object ToSchemeObj()
+        {
+            return new
+            {
+                title = this.title,
+                initNum = this.initNum,
+                lines = lines,
+                nodes = nodes.Select(u =>u.Value)
+            };
+        }
     }
 
 }

@@ -131,6 +131,7 @@ namespace OpenAuth.App.Flow
         #endregion 私有方法
 
         #region 共有方法
+
         /// <summary>
         /// 获取实例接下来运行的状态
         /// </summary>
@@ -180,30 +181,59 @@ namespace OpenAuth.App.Flow
         public string NodeConfluence(string nodeId, Tag tag)
         {
             string res = "-1";
-            string joinNodeId = GetNextNodeId(nodeId); //获取回签的合流节点
 
-            if (joinNodeId == "-1")
+            var forkToThisLine = ToNodeLines[nodeId].FirstOrDefault();
+            if (forkToThisLine == null)
             {
-                throw (new Exception("寻找不到会签下合流节点"));
+                throw (new Exception("该会签节点没有来源，请检查流程结构"));
             }
 
-            int allnum = ToNodeLines[joinNodeId].Count;   //总会签数量
+            var forkNode = Nodes[forkToThisLine.from];  //会签开始节点
+            string joinNodeId = GetNextNodeId(nodeId); //获取回签的合流节点
 
-            int i = 0;
-            foreach (var item in Nodes)
+            int allnum = FromNodeLines[forkToThisLine.from].Count;   //总会签数量
+
+            if (forkNode.setInfo.NodeConfluenceType == "one") //有一个步骤通过即可
             {
-                if (item.Key != joinNodeId)
+                if (tag.Taged == 1)
                 {
-                    i++;
-                    continue;
-                }
-
-              
-                if (item.Value.setInfo.NodeConfluenceType == "one") //有一个步骤通过即可
-                {
-                    if (tag.Taged == 1)
+                    res = GetNextNodeId(joinNodeId);
+                    if (res == "-1")
                     {
-                        res = GetNextNodeId(nextNodeId);
+                        throw (new Exception("会签成功寻找不到下一个节点"));
+                    }
+                }
+                else
+                {
+                    if (forkNode.setInfo.ConfluenceNo == null)
+                    {
+                        forkNode.setInfo.ConfluenceNo = 1;
+                        res = "1";
+                    }
+                    else if (forkNode.setInfo.ConfluenceNo == (allnum - 1))
+                    {
+                        //全部拒绝
+                        res = "-1";
+                    }
+                    else
+                    {
+                        forkNode.setInfo.ConfluenceNo++;
+                        res = "1";
+                    }
+                }
+            }
+            else //默认所有步骤通过
+            {
+                if (tag.Taged == 1)
+                {
+                    if (forkNode.setInfo.ConfluenceOk == null)
+                    {
+                        forkNode.setInfo.ConfluenceOk = 1;
+                        res = "1";
+                    }
+                    else if (forkNode.setInfo.ConfluenceOk == (allnum - 1))  //会签成功
+                    {
+                        res = GetNextNodeId(joinNodeId);
                         if (res == "-1")
                         {
                             throw (new Exception("会签成功寻找不到下一个节点"));
@@ -211,45 +241,8 @@ namespace OpenAuth.App.Flow
                     }
                     else
                     {
-                        if (item.Value.setInfo.ConfluenceNo == null)
-                        {
-                            item.Value.setInfo.ConfluenceNo = 1;
-                            res = "1";
-                        }
-                        else if (item.Value.setInfo.ConfluenceNo == (allnum - 1))
-                        {
-                            //全部拒绝
-                            res = "-1";
-                        }
-                        else
-                        {
-                            item.Value.setInfo.ConfluenceNo++;
-                            res = "1";
-                        }
-                    }
-                }
-                else //默认所有步骤通过
-                {
-                    if (tag.Taged == 1)
-                    {
-                        if (item.Value.setInfo.ConfluenceOk == null)
-                        {
-                            item.Value.setInfo.ConfluenceOk = 1;
-                            res = "1";
-                        }
-                        else if (item.Value.setInfo.ConfluenceOk == (allnum - 1))  //会签成功
-                        {
-                            res = GetNextNodeId(joinNodeId);
-                            if (res == "-1")
-                            {
-                                throw (new Exception("会签成功寻找不到下一个节点"));
-                            }
-                        }
-                        else
-                        {
-                            item.Value.setInfo.ConfluenceOk++;
-                            res = "1";
-                        }
+                        forkNode.setInfo.ConfluenceOk++;
+                        res = "1";
                     }
                 }
             }
@@ -259,7 +252,7 @@ namespace OpenAuth.App.Flow
                 tag.Taged = -1;
                 MakeTagNode(joinNodeId, tag);
             }
-            else if (res != "1") //这时res是会签结束节点后面的一个节点
+            else if (res != "1") //标记合流节点
             {
                 tag.Taged = 1;
                 MakeTagNode(joinNodeId, tag);
@@ -336,7 +329,8 @@ namespace OpenAuth.App.Flow
                 areas = new string[0]
             };
         }
-        #endregion
+
+        #endregion 共有方法
 
         #region 属性
 

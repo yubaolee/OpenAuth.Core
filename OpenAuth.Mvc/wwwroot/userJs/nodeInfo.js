@@ -17,8 +17,14 @@ layui.config({
         data: {
             NodeName: node.name
             , NodeCode: node.name   //默认的code
-            , NodeRejectType:'0'
-            , NodeDesignate:"ALL_USER"
+            , NodeRejectType:"0"
+            , NodeDesignate: "ALL_USER"
+            , NodeConfluenceType:""
+        },
+        methods: {
+            isFork: function() {
+                return node.type === 'fork';
+            }
         }
     });
 
@@ -29,6 +35,10 @@ layui.config({
         roles = node.setInfo.NodeDesignateData.roles;
         //layui与vue不兼容，要重新赋值select radio(lll￢ω￢)
         $("#NodeRejectType").val(node.setInfo.NodeRejectType);
+        //if (node.type == "fork") {  //会签开始节点
+        //    $("#NodeConfluenceType").val(node.setInfo.NodeConfluenceType);
+
+        //}
         $(":radio[name='NodeDesignate'][value='" + node.setInfo.NodeDesignate + "']").prop("checked", true);
         form.render();
     }

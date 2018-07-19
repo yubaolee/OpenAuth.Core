@@ -191,7 +191,7 @@
                         }
                         if (item.setInfo != undefined && item.setInfo.Taged != undefined) {
                             var tips = '<div style="text-align:left">';
-                            var tagname = { "-1": "不通过", "1": "通过", "0": "驳回" };
+                            var tagname = { "1": "通过", "2": "不通过",  "3": "驳回" };
                             tips += "<p>处理人：" + item.setInfo.UserName + "</p>";
                             tips += "<p>结果：" + tagname[item.setInfo.Taged] + "</p>";
                             tips += "<p>处理时间：" + item.setInfo.TagedTime + "</p>";

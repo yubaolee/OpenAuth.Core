@@ -24,7 +24,6 @@
         public int height { get; set; }
         public bool alt { get; set; }
 
-
         /// <summary>
         /// 节点的附加数据项
         /// </summary>
@@ -32,16 +31,17 @@
         public Setinfo setInfo { get; set; }
     }
 
-
     public class Setinfo
     {
         public const string SPECIAL_USER = "SPECIAL_USER";  //指定用户
         public const string ALL_USER = "ALL_USER";  //所有用户
         public const string SPECIAL_ROLE = "SPECIAL_ROLE";  //指定角色
+
         /// <summary>
         /// 节点执行权限类型
         /// </summary>
         public string NodeDesignate { get; set; }
+
         public Nodedesignatedata NodeDesignateData { get; set; }
         public string NodeCode { get; set; }
         public string NodeName { get; set; }
@@ -51,7 +51,14 @@
         /// </summary>
         public string NodeRejectType { get; set; }
 
+        public int? Taged { get; set; }
+        public string UserName { get; set; }
+        public string UserId { get; set; }
+        public string Description { get; set; }
+        public string TagedTime { get; set; }
+
         //节点会签方式，默认为全部通过
+        //one ：至少有一个通过
         public string NodeConfluenceType { get; set; }
 
         /// <summary>
@@ -59,11 +66,10 @@
         /// </summary>
         public int? ConfluenceOk { get; set; }
 
-        public int? Taged { get; set; }
-        public string UserName { get; set; }
-        public string UserId { get; set; }
-        public string Description { get; set; }
-        public string TagedTime { get; set; }
+        /// <summary>
+        /// 会签拒绝的个数
+        /// </summary>
+        public int? ConfluenceNo { get; set; }
     }
 
     /// <summary>
@@ -76,18 +82,20 @@
         public string[] orgs { get; set; }
     }
 
-
     /// <summary>
     /// 节点执行结果标签
     /// </summary>
     public class Tag
     {
+        /// <summary>
+        ///  1: 通过
+        ///  2：不通过
+        ///  3：驳回
+        /// </summary>
         public int Taged { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string Description { get; set; }
         public string TagedTime { get; set; }
     }
-
 }
-

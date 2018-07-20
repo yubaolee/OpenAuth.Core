@@ -308,6 +308,10 @@ namespace OpenAuth.App.Flow
             {
                 if (item.Key == nodeId)
                 {
+                    if (item.Value.setInfo == null)
+                    {
+                        item.Value.setInfo  = new Setinfo();
+                    }
                     item.Value.setInfo.Taged = tag.Taged;
                     item.Value.setInfo.UserId = tag.UserId;
                     item.Value.setInfo.UserName = tag.UserName;

@@ -57,7 +57,8 @@
         public string Description { get; set; }
         public string TagedTime { get; set; }
 
-        //节点会签方式，默认为全部通过
+        //节点会签方式，
+        //all/空：默认为全部通过
         //one ：至少有一个通过
         public string NodeConfluenceType { get; set; }
 

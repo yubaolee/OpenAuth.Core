@@ -17,12 +17,12 @@ layui.config({
         data: {
             NodeName: node.name
             , NodeCode: node.name   //默认的code
-            , NodeRejectType:"0"
+            , NodeRejectType: "0"
             , NodeDesignate: "ALL_USER"
-            , NodeConfluenceType:""
+            , NodeConfluenceType: "all"
         },
         methods: {
-            isFork: function() {
+            isFork: function () {
                 return node.type === 'fork';
             }
         }
@@ -35,20 +35,22 @@ layui.config({
         roles = node.setInfo.NodeDesignateData.roles;
         //layui与vue不兼容，要重新赋值select radio(lll￢ω￢)
         $("#NodeRejectType").val(node.setInfo.NodeRejectType);
-        //if (node.type == "fork") {  //会签开始节点
-        //    $("#NodeConfluenceType").val(node.setInfo.NodeConfluenceType);
-
-        //}
+        if (node.type == "fork") {  //会签开始节点
+            $("#NodeConfluenceType").val(node.setInfo.NodeConfluenceType);
+        }
         $(":radio[name='NodeDesignate'][value='" + node.setInfo.NodeDesignate + "']").prop("checked", true);
-        form.render();
     }
+    form.render();  //重新渲染，防止radio/select等失效
 
-    form.on('select',
+    form.on('select(NodeRejectType)',
         function (data) {
             vm.NodeRejectType = data.value;
         });
 
-   
+    form.on('select(NodeConfluenceType)',
+        function (data) {
+            vm.NodeConfluenceType = data.value;
+        });
 
     //菜单列表
     var menucon = {};  //table的参数，如搜索key，点击tree的id

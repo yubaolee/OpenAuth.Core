@@ -31,7 +31,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">驳回类型</label>
                         <div class="layui-input-block">
-                            <select id="NodeRejectType" name="NodeRejectType" v-model="NodeRejectType" required lay-verify="required">
+                            <select id="NodeRejectType" lay-filter="NodeRejectType" name="NodeRejectType" v-model="NodeRejectType" required lay-verify="required">
                                 <option value="0">上一步</option>
                                 <option value="1">第一步</option>
                                 <option value="2">指定步骤</option>
@@ -43,7 +43,7 @@
                     <div class="layui-form-item" v-if="isFork()">
                         <label class="layui-form-label">会签方式</label>
                         <div class="layui-input-block">
-                            <select id="NodeConfluenceType" name="NodeConfluenceType" v-model="NodeConfluenceType">
+                            <select id="NodeConfluenceType" lay-filter="NodeConfluenceType" name="NodeConfluenceType" v-model="NodeConfluenceType">
                                 <option value="all">全部分支都同意</option>
                                 <option value="one">至少一个分支同意</option>
                             </select>

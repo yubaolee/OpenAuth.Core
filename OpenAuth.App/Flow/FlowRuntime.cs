@@ -118,7 +118,10 @@ namespace OpenAuth.App.Flow
         private string GetNextNodeId(string nodeId = null)
         {
             List<FlowLine> LineList = nodeId == null ? FromNodeLines[currentNodeId] : FromNodeLines[nodeId];
-            if (LineList.Count == 0) return "-1";
+            if (LineList.Count == 0)
+            {
+                throw (new Exception("无法寻找到下一个节点"));
+            }
             return LineList[0].to;
 
             //if (FrmData != "")  //表单数据不为空，可以处理分支
@@ -180,7 +183,6 @@ namespace OpenAuth.App.Flow
         /// <returns>-1不通过,1等待,其它通过</returns>
         public string NodeConfluence(string nodeId, Tag tag)
         {
-            string res = "-1";
 
             var forkToThisLine = ToNodeLines[nodeId].FirstOrDefault();
             if (forkToThisLine == null)
@@ -192,69 +194,60 @@ namespace OpenAuth.App.Flow
             string joinNodeId = GetNextNodeId(nodeId); //获取回签的合流节点
 
             int allnum = FromNodeLines[forkToThisLine.from].Count;   //总会签数量
-
+            string res =string.Empty;  //记录会签的结果,默认正在会签
             if (forkNode.setInfo.NodeConfluenceType == "one") //有一个步骤通过即可
             {
-                if (tag.Taged == 1)
+                if (tag.Taged == (int) TagState.Ok)
                 {
                     res = GetNextNodeId(joinNodeId);
-                    if (res == "-1")
-                    {
-                        throw (new Exception("会签成功寻找不到下一个节点"));
-                    }
                 }
-                else
+                else if(tag.Taged ==(int) TagState.No)
                 {
                     if (forkNode.setInfo.ConfluenceNo == null)
                     {
                         forkNode.setInfo.ConfluenceNo = 1;
-                        res = "1";
                     }
                     else if (forkNode.setInfo.ConfluenceNo == (allnum - 1))
                     {
-                        //全部拒绝
-                        res = "-1";
+                        res = TagState.No.ToString("D");
                     }
                     else
                     {
                         forkNode.setInfo.ConfluenceNo++;
-                        res = "1";
                     }
                 }
             }
             else //默认所有步骤通过
             {
-                if (tag.Taged == 1)
+                if (tag.Taged == (int) TagState.No)  //只要有一个不同意，那么流程就结束
+                {
+                    res = TagState.No.ToString("D");
+                }
+                else if(tag.Taged == (int)TagState.Ok)
                 {
                     if (forkNode.setInfo.ConfluenceOk == null)
                     {
                         forkNode.setInfo.ConfluenceOk = 1;
-                        res = "1";
                     }
                     else if (forkNode.setInfo.ConfluenceOk == (allnum - 1))  //会签成功
                     {
                         res = GetNextNodeId(joinNodeId);
-                        if (res == "-1")
-                        {
-                            throw (new Exception("会签成功寻找不到下一个节点"));
-                        }
                     }
                     else
                     {
                         forkNode.setInfo.ConfluenceOk++;
-                        res = "1";
                     }
                 }
             }
 
-            if (res == "-1")
+            if (res == TagState.No.ToString("D"))
             {
-                tag.Taged = -1;
+                tag.Taged = (int) TagState.No;
                 MakeTagNode(joinNodeId, tag);
             }
-            else if (res != "1") //标记合流节点
+            else if (!string.IsNullOrEmpty(res)) //会签结束，标记合流节点
             {
-                tag.Taged = 1;
+                tag.Taged = (int) TagState.Ok;
                 MakeTagNode(joinNodeId, tag);
                 nextNodeId = res;
                 nextNodeType = GetNodeType(res);

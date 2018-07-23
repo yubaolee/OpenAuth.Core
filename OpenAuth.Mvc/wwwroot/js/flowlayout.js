@@ -180,7 +180,7 @@
                                 $("#" + item.id).css("background", "#5bc0de"); //正在处理
                             }
                             if (item.setInfo != undefined && item.setInfo.Taged != undefined) {
-                                if (item.setInfo.Taged == -1) {
+                                if (item.setInfo.Taged == 2) {
                                     $("#" + item.id).css("background", "#d9534f"); //不通过
                                 } else if (item.setInfo.Taged == 1) {
                                     $("#" + item.id).css("background", "#5cb85c"); //通过

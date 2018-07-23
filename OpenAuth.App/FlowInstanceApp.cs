@@ -143,53 +143,45 @@ namespace OpenAuth.App
                                                            + tag.Description;
 
                 wfruntime.MakeTagNode(canCheckId, tag); //标记审核节点状态
-                string confluenceres = wfruntime.NodeConfluence(canCheckId, tag);
-                switch (confluenceres)
+                string res = wfruntime.NodeConfluence(canCheckId, tag);
+                if (res == TagState.No.ToString("D"))
                 {
-                    case "-1": //不通过
-                        flowInstance.IsFinish = 3;
-                        break;
-
-                    case "1": //等待，当前节点还是会签开始节点，不跳转
-                        break;
-
-                    default: //通过
-                        flowInstance.PreviousId = flowInstance.ActivityId;
-                        flowInstance.ActivityId = wfruntime.nextNodeId;
-                        flowInstance.ActivityType = wfruntime.nextNodeType;
-                        flowInstance.ActivityName = wfruntime.nextNode.name;
-                        flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? 1 : 0);
-                        flowInstance.MakerList =
-                            (wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime)); 
-
-                        AddTransHistory(wfruntime);
-
-                        break;
+                    flowInstance.IsFinish = 3;
                 }
-            }
+                else if(!string.IsNullOrEmpty(res))
+                {
+                    flowInstance.PreviousId = flowInstance.ActivityId;
+                    flowInstance.ActivityId = wfruntime.nextNodeId;
+                    flowInstance.ActivityType = wfruntime.nextNodeType;
+                    flowInstance.ActivityName = wfruntime.nextNode.name;
+                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? 1 : 0);
+                    flowInstance.MakerList =
+                        (wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime));
 
+                    AddTransHistory(wfruntime);
+                }
+              
+            }
             #endregion 会签
 
             #region 一般审核
 
             else
             {
-                if (tag.Taged == 1)
+                wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
+                if (tag.Taged == (int) TagState.Ok)
                 {
-                    wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
                     flowInstance.PreviousId = flowInstance.ActivityId;
                     flowInstance.ActivityId = wfruntime.nextNodeId;
                     flowInstance.ActivityType = wfruntime.nextNodeType;
                     flowInstance.ActivityName = wfruntime.nextNode.name;
                     flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime);
                     flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? 1 : 0);
-
                     AddTransHistory(wfruntime);
                 }
                 else
                 {
                     flowInstance.IsFinish = 3; //表示该节点不同意
-                    wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
                 }
                 flowInstanceOperationHistory.Content = "【" + wfruntime.currentNode.name
                                                            + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm")
@@ -225,7 +217,7 @@ namespace OpenAuth.App
             var tag = new Tag
             {
                 Description = reqest.VerificationOpinion,
-                Taged = 0,
+                Taged = (int) TagState.Reject,
                 UserId = user.Id,
                 UserName = user.Name
             };
@@ -357,7 +349,7 @@ namespace OpenAuth.App
                 Taged = Int32.Parse(request.VerificationFinally)
             };
             //驳回
-            if (request.VerificationFinally == "3")
+            if (request.VerificationFinally == TagState.Reject.ToString())
             {
                 NodeReject(request);
             }

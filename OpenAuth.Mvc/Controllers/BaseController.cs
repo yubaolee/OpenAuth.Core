@@ -9,16 +9,17 @@
 // File: BaseController.cs
 // ***********************************************************************
 
-
+using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Options;
+using OpenAuth.App;
+using OpenAuth.App.Interface;
+using OpenAuth.App.SSO;
 using OpenAuth.Mvc.Models;
 using System;
 using System.Linq;
 using System.Reflection;
-using Infrastructure;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using OpenAuth.App.Interface;
-using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -37,18 +38,26 @@ namespace OpenAuth.Mvc.Controllers
         {
         }
 
-
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
 
-            if (!_authUtil.CheckLogin()) return;
-
-            var description =
-                (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor) filterContext.ActionDescriptor;
+           var description =
+                (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)filterContext.ActionDescriptor;
 
             Controllername = description.ControllerName.ToLower();
             Actionname = description.ActionName.ToLower();
+
+            var config = AutofacExt.GetFromFac<IOptions<AppSetting>>();
+            var version = config.Value.Version;
+            if (version == "demo" && Request.Method == "POST")
+            {
+                filterContext.Result = new RedirectResult("/Error/Demo");
+                return;
+               // throw new Exception("演示版本，不要乱动，当前模块:" + Controllername + "/" + Actionname);
+            }
+
+            if (!_authUtil.CheckLogin()) return;
 
             var function = ((TypeInfo)GetType()).DeclaredMethods.FirstOrDefault(u => u.Name.ToLower() == Actionname);
 
@@ -62,20 +71,11 @@ namespace OpenAuth.Mvc.Controllers
             }
             var currentModule = _authUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(Controllername));
             //当前登录用户没有Action记录&&Action有authenticate标识
-            if ( currentModule == null)
+            if (currentModule == null)
             {
                 filterContext.Result = new RedirectResult("/Login/Index");
                 return;
             }
-
-            //var version = ConfigurationManager<>.AppSettings["version"];
-            //if (version == "demo" && Request.HttpMethod == "POST")
-            //{
-            //    throw new HttpException(400, "演示版本，不能进行该操作，当前模块:" + Controllername + "/" + Actionname);
-            //}
-
         }
-
-       
     }
 }

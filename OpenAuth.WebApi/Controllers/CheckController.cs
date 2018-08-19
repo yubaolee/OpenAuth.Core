@@ -7,19 +7,20 @@
 // Last Modified On : 07-11-2016
 // Contact :
 // File: CheckController.cs
+// 登录相关的操作
 // ***********************************************************************
 
+using System;
+using System.Collections.Generic;
 using Infrastructure;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
-using OpenAuth.App.SSO;
-using System;
-using System.Collections.Generic;
 using OpenAuth.App.Response;
+using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
 
-namespace OpenAuth.WebApi.Areas.SSO.Controllers
+namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
     ///  sso验证
@@ -220,17 +221,20 @@ namespace OpenAuth.WebApi.Areas.SSO.Controllers
         /// <param name="token"></param>
         /// <param name="requestid">备用参数.</param>
         [HttpPost]
-        public bool Logout(string token, string requestid = "")
+        public Response<bool> Logout(string token, string requestid = "")
         {
+            var resp = new Response<bool>();
             try
             {
-                _cacheContext.Remove(token);
-                return true;
+                resp.Result = _cacheContext.Remove(token);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return false;
+                resp.Result = false;
+                resp.Message = e.Message;
             }
+
+            return resp;
         }
     }
 }

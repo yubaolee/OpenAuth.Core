@@ -8,6 +8,7 @@ using OpenAuth.WebApi.Areas.SSO.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OpenAuth.App;
+using OpenAuth.WebApi.Controllers;
 
 namespace OpenAuth.WebApi.Test
 {

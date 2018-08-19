@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace OpenAuth.WebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();
+            services.AddCors();
             services.AddDbContext<OpenAuthDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
 
@@ -38,6 +40,11 @@ namespace OpenAuth.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //todo:测试可以允许任意跨域，正式环境要加权限
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseMvc(routes =>
             {

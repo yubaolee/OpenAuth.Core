@@ -37,5 +37,11 @@ namespace OpenAuth.App.Response
         /// 数据内容
         /// </summary>
         public dynamic data;
+
+        public TableData()
+        {
+            code = 200;
+            msg = "加载成功";
+        }
     }
 }

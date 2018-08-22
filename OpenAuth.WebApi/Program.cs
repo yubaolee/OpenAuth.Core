@@ -19,7 +19,7 @@ namespace OpenAuth.WebApi
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://localhost:52789")
+                .UseUrls("http://*:52789")
                 .UseStartup<Startup>();
     }
 }

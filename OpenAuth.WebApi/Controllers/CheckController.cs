@@ -22,6 +22,8 @@ using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers
 {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
     /// <summary>
     ///  sso验证
     /// <para>其他站点通过后台Post来认证</para>

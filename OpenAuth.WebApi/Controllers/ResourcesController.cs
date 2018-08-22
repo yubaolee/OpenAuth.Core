@@ -11,6 +11,8 @@ using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers
 {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
     public class ResourcesController : ControllerBase
     {
         private readonly ResourceApp _app;
@@ -19,14 +21,14 @@ namespace OpenAuth.WebApi.Controllers
         {
             _app = app;
         }
-
+        [HttpGet]
         public TableData Load([FromQuery]QueryResourcesReq request)
         {
             return _app.Load(request);
         }
 
        [HttpPost]
-        public string Delete(string[] ids)
+        public Response Delete(string[] ids)
         {
             Response resp = new Response();
             try
@@ -38,11 +40,11 @@ namespace OpenAuth.WebApi.Controllers
                 resp.Code = 500;
                 resp.Message = e.Message;
             }
-            return JsonHelper.Instance.Serialize(resp);
+            return resp;
         }
 
        [HttpPost]
-        public string Add(Resource obj)
+        public Response Add(Resource obj)
         {
             Response resp = new Response();
             try
@@ -54,11 +56,11 @@ namespace OpenAuth.WebApi.Controllers
                 resp.Code = 500;
                 resp.Message = e.Message;
             }
-            return JsonHelper.Instance.Serialize(resp);
+            return resp;
         }
 
        [HttpPost]
-        public string Update(Resource obj)
+        public Response Update(Resource obj)
         {
             Response resp = new Response();
             try
@@ -70,7 +72,7 @@ namespace OpenAuth.WebApi.Controllers
                 resp.Code = 500;
                 resp.Message = e.Message;
             }
-            return JsonHelper.Instance.Serialize(resp);
+            return resp;
         }
 
     }

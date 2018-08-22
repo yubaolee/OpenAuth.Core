@@ -185,6 +185,10 @@ namespace OpenAuth.WebApi.Controllers
                 {
                     result.Result = user.Account;
                 }
+                else
+                {
+                    throw new Exception("token非法或已失效");
+                }
             }
             catch (Exception ex)
             {

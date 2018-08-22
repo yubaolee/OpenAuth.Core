@@ -52,9 +52,9 @@ namespace OpenAuth.App
                 resources = resources.Where(u => u.Name.Contains(request.key) || u.Id.Contains(request.key));
             }
 
-            if (!string.IsNullOrEmpty(request.TypeId))
+            if (!string.IsNullOrEmpty(request.appId))
             {
-                resources = resources.Where(u => u.TypeId == request.TypeId);
+                resources = resources.Where(u => u.AppId == request.appId);
             }
 
 

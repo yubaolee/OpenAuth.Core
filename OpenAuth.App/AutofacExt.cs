@@ -38,7 +38,8 @@ namespace OpenAuth.App
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IUnitWork), typeof(UnitWork));
 
-            services.AddScoped(typeof(IAuth), typeof(LocalAuth));
+            services.AddScoped(typeof(IAuth), typeof(HttpHeaderAuth));
+          //  services.AddScoped(typeof(IAuth), typeof(LocalAuth));
             //如果想使用WebApi SSO授权，请使用下面这种方式
             //services.AddScoped(typeof(IAuth), typeof(ApiAuth));
 

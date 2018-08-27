@@ -2,24 +2,23 @@
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
-using OpenAuth.App.Request;
-using OpenAuth.App.Response;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
-    /// 用户操作
+    /// 机构操作
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class OrgsController : ControllerBase
     {
-        private readonly UserManagerApp _app;
+        private readonly OrgManagerApp _app;
 
         [HttpGet]
-        public Response<UserView> Get(string id)
+        public Response<Org> Get(string id)
         {
-            var result = new Response<UserView>();
+            var result = new Response<Org>();
             try
             {
                 result.Result = _app.Get(id);
@@ -34,13 +33,33 @@ namespace OpenAuth.WebApi.Controllers
         }
 
         //添加或修改
-       [HttpPost]
-        public Response AddOrUpdate(UserView obj)
+        [HttpPost]
+        public Response Add(Org obj)
         {
             var result = new Response();
             try
             {
-                _app.AddOrUpdate(obj);
+                _app.Add(obj);
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+
+        //添加或修改
+        [HttpPost]
+        public Response Update(Org obj)
+        {
+            var result = new Response();
+            try
+            {
+                _app.Update(obj);
+
             }
             catch (Exception ex)
             {
@@ -52,16 +71,7 @@ namespace OpenAuth.WebApi.Controllers
         }
 
 
-        /// <summary>
-        /// 加载列表
-        /// </summary>
-        [HttpGet]
-        public TableData Load([FromQuery]QueryUserListReq request)
-        {
-            return _app.Load(request);
-        }
-
-       [HttpPost]
+        [HttpPost]
         public Response Delete(string[] ids)
         {
             var result = new Response();
@@ -79,7 +89,7 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        public UsersController(UserManagerApp app) 
+        public OrgsController(OrgManagerApp app) 
         {
             _app = app;
         }

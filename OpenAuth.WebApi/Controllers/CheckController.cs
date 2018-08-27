@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Infrastructure;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Mvc;
@@ -97,6 +98,29 @@ namespace OpenAuth.WebApi.Controllers
                 if (user != null)
                 {
                     result.Result = GetAuthStrategyContext(token, requestid).Orgs;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException != null
+                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpGet]
+        public Response<IEnumerable<TreeItem<Org>>> GetOrgsTree(string token, string requestid = "")
+        {
+            var result = new Response<IEnumerable<TreeItem<Org>>>();
+            try
+            {
+                var user = _cacheContext.Get<UserAuthSession>(token);
+                if (user != null)
+                {
+                    result.Result = GetAuthStrategyContext(token, requestid).Orgs.GenerateTree(u=>u.Id, u =>u.ParentId);
                 }
             }
             catch (Exception ex)

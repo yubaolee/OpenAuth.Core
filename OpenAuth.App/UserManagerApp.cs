@@ -35,15 +35,21 @@ namespace OpenAuth.App
                 cascadeId = org.CascadeId;
             }
 
+            IQueryable<User> query = UnitWork.Find<User>(null);
+            if (!string.IsNullOrEmpty(request.key))
+            {
+                query = UnitWork.Find<User>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
+            }
+
             var ids = loginUser.Orgs.Where(u => u.CascadeId.Contains(cascadeId)).Select(u => u.Id).ToArray();
             var userIds = _revelanceApp.Get(Define.USERORG, false, ids);
 
-            var users = UnitWork.Find<User>(u => userIds.Contains(u.Id))
+            var users = query.Where(u => userIds.Contains(u.Id))
                    .OrderBy(u => u.Name)
                    .Skip((request.page - 1) * request.limit)
                    .Take(request.limit);
 
-            var records = Repository.GetCount(u => userIds.Contains(u.Id));
+            var records = query.Count(u => userIds.Contains(u.Id));
 
 
             var userviews = new List<UserView>();

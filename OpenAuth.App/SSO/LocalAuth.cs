@@ -32,6 +32,9 @@ namespace OpenAuth.App.SSO
             string token = _httpContextAccessor.HttpContext.Request.Query["Token"];
             if (!String.IsNullOrEmpty(token)) return token;
 
+            token = _httpContextAccessor.HttpContext.Request.Headers["X-Token"];
+            if (!String.IsNullOrEmpty(token)) return token;
+
             var cookie = _httpContextAccessor.HttpContext.Request.Cookies["Token"];
             return cookie ?? String.Empty;
         }

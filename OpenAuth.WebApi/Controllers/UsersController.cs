@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.Repository.Domain;
-using OpenAuth.WebApi.Filters;
 
 namespace OpenAuth.WebApi.Controllers
 {
@@ -37,12 +35,13 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
        [HttpPost]
-        public Response AddOrUpdate(UserView obj)
+        public Response<string> AddOrUpdate(UserView obj)
         {
-            var result = new Response();
+            var result = new Response<string>();
             try
             {
                 _app.AddOrUpdate(obj);
+                result.Result = obj.Id;   //返回ID
             }
             catch (Exception ex)
             {
@@ -58,7 +57,6 @@ namespace OpenAuth.WebApi.Controllers
         /// 加载列表
         /// </summary>
         [HttpGet]
-       [TokenFilter]
         public TableData Load([FromQuery]QueryUserListReq request)
         {
             return _app.Load(request);

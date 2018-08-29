@@ -1,50 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
-using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers
 {
+    /// <summary>
+    /// 用户操作
+    /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class ResourcesController : ControllerBase
+    public class OrgsController : ControllerBase
     {
-        private readonly ResourceApp _app;
+        private readonly OrgManagerApp _app;
 
-        public ResourcesController(IAuth authUtil, ResourceApp app) 
-        {
-            _app = app;
-        }
         [HttpGet]
-        public TableData Load([FromQuery]QueryResourcesReq request)
+        public Response<Org> Get(string id)
         {
-            return _app.Load(request);
-        }
-
-       [HttpPost]
-        public Response Delete(string[] ids)
-        {
-            Response resp = new Response();
+            var result = new Response<Org>();
             try
             {
-                _app.Delete(ids);
+                result.Result = _app.Get(id);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                resp.Code = 500;
-                resp.Message = e.Message;
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
             }
-            return resp;
+
+            return result;
         }
 
+        //添加或修改
        [HttpPost]
-        public Response Add(Resource obj)
+        public Response<string> Add(Org obj)
         {
             var result = new Response<string>();
             try
@@ -61,8 +53,8 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-       [HttpPost]
-        public Response Update(Resource obj)
+        [HttpPost]
+        public Response Update(Org obj)
         {
             Response resp = new Response();
             try
@@ -77,5 +69,27 @@ namespace OpenAuth.WebApi.Controllers
             return resp;
         }
 
+       [HttpPost]
+        public Response Delete(string[] ids)
+        {
+            var result = new Response();
+            try
+            {
+                _app.Delete(ids);
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+
+        public OrgsController(OrgManagerApp app) 
+        {
+            _app = app;
+        }
     }
 }

@@ -44,12 +44,13 @@ namespace OpenAuth.WebApi.Controllers
         }
 
        [HttpPost]
-        public Response Add(Resource obj)
+        public Response<string> Add(Resource obj)
         {
-            Response resp = new Response();
+            var resp = new Response<string>();
             try
             {
                 _app.Add(obj);
+                resp.Result = obj.Id;
             }
             catch (Exception e)
             {

@@ -34,13 +34,13 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
         [HttpPost]
-        public Response Add(Org obj)
+        public Response<Org> Add(Org obj)
         {
-            var result = new Response();
+            var result = new Response<Org>();
             try
             {
                 _app.Add(obj);
-
+                result.Result = obj;
             }
             catch (Exception ex)
             {

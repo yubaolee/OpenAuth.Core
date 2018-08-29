@@ -17,6 +17,7 @@ using Infrastructure;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
@@ -35,12 +36,14 @@ namespace OpenAuth.WebApi.Controllers
         private AuthContextFactory _app;
         private LoginParse _loginParse;
         private ICacheContext _cacheContext;
+        private IAuth _auth;
 
-        public CheckController(AuthContextFactory app, LoginParse loginParse, ICacheContext cacheContext)
+        public CheckController(AuthContextFactory app, LoginParse loginParse, ICacheContext cacheContext, IAuth auth)
         {
             _app = app;
             _loginParse = loginParse;
             _cacheContext = cacheContext;
+            _auth = auth;
         }
 
         /// <summary>
@@ -111,27 +114,36 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 加载机构的全部下级机构
+        /// </summary>
+        /// <param name="orgId">机构ID</param>
+        /// <returns></returns>
         [HttpGet]
-        public Response<IEnumerable<TreeItem<Org>>> GetOrgsTree(string token, string requestid = "")
+        public TableData GetSubOrgs(string orgId)
         {
-            var result = new Response<IEnumerable<TreeItem<Org>>>();
-            try
+            string cascadeId = ".0.";
+            if (!string.IsNullOrEmpty(orgId))
             {
-                var user = _cacheContext.Get<UserAuthSession>(token);
-                if (user != null)
+                var org = GetAuthStrategyContext().Orgs.SingleOrDefault(u => u.Id == orgId);
+                if (org == null)
                 {
-                    result.Result = GetAuthStrategyContext(token, requestid).Orgs.GenerateTree(u=>u.Id, u =>u.ParentId);
+                   return new TableData
+                    {
+                        msg = "未找到指定的节点",
+                        code = 500,
+                    };
                 }
-            }
-            catch (Exception ex)
-            {
-                result.Code = 500;
-                result.Message = ex.InnerException != null
-                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
-                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                cascadeId = org.CascadeId;
             }
 
-            return result;
+            var query = GetAuthStrategyContext().Orgs.Where(u => u.CascadeId.Contains(cascadeId));
+
+            return new TableData
+            {
+                data = query.ToList(),
+                count = query.Count(),
+            };
         }
 
         [HttpGet]
@@ -180,8 +192,13 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        private AuthStrategyContext GetAuthStrategyContext(string token, string requestid = "")
+        private AuthStrategyContext GetAuthStrategyContext(string token="", string requestid = "")
         {
+            if (string.IsNullOrEmpty(token))  
+            {  //当没有token时，尝试从http url或头里获取
+                return _auth.GetCurrentUser();
+            }
+
             AuthStrategyContext context = null;
 
             var user = _cacheContext.Get<UserAuthSession>(token);

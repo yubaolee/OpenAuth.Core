@@ -42,6 +42,11 @@ namespace OpenAuth.App
             get { return _strategy.Modules; }
         }
 
+        public List<ModuleElement> ModuleElements
+        {
+            get { return _strategy.ModuleElements; }
+        }
+
         public List<Role> Roles
         {
             get { return _strategy.Roles; }

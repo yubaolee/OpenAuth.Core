@@ -56,11 +56,7 @@ namespace OpenAuth.App
                         ParentName = module.ParentName
                     }).ToList();
 
-                var elementIds = UnitWork.Find<Relevance>(
-                    u =>
-                        (u.FirstId == _user.Id && u.Key == Define.USERELEMENT) ||
-                        (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-                var usermoduleelements = UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
+                var usermoduleelements = ModuleElements;
 
                 foreach (var module in modules)
                 {
@@ -68,6 +64,19 @@ namespace OpenAuth.App
                 }
 
                 return modules;
+            }
+        }
+
+        public List<ModuleElement> ModuleElements
+        {
+            get
+            {
+                var elementIds = UnitWork.Find<Relevance>(
+                    u =>
+                        (u.FirstId == _user.Id && u.Key == Define.USERELEMENT) ||
+                        (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                var usermoduleelements = UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
+                return usermoduleelements.ToList();
             }
         }
 

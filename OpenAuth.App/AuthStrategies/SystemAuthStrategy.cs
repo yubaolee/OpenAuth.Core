@@ -62,6 +62,11 @@ namespace OpenAuth.App
             get { return UnitWork.Find<Role>(null).ToList(); }
         }
 
+        public List<ModuleElement> ModuleElements
+        {
+            get { return UnitWork.Find<ModuleElement>(null).ToList(); }
+        }
+
         public List<Resource> Resources
         {
             get { return UnitWork.Find<Resource>(null).ToList(); }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.Request;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -14,9 +15,9 @@ namespace OpenAuth.App
         /// <para>比如给用户分配资源，那么firstId就是用户ID，secIds就是资源ID列表</para>
         /// </summary>
         /// <param name="type">关联的类型，如Define.USERRESOURCE</param>
-        public void Assign(string type, string firstId, string[] secIds)
+        public void Assign(AssignReq request)
         {
-            Assign(type, secIds.ToLookup(u => firstId));
+            Assign(request.type, request.secIds.ToLookup(u => request.firstId));
         }
 
         public void Assign(string key, ILookup<string, string> idMaps)

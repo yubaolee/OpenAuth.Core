@@ -1,22 +1,29 @@
-﻿using System;
+﻿
+using System;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
-using OpenAuth.App.SSO;
 
-namespace OpenAuth.Mvc.Controllers
+namespace OpenAuth.WebApi.Controllers
 {
-    public class RelevanceManagerController : BaseController
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class AccessObjsController : ControllerBase
     {
         private readonly RevelanceManagerApp _app;
-
-        public RelevanceManagerController(IAuth authUtil, RevelanceManagerApp app) : base(authUtil)
+        private readonly IAuth _authUtil;
+        public AccessObjsController(IAuth authUtil, RevelanceManagerApp app) 
         {
             _app = app;
+            _authUtil = authUtil;
         }
 
+        /// <summary>
+        /// 比如给用户分配资源，那么firstId就是用户ID，secIds就是资源ID列表
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public Response Assign(AssignReq request)
         {
@@ -27,25 +34,27 @@ namespace OpenAuth.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                result.Code = 500;
+                  result.Code = 500;
                 result.Message = ex.InnerException?.Message ?? ex.Message;
             }
 
             return result;
         }
         [HttpPost]
-        public string UnAssign(string type, string firstId, string[] secIds)
+        public Response UnAssign(string type, string firstId, string[] secIds)
         {
+            var result = new Response();
             try
             {
                 _app.UnAssign(type, firstId, secIds);
             }
             catch (Exception ex)
             {
-                  Result.Code = 500;
-                Result.Message = ex.InnerException?.Message ?? ex.Message;
+                  result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
             }
-            return JsonHelper.Instance.Serialize(Result);
+
+            return result;
         }
 
        

@@ -63,8 +63,13 @@ namespace OpenAuth.App
         public IEnumerable<ModuleElement> LoadMenusForRole(string moduleId, string roleId)
         {
             var elementIds = _revelanceApp.Get(Define.ROLEELEMENT, true, roleId);
-            return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id) && u.ModuleId == moduleId);
+            var query = UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
+            if (!string.IsNullOrEmpty(moduleId))
+            {
+               query =  query.Where(u => u.ModuleId == moduleId);
+            }
 
+            return query;
         }
 
         #endregion 用户/角色分配模块

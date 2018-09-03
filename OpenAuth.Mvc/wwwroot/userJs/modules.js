@@ -20,6 +20,9 @@ layui.config({
         table.reload('mainList', {
             url: '/UserSession/GetModulesTable',
             where: config
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            } 
         });
     }
 
@@ -32,6 +35,9 @@ layui.config({
         table.reload('menuList', {
             url: '/ModuleManager/LoadMenus',
             where: menucon
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            } 
         });
     }
 

@@ -21,6 +21,9 @@
         table.reload('mainList', {
             url: '/FlowSchemes/Load',
             where: config
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            } 
         });
     }
     //左边树状机构列表

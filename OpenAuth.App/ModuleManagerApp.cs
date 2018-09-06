@@ -83,6 +83,7 @@ namespace OpenAuth.App
         public void DelMenu(string[] ids)
         {
             UnitWork.Delete<ModuleElement>(u => ids.Contains(u.Id));
+            UnitWork.Save();
         }
 
         public void AddMenu(ModuleElement model)

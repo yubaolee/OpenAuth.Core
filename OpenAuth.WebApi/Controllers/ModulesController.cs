@@ -25,48 +25,6 @@ namespace OpenAuth.WebApi.Controllers
 
 
         /// <summary>
-        /// 加载特定用户的模块
-        /// </summary>
-        /// <param name="firstId">The user identifier.</param>
-        /// <returns>System.String.</returns>
-        [HttpGet]
-        public Response<IEnumerable<Module>> LoadForUser(string firstId)
-        {
-            var result = new Response<IEnumerable<Module>>();
-            try
-            {
-                result.Result = _app.LoadForUser(firstId);
-            }
-            catch (Exception ex)
-            {
-                result.Code = 500;
-                result.Message = ex.InnerException?.Message ?? ex.Message;
-            }
-
-            return result;
-        }
-        /// <summary>
-        /// 根据某用户ID获取可访问某模块的菜单项
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public Response<IEnumerable<ModuleElement>> LoadMenusForUser(string moduleId, string firstId)
-        {
-            var result = new Response<IEnumerable<ModuleElement>>();
-            try
-            {
-                result.Result = _app.LoadMenusForUser(moduleId, firstId);
-            }
-            catch (Exception ex)
-            {
-                result.Code = 500;
-                result.Message = ex.InnerException?.Message ?? ex.Message;
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// 加载角色模块
         /// </summary>
         /// <param name="firstId">The role identifier.</param>

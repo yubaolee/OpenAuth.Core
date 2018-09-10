@@ -33,26 +33,6 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 加载特定用户的模块
-        /// </summary>
-        /// <param name="firstId">The user identifier.</param>
-        /// <returns>System.String.</returns>
-        public string LoadForUser(string firstId)
-        {
-            var modules = _app.LoadForUser(firstId);
-            return JsonHelper.Instance.Serialize(modules);
-        }
-        /// <summary>
-        /// 根据某用户ID获取可访问某模块的菜单项
-        /// </summary>
-        /// <returns></returns>
-        public string LoadMenusForUser(string moduleId, string firstId)
-        {
-            var menus = _app.LoadMenusForUser(moduleId, firstId);
-            return JsonHelper.Instance.Serialize(menus);
-        }
-
-        /// <summary>
         /// 加载角色模块
         /// </summary>
         /// <param name="firstId">The role identifier.</param>

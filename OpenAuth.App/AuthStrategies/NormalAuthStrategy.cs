@@ -40,7 +40,6 @@ namespace OpenAuth.App
             get {
                 var moduleIds = UnitWork.Find<Relevance>(
                     u =>
-                        (u.FirstId == _user.Id && u.Key == Define.USERMODULE) ||
                         (u.Key == Define.ROLEMODULE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
 
                 var modules = (from module in UnitWork.Find<Module>(u =>moduleIds.Contains(u.Id))
@@ -73,7 +72,6 @@ namespace OpenAuth.App
             {
                 var elementIds = UnitWork.Find<Relevance>(
                     u =>
-                        (u.FirstId == _user.Id && u.Key == Define.USERELEMENT) ||
                         (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
                 var usermoduleelements = UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
                 return usermoduleelements.ToList();
@@ -91,7 +89,6 @@ namespace OpenAuth.App
             {
                 var resourceIds = UnitWork.Find<Relevance>(
                     u =>
-                        (u.FirstId == _user.Id && u.Key == Define.USERRESOURCE) ||
                         (u.Key == Define.ROLERESOURCE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
                 return UnitWork.Find<Resource>(u => resourceIds.Contains(u.Id)).ToList();
             }

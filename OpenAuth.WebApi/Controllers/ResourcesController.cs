@@ -76,5 +76,28 @@ namespace OpenAuth.WebApi.Controllers
             return resp;
         }
 
+        /// <summary>
+        /// 加载角色资源
+        /// </summary>
+        /// <param name="appId">应用ID</param>
+        /// <param name="firstId">角色ID</param>
+        [HttpGet]
+        public Response<List<Resource>> LoadForRole(string appId, string firstId)
+        {
+            var result = new Response<List<Resource>>();
+            try
+            {
+                result.Result = _app.LoadForRole(appId, firstId).ToList();
+
+            }
+            catch (Exception e)
+            {
+                result.Code = 500;
+                result.Message = e.InnerException?.Message ?? e.Message;
+            }
+
+            return result;
+        }
+
     }
 }

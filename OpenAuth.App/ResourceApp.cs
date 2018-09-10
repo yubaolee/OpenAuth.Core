@@ -29,20 +29,12 @@ namespace OpenAuth.App
             Repository.Update(resource);
         }
 
-        public IEnumerable<Resource> LoadForUser(string appId, string userId)
+        public IEnumerable<Resource> LoadForRole(string appId, string roleId)
         {
-            var elementIds = _revelanceApp.Get(Define.USERRESOURCE, true, userId);
-            return UnitWork.Find<Resource>(u => elementIds.Contains(u.Id) && (appId == "" || u.AppId == appId));
+            var elementIds = _revelanceApp.Get(Define.ROLERESOURCE, true, roleId);
+            return UnitWork.Find<Resource>(u => elementIds.Contains(u.Id) && (appId == null || appId =="" || u.AppId == appId));
         }
-
-        public IEnumerable<Resource> LoadForRole(string appId, string userId)
-        {
-            var elementIds = _revelanceApp.Get(Define.ROLERESOURCE, true, userId);
-            return UnitWork.Find<Resource>(u => elementIds.Contains(u.Id) && (appId =="" || u.AppId == appId));
-        }
-
-
-
+        
         public TableData Load(QueryResourcesReq request)
         {
             var result = new TableData();

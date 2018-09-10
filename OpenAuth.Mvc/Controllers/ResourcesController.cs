@@ -31,32 +31,6 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 加载特定用户的资源
-        /// </summary>
-        /// <param name="appId">应用appId</param>
-        /// <param name="firstId">用户ID</param>
-        /// <returns>System.String.</returns>
-        public string LoadForUser(string appId, string firstId)
-        {
-
-            try
-            {
-                var result = new Response<List<string>>
-                {
-                    Result = _app.LoadForUser(appId, firstId).Select(u  =>u.Id).ToList()
-            };
-                return JsonHelper.Instance.Serialize(result);
-            }
-            catch (Exception e)
-            {
-                Result.Code = 500;
-                Result.Message = e.InnerException?.Message ?? e.Message;
-            }
-
-            return JsonHelper.Instance.Serialize(Result);
-        }
-
-        /// <summary>
         /// 加载角色资源
         /// </summary>
         /// <param name="appId">应用ID</param>

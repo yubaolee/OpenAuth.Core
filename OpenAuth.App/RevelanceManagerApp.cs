@@ -11,18 +11,23 @@ namespace OpenAuth.App
     {
 
         /// <summary>
-        /// 添加关联
+        /// 添加关联，自动根据firstId删除以前的关联
         /// <para>比如给用户分配资源，那么firstId就是用户ID，secIds就是资源ID列表</para>
         /// </summary>
         /// <param name="type">关联的类型，如Define.USERRESOURCE</param>
         public void Assign(AssignReq request)
         {
+            DeleteBy(request.type, request.firstId);
             Assign(request.type, request.secIds.ToLookup(u => request.firstId));
         }
 
+        /// <summary>
+        /// 添加关联，需要人工删除以前的关联
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="idMaps"></param>
         public void Assign(string key, ILookup<string, string> idMaps)
         {
-            DeleteBy(key, idMaps);
             UnitWork.BatchAdd((from sameVals in idMaps
                 from value in sameVals
                 select new Relevance
@@ -35,14 +40,23 @@ namespace OpenAuth.App
             UnitWork.Save();
         }
 
-      
+        /// <summary>
+        /// 取消关联
+        /// </summary>
+        /// <param name="type">关联的类型，如Define.USERRESOURCE</param>
+        /// <param name="firstId">The first identifier.</param>
+        /// <param name="secIds">The sec ids.</param>
+        public void UnAssign(string type, string firstId, string[] secIds)
+        {
+            DeleteBy(type, secIds.ToLookup(u => firstId));
+        }
 
         /// <summary>
         /// 删除关联
         /// </summary>
         /// <param name="key">关联标识</param>
         /// <param name="idMaps">关联的&lt;firstId, secondId&gt;数组</param>
-        public void DeleteBy(string key, ILookup<string, string> idMaps)
+        private void DeleteBy(string key, ILookup<string, string> idMaps)
         {
             foreach (var sameVals in idMaps)
             {
@@ -53,41 +67,11 @@ namespace OpenAuth.App
             }
         }
 
-        /// <summary>
-        /// 取消关联
-        /// </summary>
-        /// <param name="type">关联的类型，如Define.USERRESOURCE</param>
-        /// <param name="firstId">The first identifier.</param>
-        /// <param name="secIds">The sec ids.</param>
-        public void UnAssign(string type, string firstId, string[] secIds)
-        {
-            DeleteBy(type, secIds.ToLookup(u =>firstId));
-        }
-
         public void DeleteBy(string key, params string[] firstIds)
         {
             Repository.Delete(u => firstIds.Contains(u.FirstId) && u.Key == key);
         }
 
-        /// <summary>
-        /// 添加新的关联
-        /// </summary>
-        /// <param name="key">关联标识</param>
-        /// <param name="idMaps">关联的&lt;firstId, secondId&gt;数组</param>
-        public void AddRelevance(string key, ILookup<string, string> idMaps)
-        {
-            DeleteBy(key, idMaps);
-            UnitWork.BatchAdd<Relevance>((from sameVals in idMaps
-                from value in sameVals
-                select new Relevance
-                {
-                    Key = key,
-                    FirstId = sameVals.Key,
-                    SecondId = value,
-                    OperateTime = DateTime.Now
-                }).ToArray());
-            UnitWork.Save();
-        }
 
         /// <summary>
         /// 根据关联表的一个键获取另外键的值

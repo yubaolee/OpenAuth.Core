@@ -100,7 +100,7 @@ namespace OpenAuth.App
             string[] orgIds = view.OrganizationIds.Split(',').ToArray();
 
             _revelanceApp.DeleteBy(Define.USERORG, user.Id);
-            _revelanceApp.AddRelevance(Define.USERORG, orgIds.ToLookup(u => user.Id));
+            _revelanceApp.Assign(Define.USERORG, orgIds.ToLookup(u => user.Id));
         }
 
         /// <summary>

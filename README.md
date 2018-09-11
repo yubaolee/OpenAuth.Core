@@ -1,15 +1,24 @@
 ![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
 
 
-本项目为OpenAuth.Net基于.net core 2.1的跨平台版本，**数据库初始脚本、数据库设计结构**及使用.net 4.5的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
+本项目为OpenAuth.Net基于.net core 2.1的跨平台版本，使用.net 4.5的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
 
 **官方网站** http://www.openauth.me
 
 **官方文档**  http://doc.openauth.me 
 
+## 关于OpenAuth.Net企业版的说明：
+
+目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出VIP服务，提供VIP专属QQ群，第一时间提供开发进度、内部文档、1V1专属咨询服务等。
+
+为了进一步扩大会员用户的权益，官方于近期针对VIP2用户推出专属版本，该版本基于OpenAuth.Core的API接口，前端采用VUE全家桶（VUE+VUEX+VUE-ROUTER）及ElementUI界面，全面拥抱单页面SPA开发，[如何获取请查看这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
+
+效果如下：
+![openauth.pro](http://www.openauth.me/upload/180912010136383.gif "180912010136383.gif")
+
 ## 官方QQ交流群  
 
-1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、1V1专属咨询服务等，如何加入VIP请移步社区置顶帖**
+1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、1V1专属咨询服务等，[如何加入VIP请移步这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)**
 
 1. 484498493【已满】
 
@@ -19,7 +28,9 @@
 
 ## 演示直达
 
-* http://demo.openauth.me:1802
+* 企业版演示地址： http://pro.openauth.me
+
+* 开源版演示地址： http://demo.openauth.me:1802
 
 ## 当前版本
 

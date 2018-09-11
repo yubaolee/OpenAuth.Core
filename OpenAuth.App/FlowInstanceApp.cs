@@ -382,8 +382,6 @@ namespace OpenAuth.App
                     .Select(u => u.InstanceId).Distinct();
                 var query = from ti in instances
                             join ct in UnitWork.Find<FlowInstance>(null) on ti equals ct.Id
-                                into tmp
-                            from ct in tmp.DefaultIfEmpty()
                             select ct;
 
                 result.data = query.OrderByDescending(u => u.CreateDate)

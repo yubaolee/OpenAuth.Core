@@ -411,7 +411,7 @@ create table Form
 	ContentParse text,
 	Content text,
 	SortCode int default 0 not null,
-	Delete int default 0 not null,
+	[Delete] int default 0 not null,
 	DbName varchar(50),
 	Enabled int not null,
 	Description varchar(200),
@@ -683,7 +683,7 @@ create table Relevance
 		constraint PK_RELEVANCE
 			primary key,
 	Description nvarchar(100) default ' ' not null,
-	Key varchar(100) default ' ' not null,
+	[Key] varchar(100) default ' ' not null,
 	Status int default 0 not null,
 	OperateTime datetime default getdate() not null,
 	OperatorId PrimaryKey,
@@ -825,7 +825,7 @@ create table Stock
 	Price decimal(10,1) default 0 not null,
 	Status int default 0 not null,
 	Viewable varchar(50) default ' ' not null,
-	User varchar(50) default ' ' not null,
+	[User] varchar(50) default ' ' not null,
 	Time datetime default getdate() not null,
 	OrgId PrimaryKey
 )
@@ -878,7 +878,7 @@ create table Test
 )
 go
 
-create table User
+create table [User]
 (
 	Id PrimaryKey not null
 		constraint PK_USER

@@ -18,6 +18,9 @@ layui.config({
         table.reload('mainList',
             {
                 url: '/Resources/Load',
+                response: {
+                    statusCode: 200 //规定成功的状态码，默认：0
+                } ,
                 where: config,
                 done: function(res, curr, count) {
                     //如果是异步请求数据方式，res即为你接口返回的信息。

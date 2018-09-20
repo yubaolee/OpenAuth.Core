@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAuth.App;
 using OpenAuth.Repository;
+using OpenAuth.WebApi.Model;
 
 namespace OpenAuth.WebApi
 {
@@ -38,6 +39,7 @@ namespace OpenAuth.WebApi
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 option.IncludeXmlComments(xmlPath);
+                option.OperationFilter<GlobalHttpHeaderOperationFilter>(); // 添加httpHeader参数
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();

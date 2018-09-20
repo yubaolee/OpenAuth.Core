@@ -10,40 +10,35 @@
 // 登录相关的操作
 // ***********************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Infrastructure;
-using Infrastructure.Cache;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenAuth.WebApi.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// 登录及与登录相关的接口
+    /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    /// <summary>
-    ///  sso验证
-    /// <para>其他站点通过后台Post来认证</para>
-    /// <para>或使用静态类OpenAuth.App.SSO.IAuth访问</para>
-    /// </summary>
     public class CheckController : ControllerBase
     {
-        private AuthContextFactory _app;
-        private LoginParse _loginParse;
-        private ICacheContext _cacheContext;
-        private IAuth _auth;
+        private readonly IAuth _authUtil;
+        private readonly AuthStrategyContext _authStrategyContext;
 
-        public CheckController(AuthContextFactory app, LoginParse loginParse, ICacheContext cacheContext, IAuth auth)
+        public CheckController(IAuth authUtil)
         {
-            _app = app;
-            _loginParse = loginParse;
-            _cacheContext = cacheContext;
-            _auth = auth;
+            _authUtil = authUtil;
+            _authStrategyContext = _authUtil.GetCurrentUser();
         }
 
         /// <summary>
@@ -52,12 +47,12 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="token">The token.</param>
         /// <param name="requestid">备用参数.</param>
         [HttpGet]
-        public Response<bool> GetStatus(string token, string requestid = "")
+        public Response<bool> GetStatus()
         {
             var result = new Response<bool>();
             try
             {
-                result.Result = _cacheContext.Get<UserAuthSession>(token) != null;
+                result.Result = _authUtil.CheckLogin();
             }
             catch (Exception ex)
             {
@@ -69,16 +64,12 @@ namespace OpenAuth.WebApi.Controllers
         }
 
         [HttpGet]
-        public Response<List<Role>> GetRoles(string token, string requestid = "")
+        public Response<List<Role>> GetRoles()
         {
             var result = new Response<List<Role>>();
             try
             {
-                var user = _cacheContext.Get<UserAuthSession>(token);
-                if (user != null)
-                {
-                    result.Result = GetAuthStrategyContext(token, requestid).Roles;
-                }
+                result.Result = _authStrategyContext.Roles;
             }
             catch (Exception ex)
             {
@@ -92,16 +83,12 @@ namespace OpenAuth.WebApi.Controllers
         }
 
         [HttpGet]
-        public Response<List<Org>> GetOrgs(string token, string requestid = "")
+        public Response<List<Org>> GetOrgs()
         {
             var result = new Response<List<Org>>();
             try
             {
-                var user = _cacheContext.Get<UserAuthSession>(token);
-                if (user != null)
-                {
-                    result.Result = GetAuthStrategyContext(token, requestid).Orgs;
-                }
+                result.Result = _authStrategyContext.Orgs;
             }
             catch (Exception ex)
             {
@@ -125,10 +112,10 @@ namespace OpenAuth.WebApi.Controllers
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(orgId))
             {
-                var org = GetAuthStrategyContext().Orgs.SingleOrDefault(u => u.Id == orgId);
+                var org = _authStrategyContext.Orgs.SingleOrDefault(u => u.Id == orgId);
                 if (org == null)
                 {
-                   return new TableData
+                    return new TableData
                     {
                         msg = "未找到指定的节点",
                         code = 500,
@@ -137,7 +124,7 @@ namespace OpenAuth.WebApi.Controllers
                 cascadeId = org.CascadeId;
             }
 
-            var query = GetAuthStrategyContext().Orgs.Where(u => u.CascadeId.Contains(cascadeId));
+            var query = _authStrategyContext.Orgs.Where(u => u.CascadeId.Contains(cascadeId));
 
             return new TableData
             {
@@ -147,16 +134,12 @@ namespace OpenAuth.WebApi.Controllers
         }
 
         [HttpGet]
-        public Response<List<ModuleView>> GetModules(string token, string requestid = "")
+        public Response<List<ModuleView>> GetModules()
         {
             var result = new Response<List<ModuleView>>();
             try
             {
-                var user = _cacheContext.Get<UserAuthSession>(token);
-                if (user != null)
-                {
-                    result.Result = GetAuthStrategyContext(token, requestid).Modules;
-                }
+                result.Result = _authStrategyContext.Modules;
             }
             catch (Exception ex)
             {
@@ -170,16 +153,12 @@ namespace OpenAuth.WebApi.Controllers
         }
 
         [HttpGet]
-        public Response<List<Resource>> GgetResources(string token, string requestid = "")
+        public Response<List<Resource>> GgetResources()
         {
             var result = new Response<List<Resource>>();
             try
             {
-                var user = _cacheContext.Get<UserAuthSession>(token);
-                if (user != null)
-                {
-                    result.Result = GetAuthStrategyContext(token, requestid).Resources;
-                }
+                result.Result = _authStrategyContext.Resources;
             }
             catch (Exception ex)
             {
@@ -190,46 +169,18 @@ namespace OpenAuth.WebApi.Controllers
             }
 
             return result;
-        }
-
-        private AuthStrategyContext GetAuthStrategyContext(string token="", string requestid = "")
-        {
-            if (string.IsNullOrEmpty(token))  
-            {  //当没有token时，尝试从http url或头里获取
-                return _auth.GetCurrentUser();
-            }
-
-            AuthStrategyContext context = null;
-
-            var user = _cacheContext.Get<UserAuthSession>(token);
-            if (user != null)
-            {
-                context = _app.GetAuthStrategyContext(user.Account);
-            }
-
-            return context;
         }
 
         /// <summary>
         /// 根据token获取用户名称
         /// </summary>
-        /// <param name="token"></param>
-        /// <param name="requestid">备用参数.</param>
         [HttpGet]
-        public Response<string> GetUserName(string token, string requestid = "")
+        public Response<string> GetUserName()
         {
             var result = new Response<string>();
             try
             {
-                var user = _cacheContext.Get<UserAuthSession>(token);
-                if (user != null)
-                {
-                    result.Result = user.Account;
-                }
-                else
-                {
-                    throw new Exception("token非法或已失效");
-                }
+                result.Result = _authUtil.GetUserName();
             }
             catch (Exception ex)
             {
@@ -246,12 +197,13 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="request">登录参数</param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public LoginResult Login([FromBody]PassportLoginRequest request)
         {
             var result = new LoginResult();
             try
             {
-                result = _loginParse.Do(request);
+                result = _authUtil.Login(request.AppKey, request.Account, request.Password);
             }
             catch (Exception ex)
             {
@@ -268,12 +220,12 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="token"></param>
         /// <param name="requestid">备用参数.</param>
         [HttpPost]
-        public Response<bool> Logout(string token, string requestid = "")
+        public Response<bool> Logout()
         {
             var resp = new Response<bool>();
             try
             {
-                resp.Result = _cacheContext.Remove(token);
+                resp.Result = _authUtil.Logout();
             }
             catch (Exception e)
             {

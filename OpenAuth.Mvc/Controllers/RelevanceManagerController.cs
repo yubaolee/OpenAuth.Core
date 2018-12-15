@@ -18,7 +18,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         [HttpPost]
-        public Response Assign(AssignReq request)
+        public string Assign(AssignReq request)
         {
             var result = new Response();
             try
@@ -31,7 +31,7 @@ namespace OpenAuth.Mvc.Controllers
                 result.Message = ex.InnerException?.Message ?? ex.Message;
             }
 
-            return result;
+            return JsonHelper.Instance.Serialize(result);
         }
         [HttpPost]
         public string UnAssign(string type, string firstId, string[] secIds)

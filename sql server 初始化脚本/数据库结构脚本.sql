@@ -1,934 +1,1096 @@
+USE [OpenAuthDB]
+GO
 
-create type PrimaryKey from varchar(50)
-go
-
-create table Application
+/****** Object:  UserDefinedDataType [dbo].[PrimaryKey]    Script Date: 2018-12-15 21:13:14 ******/
+CREATE TYPE [dbo].[PrimaryKey] FROM [varchar](50) NULL
+GO
+/****** Object:  Table [dbo].[Application]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Application](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[Name] [varchar](255) NOT NULL,
+	[AppSecret] [varchar](255) NULL,
+	[Description] [nvarchar](255) NULL,
+	[Icon] [varchar](255) NULL,
+	[Disable] [bit] NOT NULL,
+	[CreateTime] [date] NOT NULL,
+	[CreateUser] [dbo].[PrimaryKey] NULL,
+ CONSTRAINT [PK_APPLICATION] PRIMARY KEY CLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_APPLICATION
-			primary key,
-	Name varchar(255) default ' ' not null,
-	AppSecret varchar(255),
-	Description nvarchar(255),
-	Icon varchar(255),
-	Disable bit default 0 not null,
-	CreateTime date default getdate() not null,
-	CreateUser PrimaryKey
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '应用', 'SCHEMA', 'dbo', 'TABLE', 'Application'
-go
-
-exec sp_addextendedproperty 'MS_Description', 'AppId', 'SCHEMA', 'dbo', 'TABLE', 'Application', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '应用名称', 'SCHEMA', 'dbo', 'TABLE', 'Application', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '应用密钥', 'SCHEMA', 'dbo', 'TABLE', 'Application', 'COLUMN', 'AppSecret'
-go
-
-exec sp_addextendedproperty 'MS_Description', '应用描述', 'SCHEMA', 'dbo', 'TABLE', 'Application', 'COLUMN', 'Description'
-go
-
-exec sp_addextendedproperty 'MS_Description', '应用图标', 'SCHEMA', 'dbo', 'TABLE', 'Application', 'COLUMN', 'Icon'
-go
-
-exec sp_addextendedproperty 'MS_Description', '是否可用', 'SCHEMA', 'dbo', 'TABLE', 'Application', 'COLUMN', 'Disable'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建日期', 'SCHEMA', 'dbo', 'TABLE', 'Application', 'COLUMN', 'CreateTime'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', 'dbo', 'TABLE', 'Application', 'COLUMN', 'CreateUser'
-go
-
-create table Category
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Category]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Category](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[Name] [nvarchar](255) NOT NULL,
+	[Disabled] [bit] NOT NULL,
+	[SortNo] [int] NOT NULL,
+	[Icon] [varchar](255) NULL,
+	[Description] [nvarchar](500) NULL,
+	[TypeId] [dbo].[PrimaryKey] NULL,
+ CONSTRAINT [PK_CATEGORY] PRIMARY KEY NONCLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_CATEGORY
-			primary key nonclustered,
-	Name nvarchar(255) default ' ' not null,
-	Disabled bit default 0 not null,
-	SortNo int default 0 not null,
-	Icon varchar(255),
-	Description nvarchar(500),
-	TypeId PrimaryKey
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '分类表，表示一个全集，比如：男', 'SCHEMA', 'dbo', 'TABLE', 'Category'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类表ID（可作为分类的标识）', 'SCHEMA', 'dbo', 'TABLE', 'Category', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', 'dbo', 'TABLE', 'Category', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '是否可用', 'SCHEMA', 'dbo', 'TABLE', 'Category', 'COLUMN', 'Disabled'
-go
-
-exec sp_addextendedproperty 'MS_Description', '排序号', 'SCHEMA', 'dbo', 'TABLE', 'Category', 'COLUMN', 'SortNo'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类图标', 'SCHEMA', 'dbo', 'TABLE', 'Category', 'COLUMN', 'Icon'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类描述', 'SCHEMA', 'dbo', 'TABLE', 'Category', 'COLUMN', 'Description'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类类型ID', 'SCHEMA', 'dbo', 'TABLE', 'Category', 'COLUMN', 'TypeId'
-go
-
-create table CategoryType
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[CategoryType]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[CategoryType](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[Name] [nvarchar](255) NOT NULL,
+	[CreateTime] [datetime] NOT NULL,
+ CONSTRAINT [PK_CATEGORYTYPE] PRIMARY KEY NONCLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_CATEGORYTYPE
-			primary key nonclustered,
-	Name nvarchar(255) default ' ' not null,
-	CreateTime datetime default getdate() not null
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '分类类型', 'SCHEMA', 'dbo', 'TABLE', 'CategoryType'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类表ID', 'SCHEMA', 'dbo', 'TABLE', 'CategoryType', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', 'dbo', 'TABLE', 'CategoryType', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', 'dbo', 'TABLE', 'CategoryType', 'COLUMN', 'CreateTime'
-go
-
-create table FlowInstance
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[FlowInstance]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[FlowInstance](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[InstanceSchemeId] [dbo].[PrimaryKey] NOT NULL,
+	[Code] [varchar](200) NULL,
+	[CustomName] [varchar](200) NULL,
+	[ActivityId] [dbo].[PrimaryKey] NULL,
+	[ActivityType] [int] NULL,
+	[ActivityName] [varchar](200) NULL,
+	[PreviousId] [dbo].[PrimaryKey] NULL,
+	[SchemeContent] [varchar](max) NULL,
+	[SchemeId] [dbo].[PrimaryKey] NULL,
+	[DbName] [varchar](50) NULL,
+	[FrmData] [text] NULL,
+	[FrmType] [int] NOT NULL,
+	[FrmContentData] [text] NULL,
+	[FrmContentParse] [text] NULL,
+	[FrmId] [dbo].[PrimaryKey] NULL,
+	[SchemeType] [varchar](50) NULL,
+	[Disabled] [int] NOT NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[CreateUserId] [dbo].[PrimaryKey] NULL,
+	[CreateUserName] [varchar](50) NULL,
+	[FlowLevel] [int] NOT NULL,
+	[Description] [varchar](200) NULL,
+	[IsFinish] [int] NOT NULL,
+	[MakerList] [varchar](1000) NULL,
+ CONSTRAINT [PK_FLOWINSTANCE] PRIMARY KEY NONCLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_FLOWINSTANCE
-			primary key nonclustered,
-	InstanceSchemeId PrimaryKey not null,
-	Code varchar(200),
-	CustomName varchar(200),
-	ActivityId PrimaryKey,
-	ActivityType int,
-	ActivityName varchar(200),
-	PreviousId PrimaryKey,
-	SchemeContent varchar(max),
-	SchemeId PrimaryKey,
-	DbName varchar(50),
-	FrmData text,
-	FrmType int default 0 not null,
-	FrmContentData text,
-	FrmContentParse text,
-	FrmId PrimaryKey,
-	SchemeType varchar(50),
-	Disabled int default 0 not null,
-	CreateDate datetime default getdate() not null,
-	CreateUserId PrimaryKey,
-	CreateUserName varchar(50),
-	FlowLevel int default 0 not null,
-	Description varchar(200),
-	IsFinish int default 0 not null,
-	MakerList varchar(1000)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '工作流流程实例表', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance'
-go
-
-exec sp_addextendedproperty 'MS_Description', '主键Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程实例模板Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'InstanceSchemeId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '实例编号', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'Code'
-go
-
-exec sp_addextendedproperty 'MS_Description', '自定义名称', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'CustomName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '当前节点ID', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'ActivityId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '当前节点类型（0会签节点）', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'ActivityType'
-go
-
-exec sp_addextendedproperty 'MS_Description', '当前节点名称', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'ActivityName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '前一个ID', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'PreviousId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程模板内容', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'SchemeContent'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程模板ID', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'SchemeId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '数据库名称', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'DbName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单数据', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'FrmData'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单类型', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'FrmType'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单中的控件属性描述', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'FrmContentData'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单控件位置模板', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'FrmContentParse'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单ID', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'FrmId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程类型', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'SchemeType'
-go
-
-exec sp_addextendedproperty 'MS_Description', '有效标志', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'Disabled'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'CreateDate'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建用户主键', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'CreateUserId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建用户', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'CreateUserName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '等级', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'FlowLevel'
-go
-
-exec sp_addextendedproperty 'MS_Description', '实例备注', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'Description'
-go
-
-exec sp_addextendedproperty 'MS_Description', '是否完成', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'IsFinish'
-go
-
-exec sp_addextendedproperty 'MS_Description', '执行人', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstance', 'COLUMN', 'MakerList'
-go
-
-create table FlowInstanceOperationHistory
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[FlowInstanceOperationHistory]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[FlowInstanceOperationHistory](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[InstanceId] [dbo].[PrimaryKey] NOT NULL,
+	[Content] [nvarchar](200) NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[CreateUserId] [dbo].[PrimaryKey] NULL,
+	[CreateUserName] [varchar](50) NULL,
+ CONSTRAINT [PK_FLOWINSTANCEOPERATIONHISTOR] PRIMARY KEY NONCLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_FLOWINSTANCEOPERATIONHISTOR
-			primary key nonclustered,
-	InstanceId PrimaryKey not null,
-	Content nvarchar(200),
-	CreateDate datetime default getdate() not null,
-	CreateUserId PrimaryKey,
-	CreateUserName varchar(50)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '工作流实例操作记录', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceOperationHistory'
-go
-
-exec sp_addextendedproperty 'MS_Description', '主键Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceOperationHistory', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '实例进程Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceOperationHistory', 'COLUMN', 'InstanceId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '操作内容', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceOperationHistory', 'COLUMN', 'Content'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceOperationHistory', 'COLUMN', 'CreateDate'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建用户主键', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceOperationHistory', 'COLUMN', 'CreateUserId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建用户', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceOperationHistory', 'COLUMN', 'CreateUserName'
-go
-
-create table FlowInstanceTransitionHistory
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[FlowInstanceTransitionHistory]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[FlowInstanceTransitionHistory](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[InstanceId] [dbo].[PrimaryKey] NOT NULL,
+	[FromNodeId] [dbo].[PrimaryKey] NULL,
+	[FromNodeType] [int] NULL,
+	[FromNodeName] [varchar](200) NULL,
+	[ToNodeId] [dbo].[PrimaryKey] NULL,
+	[ToNodeType] [int] NULL,
+	[ToNodeName] [varchar](200) NULL,
+	[TransitionSate] [int] NOT NULL,
+	[IsFinish] [int] NOT NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[CreateUserId] [dbo].[PrimaryKey] NULL,
+	[CreateUserName] [varchar](50) NULL,
+ CONSTRAINT [PK_FLOWINSTANCETRANSITIONHISTO] PRIMARY KEY NONCLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_FLOWINSTANCETRANSITIONHISTO
-			primary key nonclustered,
-	InstanceId PrimaryKey not null,
-	FromNodeId PrimaryKey,
-	FromNodeType int,
-	FromNodeName varchar(200),
-	ToNodeId PrimaryKey,
-	ToNodeType int,
-	ToNodeName varchar(200),
-	TransitionSate int default 0 not null,
-	IsFinish int default 0 not null,
-	CreateDate datetime default getdate() not null,
-	CreateUserId PrimaryKey,
-	CreateUserName varchar(50)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '工作流实例流转历史记录', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory'
-go
-
-exec sp_addextendedproperty 'MS_Description', '主键Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '实例Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'InstanceId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '开始节点Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'FromNodeId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '开始节点类型', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'FromNodeType'
-go
-
-exec sp_addextendedproperty 'MS_Description', '开始节点名称', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'FromNodeName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '结束节点Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'ToNodeId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '结束节点类型', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'ToNodeType'
-go
-
-exec sp_addextendedproperty 'MS_Description', '结束节点名称', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'ToNodeName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '转化状态', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'TransitionSate'
-go
-
-exec sp_addextendedproperty 'MS_Description', '是否结束', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'IsFinish'
-go
-
-exec sp_addextendedproperty 'MS_Description', '转化时间', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'CreateDate'
-go
-
-exec sp_addextendedproperty 'MS_Description', '操作人Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'CreateUserId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '操作人名称', 'SCHEMA', 'dbo', 'TABLE', 'FlowInstanceTransitionHistory', 'COLUMN', 'CreateUserName'
-go
-
-create table FlowScheme
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[FlowScheme]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[FlowScheme](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[SchemeCode] [varchar](50) NULL,
+	[SchemeName] [varchar](200) NULL,
+	[SchemeType] [varchar](50) NULL,
+	[SchemeVersion] [varchar](50) NULL,
+	[SchemeCanUser] [varchar](max) NULL,
+	[SchemeContent] [varchar](max) NULL,
+	[FrmId] [dbo].[PrimaryKey] NULL,
+	[FrmType] [int] NOT NULL,
+	[AuthorizeType] [int] NOT NULL,
+	[SortCode] [int] NOT NULL,
+	[DeleteMark] [int] NOT NULL,
+	[Disabled] [int] NOT NULL,
+	[Description] [varchar](200) NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[CreateUserId] [dbo].[PrimaryKey] NULL,
+	[CreateUserName] [varchar](50) NULL,
+	[ModifyDate] [datetime] NULL,
+	[ModifyUserId] [dbo].[PrimaryKey] NULL,
+	[ModifyUserName] [varchar](50) NULL,
+ CONSTRAINT [PK_FLOWSCHEME] PRIMARY KEY NONCLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_FLOWSCHEME
-			primary key nonclustered,
-	SchemeCode varchar(50),
-	SchemeName varchar(200),
-	SchemeType varchar(50),
-	SchemeVersion varchar(50),
-	SchemeCanUser varchar(max),
-	SchemeContent varchar(max),
-	FrmId PrimaryKey,
-	FrmType int default 0 not null,
-	AuthorizeType int default 0 not null,
-	SortCode int default 0 not null,
-	DeleteMark int default 0 not null,
-	Disabled int default 0 not null,
-	Description varchar(200),
-	CreateDate datetime default getdate() not null,
-	CreateUserId PrimaryKey,
-	CreateUserName varchar(50),
-	ModifyDate datetime,
-	ModifyUserId PrimaryKey,
-	ModifyUserName varchar(50)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '工作流模板信息表', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme'
-go
-
-exec sp_addextendedproperty 'MS_Description', '主键Id', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程编号', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'SchemeCode'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程名称', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'SchemeName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程分类', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'SchemeType'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程内容版本', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'SchemeVersion'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程模板使用者', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'SchemeCanUser'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流程内容', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'SchemeContent'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单ID', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'FrmId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单类型', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'FrmType'
-go
-
-exec sp_addextendedproperty 'MS_Description', '模板权限类型：0完全公开,1指定', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'AuthorizeType'
-go
-
-exec sp_addextendedproperty 'MS_Description', '排序码', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'SortCode'
-go
-
-exec sp_addextendedproperty 'MS_Description', '删除标记', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'DeleteMark'
-go
-
-exec sp_addextendedproperty 'MS_Description', '有效', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'Disabled'
-go
-
-exec sp_addextendedproperty 'MS_Description', '备注', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'Description'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'CreateDate'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建用户主键', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'CreateUserId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建用户', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'CreateUserName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '修改时间', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'ModifyDate'
-go
-
-exec sp_addextendedproperty 'MS_Description', '修改用户主键', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'ModifyUserId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '修改用户', 'SCHEMA', 'dbo', 'TABLE', 'FlowScheme', 'COLUMN', 'ModifyUserName'
-go
-
-create table Form
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Form]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Form](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[Name] [varchar](200) NULL,
+	[Fields] [int] NOT NULL,
+	[ContentData] [text] NULL,
+	[ContentParse] [text] NULL,
+	[Content] [text] NULL,
+	[SortCode] [int] NOT NULL,
+	[Delete] [int] NOT NULL,
+	[DbName] [varchar](50) NULL,
+	[Enabled] [int] NOT NULL,
+	[Description] [varchar](200) NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[CreateUserId] [varchar](50) NULL,
+	[CreateUserName] [varchar](50) NULL,
+	[ModifyDate] [datetime] NULL,
+	[ModifyUserId] [varchar](50) NULL,
+	[ModifyUserName] [varchar](50) NULL,
+ CONSTRAINT [PK_FORM] PRIMARY KEY NONCLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_FORM
-			primary key nonclustered,
-	Name varchar(200),
-	Fields int default 0 not null,
-	ContentData text,
-	ContentParse text,
-	Content text,
-	SortCode int default 0 not null,
-	Delete int default 0 not null,
-	DbName varchar(50),
-	Enabled int not null,
-	Description varchar(200),
-	CreateDate datetime default getdate() not null,
-	CreateUserId varchar(50),
-	CreateUserName varchar(50),
-	ModifyDate datetime,
-	ModifyUserId varchar(50),
-	ModifyUserName varchar(50)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '表单模板表', 'SCHEMA', 'dbo', 'TABLE', 'Form'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单模板Id', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单名称', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '字段个数', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'Fields'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单中的控件属性描述', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'ContentData'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单控件位置模板', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'ContentParse'
-go
-
-exec sp_addextendedproperty 'MS_Description', '表单原html模板未经处理的', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'Content'
-go
-
-exec sp_addextendedproperty 'MS_Description', '排序码', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'SortCode'
-go
-
-exec sp_addextendedproperty 'MS_Description', '删除标记', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'Delete'
-go
-
-exec sp_addextendedproperty 'MS_Description', '数据库名称', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'DbName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '有效', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'Enabled'
-go
-
-exec sp_addextendedproperty 'MS_Description', '备注', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'Description'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'CreateDate'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建用户主键', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'CreateUserId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建用户', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'CreateUserName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '修改时间', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'ModifyDate'
-go
-
-exec sp_addextendedproperty 'MS_Description', '修改用户主键', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'ModifyUserId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '修改用户', 'SCHEMA', 'dbo', 'TABLE', 'Form', 'COLUMN', 'ModifyUserName'
-go
-
-create table Module
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Module]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Module](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[CascadeId] [varchar](255) NOT NULL,
+	[Name] [varchar](255) NOT NULL,
+	[Url] [varchar](255) NOT NULL,
+	[HotKey] [varchar](255) NOT NULL,
+	[IsLeaf] [bit] NOT NULL,
+	[IsAutoExpand] [bit] NOT NULL,
+	[IconName] [varchar](255) NOT NULL,
+	[Status] [int] NOT NULL,
+	[ParentName] [varchar](255) NOT NULL,
+	[Vector] [varchar](255) NOT NULL,
+	[SortNo] [int] NOT NULL,
+	[ParentId] [dbo].[PrimaryKey] NULL,
+	[Code] [varchar](50) NULL,
+ CONSTRAINT [PK_MODULE] PRIMARY KEY CLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_MODULE
-			primary key,
-	CascadeId varchar(255) default ' ' not null,
-	Name varchar(255) default ' ' not null,
-	Url varchar(255) default ' ' not null,
-	HotKey varchar(255) default ' ' not null,
-	IsLeaf bit default 1 not null,
-	IsAutoExpand bit default 0 not null,
-	IconName varchar(255) default ' ' not null,
-	Status int default 1 not null,
-	ParentName varchar(255) default ' ' not null,
-	Vector varchar(255) default ' ' not null,
-	SortNo int default 0 not null,
-	ParentId PrimaryKey,
-	Code varchar(50)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '功能模块表', 'SCHEMA', 'dbo', 'TABLE', 'Module'
-go
-
-exec sp_addextendedproperty 'MS_Description', '功能模块流水号', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '节点语义ID', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'CascadeId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '功能模块名称', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '主页面URL', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'Url'
-go
-
-exec sp_addextendedproperty 'MS_Description', '热键', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'HotKey'
-go
-
-exec sp_addextendedproperty 'MS_Description', '是否叶子节点', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'IsLeaf'
-go
-
-exec sp_addextendedproperty 'MS_Description', '是否自动展开', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'IsAutoExpand'
-go
-
-exec sp_addextendedproperty 'MS_Description', '节点图标文件名称', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'IconName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '当前状态', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'Status'
-go
-
-exec sp_addextendedproperty 'MS_Description', '父节点名称', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'ParentName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '矢量图标', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'Vector'
-go
-
-exec sp_addextendedproperty 'MS_Description', '排序号', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'SortNo'
-go
-
-exec sp_addextendedproperty 'MS_Description', '父节点流水号', 'SCHEMA', 'dbo', 'TABLE', 'Module', 'COLUMN', 'ParentId'
-go
-
-create table ModuleElement
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[ModuleElement]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[ModuleElement](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[DomId] [varchar](255) NOT NULL,
+	[Name] [varchar](255) NOT NULL,
+	[Attr] [varchar](500) NOT NULL,
+	[Script] [varchar](500) NOT NULL,
+	[Icon] [varchar](255) NOT NULL,
+	[Class] [varchar](255) NOT NULL,
+	[Remark] [varchar](200) NOT NULL,
+	[Sort] [int] NOT NULL,
+	[ModuleId] [dbo].[PrimaryKey] NOT NULL,
+	[TypeName] [nvarchar](20) NULL,
+	[TypeId] [dbo].[PrimaryKey] NULL,
+ CONSTRAINT [PK_MODULEELEMENT] PRIMARY KEY CLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_MODULEELEMENT
-			primary key,
-	DomId varchar(255) default ' ' not null,
-	Name varchar(255) default ' ' not null,
-	Attr varchar(500) default ' ' not null,
-	Script varchar(500) default ' ' not null,
-	Icon varchar(255) default ' ' not null,
-	Class varchar(255) default ' ' not null,
-	Remark varchar(200) default ' ' not null,
-	Sort int default 0 not null,
-	ModuleId PrimaryKey not null,
-	TypeName nvarchar(20),
-	TypeId PrimaryKey
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '模块元素表(需要权限控制的按钮)', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流水号', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', 'DOM ID', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'DomId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '元素附加属性', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'Attr'
-go
-
-exec sp_addextendedproperty 'MS_Description', '元素调用脚本', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'Script'
-go
-
-exec sp_addextendedproperty 'MS_Description', '元素图标', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'Icon'
-go
-
-exec sp_addextendedproperty 'MS_Description', '元素样式', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'Class'
-go
-
-exec sp_addextendedproperty 'MS_Description', '备注', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'Remark'
-go
-
-exec sp_addextendedproperty 'MS_Description', '排序字段', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'Sort'
-go
-
-exec sp_addextendedproperty 'MS_Description', '功能模块Id', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'ModuleId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类名称', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'TypeName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类ID', 'SCHEMA', 'dbo', 'TABLE', 'ModuleElement', 'COLUMN', 'TypeId'
-go
-
-create table Org
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Org]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Org](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[CascadeId] [varchar](255) NOT NULL,
+	[Name] [varchar](255) NOT NULL,
+	[HotKey] [varchar](255) NOT NULL,
+	[ParentName] [varchar](255) NOT NULL,
+	[IsLeaf] [bit] NOT NULL,
+	[IsAutoExpand] [bit] NOT NULL,
+	[IconName] [varchar](255) NOT NULL,
+	[Status] [int] NOT NULL,
+	[BizCode] [varchar](255) NOT NULL,
+	[CustomCode] [varchar](4000) NOT NULL,
+	[CreateTime] [datetime] NOT NULL,
+	[CreateId] [int] NOT NULL,
+	[SortNo] [int] NOT NULL,
+	[ParentId] [dbo].[PrimaryKey] NULL,
+	[TypeName] [nvarchar](20) NULL,
+	[TypeId] [dbo].[PrimaryKey] NULL,
+ CONSTRAINT [PK_ORG] PRIMARY KEY CLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_ORG
-			primary key,
-	CascadeId varchar(255) default ' ' not null,
-	Name varchar(255) default ' ' not null,
-	HotKey varchar(255) default ' ' not null,
-	ParentName varchar(255) default ' ' not null,
-	IsLeaf bit default 1 not null,
-	IsAutoExpand bit default 0 not null,
-	IconName varchar(255) default ' ' not null,
-	Status int default 1 not null,
-	BizCode varchar(255) default ' ' not null,
-	CustomCode varchar(4000) default ' ' not null,
-	CreateTime datetime default getdate() not null,
-	CreateId int default 0 not null,
-	SortNo int default 0 not null,
-	ParentId PrimaryKey,
-	TypeName nvarchar(20),
-	TypeId PrimaryKey
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '组织表', 'SCHEMA', 'dbo', 'TABLE', 'Org'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流水号', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '节点语义ID', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'CascadeId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '组织名称', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '热键', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'HotKey'
-go
-
-exec sp_addextendedproperty 'MS_Description', '父节点名称', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'ParentName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '是否叶子节点', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'IsLeaf'
-go
-
-exec sp_addextendedproperty 'MS_Description', '是否自动展开', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'IsAutoExpand'
-go
-
-exec sp_addextendedproperty 'MS_Description', '节点图标文件名称', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'IconName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '当前状态', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'Status'
-go
-
-exec sp_addextendedproperty 'MS_Description', '业务对照码', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'BizCode'
-go
-
-exec sp_addextendedproperty 'MS_Description', '自定义扩展码', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'CustomCode'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'CreateTime'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建人ID', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'CreateId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '排序号', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'SortNo'
-go
-
-exec sp_addextendedproperty 'MS_Description', '父节点流水号', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'ParentId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类名称', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'TypeName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类ID', 'SCHEMA', 'dbo', 'TABLE', 'Org', 'COLUMN', 'TypeId'
-go
-
-create table Relevance
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Relevance]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Relevance](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[Description] [nvarchar](100) NOT NULL,
+	[Key] [varchar](100) NOT NULL,
+	[Status] [int] NOT NULL,
+	[OperateTime] [datetime] NOT NULL,
+	[OperatorId] [dbo].[PrimaryKey] NULL,
+	[FirstId] [dbo].[PrimaryKey] NOT NULL,
+	[SecondId] [dbo].[PrimaryKey] NOT NULL,
+ CONSTRAINT [PK_RELEVANCE] PRIMARY KEY CLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_RELEVANCE
-			primary key,
-	Description nvarchar(100) default ' ' not null,
-	Key varchar(100) default ' ' not null,
-	Status int default 0 not null,
-	OperateTime datetime default getdate() not null,
-	OperatorId PrimaryKey,
-	FirstId PrimaryKey not null,
-	SecondId PrimaryKey not null
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '多对多关系集中映射', 'SCHEMA', 'dbo', 'TABLE', 'Relevance'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流水号', 'SCHEMA', 'dbo', 'TABLE', 'Relevance', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '描述', 'SCHEMA', 'dbo', 'TABLE', 'Relevance', 'COLUMN', 'Description'
-go
-
-exec sp_addextendedproperty 'MS_Description', '映射标识', 'SCHEMA', 'dbo', 'TABLE', 'Relevance', 'COLUMN', 'Key'
-go
-
-exec sp_addextendedproperty 'MS_Description', '状态', 'SCHEMA', 'dbo', 'TABLE', 'Relevance', 'COLUMN', 'Status'
-go
-
-exec sp_addextendedproperty 'MS_Description', '授权时间', 'SCHEMA', 'dbo', 'TABLE', 'Relevance', 'COLUMN', 'OperateTime'
-go
-
-exec sp_addextendedproperty 'MS_Description', '授权人', 'SCHEMA', 'dbo', 'TABLE', 'Relevance', 'COLUMN', 'OperatorId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '第一个表主键ID', 'SCHEMA', 'dbo', 'TABLE', 'Relevance', 'COLUMN', 'FirstId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '第二个表主键ID', 'SCHEMA', 'dbo', 'TABLE', 'Relevance', 'COLUMN', 'SecondId'
-go
-
-create table Resource
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Resource]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Resource](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[CascadeId] [varchar](255) NOT NULL,
+	[Name] [varchar](255) NOT NULL,
+	[SortNo] [int] NOT NULL,
+	[Description] [nvarchar](500) NOT NULL,
+	[ParentName] [nvarchar](50) NULL,
+	[ParentId] [dbo].[PrimaryKey] NULL,
+	[AppId] [dbo].[PrimaryKey] NULL,
+	[AppName] [nvarchar](50) NULL,
+	[TypeName] [nvarchar](20) NULL,
+	[TypeId] [dbo].[PrimaryKey] NULL,
+	[Disable] [bit] NOT NULL,
+ CONSTRAINT [PK_RESOURCE] PRIMARY KEY CLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_RESOURCE
-			primary key,
-	CascadeId varchar(255) default ' ' not null,
-	Name varchar(255) default ' ' not null,
-	SortNo int default 0 not null,
-	Description nvarchar(500) default ' ' not null,
-	ParentName nvarchar(50),
-	ParentId PrimaryKey,
-	AppId PrimaryKey,
-	AppName nvarchar(50),
-	TypeName nvarchar(20),
-	TypeId PrimaryKey,
-	Disable bit default 0 not null
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '资源表', 'SCHEMA', 'dbo', 'TABLE', 'Resource'
-go
-
-exec sp_addextendedproperty 'MS_Description', '资源标识', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '节点语义ID', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'CascadeId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '名称', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '排序号', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'SortNo'
-go
-
-exec sp_addextendedproperty 'MS_Description', '描述', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'Description'
-go
-
-exec sp_addextendedproperty 'MS_Description', '父节点名称', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'ParentName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '父节点流ID', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'ParentId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '资源所属应用ID', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'AppId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '所属应用名称', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'AppName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类名称', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'TypeName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类ID', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'TypeId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '是否可用', 'SCHEMA', 'dbo', 'TABLE', 'Resource', 'COLUMN', 'Disable'
-go
-
-create table Role
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Role]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Role](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[Name] [varchar](255) NOT NULL,
+	[Status] [int] NOT NULL,
+	[CreateTime] [datetime] NOT NULL,
+	[CreateId] [dbo].[PrimaryKey] NULL,
+	[TypeName] [nvarchar](20) NULL,
+	[TypeId] [dbo].[PrimaryKey] NULL,
+ CONSTRAINT [PK_ROLE] PRIMARY KEY CLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_ROLE
-			primary key,
-	Name varchar(255) default ' ' not null,
-	Status int default 1 not null,
-	CreateTime datetime default getdate() not null,
-	CreateId PrimaryKey,
-	TypeName nvarchar(20),
-	TypeId PrimaryKey
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '角色表', 'SCHEMA', 'dbo', 'TABLE', 'Role'
-go
-
-exec sp_addextendedproperty 'MS_Description', 'Id', 'SCHEMA', 'dbo', 'TABLE', 'Role', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '角色名称', 'SCHEMA', 'dbo', 'TABLE', 'Role', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '当前状态', 'SCHEMA', 'dbo', 'TABLE', 'Role', 'COLUMN', 'Status'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建时间', 'SCHEMA', 'dbo', 'TABLE', 'Role', 'COLUMN', 'CreateTime'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建人ID', 'SCHEMA', 'dbo', 'TABLE', 'Role', 'COLUMN', 'CreateId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类名称', 'SCHEMA', 'dbo', 'TABLE', 'Role', 'COLUMN', 'TypeName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类ID', 'SCHEMA', 'dbo', 'TABLE', 'Role', 'COLUMN', 'TypeId'
-go
-
-create table Stock
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Stock]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Stock](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[Name] [nvarchar](500) NOT NULL,
+	[Number] [int] NOT NULL,
+	[Price] [decimal](10, 1) NOT NULL,
+	[Status] [int] NOT NULL,
+	[Viewable] [varchar](50) NOT NULL,
+	[User] [varchar](50) NOT NULL,
+	[Time] [datetime] NOT NULL,
+	[OrgId] [dbo].[PrimaryKey] NULL,
+ CONSTRAINT [PK_STOCK] PRIMARY KEY CLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_STOCK
-			primary key,
-	Name nvarchar(500) default ' ' not null,
-	Number int default 0 not null,
-	Price decimal(10,1) default 0 not null,
-	Status int default 0 not null,
-	Viewable varchar(50) default ' ' not null,
-	User varchar(50) default ' ' not null,
-	Time datetime default getdate() not null,
-	OrgId PrimaryKey
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '出入库信息表', 'SCHEMA', 'dbo', 'TABLE', 'Stock'
-go
-
-exec sp_addextendedproperty 'MS_Description', '数据ID', 'SCHEMA', 'dbo', 'TABLE', 'Stock', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '产品名称', 'SCHEMA', 'dbo', 'TABLE', 'Stock', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '产品数量', 'SCHEMA', 'dbo', 'TABLE', 'Stock', 'COLUMN', 'Number'
-go
-
-exec sp_addextendedproperty 'MS_Description', '产品单价', 'SCHEMA', 'dbo', 'TABLE', 'Stock', 'COLUMN', 'Price'
-go
-
-exec sp_addextendedproperty 'MS_Description', '出库/入库', 'SCHEMA', 'dbo', 'TABLE', 'Stock', 'COLUMN', 'Status'
-go
-
-exec sp_addextendedproperty 'MS_Description', '可见范围', 'SCHEMA', 'dbo', 'TABLE', 'Stock', 'COLUMN', 'Viewable'
-go
-
-exec sp_addextendedproperty 'MS_Description', '操作人', 'SCHEMA', 'dbo', 'TABLE', 'Stock', 'COLUMN', 'User'
-go
-
-exec sp_addextendedproperty 'MS_Description', '操作时间', 'SCHEMA', 'dbo', 'TABLE', 'Stock', 'COLUMN', 'Time'
-go
-
-exec sp_addextendedproperty 'MS_Description', '组织ID', 'SCHEMA', 'dbo', 'TABLE', 'Stock', 'COLUMN', 'OrgId'
-go
-
-create table Test
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Test]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Test](
+	[Id] [varchar](50) NOT NULL,
+	[data_1] [varchar](255) NULL,
+	[data_2] [varchar](255) NULL,
+	[data_3] [varchar](255) NULL,
+	[checkboxs_0] [int] NOT NULL,
+	[data_7] [varchar](255) NULL,
+	[data_8] [varchar](255) NULL,
+	[data_9] [text] NULL,
+	[data_10] [text] NULL,
+	[data_11] [varchar](255) NULL,
+ CONSTRAINT [PK_Test] PRIMARY KEY NONCLUSTERED 
 (
-	Id varchar(50) default newid() not null
-		constraint PK_Test
-			primary key nonclustered,
-	data_1 varchar(255) default '',
-	data_2 varchar(255) default '',
-	data_3 varchar(255) default '',
-	checkboxs_0 int default 0 not null,
-	data_7 varchar(255) default '',
-	data_8 varchar(255) default '',
-	data_9 text default '',
-	data_10 text default '',
-	data_11 varchar(255) default ''
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-create table User
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 2018-12-15 21:13:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[User](
+	[Id] [dbo].[PrimaryKey] NOT NULL,
+	[Account] [varchar](255) NOT NULL,
+	[Password] [varchar](255) NOT NULL,
+	[Name] [varchar](255) NOT NULL,
+	[Sex] [int] NOT NULL,
+	[Status] [int] NOT NULL,
+	[BizCode] [varchar](255) NOT NULL,
+	[CreateTime] [datetime] NOT NULL,
+	[CrateId] [dbo].[PrimaryKey] NULL,
+	[TypeName] [nvarchar](20) NULL,
+	[TypeId] [dbo].[PrimaryKey] NULL,
+ CONSTRAINT [PK_USER] PRIMARY KEY CLUSTERED 
 (
-	Id PrimaryKey not null
-		constraint PK_USER
-			primary key,
-	Account varchar(255) default ' ' not null,
-	Password varchar(255) default ' ' not null,
-	Name varchar(255) default ' ' not null,
-	Sex int default 0 not null,
-	Status int default 0 not null,
-	BizCode varchar(255) default ' ' not null,
-	CreateTime datetime default getdate() not null,
-	CrateId PrimaryKey,
-	TypeName nvarchar(20),
-	TypeId PrimaryKey
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
-exec sp_addextendedproperty 'MS_Description', '用户基本信息表', 'SCHEMA', 'dbo', 'TABLE', 'User'
-go
-
-exec sp_addextendedproperty 'MS_Description', '流水号', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'Id'
-go
-
-exec sp_addextendedproperty 'MS_Description', '用户登录帐号', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'Account'
-go
-
-exec sp_addextendedproperty 'MS_Description', '密码', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'Password'
-go
-
-exec sp_addextendedproperty 'MS_Description', '用户姓名', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'Name'
-go
-
-exec sp_addextendedproperty 'MS_Description', '性别', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'Sex'
-go
-
-exec sp_addextendedproperty 'MS_Description', '用户状态', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'Status'
-go
-
-exec sp_addextendedproperty 'MS_Description', '业务对照码', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'BizCode'
-go
-
-exec sp_addextendedproperty 'MS_Description', '经办时间', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'CreateTime'
-go
-
-exec sp_addextendedproperty 'MS_Description', '创建人', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'CrateId'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类名称', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'TypeName'
-go
-
-exec sp_addextendedproperty 'MS_Description', '分类ID', 'SCHEMA', 'dbo', 'TABLE', 'User', 'COLUMN', 'TypeId'
-go
-
+GO
+SET ANSI_PADDING OFF
+GO
+ALTER TABLE [dbo].[Application] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[Application] ADD  DEFAULT ((0)) FOR [Disable]
+GO
+ALTER TABLE [dbo].[Application] ADD  DEFAULT (getdate()) FOR [CreateTime]
+GO
+ALTER TABLE [dbo].[Category] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[Category] ADD  DEFAULT ((0)) FOR [Disabled]
+GO
+ALTER TABLE [dbo].[Category] ADD  DEFAULT ((0)) FOR [SortNo]
+GO
+ALTER TABLE [dbo].[CategoryType] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[CategoryType] ADD  DEFAULT (getdate()) FOR [CreateTime]
+GO
+ALTER TABLE [dbo].[FlowInstance] ADD  DEFAULT ((0)) FOR [FrmType]
+GO
+ALTER TABLE [dbo].[FlowInstance] ADD  DEFAULT ((0)) FOR [Disabled]
+GO
+ALTER TABLE [dbo].[FlowInstance] ADD  DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE [dbo].[FlowInstance] ADD  DEFAULT ((0)) FOR [FlowLevel]
+GO
+ALTER TABLE [dbo].[FlowInstance] ADD  DEFAULT ((0)) FOR [IsFinish]
+GO
+ALTER TABLE [dbo].[FlowInstanceOperationHistory] ADD  DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE [dbo].[FlowInstanceTransitionHistory] ADD  DEFAULT ((0)) FOR [TransitionSate]
+GO
+ALTER TABLE [dbo].[FlowInstanceTransitionHistory] ADD  DEFAULT ((0)) FOR [IsFinish]
+GO
+ALTER TABLE [dbo].[FlowInstanceTransitionHistory] ADD  DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE [dbo].[FlowScheme] ADD  DEFAULT ((0)) FOR [FrmType]
+GO
+ALTER TABLE [dbo].[FlowScheme] ADD  DEFAULT ((0)) FOR [AuthorizeType]
+GO
+ALTER TABLE [dbo].[FlowScheme] ADD  DEFAULT ((0)) FOR [SortCode]
+GO
+ALTER TABLE [dbo].[FlowScheme] ADD  DEFAULT ((0)) FOR [DeleteMark]
+GO
+ALTER TABLE [dbo].[FlowScheme] ADD  DEFAULT ((0)) FOR [Disabled]
+GO
+ALTER TABLE [dbo].[FlowScheme] ADD  DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE [dbo].[Form] ADD  DEFAULT ((0)) FOR [Fields]
+GO
+ALTER TABLE [dbo].[Form] ADD  DEFAULT ((0)) FOR [SortCode]
+GO
+ALTER TABLE [dbo].[Form] ADD  DEFAULT ((0)) FOR [Delete]
+GO
+ALTER TABLE [dbo].[Form] ADD  DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT (' ') FOR [CascadeId]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT (' ') FOR [Url]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT (' ') FOR [HotKey]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT ((1)) FOR [IsLeaf]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT ((0)) FOR [IsAutoExpand]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT (' ') FOR [IconName]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT ((1)) FOR [Status]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT (' ') FOR [ParentName]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT (' ') FOR [Vector]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT ((0)) FOR [SortNo]
+GO
+ALTER TABLE [dbo].[ModuleElement] ADD  DEFAULT (' ') FOR [DomId]
+GO
+ALTER TABLE [dbo].[ModuleElement] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[ModuleElement] ADD  DEFAULT (' ') FOR [Attr]
+GO
+ALTER TABLE [dbo].[ModuleElement] ADD  DEFAULT (' ') FOR [Script]
+GO
+ALTER TABLE [dbo].[ModuleElement] ADD  DEFAULT (' ') FOR [Icon]
+GO
+ALTER TABLE [dbo].[ModuleElement] ADD  DEFAULT (' ') FOR [Class]
+GO
+ALTER TABLE [dbo].[ModuleElement] ADD  DEFAULT (' ') FOR [Remark]
+GO
+ALTER TABLE [dbo].[ModuleElement] ADD  DEFAULT ((0)) FOR [Sort]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT (' ') FOR [CascadeId]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT (' ') FOR [HotKey]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT (' ') FOR [ParentName]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT ((1)) FOR [IsLeaf]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT ((0)) FOR [IsAutoExpand]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT (' ') FOR [IconName]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT ((1)) FOR [Status]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT (' ') FOR [BizCode]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT (' ') FOR [CustomCode]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT (getdate()) FOR [CreateTime]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT ((0)) FOR [CreateId]
+GO
+ALTER TABLE [dbo].[Org] ADD  DEFAULT ((0)) FOR [SortNo]
+GO
+ALTER TABLE [dbo].[Relevance] ADD  DEFAULT (' ') FOR [Description]
+GO
+ALTER TABLE [dbo].[Relevance] ADD  DEFAULT (' ') FOR [Key]
+GO
+ALTER TABLE [dbo].[Relevance] ADD  DEFAULT ((0)) FOR [Status]
+GO
+ALTER TABLE [dbo].[Relevance] ADD  DEFAULT (getdate()) FOR [OperateTime]
+GO
+ALTER TABLE [dbo].[Resource] ADD  DEFAULT (' ') FOR [CascadeId]
+GO
+ALTER TABLE [dbo].[Resource] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[Resource] ADD  DEFAULT ((0)) FOR [SortNo]
+GO
+ALTER TABLE [dbo].[Resource] ADD  DEFAULT (' ') FOR [Description]
+GO
+ALTER TABLE [dbo].[Resource] ADD  DEFAULT ((0)) FOR [Disable]
+GO
+ALTER TABLE [dbo].[Role] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[Role] ADD  DEFAULT ((1)) FOR [Status]
+GO
+ALTER TABLE [dbo].[Role] ADD  DEFAULT (getdate()) FOR [CreateTime]
+GO
+ALTER TABLE [dbo].[Stock] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[Stock] ADD  DEFAULT ((0)) FOR [Number]
+GO
+ALTER TABLE [dbo].[Stock] ADD  DEFAULT ((0)) FOR [Price]
+GO
+ALTER TABLE [dbo].[Stock] ADD  DEFAULT ((0)) FOR [Status]
+GO
+ALTER TABLE [dbo].[Stock] ADD  DEFAULT (' ') FOR [Viewable]
+GO
+ALTER TABLE [dbo].[Stock] ADD  DEFAULT (' ') FOR [User]
+GO
+ALTER TABLE [dbo].[Stock] ADD  DEFAULT (getdate()) FOR [Time]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT ('') FOR [data_1]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT ('') FOR [data_2]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT ('') FOR [data_3]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT ((0)) FOR [checkboxs_0]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT ('') FOR [data_7]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT ('') FOR [data_8]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT ('') FOR [data_9]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT ('') FOR [data_10]
+GO
+ALTER TABLE [dbo].[Test] ADD  DEFAULT ('') FOR [data_11]
+GO
+ALTER TABLE [dbo].[User] ADD  DEFAULT (' ') FOR [Account]
+GO
+ALTER TABLE [dbo].[User] ADD  DEFAULT (' ') FOR [Password]
+GO
+ALTER TABLE [dbo].[User] ADD  DEFAULT (' ') FOR [Name]
+GO
+ALTER TABLE [dbo].[User] ADD  DEFAULT ((0)) FOR [Sex]
+GO
+ALTER TABLE [dbo].[User] ADD  DEFAULT ((0)) FOR [Status]
+GO
+ALTER TABLE [dbo].[User] ADD  DEFAULT (' ') FOR [BizCode]
+GO
+ALTER TABLE [dbo].[User] ADD  DEFAULT (getdate()) FOR [CreateTime]
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'AppId' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Application', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'应用名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Application', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'应用密钥' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Application', @level2type=N'COLUMN',@level2name=N'AppSecret'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'应用描述' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Application', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'应用图标' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Application', @level2type=N'COLUMN',@level2name=N'Icon'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否可用' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Application', @level2type=N'COLUMN',@level2name=N'Disable'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建日期' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Application', @level2type=N'COLUMN',@level2name=N'CreateTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Application', @level2type=N'COLUMN',@level2name=N'CreateUser'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'应用' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Application'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类表ID（可作为分类的标识）' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Category', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Category', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否可用' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Category', @level2type=N'COLUMN',@level2name=N'Disabled'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'排序号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Category', @level2type=N'COLUMN',@level2name=N'SortNo'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类图标' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Category', @level2type=N'COLUMN',@level2name=N'Icon'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类描述' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Category', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类类型ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Category', @level2type=N'COLUMN',@level2name=N'TypeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类表，表示一个全集，比如：男、女、未知。关联的分类类型表示按什么进行的分类，如：按照性别对人类对象集进行分类' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Category'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类表ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CategoryType', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CategoryType', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CategoryType', @level2type=N'COLUMN',@level2name=N'CreateTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类类型' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CategoryType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'主键Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程实例模板Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'InstanceSchemeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'实例编号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'Code'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'自定义名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'CustomName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'当前节点ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'ActivityId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'当前节点类型（0会签节点）' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'ActivityType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'当前节点名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'ActivityName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'前一个ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'PreviousId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程模板内容' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'SchemeContent'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程模板ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'SchemeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'数据库名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'DbName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单数据' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'FrmData'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单类型' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'FrmType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单中的控件属性描述' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'FrmContentData'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单控件位置模板' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'FrmContentParse'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'FrmId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程类型' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'SchemeType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'有效标志' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'Disabled'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'CreateDate'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建用户主键' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'CreateUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建用户' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'CreateUserName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'等级' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'FlowLevel'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'实例备注' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否完成' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'IsFinish'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'执行人' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance', @level2type=N'COLUMN',@level2name=N'MakerList'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'工作流流程实例表' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstance'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'主键Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceOperationHistory', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'实例进程Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceOperationHistory', @level2type=N'COLUMN',@level2name=N'InstanceId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'操作内容' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceOperationHistory', @level2type=N'COLUMN',@level2name=N'Content'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceOperationHistory', @level2type=N'COLUMN',@level2name=N'CreateDate'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建用户主键' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceOperationHistory', @level2type=N'COLUMN',@level2name=N'CreateUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建用户' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceOperationHistory', @level2type=N'COLUMN',@level2name=N'CreateUserName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'工作流实例操作记录' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceOperationHistory'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'主键Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'实例Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'InstanceId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'开始节点Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'FromNodeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'开始节点类型' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'FromNodeType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'开始节点名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'FromNodeName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'结束节点Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'ToNodeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'结束节点类型' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'ToNodeType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'结束节点名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'ToNodeName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'转化状态' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'TransitionSate'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否结束' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'IsFinish'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'转化时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'CreateDate'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'操作人Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'CreateUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'操作人名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory', @level2type=N'COLUMN',@level2name=N'CreateUserName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'工作流实例流转历史记录' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowInstanceTransitionHistory'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'主键Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程编号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'SchemeCode'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'SchemeName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程分类' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'SchemeType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程内容版本' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'SchemeVersion'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程模板使用者' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'SchemeCanUser'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程内容' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'SchemeContent'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'FrmId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单类型' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'FrmType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'模板权限类型：0完全公开,1指定部门/人员' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'AuthorizeType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'排序码' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'SortCode'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除标记' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'DeleteMark'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'有效' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'Disabled'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'备注' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'CreateDate'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建用户主键' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'CreateUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建用户' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'CreateUserName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'ModifyDate'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改用户主键' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'ModifyUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改用户' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme', @level2type=N'COLUMN',@level2name=N'ModifyUserName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'工作流模板信息表' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'FlowScheme'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单模板Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'字段个数' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'Fields'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单中的控件属性描述' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'ContentData'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单控件位置模板' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'ContentParse'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单原html模板未经处理的' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'Content'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'排序码' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'SortCode'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除标记' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'Delete'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'数据库名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'DbName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'有效' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'Enabled'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'备注' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'CreateDate'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建用户主键' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'CreateUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建用户' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'CreateUserName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'ModifyDate'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改用户主键' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'ModifyUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改用户' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form', @level2type=N'COLUMN',@level2name=N'ModifyUserName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表单模板表' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Form'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'功能模块流水号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'节点语义ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'CascadeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'功能模块名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'主页面URL' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'Url'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'热键' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'HotKey'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否叶子节点' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'IsLeaf'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否自动展开' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'IsAutoExpand'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'节点图标文件名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'IconName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'当前状态' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'Status'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'父节点名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'ParentName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'矢量图标' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'Vector'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'排序号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'SortNo'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'父节点流水号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'ParentId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'功能模块表' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流水号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'DOM ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'DomId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'元素附加属性' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'Attr'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'元素调用脚本' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'Script'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'元素图标' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'Icon'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'元素样式' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'Class'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'备注' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'Remark'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'排序字段' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'Sort'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'功能模块Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'ModuleId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'TypeName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement', @level2type=N'COLUMN',@level2name=N'TypeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'模块元素表(需要权限控制的按钮)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModuleElement'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流水号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'节点语义ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'CascadeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'组织名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'热键' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'HotKey'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'父节点名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'ParentName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否叶子节点' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'IsLeaf'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否自动展开' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'IsAutoExpand'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'节点图标文件名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'IconName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'当前状态' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'Status'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'业务对照码' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'BizCode'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'自定义扩展码' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'CustomCode'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'CreateTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'CreateId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'排序号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'SortNo'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'父节点流水号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'ParentId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'TypeName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org', @level2type=N'COLUMN',@level2name=N'TypeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'组织表' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Org'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流水号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'描述' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'映射标识' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'Key'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'状态' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'Status'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'授权时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'OperateTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'授权人' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'OperatorId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'第一个表主键ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'FirstId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'第二个表主键ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'SecondId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'多对多关系集中映射' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'资源标识' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'节点语义ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'CascadeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'排序号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'SortNo'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'描述' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'父节点名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'ParentName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'父节点流ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'ParentId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'资源所属应用ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'AppId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'所属应用名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'AppName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'TypeName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'TypeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否可用' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource', @level2type=N'COLUMN',@level2name=N'Disable'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'资源表' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Resource'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Role', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'角色名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Role', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'当前状态' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Role', @level2type=N'COLUMN',@level2name=N'Status'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Role', @level2type=N'COLUMN',@level2name=N'CreateTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Role', @level2type=N'COLUMN',@level2name=N'CreateId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Role', @level2type=N'COLUMN',@level2name=N'TypeName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Role', @level2type=N'COLUMN',@level2name=N'TypeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'角色表' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Role'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'数据ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'产品名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'产品数量' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock', @level2type=N'COLUMN',@level2name=N'Number'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'产品单价' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock', @level2type=N'COLUMN',@level2name=N'Price'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'出库/入库' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock', @level2type=N'COLUMN',@level2name=N'Status'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'可见范围' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock', @level2type=N'COLUMN',@level2name=N'Viewable'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'操作人' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock', @level2type=N'COLUMN',@level2name=N'User'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'操作时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock', @level2type=N'COLUMN',@level2name=N'Time'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'组织ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock', @level2type=N'COLUMN',@level2name=N'OrgId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'出入库信息表' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Stock'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流水号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户登录帐号' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'Account'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'密码' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'Password'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户姓名' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'Name'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'性别' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'Sex'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户状态' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'Status'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'业务对照码' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'BizCode'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'经办时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'CreateTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'CrateId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'TypeName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User', @level2type=N'COLUMN',@level2name=N'TypeId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户基本信息表' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User'
+GO
+USE [master]
+GO
+ALTER DATABASE [OpenAuthDB] SET  READ_WRITE 
+GO

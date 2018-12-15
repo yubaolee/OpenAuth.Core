@@ -17,7 +17,6 @@ namespace OpenAuth.App
         /// <param name="type">关联的类型，如Define.USERRESOURCE</param>
         public void Assign(AssignReq request)
         {
-            DeleteBy(request.type, request.firstId);
             Assign(request.type, request.secIds.ToLookup(u => request.firstId));
         }
 

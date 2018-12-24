@@ -40,6 +40,8 @@ namespace OpenAuth.Mvc
             services.AddMemoryCache();
             services.AddOptions();
 
+            services.AddRouting(options => options.LowercaseUrls = false);
+
             //映射配置文件
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
 

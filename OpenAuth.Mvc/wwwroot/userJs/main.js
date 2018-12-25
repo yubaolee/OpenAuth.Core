@@ -59,11 +59,11 @@ layui.config({
 	})
 
 	//系统基本参数
-    $(".version").text("4.0");      //当前版本
+    $(".version").text("core 1.0");      //当前版本
     $(".author").text("yubaolee");        //开发作者
     $(".homePage").text("/Home/Index");    //网站首页
-    $(".server").text("Windows Server 2012");        //服务器环境
-    $(".dataBase").text("Sql Server 2012");    //数据库版本
+    $(".server").text("centos docker");        //服务器环境
+    $(".dataBase").text("mysql 5.7");    //数据库版本
     $(".maxUpload").text("100M");    //最大上传限制
     $(".userRights").text("管理员");//当前用户权限
 

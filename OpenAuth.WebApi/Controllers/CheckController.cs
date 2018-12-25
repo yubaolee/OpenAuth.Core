@@ -56,7 +56,7 @@ namespace OpenAuth.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                result.Code = 50014;
+                result.Code = Define.INVALID_TOKEN;
                 result.Message = ex.Message;
             }
 
@@ -69,14 +69,24 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<Role>>();
             try
             {
+                CheckContext();
                 result.Result = _authStrategyContext.Roles;
             }
-            catch (Exception ex)
+            catch (CommonException ex)
             {
-                result.Code = 500;
-                result.Message = ex.InnerException != null
-                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
-                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                if (ex.Code == Define.INVALID_TOKEN)
+                {
+                    result.Code = ex.Code;
+                    result.Message = ex.Message;
+                }
+                else
+                {
+                    result.Code = 500;
+                    result.Message = ex.InnerException != null
+                        ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                        : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                }
+
             }
 
             return result;
@@ -88,14 +98,24 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<Org>>();
             try
             {
+                CheckContext();
                 result.Result = _authStrategyContext.Orgs;
             }
-            catch (Exception ex)
+            catch (CommonException ex)
             {
-                result.Code = 500;
-                result.Message = ex.InnerException != null
-                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
-                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                if (ex.Code == Define.INVALID_TOKEN)
+                {
+                    result.Code = ex.Code;
+                    result.Message = ex.Message;
+                }
+                else
+                {
+                    result.Code = 500;
+                    result.Message = ex.InnerException != null
+                        ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                        : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                }
+
             }
 
             return result;
@@ -139,20 +159,24 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<ModuleView>>();
             try
             {
-                if (_authStrategyContext == null)
-                {
-                    result.Code = 50014;
-                    result.Message = "登录已过期";
-                    return result;
-                }
+                CheckContext();
                 result.Result = _authStrategyContext.Modules;
             }
-            catch (Exception ex)
+            catch (CommonException ex)
             {
-                result.Code = 500;
-                result.Message = ex.InnerException != null
-                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
-                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                if (ex.Code == Define.INVALID_TOKEN)
+                {
+                    result.Code = ex.Code;
+                    result.Message = ex.Message;
+                }
+                else
+                {
+                    result.Code = 500;
+                    result.Message = ex.InnerException != null
+                        ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                        : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                }
+
             }
 
             return result;
@@ -164,14 +188,24 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<Resource>>();
             try
             {
+                CheckContext();
                 result.Result = _authStrategyContext.Resources;
             }
-            catch (Exception ex)
+            catch (CommonException ex)
             {
-                result.Code = 500;
-                result.Message = ex.InnerException != null
-                    ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
-                    : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                if (ex.Code == Define.INVALID_TOKEN)
+                {
+                    result.Code = ex.Code;
+                    result.Message = ex.Message;
+                }
+                else
+                {
+                    result.Code = 500;
+                    result.Message = ex.InnerException != null
+                        ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                        : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                }
+               
             }
 
             return result;
@@ -186,15 +220,34 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<string>();
             try
             {
-                result.Result = _authUtil.GetUserName();
+                CheckContext();
+                result.Result = _authStrategyContext.User.Account;
             }
-            catch (Exception ex)
+            catch (CommonException ex)
             {
-                result.Code = 500;
-                result.Message = ex.Message;
+                if (ex.Code == Define.INVALID_TOKEN)
+                {
+                    result.Code = ex.Code;
+                    result.Message = ex.Message;
+                }
+                else
+                {
+                    result.Code = 500;
+                    result.Message = ex.InnerException != null
+                        ?  ex.InnerException.Message :  ex.Message;
+                }
+
             }
 
             return result;
+        }
+
+        private void CheckContext()
+        {
+            if (_authStrategyContext == null)
+            {
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+            }
         }
 
         /// <summary>

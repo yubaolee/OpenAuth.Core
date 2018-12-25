@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -76,7 +76,7 @@
     <None Include="wwwroot\js\flow\fonts\iconfont.js" />
     <None Include="wwwroot\js\flow\GooFlow.css" />
     <None Include="wwwroot\js\flow\GooFlow.export.js" />
-    <None Include="wwwroot\js\flow\GooFlow.js" />
+    <None Include="wwwroot\js\flow\gooflow.js" />
     <None Include="wwwroot\js\flow\GooFlow.print.js" />
     <None Include="wwwroot\js\flow\GooFunc.js" />
     <None Include="wwwroot\js\flow\img\gooflow_icon.png" />

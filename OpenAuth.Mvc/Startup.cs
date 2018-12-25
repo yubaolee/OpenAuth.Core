@@ -1,4 +1,4 @@
-using System;
+锘縰sing System;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using OpenAuth.App;
 using OpenAuth.Repository;
 
@@ -18,7 +19,6 @@ namespace OpenAuth.Mvc
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -27,7 +27,7 @@ namespace OpenAuth.Mvc
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                //关闭GDPR规范
+                //鍏抽棴GDPR瑙勮寖
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -35,16 +35,29 @@ namespace OpenAuth.Mvc
 
             services.AddMvc(option =>
             {
-                option.ModelBinderProviders.Insert(0, new JsonBinderProvider());
+                //option.ModelBinderProviders.Insert(0, new JsonBinderProvider());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();
             services.AddOptions();
-            services.AddDbContext<OpenAuthDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
-            //映射配置文件
+
+            services.AddRouting(options => options.LowercaseUrls = false);
+
+            //鏄犲皠閰嶇疆鏂囦欢
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
 
-            //使用AutoFac进行注入
+            //鍦╯tartup閲岄潰鍙兘閫氳繃杩欑鏂瑰紡鑾峰彇鍒癮ppsettings閲岄潰鐨勫�硷紝涓嶈兘鐢↖Options馃槹
+            var dbType = ((ConfigurationSection) Configuration.GetSection("AppSetting:DbType")).Value;
+            if (dbType == Define.DBTYPE_SQLSERVER)
+            {
+                services.AddDbContext<OpenAuthDBContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
+            }
+            else  //mysql
+            {
+                services.AddDbContext<OpenAuthDBContext>(options =>
+                    options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext")));
+            }
+            //浣跨敤AutoFac杩涜娉ㄥ叆
             return new AutofacServiceProvider(AutofacExt.InitAutofac(services));
         }
 

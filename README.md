@@ -28,7 +28,7 @@
 
 ## 演示直达
 
-* 企业版演示地址： http://pro.openauth.me
+* 企业版演示地址： http://demo.openauth.me:1803
 
 * 开源版演示地址： http://demo.openauth.me:1802
 

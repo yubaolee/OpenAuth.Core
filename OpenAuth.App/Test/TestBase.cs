@@ -18,6 +18,10 @@ namespace OpenAuth.App.Test
             serviceCollection.AddMemoryCache();
             serviceCollection.AddOptions();
 
+           // 测试my sql
+           // serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
+           //     options.UseMySql("server=127.0.0.1;user id=root;database=openauthdb;password=000000"));
+
             serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
                 options.UseSqlServer("Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000;Integrated Security=True"));
 

@@ -47,7 +47,14 @@ namespace OpenAuth.App
         /// <param name="secIds">The sec ids.</param>
         public void UnAssign(string type, string firstId, string[] secIds)
         {
-            DeleteBy(type, secIds.ToLookup(u => firstId));
+            if (secIds == null || secIds.Length == 0)
+            {
+                DeleteBy(type, firstId);
+            }
+            else
+            {
+               DeleteBy(type, secIds.ToLookup(u => firstId));
+            }
         }
 
         /// <summary>

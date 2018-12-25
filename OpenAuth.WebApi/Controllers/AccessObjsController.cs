@@ -41,12 +41,12 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
         [HttpPost]
-        public Response UnAssign(string type, string firstId, string[] secIds)
+        public Response UnAssign(AssignReq request)
         {
             var result = new Response();
             try
             {
-                _app.UnAssign(type, firstId, secIds);
+                _app.UnAssign(request.type, request.firstId, request.secIds);
             }
             catch (Exception ex)
             {

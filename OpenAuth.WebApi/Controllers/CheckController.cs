@@ -56,7 +56,7 @@ namespace OpenAuth.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                result.Code = 500;
+                result.Code = 50014;
                 result.Message = ex.Message;
             }
 
@@ -139,6 +139,12 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<ModuleView>>();
             try
             {
+                if (_authStrategyContext == null)
+                {
+                    result.Code = 50014;
+                    result.Message = "登录已过期";
+                    return result;
+                }
                 result.Result = _authStrategyContext.Modules;
             }
             catch (Exception ex)

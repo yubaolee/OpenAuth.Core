@@ -1,6 +1,6 @@
-## 重磅推荐：
+## ❤❤❤郑重声明❤❤❤
 
-全新.net core 2.1正式提交，喜欢的同学快快star吧：
+随着技术不断前进，.NET对跨平台、微服务方面渐渐变得毫无优势。团队后期主要精力会随之投入到 .net core版本的开发与维护，更强大的功能，超流畅的跨平台体验，已成功部署到centos+docker+jenkins，喜欢的同学快快star吧：
 
 **GitHub** https://github.com/yubaolee/OpenAuth.Core
 
@@ -41,7 +41,7 @@
 
 ## 演示直达
 
-* 企业版演示地址： http://pro.openauth.me
+* 企业版演示地址： http://demo.openauth.me:1803
 
 * 开源版演示地址： http://demo.openauth.me:1802
 

@@ -153,6 +153,9 @@ namespace OpenAuth.WebApi.Controllers
             };
         }
 
+        /// <summary>
+        /// 获取登录用户的所有可访问的模块及菜单，以列表形式返回结果
+        /// </summary>
         [HttpGet]
         public Response<List<ModuleView>> GetModules()
         {
@@ -182,6 +185,37 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 获取登录用户的所有可访问的模块及菜单，以树状结构返回
+        /// </summary>
+        [HttpGet]
+        public Response<IEnumerable<TreeItem<ModuleView>>> GetModulesTree()
+        {
+            var result = new Response<IEnumerable<TreeItem<ModuleView>>>();
+            try
+            {
+                CheckContext();
+                result.Result = _authStrategyContext.Modules.GenerateTree(u => u.Id, u => u.ParentId);
+            }
+            catch (CommonException ex)
+            {
+                if (ex.Code == Define.INVALID_TOKEN)
+                {
+                    result.Code = ex.Code;
+                    result.Message = ex.Message;
+                }
+                else
+                {
+                    result.Code = 500;
+                    result.Message = ex.InnerException != null
+                        ? "OpenAuth.WebAPI数据库访问失败:" + ex.InnerException.Message
+                        : "OpenAuth.WebAPI数据库访问失败:" + ex.Message;
+                }
+
+            }
+
+            return result;
+        }
         [HttpGet]
         public Response<List<Resource>> GgetResources()
         {

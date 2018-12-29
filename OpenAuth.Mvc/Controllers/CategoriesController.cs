@@ -25,7 +25,7 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public string All([FromQuery]QueryCategoriesReq request)
+        public string All([FromQuery]QueryCategoryListReq request)
         {
             TableData data = new TableData();
             data = _app.All(request);

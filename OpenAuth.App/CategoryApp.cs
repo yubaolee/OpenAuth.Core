@@ -1,38 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Infrastructure;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
+
 namespace OpenAuth.App
 {
-    /// <summary>
-    /// 分类管理
-    /// </summary>
-    public class CategoryApp:BaseApp<Category>
+    public class CategoryApp : BaseApp<Category>
     {
+        private RevelanceManagerApp _revelanceApp;
 
-        public void Add(Category category)
+        /// <summary>
+        /// 加载列表
+        /// </summary>
+        public TableData Load(QueryCategoryListReq request)
         {
-            if (string.IsNullOrEmpty(category.Id))
+             return new TableData
             {
-                category.Id = Guid.NewGuid().ToString();
-            }
-            Repository.Add(category);
+                count = Repository.GetCount(null),
+                data = Repository.Find(request.page, request.limit, "Id desc")
+            };
         }
 
-        public void Update(Category category)
+        public void Add(Category obj)
         {
-            Repository.Update(category);
+            Repository.Add(obj);
+        }
+        
+        public void Update(Category obj)
+        {
+            UnitWork.Update<Category>(u => u.Id == obj.Id, u => new Category
+            {
+               //todo:要修改的字段赋值
+            });
+
         }
 
-
-        public TableData All(QueryCategoriesReq request)
+        public TableData All(QueryCategoryListReq request)
         {
             var result = new TableData();
-            var categories =  UnitWork.Find<Category>(null) ;
+            var categories = UnitWork.Find<Category>(null);
             if (!string.IsNullOrEmpty(request.key))
             {
                 categories = categories.Where(u => u.Name.Contains(request.key) || u.Id.Contains(request.key));
@@ -43,8 +54,8 @@ namespace OpenAuth.App
                 categories = categories.Where(u => u.TypeId == request.TypeId);
             }
 
-            var  query = from category in categories
-                    join ct in UnitWork.Find<CategoryType>(null) on category.TypeId equals ct.Id
+            var query = from category in categories
+                join ct in UnitWork.Find<CategoryType>(null) on category.TypeId equals ct.Id
                     into tmp
                 from ct in tmp.DefaultIfEmpty()
                 select new
@@ -68,8 +79,10 @@ namespace OpenAuth.App
             return UnitWork.Find<CategoryType>(null).ToList();
         }
 
-        public CategoryApp(IUnitWork unitWork, IRepository<Category> repository) : base(unitWork, repository)
+        public CategoryApp(IUnitWork unitWork, IRepository<Category> repository,
+            RevelanceManagerApp app) : base(unitWork, repository)
         {
+            _revelanceApp = app;
         }
     }
 }

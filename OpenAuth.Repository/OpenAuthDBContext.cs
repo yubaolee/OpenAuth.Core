@@ -11,7 +11,7 @@ namespace OpenAuth.Repository
         { }
 
         public virtual DbSet<Application> Applications { get; set; }
-        public virtual DbSet<Category> Categorys { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CategoryType> CategoryTypes { get; set; }
         public virtual DbSet<FlowInstance> FlowInstances { get; set; }
         public virtual DbSet<FlowInstanceOperationHistory> FlowInstanceOperationHistorys { get; set; }

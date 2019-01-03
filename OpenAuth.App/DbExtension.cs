@@ -1,10 +1,11 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Infrastructure;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using OpenAuth.Repository;
 
-namespace OpenAuth.Repository
+namespace OpenAuth.App
 {
    public  class DbExtension
    {
@@ -20,16 +21,20 @@ namespace OpenAuth.Repository
        /// </summary>
        /// <param name="moduleName">模块名称/表名</param>
        /// <returns></returns>
-       public Dictionary<string, string> GetProperties(string moduleName)
+       public List<KeyDescription> GetProperties(string moduleName)
        {
-           var result = new Dictionary<string,string>();
+           var result = new List<KeyDescription>();
            var entity = _context.Model.GetEntityTypes().FirstOrDefault(u => u.Name.Contains(moduleName));
 
            foreach (var property in entity.ClrType.GetProperties())
            {
                object[] objs = property.GetCustomAttributes(typeof(DescriptionAttribute), true);
                var description = objs.Length > 0 ? ((DescriptionAttribute) objs[0]).Description : property.Name;
-                result.Add(property.Name, description);
+                result.Add(new KeyDescription
+                {
+                    Key = property.Name,
+                    Description = description
+                });
            }
 
            return result;

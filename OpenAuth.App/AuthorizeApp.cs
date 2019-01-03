@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
@@ -41,10 +41,12 @@ namespace OpenAuth.App
                 Roles = service.Roles
             };
 
+            var ModuleElements=service.ModuleElements;
+
             foreach (var moduleView in user.Modules)
             {
                 moduleView.Elements =
-                    service.ModuleElements.Where(u => u.ModuleId == moduleView.Id).OrderBy(u => u.Sort).ToList();
+                    ModuleElements.Where(u => u.ModuleId == moduleView.Id).OrderBy(u => u.Sort).ToList();
             }
             
             return user;

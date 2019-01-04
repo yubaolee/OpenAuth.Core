@@ -31,6 +31,8 @@ namespace OpenAuth.Repository.Domain
           this.OperatorId= string.Empty;
           this.FirstId= string.Empty;
           this.SecondId= string.Empty;
+          this.ThirdId= string.Empty;
+          this.ExtendInfo= string.Empty;
         }
 
         /// <summary>
@@ -68,6 +70,16 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
          [Description("第二个表主键ID")]
         public string SecondId { get; set; }
+        /// <summary>
+	    /// 第三个主键
+	    /// </summary>
+         [Description("第三个主键")]
+        public string ThirdId { get; set; }
+        /// <summary>
+	    /// 扩展信息
+	    /// </summary>
+         [Description("扩展信息")]
+        public string ExtendInfo { get; set; }
 
     }
 }

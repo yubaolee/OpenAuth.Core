@@ -81,10 +81,16 @@ namespace OpenAuth.Repository.Domain
         public int SortNo { get; set; }
 
         /// <summary>
-	    /// 
+	    /// 模块标识
 	    /// </summary>
-         [Description("")]
+         [Description("模块标识")]
         public string Code { get; set; }
+
+        /// <summary>
+        /// 是否系统模块
+        /// </summary>
+        [Description("是否系统模块")]
+        public bool IsSys { get; set; }
 
     }
 }

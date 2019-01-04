@@ -52,7 +52,8 @@ namespace OpenAuth.App
                         IconName = module.IconName,
                         Url = module.Url,
                         ParentId = module.ParentId,
-                        ParentName = module.ParentName
+                        ParentName = module.ParentName,
+                        IsSys = module.IsSys
                     }).ToList();
 
                 var usermoduleelements = ModuleElements;

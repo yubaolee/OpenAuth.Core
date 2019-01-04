@@ -103,5 +103,51 @@ namespace OpenAuth.App
         public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository) : base(unitWork, repository)
         {
         }
+
+        /// <summary>
+        /// 分配数据字段权限
+        /// </summary>
+        /// <param name="request"></param>
+        public void AssignData(AssignDataReq request)
+        {
+            var relevances = new List<Relevance>();
+            foreach (var requestProperty in request.Properties)
+            {
+                relevances.Add(new Relevance
+                {
+                    Key = Define.ROLEDATAPROPERTY,
+                    FirstId = request.ModuleId,
+                    SecondId = requestProperty,
+                    OperateTime = DateTime.Now
+                });
+            }
+            UnitWork.BatchAdd(relevances.ToArray());
+            UnitWork.Save();
+        }
+
+        public void UnAssignData(AssignDataReq request)
+        {
+            if (request.Properties == null || request.Properties.Length == 0)
+            {
+                if (string.IsNullOrEmpty(request.ModuleId))  //模块为空，直接把角色的所有授权删除
+                {
+                    DeleteBy(Define.ROLEDATAPROPERTY, request.RoleId);
+                }
+                else  //把角色的某一个模块权限全部删除
+                {
+                    DeleteBy(Define.ROLEDATAPROPERTY, new []{ request.ModuleId }.ToLookup(u =>request.RoleId));
+                }
+            }
+            else  //按具体的id删除
+            {
+                foreach (var property in request.Properties)
+                {
+                    Repository.Delete(u => u.Key == Define.ROLEDATAPROPERTY
+                                           && u.FirstId == request.RoleId 
+                                           && u.SecondId == request.ModuleId 
+                                           && u.ThirdId == property);
+                }
+            }
+        }
     }
 }

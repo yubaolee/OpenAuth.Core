@@ -100,6 +100,19 @@ namespace OpenAuth.App
             }
         }
 
+        /// <summary>
+        /// 根据key ,firstId,secondId获取thirdId
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="firstId"></param>
+        /// <param name="secondId"></param>
+        /// <returns></returns>
+        public List<string> Get(string key, string firstId, string secondId)
+        {
+            return Repository.Find(u => u.Key == key && u.FirstId == firstId && u.SecondId == secondId)
+                .Select(u => u.ThirdId).ToList();
+        }
+
         public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository) : base(unitWork, repository)
         {
         }

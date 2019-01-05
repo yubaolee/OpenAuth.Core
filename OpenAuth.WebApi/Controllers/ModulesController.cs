@@ -69,6 +69,28 @@ namespace OpenAuth.WebApi.Controllers
         }
 
         /// <summary>
+        /// 获取角色已经分配的字段
+        /// </summary>
+        /// <param name="roleId">角色id</param>
+        /// <param name="moduleId">模块id</param>
+        /// <returns></returns>
+        [HttpGet]
+        public Response<IEnumerable<string>> LoadPropertiesForRole(string roleId, string moduleId)
+        {
+            var result = new Response<IEnumerable<string>>();
+            try
+            {
+                result.Result = _app.LoadPropertiesForRole(roleId, moduleId);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 获取发起页面的菜单权限
         /// </summary>
         /// <returns>System.String.</returns>

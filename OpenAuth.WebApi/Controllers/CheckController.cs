@@ -92,7 +92,30 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 获取当前登录用户可访问的字段
+        /// </summary>
+        /// <param name="moduleId">模块id</param>
+        /// <returns></returns>
         [HttpGet]
+        public Response<List<KeyDescription>> GetProperties(string moduleId)
+        {
+            var result = new Response<List<KeyDescription>>();
+            try
+            {
+                CheckContext();
+                result.Result = _authStrategyContext.GetProperties(moduleId);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+
+    [HttpGet]
         public Response<List<Org>> GetOrgs()
         {
             var result = new Response<List<Org>>();

@@ -16,6 +16,7 @@
 // ***********************************************************************
 
 using System.Collections.Generic;
+using Infrastructure;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
@@ -60,6 +61,11 @@ namespace OpenAuth.App
         public List<Org> Orgs
         {
             get { return _strategy.Orgs; }
+        }
+
+        public List<KeyDescription> GetProperties(string moduleId)
+        {
+            return _strategy.GetProperties(moduleId);
         }
 
     }

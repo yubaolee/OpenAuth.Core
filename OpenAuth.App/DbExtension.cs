@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Infrastructure;
@@ -16,6 +17,12 @@ namespace OpenAuth.App
            _context = context;
        }
 
+       public List<KeyDescription> GetPropertiesById(string moduleId)
+       {
+           var moduleName = _context.Modules.FirstOrDefault(u => u.Id == moduleId)?.Code;
+           return GetProperties(moduleName);
+       }
+
        /// <summary>
        /// 获取数据库一个表的所有属性值及属性描述
        /// </summary>
@@ -25,7 +32,10 @@ namespace OpenAuth.App
        {
            var result = new List<KeyDescription>();
            var entity = _context.Model.GetEntityTypes().FirstOrDefault(u => u.Name.Contains(moduleName));
-
+           if (entity == null)
+           {
+               throw new Exception($"未能找到{moduleName}对应的实体类");
+           }
            foreach (var property in entity.ClrType.GetProperties())
            {
                object[] objs = property.GetCustomAttributes(typeof(DescriptionAttribute), true);

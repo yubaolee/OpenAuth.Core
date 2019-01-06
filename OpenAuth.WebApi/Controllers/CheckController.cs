@@ -95,16 +95,16 @@ namespace OpenAuth.WebApi.Controllers
         /// <summary>
         /// 获取当前登录用户可访问的字段
         /// </summary>
-        /// <param name="moduleId">模块id</param>
+        /// <param name="moduleCode">模块的Code，如Category</param>
         /// <returns></returns>
         [HttpGet]
-        public Response<List<KeyDescription>> GetProperties(string moduleId)
+        public Response<List<KeyDescription>> GetProperties(string moduleCode)
         {
             var result = new Response<List<KeyDescription>>();
             try
             {
                 CheckContext();
-                result.Result = _authStrategyContext.GetProperties(moduleId);
+                result.Result = _authStrategyContext.GetProperties(moduleCode);
             }
             catch (Exception ex)
             {

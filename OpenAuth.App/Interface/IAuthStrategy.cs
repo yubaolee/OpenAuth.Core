@@ -42,9 +42,9 @@ namespace OpenAuth.App
         /// <summary>
         /// 根据模块id获取可访问的模块字段
         /// </summary>
-        /// <param name="moduleId"></param>
+        /// <param name="moduleCode"></param>
         /// <returns></returns>
-        List<KeyDescription> GetProperties(string moduleId);
+        List<KeyDescription> GetProperties(string moduleCode);
 
     }
 }

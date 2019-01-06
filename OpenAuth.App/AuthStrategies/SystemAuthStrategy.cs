@@ -89,9 +89,9 @@ namespace OpenAuth.App
             }  
         }
 
-        public List<KeyDescription> GetProperties(string moduleId)
+        public List<KeyDescription> GetProperties(string moduleCode)
         {
-            return _dbExtension.GetPropertiesById(moduleId);
+            return _dbExtension.GetProperties(moduleCode);
         }
 
 

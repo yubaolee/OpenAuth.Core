@@ -63,9 +63,9 @@ namespace OpenAuth.App
             get { return _strategy.Orgs; }
         }
 
-        public List<KeyDescription> GetProperties(string moduleId)
+        public List<KeyDescription> GetProperties(string moduleCode)
         {
-            return _strategy.GetProperties(moduleId);
+            return _strategy.GetProperties(moduleCode);
         }
 
     }

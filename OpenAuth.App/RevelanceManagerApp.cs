@@ -129,8 +129,9 @@ namespace OpenAuth.App
                 relevances.Add(new Relevance
                 {
                     Key = Define.ROLEDATAPROPERTY,
-                    FirstId = request.ModuleId,
-                    SecondId = requestProperty,
+                    FirstId = request.RoleId,
+                    SecondId = request.ModuleCode,
+                    ThirdId = requestProperty,
                     OperateTime = DateTime.Now
                 });
             }
@@ -142,13 +143,13 @@ namespace OpenAuth.App
         {
             if (request.Properties == null || request.Properties.Length == 0)
             {
-                if (string.IsNullOrEmpty(request.ModuleId))  //模块为空，直接把角色的所有授权删除
+                if (string.IsNullOrEmpty(request.ModuleCode))  //模块为空，直接把角色的所有授权删除
                 {
                     DeleteBy(Define.ROLEDATAPROPERTY, request.RoleId);
                 }
                 else  //把角色的某一个模块权限全部删除
                 {
-                    DeleteBy(Define.ROLEDATAPROPERTY, new []{ request.ModuleId }.ToLookup(u =>request.RoleId));
+                    DeleteBy(Define.ROLEDATAPROPERTY, new []{ request.ModuleCode }.ToLookup(u =>request.RoleId));
                 }
             }
             else  //按具体的id删除
@@ -157,7 +158,7 @@ namespace OpenAuth.App
                 {
                     Repository.Delete(u => u.Key == Define.ROLEDATAPROPERTY
                                            && u.FirstId == request.RoleId 
-                                           && u.SecondId == request.ModuleId 
+                                           && u.SecondId == request.ModuleCode 
                                            && u.ThirdId == property);
                 }
             }

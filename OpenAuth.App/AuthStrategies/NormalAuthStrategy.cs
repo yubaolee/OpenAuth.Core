@@ -121,13 +121,13 @@ namespace OpenAuth.App
         /// <summary>
         /// 获取用户可访问的字段列表
         /// </summary>
-        /// <param name="moduleId"></param>
+        /// <param name="moduleCode">模块的code</param>
         /// <returns></returns>
-        public List<KeyDescription> GetProperties(string moduleId)
+        public List<KeyDescription> GetProperties(string moduleCode)
         {
-            var allprops = _dbExtension.GetPropertiesById(moduleId);
+            var allprops = _dbExtension.GetProperties(moduleCode);
             var props =UnitWork.Find<Relevance>(u =>
-                    u.Key == Define.ROLEDATAPROPERTY && _userRoleIds.Contains(u.FirstId) && u.SecondId == moduleId)
+                    u.Key == Define.ROLEDATAPROPERTY && _userRoleIds.Contains(u.FirstId) && u.SecondId == moduleCode)
                 .Select(u => u.ThirdId);
 
             return allprops.Where(u => props.Contains(u.Key)).ToList();

@@ -17,11 +17,11 @@ namespace OpenAuth.App
            _context = context;
        }
 
-       public List<KeyDescription> GetPropertiesById(string moduleId)
-       {
-           var moduleName = _context.Modules.FirstOrDefault(u => u.Id == moduleId)?.Code;
-           return GetProperties(moduleName);
-       }
+       //public List<KeyDescription> GetPropertiesById(string moduleId)
+       //{
+       //    var moduleName = _context.Modules.FirstOrDefault(u => u.Id == moduleId)?.Code;
+       //    return GetProperties(moduleName);
+       //}
 
        /// <summary>
        /// 获取数据库一个表的所有属性值及属性描述

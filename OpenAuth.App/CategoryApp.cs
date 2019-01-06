@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
@@ -13,16 +14,25 @@ namespace OpenAuth.App
     public class CategoryApp : BaseApp<Category>
     {
         private RevelanceManagerApp _revelanceApp;
+        private IAuth _auth;
 
         /// <summary>
         /// 加载列表
         /// </summary>
         public TableData Load(QueryCategoryListReq request)
         {
-             return new TableData
+            var loginContext = _auth.GetCurrentUser();
+            if (loginContext == null)
+            {
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+            }
+
+            var properties = loginContext.GetProperties("Category");
+            var selectStatement = $"new ({string.Join(',', properties.Select(u =>u.Key))})";
+            return new TableData
             {
                 count = Repository.GetCount(null),
-                data = Repository.Find(request.page, request.limit, "Id desc")
+                data = Repository.Find(request.page, request.limit, "Id desc").Select(selectStatement)
             };
         }
 
@@ -80,9 +90,10 @@ namespace OpenAuth.App
         }
 
         public CategoryApp(IUnitWork unitWork, IRepository<Category> repository,
-            RevelanceManagerApp app) : base(unitWork, repository)
+            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository)
         {
             _revelanceApp = app;
+            _auth = auth;
         }
     }
 }

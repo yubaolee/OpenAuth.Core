@@ -14,7 +14,7 @@
 为了进一步扩大会员用户的权益，官方于近期针对VIP2用户推出专属版本，该版本基于OpenAuth.Core的API接口，前端采用VUE全家桶（VUE+VUEX+VUE-ROUTER）及ElementUI界面，全面拥抱单页面SPA开发，[如何获取请查看这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
 
 效果如下：
-![openauth.pro](http://www.openauth.me/upload/180912010136383.gif "180912010136383.gif")
+![openauth.pro](http://demo.openauth.me:8887/upload_files/181228200620875.gif "181228200620875.gif")
 
 ## 官方QQ交流群  
 

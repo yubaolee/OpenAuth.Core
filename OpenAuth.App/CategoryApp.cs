@@ -28,11 +28,18 @@ namespace OpenAuth.App
             }
 
             var properties = loginContext.GetProperties("Category");
-            var selectStatement = $"new ({string.Join(',', properties.Select(u =>u.Key))})";
+
+            if (properties == null || properties.Count == 0)
+            {
+                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
+            }
+
+            var propertyStr = string.Join(',', properties.Select(u =>u.Key));
             return new TableData
             {
+                columnHeaders = properties,
                 count = Repository.GetCount(null),
-                data = Repository.Find(request.page, request.limit, "Id desc").Select(selectStatement)
+                data = Repository.Find(request.page, request.limit, "Id desc").Select($"new ({propertyStr})")
             };
         }
 

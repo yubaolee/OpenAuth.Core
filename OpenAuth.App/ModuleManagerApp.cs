@@ -35,9 +35,9 @@ namespace OpenAuth.App
         }
 
         //获取角色可访问的模块字段
-        public IEnumerable<string> LoadPropertiesForRole(string roleId, string moduleId)
+        public IEnumerable<string> LoadPropertiesForRole(string roleId, string moduleCode)
         {
-            return _revelanceApp.Get(Define.ROLEDATAPROPERTY, roleId, moduleId);
+            return _revelanceApp.Get(Define.ROLEDATAPROPERTY, roleId, moduleCode);
         }
 
         public IEnumerable<ModuleElement> LoadMenusForRole(string moduleId, string roleId)

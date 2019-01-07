@@ -72,15 +72,15 @@ namespace OpenAuth.WebApi.Controllers
         /// 获取角色已经分配的字段
         /// </summary>
         /// <param name="roleId">角色id</param>
-        /// <param name="moduleId">模块id</param>
+        /// <param name="moduleCode">模块代码，如Category</param>
         /// <returns></returns>
         [HttpGet]
-        public Response<IEnumerable<string>> LoadPropertiesForRole(string roleId, string moduleId)
+        public Response<IEnumerable<string>> LoadPropertiesForRole(string roleId, string moduleCode)
         {
             var result = new Response<IEnumerable<string>>();
             try
             {
-                result.Result = _app.LoadPropertiesForRole(roleId, moduleId);
+                result.Result = _app.LoadPropertiesForRole(roleId, moduleCode);
             }
             catch (Exception ex)
             {

@@ -12,6 +12,9 @@
 // <summary>layui datatable数据返回</summary>
 // ***********************************************************************
 
+using System.Collections.Generic;
+using Infrastructure;
+
 namespace OpenAuth.App.Response
 {
     /// <summary>
@@ -34,6 +37,11 @@ namespace OpenAuth.App.Response
         public int count;
 
         /// <summary>
+        ///  返回的列表头信息
+        /// </summary>
+        public List<KeyDescription> columnHeaders;
+
+        /// <summary>
         /// 数据内容
         /// </summary>
         public dynamic data;
@@ -42,6 +50,7 @@ namespace OpenAuth.App.Response
         {
             code = 200;
             msg = "加载成功";
+            columnHeaders = new List<KeyDescription>();
         }
     }
 }

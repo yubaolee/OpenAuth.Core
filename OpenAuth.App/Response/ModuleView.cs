@@ -57,6 +57,8 @@ namespace OpenAuth.App.Response
 
         public string Code { get; set; }
 
+        public bool IsSys { get; set; }
+
         /// <summary>
         /// 模块中的元素
         /// </summary>

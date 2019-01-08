@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +27,10 @@ namespace OpenAuth.Repository.Test
 
             var builder = new ContainerBuilder();
 
-         //   builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();
+            //注册repository层
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());
+
+            //   builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();
             builder.Populate(serviceCollection);
           
             var _container = builder.Build();

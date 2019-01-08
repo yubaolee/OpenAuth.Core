@@ -28,7 +28,7 @@ namespace OpenAuth.WebApi.Model
                     In = "header",
                     Type = "string",
                     Description = "当前登录用户登录token",
-                    Required = true
+                    Required = false
                 });
             }
         }

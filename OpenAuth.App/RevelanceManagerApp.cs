@@ -100,8 +100,68 @@ namespace OpenAuth.App
             }
         }
 
+        /// <summary>
+        /// 根据key ,firstId,secondId获取thirdId
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="firstId"></param>
+        /// <param name="secondId"></param>
+        /// <returns></returns>
+        public List<string> Get(string key, string firstId, string secondId)
+        {
+            return Repository.Find(u => u.Key == key && u.FirstId == firstId && u.SecondId == secondId)
+                .Select(u => u.ThirdId).ToList();
+        }
+
         public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository) : base(unitWork, repository)
         {
+        }
+
+        /// <summary>
+        /// 分配数据字段权限
+        /// </summary>
+        /// <param name="request"></param>
+        public void AssignData(AssignDataReq request)
+        {
+            var relevances = new List<Relevance>();
+            foreach (var requestProperty in request.Properties)
+            {
+                relevances.Add(new Relevance
+                {
+                    Key = Define.ROLEDATAPROPERTY,
+                    FirstId = request.RoleId,
+                    SecondId = request.ModuleCode,
+                    ThirdId = requestProperty,
+                    OperateTime = DateTime.Now
+                });
+            }
+            UnitWork.BatchAdd(relevances.ToArray());
+            UnitWork.Save();
+        }
+
+        public void UnAssignData(AssignDataReq request)
+        {
+            if (request.Properties == null || request.Properties.Length == 0)
+            {
+                if (string.IsNullOrEmpty(request.ModuleCode))  //模块为空，直接把角色的所有授权删除
+                {
+                    DeleteBy(Define.ROLEDATAPROPERTY, request.RoleId);
+                }
+                else  //把角色的某一个模块权限全部删除
+                {
+                    DeleteBy(Define.ROLEDATAPROPERTY, new []{ request.ModuleCode }.ToLookup(u =>request.RoleId));
+                }
+            }
+            else  //按具体的id删除
+            {
+                foreach (var property in request.Properties)
+                {
+                    Repository.Delete(u => u.Key == Define.ROLEDATAPROPERTY
+                                           && u.FirstId == request.RoleId 
+                                           && u.SecondId == request.ModuleCode 
+                                           && u.ThirdId == property);
+                }
+            }
         }
     }
 }

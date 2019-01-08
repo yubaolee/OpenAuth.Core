@@ -16,6 +16,7 @@
 
 
 using System.Collections.Generic;
+using Infrastructure;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
@@ -37,6 +38,13 @@ namespace OpenAuth.App
         {
             get;set;
         }
+
+        /// <summary>
+        /// 根据模块id获取可访问的模块字段
+        /// </summary>
+        /// <param name="moduleCode"></param>
+        /// <returns></returns>
+        List<KeyDescription> GetProperties(string moduleCode);
 
     }
 }

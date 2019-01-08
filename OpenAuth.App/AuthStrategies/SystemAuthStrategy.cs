@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Infrastructure;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
@@ -31,6 +32,7 @@ namespace OpenAuth.App
     public class SystemAuthStrategy : BaseApp<User>, IAuthStrategy
     {
         protected User _user;
+        private DbExtension _dbExtension;
 
         public List<ModuleView> Modules
         {
@@ -45,7 +47,8 @@ namespace OpenAuth.App
                         IconName = module.IconName,
                         Url = module.Url,
                         ParentId = module.ParentId,
-                        ParentName = module.ParentName
+                        ParentName = module.ParentName,
+                        IsSys = module.IsSys
                     }).ToList();
 
                 foreach (var module in modules)
@@ -86,8 +89,15 @@ namespace OpenAuth.App
             }  
         }
 
-        public SystemAuthStrategy(IUnitWork unitWork, IRepository<User> repository) : base(unitWork, repository)
+        public List<KeyDescription> GetProperties(string moduleCode)
         {
+            return _dbExtension.GetProperties(moduleCode);
+        }
+
+
+        public SystemAuthStrategy(IUnitWork unitWork, IRepository<User> repository, DbExtension dbExtension) : base(unitWork, repository)
+        {
+            _dbExtension = dbExtension;
             _user = new User
             {
                 Account = "System",

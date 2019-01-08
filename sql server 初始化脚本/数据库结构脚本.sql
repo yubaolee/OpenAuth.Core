@@ -261,6 +261,7 @@ CREATE TABLE [dbo].[Module](
 	[SortNo] [int] NOT NULL,
 	[ParentId] [dbo].[PrimaryKey] NULL,
 	[Code] [varchar](50) NULL,
+	[IsSys] [bit] NOT NULL,
  CONSTRAINT [PK_MODULE] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -349,6 +350,8 @@ CREATE TABLE [dbo].[Relevance](
 	[OperatorId] [dbo].[PrimaryKey] NULL,
 	[FirstId] [dbo].[PrimaryKey] NOT NULL,
 	[SecondId] [dbo].[PrimaryKey] NOT NULL,
+	[ThirdId] [dbo].[PrimaryKey],
+	[ExtendInfo] [varchar](100),
  CONSTRAINT [PK_RELEVANCE] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -557,6 +560,8 @@ GO
 ALTER TABLE [dbo].[Module] ADD  DEFAULT ((1)) FOR [IsLeaf]
 GO
 ALTER TABLE [dbo].[Module] ADD  DEFAULT ((0)) FOR [IsAutoExpand]
+GO
+ALTER TABLE [dbo].[Module] ADD  DEFAULT ((0)) FOR [IsSys]
 GO
 ALTER TABLE [dbo].[Module] ADD  DEFAULT (' ') FOR [IconName]
 GO
@@ -908,6 +913,8 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'热键' , @lev
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否叶子节点' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'IsLeaf'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否为系统模块' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'IsSys'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否自动展开' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'IsAutoExpand'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'节点图标文件名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Module', @level2type=N'COLUMN',@level2name=N'IconName'
@@ -1001,6 +1008,10 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'第一个表主键ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'FirstId'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'第二个表主键ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'SecondId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'第三个表主键ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'ThirdId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'扩展信息' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance', @level2type=N'COLUMN',@level2name=N'ExtendInfo'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'多对多关系集中映射' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Relevance'
 GO

@@ -1,5 +1,7 @@
 ﻿using System;
 using Infrastructure;
+using Infrastructure.Cache;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using OpenAuth.App.SSO;
@@ -7,6 +9,7 @@ using OpenAuth.App.Test;
 using OpenAuth.WebApi.Areas.SSO.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Moq;
 using OpenAuth.App;
 using OpenAuth.WebApi.Controllers;
 
@@ -19,6 +22,16 @@ namespace OpenAuth.WebApi.Test
         public override ServiceCollection GetService()
         {
             var serviceCollection = new ServiceCollection();
+
+            var cachemock = new Mock<ICacheContext>();
+            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "admin" });
+            serviceCollection.AddScoped(x => cachemock.Object);
+
+            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query["Token"]).Returns("tokentest");
+
+            serviceCollection.AddScoped(x => httpContextAccessorMock.Object);
+
             serviceCollection.AddMvc().AddControllersAsServices();
             serviceCollection.AddScoped<CheckController>();
 
@@ -30,6 +43,17 @@ namespace OpenAuth.WebApi.Test
             serviceCollection.Configure<AppSetting>(configuration.GetSection("AppSetting"));
 
             return serviceCollection;
+        }
+
+        [Test]
+        public void LoadModuleTree()
+        {
+            var checkController = _autofacServiceProvider.GetService<CheckController>();
+
+            Assert.NotNull(checkController);
+
+            var modules = checkController.GetModulesTree();
+            Console.WriteLine(JsonHelper.Instance.Serialize(modules));
         }
 
 

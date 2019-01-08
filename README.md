@@ -11,7 +11,7 @@
 
 目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出VIP服务，提供VIP专属QQ群，第一时间提供开发进度、内部文档、1V1专属咨询服务等。
 
-为了进一步扩大会员用户的权益，官方于近期针对VIP2用户推出专属版本，该版本基于OpenAuth.Core的API接口，前端采用VUE全家桶（VUE+VUEX+VUE-ROUTER）及ElementUI界面，全面拥抱单页面SPA开发，[如何获取请查看这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
+为了进一步扩大会员用户的权益，官方于近期针对VIP2用户推出专属版本，该版本基于OpenAuth.Core的API接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）全面拥抱单页面SPA开发，[如何获取请查看这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
 
 效果如下：
 ![openauth.pro](http://demo.openauth.me:8887/upload_files/181228200620875.gif "181228200620875.gif")
@@ -34,13 +34,17 @@
 
 ## 当前版本
 
-`core 1.0`
+`core 1.3`
 
 * 基于.Net Core 2.1开发；
 
-* 采用NUnit测试，去掉OpenAuth.UnitTest项目；
+* 全面支持sqlserver、mysql数据库；
 
-* 前后端完全分离。`我们不限制规则，只用主流的技术构建强大的框架`；
+* 全面实现模块控制、菜单控制；
+
+* 全面实现数据权限控制（不同的角色看到的字段不同）`pro版本提供`；
+
+* 完整的代码生成器`pro版本提供`;
 
 * 前端采用 vue + layui + ztree + gooflow + leipiformdesign
 

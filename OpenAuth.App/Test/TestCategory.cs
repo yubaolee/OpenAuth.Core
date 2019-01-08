@@ -41,5 +41,19 @@ namespace OpenAuth.App.Test
            });
             Console.WriteLine(JsonHelper.Instance.Serialize(result));
         }
+
+
+        [Test]
+        public void TestAssign()
+        {
+            var app = _autofacServiceProvider.GetService<RevelanceManagerApp>();
+            
+          app.AssignData(new AssignDataReq
+          {
+              ModuleCode = "Category",
+              RoleId = "09ee2ffa-7463-4938-ae0b-1cb4e80c7c13",  //管理员
+              Properties = new []{"Id", "Name" }
+          });
+        }
     }
 }

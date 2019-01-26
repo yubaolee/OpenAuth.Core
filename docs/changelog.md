@@ -1,10 +1,24 @@
 ## 当前版本
 
-`OpenAuth.Core 1.0`
+`OpenAuth.Core 1.3`
 
-* 全面支持.net core 2.1.0；
+* 基于.Net Core 2.1开发；
 
-* 全面支持mysql;
+* 全面支持sqlserver、mysql数据库；
+
+* 全面实现模块控制、菜单控制；
+
+* 全面实现数据权限控制（不同的角色看到的字段不同）pro版本提供；
+
+* 完整的代码生成器pro版本提供;
+
+* 前端采用 vue +  gooflow + leipiformdesign
+
+* 后端采用 asp.net mvc core 2.1 + EF core+ autofac + json.net
+
+* 代码生成工具 CodeSmith
+
+* 设计工具 PowerDesigner + Enterprise Architect
 
 `OpenAuth.Net 4.0 颠覆版(2018-)`
 

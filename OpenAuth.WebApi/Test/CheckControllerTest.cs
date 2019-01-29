@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
 using OpenAuth.App.SSO;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using OpenAuth.WebApi.Controllers;
 
@@ -16,6 +17,7 @@ namespace OpenAuth.WebApi.Test
     public class CheckControllerTest
     {
         private CheckController _controller;
+        private ILogger _logger;
 
         [SetUp]
         public void Init()
@@ -28,7 +30,13 @@ namespace OpenAuth.WebApi.Test
 
 
             var defaultBuilder = WebHost.CreateDefaultBuilder();
-            var webHostBuilder = defaultBuilder.UseEnvironment("Development").UseStartup<Startup>()
+            var webHostBuilder = defaultBuilder.ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.ClearProviders();  //去掉默认的日志
+                    logging.AddFilter("System", LogLevel.Warning);
+                    logging.AddFilter("Microsoft", LogLevel.Warning);
+                    logging.AddLog4Net();  //默认的appsettings.json配置是warn级别，info是看不到的
+                }).UseEnvironment("Development").UseStartup<Startup>()
                 .ConfigureServices(u =>
                 {
                     u.AddScoped(x => cachemock.Object);
@@ -37,6 +45,7 @@ namespace OpenAuth.WebApi.Test
 
             var server = new TestServer(webHostBuilder);
             _controller = server.Host.Services.GetService<CheckController>();
+            _logger = server.Host.Services.GetService<ILogger<CheckControllerTest>>();
         }
 
         [Test]
@@ -58,7 +67,7 @@ namespace OpenAuth.WebApi.Test
                 Password = "123456"
             });
 
-            Console.WriteLine(JsonHelper.Instance.Serialize(result));
+            _logger.LogInformation(JsonHelper.Instance.Serialize(result));
         }
     }
 }

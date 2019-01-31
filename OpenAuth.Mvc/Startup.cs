@@ -35,7 +35,7 @@ namespace OpenAuth.Mvc
 
             services.AddMvc(option =>
             {
-                //option.ModelBinderProviders.Insert(0, new JsonBinderProvider());
+                option.ModelBinderProviders.Insert(0, new JsonBinderProvider());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();
             services.AddOptions();

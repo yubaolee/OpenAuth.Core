@@ -8,11 +8,11 @@
 
     * 使用CodeSmith Generator Studio 打开Openauth.Net项目中CodeSmith文件夹。
 
-   ![](http://www.openauth.me/upload/180523102401201.png " ")
+    ![](http://119.84.146.233:8887/upload_files/190110171420673.png " ")
     
     * 右建Entity.cst，选择Execute。弹出数据库的相关配置。
     
-    * 配置连接字符串SourceDatabase、绿色部分Class命名空间的及Output输出文件夹。
+    * 配置连接字符串SourceDatabase、Class命名空间的及Output输出文件夹。
 
     * 点击`Generate`生成代码，生成后代码在`X:\~~\OpenAuth.Net\CodeSmith\CSharp`文件夹中。
 
@@ -24,13 +24,13 @@
     
     * 选择数据库中Stock表，其他配置不变。
 
-    ![](http://www.openauth.me/upload/180523105001970.jpg "")
+    ![](http://119.84.146.233:8887/upload_files/190110171420676.png "")
 
     * 点击`Generate`生成代码，生成后代码在`X:\~~\OpenAuth.Net\CodeSmith\CSharp`文件夹中。
 
-    ![](http://www.openauth.me/upload/180523105310484.png "")
+    ![](http://119.84.146.233:8887/upload_files/190110171757977.png "")
 
-    * 生成的代码严格按照应用层APP、控制器controllers、用户界面views、用户界面脚本userJs划分。将生成的代码按上图红色箭头的指示复制到项目中。
+    * 生成的代码严格按照应用层APP、控制器controllers、用户界面views、用户界面脚本userJs划分。将生成的代码复制到项目对应的文件夹中。
 
  * 在visual studio中根据自己的业务做简单的调整，然后编译生成。即完成了一个新模块的开发。
 
@@ -40,7 +40,7 @@
 
  * 添加模块
 
- ![](http://www.openauth.me/upload/180523113510852.png)
+ ![](http://119.84.146.233:8887/upload_files/190110172049261.png)
 
  `注意` 模块标识必须和模块的controller一致，否则模块不能正常加载
 
@@ -51,9 +51,9 @@
  默认的domId有`btnAdd`、`btnEdit`、`btnDel`可以参考`userJs\stocks.js`中的代码定义
 
  * 授权
- 
- 与其他板块授权方式完全一样，如果用的是System账号，退出重新登陆即可看到新加的模块：
 
- ![](http://www.openauth.me/upload/180523113201515.png)
+ 模块添加成功后，如果用的是System账号，退出重新登陆即可看到新加的模块。如果为其他角色分配模块，按照下面的方式：
+
+![](http://119.84.146.233:8887/upload_files/190110172339544.png)
 
  以上就是一个普通模块开发的全过程，是不是so easy🙂，快下载代码体验吧！

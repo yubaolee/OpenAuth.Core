@@ -21,6 +21,7 @@ using OpenAuth.Repository.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace OpenAuth.WebApi.Controllers
 {
@@ -33,11 +34,13 @@ namespace OpenAuth.WebApi.Controllers
     public class CheckController : ControllerBase
     {
         private readonly IAuth _authUtil;
+        private ILogger _logger;
         private readonly AuthStrategyContext _authStrategyContext;
 
-        public CheckController(IAuth authUtil)
+        public CheckController(IAuth authUtil, ILogger<CheckController> logger)
         {
             _authUtil = authUtil;
+            _logger = logger;
             _authStrategyContext = _authUtil.GetCurrentUser();
         }
 
@@ -306,7 +309,7 @@ namespace OpenAuth.WebApi.Controllers
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
         }
-
+        
         /// <summary>
         /// 登录接口
         /// </summary>
@@ -316,6 +319,7 @@ namespace OpenAuth.WebApi.Controllers
         [AllowAnonymous]
         public LoginResult Login([FromBody]PassportLoginRequest request)
         {
+            _logger.LogInformation("Login enter");
             var result = new LoginResult();
             try
             {

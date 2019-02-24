@@ -86,7 +86,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 批量删除
         /// </summary>
        [HttpPost]
-        public Response Delete(string[] ids)
+        public Response Delete([FromBody]string[] ids)
         {
             var result = new Response();
             try

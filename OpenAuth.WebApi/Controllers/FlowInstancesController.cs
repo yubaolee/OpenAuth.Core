@@ -102,7 +102,7 @@ namespace OpenAuth.WebApi.Controllers
         }
 
        [HttpPost]
-        public Response Delete(string[] ids)
+        public Response Delete([FromBody]string[] ids)
         {
             var result = new Response();
             try

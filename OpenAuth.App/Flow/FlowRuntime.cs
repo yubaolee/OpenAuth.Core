@@ -20,6 +20,7 @@ using OpenAuth.Repository.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Internal;
 
 namespace OpenAuth.App.Flow
 {
@@ -130,7 +131,7 @@ namespace OpenAuth.App.Flow
 
             foreach (var l in lines)
             {
-                if (l.compare != null &&l.Compare(frmDataJson))
+                if (!(l.Compares.IsNullOrEmpty()) &&l.Compare(frmDataJson))
                 {
                     return l.to;
                 }

@@ -1,4 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
+﻿// <copyright file="FlowLine.cs" company="openauth.me">
+// Copyright (c) 2019 openauth.me. All rights reserved.
+// </copyright>
+// <author>www.cnblogs.com/yubaolee</author>
+// <date>2019-03-05</date>
+// <summary>流程中的连线</summary>
+
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace OpenAuth.App.Flow
 {
@@ -15,17 +23,24 @@ namespace OpenAuth.App.Flow
         public bool dash { get; set; }
 
         /// <summary> 分支条件 </summary>
-        public DataCompare compare { get; set; }
+        public List<DataCompare> Compares { get; set; }
 
         public bool Compare(JObject frmDataJson)
         {
-            switch (this.compare.Operation)
+            bool result = true;
+            foreach (var compare in Compares)
             {
-                case "==":
-                    return compare.Value == frmDataJson.GetValue(compare.FieldName).ToString();
-                default:
-                    return true;
+                switch (compare.Operation)
+                {
+                    case DataCompare.Equal:
+                        result &= compare.Value == frmDataJson.GetValue(compare.FieldName).ToString();
+                        break;
+                    default:
+                        break;
+                }
             }
+
+            return result;
         }
     }
 
@@ -39,14 +54,16 @@ namespace OpenAuth.App.Flow
         public const string LargerEqual = ">=";
         public const string LessEqual = "<=";
         public const string NotEqual = "!=";
-        public const string Equal = "==";
+        public const string Equal = "=";
 
         /// <summary>操作类型比如大于/等于/小于</summary>
-        /// <value> The operation. </value>
         public string Operation { get; set; }
 
         /// <summary> form种的字段名称 </summary>
         public string FieldName { get; set; }
+
+        /// <summary> 字段类型："form"：为表单中的字段，后期扩展系统表等. </summary>
+        public string FieldType { get; set; }
 
         /// <summary>比较的值</summary>
         public string Value { get; set; }

@@ -1,4 +1,11 @@
-﻿using System;
+﻿// <copyright file="FlowInstancesController.cs" company="openauth.me">
+// Copyright (c) 2019 openauth.me. All rights reserved.
+// </copyright>
+// <author>www.cnblogs.com/yubaolee</author>
+// <date>2018-09-06</date>
+// <summary>流程实例控制器</summary>
+
+using System;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -36,15 +43,17 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //添加或修改
+
+        /// <summary>创建一个新的流程实例</summary>
+        /// <remarks> www.cnblogs.com/yubaolee, 2019-03-06. </remarks>
+        /// <param name="obj"> json对象</param>
        [HttpPost]
-        public Response Add(JObject obj)
+        public Response Add([FromBody]JObject obj)
         {
             var result = new Response();
             try
             {
                 _app.CreateInstance(obj);
-
             }
             catch (Exception ex)
             {

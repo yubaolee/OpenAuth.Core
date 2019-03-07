@@ -20,6 +20,7 @@ using OpenAuth.Repository.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Internal;
 
 namespace OpenAuth.App.Flow
 {
@@ -117,18 +118,26 @@ namespace OpenAuth.App.Flow
         /// </summary>
         private string GetNextNodeId(string nodeId = null)
         {
-            List<FlowLine> LineList = nodeId == null ? FromNodeLines[currentNodeId] : FromNodeLines[nodeId];
-            if (LineList.Count == 0)
+            var lines = nodeId == null ? FromNodeLines[currentNodeId] : FromNodeLines[nodeId];
+            if (lines.Count == 0)
             {
-                throw (new Exception("无法寻找到下一个节点"));
+                throw new Exception("无法寻找到下一个节点");
             }
-            return LineList[0].to;
 
-            //if (FrmData != "")  //表单数据不为空，可以处理分支
-            //{
-            //    FrmData = FrmData.ToLower();//统一转小写
-            //    var frmDataJson = FrmData.ToJObject();//获取数据内容
-            //}
+            if (FrmData == "") return lines[0].to;
+
+            FrmData = FrmData.ToLower();//统一转小写
+            var frmDataJson = FrmData.ToJObject();//获取数据内容
+
+            foreach (var l in lines)
+            {
+                if (!(l.Compares.IsNullOrEmpty()) &&l.Compare(frmDataJson))
+                {
+                    return l.to;
+                }
+            }
+
+            return lines[0].to;
         }
 
         #endregion 私有方法
@@ -191,7 +200,7 @@ namespace OpenAuth.App.Flow
             }
 
             var forkNode = Nodes[forkToThisLine.from];  //会签开始节点
-            string joinNodeId = GetNextNodeId(nodeId); //获取回签的合流节点
+            string joinNodeId = GetNextNodeId(nodeId); //获取会签的合流节点
 
             int allnum = FromNodeLines[forkToThisLine.from].Count;   //总会签数量
             string res =string.Empty;  //记录会签的结果,默认正在会签

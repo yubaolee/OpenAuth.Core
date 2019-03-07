@@ -1,4 +1,10 @@
-﻿
+﻿// <copyright file="GlobalHttpHeaderOperationFilter.cs" company="openauth.me">
+// Copyright (c) 2019 openauth.me. All rights reserved.
+// </copyright>
+// <author>www.cnblogs.com/yubaolee</author>
+// <date>2019-01-05</date>
+// <summary>在swagger界面加上http header</summary>
+
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;

@@ -493,6 +493,158 @@ CREATE TABLE [dbo].[User](
 ) ON [PRIMARY]
 
 GO
+
+
+CREATE TABLE [dbo].[UploadFile] (
+  [Id] [dbo].[PrimaryKey] NOT NULL,
+  [FileName] nvarchar(200)  NOT NULL,
+  [FilePath] nvarchar(500)  NOT NULL,
+  [Description] nvarchar(200)  NULL,
+  [FileType] varchar(20)  NULL,
+  [FileSize] int NULL,
+  [Extension] varchar(20) NULL,
+  [Enable] bit DEFAULT ((1)) NOT NULL,
+  [SortCode] int DEFAULT ((0)) NOT NULL,
+  [DeleteMark] bit DEFAULT ((0)) NOT NULL,
+  [CreateUserId] uniqueidentifier NULL,
+  [CreateUserName] nvarchar(50)  NULL,
+  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [Thumbnail] nvarchar(500) NULL,
+  [BelongApp] varchar(200)  NULL,
+  [BelongAppId] varchar(50)  NULL
+)
+GO
+
+ALTER TABLE [dbo].[UploadFile] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'Id',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'Id'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'文件名称',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'FileName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'文件路径',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'FilePath'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'描述',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'Description'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'文件类型',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'FileType'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'文件大小',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'FileSize'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'扩展名称',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'Extension'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否可用',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'Enable'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'排序',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'SortCode'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'删除标识',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'DeleteMark'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'上传人',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'CreateUserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'上传人姓名',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'CreateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'上传时间',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'CreateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'缩略图',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'Thumbnail'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'所属应用',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'BelongApp'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'所属应用ID',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile',
+'COLUMN', N'BelongAppId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'文件',
+'SCHEMA', N'dbo',
+'TABLE', N'UploadFile'
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table UploadFile
+-- ----------------------------
+ALTER TABLE [dbo].[UploadFile] ADD CONSTRAINT [PK_FILE] PRIMARY KEY NONCLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
 SET ANSI_PADDING OFF
 GO
 ALTER TABLE [dbo].[Application] ADD  DEFAULT (' ') FOR [Name]

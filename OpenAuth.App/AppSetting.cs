@@ -14,6 +14,7 @@ namespace OpenAuth.App
         {
             SSOPassport = "http://localhost:52789";  
             Version = "";
+            UploadPath = "";
             DbType = Define.DBTYPE_SQLSERVER;
         }
         /// <summary>
@@ -31,5 +32,8 @@ namespace OpenAuth.App
         /// 数据库类型 SqlServer、MySql
         /// </summary>
         public string DbType { get; set; }
+
+        /// <summary> 附件上传路径</summary>
+        public string UploadPath { get; set; }
     }
 }

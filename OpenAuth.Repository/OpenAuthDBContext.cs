@@ -26,6 +26,7 @@ namespace OpenAuth.Repository
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UploadFile> UploadFiles { get; set; }
 
     }
 }

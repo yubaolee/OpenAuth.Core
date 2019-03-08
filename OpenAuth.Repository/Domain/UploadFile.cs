@@ -6,6 +6,7 @@
 // <summary>附加实体</summary>
 
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
@@ -13,6 +14,7 @@ namespace OpenAuth.Repository.Domain
     /// <summary>
 	/// 文件
 	/// </summary>
+    [Table("UploadFile")]
     public partial class UploadFile : Entity
     {
         public UploadFile()

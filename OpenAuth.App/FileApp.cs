@@ -15,15 +15,20 @@ namespace OpenAuth.App
     /// </summary>
     public class FileApp : BaseApp<UploadFile>
     {
-        //private ILogger _logger;
+        private ILogger<FileApp> _logger;
         private string _filePath;
         private string _dbFilePath;   //数据库中的文件路径
         private string _dbThumbnail;   //数据库中的缩略图路径
 
-        public FileApp( IOptions<AppSetting> setOptions, IUnitWork unitWork, IRepository<UploadFile> repository)
+        public FileApp( IOptions<AppSetting> setOptions, IUnitWork unitWork, IRepository<UploadFile> repository, ILogger<FileApp> logger)
             :base(unitWork, repository)
         {
+            _logger = logger;
             _filePath = setOptions.Value.UploadPath;
+            if (string.IsNullOrEmpty(_filePath))
+            {
+                _filePath = AppContext.BaseDirectory;
+            }
         }
 
         public List<UploadFile> Add(IFormFileCollection files)
@@ -39,15 +44,15 @@ namespace OpenAuth.App
 
         public UploadFile Add(IFormFile file)
         {
-            //if (file != null)
-            //{
-            //    _logger.LogInformation("收到新文件: " + file.FileName);
-            //    _logger.LogInformation("收到新文件: " + file.Length);
-            //}
-            //else
-            //{
-            //    _logger.LogWarning("收到新文件为空");
-            //}
+            if (file != null)
+            {
+                _logger.LogInformation("收到新文件: " + file.FileName);
+                _logger.LogInformation("收到新文件: " + file.Length);
+            }
+            else
+            {
+                _logger.LogWarning("收到新文件为空");
+            }
             if (file != null && file.Length > 0 && file.Length < 10485760)
             {
                 using (var binaryReader = new BinaryReader(file.OpenReadStream()))

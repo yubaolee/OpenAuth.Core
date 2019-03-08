@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,9 @@ using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers
 {
+    /// <summary>  文件上传</summary>
+    /// <remarks>   yubaolee, 2019-03-08. </remarks>
+
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class FilesController :ControllerBase
@@ -26,7 +30,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="files"></param>
         /// <returns>服务器存储的文件信息</returns>
         [HttpPost]
-        public Response<IList<UploadFile>> Upload([FromForm]IFormFileCollection files)
+        public Response<IList<UploadFile>> Upload(IFormFileCollection files)
         {
             var result = new Response<IList<UploadFile>>();
             try

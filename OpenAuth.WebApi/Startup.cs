@@ -45,6 +45,7 @@ namespace OpenAuth.WebApi
                 option.IncludeXmlComments(xmlPath);
                 option.OperationFilter<GlobalHttpHeaderOperationFilter>(); // 添加httpHeader参数
             });
+            services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
             services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();
             services.AddCors();

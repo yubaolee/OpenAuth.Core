@@ -24,6 +24,14 @@ namespace OpenAuth.App.Response
 	    /// </summary>
         public int Fields { get; set; }
         /// <summary>
+        /// 表单类型，0：默认动态表单；1：Web自定义表单
+        /// </summary>
+        public int FrmType { get; set; }
+        /// <summary>
+        /// 系统页面标识，当表单类型为用Web自定义的表单时，需要标识加载哪个页面
+        /// </summary>
+        public string WebId { get; set; }
+        /// <summary>
 	    /// 表单中的字段数据
 	    /// </summary>
         public string ContentData { get; set; }

@@ -155,7 +155,7 @@ CREATE TABLE `form`  (
   `ContentParse` longtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '表单控件位置模板',
   `Content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '表单原html模板未经处理的',
   `SortCode` int(11) NOT NULL COMMENT '排序码',
-  `Delete` int(11) NOT NULL COMMENT '删除标记',
+  `DeleteMark` int(11) NOT NULL COMMENT '删除标记',
   `DbName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据库名称',
   `Disabled` int(11) NOT NULL COMMENT '有效',
   `Description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',

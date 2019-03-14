@@ -148,6 +148,8 @@ DROP TABLE IF EXISTS `form`;
 CREATE TABLE `form`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表单模板Id',
   `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '表单名称',
+  `FrmType` int(11) NOT NULL COMMENT '表单类型，0：默认动态表单；1：Web自定义表单',
+  `WebId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '系统页面标识，当表单类型为用Web自定义的表单时，需要标识加载哪个页面',
   `Fields` int(11) NOT NULL COMMENT '字段个数',
   `ContentData` longtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '表单中的控件属性描述',
   `ContentParse` longtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '表单控件位置模板',
@@ -155,7 +157,7 @@ CREATE TABLE `form`  (
   `SortCode` int(11) NOT NULL COMMENT '排序码',
   `Delete` int(11) NOT NULL COMMENT '删除标记',
   `DbName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据库名称',
-  `Enabled` int(11) NOT NULL COMMENT '有效',
+  `Disabled` int(11) NOT NULL COMMENT '有效',
   `Description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
   `CreateDate` datetime(0) NOT NULL COMMENT '创建时间',
   `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建用户主键',

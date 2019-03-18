@@ -35,6 +35,7 @@ namespace OpenAuth.Repository.Domain
           this.CreateDate= DateTime.Now;
           this.CreateUserId= string.Empty;
           this.CreateUserName= string.Empty;
+            this.FlowInstanceId = string.Empty;
         }
 
         /// <summary>
@@ -92,6 +93,12 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
          [Description("创建用户")]
         public string CreateUserName { get; set; }
+        
+
+        /// <summary> 
+        ///    所属流程实例ID
+        /// </summary>
+        public string FlowInstanceId { get; set; }
 
     }
 }

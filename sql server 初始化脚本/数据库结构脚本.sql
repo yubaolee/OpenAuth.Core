@@ -1004,17 +1004,18 @@ GO
 
 CREATE TABLE [dbo].[FrmLeaveReq] (
   [Id] [dbo].[PrimaryKey] NOT NULL,
-  [UserName] nvarchar(10) NOT NULL,
-  [RequestType] nvarchar(20) NOT NULL,
+  [UserName] nvarchar(10) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [RequestType] nvarchar(20) COLLATE Chinese_PRC_CI_AS NOT NULL,
   [StartDate] date NOT NULL,
   [StartTime] datetime NULL,
   [EndDate] date NOT NULL,
   [EndTime] datetime NULL,
-  [RequestComment] nvarchar(500) NULL,
-  [Attachment] varchar(500) NULL,
+  [RequestComment] nvarchar(500) COLLATE Chinese_PRC_CI_AS NULL,
+  [Attachment] varchar(500) COLLATE Chinese_PRC_CI_AS NULL,
   [CreateDate] datetime DEFAULT (getdate()) NOT NULL,
   [CreateUserId] [dbo].[PrimaryKey] NULL,
-  [CreateUserName] varchar(50) NULL
+  [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [FlowInstanceId] [dbo].[PrimaryKey] NULL
 )
 GO
 
@@ -1103,6 +1104,13 @@ EXEC sp_addextendedproperty
 'SCHEMA', N'dbo',
 'TABLE', N'FrmLeaveReq',
 'COLUMN', N'CreateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'所属流程实例',
+'SCHEMA', N'dbo',
+'TABLE', N'FrmLeaveReq',
+'COLUMN', N'FlowInstanceId'
 GO
 
 EXEC sp_addextendedproperty

@@ -12,6 +12,7 @@
 // <summary>IOC扩展</summary>
 // ***********************************************************************
 
+using System;
 using System.Linq;
 using System.Reflection;
 using Autofac;
@@ -71,5 +72,11 @@ namespace OpenAuth.App
         {
             return _container.Resolve<T>();
         }
+
+        public static object GetFromFac(Type type)
+        {
+            return _container.Resolve(type);
+        }
+
     }
 }

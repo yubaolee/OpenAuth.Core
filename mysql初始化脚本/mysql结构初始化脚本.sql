@@ -1,8 +1,4 @@
 
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
 -- ----------------------------
 -- Table structure for application
 -- ----------------------------
@@ -374,4 +370,4 @@ CREATE TABLE `user`  (
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户基本信息表' ROW_FORMAT = Compact;
 
-SET FOREIGN_KEY_CHECKS = 1;
+

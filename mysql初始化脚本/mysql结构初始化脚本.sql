@@ -1,4 +1,3 @@
-
 -- ----------------------------
 -- Table structure for application
 -- ----------------------------
@@ -14,54 +13,6 @@ CREATE TABLE `application`  (
   `CreateUser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '应用' ROW_FORMAT = Compact;
-
-
--- ----------------------------
--- Table structure for uploadfile
--- ----------------------------
-DROP TABLE IF EXISTS `uploadfile`;
-CREATE TABLE `uploadfile`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
-  `FileName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件名称',
-  `FilePath` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件路径',
-  `Description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
-  `FileType` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件类型',
-  `FileSize` int(11) DEFAULT NULL COMMENT '文件大小',
-  `Extension` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '扩展名称',
-  `Enable` tinyint(4) NOT NULL COMMENT '是否可用',
-  `SortCode` int(11) NOT NULL COMMENT '排序',
-  `DeleteMark` tinyint(4) NOT NULL COMMENT '删除标识',
-  `CreateUserId` char(36) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上传人',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上传人姓名',
-  `CreateTime` datetime(0) NOT NULL COMMENT '上传时间',
-  `Thumbnail` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '缩略图',
-  `BelongApp` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属应用',
-  `BelongAppId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属应用ID',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件' ROW_FORMAT = Compact;
-
-
--- ----------------------------
--- Table structure for frmleavereq
--- ----------------------------
-DROP TABLE IF EXISTS `frmleavereq`;
-CREATE TABLE `frmleavereq`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
-  `UserName` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请假人姓名',
-  `RequestType` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请假分类，病假，事假，公休等',
-  `StartDate` date NOT NULL COMMENT '开始日期',
-  `StartTime` datetime(0) DEFAULT NULL COMMENT '开始时间',
-  `EndDate` date NOT NULL COMMENT '结束日期',
-  `EndTime` datetime(0) DEFAULT NULL COMMENT '结束时间',
-  `RequestComment` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '请假说明',
-  `Attachment` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '附件，用于提交病假证据等',
-  `CreateDate` datetime(0) NOT NULL COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建用户主键',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建用户',
-  `FlowInstanceId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属流程ID',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模拟一个自定页面的表单，该数据会关联到流程实例FrmData，可用于复杂页面的设计及后期的数据分析' ROW_FORMAT = Compact;
-
 
 -- ----------------------------
 -- Table structure for category
@@ -213,6 +164,27 @@ CREATE TABLE `form`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '表单模板表' ROW_FORMAT = Compact;
 
 -- ----------------------------
+-- Table structure for frmleavereq
+-- ----------------------------
+DROP TABLE IF EXISTS `frmleavereq`;
+CREATE TABLE `frmleavereq`  (
+  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `UserName` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请假人姓名',
+  `RequestType` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请假分类，病假，事假，公休等',
+  `StartDate` date NOT NULL COMMENT '开始日期',
+  `StartTime` datetime(0) DEFAULT NULL COMMENT '开始时间',
+  `EndDate` date NOT NULL COMMENT '结束日期',
+  `EndTime` datetime(0) DEFAULT NULL COMMENT '结束时间',
+  `RequestComment` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '请假说明',
+  `Attachment` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '附件，用于提交病假证据等',
+  `CreateDate` datetime(0) NOT NULL COMMENT '创建时间',
+  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建用户主键',
+  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建用户',
+  `FlowInstanceId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属流程ID',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模拟一个自定页面的表单，该数据会关联到流程实例FrmData，可用于复杂页面的设计及后期的数据分析' ROW_FORMAT = Compact;
+
+-- ----------------------------
 -- Table structure for module
 -- ----------------------------
 DROP TABLE IF EXISTS `module`;
@@ -350,6 +322,29 @@ CREATE TABLE `stock`  (
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '出入库信息表' ROW_FORMAT = Compact;
 
+-- ----------------------------
+-- Table structure for uploadfile
+-- ----------------------------
+DROP TABLE IF EXISTS `uploadfile`;
+CREATE TABLE `uploadfile`  (
+  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
+  `FileName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件名称',
+  `FilePath` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件路径',
+  `Description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
+  `FileType` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件类型',
+  `FileSize` int(11) DEFAULT NULL COMMENT '文件大小',
+  `Extension` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '扩展名称',
+  `Enable` tinyint(4) NOT NULL COMMENT '是否可用',
+  `SortCode` int(11) NOT NULL COMMENT '排序',
+  `DeleteMark` tinyint(4) NOT NULL COMMENT '删除标识',
+  `CreateUserId` char(36) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上传人',
+  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上传人姓名',
+  `CreateTime` datetime(0) NOT NULL COMMENT '上传时间',
+  `Thumbnail` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '缩略图',
+  `BelongApp` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属应用',
+  `BelongAppId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属应用ID',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for user
@@ -369,5 +364,3 @@ CREATE TABLE `user`  (
   `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '分类ID',
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户基本信息表' ROW_FORMAT = Compact;
-
-

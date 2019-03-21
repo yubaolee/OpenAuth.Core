@@ -97,7 +97,7 @@ namespace OpenAuth.App
             }
 
             var uploadPath = _filePath + "/" + folder + "/";
-           // _logger.LogInformation("文件写入：" + uploadPath);
+            _logger.LogInformation("文件写入：" + uploadPath);
             if (!Directory.Exists(uploadPath))
             {
                 Directory.CreateDirectory(uploadPath);

@@ -5,17 +5,22 @@ layui.config({
         layer = layui.layer,
         $ = layui.jquery;
     var iconPicker = layui.iconPicker;
+    var btnIconPicker = layui.iconPicker;
     iconPicker.render({
         // 选择器，推荐使用input
         elem: '#IconName',
         type: 'fontClass',
         // 每个图标格子的宽度：'43px'或'20%'
         cellWidth: '43px',
-        // 点击回调
-        click: function (data) {
-            console.log(data);
-        }
     });
+    btnIconPicker.render({   //按钮的图标
+        // 选择器，推荐使用input
+        elem: '#Icon',
+        type: 'fontClass',
+        // 每个图标格子的宽度：'43px'或'20%'
+        cellWidth: '43px',
+    });
+
     var table = layui.table;
     var openauth = layui.openauth;
     layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
@@ -161,6 +166,7 @@ layui.config({
                 content: $('#divMenuEdit'),
                 success: function () {
                     vm.$set('$data', data);
+                    btnIconPicker.checkIcon('btnIconPicker', data.Icon);
                 },
                 end: menuList
             });
@@ -195,14 +201,13 @@ layui.config({
             }
         };
     }();
-    
-    //监听模块表格内部按钮
-    table.on('tool(list)', function (obj) {
-        var data = obj.data;
-        if (obj.event === 'detail') {      //查看
-            //layer.msg('ID：' + data.Id + ' 的查看操作');
-            menuList({moduleId:data.Id});
-        } 
+
+    //监听行单击事件
+    table.on('row(list)', function(obj){
+        console.log(obj.tr) //得到当前行元素对象
+        console.log(obj.data) //得到当前行数据
+
+        menuList({moduleId:obj.data.Id});
     });
 
     //监听页面主按钮操作

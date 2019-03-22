@@ -48,7 +48,8 @@ namespace OpenAuth.App
                         Url = module.Url,
                         ParentId = module.ParentId,
                         ParentName = module.ParentName,
-                        IsSys = module.IsSys
+                        IsSys = module.IsSys,
+                        Status = module.Status
                     }).ToList();
 
                 foreach (var module in modules)

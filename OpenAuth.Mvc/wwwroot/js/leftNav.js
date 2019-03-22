@@ -30,7 +30,7 @@ function navBar(strData){
 					ulHtml += '<dd><a href="javascript:;" data-url="'+data[i].Children[j].Item.Url+'">';
 				}
 				if(data[i].Children[j].Item.IconName != undefined && data[i].Children[j].Item.IconName != ''){
-					ulHtml += '<i class="layui-icon '+ data[i].Item.IconName +'"></i>'
+					ulHtml += '<i class="layui-icon '+ data[i].Children[j].Item.IconName +'"></i>'
 				}
 				ulHtml += '<cite>'+data[i].Children[j].Item.Name+'</cite></a></dd>';
 			}

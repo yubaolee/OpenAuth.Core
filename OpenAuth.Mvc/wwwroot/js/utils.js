@@ -42,7 +42,7 @@ layui.define("jquery", function (exports) {
                                "' " + element.Attr + ">");
 
                            if (element.Icon != null && element.Icon != '') {
-                               sb += ("<i class='layui-icon'>" + element.Icon + "</i>");
+                               sb += ("<i class='layui-icon "+element.Icon+"'></i>");
                            }
                            sb += (element.Name + "</button>");
                        });

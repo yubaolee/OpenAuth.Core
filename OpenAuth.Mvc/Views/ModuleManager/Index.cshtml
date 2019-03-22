@@ -19,20 +19,15 @@
             <tr>
                 <th lay-data="{checkbox:true, fixed: true}"></th>
                 <th lay-data="{field:'Name', width:120, sort: true, fixed: true}">模块名称</th>
+                 <th lay-data="{field:'IconName', width:60,templet: '#iconTpl'}">图标</th>
                 <th lay-data="{field:'CascadeId', width:80}">层级ID</th>
                 <th lay-data="{field:'Code', width:80}">模块标识</th>
                 <th lay-data="{field:'Url', width:200}">Url</th>
-                <th lay-data="{field:'IconName', width:60,templet: '#iconTpl'}">图标</th>
                 <th lay-data="{field:'ParentName', width:135}">父节点名称</th>
                 <th lay-data="{field:'SortNo', width:80}">排序号</th>
-                <th lay-data="{fixed: 'right', width:100, toolbar: '#barList'}"></th>
             </tr>
             </thead>
         </table>
-        <!--列表右边的按钮-->
-        <script type="text/html" id="barList">
-            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看菜单</a>
-        </script>
         <script type="text/html" id="iconTpl">
             {{#  if( d.IconName != null && d.IconName != ''){ }}
             <i class="layui-icon {{ d.IconName }}"></i>
@@ -45,7 +40,7 @@
     <div class="layui-col-xs">
         <!--菜单列表-->
         <table class="layui-table"
-               lay-data="{height: 'full-80', id:'menuList'}"
+               lay-data="{height: 'full-80', id:'menuList',  text: { none: '单击模块列表数据行查看菜单' }}"
                lay-filter="menulist" lay-size="sm">
             <thead>
             <tr>
@@ -56,7 +51,7 @@
         </table>
        
         <script type="text/html" id="menuTpl">
-            <button class="layui-btn layui-btn-xs {{ d.Class }} layui-btn-fluid" alt="{{ d.DomId }}">{{ d.Name }}</button>
+            <button class="layui-btn layui-btn-xs {{ d.Class }} layui-btn-fluid" alt="{{ d.DomId }}"> <i class="layui-icon {{ d.Icon }}"></i> {{ d.Name }}</button>
         </script>
     </div>
 </div>
@@ -153,6 +148,13 @@
             <div class="layui-input-block">
                 <input type="text" name="DomId" v-model="DomId" required lay-verify="required"
                        placeholder="请输入DomId" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">图标</label>
+            <div class="layui-input-block">
+                <input type="text" id="Icon" name="Icon" v-model="Icon" lay-filter="btnIconPicker" class="layui-input"> 
             </div>
         </div>
         <div class="layui-form-item">

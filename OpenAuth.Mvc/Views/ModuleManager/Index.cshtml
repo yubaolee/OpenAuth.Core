@@ -16,16 +16,17 @@
                lay-data="{height: 'full-80', id:'mainList'}"
                lay-filter="list" lay-size="sm">
             <thead>
-            <tr>
-                <th lay-data="{checkbox:true, fixed: true}"></th>
-                <th lay-data="{field:'Name', width:120, sort: true, fixed: true}">模块名称</th>
-                 <th lay-data="{field:'IconName', width:60,templet: '#iconTpl'}">图标</th>
-                <th lay-data="{field:'CascadeId', width:80}">层级ID</th>
-                <th lay-data="{field:'Code', width:80}">模块标识</th>
-                <th lay-data="{field:'Url', width:200}">Url</th>
-                <th lay-data="{field:'ParentName', width:135}">父节点名称</th>
-                <th lay-data="{field:'SortNo', width:80}">排序号</th>
-            </tr>
+                <tr>
+                    <th lay-data="{checkbox:true, fixed: true}"></th>
+                    <th lay-data="{field:'Name', width:120, sort: true, fixed: true}">模块名称</th>
+                    <th lay-data="{field:'Status', width:100,templet: '#statusTpl'}">导航栏展示</th>
+                    <th lay-data="{field:'IconName', width:60,templet: '#iconTpl'}">图标</th>
+                    <th lay-data="{field:'CascadeId', width:80}">层级ID</th>
+                    <th lay-data="{field:'Code', width:80}">模块标识</th>
+                    <th lay-data="{field:'Url', width:200}">Url</th>
+                    <th lay-data="{field:'ParentName', width:135}">父节点名称</th>
+                    <th lay-data="{field:'SortNo', width:80}">排序号</th>
+                </tr>
             </thead>
         </table>
         <script type="text/html" id="iconTpl">
@@ -33,6 +34,14 @@
             <i class="layui-icon {{ d.IconName }}"></i>
             {{#  } else { }}
             {{ d.IconName }}
+            {{#  } }}
+        </script>
+
+        <script type="text/html" id="statusTpl">
+            {{#  if( d.Status == -1){ }}
+            <span style="color:red">隐藏</span>
+            {{#  } else { }}
+            <span style="color:green">显示</span>
             {{#  } }}
         </script>
     </div>
@@ -71,7 +80,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">模块状态</label>
+            <label class="layui-form-label">导航栏展示</label>
             <div class="layui-input-block">
                 <select name="Status" v-model="Status" required lay-verify="required">
                     <option value="0" selected="selected" >正常</option>

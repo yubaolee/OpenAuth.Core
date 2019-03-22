@@ -10,7 +10,7 @@
     </div>
     <div class="layui-col-xs9">
         <table class="layui-table"
-               lay-data="{height: 'full-5', page:true, id:'mainList'}"
+               lay-data="{height: 'full-5', page:true, id:'mainList' ,  text: { none: '先分配左边的模块项，再单击模块加载菜单进行分配' }}"
                lay-filter="list" lay-size="sm">
             <thead>
             <tr>
@@ -22,7 +22,7 @@
             </thead>
         </table>
         <script type="text/html" id="icontmpl">
-            <i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">{{ d.Icon }}</i>
+            <i class="layui-icon {{ d.Icon }}" style="font-size: 20px; color: #1E9FFF;"></i>
         </script>
     </div>
 </div>

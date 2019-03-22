@@ -1,10 +1,21 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'utils'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'iconPicker', 'utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
-  
+    var iconPicker = layui.iconPicker;
+    iconPicker.render({
+        // 选择器，推荐使用input
+        elem: '#IconName',
+        type: 'fontClass',
+        // 每个图标格子的宽度：'43px'或'20%'
+        cellWidth: '43px',
+        // 点击回调
+        click: function (data) {
+            console.log(data);
+        }
+    });
     var table = layui.table;
     var openauth = layui.openauth;
     layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
@@ -91,11 +102,12 @@ layui.config({
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
-                area: ["500px", "400px"],
+                area: ["500px", "480px"],
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
                     vm.$set('$data', data);
+                    iconPicker.checkIcon('iconPicker', data.IconName);
                 },
                 end: mainList
             });
@@ -124,7 +136,7 @@ layui.config({
                 show({
                     Id: "",
                     SortNo: 1,
-                    IconName:'&#xe678;'
+                    IconName:'layui-icon-app'
                 });
             },
             update: function(data) { //弹出编辑框
@@ -144,7 +156,7 @@ layui.config({
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
-                area: ["500px", "400px"],
+                area: ["500px", "450px"],
                 type: 1,
                 content: $('#divMenuEdit'),
                 success: function () {

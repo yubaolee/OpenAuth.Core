@@ -35,7 +35,7 @@
         </script>
         <script type="text/html" id="iconTpl">
             {{#  if( d.IconName != null && d.IconName != ''){ }}
-            <i class="layui-icon">{{ d.IconName }}</i>
+            <i class="layui-icon {{ d.IconName }}"></i>
             {{#  } else { }}
             {{ d.IconName }}
             {{#  } }}
@@ -76,6 +76,16 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">模块状态</label>
+            <div class="layui-input-block">
+                <select name="Status" v-model="Status" required lay-verify="required">
+                    <option value="0" selected="selected" >正常</option>
+                    <option value="-1">隐藏</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">模块标识</label>
             <div class="layui-input-block">
                 <input type="text" name="Code" v-model="Code" 
@@ -92,15 +102,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">图标</label>
             <div class="layui-input-block">
-                <select name="IconName" v-model="IconName" required lay-verify="required">
-                    <option value="" selected="selected"></option>
-                    <option value="&#xe678;" >手机</option>
-                    <option value="&#xe679;">盾牌</option>
-                    <option value="&#xe672;;">授权</option>
-                    <option value="&#xe674;">高级</option>
-                    <option value="&#xe665;">控制台</option>
-                </select>
-
+                <input type="text" id="IconName" name="IconName" v-model="IconName" lay-filter="iconPicker" class="layui-input"> 
             </div>
         </div>
         <div class="layui-form-item">

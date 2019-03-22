@@ -447,6 +447,7 @@
     <None Include="wwwroot\layui\lay\modules\laypage.js" />
     <None Include="wwwroot\layui\lay\modules\laytpl.js" />
     <None Include="wwwroot\layui\lay\modules\mobile.js" />
+    <None Include="wwwroot\layui\lay\modules\rate.js" />
     <None Include="wwwroot\layui\lay\modules\table.js" />
     <None Include="wwwroot\layui\lay\modules\tree.js" />
     <None Include="wwwroot\layui\lay\modules\upload.js" />

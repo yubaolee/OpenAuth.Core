@@ -20,6 +20,7 @@
                     <th lay-data="{checkbox:true, fixed: true}"></th>
                     <th lay-data="{field:'Name', width:120, sort: true, fixed: true}">模块名称</th>
                     <th lay-data="{field:'Status', width:100,templet: '#statusTpl'}">导航栏展示</th>
+                     <th lay-data="{field:'IsSys', width:100,templet: '#sysTpl'}">模块类型</th>
                     <th lay-data="{field:'IconName', width:60,templet: '#iconTpl'}">图标</th>
                     <th lay-data="{field:'CascadeId', width:80}">层级ID</th>
                     <th lay-data="{field:'Code', width:80}">模块标识</th>
@@ -42,6 +43,14 @@
             <span style="color:red">隐藏</span>
             {{#  } else { }}
             <span style="color:green">显示</span>
+            {{#  } }}
+        </script>
+
+         <script type="text/html" id="sysTpl">
+            {{#  if( d.IsSys == 1){ }}
+            <span class="layui-badge">内置</span>
+            {{#  } else { }}
+            <span class="layui-badge layui-bg-green">自定义</span>
             {{#  } }}
         </script>
     </div>

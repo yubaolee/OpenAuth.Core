@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'iconPicker', 'utils'], function () {
+}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'iconPicker', 'utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
@@ -99,9 +99,7 @@ layui.config({
     $("#tree").height($("div.layui-table-view").height());
     //添加（编辑）模块对话框
     var editDlg = function() {
-        var vm = new Vue({
-            el: "#formEdit"
-        });
+        var vm;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
@@ -111,8 +109,30 @@ layui.config({
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
-                    vm.$set('$data', data);
-                    iconPicker.checkIcon('iconPicker', data.IconName);
+                   if(vm == undefined){
+                    vm = new Vue({
+                        el: "#formEdit",
+                        data(){
+                            return {
+                                tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
+                            }
+                        },
+                        watch:{
+                            tmp(val){
+                                this.$nextTick(function () {
+                                   form.render();  //刷新select等
+                                   iconPicker.checkIcon('iconPicker', this.tmp.IconName);
+                               })
+                            }
+                        },
+                        mounted(){
+                             form.render();
+                             iconPicker.checkIcon('iconPicker', data.IconName);
+                        }
+                    });
+                   }else{
+                    vm.tmp = Object.assign({}, vm.tmp,data)
+                   }
                 },
                 end: mainList
             });
@@ -153,9 +173,7 @@ layui.config({
 
     //添加菜单对话框
     var meditDlg = function () {
-       var vm = new Vue({
-            el: "#mfromEdit"
-        });
+       var vm ;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
@@ -165,8 +183,30 @@ layui.config({
                 type: 1,
                 content: $('#divMenuEdit'),
                 success: function () {
-                    vm.$set('$data', data);
-                    btnIconPicker.checkIcon('btnIconPicker', data.Icon);
+                    if(vm == undefined){
+                        vm = new Vue({
+                            el: "#mfromEdit",
+                            data(){
+                                return {
+                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
+                                }
+                            },
+                            watch:{
+                                tmp(val){
+                                    this.$nextTick(function () {
+                                       form.render();  //刷新select等
+                                       btnIconPicker.checkIcon('btnIconPicker', this.tmp.Icon);
+                                   })
+                                }
+                            },
+                            mounted(){
+                                 form.render();
+                                 btnIconPicker.checkIcon('btnIconPicker', data.Icon);
+                            }
+                        });
+                       }else{
+                        vm.tmp = Object.assign({}, vm.tmp,data)
+                       }
                 },
                 end: menuList
             });
@@ -204,9 +244,6 @@ layui.config({
 
     //监听行单击事件
     table.on('row(list)', function(obj){
-        console.log(obj.tr) //得到当前行元素对象
-        console.log(obj.data) //得到当前行数据
-
         menuList({moduleId:obj.data.Id});
     });
 

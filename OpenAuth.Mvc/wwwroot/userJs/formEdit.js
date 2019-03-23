@@ -21,11 +21,7 @@
         });
     });
 
-    var vm = new Vue({
-        el: "#formEdit"
-    });
-
-    //表单设计器
+      //表单设计器
     var ue = UE.getEditor('myFormDesign', {
         //allowDivTransToP: false,//阻止转换div 为p
         toolleipi: true,//是否显示，设计器的 toolbars
@@ -268,18 +264,32 @@
             function (data) {
                 var obj = data.Result;
                 url = "/Forms/Update";
-                vm.$set('$data', obj);
+                new Vue({
+                    el: "#formEdit",
+                    data(){
+                        return{
+                            tmp:data.Result
+                        }
+                    }
+                });
+
                 //玄学：加个延迟ueditor才能正常
                 setTimeout(function () {
                     ue.setContent(obj.Content);
                 }, 500);
             });
     } else {
-        vm.$set('$data',
-            {
-                Id: '',
-                SortCode:1
-            });
+        new Vue({
+            el: "#formEdit",
+            data(){
+                return{
+                    tmp:{
+                        Id: '',
+                        SortCode:1
+                    }
+                }
+            }
+        });
     }
 
 

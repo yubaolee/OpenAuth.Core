@@ -13,10 +13,6 @@
     //提交的URL
     var url = "/FlowSchemes/Add";
 
-    var vm = new Vue({
-        el: "#formEdit"
-    });
-
     //表单选择
     var frmTree = function () {
         var zTreeObj;
@@ -128,7 +124,14 @@
             function (data) {
                 var obj = data.Result;
                 url = "/FlowSchemes/Update";
-                vm.$set('$data', obj);
+                new Vue({
+                    el: "#formEdit",
+                    data(){
+                        return{
+                            tmp:obj
+                        }
+                    }
+                });
 
                 $('input:checkbox[name="Disabled"][value="' + obj.Disabled + '"]').prop('checked', true);
                 form.render();
@@ -137,12 +140,18 @@
                 frmTree.setCheck(obj.FrmId);
             });
     } else {
-        vm.$set('$data',
-            {
-                Id: ''
-                , SchemeCode: new Date().getTime()
-                , SortCode: '1'
-            });
+        new Vue({
+            el: "#formEdit",
+            data(){
+                return{
+                    tmp:{
+                        Id: ''
+                        , SchemeCode: new Date().getTime()
+                        , SortCode: '1'
+                    }
+                }
+            }
+        });
     }
 
     //提交数据

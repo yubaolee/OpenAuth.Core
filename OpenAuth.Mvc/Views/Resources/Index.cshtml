@@ -39,7 +39,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">资源标识</label>
             <div class="layui-input-block">
-                <input type="text" name="Id" v-model="Id" required lay-verify="required"
+                <input type="text" name="Id" v-model="tmp.Id" required lay-verify="required"
                        placeholder="名称" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -47,7 +47,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">名称</label>
             <div class="layui-input-block">
-                <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
                        placeholder="名称" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -55,7 +55,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">
-                <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                <input type="text" name="Description" v-model="tmp.Description" required lay-verify="required"
                        placeholder="描述" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -64,8 +64,8 @@
             <label class="layui-form-label">所属应用</label>
             <div class="layui-input-block">
 
-                <input id="AppName" name="AppName" v-model="AppName" class="layui-input" />
-                <input id="AppId" name="AppId" v-model="AppId" type="hidden" />
+                <input id="AppName" name="AppName" v-model="tmp.AppName" class="layui-input" />
+                <input id="AppId" name="AppId" v-model="tmp.AppId" type="hidden" />
                 <div id="menuContent" class="menuContent" style="display: none;">
                     <ul id="org" class="ztree"></ul>
                 </div>

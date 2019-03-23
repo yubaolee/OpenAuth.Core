@@ -38,19 +38,19 @@
 <div id="divEdit" style="display: none">
     <form class="layui-form layui-form-pane" action=""  id="formEdit">
 
-        <input type="hidden" name="Id" v-model="Id" />
+        <input type="hidden" name="Id" v-model="tmp.Id" />
 
         <div class="layui-form-item">
             <label class="layui-form-label">账号</label>
             <div class="layui-input-block">
-                <input type="text" name="Account" v-model="Account" required lay-verify="required"
+                <input type="text" name="Account" v-model="tmp.Account" required lay-verify="required"
                        placeholder="请输入登录账号" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
-                <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
                        placeholder="请输入昵称或姓名" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -58,8 +58,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属部门</label>
             <div class="layui-input-block">
-                <input id="Organizations" name="Organizations" v-model="Organizations" required lay-verify="required" class="layui-input" />
-                <input id="OrganizationIds" name="OrganizationIds" v-model="OrganizationIds" required lay-verify="required" type="hidden" />
+                <input id="Organizations" name="Organizations" v-model="tmp.Organizations" required lay-verify="required" class="layui-input" />
+                <input id="OrganizationIds" name="OrganizationIds" v-model="tmp.OrganizationIds" required lay-verify="required" type="hidden" />
                 <div id="menuContent" class="menuContent" style="display: none;">
                     <ul id="org" class="ztree"></ul>
                 </div>
@@ -76,7 +76,7 @@
         <div class="layui-form-item" pane>
             <label class="layui-form-label">是否可用</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="Status" v-model="Status" lay-skin="switch" value="1">
+                <input type="checkbox" name="Status" v-model="tmp.Status" lay-skin="switch" value="1">
             </div>
         </div>
         <div class="layui-form-item">

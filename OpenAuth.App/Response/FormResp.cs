@@ -18,6 +18,11 @@ namespace OpenAuth.App.Response
         /// <summary>
 	    /// 表单名称
 	    /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
+	    /// 表单名称
+	    /// </summary>
         public string Name { get; set; }
         /// <summary>
 	    /// 字段个数

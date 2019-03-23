@@ -16,14 +16,14 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">节点标识</label>
                         <div class="layui-input-block">
-                            <input type="text" name="NodeCode" id="NodeCode" v-model="NodeCode" required lay-verify="required"
+                            <input type="text" name="NodeCode" id="NodeCode" v-model="tmp.NodeCode" required lay-verify="required"
                                    placeholder="流程编号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">节点名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="NodeName" v-model="NodeName" required lay-verify="required"
+                            <input type="text" name="NodeName" v-model="tmp.NodeName" required lay-verify="required"
                                    placeholder="节点名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">驳回类型</label>
                         <div class="layui-input-block">
-                            <select id="NodeRejectType" lay-filter="NodeRejectType" name="NodeRejectType" v-model="NodeRejectType" required lay-verify="required">
+                            <select id="NodeRejectType" lay-filter="NodeRejectType" name="NodeRejectType" v-model="tmp.NodeRejectType" required lay-verify="required">
                                 <option value="0">上一步</option>
                                 <option value="1">第一步</option>
                                 <option value="2">指定步骤</option>
@@ -43,7 +43,7 @@
                     <div class="layui-form-item" v-if="isFork()">
                         <label class="layui-form-label">会签方式</label>
                         <div class="layui-input-block">
-                            <select id="NodeConfluenceType" lay-filter="NodeConfluenceType" name="NodeConfluenceType" v-model="NodeConfluenceType">
+                            <select id="NodeConfluenceType" lay-filter="NodeConfluenceType" name="NodeConfluenceType" v-model="tmp.NodeConfluenceType">
                                 <option value="all">全部分支都同意</option>
                                 <option value="one">至少一个分支同意</option>
                             </select>
@@ -53,7 +53,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-block">
-                            <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                            <input type="text" name="Description" v-model="tmp.Description" required lay-verify="required"
                                    placeholder="备注" autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -61,9 +61,9 @@
                 <div class="layui-tab-item">
                     <div class="layui-row">
                         <div class="layui-input-block">
-                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" lay-filter="NodeDesignate" value="ALL_USER" title="所有用户" checked>
-                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" lay-filter="NodeDesignate" value="SPECIAL_USER" title="指定用户">
-                            <input type="radio" name="NodeDesignate" v-model="NodeDesignate" lay-filter="NodeDesignate" value="SPECIAL_ROLE" title="指定角色">
+                            <input type="radio" name="NodeDesignate" v-model="tmp.NodeDesignate" lay-filter="NodeDesignate" value="ALL_USER" title="所有用户" checked>
+                            <input type="radio" name="NodeDesignate" v-model="tmp.NodeDesignate" lay-filter="NodeDesignate" value="SPECIAL_USER" title="指定用户">
+                            <input type="radio" name="NodeDesignate" v-model="tmp.NodeDesignate" lay-filter="NodeDesignate" value="SPECIAL_ROLE" title="指定角色">
                         </div>
                     </div>
                     <div class="layui-row">

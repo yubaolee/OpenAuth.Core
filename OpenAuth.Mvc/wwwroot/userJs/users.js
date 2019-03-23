@@ -69,9 +69,7 @@ layui.config({
 
     //添加（编辑）对话框
     var editDlg = function() {
-        var vm = new Vue({
-            el: "#formEdit"
-        });
+        var vm;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
@@ -81,7 +79,28 @@ layui.config({
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
-                    vm.$set('$data', data);
+                     if(vm == undefined){
+                        vm = new Vue({
+                            el: "#formEdit",
+                            data(){
+                                return {
+                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
+                                }
+                            },
+                            watch:{
+                                tmp(val){
+                                    this.$nextTick(function () {
+                                       form.render();  //刷新select等
+                                   })
+                                }
+                            },
+                            mounted(){
+                                 form.render();
+                            }
+                        });
+                       }else{
+                        vm.tmp = Object.assign({}, vm.tmp,data)
+                       }
 
                     $(":radio[name='Sex'][value='" + data.Sex + "']").prop("checked", "checked");
                     $("input:checkbox[name='Status']").prop("checked", data.Status == 1);

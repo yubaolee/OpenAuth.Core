@@ -16,6 +16,7 @@
 // ***********************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Infrastructure;
@@ -87,6 +88,32 @@ namespace OpenAuth.Mvc.Controllers
         public string GetOrgs()
         {
             return JsonHelper.Instance.Serialize(_authStrategyContext.Orgs);
+        }
+
+        /// <summary>
+        /// 获取当前登录用户可访问的字段
+        /// </summary>
+        /// <param name="moduleCode">模块的Code，如Category</param>
+        /// <returns></returns>
+        public string GetProperties(string moduleCode)
+        {
+            try
+            {
+                var list = _authStrategyContext.GetProperties(moduleCode);
+                return JsonHelper.Instance.Serialize(new TableData
+                {
+                    data = list,
+                    count = list.Count(),
+                });
+            }
+            catch (Exception ex)
+            {
+                return JsonHelper.Instance.Serialize(new TableData
+                    {
+                        msg =ex.Message,
+                        code = 500,
+                    });
+            }
         }
 
         /// <summary>

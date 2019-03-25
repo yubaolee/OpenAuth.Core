@@ -6,9 +6,33 @@ layui.config({
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
-    layui.droptree("/Categories/AllTypes", "#TypeName", "#TypeId", false);
 
     $("#menus").loadMenus("Category");
+
+    //加载表头
+    $.getJSON('/Categories/All',
+	    { page: 1, limit: 1 },
+	    function(data) {
+		    var columns = data.columnHeaders.map(function(e) {
+			    return {
+				    field: e.Key,
+				    title: e.Description
+			    };
+            });
+		    columns.unshift({
+			    type: 'checkbox',
+			    fixed: 'left'
+		    });
+		    table.render({
+               elem: '#mainList',
+               page: true,
+               url: '/Categories/All',
+               cols: [columns]
+               , response: {
+	               statusCode: 200 //规定成功的状态码，默认：0
+               } 
+		    });
+	    });
    
     //主列表加载，可反复调用进行刷新
     var config= {};  //table的参数，如搜索key，点击tree的id
@@ -24,43 +48,6 @@ layui.config({
             } 
         });
     }
-    //左边树状机构列表
-    var ztree = function () {
-        var url = '/Categories/AllTypes';
-        var zTreeObj;
-        var setting = {
-            view: { selectedMulti: false },
-            data: {
-                key: {
-                    name: 'Name',
-                    title: 'Name'
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: 'Id',
-                    pIdKey: 'ParentId',
-                    rootPId: 'null'
-                }
-            },
-            callback: {
-                onClick: function (event, treeId, treeNode) {
-                    mainList({ typeId: treeNode.Id });
-                }
-            }
-        };
-        var load = function () {
-            $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#tree"), setting);
-                zTreeObj.addNodes(null, json);
-                mainList({ typeId: "" });
-                zTreeObj.expandAll(true);
-            });
-        };
-        load();
-        return {
-            reload: load
-        }
-    }();
 
     //添加（编辑）对话框
     var editDlg = function() {

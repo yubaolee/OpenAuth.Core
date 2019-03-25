@@ -178,7 +178,7 @@ layui.config({
         }
         , btnAccessModule: function () {
             var index = layer.open({
-                title: "为用户分配模块",
+                title: "为用户分配模块/可见字段",
                 type: 2,
                 content: "newsAdd.html",
                 success: function(layero, index) {

@@ -186,7 +186,7 @@ layui.config({
             }
 
             var index = toplayer.open({
-                title: "为用户【" + data[0].Name + "】分配模块",
+                title: "为用户【" + data[0].Name + "】分配模块/可见字段",
                 type: 2,
                 area: ['750px', '600px'],
                 content: "/ModuleManager/Assign?type=UserModule&menuType=UserElement&id=" + data[0].Id,

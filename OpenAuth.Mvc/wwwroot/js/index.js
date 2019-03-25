@@ -227,7 +227,7 @@ layui.config({
 	        btn: ['火速围观'],
 	        moveType: 1,
 	        content: '<div style="padding:15px 20px; text-align:justify; line-height: 22px; text-indent:2em;border-bottom:1px solid #e2e2e2;">' +
-	            '<p>喜大泪奔，OpenAuth.Core 1.4正式上线，vue 2.6.10? layui 2.4.5?都是最新的</p>' +
+                '<p>郑重提示：OpenAuth.Core 1.4新版上线，如以前访问过本站点请清空缓存后访问</p>' +
 	            '<p>喜欢的，快快star吧！</p></div>',
 	        success: function(layero){
 				var btn = layero.find('.layui-layer-btn');

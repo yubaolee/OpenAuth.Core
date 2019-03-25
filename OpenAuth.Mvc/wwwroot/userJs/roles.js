@@ -182,7 +182,7 @@ layui.config({
             }
 
             var index = layer.open({
-                title: "为角色【" + data[0].Name + "】分配模块",
+                title: "为角色【" + data[0].Name + "】分配模块/可见字段",
                 type: 2,
                 area: ['750px', '600px'],
                 content: "/ModuleManager/Assign?type=RoleModule&menuType=RoleElement&id=" + data[0].Id,

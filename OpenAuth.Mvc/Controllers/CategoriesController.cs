@@ -5,7 +5,6 @@ using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
@@ -28,7 +27,7 @@ namespace OpenAuth.Mvc.Controllers
         public string All([FromQuery]QueryCategoryListReq request)
         {
             TableData data = new TableData();
-            data = _app.All(request);
+            data = _app.Load(request);
             return JsonHelper.Instance.Serialize(data);
         }
 

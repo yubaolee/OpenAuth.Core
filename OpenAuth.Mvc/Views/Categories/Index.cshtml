@@ -5,24 +5,10 @@
 <blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
 
-<div style="display: flex;">
-    <ul id="tree" class="ztree" style="display: inline-block; width: 180px; padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
-    <table class="layui-table"
-           lay-data="{height: 'full-80', page:true, id:'mainList'}"
-           lay-filter="list"  lay-size="sm">
-        <thead>
-            <tr>
-                <th lay-data="{checkbox:true, fixed: true}"></th>
-                <th lay-data="{field:'Id', width:180}">ID</th>
-                <th lay-data="{field:'Name', width:180}">类型名称</th>
-                <th lay-data="{field:'TypeId', width:180}">类型分类</th>
-                <th lay-data="{field:'TypeName', width:180}">类型分类</th>
-                <th lay-data="{field:'Description', width:180}">描述</th>
-                <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
-            </tr>
-        </thead>
-    </table>
-</div>
+    <table id="mainList"
+           lay-data="{height: 'full-80',cellMinWidth:80, page:true, id:'mainList'}"
+           lay-filter="list"  lay-size="sm"></table>
+
 <script type="text/html" id="barList">
     @*<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>*@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>

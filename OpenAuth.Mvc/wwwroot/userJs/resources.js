@@ -12,6 +12,32 @@
 
     layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
 
+    //加载表头
+    $.getJSON('/Resources/Load',
+	    { page: 1, limit: 1 },
+	    function (data) {
+		    var columns = data.columnHeaders.map(function (e) {
+			    return {
+				    field: e.Key,
+				    title: e.Description
+			    };
+		    });
+		    columns.unshift({
+			    type: 'checkbox',
+			    fixed: 'left'
+		    });
+		    table.render({
+			    elem: '#mainList',
+			    page: true,
+                url: '/Resources/Load',
+			    cols: [columns]
+			    , response: {
+				    statusCode: 200 //规定成功的状态码，默认：0
+			    }
+		    });
+        });
+
+
     //主列表加载，可反复调用进行刷新
     var config = {};  //table的参数，如搜索key，点击tree的id
     var mainList = function(options) {

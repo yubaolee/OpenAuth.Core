@@ -50,7 +50,7 @@ namespace OpenAuth.App
                 Content = obj.Content,
                 ContentParse = obj.ContentParse,
                 Name = obj.Name,
-                Enabled = obj.Enabled,
+                Disabled = obj.Disabled,
                 DbName = obj.DbName,
                 SortCode = obj.SortCode,
                 Description = obj.Description,

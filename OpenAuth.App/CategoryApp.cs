@@ -57,40 +57,6 @@ namespace OpenAuth.App
 
         }
 
-        public TableData All(QueryCategoryListReq request)
-        {
-            var result = new TableData();
-            var categories = UnitWork.Find<Category>(null);
-            if (!string.IsNullOrEmpty(request.key))
-            {
-                categories = categories.Where(u => u.Name.Contains(request.key) || u.Id.Contains(request.key));
-            }
-
-            if (!string.IsNullOrEmpty(request.TypeId))
-            {
-                categories = categories.Where(u => u.TypeId == request.TypeId);
-            }
-
-            var query = from category in categories
-                join ct in UnitWork.Find<CategoryType>(null) on category.TypeId equals ct.Id
-                    into tmp
-                from ct in tmp.DefaultIfEmpty()
-                select new
-                {
-                    category.Name,
-                    category.Id,
-                    category.TypeId,
-                    TypeName = ct.Name,
-                    category.Description
-                };
-
-            result.data = query.OrderBy(u => u.TypeId)
-                .Skip((request.page - 1) * request.limit)
-                .Take(request.limit).ToList();
-            result.count = categories.Count();
-            return result;
-        }
-
         public List<CategoryType> AllTypes()
         {
             return UnitWork.Find<CategoryType>(null).ToList();

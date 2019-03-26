@@ -13,10 +13,6 @@
     //提交的URL
     var url = "/FlowSchemes/Add";
 
-    var vm = new Vue({
-        el: "#formEdit"
-    });
-
     //表单选择
     var frmTree = function () {
         var zTreeObj;
@@ -43,13 +39,21 @@
             callback: {
                 onClick: function (event, treeId, treeNode) {
                     $.getJSON("/forms/get?id=" + treeNode.Id, function (data) {
-                        $("#frmPreview").html(data.Result.Html);
+                        if (data.Result.FrmType == 0) {
+	                        $("#frmPreview").html(data.Result.Html);
+                        } else {
+                            $("#frmPreview").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+                        }
                     });
                 },
                 onCheck: function (event, treeId, treeNode) {
                     $("#FrmId").val(treeNode.Id);
                     $.getJSON("/forms/get?id=" + treeNode.Id, function (data) {
-                        $("#frmPreview").html(data.Result.Html);
+	                    if (data.Result.FrmType == 0) {
+		                    $("#frmPreview").html(data.Result.Html);
+	                    } else {
+		                    $("#frmPreview").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+	                    }
                     });
                 }
             }
@@ -76,7 +80,11 @@
             zTreeObj.checkNode(node, true, false);
 
             $.getJSON("/forms/get?id=" + id, function (data) {
-                $("#frmPreview").html(data.Result.Html);
+	            if (data.Result.FrmType == 0) {
+		            $("#frmPreview").html(data.Result.Html);
+	            } else {
+		            $("#frmPreview").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+	            }
             });
         }
 
@@ -128,21 +136,43 @@
             function (data) {
                 var obj = data.Result;
                 url = "/FlowSchemes/Update";
-                vm.$set('$data', obj);
+                new Vue({
+                    el: "#formEdit",
+                    data(){
+                        return{
+                            tmp:obj
+                        }
+                    },
+                    watch: {
+	                    tmp(val) {
+		                    this.$nextTick(function () {
+			                    form.render();  //刷新select等
+			                    flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
+			                    frmTree.setCheck(obj.FrmId);
+		                    })
+	                    }
+                    },
+                    mounted() {
+	                    form.render();
+	                    flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
+	                    frmTree.setCheck(obj.FrmId);
+                    }
 
-                $('input:checkbox[name="Disabled"][value="' + obj.Disabled + '"]').prop('checked', true);
-                form.render();
-
-                flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
-                frmTree.setCheck(obj.FrmId);
+                });               
             });
     } else {
-        vm.$set('$data',
-            {
-                Id: ''
-                , SchemeCode: new Date().getTime()
-                , SortCode: '1'
-            });
+        new Vue({
+            el: "#formEdit",
+            data(){
+                return{
+                    tmp:{
+                        Id: ''
+                        , SchemeCode: new Date().getTime()
+                        , SortCode: '1'
+                    }
+                }
+            }
+        });
     }
 
     //提交数据

@@ -7,6 +7,7 @@ layui.config({
     var id = $.getUrlParam("id");      //待分配的id
     var type = $.getUrlParam("type");  //待分配的类型
     var menuType = $.getUrlParam("menuType");  //待分配菜单的类型
+    var currentNode;
   
     //菜单列表
     var menucon = {};  //table的参数，如搜索key，点击tree的id
@@ -47,8 +48,8 @@ layui.config({
                                 res.data[i]["LAY_CHECKED"] = true;
                                 //找到对应数据改变勾选样式，呈现出选中效果
                                 var index = res.data[i]['LAY_TABLE_INDEX'];
-                                $('.layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
-                                $('.layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                                $('div[lay-id="mainList"] .layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                                $('div[lay-id="mainList"] .layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
                             }
 
                         }
@@ -56,8 +57,66 @@ layui.config({
                         //如果构成全选
                         var checkStatus = table.checkStatus('mainList');
                         if (checkStatus.isAll) {
-                            $('.layui-table-header th[data-field="0"] input[type="checkbox"]').prop('checked', true);
-                            $('.layui-table-header th[data-field="0"] input[type="checkbox"]').next().addClass('layui-form-checked');
+                            $('div[lay-id="mainList"] .layui-table-header th[data-field="0"] input[type="checkbox"]').prop('checked', true);
+                            $('div[lay-id="mainList"] .layui-table-header th[data-field="0"] input[type="checkbox"]').next().addClass('layui-form-checked');
+                        }
+                    }
+                });
+
+
+
+
+            }
+        });
+    }
+
+    //用户自定义模块分配可见字段
+    var propList = function (node) {
+        table.reload('propList', {
+            url: '/UserSession/GetProperties',
+            where: {
+                moduleCode:node.Code
+            }
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            } 
+            , done: function (res, curr, count) {
+                if(res.data == null) return;
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                var url = "/ModuleManager/LoadPropertiesForRole";
+                if (type.indexOf("Role") != -1) {
+                    url = "/ModuleManager/LoadPropertiesForRole";
+                }
+
+                $.ajax(url, {
+                    async: false
+                    , data: {
+                        roleId: id
+                        , moduleCode: node.Code
+                    }
+                    ,dataType:"json"
+                    , success: function (props) {                       
+                        //循环所有数据，找出对应关系，设置checkbox选中状态
+                        for (var i = 0; i < res.data.length; i++) {
+                            for (var j = 0; j < props.Result.length; j++) {
+                                if (res.data[i].Key != props.Result[j]) continue;
+
+                                //这里才是真正的有效勾选
+                                res.data[i]["LAY_CHECKED"] = true;
+                                //找到对应数据改变勾选样式，呈现出选中效果
+                                var index = res.data[i]['LAY_TABLE_INDEX'];
+                                $('div[lay-id="propList"] .layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                                $('div[lay-id="propList"] .layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                            }
+
+                        }
+
+                        //如果构成全选
+                        var checkStatus = table.checkStatus('propList');
+                        if (checkStatus.isAll) {
+                            $('div[lay-id="propList"] .layui-table-header th[data-field="0"] input[type="checkbox"]').prop('checked', true);
+                            $('div[lay-id="propList"] .layui-table-header th[data-field="0"] input[type="checkbox"]').next().addClass('layui-form-checked');
                         }
                     }
                 });
@@ -94,7 +153,9 @@ layui.config({
             },
             callback: {
                 onClick: function (event, treeId, treeNode) {
+                    currentNode = treeNode;
                     mainList({ moduleId: treeNode.Id });
+                    propList(treeNode);
                 },
                 onCheck: function (event, treeId, treeNode) {
                     var url = "/RelevanceManager/Assign";
@@ -112,6 +173,14 @@ layui.config({
         };
         var load = function () {
             $.getJSON(url, function (json) {
+                $.each(json,
+                    function(i) {
+                        var that = this;
+                        if(!that.IsSys){
+                            that.Name = that.Name +'[自定义]'
+                        }
+                    });
+
                 zTreeObj = $.fn.zTree.init($("#tree"), setting);
                 zTreeObj.addNodes(null, json);
                 //如果该用户已经分配模块了，则设置相应的状态
@@ -139,7 +208,7 @@ layui.config({
     }();
     
 
-    $("#tree").height($("div.layui-table-view").height());
+    $("#tree").height($(document).height()-10);
 
 
     //分配及取消分配
@@ -159,4 +228,22 @@ layui.config({
                       , "json");
     });
     //监听页面主按钮操作 end
+
+    //监听字段可见分配
+    table.on('checkbox(proplist)', function (obj) {
+        console.log(obj.checked); //当前是否选中状态
+        console.log(obj.data); //选中行的相关数据
+        console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+
+        var url = "/RelevanceManager/AssignDataProperty";
+        if (!obj.checked) {
+            url = "/RelevanceManager/UnAssignDataProperty";
+        }
+        $.post(url,{ moduleCode: currentNode.Code, roleId: id, 'properties': [obj.data.Key] } 
+                        , function (data) {
+                            layer.msg(data.Message);
+                        }
+                        , "json");
+    });
+
 })

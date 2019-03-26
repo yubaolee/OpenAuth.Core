@@ -64,9 +64,9 @@ namespace OpenAuth.Repository.Domain
          [Description("节点图标文件名称")]
         public string IconName { get; set; }
         /// <summary>
-	    /// 当前状态
-	    /// </summary>
-         [Description("当前状态")]
+        /// 当前状态，0：正常，-1：隐藏，不在导航列表中显示
+        /// </summary>
+        [Description("当前状态")]
         public int Status { get; set; }
       
         /// <summary>

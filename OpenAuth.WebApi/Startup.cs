@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using OpenAuth.App;
 using OpenAuth.Repository;
@@ -45,6 +46,7 @@ namespace OpenAuth.WebApi
                 option.IncludeXmlComments(xmlPath);
                 option.OperationFilter<GlobalHttpHeaderOperationFilter>(); // 添加httpHeader参数
             });
+            services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
             services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();
             services.AddCors();
@@ -72,6 +74,10 @@ namespace OpenAuth.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //可以访问根目录下面的静态文件
+            var staticfile = new StaticFileOptions {FileProvider = new PhysicalFileProvider(AppContext.BaseDirectory) };
+            app.UseStaticFiles(staticfile);
 
             //todo:测试可以允许任意跨域，正式环境要加权限
             app.UseCors(builder => builder.AllowAnyOrigin()

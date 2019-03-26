@@ -6,7 +6,6 @@ layui.config({
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
-    layui.droptree("/UserSession/GetOrgs", "#ParentName", "#ParentId", false);
 
     $("#menus").loadMenus("Org");
    
@@ -67,9 +66,7 @@ layui.config({
 
     //添加（编辑）对话框
     var editDlg = function() {
-        var vm = new Vue({
-            el: "#formEdit"
-        });
+        var vm;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
@@ -79,7 +76,30 @@ layui.config({
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
-                    vm.$set('$data', data);
+                    if(vm == undefined){
+                        vm = new Vue({
+                            el: "#formEdit",
+                            data(){
+                                return {
+                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
+                                }
+                            },
+                            watch:{
+                                tmp(val){
+                                    this.$nextTick(function () {
+                                       form.render();  //刷新select等
+                                   })
+                                }
+                            },
+                            mounted(){
+                                form.render();
+                                layui.droptree("/UserSession/GetOrgs", "#ParentName", "#ParentId", false);
+
+                            }
+                        });
+                    } else {
+                        vm.tmp = Object.assign({}, vm.tmp,data)
+                       }
                 },
                 end: mainList
             });
@@ -159,7 +179,7 @@ layui.config({
         }
         , btnAccessModule: function () {
             var index = layer.open({
-                title: "为用户分配模块",
+                title: "为用户分配模块/可见字段",
                 type: 2,
                 content: "newsAdd.html",
                 success: function(layero, index) {

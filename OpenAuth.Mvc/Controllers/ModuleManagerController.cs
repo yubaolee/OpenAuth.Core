@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using System.Collections.Generic;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -41,6 +42,33 @@ namespace OpenAuth.Mvc.Controllers
         {
             var modules = _app.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(modules);
+        }
+                /// <summary>
+        /// 获取角色已经分配的字段
+        /// </summary>
+        /// <param name="roleId">角色id</param>
+        /// <param name="moduleCode">模块代码，如Category</param>
+        /// <returns></returns>
+        [HttpGet]
+        public string LoadPropertiesForRole(string roleId, string moduleCode)
+        {
+            try
+            {
+                var props = _app.LoadPropertiesForRole(roleId, moduleCode);
+                 var data = new Response<IEnumerable<string>>
+                {
+                    Result = props.ToList(),
+                };
+                return JsonHelper.Instance.Serialize(data);
+            }
+            catch (Exception ex)
+            {
+                return JsonHelper.Instance.Serialize(new Response
+                    {
+                        Message =ex.Message,
+                        Code = 500,
+                    });
+            }
         }
 
         /// <summary>

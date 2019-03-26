@@ -45,13 +45,16 @@ namespace OpenAuth.App
         {
             var flowInstance = obj.ToObject<FlowInstance>();
 
-            //获取提交的表单数据
-            var frmdata = new JObject();
-            foreach (var property in obj.Properties().Where(U => U.Name.Contains("data_")))
+            if (flowInstance.FrmType == 0)  
             {
-                frmdata[property.Name] = property.Value;
+                //动态表单的数据
+                var frmdata = new JObject();
+                foreach (var property in obj.Properties().Where(U => U.Name.Contains("data_")))
+                {
+                    frmdata[property.Name] = property.Value;
+                }
+                flowInstance.FrmData = JsonHelper.Instance.Serialize(frmdata);
             }
-            flowInstance.FrmData = JsonHelper.Instance.Serialize(frmdata);
 
             //创建运行实例
             var wfruntime = new FlowRuntime(flowInstance);
@@ -70,6 +73,13 @@ namespace OpenAuth.App
 
             UnitWork.Add(flowInstance);
             wfruntime.flowInstanceId = flowInstance.Id;
+
+            if (flowInstance.FrmType == 1)
+            {
+                var t = Type.GetType("OpenAuth.App."+ flowInstance.DbName +"App");
+                ICustomerForm icf = (ICustomerForm)AutofacExt.GetFromFac(t);
+                icf.Add(flowInstance.Id, flowInstance.FrmData);
+            }
 
             #endregion 根据运行实例改变当前节点状态
 

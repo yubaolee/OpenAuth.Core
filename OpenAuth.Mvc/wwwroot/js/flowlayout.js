@@ -197,11 +197,11 @@
                             tips += "<p>处理时间：" + item.setInfo.TagedTime + "</p>";
                             tips += "<p>备注：" + item.setInfo.Description + "</p></div>";
 
-                            $('#' + item.id).click(function () {
+                            $('#' + item.id).hover(function () {
                                 layer.tips(tips, '#' + item.id);
                             });
                         } else {
-                            $('#' + item.id).click(function () {
+                            $('#' + item.id).hover(function () {
                                 layer.tips('暂无处理信息', '#' + item.id);
                             });
                         }

@@ -10,10 +10,6 @@
     //提交的URL
     var url = "/FlowInstances/Add";
 
-    var vm = new Vue({
-        el: "#formEdit"
-    });
-
     ////标签切换
     //element.on('tab(tab)', function (data) {
     //    layer.iframeAuto(index);
@@ -133,16 +129,29 @@
             function (data) {
                 var obj = data.Result;
                 url = "/FlowInstances/Update";
-                vm.$set('$data', obj);
+                new Vue({
+                    el: "#formEdit",
+                    data(){
+                        return{
+                            tmp:obj
+                        }
+                    }
+                });
                 flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
                 tree.setCheck(obj.FrmId);
             });
     } else {
-        vm.$set('$data',
-            {
-                Id: ''
-                , Code: new Date().getTime()
-            });
+        new Vue({
+            el: "#formEdit",
+            data(){
+                return{
+                    tmp:{
+                        Id: ''
+                        , Code: new Date().getTime()
+                    }
+                }
+            }
+        });
     }
 
     //提交数据

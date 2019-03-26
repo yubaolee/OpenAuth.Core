@@ -7,7 +7,6 @@ layui.config({
     var table = layui.table;
     var openauth = layui.openauth;
     var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
-    layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
     $("#menus").loadMenus("User");
 
@@ -69,9 +68,7 @@ layui.config({
 
     //添加（编辑）对话框
     var editDlg = function() {
-        var vm = new Vue({
-            el: "#formEdit"
-        });
+        var vm;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
@@ -81,13 +78,30 @@ layui.config({
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
-                    vm.$set('$data', data);
-
-                    $(":radio[name='Sex'][value='" + data.Sex + "']").prop("checked", "checked");
-                    $("input:checkbox[name='Status']").prop("checked", data.Status == 1);
-                    //下面这种方式适合单独开页面，不然上次选中的结果会对本次有影响
-                   // $('input:checkbox[name="Status"][value="' + data.Status + '"]').prop('checked', true);
-                    form.render();
+                     if(vm == undefined){
+                        vm = new Vue({
+                            el: "#formEdit",
+                            data(){
+                                return {
+                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
+                                }
+                            },
+                            watch:{
+                                tmp(val){
+                                    this.$nextTick(function () {
+                                        form.render();  //刷新select等
+                                        layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+                                   })
+                                }
+                            },
+                            mounted(){
+                                form.render();
+                                layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+                            }
+                        });
+                       }else{
+                        vm.tmp = Object.assign({}, vm.tmp,data)
+                       }
                 },
                 end: mainList
             });
@@ -167,7 +181,7 @@ layui.config({
             }
 
             var index = toplayer.open({
-                title: "为用户【" + data[0].Name + "】分配模块",
+                title: "为用户【" + data[0].Name + "】分配模块/可见字段",
                 type: 2,
                 area: ['750px', '600px'],
                 content: "/ModuleManager/Assign?type=UserModule&menuType=UserElement&id=" + data[0].Id,

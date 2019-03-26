@@ -9,8 +9,8 @@
             style="padding: 2px; border: 1px solid #ddd; overflow: auto;"></ul>
     </div>
     <div class="layui-col-xs9">
-        <table class="layui-table"
-               lay-data="{height: 'full-5', page:true, id:'mainList'}"
+        <table class="layui-table mainList"
+               lay-data="{ page:true, id:'mainList' ,  text: { none: '先分配左边的模块项，再单击模块加载菜单进行分配' }}"
                lay-filter="list" lay-size="sm">
             <thead>
             <tr>
@@ -22,8 +22,21 @@
             </thead>
         </table>
         <script type="text/html" id="icontmpl">
-            <i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">{{ d.Icon }}</i>
+            <i class="layui-icon {{ d.Icon }}" style="font-size: 20px; color: #1E9FFF;"></i>
         </script>
+
+         <table class="layui-table propList"
+               lay-data="{id:'propList' ,  text: { none: '用户自定义模块可以分配可见字段' }}"
+               lay-filter="proplist" lay-size="sm">
+            <thead>
+            <tr>
+                <th lay-data="{checkbox:true, fixed: true}"></th>
+                <th lay-data="{field:'Description', width:150}">字段描述</th>
+                <th lay-data="{field:'Key', width:150}">字段代码</th>
+            </tr>
+            </thead>
+        </table>
+
     </div>
 </div>
 

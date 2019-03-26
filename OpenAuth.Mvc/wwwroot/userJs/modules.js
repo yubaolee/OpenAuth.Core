@@ -23,7 +23,6 @@ layui.config({
 
     var table = layui.table;
     var openauth = layui.openauth;
-    layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
    
     $("#menus").loadMenus("Module");
 
@@ -120,13 +119,17 @@ layui.config({
                         watch:{
                             tmp(val){
                                 this.$nextTick(function () {
-                                   form.render();  //刷新select等
+                                    form.render();  //刷新select等
+                                    layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
+
                                    iconPicker.checkIcon('iconPicker', this.tmp.IconName);
                                })
                             }
                         },
                         mounted(){
-                             form.render();
+                            form.render();
+                            layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
+
                              iconPicker.checkIcon('iconPicker', data.IconName);
                         }
                     });

@@ -20,6 +20,8 @@
                     <th lay-data="{checkbox:true, fixed: true}"></th>
                     <th lay-data="{field:'Account', width:150, sort: true, fixed: true}">账号</th>
                     <th lay-data="{field:'Name', width:150}">用户名</th>
+                    <th lay-data="{field:'Sex', width:150,  templet: '#sexTpl'}">性别</th>
+                    <th lay-data="{field:'Status', width:150,  templet: '#statusTpl'}">状态</th>
                     <th lay-data="{field:'Organizations', width:135}">所属部门</th>
                     <th lay-data="{field:'CreateTime', width:180}">创建时间</th>
                     <th lay-data="{field:'Id', width:180}">ID</th>
@@ -27,6 +29,22 @@
                 </tr>
                 </thead>
             </table>
+            
+            <script type="text/html" id="statusTpl">
+                {{#  if(d.Status == 1){ }}
+                <span class="layui-badge layui-bg-green">正常</span>
+                {{#  } else { }}
+                <span class="layui-badge layui-bg-gray">无效</span>
+                {{#  } }}
+            </script>
+            
+            <script type="text/html" id="sexTpl">
+                {{#  if(d.Sex == 1){ }}
+                <span class="layui-badge layui-bg-green">男</span>
+                {{#  } else { }}
+            <span class="layui-badge">女</span>
+                {{#  } }}
+            </script>
         </div>
     </div>
 
@@ -69,8 +87,8 @@
         <div class="layui-form-item" pane>
             <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
-                <input type="radio" name="Sex" value="1" title="男" checked>
-                <input type="radio" name="Sex" value="0" title="女">
+                <input type="radio" name="Sex" value="1" title="男" v-model="tmp.Sex" >
+                <input type="radio" name="Sex" value="0" title="女" v-model="tmp.Sex" >
             </div>
         </div>
         <div class="layui-form-item" pane>

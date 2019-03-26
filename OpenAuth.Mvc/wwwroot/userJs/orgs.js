@@ -6,7 +6,6 @@ layui.config({
         $ = layui.jquery;
     var table = layui.table;
     var openauth = layui.openauth;
-    layui.droptree("/UserSession/GetOrgs", "#ParentName", "#ParentId", false);
 
     $("#menus").loadMenus("Org");
    
@@ -93,10 +92,12 @@ layui.config({
                                 }
                             },
                             mounted(){
-                                 form.render();
+                                form.render();
+                                layui.droptree("/UserSession/GetOrgs", "#ParentName", "#ParentId", false);
+
                             }
                         });
-                       }else{
+                    } else {
                         vm.tmp = Object.assign({}, vm.tmp,data)
                        }
                 },

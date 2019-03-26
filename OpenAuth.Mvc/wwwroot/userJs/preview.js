@@ -7,7 +7,11 @@
         $ = layui.jquery;
     var id = $.getUrlParam("id");
     $.getJSON("/forms/get?id=" + id, function (data) {
-        $("#content").html(data.Result.Html);
+	    if (data.Result.FrmType == 0) {
+		    $("#content").html(data.Result.Html);
+	    } else {
+            $("#content").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+	    }
     });
 
 })

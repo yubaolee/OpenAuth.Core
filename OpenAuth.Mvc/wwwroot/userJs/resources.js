@@ -10,7 +10,6 @@
 
     $("#menus").loadMenus("Resource");
 
-    layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
 
     //加载表头
     $.getJSON('/Resources/Load',
@@ -78,12 +77,16 @@
                             watch:{
                                 tmp(val){
                                     this.$nextTick(function () {
-                                       form.render();  //刷新select等
+                                        form.render();  //刷新select等
+                                        layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
+
                                    })
                                 }
                             },
                             mounted(){
-                                 form.render();
+                                form.render();
+                                layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
+
                             }
                         });
                        }else{

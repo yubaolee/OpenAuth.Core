@@ -7,7 +7,6 @@ layui.config({
     var table = layui.table;
     var openauth = layui.openauth;
     var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
-    layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
     $("#menus").loadMenus("Role");
 
@@ -89,20 +88,21 @@ layui.config({
                             watch:{
                                 tmp(val){
                                     this.$nextTick(function () {
-                                       form.render();  //刷新select等
+                                        form.render();  //刷新select等
+                                        layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+
                                    })
                                 }
                             },
                             mounted(){
-                                 form.render();
+                                form.render();
+                                layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+
                             }
                         });
                        }else{
                         vm.tmp = Object.assign({}, vm.tmp,data)
                        }
-
-                    $("input:checkbox[name='Status']").prop("checked", data.Status == 1);
-                    form.render();
                 },
                 end: mainList
             });

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Enyim.Caching.Configuration;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

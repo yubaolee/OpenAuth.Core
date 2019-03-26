@@ -142,14 +142,23 @@
                         return{
                             tmp:obj
                         }
+                    },
+                    watch: {
+	                    tmp(val) {
+		                    this.$nextTick(function () {
+			                    form.render();  //刷新select等
+			                    flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
+			                    frmTree.setCheck(obj.FrmId);
+		                    })
+	                    }
+                    },
+                    mounted() {
+	                    form.render();
+	                    flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
+	                    frmTree.setCheck(obj.FrmId);
                     }
-                });
 
-                $('input:checkbox[name="Disabled"][value="' + obj.Disabled + '"]').prop('checked', true);
-                form.render();
-
-                flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
-                frmTree.setCheck(obj.FrmId);
+                });               
             });
     } else {
         new Vue({

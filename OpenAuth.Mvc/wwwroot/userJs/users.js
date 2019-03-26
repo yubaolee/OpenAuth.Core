@@ -7,7 +7,6 @@ layui.config({
     var table = layui.table;
     var openauth = layui.openauth;
     var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
-    layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
    
     $("#menus").loadMenus("User");
 
@@ -90,23 +89,19 @@ layui.config({
                             watch:{
                                 tmp(val){
                                     this.$nextTick(function () {
-                                       form.render();  //刷新select等
+                                        form.render();  //刷新select等
+                                        layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
                                    })
                                 }
                             },
                             mounted(){
-                                 form.render();
+                                form.render();
+                                layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
                             }
                         });
                        }else{
                         vm.tmp = Object.assign({}, vm.tmp,data)
                        }
-
-                    $(":radio[name='Sex'][value='" + data.Sex + "']").prop("checked", "checked");
-                    $("input:checkbox[name='Status']").prop("checked", data.Status == 1);
-                    //下面这种方式适合单独开页面，不然上次选中的结果会对本次有影响
-                   // $('input:checkbox[name="Status"][value="' + data.Status + '"]').prop('checked', true);
-                    form.render();
                 },
                 end: mainList
             });

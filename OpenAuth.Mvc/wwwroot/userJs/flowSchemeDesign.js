@@ -39,13 +39,21 @@
             callback: {
                 onClick: function (event, treeId, treeNode) {
                     $.getJSON("/forms/get?id=" + treeNode.Id, function (data) {
-                        $("#frmPreview").html(data.Result.Html);
+                        if (data.Result.FrmType == 0) {
+	                        $("#frmPreview").html(data.Result.Html);
+                        } else {
+                            $("#frmPreview").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+                        }
                     });
                 },
                 onCheck: function (event, treeId, treeNode) {
                     $("#FrmId").val(treeNode.Id);
                     $.getJSON("/forms/get?id=" + treeNode.Id, function (data) {
-                        $("#frmPreview").html(data.Result.Html);
+	                    if (data.Result.FrmType == 0) {
+		                    $("#frmPreview").html(data.Result.Html);
+	                    } else {
+		                    $("#frmPreview").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+	                    }
                     });
                 }
             }
@@ -72,7 +80,11 @@
             zTreeObj.checkNode(node, true, false);
 
             $.getJSON("/forms/get?id=" + id, function (data) {
-                $("#frmPreview").html(data.Result.Html);
+	            if (data.Result.FrmType == 0) {
+		            $("#frmPreview").html(data.Result.Html);
+	            } else {
+		            $("#frmPreview").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+	            }
             });
         }
 

@@ -275,7 +275,11 @@
 
                 //玄学：加个延迟ueditor才能正常
                 setTimeout(function () {
-                    ue.setContent(obj.Content);
+                    if (obj.FrmType === 0) { 
+	                    ue.setContent(obj.Content);
+                    } else {
+	                    ue.setContent("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+                    }
                 }, 500);
             });
     } else {

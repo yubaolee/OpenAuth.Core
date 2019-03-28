@@ -60,11 +60,13 @@
                 <div class="layui-tab-item layui-fluid">
                     <div class="layui-row">
                         <div class="layui-col-xs3">
-                            <ul id="frmTree" class="ztree" style=" padding: 10px; border: 1px solid #ddd; overflow: auto;"></ul>
+                            <select v-model="currentFormId" lay-filter='formChangeFilter'>
+                                <option v-for="form in forms" :value="form.Id">{{form.Name}}</option>
+                            </select>
                         </div>
                         <div class="layui-col-xs9">
-                            <div id="frmPreview"></div>
-                        </div>
+                            <span v-html="frmPreview"></span>
+                            </div>
                     </div>
                 </div>
 
@@ -78,6 +80,7 @@
     <input type="hidden" lay-submit id="btnSubmit" lay-filter="formSubmit"/>
 </form>
 
+<script type="text/javascript" src="/js/vue2.6.10.js"></script>
 <script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript" src="/userJs/flowSchemeDesign.js?v3"></script>
 

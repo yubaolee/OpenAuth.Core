@@ -67,16 +67,16 @@
                         </div>
                     </div>
                     <div class="layui-row">
-                        <div v-if="NodeDesignate === 'SPECIAL_USER'">
+                        <div v-if="tmp.NodeDesignate === 'SPECIAL_USER'">
                             <ul id="tree" class="ztree layui-nav-tree" style="float: left;border-right: 1px solid #eee;"></ul>
                             <ul id="userstree" class="ztree" style="margin-left: 220px; "></ul>
                         </div>
-                        <div v-if="NodeDesignate === 'SPECIAL_ROLE'">
+                        <div v-if="tmp.NodeDesignate === 'SPECIAL_ROLE'">
                             <ul id="tree" class="ztree layui-nav-tree" style="float: left;border-right: 1px solid #eee;"></ul>
                             <ul id="rolestree" class="ztree" style="margin-left: 220px; "></ul>
 
                         </div>
-                        <div v-if="NodeDesignate === 'ALL_USER'">
+                        <div v-if="tmp.NodeDesignate === 'ALL_USER'">
                             所有人都可以审核
                         </div>
                     </div>

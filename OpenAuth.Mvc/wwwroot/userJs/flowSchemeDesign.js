@@ -12,7 +12,8 @@
             frmPreview: ''
         }
     },
-    updated() {
+    updated() {  //如果layui有刷新失败的可以在这里面处理
+        //layui.form.render(null,'formChangeFilter'); //只能 class="layui-form" 所在元素的 lay-filter="" 的值???
         layui.form.render();
     },
     mounted() {

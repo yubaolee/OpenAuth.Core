@@ -10,7 +10,32 @@
 
     $("#menus").loadMenus("Resource");
 
-    layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
+
+    //加载表头
+    $.getJSON('/Resources/Load',
+	    { page: 1, limit: 1 },
+	    function (data) {
+		    var columns = data.columnHeaders.map(function (e) {
+			    return {
+				    field: e.Key,
+				    title: e.Description
+			    };
+		    });
+		    columns.unshift({
+			    type: 'checkbox',
+			    fixed: 'left'
+		    });
+		    table.render({
+			    elem: '#mainList',
+			    page: true,
+                url: '/Resources/Load',
+			    cols: [columns]
+			    , response: {
+				    statusCode: 200 //规定成功的状态码，默认：0
+			    }
+		    });
+        });
+
 
     //主列表加载，可反复调用进行刷新
     var config = {};  //table的参数，如搜索key，点击tree的id
@@ -31,9 +56,7 @@
  
     //添加（编辑）对话框
     var editDlg = function () {
-        var vm = new Vue({
-            el: "#formEdit"
-        });
+        var vm;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
@@ -43,7 +66,32 @@
                 type: 1,
                 content: $('#divEdit'),
                 success: function () {
-                    vm.$set('$data', data);
+                     if(vm == undefined){
+                        vm = new Vue({
+                            el: "#formEdit",
+                            data(){
+                                return {
+                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
+                                }
+                            },
+                            watch:{
+                                tmp(val){
+                                    this.$nextTick(function () {
+                                        form.render();  //刷新select等
+                                        layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
+
+                                   })
+                                }
+                            },
+                            mounted(){
+                                form.render();
+                                layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
+
+                            }
+                        });
+                       }else{
+                        vm.tmp = Object.assign({}, vm.tmp,data)
+                       }
                 },
                 end: mainList
             });

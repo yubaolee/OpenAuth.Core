@@ -4,8 +4,8 @@ layui.config({
     var layer = layui.layer,
         $ = layui.jquery;
     var form = layui.form;
-    var users = [];   //节点的执行人
-    var roles = [];   //节点执行角色
+    var users = []; //节点的执行人
+    var roles = []; //节点执行角色
 
     var index = layer.getFrameIndex(window.name); //获取窗口索引
     //从flowschemes.js进入的节点信息
@@ -14,12 +14,27 @@ layui.config({
 
     var vm = new Vue({
         el: "#formEdit",
-        data: {
-            NodeName: node.name
-            , NodeCode: node.name   //默认的code
-            , NodeRejectType: "0"
-            , NodeDesignate: "ALL_USER"
-            , NodeConfluenceType: "all"
+        data() {
+            return {
+                tmp: {
+                    NodeName: node.name,
+                    NodeCode: node.name,//默认的code
+                    NodeRejectType: "0",
+                    NodeDesignate: "ALL_USER",
+                    NodeConfluenceType: "all"
+                }
+            }
+
+        },
+        watch:{
+            tmp(val){
+                this.$nextTick(function () {
+                   form.render();  //刷新select等
+               })
+            }
+        },
+        mounted(){
+             form.render();
         },
         methods: {
             isFork: function () {
@@ -30,40 +45,39 @@ layui.config({
 
     //初始化节点设置信息
     if (node.setInfo != null) {
-        vm.$set('$data', node.setInfo);
+        vm.tmp = Object.assign({}, vm.tmp, node.setInfo)
         users = node.setInfo.NodeDesignateData.users;
         roles = node.setInfo.NodeDesignateData.roles;
-        //layui与vue不兼容，要重新赋值select radio(lll￢ω￢)
-        $("#NodeRejectType").val(node.setInfo.NodeRejectType);
-        if (node.type == "fork") {  //会签开始节点
-            $("#NodeConfluenceType").val(node.setInfo.NodeConfluenceType);
-        }
-        $(":radio[name='NodeDesignate'][value='" + node.setInfo.NodeDesignate + "']").prop("checked", true);
     }
-    form.render();  //重新渲染，防止radio/select等失效
+    // form.render(); //重新渲染，防止radio/select等失效
 
     form.on('select(NodeRejectType)',
         function (data) {
-            vm.NodeRejectType = data.value;
+            vm.tmp.NodeRejectType = data.value;
         });
 
     form.on('select(NodeConfluenceType)',
         function (data) {
-            vm.NodeConfluenceType = data.value;
+            vm.tmp.NodeConfluenceType = data.value;
         });
 
     //菜单列表
-    var menucon = {};  //table的参数，如搜索key，点击tree的id
+    var menucon = {}; //table的参数，如搜索key，点击tree的id
     //用户列表，等lay table没问题了，可以换成table
     var userstree = function () {
         var url = '/UserManager/Load';
         var menuTree;
         var setting = {
-            view: { selectedMulti: true },
+            view: {
+                selectedMulti: true
+            },
             check: {
                 enable: true,
                 chkStyle: "checkbox",
-                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+                chkboxType: {
+                    "Y": "",
+                    "N": ""
+                } //去掉勾选时级联
             },
             data: {
                 key: {
@@ -111,11 +125,16 @@ layui.config({
         var url = '/RoleManager/Load';
         var rolestree;
         var setting = {
-            view: { selectedMulti: true },
+            view: {
+                selectedMulti: true
+            },
             check: {
                 enable: true,
                 chkStyle: "checkbox",
-                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
+                chkboxType: {
+                    "Y": "",
+                    "N": ""
+                } //去掉勾选时级联
             },
             data: {
                 key: {
@@ -164,7 +183,9 @@ layui.config({
         var url = '/UserSession/GetOrgs';
         var zTreeObj;
         var setting = {
-            view: { selectedMulti: false },
+            view: {
+                selectedMulti: false
+            },
             data: {
                 key: {
                     name: 'Name',
@@ -179,25 +200,37 @@ layui.config({
             },
             callback: {
                 onClick: function (event, treeId, treeNode) {
-                    if (vm.NodeDesignate === "SPECIAL_USER") {
-                        userstree.load({ orgId: treeNode.Id });
+                    if (vm.tmp.NodeDesignate === "SPECIAL_USER") {
+                        userstree.load({
+                            orgId: treeNode.Id
+                        });
                     } else {
-                        rolestree.load({ orgId: treeNode.Id });
+                        rolestree.load({
+                            orgId: treeNode.Id
+                        });
                     }
                 }
             }
         };
         var load = function () {
             $.getJSON(url, function (json) {
-                if (vm.NodeDesignate === "ALL_USER") return;
+                if (vm.tmp.NodeDesignate === "ALL_USER") return;
                 zTreeObj = $.fn.zTree.init($("#tree"), setting);
-                var newNode = { Name: "全部", Id: null, ParentId: "" };
+                var newNode = {
+                    Name: "全部",
+                    Id: null,
+                    ParentId: ""
+                };
                 json.push(newNode);
                 zTreeObj.addNodes(null, json);
-                if (vm.NodeDesignate === "SPECIAL_USER") {
-                    userstree.load({ orgId: '' });
-                } else if (vm.NodeDesignate === "SPECIAL_ROLE") {
-                    rolestree.load({ orgId: '' });
+                if (vm.tmp.NodeDesignate === "SPECIAL_USER") {
+                    userstree.load({
+                        orgId: ''
+                    });
+                } else if (vm.tmp.NodeDesignate === "SPECIAL_ROLE") {
+                    rolestree.load({
+                        orgId: ''
+                    });
                 }
                 zTreeObj.expandAll(true);
             });
@@ -211,12 +244,11 @@ layui.config({
 
     form.on('radio(NodeDesignate)',
         function (data) {
-            vm.NodeDesignate = data.value;
+            vm.tmp.NodeDesignate = data.value;
             if (data.value === "SPECIAL_USER") {
                 userstree.load();
                 ztree.reload();
-            }
-            else if (data.value === "SPECIAL_ROLE") {
+            } else if (data.value === "SPECIAL_ROLE") {
                 rolestree.load();
                 ztree.reload();
             }
@@ -225,13 +257,13 @@ layui.config({
     //提供给上父页面调用
     getVal = function () {
         var result = {
-            NodeDesignateData: {  //节点指定操作人
+            NodeDesignateData: { //节点指定操作人
                 users: users,
                 roles: roles,
                 orgs: []
             }
         };
-        $.extend(result, vm.$data);
+        $.extend(result, vm.tmp);
         return result;
     }
 

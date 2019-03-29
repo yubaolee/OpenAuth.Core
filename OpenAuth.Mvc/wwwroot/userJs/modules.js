@@ -1,13 +1,28 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'utils'], function () {
+}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'iconPicker', 'utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
-  
+    var iconPicker = layui.iconPicker;
+    var btnIconPicker = layui.iconPicker;
+    iconPicker.render({
+        // 选择器，推荐使用input
+        elem: '#IconName',
+        type: 'fontClass',
+        // 每个图标格子的宽度：'43px'或'20%'
+        cellWidth: '43px',
+    });
+    btnIconPicker.render({   //按钮的图标
+        // 选择器，推荐使用input
+        elem: '#Icon',
+        type: 'fontClass',
+        // 每个图标格子的宽度：'43px'或'20%'
+        cellWidth: '43px',
+    });
+
     var table = layui.table;
     var openauth = layui.openauth;
-    layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
    
     $("#menus").loadMenus("Module");
 
@@ -83,19 +98,44 @@ layui.config({
     $("#tree").height($("div.layui-table-view").height());
     //添加（编辑）模块对话框
     var editDlg = function() {
-        var vm = new Vue({
-            el: "#formEdit"
-        });
+        var vm;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
-                area: ["500px", "400px"],
+                area: ["500px", "480px"],
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
-                    vm.$set('$data', data);
+                   if(vm == undefined){
+                    vm = new Vue({
+                        el: "#formEdit",
+                        data(){
+                            return {
+                                tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
+                            }
+                        },
+                        watch:{
+                            tmp(val){
+                                this.$nextTick(function () {
+                                    form.render();  //刷新select等
+                                    layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
+
+                                   iconPicker.checkIcon('iconPicker', this.tmp.IconName);
+                               })
+                            }
+                        },
+                        mounted(){
+                            form.render();
+                            layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
+
+                             iconPicker.checkIcon('iconPicker', data.IconName);
+                        }
+                    });
+                   }else{
+                    vm.tmp = Object.assign({}, vm.tmp,data)
+                   }
                 },
                 end: mainList
             });
@@ -124,7 +164,7 @@ layui.config({
                 show({
                     Id: "",
                     SortNo: 1,
-                    IconName:'&#xe678;'
+                    IconName:'layui-icon-app'
                 });
             },
             update: function(data) { //弹出编辑框
@@ -136,19 +176,40 @@ layui.config({
 
     //添加菜单对话框
     var meditDlg = function () {
-       var vm = new Vue({
-            el: "#mfromEdit"
-        });
+       var vm ;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
-                area: ["500px", "400px"],
+                area: ["500px", "450px"],
                 type: 1,
                 content: $('#divMenuEdit'),
                 success: function () {
-                    vm.$set('$data', data);
+                    if(vm == undefined){
+                        vm = new Vue({
+                            el: "#mfromEdit",
+                            data(){
+                                return {
+                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
+                                }
+                            },
+                            watch:{
+                                tmp(val){
+                                    this.$nextTick(function () {
+                                       form.render();  //刷新select等
+                                       btnIconPicker.checkIcon('btnIconPicker', this.tmp.Icon);
+                                   })
+                                }
+                            },
+                            mounted(){
+                                 form.render();
+                                 btnIconPicker.checkIcon('btnIconPicker', data.Icon);
+                            }
+                        });
+                       }else{
+                        vm.tmp = Object.assign({}, vm.tmp,data)
+                       }
                 },
                 end: menuList
             });
@@ -183,14 +244,10 @@ layui.config({
             }
         };
     }();
-    
-    //监听模块表格内部按钮
-    table.on('tool(list)', function (obj) {
-        var data = obj.data;
-        if (obj.event === 'detail') {      //查看
-            //layer.msg('ID：' + data.Id + ' 的查看操作');
-            menuList({moduleId:data.Id});
-        } 
+
+    //监听行单击事件
+    table.on('row(list)', function(obj){
+        menuList({moduleId:obj.data.Id});
     });
 
     //监听页面主按钮操作

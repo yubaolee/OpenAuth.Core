@@ -21,11 +21,7 @@
         });
     });
 
-    var vm = new Vue({
-        el: "#formEdit"
-    });
-
-    //表单设计器
+      //表单设计器
     var ue = UE.getEditor('myFormDesign', {
         //allowDivTransToP: false,//阻止转换div 为p
         toolleipi: true,//是否显示，设计器的 toolbars
@@ -268,18 +264,36 @@
             function (data) {
                 var obj = data.Result;
                 url = "/Forms/Update";
-                vm.$set('$data', obj);
+                new Vue({
+                    el: "#formEdit",
+                    data(){
+                        return{
+                            tmp:data.Result
+                        }
+                    }
+                });
+
                 //玄学：加个延迟ueditor才能正常
                 setTimeout(function () {
-                    ue.setContent(obj.Content);
+                    if (obj.FrmType === 0) { 
+	                    ue.setContent(obj.Content);
+                    } else {
+	                    ue.setContent("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+                    }
                 }, 500);
             });
     } else {
-        vm.$set('$data',
-            {
-                Id: '',
-                SortCode:1
-            });
+        new Vue({
+            el: "#formEdit",
+            data(){
+                return{
+                    tmp:{
+                        Id: '',
+                        SortCode:1
+                    }
+                }
+            }
+        });
     }
 
 

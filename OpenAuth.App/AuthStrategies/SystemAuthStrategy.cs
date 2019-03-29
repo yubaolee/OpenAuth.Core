@@ -48,7 +48,8 @@ namespace OpenAuth.App
                         Url = module.Url,
                         ParentId = module.ParentId,
                         ParentName = module.ParentName,
-                        IsSys = module.IsSys
+                        IsSys = module.IsSys,
+                        Status = module.Status
                     }).ToList();
 
                 foreach (var module in modules)
@@ -91,6 +92,14 @@ namespace OpenAuth.App
 
         public List<KeyDescription> GetProperties(string moduleCode)
         {
+            var module = UnitWork.FindSingle<Module>(u =>u.Code == moduleCode);
+            if(module == null)
+            {
+                throw new Exception("该模块不存在");
+            }
+            if(module.IsSys){
+                throw new Exception("系统内置模块，不能进行字段分配");
+            }
             return _dbExtension.GetProperties(moduleCode);
         }
 

@@ -55,9 +55,9 @@ input[type="color"],
 }
 
 
-select[leipiplugins] {
+/* select[leipiplugins] {
     display: inherit !important
-}
+} */
 
 #frmPreview select,
 #frmPreview input {

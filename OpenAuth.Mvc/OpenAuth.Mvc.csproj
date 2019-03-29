@@ -322,6 +322,7 @@
     <None Include="wwwroot\js\ueditor\themes\default\images\word.gif" />
     <None Include="wwwroot\js\ueditor\themes\default\images\wordpaste.png" />
     <None Include="wwwroot\js\ueditor\themes\iframe.css" />
+    <None Include="wwwroot\js\ueditor\third-party\codemirror\codemirror.js" />
     <None Include="wwwroot\js\ueditor\third-party\webuploader\Uploader.swf" />
     <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.css" />
     <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.custom.js" />
@@ -334,6 +335,9 @@
     <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.min.js" />
     <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.withoutimage.js" />
     <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.withoutimage.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\zeroclipboard\ZeroClipboard.js" />
+    <None Include="wwwroot\js\ueditor\third-party\zeroclipboard\ZeroClipboard.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\zeroclipboard\ZeroClipboard.swf" />
     <None Include="wwwroot\js\ueditor\ueditor.all.js" />
     <None Include="wwwroot\js\ueditor\ueditor.all.min.js" />
     <None Include="wwwroot\js\ueditor\ueditor.config.js" />
@@ -447,6 +451,7 @@
     <None Include="wwwroot\layui\lay\modules\laypage.js" />
     <None Include="wwwroot\layui\lay\modules\laytpl.js" />
     <None Include="wwwroot\layui\lay\modules\mobile.js" />
+    <None Include="wwwroot\layui\lay\modules\rate.js" />
     <None Include="wwwroot\layui\lay\modules\table.js" />
     <None Include="wwwroot\layui\lay\modules\tree.js" />
     <None Include="wwwroot\layui\lay\modules\upload.js" />

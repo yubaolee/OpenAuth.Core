@@ -22,7 +22,9 @@ namespace OpenAuth.App
                 SchemeName = flowScheme.SchemeName,
                 ModifyDate = DateTime.Now,
                 FrmId = flowScheme.FrmId,
-                Disabled = flowScheme.Disabled
+                FrmType = flowScheme.FrmType,
+                Disabled = flowScheme.Disabled,
+                Description = flowScheme.Description
             });
         }
 

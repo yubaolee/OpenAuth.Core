@@ -12,6 +12,10 @@ namespace OpenAuth.App
 	
         public static string GetHtml(string contentData, string contentParse,string frmData, string action)
         {
+            if (string.IsNullOrEmpty(contentData))
+            {
+                return string.Empty;
+            }
             JObject tableData = null;//表单数据
             if (!string.IsNullOrEmpty(frmData))
             {

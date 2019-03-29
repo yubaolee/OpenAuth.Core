@@ -7,12 +7,12 @@
 }
 
 <form class="layui-form layui-form-pane" action="" id="formEdit">
-    <input type="hidden" name="Id" v-model="Id" />
-    <input type="hidden" id="FrmId" name="FrmId" v-model="FrmId" />
-    <input type="hidden" id="SchemeContent" name="SchemeContent" v-model="SchemeContent" />
-    <input type="hidden" id="FrmContentData" name="FrmContentData" v-model="FrmContentData" />
-    <input type="hidden" id="FrmContentParse" name="FrmContentParse" v-model="FrmContentParse" />
-    <input type="hidden" id="FrmData" name="FrmData" v-model="FrmData" />
+    <input type="hidden" name="Id" v-model="tmp.Id" />
+    <input type="hidden" id="FrmId" name="FrmId" v-model="tmp.FrmId" />
+    <input type="hidden" id="SchemeContent" name="SchemeContent" v-model="tmp.SchemeContent" />
+    <input type="hidden" id="FrmContentData" name="FrmContentData" v-model="tmp.FrmContentData" />
+    <input type="hidden" id="FrmContentParse" name="FrmContentParse" v-model="tmp.FrmContentParse" />
+    <input type="hidden" id="FrmData" name="FrmData" v-model="tmp.FrmData" />
 
     <div class="layui-row">
         <div class="layui-tab layui-tab-brief" lay-filter="tab" style="margin: 0px">
@@ -27,7 +27,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">实例编号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="Code" v-model="Code" required lay-verify="required"
+                            <input type="text" name="Code" v-model="tmp.Code" required lay-verify="required"
                                    placeholder="实例编号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">标题</label>
                         <div class="layui-input-block">
-                            <input type="text" name="CustomName" v-model="CustomName" required lay-verify="required"
+                            <input type="text" name="CustomName" v-model="tmp.CustomName" required lay-verify="required"
                                    placeholder="自定义名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <div class="layui-form-item" pane>
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-block">
-                            <textarea name="Description" v-model="Description"  placeholder="请输入" class="layui-textarea"></textarea>
+                            <textarea name="Description" v-model="tmp.Description"  placeholder="请输入" class="layui-textarea"></textarea>
                         </div>
                     </div>
                 </div>

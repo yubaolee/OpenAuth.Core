@@ -7984,34 +7984,8 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
             }
         },
 
-        /**
-         * 根据action名称获取请求的路径
-         * @method  getActionUrl
-         * @remind 假如没有设置serverUrl,会根据imageUrl设置默认的controller路径
-         * @param { String } action action名称
-         * @example
-         * ```javascript
-         * editor.getActionUrl('config'); //返回 "/ueditor/php/controller.php?action=config"
-         * editor.getActionUrl('image'); //返回 "/ueditor/php/controller.php?action=uplaodimage"
-         * editor.getActionUrl('scrawl'); //返回 "/ueditor/php/controller.php?action=uplaodscrawl"
-         * editor.getActionUrl('imageManager'); //返回 "/ueditor/php/controller.php?action=listimage"
-         * ```
-         */
-        getActionUrl: function(action){
-            var actionName = this.getOpt(action) || action,
-                imageUrl = this.getOpt('imageUrl'),
-                serverUrl = this.getOpt('serverUrl');
-
-            if(!serverUrl && imageUrl) {
-                serverUrl = imageUrl.replace(/^(.*[\/]).+([\.].+)$/, '$1controller$2');
-            }
-
-            if(serverUrl) {
-                serverUrl = serverUrl + (serverUrl.indexOf('?') == -1 ? '?':'&') + 'action=' + (actionName || '');
-                return utils.formatUrl(serverUrl);
-            } else {
-                return '';
-            }
+        getActionUrl: function (action) {
+	        return '/Files/Upload';
         }
     };
     utils.inherits(Editor, EventBase);

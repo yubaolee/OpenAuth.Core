@@ -55,7 +55,11 @@
             flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
 
             $.getJSON("/forms/get?id=" + obj.FrmId, function (data) {
-                $("#frmPreview").html(data.Result.Html);
+                if (data.Result.FrmType == 0) {
+                    $("#frmPreview").html(data.Result.Html);
+                } else {
+                    $("#frmPreview").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+                }
             });
         });
 

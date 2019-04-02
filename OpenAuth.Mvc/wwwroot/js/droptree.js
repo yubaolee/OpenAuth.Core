@@ -75,7 +75,7 @@ layui.config({
                        },
                     done: function(data, obj){  //使用异步加载回调
                         var checkedIds = $(that.config.idDOM).val();
-                        if (that.config.searchType) {
+                        if (that.config.selectedMulti) {
 	                        dtree.chooseDataInit("dropTreeSel", checkedIds); // 初始化复选框的值
                         } else {
                             dtree.dataInit("dropTreeSel", checkedIds);

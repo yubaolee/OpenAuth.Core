@@ -173,7 +173,7 @@ layui.config({
         };
         var load = function () {
             $.getJSON(url, function (json) {
-                $.each(json,
+                $.each(json.Result,
                     function(i) {
                         var that = this;
                         if(!that.IsSys){
@@ -182,7 +182,7 @@ layui.config({
                     });
 
                 zTreeObj = $.fn.zTree.init($("#tree"), setting);
-                zTreeObj.addNodes(null, json);
+                zTreeObj.addNodes(null, json.Result);
                 //如果该用户已经分配模块了，则设置相应的状态
                 var url = "/ModuleManager/LoadForUser";
                 if (type.indexOf("Role") != -1) {

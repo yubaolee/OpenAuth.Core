@@ -50,7 +50,8 @@ layui.extend({
                     url: that.config.url,
                     method:'GET',
                     dataFormat:'list',
-                    dataStyle:'layuiStyle',
+                      dataStyle: 'layuiStyle',
+                    initLevel: "4",
                     response:{
                         statusName: "Code", //返回标识（必填）
                         statusCode: 200, //返回码（必填）
@@ -72,8 +73,12 @@ layui.extend({
                             })
                        },
                     done: function(data, obj){  //使用异步加载回调
-                     var checkedIds = $(that.config.idDOM).val();
-                     dtree.chooseDataInit("dropTreeSel", checkedIds); // 初始化复选框的值
+                        var checkedIds = $(that.config.idDOM).val();
+                        if (that.config.searchType) {
+	                        dtree.chooseDataInit("dropTreeSel", checkedIds); // 初始化复选框的值
+                        } else {
+                            dtree.dataInit("dropTreeSel", checkedIds);
+                        }
                     }
                   });
 

@@ -23,6 +23,7 @@ using Infrastructure;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -78,7 +79,17 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetModules()
         {
-            return JsonHelper.Instance.Serialize(_authStrategyContext.Modules);
+            var resp = new Response<List<ModuleView>>();
+            try
+            {
+                resp.Result = _authStrategyContext.Modules;
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(resp);
         }
 
         /// <summary>
@@ -87,7 +98,17 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetOrgs()
         {
-            return JsonHelper.Instance.Serialize(_authStrategyContext.Orgs);
+             var resp = new Response<List<Org>>();
+            try
+            {
+                resp.Result = _authStrategyContext.Orgs;
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(resp);
         }
 
         /// <summary>

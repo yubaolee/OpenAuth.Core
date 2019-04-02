@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -16,7 +17,17 @@ namespace OpenAuth.Mvc.Controllers
 
         public string GetList([FromQuery]QueryAppListReq request)
         {
-            return JsonHelper.Instance.Serialize(_app.GetList(request));
+            var resp = new Response<List<Application>>();
+            try
+            {
+                resp.Result = _app.GetList(request);
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(resp);
         }
 
        [HttpPost]

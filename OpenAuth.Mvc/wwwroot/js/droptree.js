@@ -4,7 +4,8 @@
 // Created          : 10-16-2016
 //
 // Last Modified By : yubaolee
-// Last Modified On : 10-16-2016
+// Last Modified On : 04-02-2019
+//                    修改ztree为基于layui的dtree
 // ***********************************************************************
 // <copyright file="droptree.js" company="www.cnblogs.com/yubaolee">
 //     版权所有 玉宝(C) 2017
@@ -14,137 +15,122 @@
 // droptree.render();
 // ***********************************************************************
 
-layui.define(['jquery', 'layer'], function (exports) {
+layui.extend({
+    dtree: '{/}/js/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+  }).config({
+    base: "/js/"
+}).define(['jquery', 'layer','dtree'], function (exports) {
     var $ = layui.jquery;
     var layer = layui.layer;
-    var zTreeObj;
+    var dtree = layui.dtree;
     var inst;   //droptree实体
 
-    //显示下拉菜单
-    var showMenu = function () {
-        $("#menuContent").css({
-            left: "10px",
-            top: $(inst.config.nameDOM).outerHeight() + "px"
-        }).slideDown("fast");
-        $("body").bind("mousedown", onBodyDown);
-    };
-
-    //隐藏下拉菜单
-    var hideMenu = function () {
-        $("#menuContent").fadeOut("fast");
-        $("body").unbind("mousedown", onBodyDown);
-    }
-
-    //滚动条下拉
-    function onBodyDown(event) {
-        if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
-            hideMenu();
-        }
-    }
-
-    //点击tree
-    var onClick = function (e, treeId, treeNode) {
-        var nodes = zTreeObj.getSelectedNodes();
-
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            $(inst.config.nameDOM).val(nodes[i].Name);
-            $(inst.config.idDOM).val(nodes[i].Id);
-            break;
-        }
-        $(inst.config.idDOM).change();  //如果不调change，VUE不会监听idDom
-        hideMenu();
-    }
-
-    //tree复选框
-    var onCheck = function (e, treeId, treeNode) {
-        var nodes = zTreeObj.getCheckedNodes(true);
-
-        var ids = nodes.map(function (e) { return e.Id; }).join(",");
-        var names = nodes.map(function (e) { return e.Name; }).join(",");
-        $(inst.config.nameDOM).val(names);
-        $(inst.config.idDOM).val(ids);
-        $(inst.config.idDOM).change();  //如果不调change，VUE不会监听idDom
-    }
-
     //构造器
-    var  Class = function (options) {
+    var  DropTree = function (options) {
         var that = this;
         that.config = $.extend({}, that.config, options);
 
+        var $events = $._data($(that.config.nameDOM)[0],'events');
+        if( $events && $events["click"] ){
+        　　console.log("already bind click");
+            return;
+        }
+
         //上级机构选择框
         $(that.config.nameDOM).on("click", function () {
-            that.render();
+            layer.open({
+                type: 1, //type:0 也行
+                title: "选择",
+                area: ["400px", "80%"],
+                content: '<ul id="dropTreeSel" class="dtree" data-id="null"></ul>',
+                btn: ['确认选择'],
+                success: function(layero, index){
+                  var DTree = dtree.render({
+                    obj: $(layero).find("#dropTreeSel"), 
+                    url: that.config.url,
+                    dataFormat:'list',
+                    dataStyle:'layuiStyle',
+                    response:{
+                        statusName: "Code", //返回标识（必填）
+                        statusCode: 200, //返回码（必填）
+                        message: "Message", //返回信息（必填）
+                        rootName: "Result", //根节点名称（必填）
+                        treeId: that.config.key, //节点ID（必填）
+                        parentId: that.config.parentKey, //父节点ID（必填）
+                        title: that.config.text, //节点名称（必填）
+                    },
+                    checkbar: that.config.selectedMulti, // 开启复选框
+                    checkbarType:'p-casc',
+                    success: function(data, obj){  //使用异步加载回调
+                        $.each(data.Result,
+                            function (i, item) {
+                                item.checkArr=[{
+                                    type:0,
+                                    isChecked:0
+                                }]
+                            })
+                       },
+                    done: function(data, obj){  //使用异步加载回调
+                     var checkedIds = $(that.config.idDOM).val();
+                     dtree.chooseDataInit("dropTreeSel", checkedIds); // 初始化复选框的值
+                    }
+                  });
+
+                   // 绑定节点的双击
+                   dtree.on("nodedblclick('dropTreeSel')", function(obj){
+                        $(that.config.idDOM).val(obj.param.nodeId);
+                        $(that.config.nameDOM).val(obj.param.context);
+                        $(that.config.idDOM).change(); 
+
+                        layer.close(index);
+                    });
+                },
+                yes: function(index, layero) {
+                  var flag = true;
+                  var ids=[];
+                  var names=[];
+                  if(that.config.selectedMulti){
+                    var params = dtree.getCheckbarNodesParam("dropTreeSel"); // 获取选中值
+                    if(params.length == 0){
+                      layer.msg("请至少选择一个节点",{icon:2});
+                      flag = false;
+                    }
+                    
+                    var ids = [], names = [];
+                    for(var key in params){
+                      var param = params[key];
+                      ids.push(param.nodeId);
+                      names.push(param.context);
+                    }
+                  }
+                  else{
+                    var param = dtree.getNowParam("dropTreeSel"); // 获取当前选中节点
+                    if(param == null){
+                        layer.msg("请至少选择一个节点",{icon:2});
+                        flag = false;
+                    }
+                    ids.push(param.nodeId);
+                    names.push(param.context);
+                  }
+                  
+                  $(that.config.idDOM).val(ids.join(","));
+                  $(that.config.nameDOM).val(names.join(","));
+                  $(that.config.idDOM).change(); 
+                  if(flag){
+                    layer.close(index);
+                  }
+                }
+              });
         });
      };
+     
     //默认配置
-    Class.prototype.config = {
+    DropTree.prototype.config = {
         text: 'Name',
         key: 'Id',
         parentKey: 'ParentId',
         selectedMulti: true    //默认是多选
     };
-
-    //加载数据
-    Class.prototype.render = function () {
-        var that = this;
-        var setting = {
-            view: { selectedMulti: that.config.selectedMulti },
-            check: {
-                enable: that.config.selectedMulti,
-                chkStyle: "checkbox",
-                chkboxType: { "Y": "", "N": "" } //去掉勾选时级联
-            },
-            data: {
-                key: {
-                    name: that.config.text,
-                    title: that.config.text
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: that.config.key,
-                    pIdKey: that.config.parentKey,
-                    rootPId: 'null'
-                }
-            },
-            callback: {
-                onClick: onClick,
-                onCheck: onCheck
-            }
-        };
-        var index = layer.load();
-        $.getJSON(this.config.url,
-            {
-                page: 1, rows: 10000
-            },
-            function (json) {
-                layer.close(index);
-                if (json.length == 0) {
-                    $(that.config.nameDOM).val('');
-                    $(that.config.idDOM).val('');
-                    return;
-                }
-                zTreeObj = $.fn.zTree.init($("#org"), setting, json);
-                that.setCheck();
-                zTreeObj.expandAll(true);
-                showMenu();
-            });
-    }
-
-    //设置初始选中的值
-    Class.prototype.setCheck = function () {   
-        zTreeObj.checkAllNodes(false);
-
-        var value = $(this.config.idDOM).val();
-        if (value == undefined) return;
-        var nodeids = value.split(",");
-        $.each(nodeids,
-            function () {
-                var node = zTreeObj.getNodeByParam("Id", this, null);
-                if (node != null) {
-                    zTreeObj.checkNode(node, true, false);
-                }
-            });
-    }
 
     exports('droptree', function (url, name, id, selectedMulti) {
       var options = {
@@ -153,7 +139,7 @@ layui.define(['jquery', 'layer'], function (exports) {
             url: url,
             selectedMulti: selectedMulti  //是否为多选
         }
-        inst = new Class(options);
+        inst = new DropTree(options);
         return inst;
     });
 });

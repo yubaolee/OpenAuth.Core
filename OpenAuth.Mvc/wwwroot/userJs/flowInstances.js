@@ -53,8 +53,8 @@
             $.getJSON(url, function (json) {
                 zTreeObj = $.fn.zTree.init($("#tree"), setting);
                 var newNode = { Name: "根节点", Id: null, ParentId: "" };
-                json.push(newNode);
-                zTreeObj.addNodes(null, json);
+                json.Result.push(newNode);
+                zTreeObj.addNodes(null, json.Result);
                 mainList({ orgId: "" });
                 zTreeObj.expandAll(true);
             });

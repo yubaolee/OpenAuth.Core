@@ -48,6 +48,7 @@ layui.extend({
                   var DTree = dtree.render({
                     obj: $(layero).find("#dropTreeSel"), 
                     url: that.config.url,
+                    method:'GET',
                     dataFormat:'list',
                     dataStyle:'layuiStyle',
                     response:{
@@ -64,7 +65,7 @@ layui.extend({
                     success: function(data, obj){  //使用异步加载回调
                         $.each(data.Result,
                             function (i, item) {
-                                item.checkArr=[{
+                                item.checkArr=[{  //复选框的数据必须加上这个，😰
                                     type:0,
                                     isChecked:0
                                 }]
@@ -89,7 +90,7 @@ layui.extend({
                   var flag = true;
                   var ids=[];
                   var names=[];
-                  if(that.config.selectedMulti){
+                  if(that.config.selectedMulti){  //多选
                     var params = dtree.getCheckbarNodesParam("dropTreeSel"); // 获取选中值
                     if(params.length == 0){
                       layer.msg("请至少选择一个节点",{icon:2});
@@ -103,7 +104,7 @@ layui.extend({
                       names.push(param.context);
                     }
                   }
-                  else{
+                  else{ //单选
                     var param = dtree.getNowParam("dropTreeSel"); // 获取当前选中节点
                     if(param == null){
                         layer.msg("请至少选择一个节点",{icon:2});

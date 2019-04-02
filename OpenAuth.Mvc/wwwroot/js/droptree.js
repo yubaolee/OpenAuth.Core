@@ -15,9 +15,7 @@
 // droptree.render();
 // ***********************************************************************
 
-layui.extend({
-    dtree: '{/}/js/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
-  }).config({
+layui.config({
     base: "/js/"
 }).define(['jquery', 'layer','dtree'], function (exports) {
     var $ = layui.jquery;
@@ -30,12 +28,15 @@ layui.extend({
         var that = this;
         that.config = $.extend({}, that.config, options);
 
-        var $events = $._data($(that.config.nameDOM)[0],'events');
-        if( $events && $events["click"] ){
-        　　console.log("already bind click");
-            return;
+        var nameObj = $(that.config.nameDOM);
+        if (nameObj[0]) {
+	        var $events = $._data(nameObj[0], 'events');
+	        if ($events && $events["click"]) {
+		        console.log("already bind click");
+		        return;
+	        }
         }
-
+        
         //上级机构选择框
         $(that.config.nameDOM).on("click", function () {
             layer.open({
@@ -96,27 +97,26 @@ layui.extend({
                   var ids=[];
                   var names=[];
                   if(that.config.selectedMulti){  //多选
-                    var params = dtree.getCheckbarNodesParam("dropTreeSel"); // 获取选中值
-                    if(params.length == 0){
+                    var multi = dtree.getCheckbarNodesParam("dropTreeSel"); // 获取选中值
+                      if (multi.length == 0){
                       layer.msg("请至少选择一个节点",{icon:2});
                       flag = false;
                     }
                     
-                    var ids = [], names = [];
-                    for(var key in params){
-                      var param = params[key];
-                      ids.push(param.nodeId);
-                      names.push(param.context);
+                      for (var key in multi){
+                          var param = multi[key];
+	                      ids.push(param.nodeId);
+	                      names.push(param.context);
                     }
                   }
                   else{ //单选
-                    var param = dtree.getNowParam("dropTreeSel"); // 获取当前选中节点
-                    if(param == null){
+                    var single = dtree.getNowParam("dropTreeSel"); // 获取当前选中节点
+                      if (single == null){
                         layer.msg("请至少选择一个节点",{icon:2});
                         flag = false;
                     }
-                    ids.push(param.nodeId);
-                    names.push(param.context);
+                      ids.push(single.nodeId);
+                      names.push(single.context);
                   }
                   
                   $(that.config.idDOM).val(ids.join(","));

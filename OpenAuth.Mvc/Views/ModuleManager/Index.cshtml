@@ -1,6 +1,8 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+     <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
@@ -131,9 +133,7 @@
             <div class="layui-input-block">
                 <input id="ParentName" name="ParentName" v-model="tmp.ParentName" class="layui-input" />
                 <input id="ParentId" name="ParentId" v-model="tmp.ParentId"  type="hidden" />
-                <div id="menuContent" class="menuContent" style="display: none;">
-                    <ul id="org" class="ztree"></ul>
-                </div>
+                
             </div>
         </div>
 

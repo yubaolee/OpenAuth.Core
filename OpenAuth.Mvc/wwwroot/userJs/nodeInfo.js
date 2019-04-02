@@ -221,8 +221,8 @@ layui.config({
                     Id: null,
                     ParentId: ""
                 };
-                json.push(newNode);
-                zTreeObj.addNodes(null, json);
+                json.Result.push(newNode);
+                zTreeObj.addNodes(null, json.Result);
                 if (vm.tmp.NodeDesignate === "SPECIAL_USER") {
                     userstree.load({
                         orgId: ''

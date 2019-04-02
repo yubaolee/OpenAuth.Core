@@ -1,6 +1,8 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+     <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList" id="menus"></blockquote>
 
@@ -51,13 +53,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属应用</label>
             <div class="layui-input-block">
-
                 <input id="AppName" name="AppName" v-model="tmp.AppName" class="layui-input" />
                 <input id="AppId" name="AppId" v-model="tmp.AppId" type="hidden" />
-                <div id="menuContent" class="menuContent" style="display: none;">
-                    <ul id="org" class="ztree"></ul>
-                </div>
-
             </div>
         </div>
 

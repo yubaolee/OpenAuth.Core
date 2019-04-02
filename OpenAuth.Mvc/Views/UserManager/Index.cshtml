@@ -1,6 +1,8 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+     <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
@@ -78,9 +80,7 @@
             <div class="layui-input-block">
                 <input id="Organizations" name="Organizations" v-model="tmp.Organizations" required lay-verify="required" class="layui-input" />
                 <input id="OrganizationIds" name="OrganizationIds" v-model="tmp.OrganizationIds" required lay-verify="required" type="hidden" />
-                <div id="menuContent" class="menuContent" style="display: none;">
-                    <ul id="org" class="ztree"></ul>
-                </div>
+                
             </div>
         </div>
 

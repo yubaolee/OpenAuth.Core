@@ -301,7 +301,10 @@ namespace Infrastructure
                 Type type;
                 if (!classes.TryGetValue(signature, out type)) {
                     type = CreateDynamicClass(signature.properties);
-                    classes.Add(signature, type);
+                    //fixed by  https://gitee.com/DUWENINK
+                    if (!classes.ContainsKey(signature)){
+                        classes.Add(signature, type);
+                    }
                 }
                 return type;
             }

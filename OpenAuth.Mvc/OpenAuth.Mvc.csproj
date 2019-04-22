@@ -61,7 +61,7 @@
     <None Include="wwwroot\js\bodyTab.js" />
     <None Include="wwwroot\js\bootstrap.js" />
     <None Include="wwwroot\js\droptree.js" />
-    <None Include="wwwroot\js\dtree\dtree.js" />
+    <None Include="wwwroot\js\dtree.js" />
     <None Include="wwwroot\js\dtree\font\dtreefont.svg" />
     <None Include="wwwroot\js\flow-ui\img\wallbg.png" />
     <None Include="wwwroot\js\flowlayout.js" />

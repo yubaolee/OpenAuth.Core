@@ -21,7 +21,7 @@ layui.config({
     //机构
 	$.getJSON("/UserSession/GetOrgs",
         function (data) {
-            $(".orgs span").text(data.length);
+            $(".orgs span").text(data.Result.length);
         }
     )
 
@@ -59,7 +59,7 @@ layui.config({
 	})
 
 	//系统基本参数
-    $(".version").text("core 1.0");      //当前版本
+    $(".version").text("core 1.4");      //当前版本
     $(".author").text("yubaolee");        //开发作者
     $(".homePage").text("/Home/Index");    //网站首页
     $(".server").text("centos docker");        //服务器环境

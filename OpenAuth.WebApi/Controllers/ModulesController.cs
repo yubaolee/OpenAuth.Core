@@ -226,7 +226,7 @@ namespace OpenAuth.WebApi.Controllers
 
 
         [HttpPost]
-        public Response DeleteMenu(string[] ids)
+        public Response DeleteMenu([FromBody]string[] ids)
         {
             var result = new Response();
             try

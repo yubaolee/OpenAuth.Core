@@ -122,5 +122,13 @@ namespace OpenAuth.App
             _revelanceApp = app;
             _auth = auth;
         }
+
+        public void ChangePassword(ChangePasswordReq request)
+        {
+            Repository.Update(u =>u.Account == request.Account, user => new User
+            {
+               Password = request.Password
+            });
+        }
     }
 }

@@ -26,8 +26,29 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        //修改密码
+        [HttpPost]
+        public string ChangePassword(ChangePasswordReq request)
+        {
+            try
+            {
+                _app.ChangePassword(request);
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
         //添加或修改组织
-       [HttpPost]
+        [HttpPost]
         public string AddOrUpdate(UserView view)
         {
             try

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Reflection;
 using Autofac.Extensions.DependencyInjection;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Options;
 using OpenAuth.App;
 using OpenAuth.Repository;
 using OpenAuth.WebApi.Model;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace OpenAuth.WebApi
 {
@@ -32,6 +35,14 @@ namespace OpenAuth.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "http://localhost:12796"; // IdentityServer服务器地址
+                    options.ApiName = "openauthapi"; // 用于针对进行身份验证的API资源的名称
+                    options.RequireHttpsMetadata = false; // 指定是否为HTTPS
+                });
+
             services.AddSwaggerGen(option =>
             {
                 option.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
@@ -45,6 +56,17 @@ namespace OpenAuth.WebApi
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 option.IncludeXmlComments(xmlPath);
                 option.OperationFilter<GlobalHttpHeaderOperationFilter>(); // 添加httpHeader参数
+
+                //接入identityserver
+                option.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                {
+                    Flow = "implicit", // 只需通过浏览器获取令牌（适用于swagger）
+                    AuthorizationUrl = "http://localhost:12796/connect/authorize",//获取登录授权接口
+                    Scopes = new Dictionary<string, string> {
+                        { "openauthapi", "同意openauth.webapi 的访问权限" }//指定客户端请求的api作用域。 如果为空，则客户端无法访问
+                    }
+                });
+                option.OperationFilter<AuthResponsesOperationFilter>();
             });
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
             services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -97,6 +119,9 @@ namespace OpenAuth.WebApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
                 c.DocExpansion(DocExpansion.None);
+                c.OAuthClientId("OpenAuth.WebApi");  //oauth客户端名称
+                c.OAuthAppName("客户端为OpenAuth.WebApi"); // 描述
+
             });
         }
     }

@@ -39,11 +39,11 @@ namespace OpenAuth.IdentityServer
         {
             return new[]
             {
-                new ApiResource("swagger_api", "OpenAuth.WebApi")
+                new ApiResource("openauthapi", "OpenAuth.WebApi")
             };
         }
         /// <summary>
-        /// 客服端信息
+        /// 客户端信息
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<Client> GetClients()
@@ -52,7 +52,7 @@ namespace OpenAuth.IdentityServer
             {
                 new Client
                 {
-                    ClientId = "swagger_client",//客服端名称
+                    ClientId = "OpenAuth.WebApi",//客户端名称
                     ClientName = "OpenAuth.WebApi",//客户端描述
                     AllowedGrantTypes = GrantTypes.Implicit,//Implicit 方式
                     AllowAccessTokensViaBrowser = true,//是否通过浏览器为此客户端传输访问令牌
@@ -60,7 +60,7 @@ namespace OpenAuth.IdentityServer
                     {
                         "http://localhost:52789/swagger/oauth2-redirect.html"
                     },
-                    AllowedScopes = { "swagger_api" }
+                    AllowedScopes = { "openauthapi" }
                 }
             };
         }

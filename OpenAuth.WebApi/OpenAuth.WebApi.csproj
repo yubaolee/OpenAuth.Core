@@ -11,12 +11,16 @@
   <ItemGroup>
     <Compile Remove="Areas\SSO\Data\**" />
     <Compile Remove="Areas\SSO\Models\**" />
+    <Compile Remove="log\**" />
     <Content Remove="Areas\SSO\Data\**" />
     <Content Remove="Areas\SSO\Models\**" />
+    <Content Remove="log\**" />
     <EmbeddedResource Remove="Areas\SSO\Data\**" />
     <EmbeddedResource Remove="Areas\SSO\Models\**" />
+    <EmbeddedResource Remove="log\**" />
     <None Remove="Areas\SSO\Data\**" />
     <None Remove="Areas\SSO\Models\**" />
+    <None Remove="log\**" />
   </ItemGroup>
 
   <ItemGroup>

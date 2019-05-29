@@ -35,13 +35,18 @@ namespace OpenAuth.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(options =>
-                {
-                    options.Authority = "http://localhost:12796"; // IdentityServer服务器地址
-                    options.ApiName = "openauthapi"; // 用于针对进行身份验证的API资源的名称
-                    options.RequireHttpsMetadata = false; // 指定是否为HTTPS
-                });
+            var identityServer = ((ConfigurationSection)Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
+            if (!string.IsNullOrEmpty(identityServer))
+            {
+                services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                    .AddIdentityServerAuthentication(options =>
+                    {
+                        options.Authority = identityServer; // IdentityServer服务器地址
+                        options.ApiName = "openauthapi"; // 用于针对进行身份验证的API资源的名称
+                        options.RequireHttpsMetadata = false; // 指定是否为HTTPS
+                    });
+            }
+          
 
             services.AddSwaggerGen(option =>
             {
@@ -57,16 +62,21 @@ namespace OpenAuth.WebApi
                 option.IncludeXmlComments(xmlPath);
                 option.OperationFilter<GlobalHttpHeaderOperationFilter>(); // 添加httpHeader参数
 
-                //接入identityserver
-                option.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                if (!string.IsNullOrEmpty(identityServer))
                 {
-                    Flow = "implicit", // 只需通过浏览器获取令牌（适用于swagger）
-                    AuthorizationUrl = "http://localhost:12796/connect/authorize",//获取登录授权接口
-                    Scopes = new Dictionary<string, string> {
-                        { "openauthapi", "同意openauth.webapi 的访问权限" }//指定客户端请求的api作用域。 如果为空，则客户端无法访问
-                    }
-                });
-                option.OperationFilter<AuthResponsesOperationFilter>();
+                    //接入identityserver
+                    option.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                    {
+                        Flow = "implicit", // 只需通过浏览器获取令牌（适用于swagger）
+                        AuthorizationUrl = $"{identityServer}/connect/authorize",//获取登录授权接口
+                        Scopes = new Dictionary<string, string> {
+                            { "openauthapi", "同意openauth.webapi 的访问权限" }//指定客户端请求的api作用域。 如果为空，则客户端无法访问
+                        }
+                    });
+                    option.OperationFilter<AuthResponsesOperationFilter>();
+                }
+
+                
             });
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
             services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

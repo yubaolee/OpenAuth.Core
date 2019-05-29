@@ -48,7 +48,6 @@ namespace OpenAuth.IdentityServer
             }
 
             app.UseIdentityServer();
-            app.UseIdentityServer();
             app.UseMvcWithDefaultRoute();
         }
     }

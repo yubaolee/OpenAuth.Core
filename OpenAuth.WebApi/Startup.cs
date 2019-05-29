@@ -106,23 +106,26 @@ namespace OpenAuth.WebApi
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            app.UseMvc(routes =>
-            {
-              
-                routes.MapRoute(
-                    name: "default",
-                    template: "api/{controller=Home}/{action=Index}/{id?}");
-            });
 
+            app.UseAuthentication();
             app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
                 c.DocExpansion(DocExpansion.None);
                 c.OAuthClientId("OpenAuth.WebApi");  //oauth客户端名称
                 c.OAuthAppName("客户端为OpenAuth.WebApi"); // 描述
-
             });
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "api/{controller=Home}/{action=Index}/{id?}");
+            });
+
         }
     }
 }

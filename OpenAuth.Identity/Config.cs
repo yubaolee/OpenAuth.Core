@@ -61,6 +61,18 @@ namespace OpenAuth.IdentityServer
                         "http://localhost:52789/swagger/oauth2-redirect.html"
                     },
                     AllowedScopes = { "openauthapi" }
+                },
+                new Client
+                {
+                    ClientId = "OpenAuth.Pro",//企业版名称
+                    ClientName = "OpenAuth.Pro",//企业版描述
+                    AllowedGrantTypes = GrantTypes.Implicit,//Implicit 方式
+                    AllowAccessTokensViaBrowser = true,//是否通过浏览器为此客户端传输访问令牌
+                    RedirectUris =
+                    {
+                        "http://localhost:5002/oidc-callback"
+                    },
+                    AllowedScopes = { "openauthpro" }
                 }
             };
         }

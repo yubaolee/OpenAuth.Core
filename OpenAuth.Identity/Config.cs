@@ -66,13 +66,20 @@ namespace OpenAuth.IdentityServer
                 {
                     ClientId = "OpenAuth.Pro",//企业版名称
                     ClientName = "OpenAuth.Pro",//企业版描述
-                    AllowedGrantTypes = GrantTypes.Implicit,//Implicit 方式
-                    AllowAccessTokensViaBrowser = true,//是否通过浏览器为此客户端传输访问令牌
-                    RedirectUris =
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                   // RedirectUris =           { "http://localhost:5002/oidc-callback" },
+                    RedirectUris =           { "http://localhost:5003/callback.html" },
+                    PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
+                    AllowedCorsOrigins =     { "http://localhost:5003" },
+                    AllowedScopes =
                     {
-                        "http://localhost:5002/oidc-callback"
-                    },
-                    AllowedScopes = { "openauthpro" }
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "openauthapi"
+                    }
                 }
             };
         }

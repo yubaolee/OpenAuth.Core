@@ -49,17 +49,12 @@ namespace OpenAuth.IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Use((context, next) =>
-            {
-                context.Response.Headers["X-Frame-Options"] = "SAMEORIGIN";
-                return next.Invoke();
-            });
-
             //todo:测试可以允许任意跨域，正式环境要加权限
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
+            app.UseStaticFiles();
             app.UseIdentityServer();
             app.UseMvcWithDefaultRoute();
         }

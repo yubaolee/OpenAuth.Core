@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using OpenAuth.App.Model;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -24,9 +25,11 @@ namespace OpenAuth.WebApi.Model
 
             var actionAttrs = context.ApiDescription.ActionAttributes();
 
-            var isAllowAnonymous = actionAttrs.Any(a => a.GetType() == typeof(AllowAnonymousAttribute));
+            var isIdentityAuth = actionAttrs.Any(a => a.GetType() == typeof(AuthorizeAttribute));
+            var isAnony = actionAttrs.Any(a => a.GetType() == typeof(AllowAnonymousAttribute));
 
-            if (!isAllowAnonymous)
+            //不是匿名或Identity授权，则添加默认的X-Token
+            if (!(isAnony || isIdentityAuth))
             {
                 operation.Parameters.Add(new NonBodyParameter()
                 {

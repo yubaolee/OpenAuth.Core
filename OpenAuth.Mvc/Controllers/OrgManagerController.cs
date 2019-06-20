@@ -4,6 +4,7 @@ using OpenAuth.Mvc.Models;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App.Interface;
+using OpenAuth.App.Model;
 using OpenAuth.App.SSO;
 using OpenAuth.Repository.Domain;
 
@@ -19,7 +20,7 @@ namespace OpenAuth.Mvc.Controllers
 
         //
         // GET: /OrgManager/
-        [Authenticate]
+        [CustomAuth]
         public ActionResult Index()
         {
             return View();

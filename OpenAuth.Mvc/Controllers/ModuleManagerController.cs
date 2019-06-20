@@ -9,6 +9,7 @@ using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using System.Collections.Generic;
+using OpenAuth.App.Model;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -21,13 +22,13 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         // GET: /ModuleManager/
-        [Authenticate]
+        [CustomAuth]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authenticate]
+        [CustomAuth]
         public ActionResult Assign()
         {
             return View();

@@ -20,6 +20,7 @@ using OpenAuth.Mvc.Models;
 using System;
 using System.Linq;
 using System.Reflection;
+using OpenAuth.App.Model;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -64,7 +65,7 @@ namespace OpenAuth.Mvc.Controllers
             if (function == null)
                 throw new Exception("未能找到Action");
             //权限验证标识
-            var authorize = function.GetCustomAttribute(typeof(AuthenticateAttribute));
+            var authorize = function.GetCustomAttribute(typeof(CustomAuthAttribute));
             if (authorize == null)
             {
                 return;

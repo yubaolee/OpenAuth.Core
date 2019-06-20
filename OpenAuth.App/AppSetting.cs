@@ -15,6 +15,7 @@ namespace OpenAuth.App
             SSOPassport = "http://localhost:52789";  
             Version = "";
             UploadPath = "";
+            IdentityServerUrl = "";
             DbType = Define.DBTYPE_SQLSERVER;
         }
         /// <summary>
@@ -35,5 +36,11 @@ namespace OpenAuth.App
 
         /// <summary> 附件上传路径</summary>
         public string UploadPath { get; set; }
+
+        //identity授权的地址
+        public string IdentityServerUrl { get; set; }
+
+        //是否是Identity授权方式
+        public bool IsIdentityAuth => !string.IsNullOrEmpty(IdentityServerUrl);
     }
 }

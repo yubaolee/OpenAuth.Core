@@ -11,4 +11,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

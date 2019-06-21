@@ -39,9 +39,17 @@ namespace OpenAuth.App
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IUnitWork), typeof(UnitWork));
 
-            services.AddScoped(typeof(IAuth), typeof(LocalAuth));
-            //如果想使用WebApi SSO授权，请使用下面这种方式
-            //services.AddScoped(typeof(IAuth), typeof(ApiAuth));
+            //如果当前项目是webapi，则必须是本地,否则会引起死循环
+            if (Assembly.GetEntryAssembly().FullName.Contains("OpenAuth.WebApi"))
+            {
+                services.AddScoped(typeof(IAuth), typeof(LocalAuth));
+            }
+            else  //如果是MVC或者单元测试，则可以根据情况调整，默认是本地授权，无需OpenAuth.WebApi、Identity
+            {
+                services.AddScoped(typeof(IAuth), typeof(LocalAuth));
+                //如果想使用WebApi SSO授权，请使用下面这种方式
+                //services.AddScoped(typeof(IAuth), typeof(ApiAuth));
+            }
 
             //注册app层
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());

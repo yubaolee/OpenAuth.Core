@@ -38,12 +38,14 @@ namespace OpenAuth.WebApi
             var identityServer = ((ConfigurationSection)Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
             if (!string.IsNullOrEmpty(identityServer))
             {
+                services.AddAuthorization();
+
                 services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                    .AddIdentityServerAuthentication(options =>
+                    .AddJwtBearer(options =>
                     {
-                        options.Authority = identityServer; // IdentityServer服务器地址
-                        options.ApiName = "openauthapi"; // 用于针对进行身份验证的API资源的名称
-                        options.RequireHttpsMetadata = false; // 指定是否为HTTPS
+                        options.Authority = identityServer;
+                        options.RequireHttpsMetadata = false;  // 指定是否为HTTPS
+                        options.Audience = "openauthapi";
                     });
             }
           

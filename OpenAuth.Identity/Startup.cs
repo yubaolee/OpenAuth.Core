@@ -1,35 +1,44 @@
 ﻿using System;
+using Autofac.Extensions.DependencyInjection;
+using IdentityServer;
+using IdentityServer4.Test;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using OpenAuth.App;
-using OpenAuth.Repository.Domain;
+using OpenAuth.Repository;
 
 namespace OpenAuth.IdentityServer
 {
     public class Startup
     {
         public IHostingEnvironment Environment { get; }
-
-        public Startup(IHostingEnvironment environment)
+        public Startup(IConfiguration configuration, IOptions<AppSetting> appConfiguration, IHostingEnvironment environment)
         {
+            Configuration = configuration;
+            _appConfiguration = appConfiguration;
             Environment = environment;
         }
-        public void ConfigureServices(IServiceCollection services)
+
+        public IConfiguration Configuration { get; }
+        public IOptions<AppSetting> _appConfiguration;
+
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddIdentity<User, Role>()
-                .AddDefaultTokenProviders();
-            services.AddTransient<IUserStore<User>, CustomUserStore>();
-            services.AddTransient<IRoleStore<Role>, CustomRoleStore>();
+            //services.AddIdentity<ApplicationUser, Role>().AddUserStore<CustomUserStore>()
+            //    .AddDefaultTokenProviders();
+            //services.AddTransient<IRoleStore<Role>, CustomRoleStore>();
 
             var builder = services.AddIdentityServer()
-                    .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                    .AddInMemoryApiResources(Config.GetApis())
-                    .AddInMemoryClients(Config.GetClients())
-                    .AddTestUsers(Config.GetUsers());
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApis())
+                .AddInMemoryClients(Config.GetClients())
+                .AddProfileService<CustomProfileService>();
 
             services.AddCors();
 
@@ -41,6 +50,25 @@ namespace OpenAuth.IdentityServer
             {
                 throw new Exception("need to configure key material");
             }
+
+            services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
+            services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMemoryCache();
+            services.AddCors();
+            //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
+            var dbType = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbType")).Value;
+            if (dbType == Define.DBTYPE_SQLSERVER)
+            {
+                services.AddDbContext<OpenAuthDBContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
+            }
+            else  //mysql
+            {
+                services.AddDbContext<OpenAuthDBContext>(options =>
+                    options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext")));
+            }
+
+            return new AutofacServiceProvider(AutofacExt.InitAutofac(services));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

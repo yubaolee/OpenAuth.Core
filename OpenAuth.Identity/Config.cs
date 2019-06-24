@@ -10,19 +10,6 @@ namespace OpenAuth.IdentityServer
 {
     public static class Config
     {
-        public static List<TestUser> GetUsers()
-        {
-            return new List<TestUser>
-            {
-                new TestUser
-                {
-                    SubjectId = "1",
-                    Username = "admin",
-                    Password = "admin"
-                }
-            };
-        }
-
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new IdentityResource[]
@@ -53,7 +40,7 @@ namespace OpenAuth.IdentityServer
                 new Client
                 {
                     ClientId = "OpenAuth.WebApi",//客户端名称
-                    ClientName = "OpenAuth.WebApi",//客户端描述
+                    ClientName = "开源版webapi请求",//客户端描述
                     AllowedGrantTypes = GrantTypes.Implicit,//Implicit 方式
                     AllowAccessTokensViaBrowser = true,//是否通过浏览器为此客户端传输访问令牌
                     RedirectUris =
@@ -65,7 +52,7 @@ namespace OpenAuth.IdentityServer
                 new Client
                 {
                     ClientId = "OpenAuth.Pro",//企业版名称
-                    ClientName = "OpenAuth.Pro",//企业版描述
+                    ClientName = "企业版js请求",//企业版描述
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
                     RequireClientSecret = false,

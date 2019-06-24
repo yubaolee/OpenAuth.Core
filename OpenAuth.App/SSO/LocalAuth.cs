@@ -66,10 +66,15 @@ namespace OpenAuth.App.SSO
         /// 获取当前登录的用户信息
         /// <para>通过URL中的Token参数或Cookie中的Token</para>
         /// </summary>
-        /// <param name="otherInfo">The otherInfo.</param>
+        /// <param name="account">The account.</param>
         /// <returns>LoginUserVM.</returns>
-        public AuthStrategyContext GetCurrentUser(string otherInfo = "")
+        public AuthStrategyContext GetCurrentUser(string account = "")
         {
+            if (!string.IsNullOrEmpty(account))
+            {
+                return _app.GetAuthStrategyContext(account);
+            }
+
             AuthStrategyContext context = null;
             var user = _cacheContext.Get<UserAuthSession>(GetToken());
             if (user != null)
@@ -83,7 +88,7 @@ namespace OpenAuth.App.SSO
         /// 获取当前登录的用户名
         /// <para>通过URL中的Token参数或Cookie中的Token</para>
         /// </summary>
-        /// <param name="otherInfo">The otherInfo.</param>
+        /// <param name="otherInfo">The account.</param>
         /// <returns>System.String.</returns>
         public string GetUserName(string otherInfo = "")
         {

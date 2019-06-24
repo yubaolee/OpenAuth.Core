@@ -95,9 +95,9 @@ namespace OpenAuth.App.SSO
         /// 获取当前登录的用户信息
         /// <para>通过URL中的Token参数或Cookie中的Token</para>
         /// </summary>
-        /// <param name="otherInfo">The otherInfo.</param>
+        /// <param name="account">The account.</param>
         /// <returns>LoginUserVM.</returns>
-        public AuthStrategyContext GetCurrentUser(string otherInfo = "")
+        public AuthStrategyContext GetCurrentUser(string account = "")
         {
             string username = GetUserName();
             return _authContextFactory.GetAuthStrategyContext(username);
@@ -108,7 +108,7 @@ namespace OpenAuth.App.SSO
         /// 获取WebApi中当前登录的用户名
         /// <para>通过URL中的Token参数或Cookie中的Token</para>
         /// </summary>
-        /// <param name="otherInfo">The otherInfo.</param>
+        /// <param name="otherInfo">The account.</param>
         /// <returns>System.String.</returns>
         public string GetUserName(string otherInfo = "")
         {

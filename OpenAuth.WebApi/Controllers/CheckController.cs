@@ -36,7 +36,7 @@ namespace OpenAuth.WebApi.Controllers
     {
         private readonly IAuth _authUtil;
         private ILogger _logger;
-        private readonly AuthStrategyContext _authStrategyContext;
+        private AuthStrategyContext _authStrategyContext;
 
         public CheckController(IAuth authUtil, ILogger<CheckController> logger)
         {
@@ -251,7 +251,7 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<Resource>>();
             try
             {
-                CheckContext();
+                CheckContext(true);
                 result.Result = _authStrategyContext.Resources;
             }
             catch (CommonException ex)
@@ -305,9 +305,13 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        private void CheckContext()
+        private void CheckContext(bool identity=false)
         {
-            if (_authStrategyContext == null)
+            if (identity)
+            {
+                _authStrategyContext = _authUtil.GetCurrentUser(User.Identity.Name);
+            }
+            else if (_authStrategyContext == null)
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }

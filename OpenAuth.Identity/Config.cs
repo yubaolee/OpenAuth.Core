@@ -4,7 +4,9 @@ using IdentityServer4.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel;
 
 namespace OpenAuth.IdentityServer
 {
@@ -27,6 +29,9 @@ namespace OpenAuth.IdentityServer
             return new[]
             {
                 new ApiResource("openauthapi", "OpenAuth.WebApi")
+                {
+                    UserClaims =  { ClaimTypes.Name, JwtClaimTypes.Name }
+                }
             };
         }
         /// <summary>

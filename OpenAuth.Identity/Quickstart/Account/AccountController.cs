@@ -111,6 +111,14 @@ namespace IdentityServer
 
                 if (user != null &&(user.Password ==model.Password))
                 {
+                    if (user.Status != 0)   //ÅÐ¶ÏÓÃ»§×´Ì¬
+                    {
+                        await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid user status"));
+                        ModelState.AddModelError(string.Empty, "user.status must be 0");
+                        var err = await BuildLoginViewModelAsync(model);
+                        return View(err);
+                    }
+
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.Account, user.Id, user.Account));
 
                     // only set explicit expiration here if user chooses "remember me". 

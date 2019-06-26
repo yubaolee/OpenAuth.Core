@@ -1,11 +1,7 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
-using IdentityServer4.Test;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using IdentityModel;
 
 namespace OpenAuth.IdentityServer
@@ -45,7 +41,7 @@ namespace OpenAuth.IdentityServer
                 new Client
                 {
                     ClientId = "OpenAuth.WebApi",//客户端名称
-                    ClientName = "开源版webapi请求",//客户端描述
+                    ClientName = "开源版webapi认证",//客户端描述
                     AllowedGrantTypes = GrantTypes.Implicit,//Implicit 方式
                     AllowAccessTokensViaBrowser = true,//是否通过浏览器为此客户端传输访问令牌
                     RedirectUris =
@@ -57,19 +53,18 @@ namespace OpenAuth.IdentityServer
                 new Client
                 {
                     ClientId = "OpenAuth.Pro",//企业版名称
-                    ClientName = "企业版js请求",//企业版描述
+                    ClientName = "企业版js请求认证",//企业版描述
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
                     RequireClientSecret = false,
 
-                   // RedirectUris =           { "http://localhost:5002/oidc-callback" },
-                    RedirectUris =           { "http://localhost:5003/callback.html" },
-                    PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
-                    AllowedCorsOrigins =     { "http://localhost:5003" },
+                    RedirectUris =           { "http://localhost:9528/#/oidc-callback" },
+                    PostLogoutRedirectUris = { "http://localhost:9528/index.html" },
+                    AllowedCorsOrigins =     { "http://localhost:9528" },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Profile,  //请求用户的姓名，昵称等
                         "openauthapi"
                     }
                 }

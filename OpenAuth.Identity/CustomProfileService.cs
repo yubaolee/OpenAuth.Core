@@ -50,12 +50,8 @@ namespace OpenAuth.IdentityServer
                     //调用此方法以后内部会进行过滤，只将用户请求的Claim加入到 context.IssuedClaims 集合中 这样我们的请求方便能正常获取到所需Claim
                     var claims = new[]
                     {
-                        new Claim(ClaimTypes.Name, user.Account),  //这个可以保证User.Identity.Name有值
-                        new Claim(JwtClaimTypes.Name, user.Name),
-                        new Claim(JwtClaimTypes.WebSite, "http://openauth.me"),
-                        new Claim(JwtClaimTypes.Address,
-                            @"{ 'city':'CQ', 'postal_code': 40000, 'country': 'China' }",
-                            IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+                        new Claim(ClaimTypes.Name, user.Account),  //请求用户的账号，这个可以保证User.Identity.Name有值
+                        new Claim(JwtClaimTypes.Name, user.Name),  //请求用户的姓名
                     };
                     //返回apiresource中定义的claims   
                     context.AddRequestedClaims(claims);

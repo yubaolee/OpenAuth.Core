@@ -30,6 +30,10 @@ namespace OpenAuth.App.SSO
             _appConfiguration = appConfiguration;
         }
 
+        /// <summary>
+        /// 如果是Identity，则返回信息为用户账号
+        /// </summary>
+        /// <returns></returns>
         private string GetToken()
         {
             if (_appConfiguration.Value.IsIdentityAuth)
@@ -48,6 +52,11 @@ namespace OpenAuth.App.SSO
 
         public bool CheckLogin(string token = "", string otherInfo = "")
         {
+            if (_appConfiguration.Value.IsIdentityAuth)
+            {
+                return (!string.IsNullOrEmpty(_httpContextAccessor.HttpContext.User.Identity.Name));
+            }
+
             if (string.IsNullOrEmpty(token))
             {
                 token = GetToken();
@@ -77,6 +86,10 @@ namespace OpenAuth.App.SSO
         /// <returns>LoginUserVM.</returns>
         public AuthStrategyContext GetCurrentUser()
         {
+            if (_appConfiguration.Value.IsIdentityAuth)
+            {
+                return _app.GetAuthStrategyContext(GetToken());
+            }
             AuthStrategyContext context = null;
             var user = _cacheContext.Get<UserAuthSession>(GetToken());
             if (user != null)
@@ -94,6 +107,11 @@ namespace OpenAuth.App.SSO
         /// <returns>System.String.</returns>
         public string GetUserName(string otherInfo = "")
         {
+            if (_appConfiguration.Value.IsIdentityAuth)
+            {
+                return _httpContextAccessor.HttpContext.User.Identity.Name;
+            }
+
             var user = _cacheContext.Get<UserAuthSession>(GetToken());
             if (user != null)
             {

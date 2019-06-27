@@ -57,6 +57,25 @@ namespace OpenAuth.IdentityServer
                 },
                 new Client
                 {
+                    ClientId = "OpenAuth.Mvc",
+                    ClientName = "开源版mvc认证",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+
+                    // 登录成功回调处理地址，处理回调返回的数据
+                    RedirectUris = { $"{host}:1802/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { $"{host}:1802/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "openauthapi"
+                    }
+                },
+                new Client
+                {
                     ClientId = "OpenAuth.Pro",//企业版名称
                     ClientName = "企业版js请求认证",//企业版描述
                     AllowedGrantTypes = GrantTypes.Code,

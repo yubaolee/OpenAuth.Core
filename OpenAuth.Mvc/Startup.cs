@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac.Extensions.DependencyInjection;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using OpenAuth.App;
 using OpenAuth.Mvc.Models;
 using OpenAuth.Repository;
@@ -24,6 +26,32 @@ namespace OpenAuth.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            var identityServer = ((ConfigurationSection)Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
+            if (!string.IsNullOrEmpty(identityServer))
+            {
+             System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                    .AddCookie("Cookies")
+                    .AddOpenIdConnect("oidc", options =>
+                    {
+                        options.Authority = identityServer;
+                        options.RequireHttpsMetadata = false;
+
+                        options.ClientId = "OpenAuth.Mvc";
+                        options.SaveTokens = true;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            NameClaimType = "name",
+                            RoleClaimType = "role",
+                        };
+                    });
+            }
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -65,6 +93,7 @@ namespace OpenAuth.Mvc
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseAuthentication();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

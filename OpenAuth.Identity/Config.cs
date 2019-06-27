@@ -34,8 +34,13 @@ namespace OpenAuth.IdentityServer
         /// 客户端信息
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<Client> GetClients()
+        public static IEnumerable<Client> GetClients(bool isProduction)
         {
+            var host = "http://localhost";
+            if (isProduction)
+            {
+                host = "http://demo.openauth.me";  //切换为自己的服务器信息
+            }
             return new[]
             {
                 new Client
@@ -46,7 +51,7 @@ namespace OpenAuth.IdentityServer
                     AllowAccessTokensViaBrowser = true,//是否通过浏览器为此客户端传输访问令牌
                     RedirectUris =
                     {
-                        "http://localhost:52789/swagger/oauth2-redirect.html"
+                        $"{host}:52789/swagger/oauth2-redirect.html"
                     },
                     AllowedScopes = { "openauthapi" }
                 },
@@ -58,9 +63,9 @@ namespace OpenAuth.IdentityServer
                     RequirePkce = true,
                     RequireClientSecret = false,
 
-                    RedirectUris =           { "http://localhost:9528/#/oidc-callback" },
-                    PostLogoutRedirectUris = { "http://localhost:9528/index.html" },
-                    AllowedCorsOrigins =     { "http://localhost:9528" },
+                    RedirectUris =           { $"{host}:1803/#/oidc-callback" },
+                    PostLogoutRedirectUris = { $"{host}:1803" },
+                    AllowedCorsOrigins =     { $"{host}:1803" },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,

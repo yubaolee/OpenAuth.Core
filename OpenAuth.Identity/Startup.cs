@@ -35,7 +35,7 @@ namespace OpenAuth.IdentityServer
             var builder = services.AddIdentityServer()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApis())
-                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryClients(Config.GetClients(Environment.IsProduction()))
                 .AddProfileService<CustomProfileService>();
 
             services.AddCors();

@@ -19,6 +19,7 @@ namespace OpenAuth.IdentityServer
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:12796")
                 .UseStartup<Startup>();
     }
 }

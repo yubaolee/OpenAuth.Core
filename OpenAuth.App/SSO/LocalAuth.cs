@@ -2,6 +2,7 @@ using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using OpenAuth.App.Interface;
 using System;
+using Microsoft.Extensions.Options;
 
 namespace OpenAuth.App.SSO
 {
@@ -11,6 +12,7 @@ namespace OpenAuth.App.SSO
     public class LocalAuth : IAuth
     {
         private IHttpContextAccessor _httpContextAccessor;
+        private IOptions<AppSetting> _appConfiguration;
 
         private AuthContextFactory _app;
         private LoginParse _loginParse;
@@ -19,16 +21,21 @@ namespace OpenAuth.App.SSO
         public LocalAuth(IHttpContextAccessor httpContextAccessor
             , AuthContextFactory app
             , LoginParse loginParse
-            , ICacheContext cacheContext)
+            , ICacheContext cacheContext, IOptions<AppSetting> appConfiguration)
         {
             _httpContextAccessor = httpContextAccessor;
             _app = app;
             _loginParse = loginParse;
             _cacheContext = cacheContext;
+            _appConfiguration = appConfiguration;
         }
 
         private string GetToken()
         {
+            if (_appConfiguration.Value.IsIdentityAuth)
+            {
+                return _httpContextAccessor.HttpContext.User.Identity.Name;
+            }
             string token = _httpContextAccessor.HttpContext.Request.Query["Token"];
             if (!String.IsNullOrEmpty(token)) return token;
 
@@ -68,13 +75,8 @@ namespace OpenAuth.App.SSO
         /// </summary>
         /// <param name="account">The account.</param>
         /// <returns>LoginUserVM.</returns>
-        public AuthStrategyContext GetCurrentUser(string account = "")
+        public AuthStrategyContext GetCurrentUser()
         {
-            if (!string.IsNullOrEmpty(account))
-            {
-                return _app.GetAuthStrategyContext(account);
-            }
-
             AuthStrategyContext context = null;
             var user = _cacheContext.Get<UserAuthSession>(GetToken());
             if (user != null)

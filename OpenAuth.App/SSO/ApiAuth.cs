@@ -97,7 +97,7 @@ namespace OpenAuth.App.SSO
         /// </summary>
         /// <param name="account">The account.</param>
         /// <returns>LoginUserVM.</returns>
-        public AuthStrategyContext GetCurrentUser(string account = "")
+        public AuthStrategyContext GetCurrentUser()
         {
             string username = GetUserName();
             return _authContextFactory.GetAuthStrategyContext(username);

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App.Interface;
-using OpenAuth.App.SSO;
 
 namespace OpenAuth.Mvc.Controllers
 {

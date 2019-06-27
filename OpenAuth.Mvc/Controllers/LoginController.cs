@@ -1,6 +1,6 @@
 ﻿using System;
 using Infrastructure;
-using OpenAuth.App.SSO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
@@ -19,12 +19,13 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         // GET: Login
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
 
-
+        [AllowAnonymous]
         public string Login(string username, string password)
         {
             var resp = new Response();

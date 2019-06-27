@@ -18,4 +18,8 @@
     <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
 </Project>

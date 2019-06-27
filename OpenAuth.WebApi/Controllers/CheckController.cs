@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using OpenAuth.App.Model;
 
 namespace OpenAuth.WebApi.Controllers
 {
@@ -51,7 +50,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="token">The token.</param>
         /// <param name="requestid">备用参数.</param>
         [HttpGet]
-        [CustomAuth]
+       
         public Response<bool> GetStatus()
         {
             var result = new Response<bool>();

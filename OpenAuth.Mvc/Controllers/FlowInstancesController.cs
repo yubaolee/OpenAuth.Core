@@ -4,11 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
-using OpenAuth.App.Model;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.App.SSO;
-using OpenAuth.Mvc.Models;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
@@ -22,7 +19,6 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         //
-        [CustomAuth]
         public ActionResult Index()
         {
             return View();

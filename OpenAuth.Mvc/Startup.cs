@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using OpenAuth.App;
+using OpenAuth.Mvc.Models;
 using OpenAuth.Repository;
 
 namespace OpenAuth.Mvc
@@ -35,6 +35,7 @@ namespace OpenAuth.Mvc
 
             services.AddMvc(option =>
             {
+                option.Filters.Add< OpenAuthFilter>();
                 option.ModelBinderProviders.Insert(0, new JsonBinderProvider());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();

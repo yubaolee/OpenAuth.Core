@@ -1,7 +1,5 @@
 ﻿using Infrastructure;
 using OpenAuth.App;
-using OpenAuth.App.SSO;
-using OpenAuth.Mvc.Models;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +7,6 @@ using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using System.Collections.Generic;
-using OpenAuth.App.Model;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -22,13 +19,13 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         // GET: /ModuleManager/
-        [CustomAuth]
+       
         public ActionResult Index()
         {
             return View();
         }
 
-        [CustomAuth]
+       
         public ActionResult Assign()
         {
             return View();

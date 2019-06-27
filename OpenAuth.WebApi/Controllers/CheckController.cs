@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using OpenAuth.App.Model;
 
 namespace OpenAuth.WebApi.Controllers
 {
@@ -51,7 +50,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="token">The token.</param>
         /// <param name="requestid">备用参数.</param>
         [HttpGet]
-        [CustomAuth]
+       
         public Response<bool> GetStatus()
         {
             var result = new Response<bool>();
@@ -74,7 +73,6 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<Role>>();
             try
             {
-                CheckContext();
                 result.Result = _authStrategyContext.Roles;
             }
             catch (CommonException ex)
@@ -108,7 +106,6 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<KeyDescription>>();
             try
             {
-                CheckContext();
                 result.Result = _authStrategyContext.GetProperties(moduleCode);
             }
             catch (Exception ex)
@@ -126,7 +123,6 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<Org>>();
             try
             {
-                CheckContext();
                 result.Result = _authStrategyContext.Orgs;
             }
             catch (CommonException ex)
@@ -190,7 +186,6 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<ModuleView>>();
             try
             {
-                CheckContext();
                 result.Result = _authStrategyContext.Modules;
             }
             catch (CommonException ex)
@@ -222,7 +217,6 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<IEnumerable<TreeItem<ModuleView>>>();
             try
             {
-                CheckContext();
                 result.Result = _authStrategyContext.Modules.GenerateTree(u => u.Id, u => u.ParentId);
             }
             catch (CommonException ex)
@@ -251,7 +245,6 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<Resource>>();
             try
             {
-                CheckContext(true);
                 result.Result = _authStrategyContext.Resources;
             }
             catch (CommonException ex)
@@ -283,7 +276,6 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<string>();
             try
             {
-                CheckContext();
                 result.Result = _authStrategyContext.User.Account;
             }
             catch (CommonException ex)
@@ -303,18 +295,6 @@ namespace OpenAuth.WebApi.Controllers
             }
 
             return result;
-        }
-
-        private void CheckContext(bool identity=false)
-        {
-            if (identity)
-            {
-                _authStrategyContext = _authUtil.GetCurrentUser(User.Identity.Name);
-            }
-            else if (_authStrategyContext == null)
-            {
-                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
-            }
         }
         
         /// <summary>

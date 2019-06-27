@@ -3,10 +3,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
-using OpenAuth.App.Model;
 using OpenAuth.App.Request;
-using OpenAuth.App.SSO;
-using OpenAuth.Mvc.Models;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
@@ -16,7 +13,7 @@ namespace OpenAuth.Mvc.Controllers
         private readonly FlowSchemeApp _app;
 
         //
-        [CustomAuth]
+       
         public ActionResult Index()
         {
             return View();

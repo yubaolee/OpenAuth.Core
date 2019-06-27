@@ -2,6 +2,7 @@
 using Infrastructure;
 using OpenAuth.App.SSO;
 using Microsoft.AspNetCore.Mvc;
+using OpenAuth.App;
 using OpenAuth.App.Interface;
 
 namespace OpenAuth.Mvc.Controllers
@@ -32,7 +33,7 @@ namespace OpenAuth.Mvc.Controllers
                 var result = _authUtil.Login(_appKey, username, password);
                 if (result.Code == 200)
                 {
-                   Response.Cookies.Append("Token", result.Token);
+                   Response.Cookies.Append(Define.TOKEN_NAME, result.Token);
                 }
                 else
                 {

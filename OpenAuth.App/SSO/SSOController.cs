@@ -26,8 +26,6 @@ namespace OpenAuth.App.SSO
 {
     public class SSOController : Controller
     {
-        public const string Token = "Token";
-
         protected IAuth _authUtil;
 
         public SSOController(IAuth authUtil)
@@ -41,9 +39,9 @@ namespace OpenAuth.App.SSO
 
             //Token by QueryString
             var request = filterContext.HttpContext.Request;
-            if (request.Cookies[Token] != null)  //从Cookie读取Token
+            if (request.Cookies[Define.TOKEN_NAME] != null)  //从Cookie读取Token
             {
-                token = request.Cookies[Token];
+                token = request.Cookies[Define.TOKEN_NAME];
             }
 
             if (string.IsNullOrEmpty(token))

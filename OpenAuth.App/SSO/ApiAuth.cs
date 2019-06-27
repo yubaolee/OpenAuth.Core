@@ -51,10 +51,10 @@ namespace OpenAuth.App.SSO
 
         private string GetToken()
         {
-            string token = _httpContextAccessor.HttpContext.Request.Query["Token"];
+            string token = _httpContextAccessor.HttpContext.Request.Query[Define.TOKEN_NAME];
             if (!String.IsNullOrEmpty(token)) return token;
 
-            var cookie = _httpContextAccessor.HttpContext.Request.Cookies["Token"];
+            var cookie = _httpContextAccessor.HttpContext.Request.Cookies[Define.TOKEN_NAME];
             return cookie == null ? String.Empty : cookie;
         }
         /// <summary>

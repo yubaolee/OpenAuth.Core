@@ -12,7 +12,7 @@ namespace OpenAuth.App.SSO
     /// </summary>
     public class SSOAuthAttribute : ActionFilterAttribute
     {
-        public const string Token = "Token";
+        public const string Token = Define.TOKEN_NAME;
 
         private IAuth _auth;
 

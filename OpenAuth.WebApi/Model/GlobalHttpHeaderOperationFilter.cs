@@ -44,7 +44,7 @@ namespace OpenAuth.WebApi.Model
             {
                 operation.Parameters.Add(new NonBodyParameter()
                 {
-                    Name = "X-Token",  
+                    Name = Define.TOKEN_NAME,  
                     In = "header",
                     Type = "string",
                     Description = "当前登录用户登录token",

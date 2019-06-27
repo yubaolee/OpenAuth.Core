@@ -20,7 +20,7 @@ namespace OpenAuth.App.Test
             services.AddScoped(x => cachemock.Object);
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query["Token"]).Returns("tokentest");
+            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TOKEN_NAME]).Returns("tokentest");
 
             services.AddScoped(x => httpContextAccessorMock.Object);
 

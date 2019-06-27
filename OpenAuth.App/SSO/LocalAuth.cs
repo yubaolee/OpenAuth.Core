@@ -36,13 +36,13 @@ namespace OpenAuth.App.SSO
             {
                 return _httpContextAccessor.HttpContext.User.Identity.Name;
             }
-            string token = _httpContextAccessor.HttpContext.Request.Query["Token"];
+            string token = _httpContextAccessor.HttpContext.Request.Query[Define.TOKEN_NAME];
             if (!String.IsNullOrEmpty(token)) return token;
 
-            token = _httpContextAccessor.HttpContext.Request.Headers["X-Token"];
+            token = _httpContextAccessor.HttpContext.Request.Headers[Define.TOKEN_NAME];
             if (!String.IsNullOrEmpty(token)) return token;
 
-            var cookie = _httpContextAccessor.HttpContext.Request.Cookies["Token"];
+            var cookie = _httpContextAccessor.HttpContext.Request.Cookies[Define.TOKEN_NAME];
             return cookie ?? String.Empty;
         }
 

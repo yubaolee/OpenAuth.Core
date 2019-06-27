@@ -10,6 +10,7 @@ using OpenAuth.App.SSO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using OpenAuth.App;
 using OpenAuth.WebApi.Controllers;
 
 namespace OpenAuth.WebApi.Test
@@ -26,7 +27,7 @@ namespace OpenAuth.WebApi.Test
             cachemock.Setup(x => x.Get<UserAuthSession>("token")).Returns(new UserAuthSession { Account = "admin" });
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query["Token"]).Returns("token");
+            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TOKEN_NAME]).Returns("token");
 
 
             var defaultBuilder = WebHost.CreateDefaultBuilder();

@@ -1,7 +1,5 @@
 ﻿using System;
 using Autofac.Extensions.DependencyInjection;
-using IdentityServer;
-using IdentityServer4.Test;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -42,14 +40,15 @@ namespace OpenAuth.IdentityServer
 
             services.AddCors();
 
-            if (Environment.IsDevelopment())
-            {
-                builder.AddDeveloperSigningCredential();
-            }
-            else
-            {
-                throw new Exception("need to configure key material");
-            }
+            //全部用测试环境，正式环境请参考https://www.cnblogs.com/guolianyu/p/9872661.html
+            //if (Environment.IsDevelopment())
+            //{
+            builder.AddDeveloperSigningCredential();
+            //}
+            //else
+            //{
+            //    throw new Exception("need to configure key material");
+            //}
 
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
             services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

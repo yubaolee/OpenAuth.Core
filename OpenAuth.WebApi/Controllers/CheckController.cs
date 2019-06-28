@@ -239,7 +239,6 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
         [HttpGet]
-        [Authorize]
         public Response<List<Resource>> GgetResources()
         {
             var result = new Response<List<Resource>>();

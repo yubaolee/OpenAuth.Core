@@ -52,6 +52,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(resp);
         }
 
+        [AllowAnonymous]
         public ActionResult Logout()
         {
 

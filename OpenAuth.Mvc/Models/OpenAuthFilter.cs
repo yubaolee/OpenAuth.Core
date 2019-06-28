@@ -22,8 +22,8 @@ namespace OpenAuth.Mvc.Models
                 (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor;
 
             //添加有允许匿名的Action，可以不用登录访问，如Login/Index
-            var authorize = description.MethodInfo.GetCustomAttribute(typeof(AllowAnonymousAttribute));
-            if (authorize != null)
+            var anonymous = description.MethodInfo.GetCustomAttribute(typeof(AllowAnonymousAttribute));
+            if (anonymous != null)
             {
                 return;
             }
@@ -34,9 +34,18 @@ namespace OpenAuth.Mvc.Models
                 return;
             }
 
+            //------------------------以下内容都需要登录--------------------------------------------
+
+            //如果是ajax请求的，跳过模块授权认证
+            var headers = context.HttpContext.Request.Headers;
+            var xreq = headers.ContainsKey("x-requested-with");
+            if (xreq && headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return;
+            }
+
             var Controllername = description.ControllerName.ToLower();
             var Actionname = description.ActionName.ToLower();
-
             //控制器白名单，在该名单中的控制器，需要登录，但不需要授权
             var whiteController = new[] {"usersession","home"};
             if (whiteController.Contains(Controllername))

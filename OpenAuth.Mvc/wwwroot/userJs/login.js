@@ -14,17 +14,14 @@ layui.config({
     var vm;
 
     $.getJSON('/SysConf/IsIdentityAuth', function (json) {
-        var isIdentityAuth = json.Result;
-        if (isIdentityAuth) {
-            vm = new Vue({
+        vm = new Vue({
                 el: "#loginForm",
                 data() {
                     return {
-                        isIdentityAuth: isIdentityAuth
+                        isIdentityAuth: json.Result
                     }
                 }
             });
-        }
     });
 
     // Cloud Float...

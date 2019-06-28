@@ -7,6 +7,7 @@ using IdentityServer4.Services;
 using IdentityServer4.Test;
 using Microsoft.Extensions.Logging;
 using OpenAuth.App;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.IdentityServer
 {
@@ -43,7 +44,9 @@ namespace OpenAuth.IdentityServer
             if (context.RequestedClaimTypes.Any())
             {
                 //根据用户唯一标识查找用户信息
-                var user = UserManager.GetByAccount(context.Subject.Identity.Name);
+                var identityName = context.Subject.Identity.Name;
+                User user = GetUser(identityName);
+
                // var user = Users.FindBySubjectId(context.Subject.GetSubjectId());
                 if (user != null)
                 {
@@ -72,9 +75,29 @@ namespace OpenAuth.IdentityServer
         {
             Logger.LogDebug("IsActive called from: {caller}", context.Caller);
 
-              var user = UserManager.GetByAccount(context.Subject.Identity.Name);
+              var user = GetUser(context.Subject.Identity.Name);
             context.IsActive = user?.Status == 0;
             return Task.CompletedTask;
+        }
+
+        private User GetUser(string identityName)
+        {
+            User user;
+            if (identityName == Define.SYSTEM_USERNAME)
+            {
+                user = new User
+                {
+                    Account = Define.SYSTEM_USERNAME,
+                    Id = Define.SYSTEM_USERNAME,
+                    Name = Define.SYSTEM_USERNAME
+                };
+            }
+            else
+            {
+                user = UserManager.GetByAccount(identityName);
+            }
+
+            return user;
         }
     }
 }

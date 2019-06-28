@@ -17,6 +17,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using OpenAuth.App;
+using OpenAuth.Repository.Domain;
 
 namespace IdentityServer
 {
@@ -106,8 +107,20 @@ namespace IdentityServer
 
             if (ModelState.IsValid)
             {
-                // validate username/password against in-memory store
-                var user = _userManager.GetByAccount(model.Username);
+                User user;
+                if (model.Username == Define.SYSTEM_USERNAME && model.Password == Define.SYSTEM_USERPWD)
+                {
+                    user = new User
+                    {
+                        Account = Define.SYSTEM_USERNAME,
+                        Password = Define.SYSTEM_USERPWD,
+                        Id = Define.SYSTEM_USERNAME
+                    };
+                }
+                else
+                {
+                    user = _userManager.GetByAccount(model.Username);
+                }
 
                 if (user != null &&(user.Password ==model.Password))
                 {

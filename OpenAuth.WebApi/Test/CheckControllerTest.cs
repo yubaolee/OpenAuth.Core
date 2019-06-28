@@ -63,9 +63,9 @@ namespace OpenAuth.WebApi.Test
 
             var result = _controller.Login(new PassportLoginRequest
             {
-                Account = "System",
+                Account = Define.SYSTEM_USERNAME,
                 AppKey = "openauth",
-                Password = "123456"
+                Password = Define.SYSTEM_USERPWD
             });
 
             _logger.LogInformation(JsonHelper.Instance.Serialize(result));

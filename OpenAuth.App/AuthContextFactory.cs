@@ -41,7 +41,7 @@ namespace OpenAuth.App
         public AuthStrategyContext GetAuthStrategyContext(string username)
         {
             IAuthStrategy service = null;
-             if (username == "System")
+             if (username == Define.SYSTEM_USERNAME)
             {
                 service= _systemAuth;
             }

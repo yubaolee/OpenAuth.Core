@@ -109,7 +109,7 @@ namespace OpenAuth.App
             _dbExtension = dbExtension;
             _user = new User
             {
-                Account = "System",
+                Account = Define.SYSTEM_USERNAME,
                 Name = "超级管理员",
                 Id = Guid.Empty.ToString()
             };

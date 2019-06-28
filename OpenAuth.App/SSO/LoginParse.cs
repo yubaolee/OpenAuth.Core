@@ -39,14 +39,14 @@ namespace OpenAuth.App.SSO
                 }
                 //获取用户信息
                 User userInfo = null;
-                if (model.Account == "System")
+                if (model.Account == Define.SYSTEM_USERNAME)
                 {
                     userInfo = new User
                     {
                         Id = Guid.Empty.ToString(), 
-                        Account = "System",
+                        Account = Define.SYSTEM_USERNAME,
                         Name ="超级管理员",
-                        Password = "123456"
+                        Password = Define.SYSTEM_USERPWD
                     };
                 }
                 else

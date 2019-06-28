@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'layer'], function () {
+}).use(['form', 'layer','vue'], function () {
 
     if (self != top) {
         //如果在iframe中，则跳转
@@ -9,7 +9,23 @@ layui.config({
 
     var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
-		$ = layui.jquery;
+        $ = layui.jquery;
+
+    var vm;
+
+    $.getJSON('/SysConf/IsIdentityAuth', function (json) {
+        var isIdentityAuth = json.Result;
+        if (isIdentityAuth) {
+            vm = new Vue({
+                el: "#loginForm",
+                data() {
+                    return {
+                        isIdentityAuth: isIdentityAuth
+                    }
+                }
+            });
+        }
+    });
 
     // Cloud Float...
     var $main = $cloud = mainwidth = null;

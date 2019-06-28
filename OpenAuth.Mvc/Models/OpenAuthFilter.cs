@@ -47,7 +47,7 @@ namespace OpenAuth.Mvc.Models
             var Controllername = description.ControllerName.ToLower();
             var Actionname = description.ActionName.ToLower();
             //控制器白名单，在该名单中的控制器，需要登录，但不需要授权
-            var whiteController = new[] {"usersession","home"};
+            var whiteController = new[] {"usersession","home","redirects"};
             if (whiteController.Contains(Controllername))
             {
                 return;

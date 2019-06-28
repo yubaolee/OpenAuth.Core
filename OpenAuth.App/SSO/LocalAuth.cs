@@ -2,6 +2,7 @@ using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using OpenAuth.App.Interface;
 using System;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 
 namespace OpenAuth.App.SSO
@@ -143,6 +144,11 @@ namespace OpenAuth.App.SSO
         /// </summary>
         public bool Logout()
         {
+            if (_appConfiguration.Value.IsIdentityAuth)
+            {
+                _httpContextAccessor.HttpContext.SignOutAsync();
+                return true;
+            }
             var token = GetToken();
             if (String.IsNullOrEmpty(token)) return true;
 

@@ -42,7 +42,7 @@
                 <div class="initial_left_hand" id="left_hand"></div>
                 <div class="initial_right_hand" id="right_hand"></div>
             </div>
-            <form class="layui-form">
+            <form class="layui-form" id="loginForm">
                 <ul>
                     <li>
                         <input name="username" type="text" class="loginuser" value="System"
@@ -53,10 +53,10 @@
                                class="loginpwd ipt" placeholder="请输入密码" lay-verify="required">
                     </li>
                     <li>
-                        <button class="layui-btn loginbtn" lay-submit  lay-filter="login">登录</button>
-                        @*<label>
-                            <a href="/SysConf/AuthRedirect">使用OpenAuth认证中心登录>></a>
-                        </label>*@
+                        <label v-if="isIdentityAuth">
+                            <a href="/Redirects/IdentityAuth">服务器启用了Identity认证，强制在这里登录>></a>
+                        </label>
+                        <button v-else class="layui-btn loginbtn" lay-submit lay-filter="login">登录</button>
                     </li>
                 </ul>
             </form>
@@ -66,6 +66,6 @@
 
     <div class="loginbm">版权所有 2019  李玉宝 </div>
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/login.js"></script>
+<script type="text/javascript" src="/userJs/login.js?v=2"></script>
 </body>
 </html>

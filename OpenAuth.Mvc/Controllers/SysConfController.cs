@@ -32,14 +32,5 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(result);
         }
 
-        /// <summary>
-        /// oauth认证跳转页面
-        /// </summary>
-        /// <returns></returns>
-        [Authorize]
-        public ActionResult AuthRedirect()
-        {
-            return View();
-        }
     }
 }

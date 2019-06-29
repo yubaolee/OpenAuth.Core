@@ -25,6 +25,7 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
+        [HttpGet]
         public Response<bool> IsIdentityAuth()
         {
             return new Response<bool>

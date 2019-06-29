@@ -62,10 +62,10 @@ namespace OpenAuth.IdentityServer
                     AllowedGrantTypes = GrantTypes.Implicit,
 
                     // 登录成功回调处理地址，处理回调返回的数据
-                    RedirectUris = { $"{host}:1802/Home/Index" },
+                    RedirectUris = { $"{host}:1802/signin-oidc" },
 
                     // where to redirect to after logout
-                    PostLogoutRedirectUris = { $"{host}:1802/Login/Index" },
+                    PostLogoutRedirectUris = { $"{host}:1802/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {

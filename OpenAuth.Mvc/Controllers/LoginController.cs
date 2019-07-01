@@ -2,6 +2,7 @@
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
 
@@ -10,12 +11,14 @@ namespace OpenAuth.Mvc.Controllers
     public class LoginController : Controller
     {
         private string _appKey = "openauth";
+        private IOptions<AppSetting> _appConfiguration;
 
         private IAuth _authUtil;
 
-        public LoginController(IAuth authUtil)
+        public LoginController(IAuth authUtil, IOptions<AppSetting> appConfiguration)
         {
             _authUtil = authUtil;
+            _appConfiguration = appConfiguration;
         }
 
         // GET: Login
@@ -55,7 +58,10 @@ namespace OpenAuth.Mvc.Controllers
         [AllowAnonymous]
         public ActionResult Logout()
         {
-
+            if (_appConfiguration.Value.IsIdentityAuth)
+            {
+                return SignOut("Cookies", "oidc");
+            }
             _authUtil.Logout();
             return RedirectToAction("Index", "Login");
         }

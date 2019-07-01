@@ -140,15 +140,10 @@ namespace OpenAuth.App.SSO
         }
 
         /// <summary>
-        /// 注销
+        /// 注销，如果是Identity登录，需要在controller处理注销逻辑
         /// </summary>
         public bool Logout()
         {
-            if (_appConfiguration.Value.IsIdentityAuth)
-            {
-                _httpContextAccessor.HttpContext.SignOutAsync();
-                return true;
-            }
             var token = GetToken();
             if (String.IsNullOrEmpty(token)) return true;
 

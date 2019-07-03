@@ -131,6 +131,14 @@ namespace OpenAuth.App.SSO
         /// <returns>System.String.</returns>
         public LoginResult Login(string appKey, string username, string pwd)
         {
+            if (_appConfiguration.Value.IsIdentityAuth)
+            {
+                return new LoginResult
+                {
+                    Code = 500,
+                    Message = "接口启动了OAuth认证,暂时不能使用该方式登录"
+                };
+            }
             return _loginParse.Do(new PassportLoginRequest
             {
                 AppKey = appKey,

@@ -40,6 +40,8 @@ namespace OpenAuth.App
 
         public AuthStrategyContext GetAuthStrategyContext(string username)
         {
+            if (string.IsNullOrEmpty(username)) return null;
+
             IAuthStrategy service = null;
              if (username == Define.SYSTEM_USERNAME)
             {

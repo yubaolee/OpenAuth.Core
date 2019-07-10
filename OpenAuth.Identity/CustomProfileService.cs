@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Test;
@@ -43,11 +44,7 @@ namespace OpenAuth.IdentityServer
             //判断是否有请求Claim信息
             if (context.RequestedClaimTypes.Any())
             {
-                //根据用户唯一标识查找用户信息
-                var identityName = context.Subject.Identity.Name;
-                User user = GetUser(identityName);
-
-               // var user = Users.FindBySubjectId(context.Subject.GetSubjectId());
+                var user = GetUserById(context.Subject.GetSubjectId());
                 if (user != null)
                 {
                     //调用此方法以后内部会进行过滤，只将用户请求的Claim加入到 context.IssuedClaims 集合中 这样我们的请求方便能正常获取到所需Claim
@@ -75,15 +72,15 @@ namespace OpenAuth.IdentityServer
         {
             Logger.LogDebug("IsActive called from: {caller}", context.Caller);
 
-              var user = GetUser(context.Subject.Identity.Name);
+              var user = GetUserById(context.Subject.GetSubjectId());
             context.IsActive = user?.Status == 0;
             return Task.CompletedTask;
         }
 
-        private User GetUser(string identityName)
+        private User GetUserById(string id)
         {
             User user;
-            if (identityName == Define.SYSTEM_USERNAME)
+            if (id == Define.SYSTEM_USERNAME)
             {
                 user = new User
                 {
@@ -94,7 +91,7 @@ namespace OpenAuth.IdentityServer
             }
             else
             {
-                user = UserManager.GetByAccount(identityName);
+                user = UserManager.Get(id);
             }
 
             return user;

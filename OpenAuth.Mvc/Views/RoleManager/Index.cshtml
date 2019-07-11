@@ -10,7 +10,7 @@
 <div class="layui-row">
     <table class="layui-hide" id="mainList"  lay-filter="list" lay-size="sm"></table>
     <script type="text/html" id="Status">
-        {{# if(d.Status == 1){ }}
+        {{# if(d.Status == 0){ }}
         <span class="layui-badge layui-bg-blue">启用</span>
         {{# } else{}}
         <span class="layui-badge layui-bg-gray">已禁用</span>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="layui-form-item" pane>
-            <label class="layui-form-label">是否可用</label>
+            <label class="layui-form-label">禁用</label>
             <div class="layui-input-block">
                 <input type="checkbox" name="Status" v-model="tmp.Status" lay-skin="switch" value="1">
             </div>

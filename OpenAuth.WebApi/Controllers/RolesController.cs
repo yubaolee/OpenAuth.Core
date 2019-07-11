@@ -84,9 +84,21 @@ namespace OpenAuth.WebApi.Controllers
         /// 加载列表
         /// </summary>
         [HttpGet]
-        public TableData Load([FromQuery]QueryRoleListReq request)
+        public Response<List<Role>> Load([FromQuery]QueryRoleListReq request)
         {
-            return _app.Load(request);
+            var result = new Response<List<Role>>();
+            try
+            {
+                result.Result = _app.Load();
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
         }
 
         /// <summary>

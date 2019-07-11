@@ -11,97 +11,60 @@ layui.config({
    
     //主列表加载，可反复调用进行刷新
     var config= {};  //table的参数，如搜索key，点击tree的id
-    var mainList = function (options) {
-        if (options != undefined) {
-            $.extend(config, options);
-        }
-        table.reload('mainList', {
-            url: '/RoleManager/Load',
-            where: config
-            , response: {
-                statusCode: 200 //规定成功的状态码，默认：0
-            } 
-            , done: function (res, curr, count) {
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+    $.getJSON('/RoleManager/Load',
+        config,
+        function (data) {
+            table.render({
+                elem: '#mainList',
+                cols: [[
+                    { checkbox: true, fixed: true },
+                    { field: 'Name', title: '角色名称' },
+                    { field: 'Status', templet: '#Status', title: '角色状态' },
+                    { fixed: 'right', toolbar: '#userList', title: '用户列表' }
+                ]],
+                data: data.Result,
+                height: 'full-80',
+                skin: 'row', //表格风格
+                even: true, //隔行背景
+                page: true, //是否显示分页
+                limits: [10, 20, 50], //显示
+                limit: 10, //每页默认显示的数量
+                done: function (res, curr, count) {
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
 
-                $.ajax("/RoleManager/LoadForUser?userId=" + id,{
-                    async: false
-                    , dataType: 'json'
-                    , success: function (json) {
-                        if (json.Code == 500) return;
-                        var roles = json.Result;
-                        //循环所有数据，找出对应关系，设置checkbox选中状态
-                        for (var i = 0; i < res.data.length; i++) {
-                            for (var j = 0; j < roles.length; j++) {
-                                if (res.data[i].Id != roles[j]) continue;
+                    $.ajax("/RoleManager/LoadForUser?userId=" + id, {
+                        async: false
+                        , dataType: 'json'
+                        , success: function (json) {
+                            if (json.Code == 500) return;
+                            var roles = json.Result;
+                            //循环所有数据，找出对应关系，设置checkbox选中状态
+                            for (var i = 0; i < res.data.length; i++) {
+                                for (var j = 0; j < roles.length; j++) {
+                                    if (res.data[i].Id != roles[j]) continue;
 
-                                //这里才是真正的有效勾选
-                                res.data[i]["LAY_CHECKED"] = true;
-                                //找到对应数据改变勾选样式，呈现出选中效果
-                                var index = res.data[i]['LAY_TABLE_INDEX'];
-                                $('.layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
-                                $('.layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                                    //这里才是真正的有效勾选
+                                    res.data[i]["LAY_CHECKED"] = true;
+                                    //找到对应数据改变勾选样式，呈现出选中效果
+                                    var index = res.data[i]['LAY_TABLE_INDEX'];
+                                    $('.layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                                    $('.layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                                }
+
                             }
-                            
+
+                            //如果构成全选
+                            var checkStatus = table.checkStatus('mainList');
+                            if (checkStatus.isAll) {
+                                $('.layui-table-header th[data-field="0"] input[type="checkbox"]').prop('checked', true);
+                                $('.layui-table-header th[data-field="0"] input[type="checkbox"]').next().addClass('layui-form-checked');
+                            }
                         }
-
-                        //如果构成全选
-                        var checkStatus = table.checkStatus('mainList');
-                        if (checkStatus.isAll) {
-                            $('.layui-table-header th[data-field="0"] input[type="checkbox"]').prop('checked', true);
-                            $('.layui-table-header th[data-field="0"] input[type="checkbox"]').next().addClass('layui-form-checked');
-                        }
-                    }
-                });
-                
-
-                
-
-            }
-        });
-    }
-    //左边树状机构列表
-    var ztree = function () {
-        var url = '/UserSession/GetOrgs';
-        var zTreeObj;
-        var setting = {
-            view: { selectedMulti: false },
-            data: {
-                key: {
-                    name: 'Name',
-                    title: 'Name'
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: 'Id',
-                    pIdKey: 'ParentId',
-                    rootPId: ""
+                    });
                 }
-            },
-            callback: {
-                onClick: function (event, treeId, treeNode) {
-                    mainList({ orgId: treeNode.Id });
-                }
-            }
-        };
-        var load = function () {
-            $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#tree"), setting);
-                var newNode = { Name: "根节点", Id: null,ParentId:"" };
-                 json.Result.push(newNode);
-                zTreeObj.addNodes(null, json.Result);
-                mainList({ orgId: "" });
-                zTreeObj.expandAll(true);
-            });
-        };
-        load();
-        return {
-            reload: load
-        }
-    }();
-    $("#tree").height($("div.layui-table-view").height());
-
+            })
+        })
 
     //分配及取消分配
     table.on('checkbox(list)', function (obj) {

@@ -8,29 +8,20 @@
 </blockquote>
 
 <div class="layui-row">
-    <div class="layui-col-xs2">
-        <ul id="tree" class="ztree"
-            style="padding: 2px; border: 1px solid #ddd; overflow: auto;"></ul>
-    </div>
-    <div class="layui-col-xs10">
-        <table class="layui-table"
-               lay-data="{height: 'full-80', page:true, id:'mainList'}"
-               lay-filter="list" lay-size="sm">
-            <thead>
-            <tr>
-                <th lay-data="{checkbox:true, fixed: true}"></th>
-                <th lay-data="{field:'Name', width:150}">角色名称</th>
-                <th lay-data="{field:'Organizations', width:250}">所属部门</th>
-                <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
-            </tr>
-            </thead>
-        </table>
-    </div>
+    <table class="layui-hide" id="mainList"  lay-filter="list" lay-size="sm"></table>
+    <script type="text/html" id="Status">
+        {{# if(d.Status == 1){ }}
+        <span class="layui-badge layui-bg-blue">启用</span>
+        {{# } else{}}
+        <span class="layui-badge layui-bg-gray">已禁用</span>
+        {{# } }}
+    </script>
+    <script type="text/html" id="userList">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="userList">显示>></a>
+    </script>
 </div>
 
-<script type="text/html" id="barList">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-</script>
+
 
 <!--角色添加/编辑窗口-->
 <div id="divEdit" style="display: none">
@@ -46,14 +37,6 @@
             </div>
         </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">所属部门</label>
-            <div class="layui-input-block">
-                <input id="Organizations" name="Organizations" v-model="tmp.Organizations" required lay-verify="required" class="layui-input" />
-                <input id="OrganizationIds" name="OrganizationIds" v-model="tmp.OrganizationIds" required lay-verify="required" type="hidden" />
-                
-            </div>
-        </div>
         <div class="layui-form-item" pane>
             <label class="layui-form-label">是否可用</label>
             <div class="layui-input-block">
@@ -70,4 +53,4 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/roles.js"></script>
+<script type="text/javascript" src="/userJs/roles.js?v=1"></script>

@@ -29,11 +29,7 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(orgs);
         }
 
-        public string LoadForRole(string firstId)
-        {
-            var orgs = _orgApp.LoadForRole(firstId);
-            return JsonHelper.Instance.Serialize(orgs);
-        }
+
 
 
         //添加组织提交

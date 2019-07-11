@@ -10,60 +10,36 @@ layui.config({
    
     $("#menus").loadMenus("Role");
 
-    //主列表加载，可反复调用进行刷新
+    //主列表加载，角色后台没有分页，直接前端分页
     var config= {};  //table的参数，如搜索key，点击tree的id
-    var mainList = function (options) {
+    var mainList = function(options) {
         if (options != undefined) {
             $.extend(config, options);
         }
-        table.reload('mainList', {
-            url: '/RoleManager/Load',
-            where: config
-            , response: {
-                statusCode: 200 //规定成功的状态码，默认：0
-            } 
-        });
+
+        $.getJSON('/RoleManager/Load',
+            config,
+            function(data) {
+                table.render({
+                    elem: '#mainList',
+                    cols: [[
+                        { checkbox: true, fixed: true },
+                        { field: 'Name', title: '角色名称' },
+                        { field: 'Status', templet: '#Status', title:'角色状态'},
+                        { fixed: 'right', toolbar: '#userList', title:'用户列表' }
+                    ]],
+                    data: data.Result,
+                    height: 'full-80',
+                    skin: 'row', //表格风格
+                    even: true, //隔行背景
+                    page: true, //是否显示分页
+                    limits: [10, 20, 50], //显示
+                    limit: 20 //每页默认显示的数量
+                })
+            })
     }
-    //左边树状机构列表
-    var ztree = function () {
-        var url = '/UserSession/GetOrgs';
-        var zTreeObj;
-        var setting = {
-            view: { selectedMulti: false },
-            data: {
-                key: {
-                    name: 'Name',
-                    title: 'Name'
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: 'Id',
-                    pIdKey: 'ParentId',
-                    rootPId: ""
-                }
-            },
-            callback: {
-                onClick: function (event, treeId, treeNode) {
-                    mainList({ orgId: treeNode.Id });
-                }
-            }
-        };
-        var load = function () {
-            $.getJSON(url, function (json) {
-                zTreeObj = $.fn.zTree.init($("#tree"), setting);
-                var newNode = { Name: "根节点", Id: null,ParentId:"" };
-                json.Result.push(newNode);
-                zTreeObj.addNodes(null, json.Result);
-                mainList({ orgId: "" });
-                zTreeObj.expandAll(true);
-            });
-        };
-        load();
-        return {
-            reload: load
-        }
-    }();
-    $("#tree").height($("div.layui-table-view").height());
+
+    mainList();
 
     //添加（编辑）对话框
     var editDlg = function() {
@@ -89,14 +65,11 @@ layui.config({
                                 tmp(val){
                                     this.$nextTick(function () {
                                         form.render();  //刷新select等
-                                        layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
-
-                                   })
+                                    })
                                 }
                             },
                             mounted(){
                                 form.render();
-                                layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
 
                             }
                         });
@@ -139,7 +112,7 @@ layui.config({
     //监听表格内部按钮
     table.on('tool(list)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'detail') {      //查看
+        if (obj.event === 'userList') {      //查看
             layer.msg('ID：' + data.Id + ' 的查看操作');
         } 
     });

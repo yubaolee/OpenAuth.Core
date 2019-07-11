@@ -76,24 +76,8 @@ namespace OpenAuth.App
             //用户角色与自己分配到的角色ID
             var moduleIds =
                 UnitWork.Find<Relevance>(
-                    u =>
-                        (u.FirstId == userId && u.Key == Define.USERORG) ||
-                        (u.Key == Define.ROLEORG && userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                    u =>u.FirstId == userId && u.Key == Define.USERORG).Select(u => u.SecondId).ToList();
 
-            if (!moduleIds.Any()) return new List<Org>();
-            return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
-        }
-
-        /// <summary>
-        /// 加载特定角色的角色
-        /// </summary>
-        /// <param name="roleId">The role unique identifier.</param>
-        public List<Org> LoadForRole(string roleId)
-        {
-            var moduleIds =
-                UnitWork.Find<Relevance>(u => u.FirstId == roleId && u.Key == Define.ROLEORG)
-                    .Select(u => u.SecondId)
-                    .ToList();
             if (!moduleIds.Any()) return new List<Org>();
             return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
         }

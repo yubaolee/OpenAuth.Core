@@ -6,6 +6,7 @@ using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -88,11 +89,25 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         /// <summary>
-        /// 加载组织下面的所有用户
+        /// 加载登录用户可以访问的所有角色
         /// </summary>
         public string Load([FromQuery]QueryRoleListReq request)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(request));
+            try
+            {
+                var result = new Response<List<Role>>
+                {
+                    Result = _app.Load()
+                };
+                return JsonHelper.Instance.Serialize(result);
+            }
+            catch (Exception e)
+            {
+                Result.Code = 500;
+                Result.Message = e.InnerException?.Message ?? e.Message;
+            }
+
+            return JsonHelper.Instance.Serialize(Result);
         }
 
        [HttpPost]

@@ -102,9 +102,7 @@ namespace OpenAuth.App
             get
             {
                 var orgids = UnitWork.Find<Relevance>(
-                    u =>
-                        (u.FirstId == _user.Id && u.Key == Define.USERORG) ||
-                        (u.Key == Define.ROLEORG && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
+                    u =>u.FirstId == _user.Id && u.Key == Define.USERORG).Select(u => u.SecondId);
                 return UnitWork.Find<Org>(u => orgids.Contains(u.Id)).ToList();
             }
         }

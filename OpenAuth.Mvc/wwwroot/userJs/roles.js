@@ -30,9 +30,6 @@ layui.config({
                     ]],
                     data: data.Result,
                     height: 'full-80',
-                    skin: 'row', //表格风格
-                    even: true, //隔行背景
-                    page: true, //是否显示分页
                     limits: [10, 20, 50], //显示
                     limit: 20 //每页默认显示的数量
                 })

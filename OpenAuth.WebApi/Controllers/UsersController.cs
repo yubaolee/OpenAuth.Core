@@ -80,6 +80,15 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 加载指定角色的用户
+        /// </summary>
+        [HttpGet]
+        public TableData LoadByRole([FromQuery]QueryUserListByRoleReq request)
+        {
+            return _app.LoadByRole(request);
+        }
+        
         public UsersController(UserManagerApp app) 
         {
             _app = app;

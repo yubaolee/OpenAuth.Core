@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -129,6 +130,20 @@ namespace OpenAuth.App
             {
                Password = request.Password
             });
+        }
+
+        public TableData LoadByRole(QueryUserListByRoleReq request)
+        {
+            var users = from userRole in UnitWork.Find<Relevance>(u => u.SecondId == request.roleId && u.Key == Define.USERROLE)
+                join user in UnitWork.Find<User>(null) on userRole.FirstId equals user.Id into temp
+                from c in temp.DefaultIfEmpty()
+                select c;
+
+            return new TableData
+            {
+                count = users.Count(),
+                data = users.Skip((request.page-1)*request.limit).Take(request.limit)
+            };
         }
     }
 }

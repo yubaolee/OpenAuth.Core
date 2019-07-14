@@ -6,6 +6,7 @@
 // <summary>流程实例控制器</summary>
 
 using System;
+using System.Collections.Generic;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -43,11 +44,31 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 获取一个流程实例的操作历史记录
+        /// </summary>
+        [HttpGet]
+        public Response<List<FlowInstanceOperationHistory>> QueryHistories([FromQuery]QueryFlowInstanceHistoryReq request)
+        {
+            var result = new Response<List<FlowInstanceOperationHistory>>();
+            try
+            {
+                result.Result= _app.QueryHistories(request);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+
 
         /// <summary>创建一个新的流程实例</summary>
         /// <remarks> www.cnblogs.com/yubaolee, 2019-03-06. </remarks>
         /// <param name="obj"> json对象</param>
-       [HttpPost]
+        [HttpPost]
         public Response Add([FromBody]JObject obj)
         {
             var result = new Response();

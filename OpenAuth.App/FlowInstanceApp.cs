@@ -437,5 +437,11 @@ namespace OpenAuth.App
             _auth = auth;
             _revelanceApp = app;
         }
+
+        public List<FlowInstanceOperationHistory> QueryHistories(QueryFlowInstanceHistoryReq request)
+        {
+            return UnitWork.Find<FlowInstanceOperationHistory>(u => u.InstanceId == request.FlowInstanceId)
+                .OrderByDescending(u => u.CreateDate).ToList();
+        }
     }
 }

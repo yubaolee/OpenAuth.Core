@@ -1,13 +1,37 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'layer', 'utils', 'element', 'jquery', 'slimscroll', 'flow/gooflow', 'flowlayout'], function () {
+}).use(['form','table', 'vue', 'layer', 'utils', 'element', 'jquery', 'slimscroll', 'flow/gooflow', 'flowlayout'], function () {
     var form = layui.form, element = layui.element,
+        table = layui.table,
 		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
     var index = layer.getFrameIndex(window.name); //获取窗口索引
 
     var id = $.getUrlParam("id");   //ID
     var flowDesignPanel;
+
+    table.render({
+        elem: '#mainList',
+        page: false,
+        url: '/FlowInstances/QueryHistories',
+        cols: [[ //标题栏
+            { field: 'Content', title: '流转记录' }
+            , { field: 'CreateUserName', title: '操作人' }
+            , { field: 'CreateDate', title: '流转时间' }
+        ]]
+        , where: {
+            FlowInstanceId:id
+        }
+        , parseData: function (res) { //res 即为原始返回的数据
+            return {
+                "code": res.Code, //解析接口状态
+                "data": res.Result //解析数据列表
+            };
+        }
+        , response: {
+            statusCode: 200 //规定成功的状态码，默认：0
+        }
+    });
    
     $.getJSON('/FlowInstances/get?id=' + id,
         function (data) {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -141,7 +142,27 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(_app.Load(request));
         }
 
-       [HttpPost]
+        /// <summary>
+        /// 获取一个流程实例的操作历史记录
+        /// </summary>
+        [HttpGet]
+        public string QueryHistories([FromQuery]QueryFlowInstanceHistoryReq request)
+        {
+            var result = new Response<List<FlowInstanceOperationHistory>>();
+            try
+            {
+                result.Result = _app.QueryHistories(request);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return JsonHelper.Instance.Serialize(result);
+        }
+
+        [HttpPost]
         public string Delete(string[] ids)
         {
             try

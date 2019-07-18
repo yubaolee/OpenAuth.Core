@@ -5,7 +5,12 @@
     <link rel="stylesheet" href="/js/dtree/dtree.css" />
     <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
     <link href="/js/flow/GooFlow.css" rel="stylesheet" />
-    <link href="/css/formpreview.css" rel="stylesheet" />
+     <link href="/css/formpreview.css" rel="stylesheet" />
+     <style type="text/css">
+         div.layui-table-cell {
+             color: rgb(102, 102, 102) ! important;
+         }
+     </style>
 }
 
 <form class="layui-form " action="" id="formEdit">
@@ -18,6 +23,10 @@
 
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
+                <table class="layui-table" id="mainList"
+                       lay-data="{page:false, id:'mainList'}"
+                       lay-filter="list" lay-size="sm">
+                </table>
                 <div id="flowPanel"></div>
             </div>
 
@@ -29,5 +38,5 @@
     </div>
 </form>
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/flowinstanceDetail.js?v3"></script>
+<script type="text/javascript" src="/userJs/flowinstanceDetail.js?v1.5.0.1"></script>
 

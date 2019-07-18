@@ -74,9 +74,7 @@
                             <ul id="userstree" class="ztree" style="margin-left: 220px; "></ul>
                         </div>
                         <div v-if="tmp.NodeDesignate === 'SPECIAL_ROLE'">
-                            <ul id="tree" class="ztree layui-nav-tree" style="float: left;border-right: 1px solid #eee;"></ul>
-                            <ul id="rolestree" class="ztree" style="margin-left: 220px; "></ul>
-
+                            <div id="roles"></div>
                         </div>
                         <div v-if="tmp.NodeDesignate === 'ALL_USER'">
                             所有人都可以审核
@@ -89,4 +87,4 @@
 </form>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/nodeInfo.js"></script>
+<script type="text/javascript" src="/userJs/nodeInfo.js?v=1.5.0.1"></script>

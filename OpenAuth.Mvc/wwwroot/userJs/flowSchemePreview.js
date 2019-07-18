@@ -23,7 +23,7 @@
 
             layer.open({
                 type: 2,
-                area: ['500px', '450px'], //宽高
+                area: ['550px', '450px'], //宽高
                 maxmin: true, //开启最大化最小化按钮
                 title: '节点设置【' + object.name + '】',
                 content: '/flowschemes/nodeInfo',

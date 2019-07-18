@@ -1,7 +1,8 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'element', 'jquery', 'utils'], function () {
+}).use(['form', 'vue', 'ztree','transfer', 'layer', 'element', 'jquery', 'utils'], function () {
     var layer = layui.layer,
+        transfer = layui.transfer,
         $ = layui.jquery;
     var form = layui.form;
     var users = []; //节点的执行人
@@ -121,56 +122,36 @@ layui.config({
         }
     }();
 
-    var rolestree = function () {
+    var rolestransfer = function () {
         var url = '/RoleManager/Load';
-        var rolestree;
-        var setting = {
-            view: {
-                selectedMulti: true
-            },
-            check: {
-                enable: true,
-                chkStyle: "checkbox",
-                chkboxType: {
-                    "Y": "",
-                    "N": ""
-                } //去掉勾选时级联
-            },
-            data: {
-                key: {
-                    name: 'Name',
-                    title: 'Name'
-                },
-                simpleData: {
-                    enable: true,
-                    idKey: 'Id',
-                    pIdKey: 'ParentId',
-                    rootPId: 'null'
-                }
-            },
-            callback: {
-                onCheck: function (event, treeId, treeNode) {
-                    roles.push(treeNode.Id);
-                }
-            }
-        };
         var load = function (options) {
             if (options != undefined) {
                 $.extend(menucon, options);
             }
 
             $.getJSON(url, menucon, function (json) {
-                rolestree = $.fn.zTree.init($("#rolestree"), setting);
-                rolestree.addNodes(null, json.data);
-                //如果已经分配了用户，则设置相应的状态
-
-                $.each(roles,
-                    function (i) {
-                        var that = this;
-                        var node = rolestree.getNodeByParam("Id", that, null);
-                        rolestree.checkNode(node, true, false);
-                    });
-                rolestree.expandAll(true);
+                transfer.render({
+                    elem: '#roles'
+                    , parseData: function (res) {
+                        return {
+                            "value": res.Id //数据值
+                            , "title": res.Name //数据标题
+                        }
+                    }
+                    , onchange: function (data, index) {
+                      //  console.log(data); //得到当前被穿梭的数据
+                      //  console.log(index); //如果数据来自左边，index 为 0，否则为 1
+                        if (index === 0) {
+                            roles = roles.concat(data.map(u =>u.value));
+                        } else {
+                            roles = roles.filter(el => !(data.map(u =>u.value).includes(el))); 
+                        }
+                        console.log(roles);
+                    }
+                    ,title: ['系统角色', '已分配角色']
+                    ,data: json.Result
+                    ,value: roles
+                });
             });
         };
         return {
@@ -204,11 +185,7 @@ layui.config({
                         userstree.load({
                             orgId: treeNode.Id
                         });
-                    } else {
-                        rolestree.load({
-                            orgId: treeNode.Id
-                        });
-                    }
+                    } 
                 }
             }
         };
@@ -228,9 +205,7 @@ layui.config({
                         orgId: ''
                     });
                 } else if (vm.tmp.NodeDesignate === "SPECIAL_ROLE") {
-                    rolestree.load({
-                        orgId: ''
-                    });
+                    rolestransfer.load();
                 }
                 zTreeObj.expandAll(true);
             });
@@ -246,11 +221,12 @@ layui.config({
         function (data) {
             vm.tmp.NodeDesignate = data.value;
             if (data.value === "SPECIAL_USER") {
+                roles = [];
                 userstree.load();
                 ztree.reload();
             } else if (data.value === "SPECIAL_ROLE") {
-                rolestree.load();
-                ztree.reload();
+                users = [];
+                rolestransfer.load();
             }
         });
 
@@ -263,7 +239,8 @@ layui.config({
                 orgs: []
             }
         };
-        $.extend(result, vm.tmp);
+      //  $.extend(result, vm.tmp);
+       result =  $.extend(vm.tmp, result);
         return result;
     }
 

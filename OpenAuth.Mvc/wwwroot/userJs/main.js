@@ -25,10 +25,10 @@ layui.config({
         }
     )
 
-    //机构
-    $.getJSON("/RoleManager/Load?limit=1&page=1",
+    //角色
+    $.getJSON("/RoleManager/Load",
         function (data) {
-            $(".roles span").text(data.count);
+            $(".roles span").text(data.Result.length);
         }
     )
 

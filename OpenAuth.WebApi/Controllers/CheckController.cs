@@ -66,7 +66,9 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
-
+        /// <summary>
+        /// 获取登录用户的所有可访问的角色
+        /// </summary>
         [HttpGet]
         public Response<List<Role>> GetRoles()
         {
@@ -116,8 +118,10 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
-
-    [HttpGet]
+        /// <summary>
+        /// 获取登录用户的所有可访问的组织信息
+        /// </summary>
+        [HttpGet]
         public Response<List<Org>> GetOrgs()
         {
             var result = new Response<List<Org>>();
@@ -238,8 +242,12 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+
+        /// <summary>
+        /// 获取登录用户的所有可访问的资源
+        /// </summary>
         [HttpGet]
-        public Response<List<Resource>> GgetResources()
+        public Response<List<Resource>> GetResources()
         {
             var result = new Response<List<Resource>>();
             try

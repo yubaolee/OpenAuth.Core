@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace OpenAuth.App.SSO
 {
     /// <summary>
-    /// Ê¹ÓÃ±¾µØµÇÂ¼¡£Õâ¸ö×¢ÈëIAuthÊ±£¬Ö»ĞèÒªOpenAuth.MvcÒ»¸öÏîÄ¿¼´¿É£¬ÎŞĞèwebapiµÄÖ§³Ö
+    /// ä½¿ç”¨æœ¬åœ°ç™»å½•ã€‚è¿™ä¸ªæ³¨å…¥IAuthæ—¶ï¼Œåªéœ€è¦OpenAuth.Mvcä¸€ä¸ªé¡¹ç›®å³å¯ï¼Œæ— éœ€webapiçš„æ”¯æŒ
     /// </summary>
     public class LocalAuth : IAuth
     {
@@ -32,7 +32,7 @@ namespace OpenAuth.App.SSO
         }
 
         /// <summary>
-        /// Èç¹ûÊÇIdentity£¬Ôò·µ»ØĞÅÏ¢ÎªÓÃ»§ÕËºÅ
+        /// å¦‚æœæ˜¯Identityï¼Œåˆ™è¿”å›ä¿¡æ¯ä¸ºç”¨æˆ·è´¦å·
         /// </summary>
         /// <returns></returns>
         private string GetToken()
@@ -80,8 +80,8 @@ namespace OpenAuth.App.SSO
         }
 
         /// <summary>
-        /// »ñÈ¡µ±Ç°µÇÂ¼µÄÓÃ»§ĞÅÏ¢
-        /// <para>Í¨¹ıURLÖĞµÄToken²ÎÊı»òCookieÖĞµÄToken</para>
+        /// è·å–å½“å‰ç™»å½•çš„ç”¨æˆ·ä¿¡æ¯
+        /// <para>é€šè¿‡URLä¸­çš„Tokenå‚æ•°æˆ–Cookieä¸­çš„Token</para>
         /// </summary>
         /// <param name="account">The account.</param>
         /// <returns>LoginUserVM.</returns>
@@ -101,8 +101,8 @@ namespace OpenAuth.App.SSO
         }
 
         /// <summary>
-        /// »ñÈ¡µ±Ç°µÇÂ¼µÄÓÃ»§Ãû
-        /// <para>Í¨¹ıURLÖĞµÄToken²ÎÊı»òCookieÖĞµÄToken</para>
+        /// è·å–å½“å‰ç™»å½•çš„ç”¨æˆ·å
+        /// <para>é€šè¿‡URLä¸­çš„Tokenå‚æ•°æˆ–Cookieä¸­çš„Token</para>
         /// </summary>
         /// <param name="otherInfo">The account.</param>
         /// <returns>System.String.</returns>
@@ -123,11 +123,11 @@ namespace OpenAuth.App.SSO
         }
 
         /// <summary>
-        /// µÇÂ¼½Ó¿Ú
+        /// ç™»å½•æ¥å£
         /// </summary>
-        /// <param name="appKey">Ó¦ÓÃ³ÌĞòkey.</param>
-        /// <param name="username">ÓÃ»§Ãû</param>
-        /// <param name="pwd">ÃÜÂë</param>
+        /// <param name="appKey">åº”ç”¨ç¨‹åºkey.</param>
+        /// <param name="username">ç”¨æˆ·å</param>
+        /// <param name="pwd">å¯†ç </param>
         /// <returns>System.String.</returns>
         public LoginResult Login(string appKey, string username, string pwd)
         {
@@ -136,7 +136,7 @@ namespace OpenAuth.App.SSO
                 return new LoginResult
                 {
                     Code = 500,
-                    Message = "½Ó¿ÚÆô¶¯ÁËOAuthÈÏÖ¤,ÔİÊ±²»ÄÜÊ¹ÓÃ¸Ã·½Ê½µÇÂ¼"
+                    Message = "æ¥å£å¯åŠ¨äº†OAuthè®¤è¯,æš‚æ—¶ä¸èƒ½ä½¿ç”¨è¯¥æ–¹å¼ç™»å½•"
                 };
             }
             return _loginParse.Do(new PassportLoginRequest
@@ -148,7 +148,7 @@ namespace OpenAuth.App.SSO
         }
 
         /// <summary>
-        /// ×¢Ïú£¬Èç¹ûÊÇIdentityµÇÂ¼£¬ĞèÒªÔÚcontroller´¦Àí×¢ÏúÂß¼­
+        /// æ³¨é”€ï¼Œå¦‚æœæ˜¯Identityç™»å½•ï¼Œéœ€è¦åœ¨controllerå¤„ç†æ³¨é”€é€»è¾‘
         /// </summary>
         public bool Logout()
         {

@@ -10,49 +10,15 @@
 
 using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using OpenAuth.Repository.Core;
 
-namespace OpenAuth.Repository.Domain
+namespace OpenAuth.App.Request
 {
     /// <summary>
-	/// 工作流流程实例表
+	/// 创建工作流请求
 	/// </summary>
-      [Table("FlowInstance")]
-    public partial class FlowInstance : Entity
+    public class AddFlowInstanceReq 
     {
-        public FlowInstance()
-        {
-          this.InstanceSchemeId= string.Empty;
-          this.Code= string.Empty;
-          this.CustomName= string.Empty;
-          this.ActivityId= string.Empty;
-          this.ActivityName= string.Empty;
-          this.PreviousId= string.Empty;
-          this.SchemeContent= string.Empty;
-          this.SchemeId= string.Empty;
-          this.DbName= string.Empty;
-          this.FrmData= string.Empty;
-          this.FrmType= 0;
-          this.FrmContentData= string.Empty;
-          this.FrmContentParse= string.Empty;
-          this.FrmId= string.Empty;
-          this.SchemeType= string.Empty;
-          this.Disabled= 0;
-          this.CreateDate= DateTime.Now;
-          this.CreateUserId= string.Empty;
-          this.CreateUserName= string.Empty;
-          this.FlowLevel= 0;
-          this.Description= string.Empty;
-          this.IsFinish= 0;
-          this.MakerList= string.Empty;
-        }
 
-        /// <summary>
-	    /// 流程实例模板Id【已废弃】
-	    /// </summary>
-         [Description("流程实例模板Id")]
-        public string InstanceSchemeId { get; set; }
         /// <summary>
 	    /// 实例编号
 	    /// </summary>
@@ -63,26 +29,9 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
          [Description("自定义名称")]
         public string CustomName { get; set; }
-        /// <summary>
-	    /// 当前节点ID
-	    /// </summary>
-         [Description("当前节点ID")]
-        public string ActivityId { get; set; }
-        /// <summary>
-	    /// 当前节点类型（0会签节点）
-	    /// </summary>
-         [Description("当前节点类型（0会签节点）")]
-        public int? ActivityType { get; set; }
-        /// <summary>
-	    /// 当前节点名称
-	    /// </summary>
-         [Description("当前节点名称")]
-        public string ActivityName { get; set; }
-        /// <summary>
-	    /// 前一个ID
-	    /// </summary>
-         [Description("前一个ID")]
-        public string PreviousId { get; set; }
+
+
+
         /// <summary>
 	    /// 流程模板内容
 	    /// </summary>
@@ -91,8 +40,14 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 流程模板ID
 	    /// </summary>
-         [Description("流程模板ID")]
         public string SchemeId { get; set; }
+
+        /// <summary>
+        /// 流程模板自定义编号
+        /// </summary>
+        public string SchemeCode { get; set; }
+
+
         /// <summary>
 	    /// 数据库名称
 	    /// </summary>
@@ -128,16 +83,7 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
          [Description("流程类型")]
         public string SchemeType { get; set; }
-        /// <summary>
-	    /// 有效标志
-	    /// </summary>
-         [Description("有效标志")]
-        public int Disabled { get; set; }
-        /// <summary>
-	    /// 创建时间
-	    /// </summary>
-         [Description("创建时间")]
-        public System.DateTime CreateDate { get; set; }
+
         /// <summary>
 	    /// 创建用户主键
 	    /// </summary>
@@ -158,16 +104,6 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
          [Description("实例备注")]
         public string Description { get; set; }
-        /// <summary>
-	    /// 是否完成
-	    /// </summary>
-         [Description("是否完成")]
-        public int IsFinish { get; set; }
-        /// <summary>
-	    /// 执行人
-	    /// </summary>
-         [Description("执行人")]
-        public string MakerList { get; set; }
 
     }
 }

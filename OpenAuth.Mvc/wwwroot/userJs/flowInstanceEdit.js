@@ -5,9 +5,8 @@
             tmp: {
                 Id: '',
                 Code: new Date().getTime(),
-                FrmContentData:'',
-                FrmContentParse:'',
-                SchemeContent:''
+                SchemeCode:'',
+                SchemeId:''
             }
         }
     },
@@ -86,8 +85,8 @@
                 });
                 dtree.on("node('tree')", function (obj) { //节点点击事件
                     var record = JSON.parse(obj.param.recordData);  //从记录中取节点数据
-                    _this.tmp.FrmId = record.FrmId;
-                    _this.tmp.SchemeContent = record.SchemeContent;
+                    _this.tmp.SchemeId = record.Id;
+                    _this.tmp.SchemeCode = record.SchemeCode;
 
                     //取表单的结构数据
                     $.getJSON("/forms/get?id=" + record.FrmId, function (data) {
@@ -97,8 +96,6 @@
                             } else {
                                 $("#frmPreview").html('复杂表单暂时只能在<a href="http://demo.openauth.me:1803">企业版</a>查看，开源版预计会在v1.5发布');
                             }
-                            _this.tmp.FrmContentData = data.Result.ContentData;
-                            _this.tmp.FrmContentParse = data.Result.ContentParse;
                         }
                     });
 
@@ -117,7 +114,7 @@
 
                         _this.tmp = $.extend({}, obj)
                         flowDesignPanel.loadData(JSON.parse(obj.SchemeContent));
-                        initTree(obj.FrmId);
+                        initTree(obj.SchemeId);
                     });
             } else {
                 initTree();
@@ -130,10 +127,6 @@
                     if (content == -1) {
                         return false; //阻止表单跳转。
                     }
-
-                    $.extend(data.field, {
-                        SchemeContent: JSON.stringify(content)
-                    });
 
                     $.post(url,
                         data.field,

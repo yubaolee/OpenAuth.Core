@@ -32,6 +32,8 @@ namespace OpenAuth.App
     public class FlowInstanceApp : BaseApp<FlowInstance>
     {
         private RevelanceManagerApp _revelanceApp;
+        private FlowSchemeApp _flowSchemeApp;
+        private FormApp _formApp;
 
         private IAuth _auth;
 
@@ -43,9 +45,37 @@ namespace OpenAuth.App
         /// <returns></returns>
         public bool CreateInstance(JObject obj)
         {
-            var flowInstance = obj.ToObject<FlowInstance>();
+            var addFlowInstanceReq = obj.ToObject<AddFlowInstanceReq>();
 
-            if (flowInstance.FrmType == 0)  
+            FlowScheme scheme = null;
+            if (!string.IsNullOrEmpty(addFlowInstanceReq.SchemeId))
+            {
+                scheme = _flowSchemeApp.Get(addFlowInstanceReq.SchemeId);
+            }
+
+            if ((scheme == null) && !string.IsNullOrEmpty(addFlowInstanceReq.SchemeCode))
+            {
+                scheme = _flowSchemeApp.FindByCode(addFlowInstanceReq.SchemeCode);
+            }
+
+            if (scheme == null)
+            {
+                throw new Exception("该流程模板已不存在，请重新设计流程");
+            }
+
+            addFlowInstanceReq.SchemeContent = scheme.SchemeContent;
+
+            var form = _formApp.FindSingle(scheme.FrmId);
+            if (form == null)
+            {
+                throw new Exception("该流程模板对应的表单已不存在，请重新设计流程");
+            }
+
+            addFlowInstanceReq.FrmContentData = form.ContentData;
+            addFlowInstanceReq.FrmContentParse = form.ContentParse;
+            addFlowInstanceReq.FrmType = form.FrmType;
+
+            if (form.FrmType == 0)  
             {
                 //动态表单的数据
                 var frmdata = new JObject();
@@ -53,8 +83,10 @@ namespace OpenAuth.App
                 {
                     frmdata[property.Name] = property.Value;
                 }
-                flowInstance.FrmData = JsonHelper.Instance.Serialize(frmdata);
+                addFlowInstanceReq.FrmData = JsonHelper.Instance.Serialize(frmdata);
             }
+
+            var flowInstance = addFlowInstanceReq.MapTo<FlowInstance>();
 
             //创建运行实例
             var wfruntime = new FlowRuntime(flowInstance);
@@ -94,8 +126,8 @@ namespace OpenAuth.App
                 Content = "【创建】"
                           + user.User.Name
                           + "创建了一个流程进程【"
-                          + flowInstance.Code + "/"
-                          + flowInstance.CustomName + "】"
+                          + addFlowInstanceReq.Code + "/"
+                          + addFlowInstanceReq.CustomName + "】"
             };
             UnitWork.Add(processOperationHistoryEntity);
 
@@ -432,10 +464,12 @@ namespace OpenAuth.App
         }
 
         public FlowInstanceApp(IUnitWork unitWork, IRepository<FlowInstance> repository
-        , IAuth auth, RevelanceManagerApp app) : base(unitWork, repository)
+        , IAuth auth, RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp) : base(unitWork, repository)
         {
             _auth = auth;
             _revelanceApp = app;
+            _flowSchemeApp = flowSchemeApp;
+            _formApp = formApp;
         }
 
         public List<FlowInstanceOperationHistory> QueryHistories(QueryFlowInstanceHistoryReq request)

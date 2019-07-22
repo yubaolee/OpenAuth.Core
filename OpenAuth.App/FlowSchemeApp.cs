@@ -14,6 +14,11 @@ namespace OpenAuth.App
             Repository.Add(flowScheme);
         }
 
+        public FlowScheme FindByCode(string code)
+        {
+            return Repository.FindSingle(u => u.SchemeCode == code);
+        }
+
         public void Update(FlowScheme flowScheme)
         {
             UnitWork.Update<FlowScheme>(u => u.Id == flowScheme.Id, u => new FlowScheme

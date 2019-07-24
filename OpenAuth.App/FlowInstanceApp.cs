@@ -74,6 +74,7 @@ namespace OpenAuth.App
             addFlowInstanceReq.FrmContentData = form.ContentData;
             addFlowInstanceReq.FrmContentParse = form.ContentParse;
             addFlowInstanceReq.FrmType = form.FrmType;
+            addFlowInstanceReq.FrmId = form.Id;
 
             if (form.FrmType == 0)  
             {

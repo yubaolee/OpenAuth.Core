@@ -6,7 +6,8 @@
                 Id: '',
                 Code: new Date().getTime(),
                 SchemeCode:'',
-                SchemeId:''
+                SchemeId: '',
+                FrmData:''
             }
         }
     },
@@ -94,7 +95,7 @@
                             if (data.Result.FrmType == 0) {
                                 $("#frmPreview").html(data.Result.Html);
                             } else {
-                                $("#frmPreview").html('复杂表单暂时只能在<a href="http://demo.openauth.me:1803">企业版</a>查看，开源版预计会在v1.5发布');
+                                $("#frmPreview").html('复杂表单暂时只能在<a href="http://demo.openauth.me:1803">企业版</a>查看，开源版预计会在以后的开源版本中发布');
                             }
                         }
                     });
@@ -128,8 +129,13 @@
                         return false; //阻止表单跳转。
                     }
 
+                    delete data.field.CustomName;
+                    delete data.field.Code;
+                    delete data.field.Description;
+
+                    _this.tmp.FrmData = JSON.stringify(data.field);
                     $.post(url,
-                        data.field,
+                        _this.tmp,
                         function (result) {
                             layer.msg(result.Message);
                         },

@@ -62,7 +62,7 @@
 
                 <div class="layui-tab-item layui-fluid">
                     <div class="layui-row">
-                        <select v-model="currentFormId" lay-filter='formChangeFilter'>
+                        <select v-model="tmp.FrmId" lay-filter='formChangeFilter'>
                             <option v-for="form in forms" :value="form.Id">{{form.Name}}</option>
                         </select>
 

@@ -78,11 +78,6 @@ namespace OpenAuth.App.Request
 	    /// </summary>
          [Description("表单ID")]
         public string FrmId { get; set; }
-        /// <summary>
-	    /// 流程类型
-	    /// </summary>
-         [Description("流程类型")]
-        public string SchemeType { get; set; }
 
         /// <summary>
 	    /// 创建用户主键
@@ -94,11 +89,7 @@ namespace OpenAuth.App.Request
 	    /// </summary>
          [Description("创建用户")]
         public string CreateUserName { get; set; }
-        /// <summary>
-	    /// 等级
-	    /// </summary>
-         [Description("等级")]
-        public int FlowLevel { get; set; }
+
         /// <summary>
 	    /// 实例备注
 	    /// </summary>

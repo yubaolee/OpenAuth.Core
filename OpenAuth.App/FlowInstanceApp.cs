@@ -43,10 +43,8 @@ namespace OpenAuth.App
         /// 创建一个实例
         /// </summary>
         /// <returns></returns>
-        public bool CreateInstance(JObject obj)
+        public bool CreateInstance(AddFlowInstanceReq addFlowInstanceReq)
         {
-            var addFlowInstanceReq = obj.ToObject<AddFlowInstanceReq>();
-
             FlowScheme scheme = null;
             if (!string.IsNullOrEmpty(addFlowInstanceReq.SchemeId))
             {
@@ -75,17 +73,6 @@ namespace OpenAuth.App
             addFlowInstanceReq.FrmContentParse = form.ContentParse;
             addFlowInstanceReq.FrmType = form.FrmType;
             addFlowInstanceReq.FrmId = form.Id;
-
-            if (form.FrmType == 0)  
-            {
-                //动态表单的数据
-                var frmdata = new JObject();
-                foreach (var property in obj.Properties().Where(U => U.Name.Contains("data_")))
-                {
-                    frmdata[property.Name] = property.Value;
-                }
-                addFlowInstanceReq.FrmData = JsonHelper.Instance.Serialize(frmdata);
-            }
 
             var flowInstance = addFlowInstanceReq.MapTo<FlowInstance>();
 

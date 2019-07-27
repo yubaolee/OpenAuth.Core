@@ -67,9 +67,8 @@ namespace OpenAuth.WebApi.Controllers
 
         /// <summary>创建一个新的流程实例</summary>
         /// <remarks> www.cnblogs.com/yubaolee, 2019-03-06. </remarks>
-        /// <param name="obj"> json对象</param>
         [HttpPost]
-        public Response Add([FromBody]JObject obj)
+        public Response Add([FromBody]AddFlowInstanceReq obj)
         {
             var result = new Response();
             try

@@ -8,11 +8,7 @@
     <link href="/css/formpreview.css" rel="stylesheet" />
 }
 
-<form class="layui-form layui-form-pane" action="" id="formEdit">
-    <input type="hidden" name="Id" v-model="tmp.Id" />
-    <input type="hidden" id="SchemeId" name="SchemeId" v-model="tmp.SchemeId" />
-    <input type="hidden" id="SchemeCode" name="SchemeCode" v-model="tmp.SchemeCode" />
-    <input type="hidden" id="FrmData" name="FrmData" v-model="tmp.FrmData" />
+<div class="layui-form layui-form-pane" id="formEdit">
 
     <div class="layui-row">
         <div class="layui-tab layui-tab-brief" lay-filter="tab" style="margin: 0px">
@@ -23,7 +19,7 @@
 
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    
+                        
                     <div class="layui-form-item">
                         <label class="layui-form-label">实例编号</label>
                         <div class="layui-input-block">
@@ -60,7 +56,10 @@
                                 <fieldset class="layui-elem-field">
                                     <legend>申请内容</legend>
                                     <div class="layui-field-box">
-                                        <div id="frmPreview"></div>
+                                        <form  class="layui-form ">
+                                            <div id="frmPreview"></div>
+                                            <input type="hidden" lay-submit id="btnSubmit" lay-filter="formSubmit" />
+                                        </form>
                                     </div>
                                 </fieldset>
                             </div>
@@ -80,8 +79,7 @@
         </div>
     </div>
 
-    <input type="hidden" lay-submit id="btnSubmit" lay-filter="formSubmit" />
-</form>
+</div>
 
 <script type="text/javascript" src="/js/vue2.6.10.js"></script>
 <script type="text/javascript" src="/layui/layui.js"></script>

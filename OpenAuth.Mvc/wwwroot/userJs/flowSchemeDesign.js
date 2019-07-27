@@ -5,10 +5,10 @@
             tmp: {
                 Id: '',
                 SchemeCode: new Date().getTime(),
-                SortCode: '1'
+                SortCode: '1',
+                FrmId:''
             },
             forms: [],
-            currentFormId: '',
             frmPreview: ''
         }
     },
@@ -39,12 +39,12 @@
             })
 
             var changeForm = function (id) { //切换表单
-                _this.currentFormId = id
+                _this.tmp.FrmId = id;
                 $.getJSON("/forms/get?id=" + id, function (data) {
                     if (data.Result.FrmType == 0) {
                         _this.frmPreview = data.Result.Html
                     } else {
-                        _this.frmPreview = '复杂表单暂时只能在<a href="http://demo.openauth.me:1803">企业版</a>查看，开源版预计会在v1.5发布'
+                        _this.frmPreview = '复杂表单暂时只能在<a href="http://demo.openauth.me:1803">企业版</a>查看，开源版预计会在以后的开源版本中发布'
                     }
                 });
             }

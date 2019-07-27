@@ -51,7 +51,7 @@
             if (data.Result.FrmType == 0) {
 	            $("#frmPreview").html(data.Result.FrmPreviewHtml);
             } else {
-	            $("#frmPreview").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+	            $("#frmPreview").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在以后的开源版本中发布");
             }
 
             flowDesignPanel.reinitSize($(window).width() - 30, $(window).height() - 120);

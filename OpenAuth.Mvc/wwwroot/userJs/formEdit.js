@@ -81,11 +81,11 @@
                 }
                 plugin.replace(preg_attr, function (str0, attr, val) {
                     if (attr == 'name') {
-                        if (val == 'leipiNewField') {
-                            is_new = true;
-                            fields++;
-                            val = 'data_' + fields;
-                        }
+                        return;
+                    }
+                    if (attr == 'title') {  //如果是title，强制转成name
+                        if (!attr_arr_all['name']) attr_arr_all['name'] = val;
+                        parse_attr.push({ name: val });
                         name = val;
                     }
 
@@ -278,7 +278,7 @@
                     if (obj.FrmType === 0) { 
 	                    ue.setContent(obj.Content);
                     } else {
-	                    ue.setContent("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在v1.5发布");
+	                    ue.setContent("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在以后的开源版本中发布");
                     }
                 }, 500);
             });
@@ -307,7 +307,6 @@
             formeditor = ue.getContent();
             //解析表单设计器控件
             var parseForm = leipiFormDesign.parse_form(formeditor, fields);
-            //alert(parse_form);\
 
             $.extend(data.field, parseForm);
 

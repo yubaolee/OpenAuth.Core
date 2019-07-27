@@ -103,7 +103,7 @@ namespace OpenAuth.Mvc.Controllers
         //添加或修改
        [HttpPost]
        
-        public string Add(JObject obj)
+        public string Add(AddFlowInstanceReq obj)
         {
             try
             {

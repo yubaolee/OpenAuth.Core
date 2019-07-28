@@ -45,6 +45,10 @@
         public Nodedesignatedata NodeDesignateData { get; set; }
         public string NodeCode { get; set; }
         public string NodeName { get; set; }
+        /// <summary>
+        ///  流程执行时，三方回调的URL地址
+        /// </summary>
+        public string ThirdPartyUrl { get; set; }    
 
         /// <summary>
         /// 驳回节点0"前一步"1"第一步"2"某一步" 3"不处理"

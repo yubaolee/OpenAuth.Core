@@ -361,6 +361,10 @@ namespace OpenAuth.App
                     makerList = GenericHelpers.ArrayToString(users, makerList);
                 }
             }
+            else  //如果没有设置节点信息，默认所有人都可以审核
+            {
+                makerList = "1";
+            }
             return makerList;
         }
 

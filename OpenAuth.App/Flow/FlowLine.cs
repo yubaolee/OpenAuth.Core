@@ -31,7 +31,7 @@ namespace OpenAuth.App.Flow
             foreach (var compare in Compares)
             {
                 decimal value = decimal.Parse(compare.Value);  //参考值
-                decimal frmvalue = decimal.Parse(frmDataJson.GetValue(compare.FieldName).ToString()); //表单中填写的值
+                decimal frmvalue = decimal.Parse(frmDataJson.GetValue(compare.FieldName.ToLower()).ToString()); //表单中填写的值
 
                 switch (compare.Operation)
                 {

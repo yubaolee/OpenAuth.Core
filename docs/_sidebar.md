@@ -4,6 +4,7 @@
   * [快速开始](core_start.md)
   * [部署说明](core_deploy.md)
   * [添加一个新模块](core_devnew.md)
+  * [三方对接规范](thirdparty.md)
   * [容器部署](core_docker.md)
 
 * OpenAuth.Net

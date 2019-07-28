@@ -237,6 +237,7 @@ namespace OpenAuth.App
             }
 
             string content =item.GetValue("content").ToString();
+            content = content.Replace("leipiNewField", name);
             if (value != null)//用户设置过值
             {
                 content = content.Replace("selected=\"selected\"", "");  //先去掉模板中的选中项

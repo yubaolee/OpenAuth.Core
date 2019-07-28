@@ -22,7 +22,8 @@ layui.config({
                     NodeCode: node.name,//默认的code
                     NodeRejectType: "0",
                     NodeDesignate: "ALL_USER",
-                    NodeConfluenceType: "all"
+                    NodeConfluenceType: "all",
+                    ThirdPartyUrl:""
                 }
             }
 

@@ -33,6 +33,9 @@
             var update = (id != null && id != '');
             //提交的URL
             var url = "/FlowSchemes/Add";
+            if (update) {
+                 url = "/FlowSchemes/Update";
+            }
 
             $.getJSON('/forms/load', function (json) { //加载所有表单
                 _this.forms = json.data

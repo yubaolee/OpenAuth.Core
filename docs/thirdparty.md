@@ -4,7 +4,7 @@
 
 * 三方已有系统界面，提交表单时，调用创建流程实例接口：http://localhost:52789/api/FlowInstances/Add，在OpenAuth中创建一条新的流程实例； 接口参数如下：
 
-```
+```javascript
     {
         schemeId:'cdd8191e-6a99-4d66-aac0-fae52c0f2232', //流程模板中已存在的模板ID
         schemeCode:'', //与流程模板ID二者选一个即可
@@ -14,4 +14,17 @@
     }
 ```
 
-* 用户正常在OpenAuth中执行流程，三方系统既可以获得流程执行的反馈；
+* 用户正常在OpenAuth中执行流程，在设置了回调URL的节点，OpenAuth会采用WebAPI POST方式回调，具体参数如下：
+```javascript
+{
+    flowInstanceId:"0ceff0f8-f848-440c-bc26-d8605ac858cd",  //流程实例ID
+    nodeName: "admin审批",      //节点名称
+    nodeId: "15333321",         //节点ID
+    UserId: "0ceff0f8-f848-440c-bc26-d8605ac858cd",
+    UserName: "admin",          //审核人账号
+    result: 1,                  //审核结果 1：通过;2：不通过；3驳回
+    description: "做的不错",     //审核描述
+    execTime: "2019-07-07 12:00:00",   //审核时间
+    isFinish: true                     //是否结束
+}
+```

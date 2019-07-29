@@ -23,6 +23,7 @@ using OpenAuth.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 
 namespace OpenAuth.App
 {
@@ -34,6 +35,7 @@ namespace OpenAuth.App
         private RevelanceManagerApp _revelanceApp;
         private FlowSchemeApp _flowSchemeApp;
         private FormApp _formApp;
+        private IHttpClientFactory _httpClientFactory;
 
         private IAuth _auth;
 
@@ -226,6 +228,8 @@ namespace OpenAuth.App
             UnitWork.Update(flowInstance);
             UnitWork.Add(flowInstanceOperationHistory);
             UnitWork.Save();
+
+            wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), tag);
             return true;
         }
 
@@ -284,6 +288,8 @@ namespace OpenAuth.App
             });
 
             UnitWork.Save();
+
+            wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), tag);
 
             return true;
         }
@@ -456,12 +462,13 @@ namespace OpenAuth.App
         }
 
         public FlowInstanceApp(IUnitWork unitWork, IRepository<FlowInstance> repository
-        , IAuth auth, RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp) : base(unitWork, repository)
+        , IAuth auth, RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory) : base(unitWork, repository)
         {
             _auth = auth;
             _revelanceApp = app;
             _flowSchemeApp = flowSchemeApp;
             _formApp = formApp;
+            _httpClientFactory = httpClientFactory;
         }
 
         public List<FlowInstanceOperationHistory> QueryHistories(QueryFlowInstanceHistoryReq request)

@@ -86,6 +86,8 @@ namespace OpenAuth.Mvc
                 services.AddDbContext<OpenAuthDBContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext")));
             }
+
+            services.AddHttpClient();
             //使用AutoFac进行注入
             return new AutofacServiceProvider(AutofacExt.InitAutofac(services));
         }

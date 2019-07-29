@@ -100,6 +100,8 @@ namespace OpenAuth.WebApi
                     options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext")));
             }
 
+            services.AddHttpClient();
+
 
             return new AutofacServiceProvider(AutofacExt.InitAutofac(services));
         }

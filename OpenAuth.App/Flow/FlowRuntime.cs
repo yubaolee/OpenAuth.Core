@@ -20,6 +20,8 @@ using OpenAuth.Repository.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using Castle.Core.Internal;
 
 namespace OpenAuth.App.Flow
@@ -334,6 +336,36 @@ namespace OpenAuth.App.Flow
                 nodes = Nodes.Select(u => u.Value),
                 areas = new string[0]
             };
+        }
+
+        /// <summary>
+        /// 通知三方系统，节点执行情况
+        /// </summary>
+        public void NotifyThirdParty(HttpClient client, Tag tag)
+        {
+            if (currentNode.setInfo == null || string.IsNullOrEmpty(currentNode.setInfo.ThirdPartyUrl))
+            {
+                return;
+            }
+
+            var postData = new
+            {
+                flowInstanceId,
+                nodeName=currentNode.name,
+                nodeId = currentNodeId,
+                tag.UserId,
+                tag.UserName,
+                result=tag.Taged, //1：通过;2：不通过；3驳回
+                tag.Description,
+                execTime = tag.TagedTime,
+                isFinish = currentNodeType == 4
+            };
+
+            using (HttpContent httpContent = new StringContent(JsonHelper.Instance.Serialize(postData), Encoding.UTF8))
+            {
+                    httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                   client.PostAsync(currentNode.setInfo.ThirdPartyUrl, httpContent);
+            }
         }
 
         #endregion 共有方法

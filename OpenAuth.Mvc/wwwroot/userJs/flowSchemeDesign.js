@@ -85,7 +85,7 @@
                     });
                 },
                 OpenLine: function (id, object) {
-                    lay.msg("暂不能设置分支条件");
+                    layer.msg("分支条件暂时只对企业版开放");
                     return;
                 }
             });

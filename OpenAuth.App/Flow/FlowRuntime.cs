@@ -353,10 +353,10 @@ namespace OpenAuth.App.Flow
                 flowInstanceId,
                 nodeName=currentNode.name,
                 nodeId = currentNodeId,
-                tag.UserId,
-                tag.UserName,
+                userId = tag.UserId,
+                userName = tag.UserName,
                 result=tag.Taged, //1：通过;2：不通过；3驳回
-                tag.Description,
+                description = tag.Description,
                 execTime = tag.TagedTime,
                 isFinish = currentNodeType == 4
             };

@@ -31,7 +31,7 @@ namespace OpenAuth.Repository.Domain
           this.Status= 0;
           this.BizCode= string.Empty;
           this.CreateTime= DateTime.Now;
-          this.CrateId= string.Empty;
+          this.CreateId= string.Empty;
           this.TypeName= string.Empty;
           this.TypeId= string.Empty;
         }
@@ -75,7 +75,7 @@ namespace OpenAuth.Repository.Domain
 	    /// 创建人
 	    /// </summary>
          [Description("创建人")]
-        public string CrateId { get; set; }
+        public string CreateId { get; set; }
         /// <summary>
 	    /// 分类名称
 	    /// </summary>

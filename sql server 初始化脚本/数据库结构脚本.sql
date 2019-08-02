@@ -2081,7 +2081,7 @@ CREATE TABLE [dbo].[User] (
   [Status] int DEFAULT ((0)) NOT NULL,
   [BizCode] varchar(255) DEFAULT (' ') NOT NULL,
   [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
-  [CrateId] [dbo].[PrimaryKey] NULL,
+  [CreateId] [dbo].[PrimaryKey] NULL,
   [TypeName] nvarchar(20) NULL,
   [TypeId] [dbo].[PrimaryKey] NULL
 )
@@ -2150,7 +2150,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'创建人',
 'SCHEMA', N'dbo',
 'TABLE', N'User',
-'COLUMN', N'CrateId'
+'COLUMN', N'CreateId'
 GO
 
 EXEC sp_addextendedproperty

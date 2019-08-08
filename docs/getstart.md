@@ -23,3 +23,9 @@
 
 使用visualstudio菜单栏中的【启动】按钮或快捷键F5，启动运行。
 `注：首次启动时，visual studio会启动nuget还原第三方依赖包，请保持网络通畅，并等待一段时间`
+
+## 更多文档
+
+如需更多文档请点击[这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)
+
+![更多文档](http://119.84.146.233:8887/upload_files/190716002245221.jpg "更多文档")

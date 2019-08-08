@@ -1,6 +1,6 @@
 ## 当前版本
 
-`OpenAuth.Core 1.5(upcoming...)`
+`OpenAuth.Core 1.5`
 
 * 【优化】升级layui至2.5.4
 

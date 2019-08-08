@@ -4,7 +4,7 @@
 
      ![](http://pj.openauth.me/zentao/file-read-55.png)
 
-     红色即为要添加的代码文件（其中OpenAuthDBContext为修改）。当然全部手撸这些代码还是会疯的。企业版用户可以直接使用OpenAuth.Pro/CodeSmith代码生成器一键生成上述代码。而且CodeSmith本身也是全部源码，可以根据自己需求调整生成的内容。
+     红色即为要添加的代码文件（其中OpenAuthDBContext为修改）。当然全部手撸这些代码还是会疯的。[企业版](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)用户可以直接使用OpenAuth.Pro/CodeSmith代码生成器一键生成上述代码。而且CodeSmith本身也是全部源码，可以根据自己需求调整生成的内容。
 
 1. 工具准备
 

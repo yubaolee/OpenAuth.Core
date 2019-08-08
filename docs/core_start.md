@@ -34,3 +34,9 @@
 启动openauth.mvc项目。
 ![启动](http://demo.openauth.me:8887/upload_files/190110165027039.jpg "启动")
 
+## 更多文档
+
+如需更多文档请点击[这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)
+
+![更多文档](http://119.84.146.233:8887/upload_files/190716002245221.jpg "更多文档")
+

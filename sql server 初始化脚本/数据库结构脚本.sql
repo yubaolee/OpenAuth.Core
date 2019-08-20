@@ -1004,17 +1004,17 @@ GO
 
 CREATE TABLE [dbo].[FrmLeaveReq] (
   [Id] [dbo].[PrimaryKey] NOT NULL,
-  [UserName] nvarchar(10) COLLATE Chinese_PRC_CI_AS NOT NULL,
-  [RequestType] nvarchar(20) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [UserName] nvarchar(10) NOT NULL,
+  [RequestType] nvarchar(20) NOT NULL,
   [StartDate] date NOT NULL,
   [StartTime] datetime NULL,
   [EndDate] date NOT NULL,
   [EndTime] datetime NULL,
-  [RequestComment] nvarchar(500) COLLATE Chinese_PRC_CI_AS NULL,
-  [Attachment] varchar(500) COLLATE Chinese_PRC_CI_AS NULL,
+  [RequestComment] nvarchar(500) NULL,
+  [Attachment] varchar(500) NULL,
   [CreateDate] datetime DEFAULT (getdate()) NOT NULL,
   [CreateUserId] [dbo].[PrimaryKey] NULL,
-  [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [CreateUserName] varchar(50) NULL,
   [FlowInstanceId] [dbo].[PrimaryKey] NULL
 )
 GO
@@ -2171,6 +2171,259 @@ EXEC sp_addextendedproperty
 'MS_Description', N'用户基本信息表',
 'SCHEMA', N'dbo',
 'TABLE', N'User'
+GO
+
+
+-- ----------------------------
+-- Table structure for SysLog
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SysLog]') AND type IN ('U'))
+	DROP TABLE [dbo].[SysLog]
+GO
+
+CREATE TABLE [dbo].[SysLog] (
+  [Id] [dbo].[PrimaryKey] NOT NULL,
+  [Content] nvarchar(1000) NULL,
+  [TypeName] nvarchar(20) NULL,
+  [TypeId] [dbo].[PrimaryKey] NULL,
+  [Href] varchar(200) NULL,
+  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateId] [dbo].[PrimaryKey] NOT NULL,
+  [CreateName] nvarchar(200) NULL,
+  [Ip] varchar(20) NULL,
+  [Result] int DEFAULT ((0)) NOT NULL
+)
+GO
+
+ALTER TABLE [dbo].[SysLog] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'Id',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'Id'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'日志内容',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'Content'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'分类名称',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'TypeName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'分类ID',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'TypeId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作所属模块地址',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'Href'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'记录时间',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'CreateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'CreateId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作人',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'CreateName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作机器的IP地址',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'Ip'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作的结果：0：成功；1：失败；',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'Result'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'系统日志',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog'
+GO
+
+-- ----------------------------
+-- Table structure for SysMessage
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SysMessage]') AND type IN ('U'))
+	DROP TABLE [dbo].[SysMessage]
+GO
+
+CREATE TABLE [dbo].[SysMessage] (
+  [Id] [dbo].[PrimaryKey] NOT NULL,
+  [TypeName] nvarchar(20) NULL,
+  [TypeId] [dbo].[PrimaryKey] NULL,
+  [FromId] [dbo].[PrimaryKey] NULL,
+  [ToId] [dbo].[PrimaryKey] NOT NULL,
+  [FromName] nvarchar(50) NULL,
+  [ToName] nvarchar(50) NULL,
+  [FromStatus] int DEFAULT ((0)) NOT NULL,
+  [ToStatus] int DEFAULT ((0)) NOT NULL,
+  [Href] varchar(200) NULL,
+  [Title] nvarchar(200) NULL,
+  [Content] nvarchar(1000) NULL,
+  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateId] [dbo].[PrimaryKey] NULL
+)
+GO
+
+ALTER TABLE [dbo].[SysMessage] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'Id',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'Id'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'分类名称',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'TypeName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'分类ID',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'TypeId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'消息源头',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'FromId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'到达',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'ToId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'消息源头名称',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'FromName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'消息到达名称',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'ToName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'-1:已删除；0:默认',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'FromStatus'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'-1:已删除；0:默认未读；1：已读',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'ToStatus'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'点击消息跳转的页面等',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'Href'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'消息标题',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'Title'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'消息内容',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'Content'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建时间',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'CreateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage',
+'COLUMN', N'CreateId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'系统消息表',
+'SCHEMA', N'dbo',
+'TABLE', N'SysMessage'
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table SysMessage
+-- ----------------------------
+ALTER TABLE [dbo].[SysMessage] ADD CONSTRAINT [PK_SYSMESSAGE] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+
+
+-- ----------------------------
+-- Primary Key structure for table SysLog
+-- ----------------------------
+ALTER TABLE [dbo].[SysLog] ADD CONSTRAINT [PK_SYSLOG] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
 GO
 
 

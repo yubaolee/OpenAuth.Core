@@ -1,19 +1,24 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using OpenAuth.App;
 using OpenAuth.App.Interface;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Models
 {
     public class OpenAuthFilter : IActionFilter
     {
         private readonly IAuth _authUtil;
+        private readonly SysLogApp _logApp;
 
-        public OpenAuthFilter(IAuth authUtil)
+        public OpenAuthFilter(IAuth authUtil, SysLogApp logApp)
         {
             _authUtil = authUtil;
+            _logApp = logApp;
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -59,6 +64,14 @@ namespace OpenAuth.Mvc.Models
             {
                 context.Result = new RedirectResult("/Error/Auth");
             }
+
+            _logApp.Add(new SysLog
+            {
+                Content = $"用户访问",
+                Href = $"{Controllername}/{Actionname}",
+                CreateName = _authUtil.GetUserName(),
+                CreateId = _authUtil.GetCurrentUser().User.Id
+            });
         }
 
         public void OnActionExecuted(ActionExecutedContext context)

@@ -2,8 +2,10 @@ using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using OpenAuth.App.Interface;
 using System;
+using System.Reflection;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.SSO
 {
@@ -14,6 +16,7 @@ namespace OpenAuth.App.SSO
     {
         private IHttpContextAccessor _httpContextAccessor;
         private IOptions<AppSetting> _appConfiguration;
+        private SysLogApp _logApp;
 
         private AuthContextFactory _app;
         private LoginParse _loginParse;
@@ -22,13 +25,14 @@ namespace OpenAuth.App.SSO
         public LocalAuth(IHttpContextAccessor httpContextAccessor
             , AuthContextFactory app
             , LoginParse loginParse
-            , ICacheContext cacheContext, IOptions<AppSetting> appConfiguration)
+            , ICacheContext cacheContext, IOptions<AppSetting> appConfiguration, SysLogApp logApp)
         {
             _httpContextAccessor = httpContextAccessor;
             _app = app;
             _loginParse = loginParse;
             _cacheContext = cacheContext;
             _appConfiguration = appConfiguration;
+            _logApp = logApp;
         }
 
         /// <summary>
@@ -139,12 +143,23 @@ namespace OpenAuth.App.SSO
                     Message = "接口启动了OAuth认证,暂时不能使用该方式登录"
                 };
             }
-            return _loginParse.Do(new PassportLoginRequest
+
+            var result = _loginParse.Do(new PassportLoginRequest
             {
                 AppKey = appKey,
                 Account = username,
                 Password = pwd
             });
+
+            var log = new SysLog
+            {
+                Content = $"用户登录,结果：{result.Message}",
+                Result = result.Code == 200 ? 0 : 1,
+                CreateId = username
+            };
+            _logApp.Add(log);
+
+            return result;
         }
 
         /// <summary>

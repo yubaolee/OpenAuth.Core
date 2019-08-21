@@ -29,5 +29,9 @@ namespace OpenAuth.Repository
 
         public virtual DbSet<FrmLeaveReq> FrmLeaveReqs { get; set; }
 
+        public virtual DbSet<SysLog> SysLogs { get; set; }
+
+        public virtual DbSet<SysMessage> SysMessages { get; set; }
+
     }
 }

@@ -107,14 +107,17 @@ INSERT INTO `module` VALUES ('069475e3-c997-487a-9f29-e6a864c5c1d4', '.0.2.', '�
 INSERT INTO `module` VALUES ('37bb9414-19a0-4223-9056-71f8c758a930', '.0.2.5.', '已处理流程', '/flowinstances/disposed', '', 0, 0, 'layui-icon-ok-circle', 0, '流程中心', '', 0, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstanceDisposed', 1);
 INSERT INTO `module` VALUES ('4abafc83-c8f5-452f-9882-e113a86e7a3e', '.0.2.6.', '待处理流程', '/flowinstances/wait', '', 0, 0, 'layui-icon-help', 0, '流程中心', '', 0, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstanceWait', 1);
 INSERT INTO `module` VALUES ('6a9e1346-0c01-44d2-8eb1-f929fdab542a', '.0.1.10.', '部门管理', '/OrgManager/Index', '', 0, 0, 'layui-icon-group', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Org', 1);
-INSERT INTO `module` VALUES ('7580672f-a390-4bb6-982d-9a4570cb5199', '.0.3.', '基础配置', ' /', '', 0, 0, 'layui-icon-set-fill', 0, '根节点', '', 0, NULL, NULL, 1);
-INSERT INTO `module` VALUES ('92b00259-2d15-43e7-9321-adffb29e8bf2', '.0.3.11.', '表单设计', '/forms/index', '', 0, 0, 'layui-icon-theme', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Form', 1);
+INSERT INTO `module` VALUES ('7580672f-a390-4bb6-982d-9a4570cb5199', '.0.1.', '基础配置', ' /', '', 0, 0, 'layui-icon-set-fill', 0, '根节点', '', 0, NULL, NULL, 1);
+INSERT INTO `module` VALUES ('92b00259-2d15-43e7-9321-adffb29e8bf2', '.0.1.11.', '表单设计', '/forms/index', '', 0, 0, 'layui-icon-theme', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Form', 1);
 INSERT INTO `module` VALUES ('9486ff22-b696-4d7f-8093-8a3e53c45453', '.0.2.7.', '我的流程', '/flowInstances/Index', '', 0, 0, 'layui-icon-share', 0, '流程中心', '', 0, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstance', 1);
-INSERT INTO `module` VALUES ('a94d5648-c2a9-405e-ba6f-f1602ec9b807', '.0.3.12.', '分类管理', '/Categories/Index', '', 0, 0, 'layui-icon-app', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Category', 0);
-INSERT INTO `module` VALUES ('bc80478d-0547-4437-9cff-be4b40144bdf', '.0.3.13.', '模块管理', '/ModuleManager/Index', '', 0, 0, 'layui-icon-tabs', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Module', 1);
-INSERT INTO `module` VALUES ('bedb41a2-f310-4775-af99-01be08adda93', '.0.3.14.', '角色管理', '/RoleManager/Index', '', 0, 0, 'layui-icon-user', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Role', 1);
+INSERT INTO `module` VALUES ('a94d5648-c2a9-405e-ba6f-f1602ec9b807', '.0.1.12.', '分类管理', '/Categories/Index', '', 0, 0, 'layui-icon-app', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Category', 0);
+INSERT INTO `module` VALUES ('bc80478d-0547-4437-9cff-be4b40144bdf', '.0.1.13.', '模块管理', '/ModuleManager/Index', '', 0, 0, 'layui-icon-tabs', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Module', 1);
+INSERT INTO `module` VALUES ('bedb41a2-f310-4775-af99-01be08adda93', '.0.1.14.', '角色管理', '/RoleManager/Index', '', 0, 0, 'layui-icon-user', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Role', 1);
 INSERT INTO `module` VALUES ('e8dc5db6-4fc4-4795-a1cc-681cbcceec91', '.0.1.3.', '资源管理', '/Resources/Index', '', 0, 0, 'layui-icon-cellphone', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Resource', 0);
-INSERT INTO `module` VALUES ('ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', '.0.3.15.', '用户管理', '/UserManager/Index', '', 0, 0, 'layui-icon-friends', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'User', 1);
+INSERT INTO `module` VALUES ('ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', '.0.1.15.', '用户管理', '/UserManager/Index', '', 0, 0, 'layui-icon-friends', 0, '基础配置', '', 0, '7580672f-a390-4bb6-982d-9a4570cb5199', 'User', 1);
+INSERT INTO `module` VALUES ('b19bce90-5508-43b6-93ed-cd9ff9e356a9', '.0.3.', '消息日志', ' /', '', 0, 0, 'layui-icon-set-fill', 0, '根节点', '', 0, NULL, NULL, 1);
+INSERT INTO `module` VALUES ('7bc7e527-478d-49fd-868d-5f31951586f5', '.0.3.1.', '系统日志', '/SysLogs/Index', '', 0, 0, 'layui-icon-theme', 0, '消息日志', '', 0, 'b19bce90-5508-43b6-93ed-cd9ff9e356a9', 'SysLog', 1);
+INSERT INTO `module` VALUES ('7bc7e527-478d-49fd-868d-5f31951586f6', '.0.3.2.', '我的消息', '/SysMessages/Index', '', 0, 0, 'layui-icon-theme', 0, '消息日志', '', 0, 'b19bce90-5508-43b6-93ed-cd9ff9e356a9', 'SysMessage', 1);
 
 -- ----------------------------
 -- Records of moduleelement

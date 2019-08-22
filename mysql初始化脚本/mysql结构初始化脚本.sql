@@ -380,6 +380,7 @@ CREATE TABLE `syslog`  (
   `CreateName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `Ip` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL COMMENT '操作机器的IP地址',
   `Result` int(11) NOT NULL DEFAULT 0 COMMENT '操作的结果：0：成功；1：失败；',
+  `Application` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL  COMMENT '所属应用'
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci COMMENT = '系统日志' ROW_FORMAT = Compact;
 

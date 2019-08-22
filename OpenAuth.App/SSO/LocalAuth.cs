@@ -155,7 +155,9 @@ namespace OpenAuth.App.SSO
             {
                 Content = $"用户登录,结果：{result.Message}",
                 Result = result.Code == 200 ? 0 : 1,
-                CreateId = username
+                CreateId = username,
+                CreateName = username,
+                TypeName = "登录日志"
             };
             _logApp.Add(log);
 

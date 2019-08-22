@@ -70,7 +70,8 @@ namespace OpenAuth.Mvc.Models
                 Content = $"用户访问",
                 Href = $"{Controllername}/{Actionname}",
                 CreateName = _authUtil.GetUserName(),
-                CreateId = _authUtil.GetCurrentUser().User.Id
+                CreateId = _authUtil.GetCurrentUser().User.Id,
+                TypeName = "访问日志"
             });
         }
 

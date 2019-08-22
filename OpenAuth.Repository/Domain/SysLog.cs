@@ -32,6 +32,7 @@ namespace OpenAuth.Repository.Domain
           this.CreateId= string.Empty;
           this.CreateName= string.Empty;
           this.Ip= string.Empty;
+          this.Application = string.Empty;
           this.Result= 0;
         }
 
@@ -80,6 +81,8 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
          [Description("操作的结果：0：成功；1：失败；")]
         public int Result { get; set; }
+
+        public string Application { get; set; }
 
     }
 }

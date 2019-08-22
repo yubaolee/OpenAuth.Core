@@ -8,24 +8,27 @@
     var openauth = layui.openauth;
     var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
 
-    $("#menus").loadMenus("SysLog");
+    $("#menus").loadMenus("SysMessage");
 
 
     //加载表头
-    $.getJSON('/SysLogs/Load',
+    $.getJSON('/SysMessages/Load',
 	    { page: 1, limit: 1 },
 	    function (data) {
+		   
 		    table.render({
                 elem: '#mainList'
-			   , page: true,
-                url: '/SysLogs/Load',
+                , size: 'sm' //小尺寸的表格
+			    ,page: true,
+                url: '/SysMessages/Load',
                 cols: [[ //表头
-                     { field: 'Content', title: '内容' }
-                    , { field: 'Href', title: '访问地址' }
-                    , { field: 'CreateName', title: '操作人' }
-                    , { field: 'Application', title: '所属应用' }
-                    , { field: 'Result', title: '操作结果', templet: '#Result' }
-                    , { field: 'CreateTime', title: '记录时间' }
+                    { field: 'Title', title: '消息标题' }
+                   , { field: 'Content', title: '内容' }
+                    , { field: 'FromName', title: '消息来源' }
+                    , { field: 'TypeName', title: '消息分类' }
+                    , { field: 'ToStatus', title: '状态', templet: '#ToStatus' }
+                    , { field: 'CreateTime', title: '消息时间' }
+                    , { field: 'Id', hide:true }
                 ]]
 			    , response: {
 				    statusCode: 200 //规定成功的状态码，默认：0
@@ -42,7 +45,7 @@
         }
         table.reload('mainList',
             {
-                url: '/SysLogs/Load',
+                url: '/SysMessages/Load',
                 where: config
                 , response: {
                     statusCode: 200 //规定成功的状态码，默认：0
@@ -51,13 +54,15 @@
     };
     mainList();
  
-
-
     //监听表格内部按钮
     table.on('tool(list)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'detail') {      //查看
+        if (obj.event === 'edit') {      //查看
             layer.msg('ID：' + data.Id + ' 的查看操作');
+        } else if (obj.event === 'del') {
+            openauth.del("/SysMessages/Delete",
+                data.Id,
+                mainList);
         }
     });
 
@@ -67,7 +72,7 @@
         btnDel: function () {      //批量删除
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
-            openauth.del("/SysLogs/Delete",
+            openauth.del("/SysMessages/Delete",
                 data.map(function (e) { return e.Id; }),
                 mainList);
         }

@@ -12,93 +12,15 @@
            lay-filter="list" lay-size="sm">
     </table>
 
-    <script type="text/html" id="Disable">
-        {{# if(d.Disable){ }}
-        <span class="layui-badge">已禁用</span>
+    <script type="text/html" id="Result">
+        {{# if(d.Result ==1){ }}
+        <span class="layui-badge">失败</span>
         {{# } else{}}
-        <span class="layui-badge layui-bg-green">正常</span>
+        <span class="layui-badge layui-bg-green">成功</span>
         {{# } }}
     </script>
 
 </div>  
-
-<!--添加/编辑窗口-->
-<div id="divEdit" style="display: none">
-    <form class="layui-form" action=""  id="formEdit">
-    <input type="hidden" name="Id" v-model="Id" />
-    <div class="layui-form-item">
-        <label class="layui-form-label">日志内容</label>
-        <div class="layui-input-block">
-            <input type="text" name="Content" v-model="Content" required lay-verify="required"
-                placeholder="日志内容" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">分类名称</label>
-        <div class="layui-input-block">
-            <input type="text" name="TypeName" v-model="TypeName" required lay-verify="required"
-                placeholder="分类名称" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">分类ID</label>
-        <div class="layui-input-block">
-            <input type="text" name="TypeId" v-model="TypeId" required lay-verify="required"
-                placeholder="分类ID" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">操作所属模块地址</label>
-        <div class="layui-input-block">
-            <input type="text" name="Href" v-model="Href" required lay-verify="required"
-                placeholder="操作所属模块地址" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">记录时间</label>
-        <div class="layui-input-block">
-            <input type="text" name="CreateTime" v-model="CreateTime" required lay-verify="required"
-                placeholder="记录时间" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">操作人ID</label>
-        <div class="layui-input-block">
-            <input type="text" name="CreateId" v-model="CreateId" required lay-verify="required"
-                placeholder="操作人ID" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">操作人</label>
-        <div class="layui-input-block">
-            <input type="text" name="CreateName" v-model="CreateName" required lay-verify="required"
-                placeholder="操作人" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">操作机器的IP地址</label>
-        <div class="layui-input-block">
-            <input type="text" name="Ip" v-model="Ip" required lay-verify="required"
-                placeholder="操作机器的IP地址" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">操作的结果：0：成功；1：失败；</label>
-        <div class="layui-input-block">
-            <input type="radio" name="Result" value="1" title="value1" checked>
-            <input type="radio" name="Result" value="0" title="value2">
-        </div>
-    </div>
-
-
-     <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            </div>
-        </div>
-    </form>
-</div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript" src="/userJs/syslogs.js"></script>

@@ -23,7 +23,7 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.Content.Contains(request.key) || u.Id.Contains(request.key));
             }
 
-            result.data = objs.OrderBy(u => u.Id)
+            result.data = objs.OrderByDescending(u => u.CreateTime)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit);
             result.count = objs.Count();
@@ -32,7 +32,8 @@ namespace OpenAuth.App
 
         public void Add(SysLog obj)
         {
-            obj.TypeName = Assembly.GetEntryAssembly().FullName.Split(',')[0];
+            //程序类型取入口应用的名称，可以根据自己需要调整
+            obj.Application = Assembly.GetEntryAssembly().FullName.Split(',')[0];
             Repository.Add(obj);
         }
         

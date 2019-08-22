@@ -2191,7 +2191,8 @@ CREATE TABLE [dbo].[SysLog] (
   [CreateId] [dbo].[PrimaryKey] NOT NULL,
   [CreateName] nvarchar(200) NULL,
   [Ip] varchar(20) NULL,
-  [Result] int DEFAULT ((0)) NOT NULL
+  [Result] int DEFAULT ((0)) NOT NULL,
+  [Application] nvarchar(50) NULL
 )
 GO
 
@@ -2210,6 +2211,13 @@ EXEC sp_addextendedproperty
 'SCHEMA', N'dbo',
 'TABLE', N'SysLog',
 'COLUMN', N'Content'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'所属应用',
+'SCHEMA', N'dbo',
+'TABLE', N'SysLog',
+'COLUMN', N'Application'
 GO
 
 EXEC sp_addextendedproperty

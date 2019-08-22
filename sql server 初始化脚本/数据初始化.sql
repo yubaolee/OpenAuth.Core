@@ -240,6 +240,11 @@ GO
 INSERT INTO [dbo].[Module]  VALUES (N'7580672f-a390-4bb6-982d-9a4570cb5199', N'.0.1.', N'基础配置', N' ', N' ', N'1', N'0', N'layui-icon-set-fill', N'0', N'根节点', N' ', N'0', NULL, NULL, N'1')
 GO
 
+INSERT INTO [dbo].[Module]  VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f5', N'.0.3.1.', N'系统日志', N'/SysLogs/Index', N'', N'0', N'0', N'layui-icon-app', N'0', N'消息日志', N'', N'3', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysLog', N'1')
+GO
+INSERT INTO [dbo].[Module]  VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f6', N'.0.3.2.', N'我的消息', N'/SysMessages/Index', N'', N'0', N'0', N'layui-icon-app', N'0', N'消息日志', N'', N'3', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysMessage', N'1')
+GO
+
 INSERT INTO [dbo].[Module]  VALUES (N'92b00259-2d15-43e7-9321-adffb29e8bf2', N'.0.1.5.', N'表单设计', N'/forms/index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Form', N'1')
 GO
 
@@ -247,6 +252,9 @@ INSERT INTO [dbo].[Module]  VALUES (N'9486ff22-b696-4d7f-8093-8a3e53c45453', N'.
 GO
 
 INSERT INTO [dbo].[Module]  VALUES (N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'.0.1.7.', N'分类管理', N'/Categories/Index', N'', N'0', N'0', N'layui-icon-app', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Category', N'0')
+GO
+
+INSERT INTO [dbo].[Module]  VALUES (N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'.0.3.', N'消息日志', N' /', N'', N'0', N'0', N'layui-icon-app', N'0', N'根节点', N'', N'3', NULL, NULL, N'0')
 GO
 
 INSERT INTO [dbo].[Module]  VALUES (N'bc80478d-0547-4437-9cff-be4b40144bdf', N'.0.1.6.', N'模块管理', N'/ModuleManager/Index', N' ', N'1', N'0', N'layui-icon-tabs', N'0', N'基础配置', N' ', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Module', N'1')

@@ -373,14 +373,14 @@ CREATE TABLE `syslog`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
   `Content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `TypeId` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `Href` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL COMMENT '操作所属模块地址',
+  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `Href` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '操作所属模块地址',
   `CreateTime` datetime(0) NOT NULL,
   `CreateId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `CreateName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `Ip` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL COMMENT '操作机器的IP地址',
+  `Ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '操作机器的IP地址',
   `Result` int(11) NOT NULL DEFAULT 0 COMMENT '操作的结果：0：成功；1：失败；',
-  `Application` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL  COMMENT '所属应用'
+  `Application` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL  COMMENT '所属应用',
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci COMMENT = '系统日志' ROW_FORMAT = Compact;
 
@@ -391,17 +391,17 @@ DROP TABLE IF EXISTS `sysmessage`;
 CREATE TABLE `sysmessage`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `TypeId` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `FromId` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-  `ToId` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `FromId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `ToId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `FromName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `ToName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `FromStatus` int(11) NOT NULL DEFAULT 0 COMMENT '-1:已删除；0:默认',
   `ToStatus` int(11) NOT NULL DEFAULT 0 COMMENT '-1:已删除；0:默认未读；1：已读',
-  `Href` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL COMMENT '点击消息跳转的页面等',
+  `Href` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '点击消息跳转的页面等',
   `Title` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `Content` varchar(1000) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `Content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `CreateTime` datetime(0) NOT NULL,
-  `CreateId` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `CreateId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci COMMENT = '系统消息表' ROW_FORMAT = Compact;

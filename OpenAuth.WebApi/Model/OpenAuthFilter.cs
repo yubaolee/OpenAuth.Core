@@ -3,17 +3,21 @@ using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using OpenAuth.App;
 using OpenAuth.App.Interface;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Model
 {
     public class OpenAuthFilter : IActionFilter
     {
         private readonly IAuth _authUtil;
+        private readonly SysLogApp _logApp;
 
-        public OpenAuthFilter(IAuth authUtil)
+        public OpenAuthFilter(IAuth authUtil, SysLogApp logApp)
         {
             _authUtil = authUtil;
+            _logApp = logApp;
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -40,6 +44,15 @@ namespace OpenAuth.WebApi.Model
                     Message = "认证失败，请提供认证信息"
                 });
             }
+
+            _logApp.Add(new SysLog
+            {
+                Content = $"用户访问",
+                Href = $"{Controllername}/{Actionname}",
+                CreateName = _authUtil.GetUserName(),
+                CreateId = _authUtil.GetCurrentUser().User.Id,
+                TypeName = "访问日志"
+            });
         }
 
         public void OnActionExecuted(ActionExecutedContext context)

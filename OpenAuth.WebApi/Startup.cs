@@ -59,9 +59,12 @@ namespace OpenAuth.WebApi
                     Description = "by yubaolee"
                 });
 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                option.IncludeXmlComments(xmlPath);
+                foreach (var name in Directory.GetFiles(AppContext.BaseDirectory, "*.XML",
+                    SearchOption.AllDirectories))
+                {
+                    option.IncludeXmlComments(name);
+                }
+
                 option.OperationFilter<GlobalHttpHeaderOperationFilter>(); // 添加httpHeader参数
 
                 if (!string.IsNullOrEmpty(identityServer))
@@ -125,6 +128,14 @@ namespace OpenAuth.WebApi
 
 
             app.UseAuthentication();
+            
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "api/{controller=Home}/{action=Index}/{id?}");
+            });
+
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
@@ -135,12 +146,6 @@ namespace OpenAuth.WebApi
                 c.DocExpansion(DocExpansion.None);
                 c.OAuthClientId("OpenAuth.WebApi");  //oauth客户端名称
                 c.OAuthAppName("客户端为OpenAuth.WebApi"); // 描述
-            });
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "api/{controller=Home}/{action=Index}/{id?}");
             });
 
         }

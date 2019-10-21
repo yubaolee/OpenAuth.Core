@@ -70,26 +70,31 @@ namespace OpenAuth.App
             };
         }
 
-        public void AddOrUpdate(UserView view)
+        public void AddOrUpdate(UpdateUserReq request)
         {
-            if (string.IsNullOrEmpty(view.OrganizationIds))
+            if (string.IsNullOrEmpty(request.OrganizationIds))
                 throw new Exception("请为用户分配机构");
-            User user = view;
-            if (string.IsNullOrEmpty(view.Id))
+            User user = request;
+            user.CreateId = _auth.GetCurrentUser().User.Id;
+            if (string.IsNullOrEmpty(request.Id))
             {
-                if (UnitWork.IsExist<User>(u => u.Account == view.Account))
+                if (UnitWork.IsExist<User>(u => u.Account == request.Account))
                 {
                     throw new Exception("用户账号已存在");
                 }
                 user.CreateTime = DateTime.Now;
-                user.Password = user.Account; //初始密码与账号相同
+                if (string.IsNullOrEmpty(user.Password))
+                {
+                    user.Password = user.Account; //初始密码与账号相同
+                }
                 UnitWork.Add(user);
-                view.Id = user.Id;   //要把保存后的ID存入view
+                request.Id = user.Id;   //要把保存后的ID存入view
             }
             else
             {
-                UnitWork.Update<User>(u => u.Id == view.Id, u => new User
+                UnitWork.Update<User>(u => u.Id == request.Id, u => new User
                 {
+                    Password = user.Password,
                     Account = user.Account,
                     BizCode = user.BizCode,
                     Name = user.Name,
@@ -98,7 +103,7 @@ namespace OpenAuth.App
                 });
             }
             UnitWork.Save();
-            string[] orgIds = view.OrganizationIds.Split(',').ToArray();
+            string[] orgIds = request.OrganizationIds.Split(',').ToArray();
 
             _revelanceApp.DeleteBy(Define.USERORG, user.Id);
             _revelanceApp.Assign(Define.USERORG, orgIds.ToLookup(u => user.Id));

@@ -47,11 +47,11 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加或修改组织
         [HttpPost]
-        public string AddOrUpdate(UserView view)
+        public string AddOrUpdate(UpdateUserReq request)
         {
             try
             {
-                _app.AddOrUpdate(view);
+                _app.AddOrUpdate(request);
 
             }
             catch (Exception ex)

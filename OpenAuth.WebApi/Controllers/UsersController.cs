@@ -35,7 +35,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
        [HttpPost]
-        public Response<string> AddOrUpdate(UserView obj)
+        public Response<string> AddOrUpdate(UpdateUserReq obj)
         {
             var result = new Response<string>();
             try

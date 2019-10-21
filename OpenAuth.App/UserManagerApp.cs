@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -46,9 +45,9 @@ namespace OpenAuth.App
             var userIds = _revelanceApp.Get(Define.USERORG, false, ids);
 
             var users = query.Where(u => userIds.Contains(u.Id))
-                   .OrderBy(u => u.Name)
-                   .Skip((request.page - 1) * request.limit)
-                   .Take(request.limit);
+                .OrderBy(u => u.Name)
+                .Skip((request.page - 1) * request.limit)
+                .Take(request.limit);
 
             var records = query.Count(u => userIds.Contains(u.Id));
 
@@ -74,39 +73,49 @@ namespace OpenAuth.App
         {
             if (string.IsNullOrEmpty(request.OrganizationIds))
                 throw new Exception("请为用户分配机构");
-            User user = request;
-            user.CreateId = _auth.GetCurrentUser().User.Id;
+            User requser = request;
+            requser.CreateId = _auth.GetCurrentUser().User.Id;
             if (string.IsNullOrEmpty(request.Id))
             {
                 if (UnitWork.IsExist<User>(u => u.Account == request.Account))
                 {
                     throw new Exception("用户账号已存在");
                 }
-                user.CreateTime = DateTime.Now;
-                if (string.IsNullOrEmpty(user.Password))
+
+                if (string.IsNullOrEmpty(requser.Password))
                 {
-                    user.Password = user.Account; //初始密码与账号相同
+                    requser.Password = requser.Account;   //如果客户端没提供密码，默认密码同账号
                 }
-                UnitWork.Add(user);
-                request.Id = user.Id;   //要把保存后的ID存入view
+
+                requser.CreateTime = DateTime.Now;
+
+                UnitWork.Add(requser);
+                request.Id = requser.Id; //要把保存后的ID存入view
             }
             else
             {
                 UnitWork.Update<User>(u => u.Id == request.Id, u => new User
                 {
-                    Password = user.Password,
-                    Account = user.Account,
-                    BizCode = user.BizCode,
-                    Name = user.Name,
-                    Sex = user.Sex,
-                    Status = user.Status
+                    Account = requser.Account,
+                    BizCode = requser.BizCode,
+                    Name = requser.Name,
+                    Sex = requser.Sex,
+                    Status = requser.Status
                 });
+                if (!string.IsNullOrEmpty(requser.Password))  //密码为空的时候，不做修改
+                {
+                    UnitWork.Update<User>(u => u.Id == request.Id, u => new User
+                    {
+                        Password = requser.Password
+                    });
+                }
             }
+
             UnitWork.Save();
             string[] orgIds = request.OrganizationIds.Split(',').ToArray();
 
-            _revelanceApp.DeleteBy(Define.USERORG, user.Id);
-            _revelanceApp.Assign(Define.USERORG, orgIds.ToLookup(u => user.Id));
+            _revelanceApp.DeleteBy(Define.USERORG, requser.Id);
+            _revelanceApp.Assign(Define.USERORG, orgIds.ToLookup(u => requser.Id));
         }
 
         /// <summary>
@@ -115,9 +124,9 @@ namespace OpenAuth.App
         public IEnumerable<Org> LoadByUser(string userId)
         {
             var result = from userorg in UnitWork.Find<Relevance>(null)
-                         join org in UnitWork.Find<Org>(null) on userorg.SecondId equals org.Id
-                         where userorg.FirstId == userId && userorg.Key == Define.USERORG
-                         select org;
+                join org in UnitWork.Find<Org>(null) on userorg.SecondId equals org.Id
+                where userorg.FirstId == userId && userorg.Key == Define.USERORG
+                select org;
             return result;
         }
 
@@ -131,15 +140,16 @@ namespace OpenAuth.App
 
         public void ChangePassword(ChangePasswordReq request)
         {
-            Repository.Update(u =>u.Account == request.Account, user => new User
+            Repository.Update(u => u.Account == request.Account, user => new User
             {
-               Password = request.Password
+                Password = request.Password
             });
         }
 
         public TableData LoadByRole(QueryUserListByRoleReq request)
         {
-            var users = from userRole in UnitWork.Find<Relevance>(u => u.SecondId == request.roleId && u.Key == Define.USERROLE)
+            var users = from userRole in UnitWork.Find<Relevance>(u =>
+                    u.SecondId == request.roleId && u.Key == Define.USERROLE)
                 join user in UnitWork.Find<User>(null) on userRole.FirstId equals user.Id into temp
                 from c in temp.DefaultIfEmpty()
                 select c;
@@ -147,7 +157,7 @@ namespace OpenAuth.App
             return new TableData
             {
                 count = users.Count(),
-                data = users.Skip((request.page-1)*request.limit).Take(request.limit)
+                data = users.Skip((request.page - 1) * request.limit).Take(request.limit)
             };
         }
     }

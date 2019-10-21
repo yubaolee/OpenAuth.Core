@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using Autofac.Extensions.DependencyInjection;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -88,6 +90,8 @@ namespace OpenAuth.Mvc
             }
 
             services.AddHttpClient();
+            
+            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
             //使用AutoFac进行注入
             return new AutofacServiceProvider(AutofacExt.InitAutofac(services));
         }

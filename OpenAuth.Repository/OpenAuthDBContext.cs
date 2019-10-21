@@ -10,12 +10,6 @@ namespace OpenAuth.Repository
             : base(options)
         { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<WmsOutboundOrderDtbl>()
-                .HasKey(c => new { c.Id, c.OrderId });
-        }
-
         public virtual DbSet<Application> Applications { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CategoryType> CategoryTypes { get; set; }
@@ -38,10 +32,6 @@ namespace OpenAuth.Repository
         public virtual DbSet<SysLog> SysLogs { get; set; }
 
         public virtual DbSet<SysMessage> SysMessages { get; set; }
-
-
-        public virtual DbSet<WmsOutboundOrderDtbl> WmsOutboundOrderDtbls { get; set; }
-        public virtual DbSet<WmsOutboundOrderTbl> WmsOutboundOrderTbls { get; set; }
 
     }
 }

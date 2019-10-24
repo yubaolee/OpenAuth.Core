@@ -163,18 +163,56 @@ namespace Infrastructure
         {
             if (!string.IsNullOrEmpty(filterjson))
             {
-                var filters = JsonHelper.Instance.Deserialize<IEnumerable<Filter>>(filterjson);
+                var filterGroup = JsonHelper.Instance.Deserialize<FilterGroup>(filterjson);
                 var param = CreateLambdaParam<T>("c");
 
-                Expression result = Expression.Constant(true);
-                foreach (var filter in filters)
-                {
-                    result = result.AndAlso(param.GenerateBody<T>(filter));
-                }
+               Expression result = ConvertGroup<T>(filterGroup, param);
 
                 query = query.Where(param.GenerateTypeLambda<T>(result));
             }
             return query;
+        }
+
+        private static Expression ConvertGroup<T>(FilterGroup filterGroup, ParameterExpression param)
+        {
+            Expression result;
+
+            if (filterGroup.Filters.Length==1 && !filterGroup.Children.Any()) //只有一个条件
+            {
+                result = param.GenerateBody<T>(filterGroup.Filters[0]);
+            }
+            else
+            {
+                if (filterGroup.Operation =="and")
+                {
+                    result = Expression.Constant(true);
+                    foreach (var filter in filterGroup.Filters)
+                    {
+                        result = result.AndAlso(param.GenerateBody<T>(filter));
+                    }
+
+                    foreach (var filter in filterGroup.Children)
+                    {
+                        result = result.AndAlso(ConvertGroup<T>(filter, param));
+                    }
+                }
+                else //or
+                {
+                    result = Expression.Constant(false);
+                    foreach (var filter in filterGroup.Filters)
+                    {
+                        result = result.Or(param.GenerateBody<T>(filter));
+                    }
+
+                    foreach (var filter in filterGroup.Children)
+                    {
+                        result = result.Or(ConvertGroup<T>(filter, param));
+                    }
+                }
+
+            }
+
+            return result;
         }
     }
 }

@@ -150,28 +150,22 @@ namespace Infrastructure
             return Expression.And(expression, expressionRight);
         }
 
-        //系统已经有该函数的实现
-        //public static IQueryable<T> Where<T>(this IQueryable<T> query, Expression expression)
-        //{
-        //    Expression expr = Expression.Call(typeof(Queryable), "Where", new[] { typeof(T) },
-        //       Expression.Constant(query), expression);
-        //    //生成动态查询
-        //    IQueryable<T> result = query.Provider.CreateQuery<T>(expr);
-        //    return result;
-        //}
-
         public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, string filterjson)
         {
             if (!string.IsNullOrEmpty(filterjson))
             {
                 var filterGroup = JsonHelper.Instance.Deserialize<FilterGroup>(filterjson);
-                var param = CreateLambdaParam<T>("c");
-
-                Expression result = ConvertGroup<T>(filterGroup, param);
-
-                query = query.Where(param.GenerateTypeLambda<T>(result));
+                query = GenerateFilter(query, filterGroup);
             }
 
+            return query;
+        }
+
+        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, FilterGroup filterGroup)
+        {
+            var param = CreateLambdaParam<T>("c");
+            Expression result = ConvertGroup<T>(filterGroup, param);
+            query = query.Where(param.GenerateTypeLambda<T>(result));
             return query;
         }
 

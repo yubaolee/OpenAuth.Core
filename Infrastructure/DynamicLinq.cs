@@ -97,17 +97,18 @@ namespace Infrastructure
                     break;
 
                 case "like":
-                    filter = Expression.Call(left, typeof(string).GetMethod("Contains", new Type[] { typeof(string) }),
-                                 Expression.Constant(filterObj.Value));
+                    filter = Expression.Call(left, typeof(string).GetMethod("Contains", new Type[] {typeof(string)}),
+                        Expression.Constant(filterObj.Value));
                     break;
                 case "not in":
                     var listExpression = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
-                    var method = typeof(List<string>).GetMethod("Contains", new Type[] { typeof(string) }); //Contains语句
+                    var method = typeof(List<string>).GetMethod("Contains", new Type[] {typeof(string)}); //Contains语句
                     filter = Expression.Not(Expression.Call(listExpression, method, left));
                     break;
                 case "in":
                     var lExp = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
-                    var methodInfo = typeof(List<string>).GetMethod("Contains", new Type[] { typeof(string) }); //Contains语句
+                    var methodInfo = typeof(List<string>).GetMethod("Contains",
+                        new Type[] {typeof(string)}); //Contains语句
                     filter = Expression.Call(lExp, methodInfo, left);
                     break;
             }
@@ -117,7 +118,7 @@ namespace Infrastructure
 
         public static Expression<Func<T, bool>> GenerateTypeBody<T>(this ParameterExpression param, Filter filterObj)
         {
-            return (Expression<Func<T, bool>>)(param.GenerateBody<T>(filterObj));
+            return (Expression<Func<T, bool>>) (param.GenerateBody<T>(filterObj));
         }
 
         /// <summary>
@@ -131,7 +132,7 @@ namespace Infrastructure
 
         public static Expression<Func<T, bool>> GenerateTypeLambda<T>(this ParameterExpression param, Expression body)
         {
-            return (Expression<Func<T, bool>>)(param.GenerateLambda(body));
+            return (Expression<Func<T, bool>>) (param.GenerateLambda(body));
         }
 
         public static Expression AndAlso(this Expression expression, Expression expressionRight)
@@ -166,50 +167,113 @@ namespace Infrastructure
                 var filterGroup = JsonHelper.Instance.Deserialize<FilterGroup>(filterjson);
                 var param = CreateLambdaParam<T>("c");
 
-               Expression result = ConvertGroup<T>(filterGroup, param);
+                Expression result = ConvertGroup<T>(filterGroup, param);
 
                 query = query.Where(param.GenerateTypeLambda<T>(result));
             }
+
             return query;
         }
 
-        private static Expression ConvertGroup<T>(FilterGroup filterGroup, ParameterExpression param)
+        /// <summary>
+        /// 转换filtergroup为表达式
+        /// </summary>
+        /// <param name="filterGroup"></param>
+        /// <param name="param"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Expression ConvertGroup<T>(FilterGroup filterGroup, ParameterExpression param)
         {
-            Expression result;
+            if (filterGroup == null) return null;
 
-            if (filterGroup.Filters.Length==1 && !filterGroup.Children.Any()) //只有一个条件
+            if (filterGroup.Filters.Length == 1 && !filterGroup.Children.Any()) //只有一个条件
             {
-                result = param.GenerateBody<T>(filterGroup.Filters[0]);
+                return param.GenerateBody<T>(filterGroup.Filters[0]);
+            }
+
+            Expression result = ConvertFilters<T>(filterGroup.Filters, param, filterGroup.Operation);
+            Expression gresult = ConvertGroup<T>(filterGroup.Children, param, filterGroup.Operation);
+            if (gresult == null) return result;
+            if (result == null) return gresult;
+
+            if (filterGroup.Operation == "and")
+            {
+                return result.AndAlso(gresult);
+            }
+            else //or
+            {
+                return result.Or(gresult);
+            }
+        }
+
+        /// <summary>
+        /// 转换FilterGroup[]为表达式，不管FilterGroup里面的Filters
+        /// </summary>
+        /// <param name="groups"></param>
+        /// <param name="param"></param>
+        /// <param name="operation"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        private static Expression ConvertGroup<T>(FilterGroup[] groups, ParameterExpression param, string operation)
+        {
+            if (groups == null || !groups.Any()) return null;
+
+            Expression result = ConvertGroup<T>(groups[0], param);
+
+            if (groups.Length == 1) return result;
+
+            if (operation == "and")
+            {
+                foreach (var filter in groups.Skip(1))
+                {
+                    result = result.AndAlso(ConvertGroup<T>(filter, param));
+                }
             }
             else
             {
-                if (filterGroup.Operation =="and")
+                foreach (var filter in groups.Skip(1))
                 {
-                    result = Expression.Constant(true);
-                    foreach (var filter in filterGroup.Filters)
-                    {
-                        result = result.AndAlso(param.GenerateBody<T>(filter));
-                    }
-
-                    foreach (var filter in filterGroup.Children)
-                    {
-                        result = result.AndAlso(ConvertGroup<T>(filter, param));
-                    }
+                    result = result.Or(ConvertGroup<T>(filter, param));
                 }
-                else //or
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 转换Filter数组为表达式
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <param name="param"></param>
+        /// <param name="operation"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        private static Expression ConvertFilters<T>(Filter[] filters, ParameterExpression param, string operation)
+        {
+            if (filters == null || !filters.Any())
+            {
+                return null;
+            }
+
+            Expression result = param.GenerateBody<T>(filters[0]);
+
+            if (filters.Length == 1)
+            {
+                return result;
+            }
+
+            if (operation == "and")
+            {
+                foreach (var filter in filters.Skip(1))
                 {
-                    result = Expression.Constant(false);
-                    foreach (var filter in filterGroup.Filters)
-                    {
-                        result = result.Or(param.GenerateBody<T>(filter));
-                    }
-
-                    foreach (var filter in filterGroup.Children)
-                    {
-                        result = result.Or(ConvertGroup<T>(filter, param));
-                    }
+                    result = result.AndAlso(param.GenerateBody<T>(filter));
                 }
-
+            }
+            else
+            {
+                foreach (var filter in filters.Skip(1)){
+                    result = result.Or(param.GenerateBody<T>(filter));
+                }
             }
 
             return result;

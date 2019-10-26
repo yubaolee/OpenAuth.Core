@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
@@ -42,7 +43,7 @@ namespace OpenAuth.App
             };
         }
 
-        public FlowSchemeApp(IUnitWork unitWork, IRepository<FlowScheme> repository) : base(unitWork, repository)
+        public FlowSchemeApp(IUnitWork unitWork, IRepository<FlowScheme> repository,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
         }
     }

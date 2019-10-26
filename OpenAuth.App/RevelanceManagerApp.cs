@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
@@ -113,7 +114,7 @@ namespace OpenAuth.App
                 .Select(u => u.ThirdId).ToList();
         }
 
-        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository) : base(unitWork, repository)
+        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
         }
 

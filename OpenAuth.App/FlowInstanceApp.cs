@@ -462,7 +462,8 @@ namespace OpenAuth.App
         }
 
         public FlowInstanceApp(IUnitWork unitWork, IRepository<FlowInstance> repository
-        , IAuth auth, RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory) : base(unitWork, repository)
+        , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) 
+            : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
             _auth = auth;
             _revelanceApp = app;

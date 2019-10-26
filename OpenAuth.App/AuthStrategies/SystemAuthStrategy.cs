@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
@@ -104,7 +105,7 @@ namespace OpenAuth.App
         }
 
 
-        public SystemAuthStrategy(IUnitWork unitWork, IRepository<User> repository, DbExtension dbExtension) : base(unitWork, repository)
+        public SystemAuthStrategy(IUnitWork unitWork, IRepository<User> repository, DbExtension dbExtension,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
             _dbExtension = dbExtension;
             _user = new User

@@ -8,7 +8,13 @@ namespace OpenAuth.Repository
 
         public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options)
             : base(options)
-        { }
+        {}
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DataPrivilegeRule>()
+                .HasKey(c => new { c.Id });
+        }
 
         public virtual DbSet<Application> Applications { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
@@ -32,6 +38,8 @@ namespace OpenAuth.Repository
         public virtual DbSet<SysLog> SysLogs { get; set; }
 
         public virtual DbSet<SysMessage> SysMessages { get; set; }
+        
+        public virtual DbSet<DataPrivilegeRule> DataPrivilegeRules { get; set; }
 
     }
 }

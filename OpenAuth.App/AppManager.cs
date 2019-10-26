@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
@@ -35,7 +36,7 @@ namespace OpenAuth.App
             return applications.ToList();
         }
 
-        public AppManager(IUnitWork unitWork, IRepository<Application> repository) : base(unitWork, repository)
+        public AppManager(IUnitWork unitWork, IRepository<Application> repository,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
         }
     }

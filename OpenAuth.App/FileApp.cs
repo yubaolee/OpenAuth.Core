@@ -5,6 +5,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OpenAuth.App.Interface;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -20,8 +21,8 @@ namespace OpenAuth.App
         private string _dbFilePath;   //数据库中的文件路径
         private string _dbThumbnail;   //数据库中的缩略图路径
 
-        public FileApp( IOptions<AppSetting> setOptions, IUnitWork unitWork, IRepository<UploadFile> repository, ILogger<FileApp> logger)
-            :base(unitWork, repository)
+        public FileApp( IOptions<AppSetting> setOptions, IUnitWork unitWork, IRepository<UploadFile> repository, ILogger<FileApp> logger, IAuth auth, DataPrivilegeRuleApp ruleApp)
+            :base(unitWork, repository, auth, ruleApp)
         {
             _logger = logger;
             _filePath = setOptions.Value.UploadPath;

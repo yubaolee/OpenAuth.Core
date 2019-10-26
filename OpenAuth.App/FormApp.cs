@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Infrastructure;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
@@ -70,7 +71,7 @@ namespace OpenAuth.App
         }
 
         public FormApp(IUnitWork unitWork, IRepository<Form> repository,
-            RevelanceManagerApp app) : base(unitWork, repository)
+            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
             _revelanceApp = app;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.Interface;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -80,7 +81,7 @@ namespace OpenAuth.App
         }
 
         public ModuleManagerApp(IUnitWork unitWork, IRepository<Module> repository
-        ,RevelanceManagerApp app) : base(unitWork, repository)
+        ,RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
             _revelanceApp = app;
         }

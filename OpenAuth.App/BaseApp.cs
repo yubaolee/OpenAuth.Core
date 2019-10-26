@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
+using Infrastructure;
+using OpenAuth.App.Interface;
 using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
@@ -11,25 +14,45 @@ namespace OpenAuth.App
     /// <para>如用户管理：Class UserManagerApp:BaseApp<User></para>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseApp<T> where T:Entity
+    public class BaseApp<T> where T : Entity
     {
+        /// <summary>
+        /// 用于普通的数据库操作
+        /// </summary>
+        /// <value>The repository.</value>
+        protected IRepository<T> Repository;
+
         /// <summary>
         /// 用于事务操作
         /// </summary>
         /// <value>The unit work.</value>
         protected IUnitWork UnitWork;
 
-        public BaseApp(IUnitWork unitWork, IRepository<T> repository)
+        protected IAuth _auth;
+        protected DataPrivilegeRuleApp _dataPrivilegeRuleApp;
+
+        public BaseApp(IUnitWork unitWork, IRepository<T> repository, IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp)
         {
             UnitWork = unitWork;
             Repository = repository;
+            _auth = auth;
+            _dataPrivilegeRuleApp = dataPrivilegeRuleApp;
         }
 
         /// <summary>
-        /// 用于普通的数据库操作
+        ///  获取当前登录用户的数据访问权限
         /// </summary>
-        /// <value>The repository.</value>
-        protected IRepository<T> Repository;
+        /// <param name=""parameterName>linq表达式参数的名称，如u=>u.name中的"u"</param>
+        /// <returns></returns>
+        protected Expression GetDataPrivilege(string parameterName)
+        {
+            var moduleName = typeof(T).Name;
+            var rule = _dataPrivilegeRuleApp.GetByModuleName(moduleName);
+            if (rule == null) return null;
+            //todo:在这里替换登录用户的信息
+            return DynamicLinq.ConvertGroup<T>(JsonHelper.Instance.Deserialize<FilterGroup>(rule.PrivilegeRules),
+                Expression.Parameter(typeof(T), parameterName));
+        }
 
         /// <summary>
         /// 按id批量删除
@@ -51,11 +74,10 @@ namespace OpenAuth.App
         /// </summary>
         /// <typeparam name="U">U必须是一个继承TreeEntity的结构</typeparam>
         /// <param name="entity"></param>
-
-        public void ChangeModuleCascade<U>(U entity) where U:TreeEntity
+        public void ChangeModuleCascade<U>(U entity) where U : TreeEntity
         {
             string cascadeId;
-            int currentCascadeId = 1;  //当前结点的级联节点最后一位
+            int currentCascadeId = 1; //当前结点的级联节点最后一位
             var sameLevels = UnitWork.Find<U>(o => o.ParentId == entity.ParentId && o.Id != entity.Id);
             foreach (var obj in sameLevels)
             {

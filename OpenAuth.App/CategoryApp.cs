@@ -63,7 +63,7 @@ namespace OpenAuth.App
         }
 
         public CategoryApp(IUnitWork unitWork, IRepository<Category> repository,
-            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository)
+            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
             _revelanceApp = app;
             _auth = auth;

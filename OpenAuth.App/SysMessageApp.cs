@@ -56,7 +56,7 @@ namespace OpenAuth.App
         }
 
         public SysMessageApp(IUnitWork unitWork, IRepository<SysMessage> repository,
-            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository)
+            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
             _revelanceApp = app;
             _auth = auth;

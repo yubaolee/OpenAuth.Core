@@ -41,7 +41,7 @@ namespace OpenAuth.App
         }
 
         public FrmLeaveReqApp(IUnitWork unitWork, IRepository<FrmLeaveReq> repository,
-            RevelanceManagerApp app) : base(unitWork, repository)
+            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
             _revelanceApp = app;
         }

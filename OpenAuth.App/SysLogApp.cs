@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
@@ -46,7 +47,7 @@ namespace OpenAuth.App
 
         }
 
-        public SysLogApp(IUnitWork unitWork, IRepository<SysLog> repository) : base(unitWork, repository)
+        public SysLogApp(IUnitWork unitWork, IRepository<SysLog> repository,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
         }
     }

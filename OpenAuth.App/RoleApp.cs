@@ -48,7 +48,7 @@ namespace OpenAuth.App
 
 
         public RoleApp(IUnitWork unitWork, IRepository<Role> repository,
-            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository)
+            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
         {
             _revelanceApp = app;
             _auth = auth;

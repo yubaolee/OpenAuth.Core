@@ -49,17 +49,24 @@ namespace OpenAuth.App
             return result;
         }
 
-        public void Add(DataPrivilegeRule obj)
+        public void Add(AddOrUpdateDataPriviReq req)
         {
+            var obj = req.MapTo<DataPrivilegeRule>();
             obj.CreateUserId = _auth.GetCurrentUser().User.Id;
             obj.CreateTime = DateTime.Now;
             Repository.Add(obj);
         }
         
-        public void Update(DataPrivilegeRule obj)
+        public void Update(AddOrUpdateDataPriviReq obj)
         {
             UnitWork.Update<DataPrivilegeRule>(u => u.Id == obj.Id, u => new DataPrivilegeRule
             {
+                SourceCode = obj.SourceCode,
+                UpdateTime = DateTime.Now,
+                UpdateUserId = _auth.GetCurrentUser().User.Id,
+                Description = obj.Description,
+                PrivilegeRules = obj.PrivilegeRules,
+                Enable = obj.Enable
                //todo:要修改的字段赋值
             });
 

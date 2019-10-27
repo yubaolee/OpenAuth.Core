@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /OpenAuth.Mvc/Properties/PublishProfiles
 *.pubxml
+/OpenAuth.WebApi/temp-keys

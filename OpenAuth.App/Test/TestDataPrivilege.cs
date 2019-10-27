@@ -92,7 +92,7 @@ namespace OpenAuth.App.Test
                 }
             };
             
-            app.Add(new DataPrivilegeRule
+            app.Add(new AddOrUpdateDataPriviReq
             {
                 SourceCode = "Resource",
                 PrivilegeRules = JsonHelper.Instance.Serialize(filterGroup)

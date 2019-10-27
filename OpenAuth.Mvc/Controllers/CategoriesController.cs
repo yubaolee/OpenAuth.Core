@@ -48,7 +48,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
        [HttpPost]
-        public string Add(Category obj)
+        public string Add(AddOrUpdateCategoryReq obj)
         {
             Response resp = new Response();
             try
@@ -64,7 +64,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
        [HttpPost]
-        public string Update(Category obj)
+        public string Update(AddOrUpdateCategoryReq obj)
         {
             Response resp = new Response();
             try

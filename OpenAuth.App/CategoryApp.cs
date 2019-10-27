@@ -41,15 +41,28 @@ namespace OpenAuth.App
             };
         }
 
-        public void Add(Category obj)
+        public void Add(AddOrUpdateCategoryReq req)
         {
+            var obj = req.MapTo<Category>();
+            obj.CreateTime = DateTime.Now;
+            var user = _auth.GetCurrentUser().User;
+            obj.CreateUserId = user.Id;
+            obj.CreateUserName = user.Name;
             Repository.Add(obj);
         }
         
-        public void Update(Category obj)
+        public void Update(AddOrUpdateCategoryReq obj)
         {
+            var user = _auth.GetCurrentUser().User;
             UnitWork.Update<Category>(u => u.Id == obj.Id, u => new Category
             {
+                Enable = obj.Enable,
+                DtValue = obj.DtValue,
+                DtCode = obj.DtCode,
+                TypeId = obj.TypeId,
+                UpdateTime = DateTime.Now,
+                UpdateUserId = user.Id,
+                UpdateUserName = user.Name
                //todo:要修改的字段赋值
             });
 

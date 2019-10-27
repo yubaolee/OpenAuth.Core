@@ -37,7 +37,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加
        [HttpPost]
-        public Response Add(DataPrivilegeRule obj)
+        public Response Add(AddOrUpdateDataPriviReq obj)
         {
             var result = new Response();
             try
@@ -56,7 +56,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //修改
        [HttpPost]
-        public Response Update(DataPrivilegeRule obj)
+        public Response Update(AddOrUpdateDataPriviReq obj)
         {
             var result = new Response();
             try

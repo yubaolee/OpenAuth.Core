@@ -105,7 +105,7 @@ namespace OpenAuth.App
         }
 
 
-        public SystemAuthStrategy(IUnitWork unitWork, IRepository<User> repository, DbExtension dbExtension,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        public SystemAuthStrategy(IUnitWork unitWork, IRepository<User> repository, DbExtension dbExtension) : base(unitWork, repository, null)
         {
             _dbExtension = dbExtension;
             _user = new User

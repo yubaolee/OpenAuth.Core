@@ -32,7 +32,7 @@ namespace OpenAuth.App.Test
         public void Add()
         {
             var frm =
-                "{\"id\":\"\",\"userName\":\"111111111\",\"requestType\":\"\",\"startDate\":\"2019-03-05T16:00:00.000Z\",\"startTime\":\"2019-03-19T08:01:23.000Z\",\"endDate\":\"2019-03-27T16:00:00.000Z\",\"endTime\":\"2019-03-19T08:01:26.000Z\",\"requestComment\":\"2222222222222\",\"attachment\":\"\",\"createDate\":\"\",\"createUserId\":\"\",\"createUserName\":\"\",\"extendInfo\":\"\"}";
+                "{\"id\":\"\",\"userName\":\"111111111\",\"requestType\":\"\",\"startDate\":\"2019-03-05T16:00:00.000Z\",\"startTime\":\"2019-03-19T08:01:23.000Z\",\"endDate\":\"2019-03-27T16:00:00.000Z\",\"endTime\":\"2019-03-19T08:01:26.000Z\",\"requestComment\":\"2222222222222\",\"attachment\":\"\",\"createDate\":\"2019-03-19T08:01:26.000Z\",\"createUserId\":\"\",\"createUserName\":\"\",\"extendInfo\":\"\"}";
             var app = _autofacServiceProvider.GetService<FrmLeaveReqApp>();
             app.Add("d8fa445f-edd9-4604-8d9e-b17ba921f9dd",
               frm);

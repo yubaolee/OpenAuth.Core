@@ -36,7 +36,7 @@ namespace OpenAuth.App
             return applications.ToList();
         }
 
-        public AppManager(IUnitWork unitWork, IRepository<Application> repository,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        public AppManager(IUnitWork unitWork, IRepository<Application> repository,IAuth auth) : base(unitWork, repository, auth)
         {
         }
     }

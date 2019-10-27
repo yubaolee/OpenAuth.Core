@@ -29,14 +29,12 @@ namespace OpenAuth.App
         protected IUnitWork UnitWork;
 
         protected IAuth _auth;
-        protected DataPrivilegeRuleApp _dataPrivilegeRuleApp;
 
-        public BaseApp(IUnitWork unitWork, IRepository<T> repository, IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp)
+        public BaseApp(IUnitWork unitWork, IRepository<T> repository, IAuth auth)
         {
             UnitWork = unitWork;
             Repository = repository;
             _auth = auth;
-            _dataPrivilegeRuleApp = dataPrivilegeRuleApp;
         }
 
         /// <summary>
@@ -44,14 +42,14 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name=""parameterName>linq表达式参数的名称，如u=>u.name中的"u"</param>
         /// <returns></returns>
-        protected Expression GetDataPrivilege(string parameterName)
+        protected IQueryable<T> GetDataPrivilege(string parametername)
         {
             var moduleName = typeof(T).Name;
-            var rule = _dataPrivilegeRuleApp.GetByModuleName(moduleName);
-            if (rule == null) return null;
+            var rule = UnitWork.FindSingle<DataPrivilegeRule>(u => u.SourceCode == moduleName);
+            if (rule == null) return UnitWork.Find<T>(null);
             //todo:在这里替换登录用户的信息
-            return DynamicLinq.ConvertGroup<T>(JsonHelper.Instance.Deserialize<FilterGroup>(rule.PrivilegeRules),
-                Expression.Parameter(typeof(T), parameterName));
+            return UnitWork.Find<T>(null).GenerateFilter(parametername,
+                JsonHelper.Instance.Deserialize<FilterGroup>(rule.PrivilegeRules));
         }
 
         /// <summary>

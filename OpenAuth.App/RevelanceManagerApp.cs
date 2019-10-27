@@ -114,7 +114,7 @@ namespace OpenAuth.App
                 .Select(u => u.ThirdId).ToList();
         }
 
-        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository,IAuth auth) : base(unitWork, repository, auth)
         {
         }
 

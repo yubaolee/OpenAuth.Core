@@ -12,8 +12,6 @@ namespace OpenAuth.App
     {
         private RevelanceManagerApp _revelanceApp;
 
-        private IAuth _auth;
-
         /// <summary>
         /// 加载当前登录用户可访问的全部角色
         /// </summary>
@@ -48,10 +46,9 @@ namespace OpenAuth.App
 
 
         public RoleApp(IUnitWork unitWork, IRepository<Role> repository,
-            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+            RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
-            _auth = auth;
         }
     }
 }

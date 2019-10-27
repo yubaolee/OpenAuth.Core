@@ -14,8 +14,6 @@ namespace OpenAuth.App
     {
         private RevelanceManagerApp _revelanceApp;
 
-        private IAuth _auth;
-
         public User GetByAccount(string account)
         {
             return Repository.FindSingle(u => u.Account == account);
@@ -132,10 +130,9 @@ namespace OpenAuth.App
 
 
         public UserManagerApp(IUnitWork unitWork, IRepository<User> repository,
-            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+            RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
-            _auth = auth;
         }
 
         public void ChangePassword(ChangePasswordReq request)

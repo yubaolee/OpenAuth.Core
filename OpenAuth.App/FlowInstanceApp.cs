@@ -37,8 +37,6 @@ namespace OpenAuth.App
         private FormApp _formApp;
         private IHttpClientFactory _httpClientFactory;
 
-        private IAuth _auth;
-
         #region 流程处理API
 
         /// <summary>
@@ -462,10 +460,9 @@ namespace OpenAuth.App
         }
 
         public FlowInstanceApp(IUnitWork unitWork, IRepository<FlowInstance> repository
-        , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) 
-            : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,IAuth auth) 
+            : base(unitWork, repository, auth)
         {
-            _auth = auth;
             _revelanceApp = app;
             _flowSchemeApp = flowSchemeApp;
             _formApp = formApp;

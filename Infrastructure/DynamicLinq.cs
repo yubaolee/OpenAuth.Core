@@ -150,20 +150,28 @@ namespace Infrastructure
             return Expression.And(expression, expressionRight);
         }
 
-        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, string filterjson)
+        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, string parametername, string filterjson)
         {
             if (!string.IsNullOrEmpty(filterjson))
             {
                 var filterGroup = JsonHelper.Instance.Deserialize<FilterGroup>(filterjson);
-                query = GenerateFilter(query, filterGroup);
+                query = GenerateFilter(query,parametername, filterGroup);
             }
 
             return query;
         }
 
-        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, FilterGroup filterGroup)
+        /// <summary>
+        /// 转换FilterGroup为Lambda表达式
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="parametername"></param>
+        /// <param name="filterGroup"></param>
+        /// <returns></returns>
+        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query,string parametername, FilterGroup filterGroup)
         {
-            var param = CreateLambdaParam<T>("c");
+            var param = CreateLambdaParam<T>(parametername);
             Expression result = ConvertGroup<T>(filterGroup, param);
             query = query.Where(param.GenerateTypeLambda<T>(result));
             return query;

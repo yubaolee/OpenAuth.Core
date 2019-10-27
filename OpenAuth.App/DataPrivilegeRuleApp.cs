@@ -51,6 +51,8 @@ namespace OpenAuth.App
 
         public void Add(DataPrivilegeRule obj)
         {
+            obj.CreateUserId = _auth.GetCurrentUser().User.Id;
+            obj.CreateTime = DateTime.Now;
             Repository.Add(obj);
         }
         
@@ -64,7 +66,7 @@ namespace OpenAuth.App
         }
 
         public DataPrivilegeRuleApp(IUnitWork unitWork, IRepository<DataPrivilegeRule> repository,
-            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository, auth, null)
+            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
         }

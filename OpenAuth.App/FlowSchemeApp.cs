@@ -43,7 +43,7 @@ namespace OpenAuth.App
             };
         }
 
-        public FlowSchemeApp(IUnitWork unitWork, IRepository<FlowScheme> repository,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        public FlowSchemeApp(IUnitWork unitWork, IRepository<FlowScheme> repository,IAuth auth) : base(unitWork, repository, auth)
         {
         }
     }

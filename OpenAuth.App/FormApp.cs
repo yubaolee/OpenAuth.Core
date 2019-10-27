@@ -71,7 +71,7 @@ namespace OpenAuth.App
         }
 
         public FormApp(IUnitWork unitWork, IRepository<Form> repository,
-            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+            RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
         }

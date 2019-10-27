@@ -14,8 +14,6 @@ namespace OpenAuth.App
     public class CategoryApp : BaseApp<Category>
     {
         private RevelanceManagerApp _revelanceApp;
-        private IAuth _auth;
-
         /// <summary>
         /// 加载列表
         /// </summary>
@@ -63,10 +61,9 @@ namespace OpenAuth.App
         }
 
         public CategoryApp(IUnitWork unitWork, IRepository<Category> repository,
-            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+            RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
-            _auth = auth;
         }
     }
 }

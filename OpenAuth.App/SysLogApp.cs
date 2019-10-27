@@ -47,7 +47,7 @@ namespace OpenAuth.App
 
         }
 
-        public SysLogApp(IUnitWork unitWork, IRepository<SysLog> repository,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        public SysLogApp(IUnitWork unitWork, IRepository<SysLog> repository) : base(unitWork, repository, null)
         {
         }
     }

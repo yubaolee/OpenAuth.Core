@@ -81,7 +81,7 @@ namespace OpenAuth.App
         }
 
         public ModuleManagerApp(IUnitWork unitWork, IRepository<Module> repository
-        ,RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        ,RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
         }

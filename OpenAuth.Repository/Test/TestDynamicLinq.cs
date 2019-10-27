@@ -54,7 +54,7 @@ namespace OpenAuth.Repository.Test
                 }
                 ";
 
-            var query = dbcontext.Users.GenerateFilter(json);
+            var query = dbcontext.Users.GenerateFilter("c",json);
             Console.WriteLine(query.Expression.ToString());
 
             Console.WriteLine(JsonHelper.Instance.Serialize(query.ToList()));
@@ -90,7 +90,7 @@ namespace OpenAuth.Repository.Test
 
             var dbcontext = _autofacServiceProvider.GetService<OpenAuthDBContext>();
 
-            var query = dbcontext.Users.GenerateFilter(JsonHelper.Instance.Serialize(filterGroup));
+            var query = dbcontext.Users.GenerateFilter("c",JsonHelper.Instance.Serialize(filterGroup));
             Console.WriteLine(query.Expression.ToString());
         }
     }

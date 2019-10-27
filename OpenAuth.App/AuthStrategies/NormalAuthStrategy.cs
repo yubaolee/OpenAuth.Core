@@ -144,7 +144,7 @@ namespace OpenAuth.App
 
         //用户角色
 
-        public NormalAuthStrategy(IUnitWork unitWork, IRepository<User> repository, DbExtension dbExtension,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        public NormalAuthStrategy(IUnitWork unitWork, IRepository<User> repository, DbExtension dbExtension) : base(unitWork, repository,null)
         {
             _dbExtension = dbExtension;
         }

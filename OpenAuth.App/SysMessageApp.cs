@@ -13,7 +13,6 @@ namespace OpenAuth.App
     public class SysMessageApp : BaseApp<SysMessage>
     {
         private RevelanceManagerApp _revelanceApp;
-        private IAuth _auth;
 
         /// <summary>
         /// 加载列表
@@ -56,10 +55,9 @@ namespace OpenAuth.App
         }
 
         public SysMessageApp(IUnitWork unitWork, IRepository<SysMessage> repository,
-            RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+            RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
-            _auth = auth;
         }
     }
 }

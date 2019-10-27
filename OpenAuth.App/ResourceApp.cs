@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -16,7 +17,6 @@ namespace OpenAuth.App
     public class ResourceApp:BaseApp<Resource>
     {
         private RevelanceManagerApp _revelanceApp;
-        private IAuth _auth;
 
         public void Add(Resource resource)
         {
@@ -55,7 +55,7 @@ namespace OpenAuth.App
 
 
             var result = new TableData();
-            var resources =  UnitWork.Find<Resource>(null) ;
+            var resources = GetDataPrivilege("u");
             if (!string.IsNullOrEmpty(request.key))
             {
                 resources = resources.Where(u => u.Name.Contains(request.key) || u.Id.Contains(request.key));
@@ -76,10 +76,9 @@ namespace OpenAuth.App
         }
 
         public ResourceApp(IUnitWork unitWork, IRepository<Resource> repository
-        ,RevelanceManagerApp app,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        ,RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
-            _auth = auth;
         }
     }
 }

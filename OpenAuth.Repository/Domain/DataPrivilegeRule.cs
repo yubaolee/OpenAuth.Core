@@ -24,7 +24,6 @@ namespace OpenAuth.Repository.Domain
     {
         public DataPrivilegeRule()
         {
-          this.Id= string.Empty;
           this.SourceCode= string.Empty;
           this.SubSourceCode= string.Empty;
           this.Description= string.Empty;
@@ -38,10 +37,6 @@ namespace OpenAuth.Repository.Domain
           this.UpdateUserName= string.Empty;
         }
 
-        /// <summary>
-        /// 数据ID
-        /// </summary>
-        public string Id { get; set; }
         /// <summary>
         /// 资源标识（模块编号）
         /// </summary>

@@ -83,7 +83,7 @@ namespace OpenAuth.App
             return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
         }
 
-        public OrgManagerApp(IUnitWork unitWork, IRepository<Org> repository,IAuth auth, DataPrivilegeRuleApp dataPrivilegeRuleApp) : base(unitWork, repository, auth, dataPrivilegeRuleApp)
+        public OrgManagerApp(IUnitWork unitWork, IRepository<Org> repository,IAuth auth) : base(unitWork, repository, auth)
         {
         }
     }

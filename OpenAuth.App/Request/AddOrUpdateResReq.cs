@@ -19,29 +19,9 @@ namespace OpenAuth.Repository.Domain
     /// <summary>
 	/// 资源表
 	/// </summary>
-    [Table("Resource")]
-    public partial class Resource : Entity
+    public class AddOrUpdateResReq
     {
-        public Resource()
-        {
-          this.CascadeId= string.Empty;
-          this.Name= string.Empty;
-          this.SortNo= 0;
-          this.Description= string.Empty;
-          this.ParentName= string.Empty;
-          this.ParentId= string.Empty;
-          this.AppId= string.Empty;
-          this.AppName= string.Empty;
-          this.TypeName= string.Empty;
-          this.TypeId= string.Empty;
-          this.CreateTime= DateTime.Now;
-          this.CreateUserId= string.Empty;
-          this.CreateUserName= string.Empty;
-          this.UpdateTime= DateTime.Now;
-          this.UpdateUserId= string.Empty;
-          this.UpdateUserName= string.Empty;
-        }
-
+        public string Id { get; set; }
         /// <summary>
         /// 节点语义ID
         /// </summary>
@@ -86,29 +66,5 @@ namespace OpenAuth.Repository.Domain
         /// 是否可用
         /// </summary>
         public byte Disable { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public System.DateTime CreateTime { get; set; }
-        /// <summary>
-        /// 创建人ID
-        /// </summary>
-        public string CreateUserId { get; set; }
-        /// <summary>
-        /// 创建人
-        /// </summary>
-        public string CreateUserName { get; set; }
-        /// <summary>
-        /// 最后更新时间
-        /// </summary>
-        public System.DateTime? UpdateTime { get; set; }
-        /// <summary>
-        /// 最后更新人ID
-        /// </summary>
-        public string UpdateUserId { get; set; }
-        /// <summary>
-        /// 最后更新人
-        /// </summary>
-        public string UpdateUserName { get; set; }
     }
 }

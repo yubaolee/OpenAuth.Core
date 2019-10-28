@@ -44,7 +44,7 @@ namespace OpenAuth.WebApi.Controllers
         }
 
        [HttpPost]
-        public Response<string> Add(Resource obj)
+        public Response<string> Add(AddOrUpdateResReq obj)
         {
             var resp = new Response<string>();
             try
@@ -61,7 +61,7 @@ namespace OpenAuth.WebApi.Controllers
         }
 
        [HttpPost]
-        public Response Update(Resource obj)
+        public Response Update(AddOrUpdateResReq obj)
         {
             Response resp = new Response();
             try

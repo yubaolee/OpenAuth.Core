@@ -18,18 +18,27 @@ namespace OpenAuth.App
     {
         private RevelanceManagerApp _revelanceApp;
 
-        public void Add(Resource resource)
+        public void Add(AddOrUpdateResReq resource)
         {
-            if (string.IsNullOrEmpty(resource.Id))
-            {
-                resource.Id = Guid.NewGuid().ToString();
-            }
-            Repository.Add(resource);
+            var obj = resource.MapTo<Resource>();
+            obj.CreateTime = DateTime.Now;
+            var user = _auth.GetCurrentUser().User;
+            obj.CreateUserId = user.Id;
+            obj.CreateUserName = user.Name;
+            Repository.Add(obj);
         }
 
-        public void Update(Resource resource)
+        public void Update(AddOrUpdateResReq obj)
         {
-            Repository.Update(resource);
+            var user = _auth.GetCurrentUser().User;
+            UnitWork.Update<Category>(u => u.Id == obj.Id, u => new Category
+            {
+                TypeId = obj.TypeId,
+                UpdateTime = DateTime.Now,
+                UpdateUserId = user.Id,
+                UpdateUserName = user.Name
+                //todo:要修改的字段赋值
+            });
         }
 
         public IEnumerable<Resource> LoadForRole(string appId, string roleId)

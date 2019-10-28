@@ -76,7 +76,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
        [HttpPost]
-        public string Add(Resource obj)
+        public string Add(AddOrUpdateResReq obj)
         {
             Response resp = new Response();
             try
@@ -92,7 +92,7 @@ namespace OpenAuth.Mvc.Controllers
         }
 
        [HttpPost]
-        public string Update(Resource obj)
+        public string Update(AddOrUpdateResReq obj)
         {
             Response resp = new Response();
             try

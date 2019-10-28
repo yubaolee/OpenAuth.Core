@@ -61,6 +61,7 @@ namespace OpenAuth.App
         {
             UnitWork.Update<DataPrivilegeRule>(u => u.Id == obj.Id, u => new DataPrivilegeRule
             {
+                SortNo = obj.SortNo,
                 SourceCode = obj.SourceCode,
                 UpdateTime = DateTime.Now,
                 UpdateUserId = _auth.GetCurrentUser().User.Id,

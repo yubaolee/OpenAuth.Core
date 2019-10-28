@@ -14,5 +14,10 @@ namespace Infrastructure
         /// 键的描述
         /// </summary>
         public string Description { get; set; }
+        
+        /// <summary>
+        /// 前端是否显示
+        /// </summary>
+        public bool Browsable { get; set; }
     }
 }

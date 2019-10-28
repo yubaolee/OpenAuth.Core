@@ -39,11 +39,17 @@ namespace OpenAuth.App
            foreach (var property in entity.ClrType.GetProperties())
            {
                object[] objs = property.GetCustomAttributes(typeof(DescriptionAttribute), true);
+               object[] browsableObjs = property.GetCustomAttributes(typeof(BrowsableAttribute), true);
                var description = objs.Length > 0 ? ((DescriptionAttribute) objs[0]).Description : property.Name;
+               if (string.IsNullOrEmpty(description)) description = property.Name;
+               //如果没有BrowsableAttribute或 [Browsable(true)]表示可见，其他均为不可见，需要前端配合显示
+               bool browsable = browsableObjs == null || browsableObjs.Length == 0 ||
+                                ((BrowsableAttribute) browsableObjs[0]).Browsable;
                 result.Add(new KeyDescription
                 {
                     Key = property.Name,
-                    Description = description
+                    Description = description,
+                    Browsable = browsable
                 });
            }
 

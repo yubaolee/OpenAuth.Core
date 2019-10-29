@@ -52,6 +52,13 @@ namespace OpenAuth.App
             });
 
         }
+         
+         public new void Delete(string[] ids)
+         {
+             UnitWork.Delete<CategoryType>(u=>ids.Contains(u.Id));
+             UnitWork.Delete<Category>(u=>ids.Contains(u.TypeId));
+             UnitWork.Save();
+         }
 
         public CategoryTypeApp(IUnitWork unitWork, IRepository<CategoryType> repository,
             RevelanceManagerApp app, IAuth auth) : base(unitWork, repository,auth)

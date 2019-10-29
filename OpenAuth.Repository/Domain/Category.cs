@@ -39,19 +39,19 @@ namespace OpenAuth.Repository.Domain
         }
 
         /// <summary>
-        /// 分类字典名称
+        /// 名称
         /// </summary>
-        [Description("分类字典名称")]
+        [Description("名称")]
         public string Name { get; set; }
         /// <summary>
-        /// 分类字典代码
+        /// 代码
         /// </summary>
-        [Description("分类字典代码")]
+        [Description("代码")]
         public string DtCode { get; set; }
         /// <summary>
         /// 通常与字典代码标识一致，但万一有不一样的情况呢？
         /// </summary>
-        [Description("分类值")]
+        [Description("值")]
         public string DtValue { get; set; }
         /// <summary>
         /// 是否可用
@@ -71,8 +71,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
         /// 分类ID
         /// </summary>
-        [Description("")]
-        [Browsable(false)]
+        [Description("分类标识")]
         public string TypeId { get; set; }
         /// <summary>
         /// 创建时间

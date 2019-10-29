@@ -65,6 +65,6 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
         /// 是否可用
         /// </summary>
-        public byte Disable { get; set; }
+        public bool Disable { get; set; }
     }
 }

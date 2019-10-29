@@ -99,7 +99,7 @@ namespace OpenAuth.Repository.Domain
         /// 是否可用
         /// </summary>
         [Description("是否可用")]
-        public byte Disable { get; set; }
+        public bool Disable { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

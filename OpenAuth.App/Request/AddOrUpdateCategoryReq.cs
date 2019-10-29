@@ -37,7 +37,7 @@ namespace OpenAuth.App.Request
         /// <summary>
         /// 
         /// </summary>
-        public byte Enable { get; set; }
+        public bool Enable { get; set; }
         /// <summary>
         /// 排序号
         /// </summary>

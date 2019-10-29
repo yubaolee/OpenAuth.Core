@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -9,35 +9,17 @@ using OpenAuth.Repository.Domain;
 namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
-    /// 分类（字典）管理
+    /// 字典所属分类管理
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class CategorysController : ControllerBase
+    public class CategoryTypesController : ControllerBase
     {
-        private readonly CategoryApp _app;
-        
-        //获取详情
-        [HttpGet]
-        public Response<Category> Get(string id)
-        {
-            var result = new Response<Category>();
-            try
-            {
-                result.Result = _app.Get(id);
-            }
-            catch (Exception ex)
-            {
-                result.Code = 500;
-                result.Message = ex.InnerException?.Message ?? ex.Message;
-            }
-
-            return result;
-        }
+        private readonly CategoryTypeApp _app;
 
         //添加
        [HttpPost]
-        public Response Add(AddOrUpdateCategoryReq obj)
+        public Response Add(AddOrUpdateCategoryTypeReq obj)
         {
             var result = new Response();
             try
@@ -56,7 +38,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //修改
        [HttpPost]
-        public Response Update(AddOrUpdateCategoryReq obj)
+        public Response Update(AddOrUpdateCategoryTypeReq obj)
         {
             var result = new Response();
             try
@@ -77,7 +59,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 加载列表
         /// </summary>
         [HttpGet]
-        public TableData Load([FromQuery]QueryCategoryListReq request)
+        public TableData Load([FromQuery]QueryCategoryTypeListReq request)
         {
             return _app.Load(request);
         }
@@ -103,7 +85,7 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        public CategorysController(CategoryApp app) 
+        public CategoryTypesController(CategoryTypeApp app) 
         {
             _app = app;
         }

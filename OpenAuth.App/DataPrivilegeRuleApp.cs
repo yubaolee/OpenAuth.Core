@@ -70,7 +70,7 @@ namespace OpenAuth.App
                 Enable = obj.Enable
                //todo:要修改的字段赋值
             });
-
+    
         }
 
         public DataPrivilegeRuleApp(IUnitWork unitWork, IRepository<DataPrivilegeRule> repository,

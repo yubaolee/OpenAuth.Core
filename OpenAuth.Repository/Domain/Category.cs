@@ -49,7 +49,7 @@ namespace OpenAuth.Repository.Domain
         [Description("分类字典代码")]
         public string DtCode { get; set; }
         /// <summary>
-        /// 通常与分类标识一致，但万一有不一样的情况呢？
+        /// 通常与字典代码标识一致，但万一有不一样的情况呢？
         /// </summary>
         [Description("分类值")]
         public string DtValue { get; set; }

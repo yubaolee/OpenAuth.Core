@@ -13,7 +13,6 @@ namespace OpenAuth.App
 {
     public class CategoryApp : BaseApp<Category>
     {
-        private RevelanceManagerApp _revelanceApp;
         /// <summary>
         /// 加载列表
         /// </summary>
@@ -31,14 +30,26 @@ namespace OpenAuth.App
             {
                 throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
             }
+            
+            var result = new TableData();
+            var objs = UnitWork.Find<Category>(null);
+            if (!string.IsNullOrEmpty(request.TypeId))
+            {
+                objs = objs.Where(u => u.TypeId == request.TypeId);
+            }
+            
+            if (!string.IsNullOrEmpty(request.key))
+            {
+                objs = objs.Where(u => u.Id.Contains(request.key) || u.Name.Contains(request.key));
+            }
 
             var propertyStr = string.Join(',', properties.Select(u =>u.Key));
-            return new TableData
-            {
-                columnHeaders = properties,
-                count = Repository.GetCount(null),
-                data = Repository.Find(request.page, request.limit, "Id desc").Select($"new ({propertyStr})")
-            };
+            result.columnHeaders = properties;
+            result.data = objs.OrderBy(u => u.DtCode)
+                .Skip((request.page - 1) * request.limit)
+                .Take(request.limit).Select($"new ({propertyStr})");
+            result.count = objs.Count();
+            return result;
         }
 
         public void Add(AddOrUpdateCategoryReq req)
@@ -73,10 +84,8 @@ namespace OpenAuth.App
             return UnitWork.Find<CategoryType>(null).ToList();
         }
 
-        public CategoryApp(IUnitWork unitWork, IRepository<Category> repository,
-            RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
+        public CategoryApp(IUnitWork unitWork, IRepository<Category> repository,IAuth auth) : base(unitWork, repository, auth)
         {
-            _revelanceApp = app;
         }
     }
 }

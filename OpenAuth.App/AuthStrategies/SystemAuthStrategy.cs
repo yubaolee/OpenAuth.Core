@@ -41,6 +41,7 @@ namespace OpenAuth.App
                 var modules = (from module in UnitWork.Find<Module>(null)
                     select new ModuleView
                     {
+                        SortNo = module.SortNo,
                         Name = module.Name,
                         Id = module.Id,
                         CascadeId = module.CascadeId,

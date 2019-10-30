@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <!--这个地方很奇怪，如果不加Version="2.1"就会有警告，但其他项目引用Microsoft.AspNetCore.App不加version就没有这个问题-->
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.4" />
     <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.0" />

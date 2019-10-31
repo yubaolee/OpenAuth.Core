@@ -40,6 +40,9 @@ namespace OpenAuth.Repository
         public virtual DbSet<SysMessage> SysMessages { get; set; }
         
         public virtual DbSet<DataPrivilegeRule> DataPrivilegeRules { get; set; }
+        
+        public virtual DbSet<WmsInboundOrderDtbl> WmsInboundOrderDtbls { get; set; }
+        public virtual DbSet<WmsInboundOrderTbl> WmsInboundOrderTbls { get; set; }
 
     }
 }

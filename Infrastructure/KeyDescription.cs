@@ -19,5 +19,10 @@ namespace Infrastructure
         /// 前端是否显示
         /// </summary>
         public bool Browsable { get; set; }
+        
+        /// <summary>
+        /// 字段类型
+        /// </summary>
+        public string Type { get; set; }
     }
 }

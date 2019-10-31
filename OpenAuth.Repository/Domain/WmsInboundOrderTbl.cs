@@ -56,6 +56,7 @@ namespace OpenAuth.Repository.Domain
         /// 相关单据类型
         /// </summary>
         [Description("相关单据类型")]
+        [Browsable(false)]
         public string ExternalType { get; set; }
         /// <summary>
         /// 状态
@@ -110,6 +111,7 @@ namespace OpenAuth.Repository.Domain
         /// 备注
         /// </summary>
         [Description("备注")]
+        [Browsable(false)]
         public string Remark { get; set; }
         /// <summary>
         /// 有效标志

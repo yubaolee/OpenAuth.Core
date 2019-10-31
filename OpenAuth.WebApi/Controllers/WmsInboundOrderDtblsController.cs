@@ -1,5 +1,6 @@
 ﻿using System;
 using Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Request;
@@ -77,6 +78,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 加载列表
         /// </summary>
         [HttpGet]
+        [AllowAnonymous]
         public TableData Load([FromQuery]QueryWmsInboundOrderDtblListReq request)
         {
             return _app.Load(request);

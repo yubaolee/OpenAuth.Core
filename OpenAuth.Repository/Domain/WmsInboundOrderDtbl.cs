@@ -64,12 +64,12 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
         /// 是否收货中(0:非收货中,1:收货中)
         /// </summary>
-        [Description("是否收货中(0:非收货中,1:收货中)")]
+        [Description("是否收货中")]
         public bool InStockStatus { get; set; }
         /// <summary>
         /// 到货状况(SYS_GOODSARRIVESTATUS)
         /// </summary>
-        [Description("到货状况(SYS_GOODSARRIVESTATUS)")]
+        [Description("到货状况")]
         public int AsnStatus { get; set; }
         /// <summary>
         /// 商品编号
@@ -85,27 +85,29 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
         /// 品质(SYS_QUALITYFLAG)
         /// </summary>
-        [Description("品质(SYS_QUALITYFLAG)")]
+        [Description("品质")]
         public string QualityFlg { get; set; }
         /// <summary>
         /// 通知数量
         /// </summary>
-        [Description("通知数量")]
+        [Description("通知数")]
         public decimal OrderNum { get; set; }
         /// <summary>
         /// 到货数量
         /// </summary>
-        [Description("到货数量")]
+        [Description("到货数")]
         public decimal InNum { get; set; }
         /// <summary>
         /// 剩余数量
         /// </summary>
-        [Description("剩余数量")]
+        [Description("剩余数")]
         public decimal LeaveNum { get; set; }
         /// <summary>
         /// 占用数量
         /// </summary>
-        [Description("占用数量")]
+        [Description("占用数")]
+        [Browsable(false)]
+        
         public decimal HoldNum { get; set; }
         /// <summary>
         /// 生产日期
@@ -132,6 +134,7 @@ namespace OpenAuth.Repository.Domain
         /// 备注
         /// </summary>
         [Description("备注")]
+        [Browsable(false)]
         public string Remark { get; set; }
         /// <summary>
         /// 创建时间
@@ -152,7 +155,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
         /// 最后更新时间
         /// </summary>
-        [Description("最后更新时间")]
+        [Description("最后更新")]
         public System.DateTime? UpdateTime { get; set; }
         /// <summary>
         /// 最后更新人ID

@@ -20,7 +20,18 @@ namespace OpenAuth.App
         public TableData Load(QueryWmsInboundOrderDtblListReq request)
         {
 
-           
+            var loginContext = _auth.GetCurrentUser();
+            if (loginContext == null)
+            {
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+            }
+
+            var properties = loginContext.GetProperties("WmsInboundOrderDtbl");
+
+            if (properties == null || properties.Count == 0)
+            {
+                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
+            }
             var result = new TableData();
             var objs = UnitWork.Find<WmsInboundOrderDtbl>(null);
             if (!string.IsNullOrEmpty(request.InboundOrderId))
@@ -33,9 +44,11 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.GoodsId.Contains(request.key));
             }
 
+            var propertyStr = string.Join(',', properties.Select(u => u.Key));
+            result.columnHeaders = properties;
             result.data = objs.OrderBy(u => u.Id)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit);
+                .Take(request.limit).Select($"new ({propertyStr})");
             result.count = objs.Count();
             return result;
         }

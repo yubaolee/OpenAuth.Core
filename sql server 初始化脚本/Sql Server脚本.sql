@@ -1,18 +1,18 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : local
+ Source Server         : localhost
  Source Server Type    : SQL Server
- Source Server Version : 11003000
+ Source Server Version : 14001000
  Source Host           : .:1433
  Source Catalog        : OpenAuthDB
  Source Schema         : dbo
 
  Target Server Type    : SQL Server
- Target Server Version : 11003000
+ Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 29/10/2019 23:00:51
+ Date: 02/11/2019 11:23:11
 */
 
 
@@ -679,6 +679,15 @@ GO
 -- ----------------------------
 -- Records of [FlowInstance]
 -- ----------------------------
+INSERT INTO [dbo].[FlowInstance]  VALUES (N'61959fe9-377a-4e6c-9f5d-6b7018a80bca', N'', N'1564334700493', N'带分支条件的请假2019-07-29 01:25:02', N'1564334154471', N'2', N'小于3的test可以审批', N'1564334153687', N'{"title":"newFlow_1","initNum":16,"lines":[{"id":"1564334158551","type":"sl","from":"1564334138399","to":"1564334153687","name":"","dash":false,"Compares":null},{"id":"1564334159304","type":"sl","from":"1564334153687","to":"1564334154471","name":"","dash":false,"Compares":[{"Operation":"<","FieldName":"DAYS","FieldType":null,"Value":"3"}]},{"id":"1564334160383","type":"sl","from":"1564334153687","to":"1564334155295","name":"","dash":false,"Compares":[{"Operation":">=","FieldName":"DAYS","FieldType":null,"Value":"3"}]},{"id":"1564334161911","type":"sl","from":"1564334154471","to":"1564334156607","name":"","dash":false,"Compares":null},{"id":"1564334163959","type":"sl","from":"1564334155295","to":"1564334156607","name":"","dash":false,"Compares":null},{"id":"1564334165255","type":"sl","from":"1564334156607","to":"1564334139783","name":"","dash":false,"Compares":null}],"nodes":[{"id":"1564334138399","name":"node_1","type":"start round mix","left":44,"top":27,"width":26,"height":26,"alt":true,"setInfo":null},{"id":"1564334139783","name":"node_2","type":"end round","left":50,"top":295,"width":26,"height":26,"alt":true,"setInfo":null},{"id":"1564334153687","name":"所有人可以审批","type":"node","left":163,"top":43,"width":104,"height":56,"alt":true,"setInfo":{"NodeDesignate":"ALL_USER","NodeDesignateData":{"users":[],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":1,"UserName":"test","UserId":"6ba79766-faa0-4259-8139-a4a6d35784e0","Description":"","TagedTime":"2019-07-29 01:29","NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334154471","name":"小于3的test可以审批","type":"node","left":23,"top":141,"width":167,"height":76,"alt":true,"setInfo":{"NodeDesignate":"SPECIAL_USER","NodeDesignateData":{"users":["6ba79766-faa0-4259-8139-a4a6d35784e0"],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":null,"UserName":null,"UserId":null,"Description":null,"TagedTime":null,"NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334155295","name":"大于3的admin可以审批","type":"node","left":288,"top":146,"width":143,"height":56,"alt":true,"setInfo":{"NodeDesignate":"SPECIAL_USER","NodeDesignateData":{"users":["49df1602-f5f3-4d52-afb7-3802da619558"],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":null,"UserName":null,"UserId":null,"Description":null,"TagedTime":null,"NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334156607","name":"默认","type":"node","left":171,"top":291,"width":104,"height":36,"alt":true,"setInfo":{"NodeDesignate":"ALL_USER","NodeDesignateData":{"users":[],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":null,"UserName":null,"UserId":null,"Description":null,"TagedTime":null,"NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}}],"areas":[]}', N'bfd4f0f9-6f61-4af9-977e-cbcf7c30dd35', N'', N'{"REASON":"身体原因","DAYS":"1","CUSTOME_NAME":"玉宝"}', N'0', N'[{"type":"text","name":"REASON","title":"REASON","value":"身体原因","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"REASON\" value=\"身体原因\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"},{"leipiplugins":"select","name":"DAYS","title":"DAYS","size":"1","orgwidth":"150","style":"width: 150px;","value":"1,3,5,10","selected":"selected","content":"<span leipiplugins=\"select\"><select name=\"leipiNewField\" title=\"DAYS\" leipiplugins=\"select\" size=\"1\" orgwidth=\"150\" style=\"width: 150px;\"><option value=\"1\" selected=\"selected\">1</option><option value=\"3\">3</option><option value=\"5\">5</option><option value=\"10\">10</option></select>&nbsp;&nbsp;</span>"},{"type":"text","name":"CUSTOME_NAME","title":"CUSTOME_NAME","value":"玉宝","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"CUSTOME_NAME\" value=\"玉宝\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"}]', N'<p style="text-align: center;"><span style="font-size: 36px;">请假条</span></p><p><span style="font-size: 36px;"><br/></span></p><p style="text-align: center;">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style="text-align: right;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', N'ef89f96a-af33-407c-b02e-897faf46ecf0', N'', N'0', N'2019-07-29 01:25:16.000', N'00000000-0000-0000-0000-000000000000', N'System', N'0', N'这是个天数比较少的分支', N'0', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
+GO
+
+INSERT INTO [dbo].[FlowInstance]  VALUES (N'7a1fb1a4-06a6-49d5-a311-b988aed776e1', N'', N'1564334976909', N'admin的会签2019-07-29 01:29:39', N'1564334435460', N'2', N'node_2', N'1564334430924', N'{"title":"newFlow_1","nodes":[{"name":"node_1","left":17,"top":12,"type":"start round mix","id":"1564334430924","width":26,"height":26,"alt":true},{"name":"node_2","left":141,"top":49,"type":"node","id":"1564334435460","width":104,"height":26,"alt":true},{"name":"会签入口，设置会签类型","left":141,"top":138,"type":"fork","id":"1564334437844","width":104,"height":76,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"ALL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":[]}}},{"name":"admin","left":23,"top":272,"type":"node","id":"1564334439828","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":["49df1602-f5f3-4d52-afb7-3802da619558"],"roles":[]}}},{"name":"test","left":234,"top":265,"type":"node","id":"1564334440404","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":["6ba79766-faa0-4259-8139-a4a6d35784e0"],"roles":[]}}},{"name":"默认所有人","left":140,"top":406,"type":"join","id":"1564334441965","width":104,"height":56,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"ALL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":[]}}},{"name":"node_7","left":351,"top":420,"type":"end round","id":"1564334444885","width":26,"height":26,"alt":true}],"lines":[{"type":"sl","from":"1564334430924","to":"1564334435460","id":"1564334446774","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334435460","to":"1564334437844","id":"1564334447796","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334437844","to":"1564334439828","id":"1564334448572","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334437844","to":"1564334440404","id":"1564334449628","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334439828","to":"1564334441965","id":"1564334450572","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334440404","to":"1564334441965","id":"1564334451684","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334441965","to":"1564334444885","id":"1564334453900","name":"","dash":false,"alt":true}],"areas":[],"initNum":16}', N'73819920-f085-4003-8874-4361b6461c92', N'', N'{"REASON":"身体原因","DAYS":"1","CUSTOME_NAME":"玉宝"}', N'0', N'[{"type":"text","name":"REASON","title":"REASON","value":"身体原因","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"REASON\" value=\"身体原因\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"},{"leipiplugins":"select","name":"DAYS","title":"DAYS","size":"1","orgwidth":"150","style":"width: 150px;","value":"1,3,5,10","selected":"selected","content":"<span leipiplugins=\"select\"><select name=\"leipiNewField\" title=\"DAYS\" leipiplugins=\"select\" size=\"1\" orgwidth=\"150\" style=\"width: 150px;\"><option value=\"1\" selected=\"selected\">1</option><option value=\"3\">3</option><option value=\"5\">5</option><option value=\"10\">10</option></select>&nbsp;&nbsp;</span>"},{"type":"text","name":"CUSTOME_NAME","title":"CUSTOME_NAME","value":"玉宝","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"CUSTOME_NAME\" value=\"玉宝\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"}]', N'<p style="text-align: center;"><span style="font-size: 36px;">请假条</span></p><p><span style="font-size: 36px;"><br/></span></p><p style="text-align: center;">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style="text-align: right;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', N'ef89f96a-af33-407c-b02e-897faf46ecf0', N'', N'0', N'2019-07-29 01:29:47.000', N'49df1602-f5f3-4d52-afb7-3802da619558', N'admin', N'0', N'', N'0', N'1')
+GO
+
+INSERT INTO [dbo].[FlowInstance]  VALUES (N'7c8ffe55-13fd-4236-9816-63eb7e22aa68', N'', N'1572350961242', N'按角色执行2019-10-29 20:09:25', N'1564334332325', N'2', N'管理员', N'1564334327861', N'{"title":"newFlow_1","nodes":[{"name":"node_1","left":99,"top":32,"type":"start round mix","id":"1564334327861","width":26,"height":26,"alt":true},{"name":"node_2","left":70,"top":295,"type":"end round","id":"1564334330157","width":26,"height":26,"alt":true},{"name":"管理员","left":43,"top":131,"type":"node","id":"1564334332325","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_ROLE","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":["09ee2ffa-7463-4938-ae0b-1cb4e80c7c13"]}}},{"name":"测试人员","left":185,"top":226,"type":"node","id":"1564334333133","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_ROLE","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":["0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d"]}}}],"lines":[{"type":"sl","from":"1564334327861","to":"1564334332325","id":"1564334335789","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334332325","to":"1564334333133","id":"1564334336629","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334333133","to":"1564334330157","id":"1564334337805","name":"","dash":false,"alt":true}],"areas":[],"initNum":9}', N'0b21f59c-7809-4275-acb4-8e8c08e0167e', N'', N'{"REASON":"身体原因","DAYS":"5","CUSTOME_NAME":"玉宝"}', N'0', N'[{"type":"text","name":"REASON","title":"REASON","value":"身体原因","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"REASON\" value=\"身体原因\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"},{"leipiplugins":"select","name":"DAYS","title":"DAYS","size":"1","orgwidth":"150","style":"width: 150px;","value":"1,3,5,10","selected":"selected","content":"<span leipiplugins=\"select\"><select name=\"leipiNewField\" title=\"DAYS\" leipiplugins=\"select\" size=\"1\" orgwidth=\"150\" style=\"width: 150px;\"><option value=\"1\" selected=\"selected\">1</option><option value=\"3\">3</option><option value=\"5\">5</option><option value=\"10\">10</option></select>&nbsp;&nbsp;</span>"},{"type":"text","name":"CUSTOME_NAME","title":"CUSTOME_NAME","value":"玉宝","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"CUSTOME_NAME\" value=\"玉宝\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"}]', N'<p style="text-align: center;"><span style="font-size: 36px;">请假条</span></p><p><span style="font-size: 36px;"><br/></span></p><p style="text-align: center;">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style="text-align: right;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', N'ef89f96a-af33-407c-b02e-897faf46ecf0', N'', N'0', N'2019-10-29 20:10:45.000', N'00000000-0000-0000-0000-000000000000', N'System', N'0', N'预约好突然', N'0', N'49df1602-f5f3-4d52-afb7-3802da619558,1df68dfd-3b6d-4491-872f-00a0fc6c5a64')
+GO
+
 INSERT INTO [dbo].[FlowInstance]  VALUES (N'034ad4f0-95e6-40bf-b3c5-38bd60b542d9', N'', N'1564334796391', N'会签2019-07-29 01:26:40', N'1564334444885', N'4', N'node_7', N'1564334437844', N'{"title":"newFlow_1","initNum":16,"lines":[{"id":"1564334446774","type":"sl","from":"1564334430924","to":"1564334435460","name":"","dash":false,"Compares":null},{"id":"1564334447796","type":"sl","from":"1564334435460","to":"1564334437844","name":"","dash":false,"Compares":null},{"id":"1564334448572","type":"sl","from":"1564334437844","to":"1564334439828","name":"","dash":false,"Compares":null},{"id":"1564334449628","type":"sl","from":"1564334437844","to":"1564334440404","name":"","dash":false,"Compares":null},{"id":"1564334450572","type":"sl","from":"1564334439828","to":"1564334441965","name":"","dash":false,"Compares":null},{"id":"1564334451684","type":"sl","from":"1564334440404","to":"1564334441965","name":"","dash":false,"Compares":null},{"id":"1564334453900","type":"sl","from":"1564334441965","to":"1564334444885","name":"","dash":false,"Compares":null}],"nodes":[{"id":"1564334430924","name":"node_1","type":"start round mix","left":17,"top":12,"width":26,"height":26,"alt":true,"setInfo":null},{"id":"1564334435460","name":"node_2","type":"node","left":141,"top":49,"width":104,"height":26,"alt":true,"setInfo":{"NodeDesignate":null,"NodeDesignateData":null,"NodeCode":null,"NodeName":null,"ThirdPartyUrl":null,"NodeRejectType":null,"Taged":1,"UserName":"test","UserId":"6ba79766-faa0-4259-8139-a4a6d35784e0","Description":"","TagedTime":"2019-07-29 01:28","NodeConfluenceType":null,"ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334437844","name":"会签入口，设置会签类型","type":"fork","left":141,"top":138,"width":104,"height":76,"alt":true,"setInfo":{"NodeDesignate":"ALL_USER","NodeDesignateData":{"users":[],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":1,"UserName":"admin","UserId":"49df1602-f5f3-4d52-afb7-3802da619558","Description":"","TagedTime":"2019-07-29 01:30","NodeConfluenceType":"all","ConfluenceOk":1,"ConfluenceNo":null}},{"id":"1564334439828","name":"admin","type":"node","left":23,"top":272,"width":104,"height":36,"alt":true,"setInfo":{"NodeDesignate":"SPECIAL_USER","NodeDesignateData":{"users":["49df1602-f5f3-4d52-afb7-3802da619558"],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":1,"UserName":"admin","UserId":"49df1602-f5f3-4d52-afb7-3802da619558","Description":"","TagedTime":"2019-07-29 01:30","NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334440404","name":"test","type":"node","left":234,"top":265,"width":104,"height":36,"alt":true,"setInfo":{"NodeDesignate":"SPECIAL_USER","NodeDesignateData":{"users":["6ba79766-faa0-4259-8139-a4a6d35784e0"],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":null,"UserName":null,"UserId":null,"Description":null,"TagedTime":null,"NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334441965","name":"默认所有人","type":"join","left":140,"top":406,"width":104,"height":56,"alt":true,"setInfo":{"NodeDesignate":"ALL_USER","NodeDesignateData":{"users":[],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":1,"UserName":"admin","UserId":"49df1602-f5f3-4d52-afb7-3802da619558","Description":"","TagedTime":"2019-07-29 01:30","NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334444885","name":"node_7","type":"end round","left":351,"top":420,"width":26,"height":26,"alt":true,"setInfo":null}],"areas":[]}', N'73819920-f085-4003-8874-4361b6461c92', N'', N'{"REASON":"身体原因","DAYS":"1","CUSTOME_NAME":"玉宝"}', N'0', N'[{"type":"text","name":"REASON","title":"REASON","value":"身体原因","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"REASON\" value=\"身体原因\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"},{"leipiplugins":"select","name":"DAYS","title":"DAYS","size":"1","orgwidth":"150","style":"width: 150px;","value":"1,3,5,10","selected":"selected","content":"<span leipiplugins=\"select\"><select name=\"leipiNewField\" title=\"DAYS\" leipiplugins=\"select\" size=\"1\" orgwidth=\"150\" style=\"width: 150px;\"><option value=\"1\" selected=\"selected\">1</option><option value=\"3\">3</option><option value=\"5\">5</option><option value=\"10\">10</option></select>&nbsp;&nbsp;</span>"},{"type":"text","name":"CUSTOME_NAME","title":"CUSTOME_NAME","value":"玉宝","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"CUSTOME_NAME\" value=\"玉宝\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"}]', N'<p style="text-align: center;"><span style="font-size: 36px;">请假条</span></p><p><span style="font-size: 36px;"><br/></span></p><p style="text-align: center;">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style="text-align: right;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', N'ef89f96a-af33-407c-b02e-897faf46ecf0', N'', N'0', N'2019-07-29 01:26:45.000', N'00000000-0000-0000-0000-000000000000', N'System', N'0', N'', N'1', N'')
 GO
 
@@ -689,15 +698,6 @@ INSERT INTO [dbo].[FlowInstance]  VALUES (N'0ee22872-f120-4c5a-84ec-7f4e36bd0141
 GO
 
 INSERT INTO [dbo].[FlowInstance]  VALUES (N'20be4e87-0e9e-467c-9011-3c6ccd650931', N'', N'1564334643592', N'会签2019-07-29 01:24:05', N'1564334435460', N'2', N'node_2', N'1564334430924', N'{"title":"newFlow_1","nodes":[{"name":"node_1","left":17,"top":12,"type":"start round mix","id":"1564334430924","width":26,"height":26,"alt":true},{"name":"node_2","left":141,"top":49,"type":"node","id":"1564334435460","width":104,"height":26,"alt":true},{"name":"会签入口，设置会签类型","left":141,"top":138,"type":"fork","id":"1564334437844","width":104,"height":76,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"ALL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":[]}}},{"name":"admin","left":23,"top":272,"type":"node","id":"1564334439828","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":["49df1602-f5f3-4d52-afb7-3802da619558"],"roles":[]}}},{"name":"test","left":234,"top":265,"type":"node","id":"1564334440404","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":["6ba79766-faa0-4259-8139-a4a6d35784e0"],"roles":[]}}},{"name":"默认所有人","left":140,"top":406,"type":"join","id":"1564334441965","width":104,"height":56,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"ALL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":[]}}},{"name":"node_7","left":351,"top":420,"type":"end round","id":"1564334444885","width":26,"height":26,"alt":true}],"lines":[{"type":"sl","from":"1564334430924","to":"1564334435460","id":"1564334446774","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334435460","to":"1564334437844","id":"1564334447796","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334437844","to":"1564334439828","id":"1564334448572","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334437844","to":"1564334440404","id":"1564334449628","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334439828","to":"1564334441965","id":"1564334450572","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334440404","to":"1564334441965","id":"1564334451684","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334441965","to":"1564334444885","id":"1564334453900","name":"","dash":false,"alt":true}],"areas":[],"initNum":16}', N'73819920-f085-4003-8874-4361b6461c92', N'', N'{"REASON":"身体原因","DAYS":"3","CUSTOME_NAME":"玉宝"}', N'0', N'[{"type":"text","name":"REASON","title":"REASON","value":"身体原因","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"REASON\" value=\"身体原因\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"},{"leipiplugins":"select","name":"DAYS","title":"DAYS","size":"1","orgwidth":"150","style":"width: 150px;","value":"1,3,5,10","selected":"selected","content":"<span leipiplugins=\"select\"><select name=\"leipiNewField\" title=\"DAYS\" leipiplugins=\"select\" size=\"1\" orgwidth=\"150\" style=\"width: 150px;\"><option value=\"1\" selected=\"selected\">1</option><option value=\"3\">3</option><option value=\"5\">5</option><option value=\"10\">10</option></select>&nbsp;&nbsp;</span>"},{"type":"text","name":"CUSTOME_NAME","title":"CUSTOME_NAME","value":"玉宝","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"CUSTOME_NAME\" value=\"玉宝\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"}]', N'<p style="text-align: center;"><span style="font-size: 36px;">请假条</span></p><p><span style="font-size: 36px;"><br/></span></p><p style="text-align: center;">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style="text-align: right;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', N'ef89f96a-af33-407c-b02e-897faf46ecf0', N'', N'0', N'2019-07-29 01:24:14.000', N'00000000-0000-0000-0000-000000000000', N'System', N'0', N'', N'0', N'1')
-GO
-
-INSERT INTO [dbo].[FlowInstance]  VALUES (N'61959fe9-377a-4e6c-9f5d-6b7018a80bca', N'', N'1564334700493', N'带分支条件的请假2019-07-29 01:25:02', N'1564334154471', N'2', N'小于3的test可以审批', N'1564334153687', N'{"title":"newFlow_1","initNum":16,"lines":[{"id":"1564334158551","type":"sl","from":"1564334138399","to":"1564334153687","name":"","dash":false,"Compares":null},{"id":"1564334159304","type":"sl","from":"1564334153687","to":"1564334154471","name":"","dash":false,"Compares":[{"Operation":"<","FieldName":"DAYS","FieldType":null,"Value":"3"}]},{"id":"1564334160383","type":"sl","from":"1564334153687","to":"1564334155295","name":"","dash":false,"Compares":[{"Operation":">=","FieldName":"DAYS","FieldType":null,"Value":"3"}]},{"id":"1564334161911","type":"sl","from":"1564334154471","to":"1564334156607","name":"","dash":false,"Compares":null},{"id":"1564334163959","type":"sl","from":"1564334155295","to":"1564334156607","name":"","dash":false,"Compares":null},{"id":"1564334165255","type":"sl","from":"1564334156607","to":"1564334139783","name":"","dash":false,"Compares":null}],"nodes":[{"id":"1564334138399","name":"node_1","type":"start round mix","left":44,"top":27,"width":26,"height":26,"alt":true,"setInfo":null},{"id":"1564334139783","name":"node_2","type":"end round","left":50,"top":295,"width":26,"height":26,"alt":true,"setInfo":null},{"id":"1564334153687","name":"所有人可以审批","type":"node","left":163,"top":43,"width":104,"height":56,"alt":true,"setInfo":{"NodeDesignate":"ALL_USER","NodeDesignateData":{"users":[],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":1,"UserName":"test","UserId":"6ba79766-faa0-4259-8139-a4a6d35784e0","Description":"","TagedTime":"2019-07-29 01:29","NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334154471","name":"小于3的test可以审批","type":"node","left":23,"top":141,"width":167,"height":76,"alt":true,"setInfo":{"NodeDesignate":"SPECIAL_USER","NodeDesignateData":{"users":["6ba79766-faa0-4259-8139-a4a6d35784e0"],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":null,"UserName":null,"UserId":null,"Description":null,"TagedTime":null,"NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334155295","name":"大于3的admin可以审批","type":"node","left":288,"top":146,"width":143,"height":56,"alt":true,"setInfo":{"NodeDesignate":"SPECIAL_USER","NodeDesignateData":{"users":["49df1602-f5f3-4d52-afb7-3802da619558"],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":null,"UserName":null,"UserId":null,"Description":null,"TagedTime":null,"NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334156607","name":"默认","type":"node","left":171,"top":291,"width":104,"height":36,"alt":true,"setInfo":{"NodeDesignate":"ALL_USER","NodeDesignateData":{"users":[],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":null,"UserName":null,"UserId":null,"Description":null,"TagedTime":null,"NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}}],"areas":[]}', N'bfd4f0f9-6f61-4af9-977e-cbcf7c30dd35', N'', N'{"REASON":"身体原因","DAYS":"1","CUSTOME_NAME":"玉宝"}', N'0', N'[{"type":"text","name":"REASON","title":"REASON","value":"身体原因","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"REASON\" value=\"身体原因\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"},{"leipiplugins":"select","name":"DAYS","title":"DAYS","size":"1","orgwidth":"150","style":"width: 150px;","value":"1,3,5,10","selected":"selected","content":"<span leipiplugins=\"select\"><select name=\"leipiNewField\" title=\"DAYS\" leipiplugins=\"select\" size=\"1\" orgwidth=\"150\" style=\"width: 150px;\"><option value=\"1\" selected=\"selected\">1</option><option value=\"3\">3</option><option value=\"5\">5</option><option value=\"10\">10</option></select>&nbsp;&nbsp;</span>"},{"type":"text","name":"CUSTOME_NAME","title":"CUSTOME_NAME","value":"玉宝","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"CUSTOME_NAME\" value=\"玉宝\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"}]', N'<p style="text-align: center;"><span style="font-size: 36px;">请假条</span></p><p><span style="font-size: 36px;"><br/></span></p><p style="text-align: center;">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style="text-align: right;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', N'ef89f96a-af33-407c-b02e-897faf46ecf0', N'', N'0', N'2019-07-29 01:25:16.000', N'00000000-0000-0000-0000-000000000000', N'System', N'0', N'这是个天数比较少的分支', N'0', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
-GO
-
-INSERT INTO [dbo].[FlowInstance]  VALUES (N'7a1fb1a4-06a6-49d5-a311-b988aed776e1', N'', N'1564334976909', N'admin的会签2019-07-29 01:29:39', N'1564334435460', N'2', N'node_2', N'1564334430924', N'{"title":"newFlow_1","nodes":[{"name":"node_1","left":17,"top":12,"type":"start round mix","id":"1564334430924","width":26,"height":26,"alt":true},{"name":"node_2","left":141,"top":49,"type":"node","id":"1564334435460","width":104,"height":26,"alt":true},{"name":"会签入口，设置会签类型","left":141,"top":138,"type":"fork","id":"1564334437844","width":104,"height":76,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"ALL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":[]}}},{"name":"admin","left":23,"top":272,"type":"node","id":"1564334439828","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":["49df1602-f5f3-4d52-afb7-3802da619558"],"roles":[]}}},{"name":"test","left":234,"top":265,"type":"node","id":"1564334440404","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":["6ba79766-faa0-4259-8139-a4a6d35784e0"],"roles":[]}}},{"name":"默认所有人","left":140,"top":406,"type":"join","id":"1564334441965","width":104,"height":56,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"ALL_USER","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":[]}}},{"name":"node_7","left":351,"top":420,"type":"end round","id":"1564334444885","width":26,"height":26,"alt":true}],"lines":[{"type":"sl","from":"1564334430924","to":"1564334435460","id":"1564334446774","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334435460","to":"1564334437844","id":"1564334447796","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334437844","to":"1564334439828","id":"1564334448572","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334437844","to":"1564334440404","id":"1564334449628","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334439828","to":"1564334441965","id":"1564334450572","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334440404","to":"1564334441965","id":"1564334451684","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334441965","to":"1564334444885","id":"1564334453900","name":"","dash":false,"alt":true}],"areas":[],"initNum":16}', N'73819920-f085-4003-8874-4361b6461c92', N'', N'{"REASON":"身体原因","DAYS":"1","CUSTOME_NAME":"玉宝"}', N'0', N'[{"type":"text","name":"REASON","title":"REASON","value":"身体原因","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"REASON\" value=\"身体原因\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"},{"leipiplugins":"select","name":"DAYS","title":"DAYS","size":"1","orgwidth":"150","style":"width: 150px;","value":"1,3,5,10","selected":"selected","content":"<span leipiplugins=\"select\"><select name=\"leipiNewField\" title=\"DAYS\" leipiplugins=\"select\" size=\"1\" orgwidth=\"150\" style=\"width: 150px;\"><option value=\"1\" selected=\"selected\">1</option><option value=\"3\">3</option><option value=\"5\">5</option><option value=\"10\">10</option></select>&nbsp;&nbsp;</span>"},{"type":"text","name":"CUSTOME_NAME","title":"CUSTOME_NAME","value":"玉宝","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"CUSTOME_NAME\" value=\"玉宝\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"}]', N'<p style="text-align: center;"><span style="font-size: 36px;">请假条</span></p><p><span style="font-size: 36px;"><br/></span></p><p style="text-align: center;">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style="text-align: right;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', N'ef89f96a-af33-407c-b02e-897faf46ecf0', N'', N'0', N'2019-07-29 01:29:47.000', N'49df1602-f5f3-4d52-afb7-3802da619558', N'admin', N'0', N'', N'0', N'1')
-GO
-
-INSERT INTO [dbo].[FlowInstance]  VALUES (N'7c8ffe55-13fd-4236-9816-63eb7e22aa68', N'', N'1572350961242', N'按角色执行2019-10-29 20:09:25', N'1564334332325', N'2', N'管理员', N'1564334327861', N'{"title":"newFlow_1","nodes":[{"name":"node_1","left":99,"top":32,"type":"start round mix","id":"1564334327861","width":26,"height":26,"alt":true},{"name":"node_2","left":70,"top":295,"type":"end round","id":"1564334330157","width":26,"height":26,"alt":true},{"name":"管理员","left":43,"top":131,"type":"node","id":"1564334332325","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_ROLE","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":["09ee2ffa-7463-4938-ae0b-1cb4e80c7c13"]}}},{"name":"测试人员","left":185,"top":226,"type":"node","id":"1564334333133","width":104,"height":36,"alt":true,"setInfo":{"NodeConfluenceType":"all","NodeDesignate":"SPECIAL_ROLE","ThirdPartyUrl":"","NodeDesignateData":{"users":[],"roles":["0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d"]}}}],"lines":[{"type":"sl","from":"1564334327861","to":"1564334332325","id":"1564334335789","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334332325","to":"1564334333133","id":"1564334336629","name":"","dash":false,"alt":true},{"type":"sl","from":"1564334333133","to":"1564334330157","id":"1564334337805","name":"","dash":false,"alt":true}],"areas":[],"initNum":9}', N'0b21f59c-7809-4275-acb4-8e8c08e0167e', N'', N'{"REASON":"身体原因","DAYS":"5","CUSTOME_NAME":"玉宝"}', N'0', N'[{"type":"text","name":"REASON","title":"REASON","value":"身体原因","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"REASON\" value=\"身体原因\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"},{"leipiplugins":"select","name":"DAYS","title":"DAYS","size":"1","orgwidth":"150","style":"width: 150px;","value":"1,3,5,10","selected":"selected","content":"<span leipiplugins=\"select\"><select name=\"leipiNewField\" title=\"DAYS\" leipiplugins=\"select\" size=\"1\" orgwidth=\"150\" style=\"width: 150px;\"><option value=\"1\" selected=\"selected\">1</option><option value=\"3\">3</option><option value=\"5\">5</option><option value=\"10\">10</option></select>&nbsp;&nbsp;</span>"},{"type":"text","name":"CUSTOME_NAME","title":"CUSTOME_NAME","value":"玉宝","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"CUSTOME_NAME\" value=\"玉宝\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"}]', N'<p style="text-align: center;"><span style="font-size: 36px;">请假条</span></p><p><span style="font-size: 36px;"><br/></span></p><p style="text-align: center;">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style="text-align: right;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', N'ef89f96a-af33-407c-b02e-897faf46ecf0', N'', N'0', N'2019-10-29 20:10:45.000', N'00000000-0000-0000-0000-000000000000', N'System', N'0', N'预约好突然', N'0', N'49df1602-f5f3-4d52-afb7-3802da619558,1df68dfd-3b6d-4491-872f-00a0fc6c5a64')
 GO
 
 INSERT INTO [dbo].[FlowInstance]  VALUES (N'b918eb3a-0fd4-4df9-a3a3-0bbf2aa5746d', N'', N'1564334869743', N'test的普通请假2019-07-29 01:27:53', N'1564334038904', N'4', N'node_4', N'1564334036152', N'{"title":"newFlow_1","initNum":9,"lines":[{"id":"1564334041040","type":"sl","from":"1564334032785","to":"1564334035352","name":"","dash":false,"Compares":null},{"id":"1564334041720","type":"sl","from":"1564334035352","to":"1564334036152","name":"","dash":false,"Compares":null},{"id":"1564334042927","type":"sl","from":"1564334036152","to":"1564334038904","name":"","dash":false,"Compares":null}],"nodes":[{"id":"1564334032785","name":"node_1","type":"start round mix","left":19,"top":36,"width":26,"height":26,"alt":true,"setInfo":null},{"id":"1564334035352","name":"所有人可以审批","type":"node","left":133,"top":50,"width":104,"height":56,"alt":true,"setInfo":{"NodeDesignate":"ALL_USER","NodeDesignateData":{"users":[],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"http://xxxx.com/api/workflow/callback","NodeRejectType":null,"Taged":1,"UserName":"超级管理员","UserId":"00000000-0000-0000-0000-000000000000","Description":"","TagedTime":"2019-10-29 14:44","NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334036152","name":"所有人可以审批","type":"node","left":139,"top":123,"width":104,"height":56,"alt":true,"setInfo":{"NodeDesignate":"ALL_USER","NodeDesignateData":{"users":[],"roles":[],"orgs":null},"NodeCode":null,"NodeName":null,"ThirdPartyUrl":"","NodeRejectType":null,"Taged":1,"UserName":"超级管理员","UserId":"00000000-0000-0000-0000-000000000000","Description":"","TagedTime":"2019-10-29 14:44","NodeConfluenceType":"all","ConfluenceOk":null,"ConfluenceNo":null}},{"id":"1564334038904","name":"node_4","type":"end round","left":47,"top":193,"width":26,"height":26,"alt":true,"setInfo":null}],"areas":[]}', N'61806396-9498-492b-bc22-9f9e95a389bc', N'', N'{"REASON":"身体原因","DAYS":"1","CUSTOME_NAME":"玉宝"}', N'0', N'[{"type":"text","name":"REASON","title":"REASON","value":"身体原因","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"REASON\" value=\"身体原因\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"},{"leipiplugins":"select","name":"DAYS","title":"DAYS","size":"1","orgwidth":"150","style":"width: 150px;","value":"1,3,5,10","selected":"selected","content":"<span leipiplugins=\"select\"><select name=\"leipiNewField\" title=\"DAYS\" leipiplugins=\"select\" size=\"1\" orgwidth=\"150\" style=\"width: 150px;\"><option value=\"1\" selected=\"selected\">1</option><option value=\"3\">3</option><option value=\"5\">5</option><option value=\"10\">10</option></select>&nbsp;&nbsp;</span>"},{"type":"text","name":"CUSTOME_NAME","title":"CUSTOME_NAME","value":"玉宝","leipiplugins":"text","orghide":"0","orgalign":"left","orgwidth":"150","orgtype":"text","style":"text-align: left; width: 150px;","content":"<input name=\"leipiNewField\" type=\"text\" title=\"CUSTOME_NAME\" value=\"玉宝\" leipiplugins=\"text\" orghide=\"0\" orgalign=\"left\" orgwidth=\"150\" orgtype=\"text\" style=\"text-align: left; width: 150px;\"/>"}]', N'<p style="text-align: center;"><span style="font-size: 36px;">请假条</span></p><p><span style="font-size: 36px;"><br/></span></p><p style="text-align: center;">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style="text-align: right;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', N'ef89f96a-af33-407c-b02e-897faf46ecf0', N'', N'0', N'2019-07-29 01:28:05.000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'0', N'', N'1', N'')
@@ -1705,55 +1705,61 @@ GO
 -- ----------------------------
 -- Records of [Module]
 -- ----------------------------
-INSERT INTO [dbo].[Module]  VALUES (N'0031262c-689c-4b96-bae2-2c9d67076ade', N'.0.1.9.', N'流程设计', N'/flowSchemes/index', N'', N'0', N'0', N'layui-icon-engine', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'FlowScheme', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'0031262c-689c-4b96-bae2-2c9d67076ade', N'.0.1.9.', N'流程设计', N'/flowSchemes/index', N'', N'0', N'0', N'layui-icon-engine', N'0', N'基础配置', N'', N'6', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'FlowScheme', N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'.0.2.', N'流程中心', N'/', N'', N'0', N'0', N'layui-icon-senior', N'0', N'根节点', N'', N'0', NULL, NULL, N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'.0.2.', N'流程中心', N'/', N'', N'0', N'0', N'layui-icon-senior', N'0', N'根节点', N'', N'3', NULL, NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'37bb9414-19a0-4223-9056-71f8c758a930', N'.0.2.5.', N'已处理流程', N'/flowinstances/disposed', N'', N'0', N'0', N'layui-icon-ok-circle', N'0', N'流程中心', N'', N'0', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstanceDisposed', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', N'.0.4.', N'仓储中心', N'/', N'', N'0', N'0', N'', N'0', N'根节点', N'', N'2', NULL, N'', N'0')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'4abafc83-c8f5-452f-9882-e113a86e7a3e', N'.0.2.6.', N'待处理流程', N'/flowinstances/wait', N'', N'0', N'0', N'layui-icon-help', N'0', N'流程中心', N'', N'0', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstanceWait', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'37bb9414-19a0-4223-9056-71f8c758a930', N'.0.2.5.', N'已处理流程', N'/flowinstances/disposed', N'', N'0', N'0', N'layui-icon-ok-circle', N'0', N'流程中心', N'', N'3', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstanceDisposed', N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', N'.0.1.10.', N'部门管理', N'/OrgManager/Index', N'', N'0', N'0', N'layui-icon-group', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Org', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'4abafc83-c8f5-452f-9882-e113a86e7a3e', N'.0.2.6.', N'待处理流程', N'/flowinstances/wait', N'', N'0', N'0', N'layui-icon-help', N'0', N'流程中心', N'', N'1', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstanceWait', N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'7580672f-a390-4bb6-982d-9a4570cb5199', N'.0.1.', N'基础配置', N' /', N'', N'0', N'0', N'layui-icon-set-fill', N'0', N'根节点', N'', N'0', NULL, NULL, N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', N'.0.1.10.', N'部门管理', N'/OrgManager/Index', N'', N'0', N'0', N'layui-icon-group', N'0', N'基础配置', N'', N'4', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Org', N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f5', N'.0.3.1.', N'系统日志', N'/SysLogs/Index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'消息日志', N'', N'0', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysLog', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'7580672f-a390-4bb6-982d-9a4570cb5199', N'.0.1.', N'基础配置', N' /', N'', N'0', N'0', N'layui-icon-set-fill', N'0', N'根节点', N'', N'1', NULL, NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f6', N'.0.3.2.', N'我的消息', N'/SysMessages/Index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'消息日志', N'', N'0', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysMessage', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f5', N'.0.3.1.', N'系统日志', N'/SysLogs/Index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'消息日志', N'', N'1', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysLog', N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'92b00259-2d15-43e7-9321-adffb29e8bf2', N'.0.1.11.', N'表单设计', N'/forms/index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Form', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f6', N'.0.3.2.', N'我的消息', N'/SysMessages/Index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'消息日志', N'', N'2', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysMessage', N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'9486ff22-b696-4d7f-8093-8a3e53c45453', N'.0.2.7.', N'我的流程', N'/flowInstances/Index', N'', N'0', N'0', N'layui-icon-share', N'0', N'流程中心', N'', N'0', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstance', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'92b00259-2d15-43e7-9321-adffb29e8bf2', N'.0.1.11.', N'表单设计', N'/forms/index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'基础配置', N'', N'5', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Form', N'1')
+GO
+
+INSERT INTO [dbo].[Module]  VALUES (N'9486ff22-b696-4d7f-8093-8a3e53c45453', N'.0.2.7.', N'我的流程', N'/flowInstances/Index', N'', N'0', N'0', N'layui-icon-share', N'0', N'流程中心', N'', N'2', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstance', N'1')
+GO
+
+INSERT INTO [dbo].[Module]  VALUES (N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'.0.4.1.', N'入库订单', N'/wmsinboundordertbls/index', N'', N'0', N'0', N'', N'0', N'仓储中心', N'', N'1', N'15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', N'WmsInboundOrderTbl', N'0')
 GO
 
 INSERT INTO [dbo].[Module]  VALUES (N'9a87c0fa-9172-42a1-9505-7492433dcb8e', N'.0.1.16.', N'数据权限', N'/dataprivilegerules/index', N'', N'0', N'0', N'layui-icon-auz', N'0', N'基础配置', N'', N'1', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'DataPrivilegeRule', N'0')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'.0.1.12.', N'字典分类', N'/Categories/Index', N'', N'0', N'0', N'layui-icon-app', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Category', N'0')
+INSERT INTO [dbo].[Module]  VALUES (N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'.0.1.12.', N'字典分类', N'/Categories/Index', N'', N'0', N'0', N'layui-icon-app', N'0', N'基础配置', N'', N'7', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Category', N'0')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'.0.3.', N'消息日志', N' /', N'', N'0', N'0', N'layui-icon-set-fill', N'0', N'根节点', N'', N'0', NULL, NULL, N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'.0.3.', N'消息日志', N' /', N'', N'0', N'0', N'layui-icon-set-fill', N'0', N'根节点', N'', N'4', NULL, NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'bc80478d-0547-4437-9cff-be4b40144bdf', N'.0.1.13.', N'模块管理', N'/ModuleManager/Index', N'', N'0', N'0', N'layui-icon-tabs', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Module', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'bc80478d-0547-4437-9cff-be4b40144bdf', N'.0.1.13.', N'模块管理', N'/ModuleManager/Index', N'', N'0', N'0', N'layui-icon-tabs', N'0', N'基础配置', N'', N'1', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Module', N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'bedb41a2-f310-4775-af99-01be08adda93', N'.0.1.14.', N'角色管理', N'/RoleManager/Index', N'', N'0', N'0', N'layui-icon-user', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Role', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'bedb41a2-f310-4775-af99-01be08adda93', N'.0.1.14.', N'角色管理', N'/RoleManager/Index', N'', N'0', N'0', N'layui-icon-user', N'0', N'基础配置', N'', N'2', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Role', N'1')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', N'.0.1.3.', N'资源管理', N'/Resources/Index', N'', N'0', N'0', N'layui-icon-cellphone', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Resource', N'0')
+INSERT INTO [dbo].[Module]  VALUES (N'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', N'.0.1.3.', N'资源管理', N'/Resources/Index', N'', N'0', N'0', N'layui-icon-cellphone', N'0', N'基础配置', N'', N'8', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Resource', N'0')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', N'.0.1.15.', N'用户管理', N'/UserManager/Index', N'', N'0', N'0', N'layui-icon-friends', N'0', N'基础配置', N'', N'0', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'User', N'1')
+INSERT INTO [dbo].[Module]  VALUES (N'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', N'.0.1.15.', N'用户管理', N'/UserManager/Index', N'', N'0', N'0', N'layui-icon-friends', N'0', N'基础配置', N'', N'3', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'User', N'1')
 GO
 
 
@@ -1877,6 +1883,9 @@ GO
 -- ----------------------------
 -- Records of [ModuleElement]
 -- ----------------------------
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'06fe4738-b4f4-4ecf-b9da-07dd3bb26cb3', N'btnDel', N'撤销订单', N'', N'', N'layui-icon-delete', N'layui-btn-danger', N'', N'2', N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'', N'')
+GO
+
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'0d25438e-1436-48e0-aedf-0f1690693282', N'btnAccessModule', N'为角色分配模块', N'', N'assignRoleModule(this)', N'layui-icon-search', N'layui-btn-normal', N'为角色分配模块', N'4', N'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL)
 GO
 
@@ -1998,6 +2007,9 @@ INSERT INTO [dbo].[ModuleElement]  VALUES (N'a7eea5dc-3b10-4550-9cf3-0dba9b9fc32
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'b3e23ebc-0ff2-41b3-bff0-fd5e93f6828a', N'btnDetail', N'查看详情', N'', N'', N'layui-icon-search', N'layui-btn-normal', N'', N'0', N'37bb9414-19a0-4223-9056-71f8c758a930', N'', N'')
+GO
+
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'c35d8f5b-0d38-4f31-84f9-39e476eeab08', N'btnAdd', N'新订单', N'', N'', N'layui-icon-add-1', N'layui-btn-normal', N'', N'1', N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'', N'')
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'c3d7b478-21e9-4c1e-b866-a3c80be7909b', N'btnRefresh', N'刷新', N'', N'refresh()', N'layui-icon-refresh', N'layui-btn-normal', N'刷新分类', N'0', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL)
@@ -2185,16 +2197,61 @@ GO
 -- ----------------------------
 -- Records of [Org]
 -- ----------------------------
-INSERT INTO [dbo].[Org]  VALUES (N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'.0.4.', N'研发小组', N'', N'根节点', N'0', N'0', N'', N'0', N'0', N'', N'2016-10-14 11:40:31.000', N'0', N'1', NULL, NULL, NULL)
+INSERT INTO [dbo].[Org]  VALUES (N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'.0.1.4.1.', N'研发小组', N'', N'汇丰软件部', N'0', N'0', N'', N'0', N'0', N'', N'2016-10-14 11:40:31.000', N'0', N'1', N'86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Org]  VALUES (N'543a9fcf-4770-4fd9-865f-030e562be238', N'.0.1.', N'集团总部', N'', N'根节点', N'0', N'0', N'', N'0', N'0', N'', N'2016-10-14 11:37:13.000', N'0', N'0', NULL, NULL, NULL)
+INSERT INTO [dbo].[Org]  VALUES (N'182dac38-64a0-414c-990c-7c9b7558a367', N'.0.4.', N'中部片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:52:38.000', N'0', N'0', NULL, N'', N'')
 GO
 
-INSERT INTO [dbo].[Org]  VALUES (N'86449128-d5ac-44bf-b999-f7735b7458fd', N'.0.2.1.', N'汇丰软件部', N'', N'汇丰', N'0', N'0', N'', N'1', N'0', N'', N'2016-05-26 15:11:03.000', N'0', N'1', N'c36e43df-3a99-45da-80d9-3ac5d24f4014', NULL, NULL)
+INSERT INTO [dbo].[Org]  VALUES (N'1b965fff-3dcd-42ff-9624-2c8eb4f9b1c6', N'.0.5.1.', N'广州营销中心', N'', N'华南片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:56:39.000', N'0', N'0', N'8e31553c-cab8-4eb3-90b5-5f8ff1d21801', N'', N'')
 GO
 
-INSERT INTO [dbo].[Org]  VALUES (N'c36e43df-3a99-45da-80d9-3ac5d24f4014', N'.0.2.', N'汇丰', N'', N'根节点', N'0', N'0', N'', N'0', N'0', N'', N'2016-05-26 15:10:40.000', N'0', N'1', NULL, NULL, NULL)
+INSERT INTO [dbo].[Org]  VALUES (N'2089637b-403d-4d4d-91ff-c8a554973f96', N'.0.4.1.', N'海外市场部', N'', N'中部片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:53:54.000', N'0', N'0', N'182dac38-64a0-414c-990c-7c9b7558a367', N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'3d2ad14c-2c56-4a90-a2db-6bde26b0b8b3', N'.0.3.1.', N'成都营销中心', N'', N'西南片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:55:42.000', N'0', N'0', N'60620558-89a2-4b28-8637-52f514773725', N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'4a3920f1-1470-477e-97ec-0996eb83b638', N'.0.1.6.', N'市场2部', N'', N'总部大区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:55:07.000', N'0', N'0', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'543a9fcf-4770-4fd9-865f-030e562be238', N'.0.1.', N'总部大区', N'', N'根节点', N'0', N'0', N'', N'0', N'0', N'', N'2016-10-14 11:37:13.000', N'0', N'0', NULL, NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'60620558-89a2-4b28-8637-52f514773725', N'.0.3.', N'西南片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:52:30.000', N'0', N'0', NULL, N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'66386671-0494-4e83-8346-fbcf73283f7b', N'.0.2.', N'华东片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:52:19.000', N'0', N'0', NULL, N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'8047e605-c54a-48bd-81da-daa9c1fc9091', N'.0.4.2.', N'郑州营销中心', N'', N'中部片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:54:50.000', N'0', N'0', N'182dac38-64a0-414c-990c-7c9b7558a367', N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'86449128-d5ac-44bf-b999-f7735b7458fd', N'.0.1.4.', N'软件部', N'', N'总部大区', N'0', N'0', N'', N'1', N'0', N'', N'2016-05-26 15:11:03.000', N'0', N'1', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'8e31553c-cab8-4eb3-90b5-5f8ff1d21801', N'.0.5.', N'华南片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:52:55.000', N'0', N'0', NULL, N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'9cd918bf-28bc-44de-8e07-23cacbb67f42', N'.0.1.7.', N'总经办', N'', N'总部大区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:57:40.000', N'0', N'0', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'b2083488-64e5-44cc-b8f4-929ffa6f2f72', N'.0.2.1.', N'上海VIP中心', N'', N'华东片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:56:25.000', N'0', N'0', N'66386671-0494-4e83-8346-fbcf73283f7b', N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'c36e43df-3a99-45da-80d9-3ac5d24f4014', N'.0.1.5.', N'市场1部', N'', N'总部大区', N'0', N'0', N'', N'0', N'0', N'', N'2016-05-26 15:10:40.000', N'0', N'1', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'c455d009-12d7-4c78-953f-264f0ca67a3d', N'.0.6.1.', N'天津营销中心', N'', N'华北片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:56:54.000', N'0', N'0', N'eed8756d-587b-46de-96c7-0a400e3d80fa', N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'ced1b2f0-4b53-44b8-9c42-a5d607ccc9c9', N'.0.1.8.', N'上市办', N'', N'总部大区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:57:53.000', N'0', N'0', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'df442c27-68a0-428e-a309-cba23a994a9d', N'.0.3.2.', N'重庆营销中心', N'', N'西南片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:56:06.000', N'0', N'0', N'60620558-89a2-4b28-8637-52f514773725', N'', N'')
+GO
+
+INSERT INTO [dbo].[Org]  VALUES (N'eed8756d-587b-46de-96c7-0a400e3d80fa', N'.0.6.', N'华北片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:53:04.000', N'0', N'0', NULL, N'', N'')
 GO
 
 
@@ -2302,6 +2359,9 @@ GO
 -- ----------------------------
 -- Records of [Relevance]
 -- ----------------------------
+INSERT INTO [dbo].[Relevance]  VALUES (N'01ba383d-fe81-473a-84a1-f64ce8a5aae5', N'', N'UserOrg', N'0', N'2019-10-31 21:50:42.000', N'', N'229f3a49-ab27-49ce-b383-9f10ca23a9d5', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'023c001e-d7be-4e1d-b5dc-8c14535a2cf9', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', N'', N'')
 GO
 
@@ -2329,7 +2389,7 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'0b3d3a9b-8a96-43d4-918c-fa7e3ea5f5ca', N'', N'RoleOrg', N'0', N'2018-09-12 00:08:37.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'0b729611-c225-4fb6-8584-404a58373ff0', N'', N'UserOrg', N'0', N'2018-09-12 00:10:31.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'0f056416-c2ce-4045-af18-e935928c7139', N'', N'UserOrg', N'0', N'2019-10-31 21:51:39.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'0fd5b371-b010-4846-8833-95cc1e813a32', N'', N'UserElement', N'0', N'2016-09-07 15:31:16.000', N'0', N'ea25646b-964b-4d41-ab03-d8964e1494fb', N'68484265-7802-4f06-b024-33e8b2f2edcf', NULL, NULL)
@@ -2356,16 +2416,10 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'13f1fd43-b36f-4cd9-9870-952645e0c23a', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'c7d7daf0-3669-4a22-8bed-b092617deb9c', N'', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'142584e6-7770-4b9a-863d-740577597ee5', N'', N'UserOrg', N'0', N'2019-10-29 20:18:23.000', N'', N'de8be521-f1ec-4483-b124-0be342890507', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'', N'')
-GO
-
 INSERT INTO [dbo].[Relevance]  VALUES (N'1490edd4-9bd3-4e71-bfa4-56f6558c1d3f', N'', N'UserElement', N'0', N'2018-04-06 09:48:24.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'16154fc4-d18e-44a3-bcf2-5539b168aba7', N'', N'RoleElement', N'0', N'2016-10-24 17:25:15.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'18cc3217-28a6-49b2-9a20-080230065984', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'1729e26b-ad34-4726-b6fa-8fc0dbd4ee6c', N'', N'UserOrg', N'0', N'2019-10-29 17:05:03.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'1740ff26-a4d0-44cc-9fab-a0105c2c60b6', N'', N'UserOrg', N'0', N'2017-10-12 13:59:49.000', N'', N'63c9c82a-e0d3-4bde-bbd2-057cda2f5283', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
@@ -2407,6 +2461,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'27c4d50c-32da-4dbc-88a1-84b343cdd649', N'', N'UserElement', N'0', N'2016-10-20 17:01:00.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'6839a297-350b-4215-b680-4e5dfdae5615', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'2942a7e1-5100-4523-b039-181cfc19a4cf', N'', N'UserOrg', N'0', N'2019-10-31 21:51:39.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'29b06cd6-af0c-4c63-9aba-e5431c5d62ec', N'', N'UserOrg', N'0', N'2017-10-12 09:13:38.000', N'', N'3eacdedd-e93a-4816-b49c-99ba3d5323c2', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
 GO
 
@@ -2414,9 +2471,6 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'2a1b833c-dc81-46e2-b308-e22e0f112f77', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'2a36a2b7-41aa-4190-b88c-75d44a56ad6e', N'', N'UserModule', N'0', N'2017-02-06 00:14:18.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'92b00259-2d15-43e7-9321-adffb29e8bf2', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'2ab3e3b4-cdcc-4f8b-86f1-aa9c2d51d1dd', N'', N'UserOrg', N'0', N'2018-09-12 00:10:43.000', N'', N'229f3a49-ab27-49ce-b383-9f10ca23a9d5', N'86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'2bb3fddb-0f51-442e-8dbf-236beb47d8a6', N'', N'RoleOrg', N'0', N'2018-04-14 13:16:45.000', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
@@ -2446,7 +2500,7 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'361feb63-bde2-49c7-86ec-6df3ec6f0fe3', N'', N'RoleElement', N'0', N'2016-09-04 23:21:13.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'1c870438-4260-43a5-8996-a6e1dc8bbf6a', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'386d6cb7-c465-422c-974f-3250b0e4888f', N'', N'UserOrg', N'0', N'2018-09-12 00:10:35.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'392a5a3c-245c-49b3-ba9a-e6e90551f01e', N'', N'UserOrg', N'0', N'2019-10-31 21:51:39.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'86449128-d5ac-44bf-b999-f7735b7458fd', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'392dc41e-7186-4efb-a8e5-b5317e4122fb', N'', N'RoleResource', N'0', N'2018-09-10 12:54:14.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'OPENAUTH_DELETEACCOUNT', NULL, NULL)
@@ -2464,7 +2518,7 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'4190f00a-11a0-4814-849b-cc5232fa4dd4', N'', N'RoleResource', N'0', N'2018-09-12 00:15:54.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'OPENAUTH_DELETEACCOUNT', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'45fcbc8b-2951-40a1-8329-4bdf3c8f70e4', N'', N'UserOrg', N'0', N'2018-09-12 00:10:35.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'4459ffd7-446b-456b-aee5-48e67ca000f8', N'', N'UserOrg', N'0', N'2019-10-31 21:51:45.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'460d1c98-2a68-43cf-8d38-d40ceb89916f', N'', N'UserOrg', N'0', N'2017-10-12 09:13:38.000', N'', N'3eacdedd-e93a-4816-b49c-99ba3d5323c2', N'86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL)
@@ -2489,6 +2543,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'4e613188-0387-4d17-a60d-703b4a606d75', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'4e665304-9f05-410e-b68f-44d45281b788', N'', N'RoleOrg', N'0', N'2018-09-12 00:08:47.000', N'', N'3e761e88-ddf7-4a62-b219-9a315b4564f2', N'c36e43df-3a99-45da-80d9-3ac5d24f4014', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'4e693bbd-8ddb-42af-b888-30885612c154', N'', N'UserOrg', N'0', N'2019-10-31 21:58:43.000', N'', N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'3d2ad14c-2c56-4a90-a2db-6bde26b0b8b3', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'4e6c69a6-eeba-45d9-923d-16a7c002ac3e', N'', N'RoleModule', N'0', N'2019-01-08 02:22:31.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'', N'')
@@ -2522,6 +2579,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'55b10ecc-3fb3-4127-b69e-e7a3467d7a1a', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'5725ff79-43c6-4778-bbff-131cf364dab6', N'', N'UserElement', N'0', N'2016-10-20 17:01:01.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'cf7388be-2677-427c-ad78-8f00f1062b96', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'575221eb-0e4d-4cfa-9cd8-59607784d43d', N'', N'UserRole', N'0', N'2019-10-31 21:59:41.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'3e761e88-ddf7-4a62-b219-9a315b4564f2', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'5a20d59c-6ee6-4fe2-98fe-7b35b11026ae', N'', N'UserElement', N'0', N'2016-09-07 15:30:20.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'68484265-7802-4f06-b024-33e8b2f2edcf', NULL, NULL)
@@ -2566,6 +2626,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'68912e65-256e-45b6-b48e-036382598d32', N'', N'RoleOrg', N'0', N'2016-10-17 10:03:49.000', N'0', N'2eb423d6-6ad9-4efe-b423-872478a2a434', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'68984a83-ce96-4144-9e23-0e0f2249fb45', N'', N'UserOrg', N'0', N'2019-10-31 21:51:30.000', N'', N'de8be521-f1ec-4483-b124-0be342890507', N'c36e43df-3a99-45da-80d9-3ac5d24f4014', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'6b9c4789-042c-4f6f-a749-ee68ee87462d', N'', N'ProcessUser', N'0', N'2016-10-27 16:47:52.000', N'0', N'054ff054-d8ae-4911-a596-8fb1f66b348f', N'3a95e392-07d4-4af3-b30d-140ca93340f5', NULL, NULL)
 GO
 
@@ -2605,6 +2668,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'75340ad3-fb80-4646-b1de-ba801688ddc2', N'', N'RoleElement', N'0', N'2016-09-04 23:21:04.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'5ed1681c-13d2-4c87-8675-a8d95c0b40ae', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'77ac794c-9142-443f-b19c-3b9d960c8ba4', N'', N'UserOrg', N'0', N'2019-10-31 21:51:45.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'86449128-d5ac-44bf-b999-f7735b7458fd', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'77bd93da-2c2b-4ba8-bf05-3a1382811a6a', N'', N'RoleModule', N'0', N'2016-09-02 17:03:39.000', N'0', N'211e12c7-e466-496e-8d26-0660a38e24cc', N'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', NULL, NULL)
 GO
 
@@ -2617,6 +2683,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'797c6e5f-7f3c-4891-89b9-a054e10f6c00', N'', N'UserModule', N'0', N'2018-04-06 09:48:01.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'37bb9414-19a0-4223-9056-71f8c758a930', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'7dcc9577-f27b-429f-8552-d223d4b48617', N'', N'UserRole', N'0', N'2019-10-31 21:59:41.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'7f25286f-246b-4143-98eb-c3e574fe7455', N'', N'ProcessUser', N'0', N'2016-09-07 17:33:39.000', N'0', N'52cc7933-a045-4dcc-8c17-1b618bfa772b', N'3a95e392-07d4-4af3-b30d-140ca93340f5', NULL, NULL)
 GO
 
@@ -2624,9 +2693,6 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'7fd7f976-f10e-44aa-a7ba-7ca40d2e8f90', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'80310629-5e52-482c-9a0f-5c5bdfabcd9e', N'', N'RoleOrg', N'0', N'2016-09-05 00:00:00.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'8203d3db-c0d6-44b1-96c9-6e78e714657e', N'', N'UserOrg', N'0', N'2019-10-29 20:18:23.000', N'', N'de8be521-f1ec-4483-b124-0be342890507', N'86449128-d5ac-44bf-b999-f7735b7458fd', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'832f4a8f-7791-4aa6-bcd2-20dcb6f5ef37', N'', N'UserElement', N'0', N'2016-09-02 14:53:04.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'15a4f88c-4fae-4cab-ba2f-0cbd2cca8736', NULL, NULL)
@@ -2647,6 +2713,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'89e5dd60-0981-4cd9-b9ad-577b7b817556', N'', N'RoleDataProperty', N'0', N'2019-10-29 15:28:12.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Category', N'Id', N'')
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'8af3581e-257f-4655-bac2-5b5afb85ef88', N'', N'UserOrg', N'0', N'2019-10-31 21:59:08.000', N'', N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'b2083488-64e5-44cc-b8f4-929ffa6f2f72', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'8b633f3c-965b-4e35-8496-c364890d7760', N'', N'RoleElement', N'0', N'2016-09-04 23:21:09.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'c3d7b478-21e9-4c1e-b866-a3c80be7909b', NULL, NULL)
 GO
 
@@ -2657,6 +2726,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'9043a72d-862f-49b4-bfe3-51d9bd289f14', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'9210adfa-b783-4368-8c8d-86c30ec9cdd1', N'', N'RoleModule', N'0', N'2019-01-08 02:22:31.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'37bb9414-19a0-4223-9056-71f8c758a930', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'92b2d699-9875-4978-af79-24c83ff4e212', N'', N'UserOrg', N'0', N'2019-10-31 21:58:43.000', N'', N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'df442c27-68a0-428e-a309-cba23a994a9d', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'92f0b297-96c1-47d4-84dd-571374431bc0', N'', N'RoleElement', N'0', N'2016-09-04 23:21:04.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'84694ea5-d6e1-4a65-8a59-7b5b779688d4', NULL, NULL)
@@ -2678,6 +2750,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'965f010b-2fd6-4b34-ba23-3e44c1af2877', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'966531b6-584c-4f0a-b934-c33aab795f1c', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'2d595a2a-5de5-479e-a331-b53c799a6b10', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'98136fef-6d02-4823-bc12-6e5e619e1275', N'', N'UserRole', N'0', N'2019-10-31 21:59:25.000', N'', N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'9ad706e3-8e6b-4bc7-a502-371b298ef062', N'', N'RoleElement', N'0', N'2016-09-04 23:21:13.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'ef42721f-d223-4a00-a1d9-80b81121f21a', NULL, NULL)
@@ -2713,13 +2788,7 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'a4df5a15-fd77-40fb-84cd-3b7844bd0147', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'1a473afd-cbd4-41e9-9471-81f9435aaabe', N'', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'a57900b2-caf1-4cbd-8ac2-f8dd9a40199d', N'', N'UserRole', N'0', N'2018-09-12 00:10:24.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', NULL, NULL)
-GO
-
 INSERT INTO [dbo].[Relevance]  VALUES (N'a5bef7bf-ecdb-4480-ad64-b39a02269607', N'', N'UserModule', N'0', N'2018-04-06 09:48:37.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'069475e3-c997-487a-9f29-e6a864c5c1d4', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'a72c1bc6-1fe1-4186-86e9-d1d9afc6b0eb', N'', N'UserOrg', N'0', N'2019-10-29 17:05:03.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'2b1d982f-d8e5-4fff-aaf5-4400fd9e204f', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'a8094b46-de5a-40ea-a8ee-69ea905480ef', N'', N'RoleModule', N'0', N'2016-09-05 09:21:56.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'069475e3-c997-487a-9f29-e6a864c5c1d4', NULL, NULL)
@@ -2732,9 +2801,6 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'a9821db0-49bd-49be-a554-afa811c99760', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'aa051096-a23a-431d-9053-bb954f9453a7', N'', N'RoleElement', N'0', N'2016-09-04 23:20:54.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'4bfa8ea0-6b0d-426f-8687-b654575ca780', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'aa72812e-b3de-4466-bd6c-2391450bbdbc', N'', N'UserOrg', N'0', N'2019-10-29 17:05:03.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'c36e43df-3a99-45da-80d9-3ac5d24f4014', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'ab190397-32a8-4b0f-bf34-2d648d6fe974', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'Name', N'')
@@ -2779,6 +2845,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'b08d7763-a725-406f-a7d5-d144f00d716e', N'', N'UserOrg', N'0', N'2016-09-02 13:56:41.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'b17f9a6d-ab0b-4967-aef2-ce7d95fa581a', N'', N'UserRole', N'0', N'2019-10-31 21:59:34.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'b241dd3d-2965-44e4-929d-9dacb6444e09', N'', N'RoleOrg', N'0', N'2018-04-14 13:16:45.000', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
 GO
 
@@ -2806,7 +2875,7 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'b9e63d17-35c8-4456-abab-8f43a1c99adc', N'', N'UserModule', N'0', N'2018-04-06 09:47:59.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'ba41a404-f203-4467-baf5-a179563b1cf2', N'', N'UserOrg', N'0', N'2019-10-29 17:05:03.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'ba5f4663-04e1-4b09-8e84-459507df2aeb', N'', N'UserOrg', N'0', N'2019-10-31 21:50:51.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'bbdc3ea9-3f21-48b0-9d7a-39545d6183d0', N'', N'UserElement', N'0', N'2018-04-06 09:48:25.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'826b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
@@ -2825,6 +2894,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'bed2842a-e9ff-4598-889f-2889033f8e67', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'bee6572d-8fb8-4e0e-af15-93aafc989717', N'', N'RoleElement', N'0', N'2016-09-04 23:20:42.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'68fc793f-069f-43e1-a012-42ac2d7c585c', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'bef744ab-2323-4552-9a09-f529911f8c59', N'', N'UserOrg', N'0', N'2019-10-31 21:58:43.000', N'', N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'60620558-89a2-4b28-8637-52f514773725', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'bf096b00-8793-43ea-b56b-f72e4e8444a9', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'68484265-7802-4f06-b024-33e8b2f2edcf', N'', N'')
@@ -2864,9 +2936,6 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'c98b3d02-a76b-4ecc-94a5-cfeffd5e29fb', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'd22b89f8-50d1-4816-9bb2-576ea49d9245', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'68484265-7802-4f06-b024-33e8b2f2edcf', N'', N'')
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'd97f0ff6-3a34-42cf-91c5-3f2ce81061e8', N'', N'UserOrg', N'0', N'2019-10-29 17:05:03.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'86449128-d5ac-44bf-b999-f7735b7458fd', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'da6c0645-0bf9-4ade-9dd3-1b09e91e504c', N'', N'RoleElement', N'0', N'2016-09-05 09:22:07.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'816b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
@@ -2923,12 +2992,6 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'f03f503b-3898-44a0-a588-3ba4e27b72d5', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'Id', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'f0ab6f79-a9b6-4ddf-9a0c-c28330f029dd', N'', N'UserRole', N'0', N'2019-10-29 21:13:04.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'', N'')
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'f41de4d2-369d-46e1-b84d-4bd2c37b8c20', N'', N'UserOrg', N'0', N'2018-09-12 00:10:31.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
-GO
-
 INSERT INTO [dbo].[Relevance]  VALUES (N'f42343b9-adc2-4368-9028-7ed2f76fba68', N'', N'UserRole', N'0', N'2019-10-29 17:00:19.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'', N'')
 GO
 
@@ -2950,10 +3013,13 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'f6a9cdf7-50c1-48b4-ae29-f999691f3a1d', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'TypeId', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'f6e2b76f-8cce-42de-af8e-b379e22b12c8', N'', N'UserOrg', N'0', N'2019-10-29 20:18:23.000', N'', N'de8be521-f1ec-4483-b124-0be342890507', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'fa7c4d39-b31a-4668-8716-d40a62aa722b', N'', N'UserOrg', N'0', N'2017-10-12 13:59:49.000', N'', N'63c9c82a-e0d3-4bde-bbd2-057cda2f5283', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'fa7c4d39-b31a-4668-8716-d40a62aa722b', N'', N'UserOrg', N'0', N'2017-10-12 13:59:49.000', N'', N'63c9c82a-e0d3-4bde-bbd2-057cda2f5283', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'feeacec1-f3a5-4edc-b16e-d77266c2e53a', N'', N'UserRole', N'0', N'2019-10-31 21:59:34.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'feec44e3-3f88-4ac2-a4ad-a5bd3161f1bb', N'', N'UserOrg', N'0', N'2019-10-31 21:59:08.000', N'', N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'66386671-0494-4e83-8346-fbcf73283f7b', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'fffb23bb-4b47-4a4d-bf93-9d7c8755b6f0', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'84e38920-f6e5-499c-bf52-a3c6f8499ff7', N'', N'')
@@ -3827,6 +3893,12 @@ INSERT INTO [dbo].[User]  VALUES (N'49df1602-f5f3-4d52-afb7-3802da619558', N'adm
 GO
 
 INSERT INTO [dbo].[User]  VALUES (N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'test', N'test', N'1', N'0', N'', N'2017-12-11 16:19:00.000', N'', N'', N'')
+GO
+
+INSERT INTO [dbo].[User]  VALUES (N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'test77', N'test77', N'test77', N'0', N'0', N'', N'2019-10-31 21:59:08.000', N'00000000-0000-0000-0000-000000000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[User]  VALUES (N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'test66', N'test66', N'test66', N'0', N'0', N'', N'2019-10-31 21:58:43.000', N'00000000-0000-0000-0000-000000000000', N'', N'')
 GO
 
 INSERT INTO [dbo].[User]  VALUES (N'de8be521-f1ec-4483-b124-0be342890507', N'test2', N'test2', N'test2', N'1', N'0', N'', N'2017-12-11 16:19:06.000', N'', N'', N'')
@@ -6664,6 +6736,19 @@ EXEC sp_addextendedproperty
 'MS_Description', N'入库通知单（入库订单）',
 'SCHEMA', N'dbo',
 'TABLE', N'WmsInboundOrderTbl'
+GO
+
+
+-- ----------------------------
+-- Records of [WmsInboundOrderTbl]
+-- ----------------------------
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0001', N'2019102203RK0001', N'1', N'1', N'普通入库', N'普通商品', N'2019102203RK0001', N'BJ003', N'CDC001', N'SF', N'SF', N'2019-10-10 00:00:00.0000000', N'', N'1', N'1', N'0', N'1', N'2019-10-31 21:27:14.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-10-31 21:27:14.0000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0002', N'2019102203RK0002', N'1', N'1', N'普通入库', N'普通商品', N'2019102203RK0002', N'BJ003', N'CDC001', N'SF', N'SF', N'2019-10-10 00:00:00.0000000', N'', N'1', N'1', N'0', N'1', N'2019-10-31 21:27:14.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-10-31 21:27:14.0000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0003', N'2019102203RK0003', N'1', N'1', N'普通入库', N'普通商品', N'2019102203RK0003', N'BJ003', N'CDC001', N'SF', N'SF', N'2019-10-10 00:00:00.0000000', N'', N'1', N'1', N'0', N'1', N'2019-10-31 21:27:14.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-10-31 21:27:14.0000000', N'', N'')
 GO
 
 

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Infrastructure;
 using OpenAuth.App.Interface;
+using OpenAuth.App.Request;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -11,8 +13,25 @@ namespace OpenAuth.App
         private RevelanceManagerApp _revelanceApp;
         public void Add(Module model)
         {
+            var loginContext = _auth.GetCurrentUser();
+            if (loginContext == null)
+            {
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+            }
             ChangeModuleCascade(model);
+            
             Repository.Add(model);
+            //当前登录用户的所有角色自动分配模块
+            loginContext.Roles.ForEach(u =>
+            {    
+                _revelanceApp.Assign(new AssignReq
+                {
+                    type=Define.ROLEMODULE,
+                    firstId = u.Id,
+                    secIds = new[]{model.Id}
+                });
+            });
+           
         }
 
         public void Update(Module model)
@@ -69,7 +88,23 @@ namespace OpenAuth.App
 
         public void AddMenu(ModuleElement model)
         {
+            var loginContext = _auth.GetCurrentUser();
+            if (loginContext == null)
+            {
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+            }
             UnitWork.Add(model);
+            
+            //当前登录用户的所有角色自动分配菜单
+            loginContext.Roles.ForEach(u =>
+            {    
+                _revelanceApp.Assign(new AssignReq
+                {
+                    type=Define.ROLEELEMENT,
+                    firstId = u.Id,
+                    secIds = new[]{model.Id}
+                });
+            });
             UnitWork.Save();
         }
         #endregion

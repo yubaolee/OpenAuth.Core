@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Infrastructure;
 using OpenAuth.App.Interface;
+using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
@@ -10,6 +12,7 @@ namespace OpenAuth.App
 {
     public class OrgManagerApp : BaseApp<Org>
     {
+        private RevelanceManagerApp _revelanceApp;
         /// <summary>
         /// 添加部门
         /// </summary>
@@ -18,9 +21,22 @@ namespace OpenAuth.App
         /// <exception cref="System.Exception">未能找到该组织的父节点信息</exception>
         public string Add(Org org)
         {
+            var loginContext = _auth.GetCurrentUser();
+            if (loginContext == null)
+            {
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+            }
             ChangeModuleCascade(org);
 
             Repository.Add(org);
+            
+            //当前登录用户自动添加该部门
+            _revelanceApp.Assign(new AssignReq
+            {
+                type=Define.USERORG,
+                firstId = loginContext.User.Id,
+                secIds = new[]{org.Id}
+            });
 
             return org.Id;
         }
@@ -83,8 +99,10 @@ namespace OpenAuth.App
             return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
         }
 
-        public OrgManagerApp(IUnitWork unitWork, IRepository<Org> repository,IAuth auth) : base(unitWork, repository, auth)
+        public OrgManagerApp(IUnitWork unitWork, IRepository<Org> repository,IAuth auth, 
+            RevelanceManagerApp revelanceApp) : base(unitWork, repository, auth)
         {
+            _revelanceApp = revelanceApp;
         }
     }
 }

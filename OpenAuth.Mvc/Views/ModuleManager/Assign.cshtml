@@ -11,7 +11,7 @@
     <div class="layui-col-xs9">
         <table class="layui-table mainList"
                lay-data="{ page:true, id:'mainList' ,  text: { none: '先分配左边的模块项，再单击模块加载菜单进行分配' }}"
-               lay-filter="list" lay-size="sm">
+               lay-filter="mainList" lay-size="sm">
             <thead>
             <tr>
                 <th lay-data="{checkbox:true, fixed: true}"></th>
@@ -27,7 +27,7 @@
 
          <table class="layui-table propList"
                lay-data="{id:'propList' ,  text: { none: '用户自定义模块可以分配可见字段' }}"
-               lay-filter="proplist" lay-size="sm">
+               lay-filter="propList" lay-size="sm">
             <thead>
             <tr>
                 <th lay-data="{checkbox:true, fixed: true}"></th>
@@ -41,4 +41,4 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/assignModule.js?v=1.6"></script>
+<script type="text/javascript" src="/userJs/assignModule.js?v=1.6.1"></script>

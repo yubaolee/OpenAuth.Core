@@ -212,7 +212,7 @@ layui.config({
 
 
     //分配及取消分配
-    table.on('checkbox(list)', function (obj) {
+    table.on('checkbox(mainList)', function (obj) {
         console.log(obj.checked); //当前是否选中状态
         console.log(obj.data); //选中行的相关数据
         console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
@@ -237,13 +237,13 @@ layui.config({
     //监听页面主按钮操作 end
 
     //监听字段可见分配
-    table.on('checkbox(proplist)', function (obj) {
+    table.on('checkbox(propList)', function (obj) {
         console.log(obj.checked); //当前是否选中状态
         console.log(obj.data); //选中行的相关数据
         console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
         var ids=[];
         if(obj.type=="all"){
-            ids = layui.table.checkStatus('proplist').data.map(function (m) { return m.Key; });
+            ids = layui.table.checkStatus('propList').data.map(function (m) { return m.Key; });
         }else{
             ids =[obj.data.Key]
         }

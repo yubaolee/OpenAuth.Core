@@ -216,12 +216,19 @@ layui.config({
         console.log(obj.checked); //当前是否选中状态
         console.log(obj.data); //选中行的相关数据
         console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+        
+        var ids=[];
+        if(obj.type=="all"){
+            ids = layui.table.checkStatus('mainList').data.map(function (m) { return m.Id; });
+        }else{
+            ids =[obj.data.Id]
+        }
 
         var url = "/RelevanceManager/Assign";
         if (!obj.checked) {
             url = "/RelevanceManager/UnAssign";
         }
-        $.post(url, { type: menuType, firstId: id, secIds: [obj.data.Id] }
+        $.post(url, { type: menuType, firstId: id, secIds: ids}
                        , function (data) {
                            layer.msg(data.Message);
                        }
@@ -234,12 +241,18 @@ layui.config({
         console.log(obj.checked); //当前是否选中状态
         console.log(obj.data); //选中行的相关数据
         console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+        var ids=[];
+        if(obj.type=="all"){
+            ids = layui.table.checkStatus('proplist').data.map(function (m) { return m.Key; });
+        }else{
+            ids =[obj.data.Key]
+        }
 
         var url = "/RelevanceManager/AssignDataProperty";
         if (!obj.checked) {
             url = "/RelevanceManager/UnAssignDataProperty";
         }
-        $.post(url,{ moduleCode: currentNode.Code, roleId: id, 'properties': [obj.data.Key] } 
+        $.post(url,{ moduleCode: currentNode.Code, roleId: id, 'properties': ids } 
                         , function (data) {
                             layer.msg(data.Message);
                         }

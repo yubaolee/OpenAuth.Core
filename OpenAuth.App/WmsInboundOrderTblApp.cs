@@ -60,11 +60,13 @@ namespace OpenAuth.App
             obj.CreateUserId = user.Id;
             obj.CreateUserName = user.Name;
             UnitWork.Add(obj);
-
-            foreach (var detail in req.WmsInboundOrderDtblReqs)
+            if (req.WmsInboundOrderDtblReqs != null && req.WmsInboundOrderDtblReqs.Any())
             {
-                detail.OrderId = obj.Id;
-                _wmsInboundOrderDtblApp.AddNoSave(detail);
+                foreach (var detail in req.WmsInboundOrderDtblReqs)
+                {
+                    detail.OrderId = obj.Id;
+                    _wmsInboundOrderDtblApp.AddNoSave(detail);
+                }
             }
             
             UnitWork.Save();

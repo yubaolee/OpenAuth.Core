@@ -13,6 +13,7 @@ namespace OpenAuth.App
     public class WmsInboundOrderTblApp : BaseApp<WmsInboundOrderTbl>
     {
         private RevelanceManagerApp _revelanceApp;
+        private WmsInboundOrderDtblApp _wmsInboundOrderDtblApp;
 
         /// <summary>
         /// 加载列表
@@ -58,7 +59,15 @@ namespace OpenAuth.App
             var user = _auth.GetCurrentUser().User;
             obj.CreateUserId = user.Id;
             obj.CreateUserName = user.Name;
-            Repository.Add(obj);
+            UnitWork.Add(obj);
+
+            foreach (var detail in req.WmsInboundOrderDtblReqs)
+            {
+                detail.OrderId = obj.Id;
+                _wmsInboundOrderDtblApp.AddNoSave(detail);
+            }
+            
+            UnitWork.Save();
         }
 
          public void Update(AddOrUpdateWmsInboundOrderTblReq obj)
@@ -91,9 +100,10 @@ namespace OpenAuth.App
         }
 
         public WmsInboundOrderTblApp(IUnitWork unitWork, IRepository<WmsInboundOrderTbl> repository,
-            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository,auth)
+            RevelanceManagerApp app, IAuth auth, WmsInboundOrderDtblApp wmsInboundOrderDtblApp) : base(unitWork, repository,auth)
         {
             _revelanceApp = app;
+            _wmsInboundOrderDtblApp = wmsInboundOrderDtblApp;
         }
     }
 }

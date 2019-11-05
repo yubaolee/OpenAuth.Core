@@ -38,13 +38,13 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加
        [HttpPost]
-        public Response Add(AddOrUpdateWmsInboundOrderDtblReq obj)
+        public Response<string> Add(AddOrUpdateWmsInboundOrderDtblReq obj)
         {
-            var result = new Response();
+            var result = new Response<string>();
             try
             {
                 _app.Add(obj);
-
+                result.Result = obj.Id;
             }
             catch (Exception ex)
             {
@@ -55,7 +55,11 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //修改
+        /// <summary>
+        /// 修改明细
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
        [HttpPost]
         public Response Update(AddOrUpdateWmsInboundOrderDtblReq obj)
         {

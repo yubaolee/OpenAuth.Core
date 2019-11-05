@@ -35,7 +35,11 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //添加
+        /// <summary>
+        /// 新增订单，可以同时添加头/明细，也可以只添加头，根据返回的ID再添加明细
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
        [HttpPost]
         public Response Add(AddOrUpdateWmsInboundOrderTblReq obj)
         {
@@ -54,7 +58,11 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //修改
+       /// <summary>
+       /// 修改头信息，不会修改明细
+       /// </summary>
+       /// <param name="obj"></param>
+       /// <returns></returns>
        [HttpPost]
         public Response Update(AddOrUpdateWmsInboundOrderTblReq obj)
         {

@@ -91,5 +91,7 @@ namespace OpenAuth.App.Request
         /// 销退箱数
         /// </summary>
         public decimal ReturnBoxNum { get; set; }
+        
+        public List<AddOrUpdateWmsInboundOrderDtblReq> WmsInboundOrderDtblReqs { get; set; }
     }
 }

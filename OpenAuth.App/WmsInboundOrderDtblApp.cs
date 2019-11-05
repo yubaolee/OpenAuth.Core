@@ -55,13 +55,19 @@ namespace OpenAuth.App
 
         public void Add(AddOrUpdateWmsInboundOrderDtblReq req)
         {
+            AddNoSave(req);
+            UnitWork.Save();
+        }
+        
+        public void AddNoSave(AddOrUpdateWmsInboundOrderDtblReq req)
+        {
             var obj = req.MapTo<WmsInboundOrderDtbl>();
             //todo:补充或调整自己需要的字段
             obj.CreateTime = DateTime.Now;
             var user = _auth.GetCurrentUser().User;
             obj.CreateUserId = user.Id;
             obj.CreateUserName = user.Name;
-            Repository.Add(obj);
+            UnitWork.Add(obj);
         }
 
          public void Update(AddOrUpdateWmsInboundOrderDtblReq obj)

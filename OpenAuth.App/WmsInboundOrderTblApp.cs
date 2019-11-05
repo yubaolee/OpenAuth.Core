@@ -75,6 +75,28 @@ namespace OpenAuth.App
          public void Update(AddOrUpdateWmsInboundOrderTblReq obj)
         {
             var user = _auth.GetCurrentUser().User;
+            
+            if (obj.WmsInboundOrderDtblReqs != null && obj.WmsInboundOrderDtblReqs.Any())
+            {
+                //id为空的添加
+                foreach (var detail in obj.WmsInboundOrderDtblReqs.Where(u =>string.IsNullOrEmpty(u.Id)))
+                {
+                    detail.OrderId = obj.Id;
+                    _wmsInboundOrderDtblApp.AddNoSave(detail);
+                }
+                
+                //id比数据库少的，删除
+                var containids = obj.WmsInboundOrderDtblReqs.Select(u => u.Id)
+                    .Where(u =>!string.IsNullOrEmpty(u));
+                UnitWork.Delete<WmsInboundOrderDtbl>(u =>containids.Contains(u.Id) && u.OrderId == obj.Id);
+                
+                //更新id相同的
+                foreach (var detail in obj.WmsInboundOrderDtblReqs.Where(u =>!string.IsNullOrEmpty(u.Id)))
+                {
+                    _wmsInboundOrderDtblApp.Update(detail);
+                }
+            }
+            
             UnitWork.Update<WmsInboundOrderTbl>(u => u.Id == obj.Id, u => new WmsInboundOrderTbl
             {
                 ExternalNo = obj.ExternalNo,
@@ -98,6 +120,8 @@ namespace OpenAuth.App
                 UpdateUserName = user.Name
                 //todo:补充或调整自己需要的字段
             });
+            
+            UnitWork.Save();
 
         }
 

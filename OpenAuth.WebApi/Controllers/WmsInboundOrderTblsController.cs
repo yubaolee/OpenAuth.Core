@@ -59,7 +59,10 @@ namespace OpenAuth.WebApi.Controllers
         }
 
        /// <summary>
-       /// 修改头信息，不会修改明细
+       /// 修改头信息,同时修改明细信息
+       /// 如果提交的明细有id，则编辑；
+       /// 如果提交的明细没有id，则添加;
+       /// 如果数据库中存在没有提交的明细，则删除数据库中记录
        /// </summary>
        /// <param name="obj"></param>
        /// <returns></returns>

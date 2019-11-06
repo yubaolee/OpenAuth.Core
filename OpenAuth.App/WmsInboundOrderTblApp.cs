@@ -87,8 +87,12 @@ namespace OpenAuth.App
                 
                 //id比数据库少的，删除
                 var containids = obj.WmsInboundOrderDtblReqs.Select(u => u.Id)
-                    .Where(u =>!string.IsNullOrEmpty(u));
-                UnitWork.Delete<WmsInboundOrderDtbl>(u =>containids.Contains(u.Id) && u.OrderId == obj.Id);
+                    .Where(u =>!string.IsNullOrEmpty(u)).ToList();
+                if (containids.Any())
+                {
+                    UnitWork.Delete<WmsInboundOrderDtbl>(u =>(!containids.Contains(u.Id)) && u.OrderId == obj.Id);
+                }
+                
                 
                 //更新id相同的
                 foreach (var detail in obj.WmsInboundOrderDtblReqs.Where(u =>!string.IsNullOrEmpty(u.Id)))

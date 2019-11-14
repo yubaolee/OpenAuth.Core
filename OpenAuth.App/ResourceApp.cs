@@ -21,6 +21,7 @@ namespace OpenAuth.App
         public void Add(AddOrUpdateResReq resource)
         {
             var obj = resource.MapTo<Resource>();
+            ChangeModuleCascade(obj);
             obj.CreateTime = DateTime.Now;
             var user = _auth.GetCurrentUser().User;
             obj.CreateUserId = user.Id;

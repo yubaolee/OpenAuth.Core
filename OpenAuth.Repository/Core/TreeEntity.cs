@@ -16,7 +16,7 @@ namespace OpenAuth.Repository.Core
         /// <summary>
         /// 功能模块名称
         /// </summary>
-        [Description("功能模块名称")]
+        [Description("名称")]
         public string Name { get; set; }
 
         /// <summary>

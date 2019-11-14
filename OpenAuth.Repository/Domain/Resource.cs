@@ -20,16 +20,13 @@ namespace OpenAuth.Repository.Domain
 	/// 资源表
 	/// </summary>
     [Table("Resource")]
-    public partial class Resource : Entity
+    public partial class Resource : TreeEntity
     {
         public Resource()
         {
-          this.CascadeId= string.Empty;
           this.Name= string.Empty;
           this.SortNo= 0;
           this.Description= string.Empty;
-          this.ParentName= string.Empty;
-          this.ParentId= string.Empty;
           this.AppId= string.Empty;
           this.AppName= string.Empty;
           this.TypeName= string.Empty;
@@ -41,17 +38,8 @@ namespace OpenAuth.Repository.Domain
           this.UpdateUserId= string.Empty;
           this.UpdateUserName= string.Empty;
         }
+        
 
-        /// <summary>
-        /// 节点语义ID
-        /// </summary>
-        [Description("节点语义ID")]
-        public string CascadeId { get; set; }
-        /// <summary>
-        /// 名称
-        /// </summary>
-        [Description("名称")]
-        public string Name { get; set; }
         /// <summary>
         /// 排序号
         /// </summary>
@@ -62,17 +50,6 @@ namespace OpenAuth.Repository.Domain
         /// </summary>
         [Description("描述")]
         public string Description { get; set; }
-        /// <summary>
-        /// 父节点名称
-        /// </summary>
-        [Description("父节点名称")]
-        public string ParentName { get; set; }
-        /// <summary>
-        /// 父节点流ID
-        /// </summary>
-        [Description("父节点流ID")]
-        [Browsable(false)]
-        public string ParentId { get; set; }
         /// <summary>
         /// 资源所属应用ID
         /// </summary>

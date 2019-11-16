@@ -1,19 +1,8 @@
-/*
- Navicat Premium Data Transfer
+/*需要先创建一个名字为OpenAuthDB的数据库*/
+﻿use [OpenAuthDB]
 
- Source Server         : local
- Source Server Type    : SQL Server
- Source Server Version : 11003000
- Source Host           : .:1433
- Source Catalog        : OpenAuthDB
- Source Schema         : dbo
-
- Target Server Type    : SQL Server
- Target Server Version : 11003000
- File Encoding         : 65001
-
- Date: 12/11/2019 23:01:32
-*/
+create type [dbo].[PrimaryKey] from varchar(50)
+go
 
 
 -- ----------------------------

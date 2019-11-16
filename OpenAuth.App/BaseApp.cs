@@ -48,6 +48,15 @@ namespace OpenAuth.App
             var rule = UnitWork.FindSingle<DataPrivilegeRule>(u => u.SourceCode == moduleName);
             if (rule == null) return UnitWork.Find<T>(null);
             //todo:在这里替换登录用户的信息
+            if (rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINUSER) ||
+                                             rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINROLE))
+            {
+                var loginUser = _auth.GetCurrentUser();
+                //即把{loginUser} =='xxxxxxx'换为 loginUser.User.Id =='xxxxxxx'，从而把当前登录的用户名与当时设计规则时选定的用户id对比
+                rule.PrivilegeRules = rule.PrivilegeRules.Replace(Define.DATAPRIVILEGE_LOGINUSER, loginUser.User.Id);
+                rule.PrivilegeRules = rule.PrivilegeRules.Replace(Define.DATAPRIVILEGE_LOGINROLE, 
+                    string.Join(',',loginUser.Roles.Select(u =>u.Id)));
+            }
             return UnitWork.Find<T>(null).GenerateFilter(parametername,
                 JsonHelper.Instance.Deserialize<FilterGroup>(rule.PrivilegeRules));
         }

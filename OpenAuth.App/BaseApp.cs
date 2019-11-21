@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Linq.Expressions;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore.Internal;
 using OpenAuth.App.Interface;
 using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Domain;
@@ -54,8 +56,10 @@ namespace OpenAuth.App
                 var loginUser = _auth.GetCurrentUser();
                 //即把{loginUser} =='xxxxxxx'换为 loginUser.User.Id =='xxxxxxx'，从而把当前登录的用户名与当时设计规则时选定的用户id对比
                 rule.PrivilegeRules = rule.PrivilegeRules.Replace(Define.DATAPRIVILEGE_LOGINUSER, loginUser.User.Id);
+                var roles = loginUser.Roles.Select(u => u.Id).ToList();
+                roles.Sort(); //按字母排序,这样可以进行like操作
                 rule.PrivilegeRules = rule.PrivilegeRules.Replace(Define.DATAPRIVILEGE_LOGINROLE, 
-                    string.Join(',',loginUser.Roles.Select(u =>u.Id)));
+                    string.Join(',',roles));
             }
             return UnitWork.Find<T>(null).GenerateFilter(parametername,
                 JsonHelper.Instance.Deserialize<FilterGroup>(rule.PrivilegeRules));

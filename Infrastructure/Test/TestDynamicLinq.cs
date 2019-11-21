@@ -15,8 +15,8 @@ namespace Infrastructure.Test
             };
             sub.Filters = new[]
             {
-                new Filter {Key = "c4", Value = "name", Contrast = "=="},
-                new Filter {Key = "c3", Value = "10", Contrast = "=="}
+                new Filter {Key = "name", Value = "name", Contrast = "=="},
+                new Filter {Key = "c3", Value = "10,20,30", Contrast = "in"}
             };
             
             FilterGroup filterGroup = new FilterGroup
@@ -25,8 +25,8 @@ namespace Infrastructure.Test
             };
             filterGroup.Filters = new[]
             {
-                new Filter {Key = "c1", Value = "name", Contrast = "=="},
-                new Filter {Key = "c2", Value = "10", Contrast = "=="}
+                new Filter {Key = "c1", Value = "name", Contrast = "contains"},
+                new Filter {Key = "10,20,30", Value = "40", Contrast = "intersect"}
             };
 
             filterGroup.Children = new[]

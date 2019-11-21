@@ -34,46 +34,54 @@ namespace Infrastructure
         {
             PropertyInfo property = typeof(T).GetProperty(filterObj.Key);
 
-            //组装左边
-            Expression left = Expression.Property(param, property);
+            Expression left = null; //组装左边
             //组装右边
             Expression right = null;
+            
+            if (property != null)
+            {
+                left = Expression.Property(param, property);
+                if (property.PropertyType == typeof(int))
+                {
+                    right = Expression.Constant(int.Parse(filterObj.Value));
+                }
+                else if (property.PropertyType == typeof(DateTime))
+                {
+                    right = Expression.Constant(DateTime.Parse(filterObj.Value));
+                }
+                else if (property.PropertyType == typeof(string))
+                {
+                    right = Expression.Constant(filterObj.Value);
+                }
+                else if (property.PropertyType == typeof(decimal))
+                {
+                    right = Expression.Constant(decimal.Parse(filterObj.Value));
+                }
+                else if (property.PropertyType == typeof(Guid))
+                {
+                    right = Expression.Constant(Guid.Parse(filterObj.Value));
+                }
+                else if (property.PropertyType == typeof(bool))
+                {
+                    right = Expression.Constant(filterObj.Value.Equals("1"));
+                }
+                else if (property.PropertyType == typeof(Guid?))
+                {
+                    left = Expression.Property(left, "Value");
+                    right = Expression.Constant(Guid.Parse(filterObj.Value));
+                }
+                else
+                {
+                    throw new Exception("暂不能解析该Key的类型");
+                }
+            }
+            else  //如果左边不是属性，直接是值的情况
+            {
+                left = Expression.Constant(filterObj.Key);  
+                right = Expression.Constant(filterObj.Value);
+            }
 
-            if (property.PropertyType == typeof(int))
-            {
-                right = Expression.Constant(int.Parse(filterObj.Value));
-            }
-            else if (property.PropertyType == typeof(DateTime))
-            {
-                right = Expression.Constant(DateTime.Parse(filterObj.Value));
-            }
-            else if (property.PropertyType == typeof(string))
-            {
-                right = Expression.Constant((filterObj.Value));
-            }
-            else if (property.PropertyType == typeof(decimal))
-            {
-                right = Expression.Constant(decimal.Parse(filterObj.Value));
-            }
-            else if (property.PropertyType == typeof(Guid))
-            {
-                right = Expression.Constant(Guid.Parse(filterObj.Value));
-            }
-            else if (property.PropertyType == typeof(bool))
-            {
-                right = Expression.Constant(filterObj.Value.Equals("1"));
-            }
-            else if (property.PropertyType == typeof(Guid?))
-            {
-                left = Expression.Property(left, "Value");
-                right = Expression.Constant(Guid.Parse(filterObj.Value));
-            }
-            else
-            {
-                throw new Exception("暂不能解析该Key的类型");
-            }
-
-            //c.XXX=="XXX"
+           //c.XXX=="XXX"
             Expression filter = Expression.Equal(left, right);
             switch (filterObj.Contrast)
             {
@@ -95,15 +103,9 @@ namespace Infrastructure
                 case "!=":
                     filter = Expression.NotEqual(left, right);
                     break;
-
-                case "like":
+                case "contains":
                     filter = Expression.Call(left, typeof(string).GetMethod("Contains", new Type[] {typeof(string)}),
                         Expression.Constant(filterObj.Value));
-                    break;
-                case "not in":
-                    var listExpression = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
-                    var method = typeof(List<string>).GetMethod("Contains", new Type[] {typeof(string)}); //Contains语句
-                    filter = Expression.Not(Expression.Call(listExpression, method, left));
                     break;
                 case "in":
                     var lExp = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
@@ -111,6 +113,20 @@ namespace Infrastructure
                         new Type[] {typeof(string)}); //Contains语句
                     filter = Expression.Call(lExp, methodInfo, left);
                     break;
+                case "not in":
+                    var listExpression = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
+                    var method = typeof(List<string>).GetMethod("Contains", new Type[] {typeof(string)}); //Contains语句
+                    filter = Expression.Not(Expression.Call(listExpression, method, left));
+                    break;
+                //交集，使用交集时左值必须时固定的值
+                case "intersect":  //交集
+                    var rightval = filterObj.Value.Split(',').ToList();
+                    var leftval = filterObj.Key.Split(',').ToList();
+                    var val = rightval.Intersect(leftval);
+
+                    filter = Expression.Constant(val.Count()>0 );
+                    break;
+               
             }
 
             return filter;

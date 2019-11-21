@@ -37,7 +37,7 @@ namespace Infrastructure
             Expression left = null; //组装左边
             //组装右边
             Expression right = null;
-            
+
             if (property != null)
             {
                 left = Expression.Property(param, property);
@@ -75,13 +75,13 @@ namespace Infrastructure
                     throw new Exception("暂不能解析该Key的类型");
                 }
             }
-            else  //如果左边不是属性，直接是值的情况
+            else //如果左边不是属性，直接是值的情况
             {
-                left = Expression.Constant(filterObj.Key);  
+                left = Expression.Constant(filterObj.Key);
                 right = Expression.Constant(filterObj.Value);
             }
 
-           //c.XXX=="XXX"
+            //c.XXX=="XXX"
             Expression filter = Expression.Equal(left, right);
             switch (filterObj.Contrast)
             {
@@ -119,14 +119,18 @@ namespace Infrastructure
                     filter = Expression.Not(Expression.Call(listExpression, method, left));
                     break;
                 //交集，使用交集时左值必须时固定的值
-                case "intersect":  //交集
+                case "intersect": //交集
+                    if (property != null)
+                    {
+                        throw new Exception("交集模式下，表达式左边不能为变量，请调整数据规则，如:c=>\"A,B,C\" intersect \"B,D\"");
+                    }
+
                     var rightval = filterObj.Value.Split(',').ToList();
                     var leftval = filterObj.Key.Split(',').ToList();
                     var val = rightval.Intersect(leftval);
 
-                    filter = Expression.Constant(val.Count()>0 );
+                    filter = Expression.Constant(val.Count() > 0);
                     break;
-               
             }
 
             return filter;
@@ -171,7 +175,7 @@ namespace Infrastructure
             if (!string.IsNullOrEmpty(filterjson))
             {
                 var filterGroup = JsonHelper.Instance.Deserialize<FilterGroup>(filterjson);
-                query = GenerateFilter(query,parametername, filterGroup);
+                query = GenerateFilter(query, parametername, filterGroup);
             }
 
             return query;
@@ -185,7 +189,8 @@ namespace Infrastructure
         /// <param name="parametername"></param>
         /// <param name="filterGroup"></param>
         /// <returns></returns>
-        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query,string parametername, FilterGroup filterGroup)
+        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, string parametername,
+            FilterGroup filterGroup)
         {
             var param = CreateLambdaParam<T>(parametername);
             Expression result = ConvertGroup<T>(filterGroup, param);
@@ -289,7 +294,8 @@ namespace Infrastructure
             }
             else
             {
-                foreach (var filter in filters.Skip(1)){
+                foreach (var filter in filters.Skip(1))
+                {
                     result = result.Or(param.GenerateBody<T>(filter));
                 }
             }

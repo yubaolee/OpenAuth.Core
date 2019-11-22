@@ -3,8 +3,6 @@
 
 create type [dbo].[PrimaryKey] from varchar(50)
 go
-
-
 -- ----------------------------
 -- Table structure for Application
 -- ----------------------------
@@ -497,7 +495,10 @@ GO
 -- ----------------------------
 -- Records of [DataPrivilegeRule]
 -- ----------------------------
-INSERT INTO [dbo].[DataPrivilegeRule]  VALUES (N'e7c95fb1-91f7-422e-a11a-73cea0c404b9', N'Resource', NULL, N'资源数据规则', N'0', N'{"Operation":"or","Filters":[{"Key":"AppId","Value":"110","Contrast":"=="},{"Key":"Name","Value":"登陆","Contrast":"=="}],"Children":[{"Operation":"and","Filters":[{"Key":"Name","Value":"注销账号","Contrast":"=="},{"Key":"AppId","Value":"119","Contrast":"=="}],"Children":null}]}', N'0', N'2019-10-29 11:05:02.0000000', N'00000000-0000-0000-0000-000000000000', N'', N'2019-10-29 11:05:02.0000000', N'', N'')
+INSERT INTO [dbo].[DataPrivilegeRule]  VALUES (N'6a96c5d9-a226-459d-a4e1-aefcbefc6915', N'WmsInboundOrderTbl', N'', N'【管理员】角色可以看所有人的订单，【测试】只能看自己创建的订单', N'0', N'{"Operation":"or","Filters":[{"Key":"{loginRole}","Value":"09ee2ffa-7463-4938-ae0b-1cb4e80c7c13,77e6d0c3-f9e1-4933-92c3-c1c6eef75593","Contrast":"contains","names":"","Text":"管理员,神"}],"Children":[{"Operation":"and","Filters":[{"Key":"{loginRole}","Value":"0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d","Contrast":"contains","Text":"测试"},{"Key":"CreateUserId","Value":"{loginUser}","Contrast":"==","Text":""}]}]}', N'1', N'2019-11-23 01:02:32.0000000', N'00000000-0000-0000-0000-000000000000', N'', N'2019-11-23 01:02:32.0000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[DataPrivilegeRule]  VALUES (N'e7c95fb1-91f7-422e-a11a-73cea0c404b9', N'Resource', NULL, N'【管理员】角色可以看所有人的资源，【测试】只能看自己创建的资源，账号test3/test4只能看属于（XXX管理平台）的资源', N'0', N'{"Operation":"or","Filters":[{"Key":"{loginRole}","Value":"09ee2ffa-7463-4938-ae0b-1cb4e80c7c13","Contrast":"contains","Text":"管理员"}],"Children":[{"Operation":"and","Filters":[{"Key":"{loginRole}","Value":"0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d","Contrast":"contains","Text":"测试"},{"Key":"CreateUserId","Value":"{loginUser}","Contrast":"==","Text":""}]},{"Operation":"and","Filters":[{"Key":"AppName","Value":"XXX管理平台","Contrast":"==","Text":""},{"Key":"{loginUser}","Value":"229f3a49-ab27-49ce-b383-9f10ca23a9d5,1df68dfd-3b6d-4491-872f-00a0fc6c5a64","Contrast":"in","Text":"test3,test4"}]}]}', N'1', N'2019-10-29 11:05:02.0000000', N'00000000-0000-0000-0000-000000000000', N'', N'2019-11-23 01:00:19.0000000', N'00000000-0000-0000-0000-000000000000', N'')
 GO
 
 
@@ -2420,13 +2421,16 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'01ba383d-fe81-473a-84a1-f64ce8a5aae5', N'', N'UserOrg', N'0', N'2019-10-31 21:50:42.000', N'', N'229f3a49-ab27-49ce-b383-9f10ca23a9d5', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'023c001e-d7be-4e1d-b5dc-8c14535a2cf9', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'02f78362-e8c7-472b-bac5-57ab53d2813d', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'9e2c6754-f258-4b14-96a0-b9d981196a65', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'03b55a9e-a44f-44fa-9383-4117bf8aba60', N'', N'RoleResource', N'0', N'2018-09-12 00:15:54.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'XXX_DELETEACCOUNT', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'03be9b5e-38b0-4525-8431-b26d35ce6ce3', N'', N'UserElement', N'0', N'2016-09-07 15:30:43.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'816b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'063315e7-7d0e-48bf-b88e-d3045aa0cce1', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'37bb9414-19a0-4223-9056-71f8c758a930', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'06dfd97d-17e0-42b8-bde7-40006d8c8eb2', N'', N'UserElement', N'0', N'2018-04-06 14:50:37.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL)
@@ -2441,10 +2445,10 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'08ff97f7-17fc-4072-b29a-287135898ece', N'', N'RoleResource', N'0', N'2016-09-04 23:20:22.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'fdf3aac3-4507-40ad-aa2f-d7f0459de252', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'0a9bcd14-0e27-474a-8c0e-0d023d6013eb', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'Description', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'0b3d3a9b-8a96-43d4-918c-fa7e3ea5f5ca', N'', N'RoleOrg', N'0', N'2018-09-12 00:08:37.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'0b3d3a9b-8a96-43d4-918c-fa7e3ea5f5ca', N'', N'RoleOrg', N'0', N'2018-09-12 00:08:37.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'0c4be13b-8d72-4e34-a9d6-348824a99651', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'68484265-7802-4f06-b024-33e8b2f2edcf', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'0f056416-c2ce-4045-af18-e935928c7139', N'', N'UserOrg', N'0', N'2019-10-31 21:51:39.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'', N'')
@@ -2453,25 +2457,31 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'0fd5b371-b010-4846-8833-95cc1e813a32', N'', N'UserElement', N'0', N'2016-09-07 15:31:16.000', N'0', N'ea25646b-964b-4d41-ab03-d8964e1494fb', N'68484265-7802-4f06-b024-33e8b2f2edcf', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'0ffc420c-3543-4f54-ba40-908ede380032', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'AppName', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'10669494-70e2-4583-b5fd-191d7219b792', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:51:40.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'Resource', N'AppId', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'10a76196-ba0c-4294-bb8f-dcd063eb4aab', N'', N'UserOrg', N'0', N'2017-10-12 09:13:38.000', N'', N'3eacdedd-e93a-4816-b49c-99ba3d5323c2', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'10a82bc0-f60e-40c9-b1ba-c89fc4c07401', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'10e58d75-dec1-4b85-882f-9dac79ad1210', N'', N'RoleResource', N'0', N'2016-10-21 18:08:13.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'ec99f670-0eca-465c-9f64-d4d5dc510b83', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'1196cfff-9a57-4ef2-a3ee-abd438871264', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'AppId', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'120d7a5d-203c-4261-95f5-0125757fb386', N'', N'UserElement', N'0', N'2016-10-20 17:01:01.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'7f071c63-1620-4486-9264-5806b2e63218', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'120d7a5d-203c-4261-95f5-0125757fb386', N'', N'UserElement', N'0', N'2016-10-20 17:01:01.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'7f071c63-1620-4486-9264-5806b2e63218', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'12f282b5-e87f-416e-8a7c-f9830d115b9a', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'UpdateUserId', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'13433400-a32c-4539-b988-8b417c09bc0e', N'', N'UserModule', N'0', N'2016-09-07 15:30:07.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'9486ff22-b696-4d7f-8093-8a3e53c45453', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'13612a4c-b20c-4bd0-a2cd-0ae47576364d', N'', N'UserElement', N'0', N'2016-10-20 16:34:12.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'c7d7daf0-3669-4a22-8bed-b092617deb9c', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'13f1fd43-b36f-4cd9-9870-952645e0c23a', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'c7d7daf0-3669-4a22-8bed-b092617deb9c', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'1490edd4-9bd3-4e71-bfa4-56f6558c1d3f', N'', N'UserElement', N'0', N'2018-04-06 09:48:24.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', NULL, NULL)
@@ -2483,16 +2493,25 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'1740ff26-a4d0-44cc-9fab-a0105c2c60b6', N'', N'UserOrg', N'0', N'2017-10-12 13:59:49.000', N'', N'63c9c82a-e0d3-4bde-bbd2-057cda2f5283', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'183905f3-620c-4995-aead-1e80c5899517', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:19:30.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Category', N'Id', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'1873ed85-a88a-4236-bd40-2c416aa2576c', N'', N'RoleModule', N'0', N'2016-09-02 17:03:39.000', N'0', N'211e12c7-e466-496e-8d26-0660a38e24cc', N'7580672f-a390-4bb6-982d-9a4570cb5199', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'19c9621c-3d23-46b7-a841-54d5c82ec8e8', N'', N'UserOrg', N'0', N'2016-09-02 13:56:53.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'1aaa04f0-bd9f-44a0-8bc2-3f7a74684c42', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:19:30.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Category', N'DtCode', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'1acec4c4-0136-4e2b-a839-8676dbd6594a', N'', N'ProcessUser', N'0', N'2016-09-14 11:38:23.000', N'0', N'6c6afe3c-349c-4198-8710-cf19c90f3afd', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'1b52e0cb-2df1-41e2-90ab-fc051be1d983', N'', N'RoleModule', N'0', N'2019-01-08 02:22:31.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'1c256449-fa54-43e6-93ad-427db26c6b24', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'CreateUserId', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'1c2816c2-61e9-495f-a6b4-67f3d0fef47c', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'2d595a2a-5de5-479e-a331-b53c799a6b10', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'1ced1564-2fea-4c04-8aea-f071fa5bb293', N'', N'UserModule', N'0', N'2016-09-05 16:24:55.000', N'0', N'ea25646b-964b-4d41-ab03-d8964e1494fb', N'069475e3-c997-487a-9f29-e6a864c5c1d4', NULL, NULL)
@@ -2501,22 +2520,37 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'1cf19b35-e2c2-436f-99b9-03ac2b232cc6', N'', N'RoleElement', N'0', N'2016-09-04 23:21:04.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'44075557-496e-4dde-bb75-7b69f51ab4fe', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'1d9a0c95-f297-4628-a35a-252ba036d8eb', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'1f92c47f-2ca8-4123-a23d-8e3d57f22161', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'1fb6b802-2a1f-49a8-b2fa-c5d223a8538c', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:51:40.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'Resource', N'UpdateTime', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'1fd894e5-df9f-48ea-981e-6d495fac6db5', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'UpdateUserId', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'2014027e-0cff-41cf-974b-56126d6eaa9a', N'', N'RoleElement', N'0', N'2016-09-05 09:22:11.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'c4c1acbb-9cbf-4b1e-9cc0-ccf5ff544ec2', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'20f03189-18c8-4d2d-b924-85375f4b6c26', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'Description', N'')
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'21b6a747-c573-4990-9327-ec3d1323127c', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'c3d7b478-21e9-4c1e-b866-a3c80be7909b', N'', N'')
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'22ccf653-9972-4611-ba0e-384c28c51f0f', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'c3d7b478-21e9-4c1e-b866-a3c80be7909b', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'224fa0b0-cdd6-47cf-89c5-45ad2a64bfd5', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'OrderType', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'242e9543-3343-41d4-8816-15ffeeaef551', N'', N'UserElement', N'0', N'2016-09-07 15:31:16.000', N'0', N'ea25646b-964b-4d41-ab03-d8964e1494fb', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'24a0a28f-d7dd-42dc-a633-89ddbf21f853', N'', N'RoleModule', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'27c4d50c-32da-4dbc-88a1-84b343cdd649', N'', N'UserElement', N'0', N'2016-10-20 17:01:00.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'6839a297-350b-4215-b680-4e5dfdae5615', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'2858abb7-c9c4-4d4e-ae3c-532e1eef68a1', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'826b12b3-e916-446d-a2fa-329cfd13c831', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'28ab9dc5-e3b7-49c8-9e6a-b0722e38bde4', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'Id', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'2942a7e1-5100-4523-b039-181cfc19a4cf', N'', N'UserOrg', N'0', N'2019-10-31 21:51:39.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
@@ -2525,16 +2559,19 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'29b06cd6-af0c-4c63-9aba-e5431c5d62ec', N'', N'UserOrg', N'0', N'2017-10-12 09:13:38.000', N'', N'3eacdedd-e93a-4816-b49c-99ba3d5323c2', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'2a1b833c-dc81-46e2-b308-e22e0f112f77', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'2d595a2a-5de5-479e-a331-b53c799a6b10', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'2a36a2b7-41aa-4190-b88c-75d44a56ad6e', N'', N'UserModule', N'0', N'2017-02-06 00:14:18.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'92b00259-2d15-43e7-9321-adffb29e8bf2', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'2a36a2b7-41aa-4190-b88c-75d44a56ad6e', N'', N'UserModule', N'0', N'2017-02-06 00:14:18.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'92b00259-2d15-43e7-9321-adffb29e8bf2', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'2a8a790f-0b9a-4ab3-8e4f-aae4bfddc609', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'PurchaseNo', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'2bb3fddb-0f51-442e-8dbf-236beb47d8a6', N'', N'RoleOrg', N'0', N'2018-04-14 13:16:45.000', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'2ca288a6-d222-4328-951e-c01c3e77a0c7', N'', N'RoleElement', N'0', N'2016-09-04 23:21:00.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'7f071c63-1620-4486-9264-5806b2e63218', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'2d057b60-d99c-4e00-b637-9fee02181f30', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'CreateUserName', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'2d0fcc88-a7c0-4d33-8a08-1d688e9dde83', N'', N'RoleModule', N'0', N'2016-09-02 17:03:39.000', N'0', N'211e12c7-e466-496e-8d26-0660a38e24cc', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL)
@@ -2546,13 +2583,31 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'2ebff9a4-b2d5-4a35-a7dd-2cfa2f5b0522', N'', N'ProcessUser', N'0', N'2016-09-07 17:33:39.000', N'0', N'52cc7933-a045-4dcc-8c17-1b618bfa772b', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'2eedb68a-20da-4031-84da-7bfaf8d8eaa9', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'CreateUserName', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'30c82d18-7892-4e5f-9aee-e4f483a858c2', N'', N'UserModule', N'0', N'2016-09-05 16:24:55.000', N'0', N'ea25646b-964b-4d41-ab03-d8964e1494fb', N'9486ff22-b696-4d7f-8093-8a3e53c45453', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'332a373c-f485-4f85-9af9-7792f7462bf1', N'', N'RoleModule', N'0', N'2016-09-02 17:03:47.000', N'0', N'648b04c4-4ac2-4d69-bef6-07081ef27871', N'89c3bfbe-246f-4112-8eb1-b6789da54202', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'333771cf-7eab-4d57-988a-8bd934575558', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'OwnerId', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'336b16ba-8313-4cb3-87d7-4370ff175c14', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Resource', N'Id', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'33fa12d8-8e48-4d1c-9c84-50f533b682ec', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'CreateTime', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'340c60fe-8b95-474c-aa04-9197903998d2', N'', N'RoleModule', N'0', N'2016-09-04 23:20:34.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'7580672f-a390-4bb6-982d-9a4570cb5199', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'340fa7a2-9295-4e29-9779-3c208f7c5436', N'', N'RoleModule', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'35ba2736-9a0e-4031-8142-716ec819bc5e', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'TypeId', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'361feb63-bde2-49c7-86ec-6df3ec6f0fe3', N'', N'RoleElement', N'0', N'2016-09-04 23:21:13.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'1c870438-4260-43a5-8996-a6e1dc8bbf6a', NULL, NULL)
@@ -2564,13 +2619,16 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'392dc41e-7186-4efb-a8e5-b5317e4122fb', N'', N'RoleResource', N'0', N'2018-09-10 12:54:14.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'OPENAUTH_DELETEACCOUNT', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'3931d5b7-dde2-4530-bb2d-79b73f76e19b', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:19:30.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Category', N'Name', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'39c84106-a9b0-4666-a908-124a7f62cf34', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'3bcaab20-e096-480e-a9bb-0fdb70686714', N'', N'RoleElement', N'0', N'2016-09-04 23:21:00.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'cf7388be-2677-427c-ad78-8f00f1062b96', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'3de0359b-6331-4dc7-a00e-751f71dbadb5', N'', N'ProcessUser', N'0', N'2016-09-28 09:23:30.000', N'0', N'68295d2a-4dfd-4c5e-81e3-9c787e2603bc', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'3e9b3e79-c972-4c50-a36d-ab179d2ad09d', N'', N'RoleModule', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'4190f00a-11a0-4814-849b-cc5232fa4dd4', N'', N'RoleResource', N'0', N'2018-09-12 00:15:54.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'OPENAUTH_DELETEACCOUNT', NULL, NULL)
@@ -2583,6 +2641,12 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'460d1c98-2a68-43cf-8d38-d40ceb89916f', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'4757bb30-e4bc-4c2d-a824-947ef151d341', N'', N'UserRole', N'0', N'2016-09-07 20:21:16.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'497daa6a-f142-4a49-8bc7-527d93a4da3e', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'054e9699-7828-4b8b-a28b-d7ae45ed3306', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'4b868044-c13e-40f5-93ec-26c7d7c4181d', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'CreateTime', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'4ba3982b-f0ae-4f9a-980e-1eaedc3b5f2e', N'', N'UserElement', N'0', N'2016-09-07 17:48:34.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL)
@@ -2606,13 +2670,13 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'4e693bbd-8ddb-42af-b888-30885612c154', N'', N'UserOrg', N'0', N'2019-10-31 21:58:43.000', N'', N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'3d2ad14c-2c56-4a90-a2db-6bde26b0b8b3', N'', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'4e6c69a6-eeba-45d9-923d-16a7c002ac3e', N'', N'RoleModule', N'0', N'2019-01-08 02:22:31.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'', N'')
-GO
-
 INSERT INTO [dbo].[Relevance]  VALUES (N'4ec39ee9-9ee9-4aa9-a0db-eb0fdf8d2f00', N'', N'UserElement', N'0', N'2018-04-06 09:48:27.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'b3e23ebc-0ff2-41b3-bff0-fd5e93f6828a', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'4ee89c07-55e2-4ca6-9ef1-449cfe0a2c3c', N'', N'RoleResource', N'0', N'2018-09-12 00:15:54.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'OPENAUTH_LOGIN', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'4f072e6b-146c-40d2-97fe-057e7e67e9cb', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'4bfa8ea0-6b0d-426f-8687-b654575ca780', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'4fde1dc6-9d73-4c7c-9238-28981858c5a6', N'', N'RoleModule', N'0', N'2016-09-05 09:21:56.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'89c3bfbe-246f-4112-8eb1-b6789da54202', NULL, NULL)
@@ -2624,13 +2688,10 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'53a4be87-4fa8-415b-97b5-2298ce8b17c8', N'', N'UserResource', N'0', N'2018-04-14 14:38:04.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'XXX_LOGIN', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'54a8edde-af09-48e1-adb5-5ffc90b02c4d', N'', N'RoleModule', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'9486ff22-b696-4d7f-8093-8a3e53c45453', N'', N'')
-GO
-
 INSERT INTO [dbo].[Relevance]  VALUES (N'54b2e9b6-1f7c-4a39-92c9-98f58429c1fc', N'', N'RoleModule', N'0', N'2016-09-02 17:03:39.000', N'0', N'211e12c7-e466-496e-8d26-0660a38e24cc', N'bc80478d-0547-4437-9cff-be4b40144bdf', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'54d8d1b8-2b5b-498d-9c0d-33e8bad86572', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'826b12b3-e916-446d-a2fa-329cfd13c831', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'54e266a9-f8f3-4965-af0b-69404de82878', N'', N'RoleModule', N'0', N'2019-11-23 00:50:51.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'55b10ecc-3fb3-4127-b69e-e7a3467d7a1a', N'', N'RoleElement', N'0', N'2016-09-05 09:22:11.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'6db928fe-93df-460f-9472-8bb0b6cae52c', NULL, NULL)
@@ -2642,13 +2703,13 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'575221eb-0e4d-4cfa-9cd8-59607784d43d', N'', N'UserRole', N'0', N'2019-10-31 21:59:41.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'3e761e88-ddf7-4a62-b219-9a315b4564f2', N'', N'')
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'577bc443-e6ba-4c0d-a1cb-3f2aff5a9296', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'816b12b3-e916-446d-a2fa-329cfd13c831', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'5a20d59c-6ee6-4fe2-98fe-7b35b11026ae', N'', N'UserElement', N'0', N'2016-09-07 15:30:20.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'68484265-7802-4f06-b024-33e8b2f2edcf', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'5a86259a-9555-4aa7-be8d-a874f88b66a8', N'', N'RoleModule', N'0', N'2019-01-08 02:22:31.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'9486ff22-b696-4d7f-8093-8a3e53c45453', N'', N'')
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'5b0ec87e-3465-48c2-98da-e4c28a6f8f34', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'b3e23ebc-0ff2-41b3-bff0-fd5e93f6828a', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'5a6da0ce-2b42-49ee-91fb-4f8aa08dfb53', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'68484265-7802-4f06-b024-33e8b2f2edcf', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'5b2d5db8-d603-4be3-add2-c85ef3c53ddc', N'', N'UserResource', N'0', N'2018-04-14 14:38:05.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'OPENAUTH_LOGIN', NULL, NULL)
@@ -2657,22 +2718,19 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'5ccce632-f8f0-452b-8faf-4a5372004e85', N'', N'RoleResource', N'0', N'2018-09-12 00:15:54.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'XXX_CHECKUSER', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'5d5b07bb-8cee-40e8-8322-d491351a17f5', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'ReturnBoxNum', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'620b368a-7b56-4c74-ab85-8bc91d08ddc9', N'', N'RoleElement', N'0', N'2016-09-04 23:20:42.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'1c9acc3e-a40d-4d07-b495-6e60eb9b71b9', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'62fc2363-2a9a-48cb-b455-aa43d0cf978a', N'', N'RoleModule', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', N'', N'')
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'63a22a27-c8bd-4bdf-a3bb-6ffeae19484e', N'', N'RoleModule', N'0', N'2019-01-08 02:22:31.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'6431a464-6f1f-4ffc-8157-89212b70f09a', N'', N'RoleOrg', N'0', N'2016-09-05 00:00:00.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'64879608-334c-48c7-bd80-a562d9619d95', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'Name', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'64e4f5aa-28ef-4690-9b20-5f0b543964f6', N'', N'UserElement', N'0', N'2016-09-07 15:30:20.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'816b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'64e4f5aa-28ef-4690-9b20-5f0b543964f6', N'', N'UserElement', N'0', N'2016-09-07 15:30:20.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'816b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'6532f9c1-3067-4952-b008-e766f833050e', N'', N'UserRole', N'0', N'2019-11-23 00:48:41.000', N'', N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'6645b6fb-efcf-4e48-9c13-84f79bc5be34', N'', N'RoleOrg', N'0', N'2018-04-14 13:16:45.000', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL)
@@ -2681,13 +2739,31 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'66e25fc5-093d-42ab-85dc-a38f6600889b', N'', N'UserOrg', N'0', N'2016-09-02 13:57:32.000', N'0', N'ea25646b-964b-4d41-ab03-d8964e1494fb', N'c36e43df-3a99-45da-80d9-3ac5d24f4014', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'688fec62-61b4-4378-98dd-87b84042ff4d', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'OrderType', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'68912e65-256e-45b6-b48e-036382598d32', N'', N'RoleOrg', N'0', N'2016-10-17 10:03:49.000', N'0', N'2eb423d6-6ad9-4efe-b423-872478a2a434', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'68984a83-ce96-4144-9e23-0e0f2249fb45', N'', N'UserOrg', N'0', N'2019-10-31 21:51:30.000', N'', N'de8be521-f1ec-4483-b124-0be342890507', N'c36e43df-3a99-45da-80d9-3ac5d24f4014', N'', N'')
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'69bd03a2-503d-40c6-8969-866c4ce2518a', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'Id', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'6b9c4789-042c-4f6f-a749-ee68ee87462d', N'', N'ProcessUser', N'0', N'2016-10-27 16:47:52.000', N'0', N'054ff054-d8ae-4911-a596-8fb1f66b348f', N'3a95e392-07d4-4af3-b30d-140ca93340f5', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'6be0b400-69fa-49db-a0d7-056d9b2d9246', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'Description', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'6c0cfddb-719c-4680-9368-6e0c84d489b2', N'', N'RoleModule', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'6d1c5f2a-3007-40f4-ba6f-1eb98890a04d', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'1a473afd-cbd4-41e9-9471-81f9435aaabe', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'6d96cc8b-3a33-4fb3-b91f-b1055d496bdd', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'6da6d662-8cef-47cd-80b3-fa885b2dca7a', N'', N'RoleOrg', N'0', N'2018-04-14 13:16:45.000', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
@@ -2696,25 +2772,28 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'6db5666b-6f8c-4e83-bada-0b45054bd9a4', N'', N'RoleElement', N'0', N'2016-09-04 23:20:42.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'0d25438e-1436-48e0-aedf-0f1690693282', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'6f0ed92f-f2b9-4e7b-a965-3cd3d38abe2e', N'', N'RoleModule', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'', N'')
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'6f563fe2-21f0-441f-8b43-9afd92b53356', N'', N'RoleModule', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'6df89e65-9b81-417e-b14a-606d802975f9', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'GoodsType', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'6fe52499-f800-47ce-96fc-a2b5b43505d5', N'', N'UserElement', N'0', N'2018-04-06 09:48:22.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'70c89239-dc86-4ac9-9779-7dcbb4dfe685', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'7082bc48-535e-4b92-9dc0-c58340a8239d', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Resource', N'Name', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'715d017a-68b6-468d-aa3f-32ca4cfd4b9e', N'', N'RoleModule', N'0', N'2016-09-04 23:20:34.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'72bf4729-af60-42f5-b0d7-717362ffad7f', N'', N'RoleElement', N'0', N'2016-09-04 23:21:00.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'2feefce1-e3d8-42ac-b811-2352679628da', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'71a7d393-5388-4831-8aaa-67b3c26949e3', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'SupplierId', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'72d150c7-60a5-428e-8a7e-d484d2c97cd8', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'Id', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'71fa1d0c-1928-4a16-aa94-c92e6f671581', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:51:40.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'Resource', N'AppName', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'728d36e3-6b0b-416a-ba46-84defa90e193', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'Name', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'72bf4729-af60-42f5-b0d7-717362ffad7f', N'', N'RoleElement', N'0', N'2016-09-04 23:21:00.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'2feefce1-e3d8-42ac-b811-2352679628da', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'736e90f7-3747-472e-816d-dbb7fdf3b0bb', N'', N'RoleOrg', N'0', N'2018-09-12 00:08:42.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
@@ -2723,7 +2802,16 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'7475b0c3-f204-4f95-a22f-80591fe76bc7', N'', N'ProcessUser', N'0', N'2016-10-31 11:52:39.000', N'0', N'b8bcdf59-1e29-4d97-a364-12ac8e8c5c61', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'74d3488e-1708-4575-9518-d2757d6c35ab', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'UpdateUserName', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'75340ad3-fb80-4646-b1de-ba801688ddc2', N'', N'RoleElement', N'0', N'2016-09-04 23:21:04.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'5ed1681c-13d2-4c87-8675-a8d95c0b40ae', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'759c09ce-f93a-4de7-96fc-cffabc1cd1ac', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Resource', N'AppName', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'76041796-3887-4a2a-b381-f72a0a051a3a', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'CascadeId', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'77ac794c-9142-443f-b19c-3b9d960c8ba4', N'', N'UserOrg', N'0', N'2019-10-31 21:51:45.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'86449128-d5ac-44bf-b999-f7735b7458fd', N'', N'')
@@ -2738,13 +2826,34 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'77fc08e6-98ae-4d33-b294-bd9fed5b14ed', N'', N'UserElement', N'0', N'2018-04-06 14:50:36.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'816b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'7937e617-a0a8-4c91-8fd3-5144fccedefa', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'2d595a2a-5de5-479e-a331-b53c799a6b10', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'797c6e5f-7f3c-4891-89b9-a054e10f6c00', N'', N'UserModule', N'0', N'2018-04-06 09:48:01.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'37bb9414-19a0-4223-9056-71f8c758a930', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'7a22ccfc-5f4a-472b-850b-61b9552d7e67', N'', N'UserRole', N'0', N'2019-11-23 00:48:10.000', N'', N'229f3a49-ab27-49ce-b383-9f10ca23a9d5', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'7a483e12-1b86-4ced-bdf6-7d098d157bd6', N'', N'RoleModule', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'9486ff22-b696-4d7f-8093-8a3e53c45453', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'7ab6db05-1098-4134-b228-3329792dc6db', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:51:40.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'Resource', N'UpdateUserName', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'7cadb750-0d27-4c32-a99e-0bab7eb9470c', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'b3e23ebc-0ff2-41b3-bff0-fd5e93f6828a', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'7dcc9577-f27b-429f-8552-d223d4b48617', N'', N'UserRole', N'0', N'2019-10-31 21:59:41.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'', N'')
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'7e8ce905-fa6e-490d-9d33-bde6b6529804', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:19:30.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Category', N'Description', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'7f25286f-246b-4143-98eb-c3e574fe7455', N'', N'ProcessUser', N'0', N'2016-09-07 17:33:39.000', N'0', N'52cc7933-a045-4dcc-8c17-1b618bfa772b', N'3a95e392-07d4-4af3-b30d-140ca93340f5', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'7fa1506b-fbe7-4e12-8bc2-b921418b1fd2', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'a7eea5dc-3b10-4550-9cf3-0dba9b9fc32c', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'7fd7f976-f10e-44aa-a7ba-7ca40d2e8f90', N'', N'RoleOrg', N'0', N'2016-10-17 10:03:30.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
@@ -2753,22 +2862,37 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'80310629-5e52-482c-9a0f-5c5bdfabcd9e', N'', N'RoleOrg', N'0', N'2016-09-05 00:00:00.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'806c212c-24ae-4b1b-b17a-530d802028de', N'', N'RoleModule', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'80764f9b-a5ca-49d6-8d5c-a0b62f339d90', N'', N'RoleElement', N'0', N'2019-11-23 00:50:51.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'9e2c6754-f258-4b14-96a0-b9d981196a65', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'81fbf2bd-f98e-468b-8d02-6f1341266c13', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'UpdateTime', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'832f4a8f-7791-4aa6-bcd2-20dcb6f5ef37', N'', N'UserElement', N'0', N'2016-09-02 14:53:04.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'15a4f88c-4fae-4cab-ba2f-0cbd2cca8736', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'84a52091-08a0-4a46-b661-3cd206771c29', N'', N'RoleModule', N'0', N'2016-09-04 23:20:34.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'0031262c-689c-4b96-bae2-2c9d67076ade', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'852e7dcb-7c2b-47f2-ba82-64d085bf63c4', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'c7d7daf0-3669-4a22-8bed-b092617deb9c', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'854e0658-ab8a-4869-b157-9941955acdc6', N'', N'RoleElement', N'0', N'2016-09-04 23:21:09.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'1a473afd-cbd4-41e9-9471-81f9435aaabe', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'85ab02d8-995f-4f66-9828-e53f04af09b9', N'', N'RoleModule', N'0', N'2019-01-08 02:22:31.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'85bdc736-1db7-4629-9c6c-98754da22e7d', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'Name', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'85c4e891-d7c7-4504-ac17-fb21d0d14acd', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'c35d8f5b-0d38-4f31-84f9-39e476eeab08', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'88a4c966-d042-4a2e-b133-ff7eded1c5de', N'', N'RoleElement', N'0', N'2016-09-04 23:21:13.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'7b2b1ffb-398b-4f7b-83da-8f484e1bcea0', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'89e5dd60-0981-4cd9-b9ad-577b7b817556', N'', N'RoleDataProperty', N'0', N'2019-10-29 15:28:12.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Category', N'Id', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'89f77802-d0e1-4ac0-b5a8-222e55d5c895', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'ShipperId', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'8af3581e-257f-4655-bac2-5b5afb85ef88', N'', N'UserOrg', N'0', N'2019-10-31 21:59:08.000', N'', N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'b2083488-64e5-44cc-b8f4-929ffa6f2f72', N'', N'')
@@ -2777,13 +2901,16 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'8b633f3c-965b-4e35-8496-c364890d7760', N'', N'RoleElement', N'0', N'2016-09-04 23:21:09.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'c3d7b478-21e9-4c1e-b866-a3c80be7909b', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'8c93cb3c-b535-4ab1-af9e-b3ad50847423', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:51:40.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'Resource', N'Id', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'8e1380ca-e260-439b-bb8a-13a081514a50', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'054e9699-7828-4b8b-a28b-d7ae45ed3306', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'8e1a6d38-da7d-45af-bb47-afa920f802df', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'UpdateUserName', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'8fa4a52f-9c0a-43c9-9b7e-b378efb4e1df', N'', N'RoleResource', N'0', N'2018-09-10 12:54:14.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'OPENAUTH_LOGIN', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'9043a72d-862f-49b4-bfe3-51d9bd289f14', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'816b12b3-e916-446d-a2fa-329cfd13c831', N'', N'')
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'9210adfa-b783-4368-8c8d-86c30ec9cdd1', N'', N'RoleModule', N'0', N'2019-01-08 02:22:31.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'37bb9414-19a0-4223-9056-71f8c758a930', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'92b2d699-9875-4978-af79-24c83ff4e212', N'', N'UserOrg', N'0', N'2019-10-31 21:58:43.000', N'', N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'df442c27-68a0-428e-a309-cba23a994a9d', N'', N'')
@@ -2795,7 +2922,7 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'93bcac7a-0ff1-488c-8d1c-3da7e44cbefc', N'', N'RoleElement', N'0', N'2016-09-04 23:21:00.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'd1ba6a72-ba14-44c0-baba-46d0ad96fe8a', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'95cd06bd-7cad-4790-b5f8-15738360da95', N'', N'RoleModule', N'0', N'2019-01-08 02:22:31.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'95986dd8-d55e-45ed-8cac-46d3d885ba3b', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'ExternalType', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'960224e6-5910-472b-a5ef-b2aa9a8b106f', N'', N'UserRole', N'0', N'2016-09-06 17:06:15.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', NULL, NULL)
@@ -2807,10 +2934,22 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'965f010b-2fd6-4b34-ba23-3e44c1af2877', N'', N'RoleOrg', N'0', N'2016-09-08 16:19:18.000', N'0', N'36094f5d-07e7-40d5-91dc-ff60f98b496a', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'966531b6-584c-4f0a-b934-c33aab795f1c', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'2d595a2a-5de5-479e-a331-b53c799a6b10', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'96842fa6-fd4d-4187-8d50-19150d558aad', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'AppId', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'971939ae-865c-43c9-b87b-1bb2321a96fe', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'826b12b3-e916-446d-a2fa-329cfd13c831', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'97a17701-d851-49f8-a943-6cf44e659ae6', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'a7eea5dc-3b10-4550-9cf3-0dba9b9fc32c', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'98136fef-6d02-4823-bc12-6e5e619e1275', N'', N'UserRole', N'0', N'2019-10-31 21:59:25.000', N'', N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'98bac4cd-2693-49ff-ba2c-6d7231bdf8ac', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'c3d7b478-21e9-4c1e-b866-a3c80be7909b', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'98c8d2e0-e03f-44fa-ae6e-b193f1af8e78', N'', N'RoleModule', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'9a7648a6-12ac-4473-82ec-c2c845d9047e', N'', N'RoleElement', N'0', N'2019-11-06 10:31:03.000', N'', N'3e761e88-ddf7-4a62-b219-9a315b4564f2', N'054e9699-7828-4b8b-a28b-d7ae45ed3306', N'', N'')
@@ -2828,13 +2967,13 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'9e57e1ff-e9cf-4600-a872-ac85f7845bb0', N'', N'RoleOrg', N'0', N'2018-04-14 13:16:45.000', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'c36e43df-3a99-45da-80d9-3ac5d24f4014', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'9ea4add6-9fdf-4046-8b6f-84f0a1cb2967', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'1a473afd-cbd4-41e9-9471-81f9435aaabe', N'', N'')
-GO
-
 INSERT INTO [dbo].[Relevance]  VALUES (N'9edc7b81-2b51-4193-8805-6062e596ccdc', N'', N'UserOrg', N'0', N'2016-09-02 13:57:32.000', N'0', N'ea25646b-964b-4d41-ab03-d8964e1494fb', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'9fa50449-5d87-4579-9f1f-9cdcd876976b', N'', N'RoleElement', N'0', N'2016-09-04 23:21:00.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'6839a297-350b-4215-b680-4e5dfdae5615', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'a050da29-bbb4-48da-b160-0db9f127bd1f', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'9486ff22-b696-4d7f-8093-8a3e53c45453', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'a051aa08-38da-4b6d-8d90-10b3c2485e4b', N'', N'RoleOrg', N'0', N'2016-09-05 00:00:00.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
@@ -2846,10 +2985,10 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'a0904102-e26a-4bc5-9c95-ed5ef977586b', N'', N'RoleModule', N'0', N'2016-09-02 17:03:39.000', N'0', N'211e12c7-e466-496e-8d26-0660a38e24cc', N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'a4df5a15-fd77-40fb-84cd-3b7844bd0147', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'1a473afd-cbd4-41e9-9471-81f9435aaabe', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'a21bb7bf-37b2-4de5-b8eb-9250a8087342', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'Description', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'a57aac15-345d-4736-a58a-4d6e8f295f9b', N'', N'RoleElement', N'0', N'2019-11-06 10:31:03.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'054e9699-7828-4b8b-a28b-d7ae45ed3306', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'a48dac0c-6625-466c-b294-5b392a7fa724', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'a5bef7bf-ecdb-4480-ad64-b39a02269607', N'', N'UserModule', N'0', N'2018-04-06 09:48:37.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'069475e3-c997-487a-9f29-e6a864c5c1d4', NULL, NULL)
@@ -2864,10 +3003,10 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'a9821db0-49bd-49be-a554-afa811c99760', N'', N'RoleResource', N'0', N'2016-09-04 23:20:22.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'ec99f670-0eca-465c-9f64-d4d5dc510b83', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'aa051096-a23a-431d-9053-bb954f9453a7', N'', N'RoleElement', N'0', N'2016-09-04 23:20:54.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'4bfa8ea0-6b0d-426f-8687-b654575ca780', NULL, NULL)
+INSERT INTO [dbo].[Relevance]  VALUES (N'a9f45deb-b14f-4021-ab7d-ecac8fcf37c9', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', N'', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'ab190397-32a8-4b0f-bf34-2d648d6fe974', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'Name', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'aa051096-a23a-431d-9053-bb954f9453a7', N'', N'RoleElement', N'0', N'2016-09-04 23:20:54.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'4bfa8ea0-6b0d-426f-8687-b654575ca780', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'ab84b111-fb5d-4ddd-99d5-479954d9d521', N'', N'RoleOrg', N'0', N'2016-09-08 16:19:18.000', N'0', N'36094f5d-07e7-40d5-91dc-ff60f98b496a', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
@@ -2900,19 +3039,25 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'ad905aa6-d3d8-4fe9-99b4-5f8be7891d1e', N'', N'RoleResource', N'0', N'2018-09-12 00:15:54.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'XXX_ADMIN', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'ae131c5a-084b-4932-9215-cf0f739ee969', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'GoodsType', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'ae619801-1959-44fd-a75b-a8cca4d559b4', N'', N'RoleOrg', N'0', N'2018-09-12 00:08:37.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'aeaedadc-d482-4ef0-b7f4-ec685669112b', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'StockId', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'af263192-daa8-4f29-99b9-1efb96e31627', N'', N'RoleElement', N'0', N'2016-09-04 23:20:42.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'645b40ac-4223-44a7-aab4-66eb56cf9864', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'b01055dc-78f1-4d6b-aec2-e25b5d89bb05', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'TransferType', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'b0174f58-3f6c-431a-8bd8-0caba54fd848', N'', N'RoleElement', N'0', N'2019-11-06 10:31:03.000', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'054e9699-7828-4b8b-a28b-d7ae45ed3306', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'b08d7763-a725-406f-a7d5-d144f00d716e', N'', N'UserOrg', N'0', N'2016-09-02 13:56:41.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'b17f9a6d-ab0b-4967-aef2-ce7d95fa581a', N'', N'UserRole', N'0', N'2019-10-31 21:59:34.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'b241dd3d-2965-44e4-929d-9dacb6444e09', N'', N'RoleOrg', N'0', N'2018-04-14 13:16:45.000', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
@@ -2927,16 +3072,22 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'b2edfee4-f980-4aa5-b547-492d677e0674', N'', N'RoleModule', N'0', N'2016-09-04 23:20:34.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'b3245529-7cad-4130-bd2d-ac1129deb2f0', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'UpdateTime', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'b3b8f695-a179-489b-90b4-7814ab048a69', N'', N'UserElement', N'0', N'2018-04-06 09:48:21.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'816b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'b4c2a294-125c-4768-9214-cea3ccf39a1c', N'', N'RoleOrg', N'0', N'2018-09-12 00:08:42.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'b55798b2-6768-4051-8cdc-9da72c73718d', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:51:40.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'Resource', N'Name', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'b672a830-c3a5-408b-a746-65608534b24c', N'', N'UserModule', N'0', N'2017-12-15 17:07:05.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'9486ff22-b696-4d7f-8093-8a3e53c45453', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'b8606463-4957-424f-bcab-1ea27c15c2c5', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'b7ca22cb-fe9a-47b6-9055-2fe2072af214', N'', N'RoleModule', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'b9e63d17-35c8-4456-abab-8f43a1c99adc', N'', N'UserModule', N'0', N'2018-04-06 09:47:59.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL)
@@ -2945,10 +3096,16 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'ba5f4663-04e1-4b09-8e84-459507df2aeb', N'', N'UserOrg', N'0', N'2019-10-31 21:50:51.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'', N'')
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'bb1350a0-a1fb-49fa-bf64-ccb077834602', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'bbdc3ea9-3f21-48b0-9d7a-39545d6183d0', N'', N'UserElement', N'0', N'2018-04-06 09:48:25.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'826b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'bc869e2f-4417-4db5-92ac-611a0caf918d', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'816b12b3-e916-446d-a2fa-329cfd13c831', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'bc1db690-201e-4997-8ccf-6d2e3ef53941', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'Disable', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'bc63b763-cdb8-4516-a3c4-fabe74d7dc56', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:19:30.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Category', N'DtValue', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'bd783f53-23fa-41f4-8cec-7c61fab52072', N'', N'UserOrg', N'0', N'2018-03-15 09:19:06.000', N'', N'0ceff0f8-f848-440c-bc26-d8605ac858cd', N'86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL)
@@ -2957,7 +3114,7 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'bda5f089-64d6-4fb8-9012-d7f3ff36902a', N'', N'UserOrg', N'0', N'2017-10-12 13:59:09.000', N'', N'ffd92ed2-5330-4ec2-a42d-6e0e9005db3b', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'bed2842a-e9ff-4598-889f-2889033f8e67', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'4bfa8ea0-6b0d-426f-8687-b654575ca780', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'be438052-5fc5-4305-8380-a6b1a2c3af5a', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'816b12b3-e916-446d-a2fa-329cfd13c831', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'bee6572d-8fb8-4e0e-af15-93aafc989717', N'', N'RoleElement', N'0', N'2016-09-04 23:20:42.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'68fc793f-069f-43e1-a012-42ac2d7c585c', NULL, NULL)
@@ -2966,10 +3123,19 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'bef744ab-2323-4552-9a09-f529911f8c59', N'', N'UserOrg', N'0', N'2019-10-31 21:58:43.000', N'', N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'60620558-89a2-4b28-8637-52f514773725', N'', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'bf096b00-8793-43ea-b56b-f72e4e8444a9', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'68484265-7802-4f06-b024-33e8b2f2edcf', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'bfe7d15c-9b35-4735-b9a6-38ee8869b5ec', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'CreateUserId', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'c14addeb-1812-4a78-9152-1f7115b22d89', N'', N'UserRole', N'0', N'2016-09-05 00:00:47.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'c16e961d-e3b9-4b89-8cd4-de6fd23e4709', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'Status', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'c25f0741-47bc-48a5-801c-902de87b7ab6', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'CreateUserName', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'c2ad7433-3d38-4581-b3fb-e9615d71833a', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'TypeName', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'c2d3b7d6-b47d-4bd8-9dc6-d9134d86713f', N'', N'RoleOrg', N'0', N'2016-10-17 10:03:30.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL)
@@ -2987,13 +3153,10 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'c58cb482-6ab7-49eb-b5b0-e45424b6e502', N'', N'RoleElement', N'0', N'2016-09-04 23:21:00.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'34730f5a-d307-457b-9041-5f7de30abfa9', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'c68dccbb-b7c5-4db1-b426-b58a19f42145', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'9e2c6754-f258-4b14-96a0-b9d981196a65', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'c71a41b1-9b7b-441b-ab84-fbd714674e8a', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'ExternalNo', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'c733cfbe-2f71-41e4-92a6-4ff97cf88dc4', N'', N'UserModule', N'0', N'2018-04-06 09:48:19.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'c8e31bf2-183c-486e-8898-064ba745e501', N'', N'RoleDataProperty', N'0', N'2019-10-29 15:28:12.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Category', N'Description', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'c9099371-8d4e-4f5b-9686-2c60a2c1c641', N'', N'ProcessUser', N'0', N'2016-09-08 16:48:14.000', N'0', N'10cc09fb-d469-41e5-ae3f-fdd805a4bd4c', N'3a95e392-07d4-4af3-b30d-140ca93340f5', NULL, NULL)
@@ -3002,22 +3165,52 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'c98b3d02-a76b-4ecc-94a5-cfeffd5e29fb', N'', N'RoleModule', N'0', N'2016-09-02 17:03:39.000', N'0', N'211e12c7-e466-496e-8d26-0660a38e24cc', N'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'cdddbe18-6790-4c23-8cc9-675b2ade2462', N'', N'RoleElement', N'0', N'2019-11-06 10:31:03.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'054e9699-7828-4b8b-a28b-d7ae45ed3306', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'ca6e9531-cd2c-4417-9792-67b631e4b2bb', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'Remark', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'd22b89f8-50d1-4816-9bb2-576ea49d9245', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'68484265-7802-4f06-b024-33e8b2f2edcf', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'd00034db-e3d9-4331-8432-e6e726cfda64', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'OwnerId', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'd1a72b7e-01f5-4edb-8e3b-13af7c47594f', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'd22cd7d0-494b-4cc7-b3c3-03357cfd7440', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'InBondedArea', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'd3a176c6-7593-4011-98df-562692d2e14d', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'13617796-049c-4ae4-a62b-1ca84002b273', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'd62dc172-d9a4-4254-8408-713436ae652c', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'Status', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'd65f9601-b07e-4c89-8c35-ddc6c3edf3b1', N'', N'UserRole', N'0', N'2019-11-23 00:48:02.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'd892294d-2a2f-410e-bae9-86be3f6e3674', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'StockId', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'd8f2711b-2e86-4bc8-8110-22f8fd42d06c', N'', N'RoleElement', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'84e38920-f6e5-499c-bf52-a3c6f8499ff7', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'da6c0645-0bf9-4ade-9dd3-1b09e91e504c', N'', N'RoleElement', N'0', N'2016-09-05 09:22:07.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'816b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'db9a5462-8f52-4755-afd7-39887dff55b5', N'', N'RoleDataProperty', N'0', N'2019-10-29 15:28:12.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Category', N'Name', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'db66a6e6-ec21-4e5b-acbc-b31093391686', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'Enable', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'dbdd5bf2-5910-4644-b087-2f50711840df', N'', N'UserRole', N'0', N'2019-11-23 00:48:35.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'dc3382df-8a6b-4eb9-9c3d-b47de72d593d', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'PurchaseNo', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'dc7dd8ef-c8e6-414f-8e97-31774718654c', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'Id', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'dce5fd47-1b7a-4be8-a85d-96bb1b2c9f37', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'c35d8f5b-0d38-4f31-84f9-39e476eeab08', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'df2d90b3-4e2e-40e9-b406-220009726460', N'', N'RoleModule', N'0', N'2016-09-04 23:20:34.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'dfbcc1cb-4103-46ac-8f4f-ce8bb3402392', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'dfd5430b-3422-465a-be79-05a1e06deed2', N'', N'RoleElement', N'0', N'2016-09-04 23:20:54.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'c7d7daf0-3669-4a22-8bed-b092617deb9c', NULL, NULL)
@@ -3026,10 +3219,13 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'e12b77de-b7ce-4f38-b7a3-f3b2d285f33b', N'', N'RoleOrg', N'0', N'2016-10-17 10:03:49.000', N'0', N'2eb423d6-6ad9-4efe-b423-872478a2a434', N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'e1367d2b-61b0-4d1a-9066-40adc6fde3b5', N'', N'RoleModule', N'0', N'2019-11-23 00:50:51.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'e28c0dcd-168a-4b60-a514-7b6eb8026709', N'', N'RoleOrg', N'0', N'2016-10-17 10:03:30.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'e5689793-8dd7-4d07-bf2e-4977eba430f4', N'', N'RoleElement', N'0', N'2019-01-08 02:22:32.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'84e38920-f6e5-499c-bf52-a3c6f8499ff7', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'e4514c9f-be6f-4b91-b978-f4e9948bcc52', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'CreateTime', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'e619a82e-edfb-4542-94df-0b92850667ad', N'', N'RoleResource', N'0', N'2018-04-14 14:39:56.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'OPENAUTH_MODIFYACCOUNT', NULL, NULL)
@@ -3044,10 +3240,16 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'e9cf3d63-6305-46c7-93b4-14053387c62c', N'', N'UserModule', N'0', N'2018-04-06 09:48:18.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'37bb9414-19a0-4223-9056-71f8c758a930', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'eaf70099-4ae2-439c-befd-742970ebcf0d', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'9e2c6754-f258-4b14-96a0-b9d981196a65', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'ec72f6ae-09ee-4db9-99a1-bf15c8e35dda', N'', N'ProcessUser', N'0', N'2016-09-14 11:38:23.000', N'0', N'6c6afe3c-349c-4198-8710-cf19c90f3afd', N'3a95e392-07d4-4af3-b30d-140ca93340f5', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'ec9c80ce-dbdf-4ba5-9091-82f75392c3b0', N'', N'UserElement', N'0', N'2016-09-07 15:30:43.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'68484265-7802-4f06-b024-33e8b2f2edcf', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'ed784dcb-0a65-4e88-9356-539976ea9993', N'', N'RoleElement', N'0', N'2019-11-23 01:05:15.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'c3d7b478-21e9-4c1e-b866-a3c80be7909b', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'ee1986a0-24cc-4dec-b5f5-68ef959ab650', N'', N'UserElement', N'0', N'2018-04-06 14:50:40.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', NULL, NULL)
@@ -3059,10 +3261,10 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'eec41fcb-61c0-4e56-a5c0-a9f8be6e6fdc', N'', N'UserModule', N'0', N'2016-09-07 15:30:06.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'069475e3-c997-487a-9f29-e6a864c5c1d4', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'f03f503b-3898-44a0-a588-3ba4e27b72d5', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'Id', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'ef8024e8-dab3-4b85-9952-821a005c1f2b', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:51:40.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'Resource', N'CascadeId', N'')
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'f42343b9-adc2-4368-9028-7ed2f76fba68', N'', N'UserRole', N'0', N'2019-10-29 17:00:19.000', N'', N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'f44834c8-fe0b-4bc3-ab50-3b5658041a49', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'f4ba636a-9002-43e6-93eb-95132a3e68c5', N'', N'ProcessUser', N'0', N'2016-09-28 09:23:30.000', N'0', N'68295d2a-4dfd-4c5e-81e3-9c787e2603bc', N'3a95e392-07d4-4af3-b30d-140ca93340f5', NULL, NULL)
@@ -3080,19 +3282,28 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'f671f582-9111-4000-aadd-660449d0d4b0', N'', N'RoleResource', N'0', N'2018-09-12 00:15:54.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'XXX_LOGIN', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'f6a9cdf7-50c1-48b4-ae29-f999691f3a1d', N'', N'RoleDataProperty', N'0', N'2019-01-08 02:23:02.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'TypeId', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'f76e2d5a-9fff-4326-b497-75b98f969834', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'f82eaddf-22f5-4dfa-a6dd-447980e18025', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'ScheduledInboundTime', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'f8d157b4-12e3-4488-9e4c-b9670e11b4c6', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'UpdateUserName', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'fa032615-650b-4658-b31f-a98de7786c19', N'', N'RoleModule', N'0', N'2019-11-23 00:20:15.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'7bc7e527-478d-49fd-868d-5f31951586f5', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'fa52d20f-204d-4cdd-a1e5-5b7faaac4cd7', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:51:40.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'Resource', N'CreateUserName', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'fa7c4d39-b31a-4668-8716-d40a62aa722b', N'', N'UserOrg', N'0', N'2017-10-12 13:59:49.000', N'', N'63c9c82a-e0d3-4bde-bbd2-057cda2f5283', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Relevance]  VALUES (N'feeacec1-f3a5-4edc-b16e-d77266c2e53a', N'', N'UserRole', N'0', N'2019-10-31 21:59:34.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'', N'')
+INSERT INTO [dbo].[Relevance]  VALUES (N'fb993fd6-23a3-4e28-bbb3-7ed6cca8f295', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:20:57.000', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'Id', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'feec44e3-3f88-4ac2-a4ad-a5bd3161f1bb', N'', N'UserOrg', N'0', N'2019-10-31 21:59:08.000', N'', N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'66386671-0494-4e83-8346-fbcf73283f7b', N'', N'')
-GO
-
-INSERT INTO [dbo].[Relevance]  VALUES (N'fffb23bb-4b47-4a4d-bf93-9d7c8755b6f0', N'', N'RoleElement', N'0', N'2019-10-29 15:28:04.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'84e38920-f6e5-499c-bf52-a3c6f8499ff7', N'', N'')
 GO
 
 
@@ -3262,6 +3473,31 @@ GO
 
 
 -- ----------------------------
+-- Records of [Resource]
+-- ----------------------------
+INSERT INTO [dbo].[Resource]  VALUES (N'SYS_DEL_USER', N'.0.2.', N'删除用户', N'0', N'拥有删除OpenAuth.Net系统用户信息的权限', N'根节点', NULL, N'110', N'OpenAuth.Net', NULL, NULL, N'0', N'2019-11-23 00:27:58.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 00:27:58.0000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[Resource]  VALUES (N'SYS_UPDATE_USER', N'.0.1.', N'更新用户信息', N'0', N'拥有更新OpenAuth.Net系统用户信息的权限', N'根节点', NULL, N'110', N'OpenAuth.Net', NULL, NULL, N'0', N'2019-11-23 00:27:17.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 00:27:12.0000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[Resource]  VALUES (N'SYS_VIEW_USER', N'.0.3.', N'查看用户列表', N'0', N'查看OpenAuth.Net用户列表', N'根节点', NULL, N'110', N'OpenAuth.Net', NULL, NULL, N'0', N'2019-11-23 00:44:39.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:44:39.0000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[Resource]  VALUES (N'XXX_ADDORDER', N'.0.6.', N'创建订单', N'0', N'在XXX平台创建订单', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:53:24.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:53:24.0000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[Resource]  VALUES (N'XXX_DEL_LOG', N'.0.4.', N'删除XXX平台日志', N'0', N'删除XXX平台日志', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:45:02.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:45:02.0000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[Resource]  VALUES (N'XXX_LOGIN', N'.0.7.', N'登录', N'0', N'登录XXX平台', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:55:20.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 00:55:20.0000000', N'', N'')
+GO
+
+INSERT INTO [dbo].[Resource]  VALUES (N'XXX_VIEW_USER', N'.0.5.', N'查看用户', N'0', N'查看XXX平台用户列表', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:53:01.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:53:01.0000000', N'', N'')
+GO
+
+
+-- ----------------------------
 -- Table structure for Role
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Role]') AND type IN ('U'))
@@ -3347,10 +3583,10 @@ GO
 INSERT INTO [dbo].[Role]  VALUES (N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'测试', N'0', N'2018-04-09 22:48:29.000', N'', N'', N'')
 GO
 
-INSERT INTO [dbo].[Role]  VALUES (N'3e761e88-ddf7-4a62-b219-9a315b4564f2', N'汇丰测试', N'0', N'2018-04-09 22:48:42.000', N'', N'', N'')
+INSERT INTO [dbo].[Role]  VALUES (N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'神', N'0', N'2018-04-14 13:16:45.000', N'', N'', N'')
 GO
 
-INSERT INTO [dbo].[Role]  VALUES (N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'神', N'0', N'2018-04-14 13:16:45.000', N'', N'', N'')
+INSERT INTO [dbo].[Role]  VALUES (N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'测试二组', N'0', N'2019-11-23 00:46:31.000', N'', N'', N'')
 GO
 
 
@@ -6607,34 +6843,43 @@ GO
 -- ----------------------------
 -- Records of [WmsInboundOrderDtbl]
 -- ----------------------------
-INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'09a939ad-7e40-42f2-b0b3-fa9b74f94897', N'20190035RK0001', N'77.000000', N'73.210000', N'0', N'0', N'', N'10045', N'', N'32.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:37:38.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'09a939ad-7e40-42f2-b0b3-fa9b74f94897', N'20190035RK0001', N'77.000000', N'73.210000', N'0', N'0', N'', N'10045', N'', N'32.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'1e547556-9549-44d5-9da3-c07d98b5943e', N'2019102203RK0003', N'10.000000', N'6.000000', N'0', N'0', N'', N'', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-07 01:00:35.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-07 01:00:35.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'1e547556-9549-44d5-9da3-c07d98b5943e', N'2019102203RK0003', N'10.000000', N'6.000000', N'0', N'0', N'', N'', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-07 01:00:35.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:00.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'2ae93007-1490-4e81-b410-957fc08e2371', N'2019102203RK0001', N'25.000000', N'22.500000', N'0', N'0', N'', N'100011', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:32:10.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:32:10.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'2ae93007-1490-4e81-b410-957fc08e2371', N'2019102203RK0001', N'25.000000', N'22.500000', N'0', N'0', N'', N'100011', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:32:10.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:47.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'56b5612c-e048-4650-9710-4b235731d548', N'20190035RK0001', N'62.000000', N'60.230000', N'0', N'0', N'', N'133521', N'', N'10.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:37:38.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'30eb475b-ed86-4106-88f0-47a5a32ec8aa', N'TEST_002', N'10.000000', N'10.000000', N'0', N'1', N'', N'CJ-334', N'', N'10.00', N'8.00', N'2.00', N'.00', N'2019-11-22', N'', N'.00', N'', N'', N'2019-11-23 01:26:54.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:26:54.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'5e7d6ef8-351a-4600-849e-3958588161a7', N'20190035RK0001', N'55.000000', N'54.230000', N'0', N'0', N'', N'FK85122', N'', N'14.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:37:38.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'56b5612c-e048-4650-9710-4b235731d548', N'20190035RK0001', N'62.000000', N'60.230000', N'0', N'0', N'', N'133521', N'', N'10.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'95d6d2a8-0e17-426b-97f3-3c8a82bca313', N'20190035RK0001', N'15.000000', N'13.220000', N'0', N'0', N'', N'10052', N'', N'52.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:37:38.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'5e7d6ef8-351a-4600-849e-3958588161a7', N'20190035RK0001', N'55.000000', N'54.230000', N'0', N'0', N'', N'FK85122', N'', N'14.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+GO
+
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'78c0a896-8341-47d4-b6d2-f241cec9fb58', N'TEST_001', N'998.500000', N'985.000000', N'0', N'1', N'', N'CJ-P-4446', N'', N'500.00', N'500.00', N'.00', N'.00', N'2019-11-22', N'2020-11-12', N'6.00', N'', N'', N'2019-11-23 01:27:49.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:29:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+GO
+
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'95d6d2a8-0e17-426b-97f3-3c8a82bca313', N'20190035RK0001', N'15.000000', N'13.220000', N'0', N'0', N'', N'10052', N'', N'52.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
 INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'b195386a-4f09-4e31-9d72-8e94526f9419', N'2019102203RK0133', N'200.000000', N'199.000000', N'0', N'0', N'', N'', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-07 01:24:11.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-07 01:24:11.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'ca470c60-9231-4c13-b51b-ad90c39633ae', N'2019102203RK0187', N'22.220000', N'20.000000', N'0', N'0', N'', N'', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-07 01:03:27.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-07 01:03:27.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'ca470c60-9231-4c13-b51b-ad90c39633ae', N'2019102203RK0187', N'22.220000', N'20.000000', N'0', N'0', N'', N'', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-07 01:03:27.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:48.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'dc0f9da2-0e0e-4dc3-9e59-2b0d51e53211', N'2019102203RK0001', N'10.000000', N'8.000000', N'0', N'1', N'', N'100010', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:32:10.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:32:10.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'd19df810-5c47-4a32-a3a5-c908da60bf8b', N'TEST_002', N'6.670000', N'6.000000', N'0', N'1', N'', N'CJ-335', N'', N'54.00', N'54.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-23 01:26:54.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:26:54.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'fcf051d3-5c00-4617-895f-e45891d975df', N'2019102203RK0002', N'22.520000', N'18.990000', N'0', N'1', N'', N'100020', N'', N'10.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:32:45.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:32:45.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'dc0f9da2-0e0e-4dc3-9e59-2b0d51e53211', N'2019102203RK0001', N'10.000000', N'8.000000', N'0', N'1', N'', N'100010', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:32:10.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:47.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+GO
+
+INSERT INTO [dbo].[WmsInboundOrderDtbl]  VALUES (N'fcf051d3-5c00-4617-895f-e45891d975df', N'2019102203RK0002', N'22.520000', N'18.990000', N'0', N'1', N'', N'100020', N'', N'10.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:32:45.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:53.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
 
@@ -6846,25 +7091,31 @@ GO
 -- ----------------------------
 -- Records of [WmsInboundOrderTbl]
 -- ----------------------------
-INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'20190035RK0001', N'20190035RK0001', N'', N'1', N'销退入库', N'不合格', N'', N'', N'', N'', N'', N'2019-11-20 00:00:00.0000000', N'', N'1', N'', N'1', N'0', N'2019-11-06 10:33:17.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'20190035RK0001', N'20190035RK0001', N'', N'1', N'SYS_INBOUNDTYPE_SAMPLE', N'不合格', N'20190035RK0001', N'', N'', N'', N'', N'2019-11-20 00:00:00.0000000', N'', N'1', N'SYS_SHIPTYPE_FREIGHT', N'1', N'0', N'2019-11-06 10:33:17.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'20190035RK0002', N'20190035RK0002', N'', N'0', N'样品入库', N'特殊药品', N'', N'', N'', N'', N'', N'2019-11-14 00:00:00.0000000', N'', N'1', N'', N'1', N'0', N'2019-11-06 10:34:58.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:34:58.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'20190035RK0002', N'20190035RK0002', N'', N'0', N'样品入库', N'特殊药品', N'20190035RK0002', N'', N'', N'', N'', N'2019-11-14 00:00:00.0000000', N'', N'1', N'SYS_SHIPTYPE_FREIGHT', N'1', N'0', N'2019-11-06 10:34:58.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:30:07.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0001', N'2019102203RK0001', N'1', N'1', N'普通入库', N'普通商品', N'2019102203RK0001', N'BJ003', N'CDC001', N'SF', N'SF', N'2019-10-10 00:00:00.0000000', N'', N'1', N'1', N'0', N'1', N'2019-10-31 21:27:14.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:32:10.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0001', N'2019102203RK0001', N'1', N'1', N'普通入库', N'普通商品', N'2019102203RK0001', N'BJ003', N'CDC001', N'SF', N'SF', N'2019-10-10 00:00:00.0000000', N'', N'1', N'SYS_SHIPTYPE_FREIGHT', N'0', N'1', N'2019-10-31 21:27:14.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:47.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0002', N'2019102203RK0002', N'1', N'1', N'普通入库', N'普通商品', N'2019102203RK0002', N'BJ003', N'CDC001', N'SF', N'SF', N'2019-10-10 00:00:00.0000000', N'', N'1', N'1', N'1', N'20', N'2019-10-31 21:27:14.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-06 10:32:45.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0002', N'2019102203RK0002', N'1', N'1', N'普通入库', N'普通商品', N'2019102203RK0002', N'BJ003', N'CDC001', N'SF', N'SF', N'2019-10-10 00:00:00.0000000', N'', N'1', N'SYS_SHIPTYPE_NORMAL', N'1', N'20', N'2019-10-31 21:27:14.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:53.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0003', N'2019102203RK0003', N'1', N'1', N'SYS_INBOUNDTYPE_RETURN', N'普通商品', N'2019102203RK0003', N'BJ003', N'CDC001', N'SF', N'SF', N'2019-10-10 00:00:00.0000000', N'', N'1', N'1', N'0', N'1', N'2019-10-31 21:27:14.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-07 01:00:35.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0003', N'2019102203RK0003', N'1', N'1', N'SYS_INBOUNDTYPE_RETURN', N'普通商品', N'2019102203RK0003', N'BJ003', N'CDC001', N'SF', N'SF', N'2019-10-10 00:00:00.0000000', N'', N'1', N'SYS_SHIPTYPE_EMS', N'0', N'1', N'2019-10-31 21:27:14.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:00.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
 INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0133', N'2019102203RK0133', N'', N'0', N'SYS_INBOUNDTYPE_SAMPLE', N'SYS_GOODSTYPE_COMMON', N'2019102203RK0133', N'', N'', N'001', N'', N'2019-11-26 00:00:00.0000000', N'', N'1', N'SYS_SHIPTYPE_EMS', N'1', N'0', N'2019-11-07 01:24:11.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-07 01:24:11.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0187', N'2019102203RK0187', N'', N'1', N'SYS_INBOUNDTYPE_PURCHASE', N'', N'2019102203RK0187', N'', N'', N'', N'', NULL, N'', N'1', N'', N'1', N'0', N'2019-11-07 01:03:27.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-07 01:03:27.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'2019102203RK0187', N'2019102203RK0187', N'', N'1', N'SYS_INBOUNDTYPE_PURCHASE', N'SYS_GOODSTYPE_MEDINSTR', N'2019102203RK0187', N'', N'', N'', N'', NULL, N'', N'1', N'SYS_SHIPTYPE_NORMAL', N'1', N'0', N'2019-11-07 01:03:27.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:48.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+GO
+
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'TEST_001', N'TEST_001', NULL, N'0', N'SYS_INBOUNDTYPE_PURCHASE', N'SYS_GOODSTYPE_BIOLPROD', N'TEST_001', N'001', N'BJ02', NULL, NULL, NULL, NULL, N'0', N'SYS_SHIPTYPE_NORMAL', N'0', N'0', N'2019-11-23 01:25:08.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:29:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+GO
+
+INSERT INTO [dbo].[WmsInboundOrderTbl]  VALUES (N'TEST_002', N'TEST_002', N'', N'0', N'SYS_INBOUNDTYPE_PURCHASE', N'SYS_GOODSTYPE_COMMON', N'TEST_002', N'002', N'', N'', N'', N'2019-11-12 00:00:00.0000000', N'', N'0', N'SYS_SHIPTYPE_EMS', N'1', N'0', N'2019-11-23 01:26:54.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:26:54.0000000', N'', N'')
 GO
 
 

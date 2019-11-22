@@ -1,5 +1,6 @@
 ![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
 
+**logo图标含义** OpenAuth中OA字母的结合体；整体像鱼，授人以渔；你非说像咸鱼，那也是积极向上的咸鱼；中心是个笑脸，微笑面对生活(✿◡‿◡)。
 
 本项目为OpenAuth.Net基于.net core 2.1的跨平台版本，使用.net 4.5的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
 
@@ -120,6 +121,6 @@
 普通应用账号使用用户列表的用户登录，初始密码与用户名相同；
 
 ## 后续
-功能方面.net core版本将与.net同步更新
+生命不息，更新不止
 
 

@@ -1,5 +1,5 @@
 /*需要先创建一个名字为OpenAuthDB的数据库*/
-﻿use [OpenAuthDB]
+use [OpenAuthDB]
 
 create type [dbo].[PrimaryKey] from varchar(50)
 go

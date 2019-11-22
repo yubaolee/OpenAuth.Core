@@ -35,12 +35,11 @@ namespace OpenAuth.App
 
 
             var result = new TableData();
-            var objs = UnitWork.Find<WmsInboundOrderTbl>(null);
+            var objs = GetDataPrivilege("u");
             if (!string.IsNullOrEmpty(request.key))
             {
                 objs = objs.Where(u => u.Id.Contains(request.key));
             }
-
 
             var propertyStr = string.Join(',', properties.Select(u => u.Key));
             result.columnHeaders = properties;

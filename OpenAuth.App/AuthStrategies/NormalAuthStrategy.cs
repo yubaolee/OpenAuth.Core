@@ -126,14 +126,15 @@ namespace OpenAuth.App
         /// <returns></returns>
         public List<KeyDescription> GetProperties(string moduleCode)
         {
-            var module = UnitWork.FindSingle<Module>(u =>u.Code == moduleCode);
-             if(module == null)
-            {
-                throw new Exception("该模块不存在");
-            }
-            if(module.IsSys){
-                throw new Exception("系统内置模块，不能进行字段分配");
-            }
+//            //和部分逻辑冲突，需要屏蔽掉
+//            var module = UnitWork.FindSingle<Module>(u =>u.Code == moduleCode);
+//             if(module == null)
+//            {
+//                throw new Exception("该模块不存在");
+//            }
+//            if(module.IsSys){
+//                throw new Exception("系统内置模块，不能进行字段分配");
+//            }
 
             var allprops = _dbExtension.GetProperties(moduleCode);
             var props =UnitWork.Find<Relevance>(u =>

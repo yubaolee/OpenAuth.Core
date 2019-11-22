@@ -13,6 +13,7 @@ namespace OpenAuth.App
     public class WmsInboundOrderDtblApp : BaseApp<WmsInboundOrderDtbl>
     {
         private RevelanceManagerApp _revelanceApp;
+        private DbExtension _dbExtension;
 
         /// <summary>
         /// 加载列表
@@ -25,13 +26,11 @@ namespace OpenAuth.App
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
+            
+            //todo:普通账号如何分配明细的字段？？？？先写死😰
 
-            var properties = loginContext.GetProperties("WmsInboundOrderDtbl");
-
-            if (properties == null || properties.Count == 0)
-            {
-                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
-            }
+            var properties = _dbExtension.GetProperties("WmsInboundOrderDtbl");
+            
             var result = new TableData();
             var objs = UnitWork.Find<WmsInboundOrderDtbl>(null);
             if (!string.IsNullOrEmpty(request.InboundOrderId))
@@ -100,8 +99,9 @@ namespace OpenAuth.App
         }
 
         public WmsInboundOrderDtblApp(IUnitWork unitWork, IRepository<WmsInboundOrderDtbl> repository,
-            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository,auth)
+            RevelanceManagerApp app, IAuth auth, DbExtension dbExtension) : base(unitWork, repository,auth)
         {
+            _dbExtension = dbExtension;
             _revelanceApp = app;
         }
     }

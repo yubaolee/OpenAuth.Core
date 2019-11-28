@@ -51,8 +51,7 @@ namespace OpenAuth.App
             
             var moduleName = typeof(T).Name;
             var rule = UnitWork.FindSingle<DataPrivilegeRule>(u => u.SourceCode == moduleName);
-            if (rule == null) return UnitWork.Find<T>(null);
-            //todo:在这里替换登录用户的信息
+            if (rule == null) return UnitWork.Find<T>(null); //没有设置数据规则，那么视为该资源允许被任何主体查看
             if (rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINUSER) ||
                                              rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINROLE))
             {

@@ -97,7 +97,7 @@ namespace OpenAuth.App
                 throw new Exception("文件不能为空");
             }
 
-            var uploadPath = _filePath + "/" + folder + "/";
+            var uploadPath = Path.Combine(_filePath , folder );
             _logger.LogInformation("文件写入：" + uploadPath);
             if (!Directory.Exists(uploadPath))
             {
@@ -107,7 +107,7 @@ namespace OpenAuth.App
             var ext = Path.GetExtension(fileName).ToLower();
             string newName = GenerateId.GenerateOrderNumber() + ext;
 
-            using (var fs = new FileStream(uploadPath + newName, FileMode.Create))
+            using (var fs = new FileStream(Path.Combine(uploadPath , newName), FileMode.Create))
             {
                 fs.Write(fileBuffers, 0, fileBuffers.Length);
                 fs.Close();
@@ -116,12 +116,12 @@ namespace OpenAuth.App
                 if (ext.Contains(".jpg") || ext.Contains(".jpeg") || ext.Contains(".png") || ext.Contains(".bmp") || ext.Contains(".gif"))
                 {
                     string thumbnailName = GenerateId.GenerateOrderNumber() + ext;
-                    ImgHelper.MakeThumbnail(uploadPath + newName, uploadPath + thumbnailName);
-                    _dbThumbnail = folder + "/" + thumbnailName;
+                    ImgHelper.MakeThumbnail(Path.Combine(uploadPath , newName), Path.Combine(uploadPath , thumbnailName));
+                    _dbThumbnail = Path.Combine(folder , thumbnailName);
                 }
 
 
-                _dbFilePath = folder + "/" + newName;
+                _dbFilePath = Path.Combine(folder , newName);
             }
         }
     }

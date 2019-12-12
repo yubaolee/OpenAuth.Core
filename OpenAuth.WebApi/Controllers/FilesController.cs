@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -30,6 +31,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="files"></param>
         /// <returns>服务器存储的文件信息</returns>
         [HttpPost]
+        [AllowAnonymous]
         public Response<IList<UploadFile>> Upload(IFormFileCollection files)
         {
             var result = new Response<IList<UploadFile>>();

@@ -29,14 +29,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">相关单据号</label>
         <div class="layui-input-block">
-            <input type="text" name="ExternalNo" v-model="ExternalNo" required lay-verify="required"
+            <input type="text" name="ExternalNo" v-model="tmp.ExternalNo" required lay-verify="required"
                 placeholder="相关单据号" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">相关单据类型</label>
         <div class="layui-input-block">
-            <input type="text" name="ExternalType" v-model="ExternalType" required lay-verify="required"
+            <input type="text" name="ExternalType" v-model="tmp.ExternalType" required lay-verify="required"
                 placeholder="相关单据类型" autocomplete="off" class="layui-input">
         </div>
     </div>
@@ -50,131 +50,131 @@
     <div class="layui-form-item">
         <label class="layui-form-label">入库类型(SYS_INSTCTYPE)</label>
         <div class="layui-input-block">
-            <input type="text" name="OrderType" v-model="OrderType" required lay-verify="required"
+            <input type="text" name="OrderType" v-model="tmp.OrderType" required lay-verify="required"
                 placeholder="入库类型(SYS_INSTCTYPE)" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">商品类别</label>
         <div class="layui-input-block">
-            <input type="text" name="GoodsType" v-model="GoodsType" required lay-verify="required"
+            <input type="text" name="GoodsType" v-model="tmp.GoodsType" required lay-verify="required"
                 placeholder="商品类别" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">采购单号</label>
         <div class="layui-input-block">
-            <input type="text" name="PurchaseNo" v-model="PurchaseNo" required lay-verify="required"
+            <input type="text" name="PurchaseNo" v-model="tmp.PurchaseNo" required lay-verify="required"
                 placeholder="采购单号" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">仓库编号</label>
         <div class="layui-input-block">
-            <input type="text" name="StockId" v-model="StockId" required lay-verify="required"
+            <input type="text" name="StockId" v-model="tmp.StockId" required lay-verify="required"
                 placeholder="仓库编号" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">货主编号(固定值CQM)</label>
         <div class="layui-input-block">
-            <input type="text" name="OwnerId" v-model="OwnerId" required lay-verify="required"
+            <input type="text" name="OwnerId" v-model="tmp.OwnerId" required lay-verify="required"
                 placeholder="货主编号(固定值CQM)" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">承运人编号</label>
         <div class="layui-input-block">
-            <input type="text" name="ShipperId" v-model="ShipperId" required lay-verify="required"
+            <input type="text" name="ShipperId" v-model="tmp.ShipperId" required lay-verify="required"
                 placeholder="承运人编号" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">供应商编号</label>
         <div class="layui-input-block">
-            <input type="text" name="SupplierId" v-model="SupplierId" required lay-verify="required"
+            <input type="text" name="SupplierId" v-model="tmp.SupplierId" required lay-verify="required"
                 placeholder="供应商编号" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">预定入库时间</label>
         <div class="layui-input-block">
-            <input type="text" name="ScheduledInboundTime" v-model="ScheduledInboundTime" required lay-verify="required"
+            <input type="text" name="ScheduledInboundTime" v-model="tmp.ScheduledInboundTime" required lay-verify="required"
                 placeholder="预定入库时间" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
-            <input type="text" name="Remark" v-model="Remark" required lay-verify="required"
+            <input type="text" name="Remark" v-model="tmp.Remark" required lay-verify="required"
                 placeholder="备注" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">有效标志</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="Enable" v-model="Enable" lay-skin="switch" value="1">
+            <input type="checkbox" name="Enable" v-model="tmp.Enable" lay-skin="switch" value="1">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">承运方式</label>
         <div class="layui-input-block">
-            <input type="text" name="TransferType" v-model="TransferType" required lay-verify="required"
+            <input type="text" name="TransferType" v-model="tmp.TransferType" required lay-verify="required"
                 placeholder="承运方式" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">是否入保税库(0:否,1:是)</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="InBondedArea" v-model="InBondedArea" lay-skin="switch" value="1">
+            <input type="checkbox" name="InBondedArea" v-model="tmp.InBondedArea" lay-skin="switch" value="1">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">销退箱数</label>
         <div class="layui-input-block">
-            <input type="text" name="ReturnBoxNum" v-model="ReturnBoxNum" required lay-verify="required"
+            <input type="text" name="ReturnBoxNum" v-model="tmp.ReturnBoxNum" required lay-verify="required"
                 placeholder="销退箱数" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">创建时间</label>
         <div class="layui-input-block">
-            <input type="text" name="CreateTime" v-model="CreateTime" required lay-verify="required"
+            <input type="text" name="CreateTime" v-model="tmp.CreateTime" required lay-verify="required"
                 placeholder="创建时间" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">创建人ID</label>
         <div class="layui-input-block">
-            <input type="text" name="CreateUserId" v-model="CreateUserId" required lay-verify="required"
+            <input type="text" name="CreateUserId" v-model="tmp.CreateUserId" required lay-verify="required"
                 placeholder="创建人ID" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">创建人</label>
         <div class="layui-input-block">
-            <input type="text" name="CreateUserName" v-model="CreateUserName" required lay-verify="required"
+            <input type="text" name="CreateUserName" v-model="tmp.CreateUserName" required lay-verify="required"
                 placeholder="创建人" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">最后更新时间</label>
         <div class="layui-input-block">
-            <input type="text" name="UpdateTime" v-model="UpdateTime" required lay-verify="required"
+            <input type="text" name="UpdateTime" v-model="tmp.UpdateTime" required lay-verify="required"
                 placeholder="最后更新时间" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">最后更新人ID</label>
         <div class="layui-input-block">
-            <input type="text" name="UpdateUserId" v-model="UpdateUserId" required lay-verify="required"
+            <input type="text" name="UpdateUserId" v-model="tmp.UpdateUserId" required lay-verify="required"
                 placeholder="最后更新人ID" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">最后更新人</label>
         <div class="layui-input-block">
-            <input type="text" name="UpdateUserName" v-model="UpdateUserName" required lay-verify="required"
+            <input type="text" name="UpdateUserName" v-model="tmp.UpdateUserName" required lay-verify="required"
                 placeholder="最后更新人" autocomplete="off" class="layui-input">
         </div>
     </div>

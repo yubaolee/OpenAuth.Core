@@ -76,6 +76,10 @@ namespace OpenAuth.App
         /// <param name="form">The form.</param>
         /// <returns>System.String.</returns>
         public static string GetHtml(FormResp form){
+            if (form.FrmType != 0)  //只有开原版动态表单才需要转换
+            {
+                return string.Empty;
+            }
 		
             return GetHtml(form.ContentData, form.ContentParse,null,  "");
 

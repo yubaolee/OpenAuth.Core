@@ -92,9 +92,15 @@ namespace OpenAuth.App
         /// <param name="contentParse">The content parse.</param>
         /// <param name="frmData">The FRM data.</param>
         /// <returns>System.String.</returns>
-        public static string Preview(string contentdata, string contentParse, string frmData)
+        public static string Preview(FlowInstance flowInstance)
         {
-            return GetHtml(contentdata, contentParse, frmData, "view");
+            if (flowInstance.FrmType != 0)  //只有开原版动态表单才需要转换
+            {
+                return string.Empty;
+            }
+            
+            return GetHtml(flowInstance.FrmContentData, flowInstance.FrmContentParse, 
+                flowInstance.FrmData, "view");
         }
 
         //text

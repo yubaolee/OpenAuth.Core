@@ -10,7 +10,7 @@ namespace OpenAuth.App.Response
         /// <value>The FRM data HTML.</value>
         public string FrmPreviewHtml
         {
-            get { return FormUtil.Preview(FrmContentData, FrmContentParse, FrmData); }
+            get { return FormUtil.Preview(this); }
         }
     }
 }

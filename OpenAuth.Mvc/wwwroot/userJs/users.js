@@ -120,6 +120,14 @@ layui.config({
                         "json");
                     return false;
                 });
+
+            //重置
+            $("#reset").click(function(){
+                vm.tmp = {
+                    OrganizationIds:'',
+                    Organizations:''
+                }
+            });
         }
         return {
             add: function() { //弹出添加

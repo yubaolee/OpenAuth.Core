@@ -42,7 +42,7 @@ namespace OpenAuth.App.Flow
             currentNodeType = GetNodeType(currentNodeId);
             FrmData = instance.FrmData;
             title = schemeContentJson.title;
-            initNum = schemeContentJson.initNum;
+            initNum = schemeContentJson.initNum?? 0;
             previousId = instance.PreviousId;
             flowInstanceId = instance.Id;
 

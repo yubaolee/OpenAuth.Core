@@ -16,6 +16,7 @@ namespace OpenAuth.App.Flow
     public class FlowLine
     {
         public string id { get; set; }
+        public string label { get; set; }
         public string type { get; set; }
         public string from { get; set; }
         public string to { get; set; }

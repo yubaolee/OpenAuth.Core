@@ -27,7 +27,7 @@ namespace OpenAuth.IdentityServer
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
             //services.AddIdentity<ApplicationUser, Role>().AddUserStore<CustomUserStore>()
             //    .AddDefaultTokenProviders();
             //services.AddTransient<IRoleStore<Role>, CustomRoleStore>();
@@ -51,7 +51,7 @@ namespace OpenAuth.IdentityServer
             //}
 
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
-            services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddMemoryCache();
             services.AddCors();
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰

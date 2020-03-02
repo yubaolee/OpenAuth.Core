@@ -88,7 +88,7 @@ namespace OpenAuth.WebApi
             services.AddMvc(config =>
             {
                 config.Filters.Add<OpenAuthFilter>();
-            }).AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            }).AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddMemoryCache();
             services.AddCors();
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰

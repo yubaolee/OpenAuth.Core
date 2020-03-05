@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Reflection;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
@@ -15,26 +16,28 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using OpenAuth.App;
 using OpenAuth.Repository;
 using OpenAuth.WebApi.Model;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace OpenAuth.WebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IOptions<AppSetting> appConfiguration)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _appConfiguration = appConfiguration;
-        }
+        }    
 
         public IConfiguration Configuration { get; }
-        public IOptions<AppSetting> _appConfiguration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             var identityServer = ((ConfigurationSection)Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
             if (!string.IsNullOrEmpty(identityServer))
@@ -47,13 +50,13 @@ namespace OpenAuth.WebApi
                         options.Authority = identityServer;
                         options.RequireHttpsMetadata = false;  // 指定是否为HTTPS
                         options.Audience = "openauthapi";
-                    });
+                   });
             }
-          
+         
 
             services.AddSwaggerGen(option =>
             {
-                option.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                option.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = " OpenAuth.WebApi",
@@ -71,12 +74,20 @@ namespace OpenAuth.WebApi
                 if (!string.IsNullOrEmpty(identityServer))
                 {
                     //接入identityserver
-                    option.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                    option.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                     {
-                        Flow = "implicit", // 只需通过浏览器获取令牌（适用于swagger）
-                        AuthorizationUrl = $"{identityServer}/connect/authorize",//获取登录授权接口
-                        Scopes = new Dictionary<string, string> {
-                            { "openauthapi", "同意openauth.webapi 的访问权限" }//指定客户端请求的api作用域。 如果为空，则客户端无法访问
+                        Type = SecuritySchemeType.OAuth2,
+                        Description = "OAuth2登陆授权",
+                        Flows = new OpenApiOAuthFlows
+                        {
+                            Implicit = new OpenApiOAuthFlow
+                            {
+                                AuthorizationUrl = new Uri($"{identityServer}/connect/authorize"),
+                                Scopes = new Dictionary<string, string>
+                                {
+                                    { "openauthapi", "同意openauth.webapi 的访问权限" }//指定客户端请求的api作用域。 如果为空，则客户端无法访问
+                                }
+                            }
                         }
                     });
                     option.OperationFilter<AuthResponsesOperationFilter>();
@@ -85,10 +96,16 @@ namespace OpenAuth.WebApi
                 
             });
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
-            services.AddMvc(config =>
+            services.AddControllers(option =>
             {
-                config.Filters.Add<OpenAuthFilter>();
-            }).AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Latest);
+                option.Filters.Add< OpenAuthFilter>();
+            }).AddNewtonsoftJson(options =>
+            {
+                //忽略循环引用
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //不使用驼峰样式的key
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();             
+            });
             services.AddMemoryCache();
             services.AddCors();
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
@@ -107,9 +124,12 @@ namespace OpenAuth.WebApi
             services.AddHttpClient();
 
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
-
-
-            return new AutofacServiceProvider(AutofacExt.InitAutofac(services));
+            
+        }
+        
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            AutofacExt.InitAutofac(builder);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -128,18 +148,16 @@ namespace OpenAuth.WebApi
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-
-
+            
+            app.UseRouting();
             app.UseAuthentication();
             
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "api/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
 
-            app.UseSwagger();
+          app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.

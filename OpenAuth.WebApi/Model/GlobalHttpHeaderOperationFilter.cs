@@ -7,8 +7,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Enyim.Caching.Memcached.Protocol;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using OpenAuth.App;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -24,7 +26,7 @@ namespace OpenAuth.WebApi.Model
             _appConfiguration = appConfiguration;
         }
 
-        public void Apply(Operation operation, OperationFilterContext context)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             //如果是Identity认证方式，不需要界面添加x-token得输入框
             if (_appConfiguration.Value.IsIdentityAuth)
@@ -32,20 +34,19 @@ namespace OpenAuth.WebApi.Model
 
             if (operation.Parameters == null)
             {
-                operation.Parameters = new List<IParameter>();
+                operation.Parameters = new List<OpenApiParameter>();
             }
 
-            var actionAttrs = context.ApiDescription.ActionAttributes();
+            var actionAttrs = context.ApiDescription.ActionDescriptor.EndpointMetadata;
             var isAnony = actionAttrs.Any(a => a.GetType() == typeof(AllowAnonymousAttribute));
 
             //不是匿名，则添加默认的X-Token
             if (!isAnony)
             {
-                operation.Parameters.Add(new NonBodyParameter()
+                operation.Parameters.Add(new OpenApiParameter
                 {
                     Name = Define.TOKEN_NAME,  
-                    In = "header",
-                    Type = "string",
+                    In = ParameterLocation.Header,
                     Description = "当前登录用户登录token",
                     Required = false
                 });

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore;
+﻿using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace OpenAuth.WebApi
@@ -8,18 +10,22 @@ namespace OpenAuth.WebApi
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).ConfigureLogging((hostingContext, logging) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+// .ConfigureLogging((hostingContext, logging) =>
+//                {
+//                    logging.ClearProviders();  //去掉默认的日志
+//                   logging.AddFilter("System", LogLevel.Warning);
+//                    logging.AddFilter("Microsoft", LogLevel.Warning);
+//                    logging.AddLog4Net();
+//                })
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())   //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    logging.ClearProviders();  //去掉默认的日志
-                   logging.AddFilter("System", LogLevel.Warning);
-                    logging.AddFilter("Microsoft", LogLevel.Warning);
-                    logging.AddLog4Net();
-                })
-                .UseUrls("http://*:52789")
-                .UseStartup<Startup>();
+                    webBuilder.UseUrls("http://*:52789").UseStartup<Startup>();
+                });
     }
 }

@@ -98,20 +98,5 @@ namespace OpenAuth.App
             builder.RegisterType(typeof(HttpContextAccessor)).As(typeof(IHttpContextAccessor));
             
         }
-
-        /// <summary>
-        /// 从容器中获取对象
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public static T GetFromFac<T>()
-        {
-            return _container.Resolve<T>();
-        }
-
-        public static object GetFromFac(Type type)
-        {
-            return _container.Resolve(type);
-        }
-
     }
 }

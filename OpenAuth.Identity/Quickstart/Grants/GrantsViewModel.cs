@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IdentityServer
+namespace OpenAuth.IdentityServer.Quickstart.Grants
 {
     public class GrantsViewModel
     {

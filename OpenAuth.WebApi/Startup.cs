@@ -166,7 +166,7 @@ namespace OpenAuth.WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
                 c.DocExpansion(DocExpansion.None);
                 c.OAuthClientId("OpenAuth.WebApi");  //oauth客户端名称
-                c.OAuthAppName("客户端为OpenAuth.WebApi"); // 描述
+                c.OAuthAppName("开源版webapi认证"); // 描述
             });
 
         }

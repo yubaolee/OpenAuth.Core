@@ -3,7 +3,7 @@
 
 
 
-namespace IdentityServer
+namespace OpenAuth.IdentityServer.Quickstart.Account
 {
     public class RedirectViewModel
     {

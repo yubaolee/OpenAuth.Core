@@ -368,6 +368,7 @@
     <None Include="wwwroot\layui\font\iconfont.svg" />
     <None Include="wwwroot\layui\font\iconfont.ttf" />
     <None Include="wwwroot\layui\font\iconfont.woff" />
+    <None Include="wwwroot\layui\font\iconfont.woff2" />
     <None Include="wwwroot\layui\images\face\0.gif" />
     <None Include="wwwroot\layui\images\face\1.gif" />
     <None Include="wwwroot\layui\images\face\10.gif" />
@@ -445,6 +446,7 @@
     <None Include="wwwroot\layui\lay\dest\layui.all.js" />
     <None Include="wwwroot\layui\lay\modules\carousel.js" />
     <None Include="wwwroot\layui\lay\modules\code.js" />
+    <None Include="wwwroot\layui\lay\modules\colorpicker.js" />
     <None Include="wwwroot\layui\lay\modules\element.js" />
     <None Include="wwwroot\layui\lay\modules\flow.js" />
     <None Include="wwwroot\layui\lay\modules\form.js" />
@@ -457,7 +459,9 @@
     <None Include="wwwroot\layui\lay\modules\laytpl.js" />
     <None Include="wwwroot\layui\lay\modules\mobile.js" />
     <None Include="wwwroot\layui\lay\modules\rate.js" />
+    <None Include="wwwroot\layui\lay\modules\slider.js" />
     <None Include="wwwroot\layui\lay\modules\table.js" />
+    <None Include="wwwroot\layui\lay\modules\transfer.js" />
     <None Include="wwwroot\layui\lay\modules\tree.js" />
     <None Include="wwwroot\layui\lay\modules\upload.js" />
     <None Include="wwwroot\layui\lay\modules\util.js" />

@@ -27,7 +27,7 @@ namespace OpenAuth.IdentityServer
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())   //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://*:12796").UseStartup<Startup>();
                 }).UseSerilog((context, configuration) =>
                     {
                         configuration

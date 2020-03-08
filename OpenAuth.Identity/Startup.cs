@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenAuth.App;
 using OpenAuth.Repository;
-using IHostingEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 
 namespace OpenAuth.IdentityServer
 {
@@ -35,7 +34,22 @@ namespace OpenAuth.IdentityServer
                 .AddInMemoryClients(Config.GetClients(Environment.IsProduction()))
                 .AddProfileService<CustomProfileService>();
 
-            services.AddCors();
+            //todo:新版的跨域不允许anyOrigins，需要指定
+            var origins = new []
+            {
+                "http://localhost:1803",
+                "http://localhost:52789"
+            };
+            if (Environment.IsProduction())
+            {
+                origins = new []
+                {
+                    "http://demo.openauth.me:1803",
+                    "http://demo.openauth.me:52789"
+                };
+            }
+            services.AddCors(option=>option.AddPolicy("cors", policy =>
+                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
 
             //全部用测试环境，正式环境请参考https://www.cnblogs.com/guolianyu/p/9872661.html
             //if (Environment.IsDevelopment())
@@ -72,12 +86,13 @@ namespace OpenAuth.IdentityServer
             AutofacExt.InitAutofac(builder);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("cors");
 
             app.UseStaticFiles();
             app.UseRouting();

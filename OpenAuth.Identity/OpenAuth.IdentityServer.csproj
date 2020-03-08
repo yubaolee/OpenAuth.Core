@@ -9,8 +9,6 @@
     <PackageReference Include="Microsoft.AspNetCore" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.0.0" />
   </ItemGroup>
   
   <ItemGroup>

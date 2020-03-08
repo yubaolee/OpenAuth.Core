@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -29,12 +30,13 @@ namespace OpenAuth.WebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IHostEnvironment Environment { get; }
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             Configuration = configuration;
-        }    
-
-        public IConfiguration Configuration { get; }
+            Environment = environment;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -104,10 +106,25 @@ namespace OpenAuth.WebApi
                 //忽略循环引用
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 //不使用驼峰样式的key
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();             
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();    
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
             });
             services.AddMemoryCache();
-            services.AddCors();
+            //todo:新版的跨域不允许anyOrigins，需要指定
+            var origins = new []
+            {
+                "http://localhost:1803"
+            };
+            if (Environment.IsProduction())
+            {
+                origins = new []
+                {
+                    "http://demo.openauth.me:1803"
+                };
+            }
+            services.AddCors(option=>option.AddPolicy("cors", policy =>
+                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
+            
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
             var dbType = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbType")).Value;
             if (dbType == Define.DBTYPE_SQLSERVER)
@@ -133,7 +150,7 @@ namespace OpenAuth.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -144,10 +161,7 @@ namespace OpenAuth.WebApi
             var staticfile = new StaticFileOptions {FileProvider = new PhysicalFileProvider(AppContext.BaseDirectory) };
             app.UseStaticFiles(staticfile);
 
-            //todo:测试可以允许任意跨域，正式环境要加权限
-            app.UseCors(builder => builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseCors("cors");
             
             app.UseRouting();
             app.UseAuthentication();

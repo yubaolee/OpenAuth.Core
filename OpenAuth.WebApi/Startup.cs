@@ -110,21 +110,23 @@ namespace OpenAuth.WebApi
                 options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
             });
             services.AddMemoryCache();
-            //todo:新版的跨域不允许anyOrigins，需要指定
-            var origins = new []
-            {
-                "http://localhost:1803"
-            };
-            if (Environment.IsProduction())
-            {
-                origins = new []
-                {
-                    "http://demo.openauth.me:1803"
-                };
-            }
-            services.AddCors(option=>option.AddPolicy("cors", policy =>
-                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
-            
+            services.AddCors();
+//          todo:如果正式 环境请用下面的方式限制随意访问跨域
+//            var origins = new []
+//            {
+//                "http://localhost:1803",
+//                "http://localhost:52789"
+//            };
+//            if (Environment.IsProduction())
+//            {
+//                origins = new []
+//                {
+//                    "http://demo.openauth.me:1803",
+//                    "http://demo.openauth.me:52789"
+//                };
+//            }
+//            services.AddCors(option=>option.AddPolicy("cors", policy =>
+//                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
             var dbType = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbType")).Value;
             if (dbType == Define.DBTYPE_SQLSERVER)
@@ -161,7 +163,10 @@ namespace OpenAuth.WebApi
             var staticfile = new StaticFileOptions {FileProvider = new PhysicalFileProvider(AppContext.BaseDirectory) };
             app.UseStaticFiles(staticfile);
 
-            app.UseCors("cors");
+            //todo:测试可以允许任意跨域，正式环境要加权限
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             
             app.UseRouting();
             app.UseAuthentication();

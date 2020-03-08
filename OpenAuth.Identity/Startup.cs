@@ -34,22 +34,23 @@ namespace OpenAuth.IdentityServer
                 .AddInMemoryClients(Config.GetClients(Environment.IsProduction()))
                 .AddProfileService<CustomProfileService>();
 
-            //todo:新版的跨域不允许anyOrigins，需要指定
-            var origins = new []
-            {
-                "http://localhost:1803",
-                "http://localhost:52789"
-            };
-            if (Environment.IsProduction())
-            {
-                origins = new []
-                {
-                    "http://demo.openauth.me:1803",
-                    "http://demo.openauth.me:52789"
-                };
-            }
-            services.AddCors(option=>option.AddPolicy("cors", policy =>
-                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
+            services.AddCors();
+//          todo:如果正式 环境请用下面的方式限制随意访问跨域
+//            var origins = new []
+//            {
+//                "http://localhost:1803",
+//                "http://localhost:52789"
+//            };
+//            if (Environment.IsProduction())
+//            {
+//                origins = new []
+//                {
+//                    "http://demo.openauth.me:1803",
+//                    "http://demo.openauth.me:52789"
+//                };
+//            }
+//            services.AddCors(option=>option.AddPolicy("cors", policy =>
+//                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
 
             //全部用测试环境，正式环境请参考https://www.cnblogs.com/guolianyu/p/9872661.html
             //if (Environment.IsDevelopment())
@@ -92,7 +93,11 @@ namespace OpenAuth.IdentityServer
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("cors");
+            
+            //todo:测试可以允许任意跨域，正式环境要加权限
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseStaticFiles();
             app.UseRouting();

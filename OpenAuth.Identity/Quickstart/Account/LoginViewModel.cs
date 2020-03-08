@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IdentityServer
+namespace OpenAuth.IdentityServer.Quickstart.Account
 {
     public class LoginViewModel : LoginInputModel
     {

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Enyim.Caching.Memcached.Protocol;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using OpenAuth.App;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -20,7 +22,7 @@ namespace OpenAuth.WebApi.Model
             _appConfiguration = appConfiguration;
         }
 
-        public void Apply(Operation operation, OperationFilterContext context)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             if (!_appConfiguration.Value.IsIdentityAuth)
             {
@@ -32,12 +34,25 @@ namespace OpenAuth.WebApi.Model
                 .OfType<AllowAnonymousAttribute>().Any();
             if (!anonymous)
             {
-                //operation.Responses.Add("401", new Response { Description = "暂无访问权限" });
-                //operation.Responses.Add("403", new Response { Description = "禁止访问" });
-                operation.Security = new List<IDictionary<string, IEnumerable<string>>>
-                {
-                    new Dictionary<string, IEnumerable<string>> {{"oauth2", new[] { "openauthapi" } }}
-                };
+                var security = new List<OpenApiSecurityRequirement>();
+                security.Add(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "oauth2"
+                            }
+                        },
+                        new[] { "openauthapi" }
+                    }
+                });
+                operation.Security = security;
+//                operation.Security = new List<OpenApiSecurityRequirement>
+//                {
+//                    new Dictionary<string, IEnumerable<string>> {{"oauth2", new[] { "openauthapi" } }}
+//                };
             }
         }
     }

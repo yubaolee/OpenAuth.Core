@@ -36,6 +36,7 @@ namespace OpenAuth.App
         private FlowSchemeApp _flowSchemeApp;
         private FormApp _formApp;
         private IHttpClientFactory _httpClientFactory;
+        private IServiceProvider _serviceProvider;
 
         #region 流程处理API
 
@@ -97,7 +98,7 @@ namespace OpenAuth.App
             if (flowInstance.FrmType == 1)
             {
                 var t = Type.GetType("OpenAuth.App."+ flowInstance.DbName +"App");
-                ICustomerForm icf = (ICustomerForm)AutofacExt.GetFromFac(t);
+                ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
                 icf.Add(flowInstance.Id, flowInstance.FrmData);
             }
 
@@ -460,13 +461,14 @@ namespace OpenAuth.App
         }
 
         public FlowInstanceApp(IUnitWork unitWork, IRepository<FlowInstance> repository
-        , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,IAuth auth) 
+        , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,IAuth auth, IServiceProvider serviceProvider) 
             : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
             _flowSchemeApp = flowSchemeApp;
             _formApp = formApp;
             _httpClientFactory = httpClientFactory;
+            _serviceProvider = serviceProvider;
         }
 
         public List<FlowInstanceOperationHistory> QueryHistories(QueryFlowInstanceHistoryReq request)

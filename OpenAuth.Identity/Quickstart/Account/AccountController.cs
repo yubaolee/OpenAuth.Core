@@ -2,24 +2,23 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using OpenAuth.App;
 using OpenAuth.Repository.Domain;
 
-namespace IdentityServer
+namespace OpenAuth.IdentityServer.Quickstart.Account
 {
     /// <summary>
     /// This sample controller implements a typical login/logout/provision workflow for local and external accounts.
@@ -124,7 +123,7 @@ namespace IdentityServer
 
                 if (user != null &&(user.Password ==model.Password))
                 {
-                    if (user.Status != 0)   //�ж��û�״̬
+                    if (user.Status != 0)   //判断用户状态
                     {
                         await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid user status"));
                         ModelState.AddModelError(string.Empty, "user.status must be 0");
@@ -178,7 +177,7 @@ namespace IdentityServer
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -241,6 +240,11 @@ namespace IdentityServer
             return View("LoggedOut", vm);
         }
 
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
 
         /*****************************************/
@@ -249,7 +253,7 @@ namespace IdentityServer
         private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
         {
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
-            if (context?.IdP != null)
+            if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
                 var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
 

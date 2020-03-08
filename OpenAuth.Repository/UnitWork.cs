@@ -146,7 +146,7 @@ namespace OpenAuth.Repository
 
        public void ExecuteSql(string sql)
        {
-            _context.Database.ExecuteSqlCommand(sql);
+            _context.Database.ExecuteSqlRaw(sql);
         }
 
         

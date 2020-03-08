@@ -2,7 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-namespace IdentityServer.Device
+using OpenAuth.IdentityServer.Quickstart.Consent;
+
+namespace OpenAuth.IdentityServer.Quickstart.Device
 {
     public class DeviceAuthorizationInputModel : ConsentInputModel
     {

@@ -5,7 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace IdentityServer
+namespace OpenAuth.IdentityServer.Quickstart
 {
     public class SecurityHeadersAttribute : ActionFilterAttribute
     {

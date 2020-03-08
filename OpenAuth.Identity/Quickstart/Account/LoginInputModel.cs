@@ -4,7 +4,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace IdentityServer
+namespace OpenAuth.IdentityServer.Quickstart.Account
 {
     public class LoginInputModel
     {

@@ -71,20 +71,32 @@ namespace OpenAuth.App
             return _container;
 
         }
-
-        /// <summary>
-        /// 从容器中获取对象
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public static T GetFromFac<T>()
+        
+        
+        public static void InitAutofac(ContainerBuilder builder)
         {
-            return _container.Resolve<T>();
-        }
+            //注册数据库基础操作和工作单元
+            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
+            builder.RegisterType(typeof(UnitWork)).As(typeof(IUnitWork));
+            //如果当前项目是webapi，则必须是本地,否则会引起死循环
+            if (Assembly.GetEntryAssembly().FullName.Contains("OpenAuth.WebApi"))
+            {
+                builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth));
+               
+            }
+            else  //如果是MVC或者单元测试，则可以根据情况调整，默认是本地授权，无需OpenAuth.WebApi、Identity
+            {
+                builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth));
+                //如果想使用WebApi SSO授权，请使用下面这种方式
+                //builder.RegisterType(typeof(ApiAuth)).As(typeof(IAuth));
+            }
 
-        public static object GetFromFac(Type type)
-        {
-            return _container.Resolve(type);
+            //注册app层
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());
+            
+            builder.RegisterType(typeof(CacheContext)).As(typeof(ICacheContext));
+            builder.RegisterType(typeof(HttpContextAccessor)).As(typeof(IHttpContextAccessor));
+            
         }
-
     }
 }

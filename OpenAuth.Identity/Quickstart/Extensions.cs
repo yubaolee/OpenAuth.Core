@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using IdentityServer4.Stores;
 
-namespace IdentityServer
+namespace OpenAuth.IdentityServer.Quickstart
 {
     public static class Extensions
     {

@@ -62,6 +62,19 @@ namespace OpenAuth.Repository.Interface
 
         void Save();
 
-        void ExecuteSql(string sql);
+        int ExecuteSql(string sql);
+        
+        /// <summary>
+        /// 使用SQL脚本查询
+        /// </summary>
+        /// <typeparam name="T"> T为数据库实体</typeparam>
+        /// <returns></returns>
+        IQueryable<T> FromSql<T>(string sql, params object[] parameters) where T:class;
+        /// <summary>
+        /// 使用SQL脚本查询
+        /// </summary>
+        /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
+        /// <returns></returns>
+        IQueryable<T> Query<T>(string sql, params object[] parameters) where T : class;
     }
 }

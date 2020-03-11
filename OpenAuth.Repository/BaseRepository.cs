@@ -150,5 +150,17 @@ namespace OpenAuth.Repository
        {
           return  _context.Database.ExecuteSqlRaw(sql);
        }
+       
+        public IQueryable<T> FromSql(string sql, params object[] parameters)
+          {
+              return _context.Set<T>().FromSqlRaw(sql, parameters);
+          }
+
+          public IQueryable<T> Query(string sql, params object[] parameters) 
+          {
+              return _context.Query<T>().FromSqlRaw(sql, parameters);
+          }
+       
+       
    }
 }

@@ -144,11 +144,19 @@ namespace OpenAuth.Repository
             return dbSet;
         }
 
-       public void ExecuteSql(string sql)
+       public int ExecuteSql(string sql)
        {
-            _context.Database.ExecuteSqlRaw(sql);
+            return _context.Database.ExecuteSqlRaw(sql);
         }
 
+       public IQueryable<T> FromSql<T>(string sql, params object[] parameters) where T : class
+       {
+           return _context.Set<T>().FromSqlRaw(sql, parameters);
+       }
         
+       public IQueryable<T> Query<T>(string sql, params object[] parameters) where T : class
+       {
+           return _context.Query<T>().FromSqlRaw(sql, parameters);
+       }
     }
 }

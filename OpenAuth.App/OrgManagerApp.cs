@@ -80,16 +80,11 @@ namespace OpenAuth.App
 
 
         /// <summary>
-        /// 加载特定用户的角色
-        /// TODO:这里会加载用户及用户角色的所有角色，“为用户分配角色”功能会给人一种混乱的感觉，但可以接受
+        /// 加载特定用户的部门
         /// </summary>
         /// <param name="userId">The user unique identifier.</param>
         public List<Org> LoadForUser(string userId)
         {
-            //用户角色
-            var userRoleIds =
-                UnitWork.Find<Relevance>(u => u.FirstId == userId && u.Key == Define.USERROLE).Select(u => u.SecondId).ToList();
-
             //用户角色与自己分配到的角色ID
             var moduleIds =
                 UnitWork.Find<Relevance>(

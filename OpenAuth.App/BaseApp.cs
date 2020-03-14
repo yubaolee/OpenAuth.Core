@@ -53,15 +53,22 @@ namespace OpenAuth.App
             var rule = UnitWork.FindSingle<DataPrivilegeRule>(u => u.SourceCode == moduleName);
             if (rule == null) return UnitWork.Find<T>(null); //没有设置数据规则，那么视为该资源允许被任何主体查看
             if (rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINUSER) ||
-                                             rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINROLE))
+                                             rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINROLE)||
+                                             rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINORG))
             {
                 
                 //即把{loginUser} =='xxxxxxx'换为 loginUser.User.Id =='xxxxxxx'，从而把当前登录的用户名与当时设计规则时选定的用户id对比
                 rule.PrivilegeRules = rule.PrivilegeRules.Replace(Define.DATAPRIVILEGE_LOGINUSER, loginUser.User.Id);
+                
                 var roles = loginUser.Roles.Select(u => u.Id).ToList();
                 roles.Sort(); //按字母排序,这样可以进行like操作
                 rule.PrivilegeRules = rule.PrivilegeRules.Replace(Define.DATAPRIVILEGE_LOGINROLE, 
                     string.Join(',',roles));
+                
+                var orgs = loginUser.Orgs.Select(u => u.Id).ToList();
+                orgs.Sort(); 
+                rule.PrivilegeRules = rule.PrivilegeRules.Replace(Define.DATAPRIVILEGE_LOGINORG, 
+                    string.Join(',',orgs));
             }
             return UnitWork.Find<T>(null).GenerateFilter(parametername,
                 JsonHelper.Instance.Deserialize<FilterGroup>(rule.PrivilegeRules));

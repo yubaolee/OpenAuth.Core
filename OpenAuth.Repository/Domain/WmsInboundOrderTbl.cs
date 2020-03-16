@@ -165,5 +165,11 @@ namespace OpenAuth.Repository.Domain
         /// </summary>
         [Description("最后更新人")]
         public string UpdateUserName { get; set; }
+        
+        /// <summary>
+        /// 所属部门
+        /// </summary>
+        [Description("所属部门")]
+        public string OrgId { get; set; }
     }
 }

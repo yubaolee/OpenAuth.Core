@@ -78,6 +78,13 @@ namespace OpenAuth.App.Request
 	    /// </summary>
          [Description("表单ID")]
         public string FrmId { get; set; }
+        
+        
+        /// <summary>
+        /// 所属部门
+        /// </summary>
+        [Description("所属部门")]
+        public string OrgId { get; set; }
 
         /// <summary>
 	    /// 创建用户主键

@@ -168,6 +168,12 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
          [Description("执行人")]
         public string MakerList { get; set; }
+        
+        /// <summary>
+        /// 所属部门
+        /// </summary>
+        [Description("所属部门")]
+        public string OrgId { get; set; }
 
     }
 }

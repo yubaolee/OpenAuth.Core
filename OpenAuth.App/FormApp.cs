@@ -12,8 +12,7 @@ namespace OpenAuth.App
 {
     public class FormApp : BaseApp<Form>
     {
-        private RevelanceManagerApp _revelanceApp;
-
+        private IAuth _auth;
         /// <summary>
         /// 加载列表
         /// </summary>
@@ -55,6 +54,7 @@ namespace OpenAuth.App
                 DbName = obj.DbName,
                 SortCode = obj.SortCode,
                 Description = obj.Description,
+                OrgId =  obj.OrgId,
                 ModifyDate = DateTime.Now
             });
 
@@ -71,9 +71,9 @@ namespace OpenAuth.App
         }
 
         public FormApp(IUnitWork unitWork, IRepository<Form> repository,
-            RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
+            IAuth auth) : base(unitWork, repository, auth)
         {
-            _revelanceApp = app;
+            _auth = auth;
         }
     }
 }

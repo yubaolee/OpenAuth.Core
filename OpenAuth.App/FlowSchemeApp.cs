@@ -30,7 +30,8 @@ namespace OpenAuth.App
                 FrmId = flowScheme.FrmId,
                 FrmType = flowScheme.FrmType,
                 Disabled = flowScheme.Disabled,
-                Description = flowScheme.Description
+                Description = flowScheme.Description,
+                OrgId = flowScheme.OrgId
             });
         }
 

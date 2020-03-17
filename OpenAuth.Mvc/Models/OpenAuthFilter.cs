@@ -57,6 +57,13 @@ namespace OpenAuth.Mvc.Models
             {
                 return;
             }
+            
+            //URL白名单
+            var whiteurls = new[] {"usermanager/changepassword", "usermanager/profile"};
+            if (whiteurls.Contains(Controllername + "/" + Actionname))
+            {
+                return;
+            }
 
             var currentModule = _authUtil.GetCurrentUser().Modules.FirstOrDefault(u => u.Url.ToLower().Contains(Controllername));
             //当前登录用户没有Action记录

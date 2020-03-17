@@ -23,13 +23,43 @@ namespace OpenAuth.Mvc.Controllers
         {
             return View();
         }
+        
+        public ActionResult Profile()
+        {
+            return View();
+        }
 
         public ActionResult ChangePassword()
         {
             return View();
         }
+        
+        /// <summary>
+        /// 修改用户资料
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string ChangeProfile(ChangeProfileReq request)
+        {
+            try
+            {
+                _app.ChangeProfile(request);
+                Result.Message = "修改成功，重新登录生效";
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
 
-        //修改密码
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         public string ChangePassword(ChangePasswordReq request)
         {

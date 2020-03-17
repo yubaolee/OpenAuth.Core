@@ -34,6 +34,25 @@ namespace OpenAuth.Mvc.Controllers
             _authStrategyContext = _authUtil.GetCurrentUser();
         }
 
+        /// <summary>
+        /// 获取用户资料
+        /// </summary>
+        /// <returns></returns>
+        public string GetUserProfile()
+        {
+            var resp = new Response<UserView>();
+            try
+            {
+                resp.Result = _authStrategyContext.User.MapTo<UserView>();
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(resp);
+        }
+
         public string GetUserName()
         {
             return _authUtil.GetUserName();

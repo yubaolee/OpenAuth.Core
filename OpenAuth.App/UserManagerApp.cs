@@ -157,5 +157,23 @@ namespace OpenAuth.App
                 data = users.Skip((request.page - 1) * request.limit).Take(request.limit)
             };
         }
+
+        /// <summary>
+        /// 修改用户资料
+        /// </summary>
+        /// <param name="request"></param>
+        public void ChangeProfile(ChangeProfileReq request)
+        {
+            if (request.Account == Define.SYSTEM_USERNAME)
+            {
+                throw new Exception("不能修改超级管理员信息");
+            }
+            
+            Repository.Update(u => u.Account == request.Account, user => new User
+                        {
+                            Name = request.Name,
+                            Sex = request.Sex
+                        });
+        }
     }
 }

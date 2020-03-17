@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
+}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils','cookie'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
@@ -13,7 +13,10 @@ layui.config({
         var url = '/UserSession/GetOrgs';
         var zTreeObj;
         var setting = {
-            view: { selectedMulti: false },
+            view: { 
+                selectedMulti: false ,
+                nameIsHTML: true
+            },
             data: {
                 key: {
                     name: 'Name',
@@ -28,13 +31,23 @@ layui.config({
             },
             callback: {
                 onClick: function (event, treeId, treeNode) {
-                    //mainList({ orgId: treeNode.Id });
+                    $.cookie('defaultorgid', treeNode.Id, {path: '/'});
+                    load();
                 }
             }
         };
         var load = function () {
             $.getJSON(url, function (json) {
                 zTreeObj = $.fn.zTree.init($("#tree"), setting);
+                var defaultorgid = $.cookie('defaultorgid');
+                if(defaultorgid != undefined) {
+                    $.each(json.Result, function () {
+                        var element = this;
+                        if (element.Id == defaultorgid) {
+                            element.Name = "<font color='red'>"+element.Name + "(当前默认)"+"</font>"
+                        }
+                    });
+                }
                 zTreeObj.addNodes(null, json.Result);
                 zTreeObj.expandAll(true);
             });

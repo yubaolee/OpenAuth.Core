@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'utils'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'cookie','table', 'droptree', 'openauth', 'utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
@@ -102,6 +102,7 @@
             //提交数据
             form.on('submit(formSubmit)',
                 function (data) {
+                    $.extend(data.field, {OrgId: $.cookie('defaultorgid')});
                     $.post(url,
                         data.field,
                         function (data) {

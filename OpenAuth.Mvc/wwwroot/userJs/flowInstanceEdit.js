@@ -15,7 +15,7 @@
         let _this = this;
         layui.config({
             base: "/js/"
-        }).use(['form', 'dtree', 'layer', 'utils', 'element', 'jquery', 'table', 'slimscroll', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
+        }).use(['form', 'dtree', 'layer', 'utils', 'element', 'jquery', 'cookie','table', 'slimscroll', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
             var form = layui.form,
                 element = layui.element,
                 layer = layui.layer,
@@ -132,6 +132,7 @@
                     delete data.field.CustomName;
                     delete data.field.Code;
                     delete data.field.Description;
+                    _this.tmp.OrgId = $.cookie('defaultorgid');
 
                     _this.tmp.FrmData = JSON.stringify(data.field);
                     $.post(url,

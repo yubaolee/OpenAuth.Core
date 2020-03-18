@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'jquery', 'table', 'droptree', 'openauth', 'element'], function () {
+}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'jquery', 'cookie','table', 'droptree', 'openauth', 'element'], function () {
     var form = layui.form,
         element = layui.element,
 		layer =  layui.layer ,
@@ -309,6 +309,7 @@
             var parseForm = leipiFormDesign.parse_form(formeditor, fields);
 
             $.extend(data.field, parseForm);
+            $.extend(data.field, {OrgId: $.cookie('defaultorgid')});
 
             $.post(url,
                 data.field,

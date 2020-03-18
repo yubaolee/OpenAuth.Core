@@ -17,7 +17,7 @@ layui.config({
             $("#usernametop").html(data);
         });
 
-    //todo:默认登录后取第一个机构的id作为默认，可以在【账号信息】界面修改默认
+    //todo:默认登录后取第一个机构的id作为默认，可以在【个人中心】界面修改默认
 	//在大型业务系统中，应该让用户登录成功后弹出选择框选择操作的机构
 	$.get('/UserSession/GetOrgs',
 		function(data) {

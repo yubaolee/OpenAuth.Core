@@ -95,7 +95,6 @@ namespace OpenAuth.App.Request
         /// <summary>
         /// 所属部门
         /// </summary>
-        [Description("所属部门")]
         public string OrgId { get; set; }
         
         public List<AddOrUpdateWmsInboundOrderDtblReq> WmsInboundOrderDtblReqs { get; set; }

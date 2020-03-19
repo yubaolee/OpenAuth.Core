@@ -19,7 +19,7 @@ namespace OpenAuth.App
         public TableData Load(QueryFormListReq request)
         {
             var result = new TableData();
-            var forms = UnitWork.Find<Form>(null);
+            var forms = GetDataPrivilege("u");
             if (!string.IsNullOrEmpty(request.key))
             {
                 forms = forms.Where(u => u.Name.Contains(request.key) || u.Id.Contains(request.key));
@@ -34,6 +34,9 @@ namespace OpenAuth.App
 
         public void Add(Form obj)
         {
+            var user = _auth.GetCurrentUser().User;
+            obj.CreateUserId = user.Id;
+            obj.CreateUserName = user.Name;
             UnitWork.Add(obj);
             if (!string.IsNullOrEmpty(obj.DbName))
             {

@@ -209,7 +209,7 @@ namespace Infrastructure
         {
             if (filterGroup == null) return null;
 
-            if (filterGroup.Filters.Length == 1 && !filterGroup.Children.Any()) //只有一个条件
+            if (filterGroup.Filters.Length == 1 &&(filterGroup.Children == null || !filterGroup.Children.Any())) //只有一个条件
             {
                 return param.GenerateBody<T>(filterGroup.Filters[0]);
             }

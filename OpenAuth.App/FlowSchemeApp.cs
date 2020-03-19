@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -9,9 +10,11 @@ namespace OpenAuth.App
 {
     public class FlowSchemeApp :BaseApp<FlowScheme>
     {
-        
         public void Add(FlowScheme flowScheme)
         {
+            var user = _auth.GetCurrentUser().User;
+            flowScheme.CreateUserId = user.Id;
+            flowScheme.CreateUserName = user.Name;
             Repository.Add(flowScheme);
         }
 
@@ -37,11 +40,18 @@ namespace OpenAuth.App
 
         public TableData Load(QueryFlowSchemeListReq request)
         {
-            return new TableData
+            var result = new TableData();
+            var objs = GetDataPrivilege("u");
+            if (!string.IsNullOrEmpty(request.key))
             {
-                count = Repository.GetCount(null),
-                data = Repository.Find(request.page, request.limit, "CreateDate desc")
-            };
+                objs = objs.Where(u => u.SchemeName.Contains(request.key) || u.Id.Contains(request.key));
+            }
+
+            result.data = objs.OrderBy(u => u.SchemeName)
+                .Skip((request.page - 1) * request.limit)
+                .Take(request.limit).ToList();
+            result.count = objs.Count();
+            return result;
         }
 
         public FlowSchemeApp(IUnitWork unitWork, IRepository<FlowScheme> repository,IAuth auth) : base(unitWork, repository, auth)

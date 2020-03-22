@@ -1,29 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using OpenAuth.App;
 using OpenAuth.Repository;
 using OpenAuth.WebApi.Model;
-using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace OpenAuth.WebApi
@@ -32,6 +25,7 @@ namespace OpenAuth.WebApi
     {
         public IHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             Configuration = configuration;
@@ -41,6 +35,13 @@ namespace OpenAuth.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(provider =>
+            {
+                var service = provider.GetRequiredService<ILogger<StartupLogger>>();
+                return new StartupLogger(service);
+            });
+            var logger = services.BuildServiceProvider().GetRequiredService<StartupLogger>();
+            
             var identityServer = ((ConfigurationSection)Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
             if (!string.IsNullOrEmpty(identityServer))
             {
@@ -64,11 +65,13 @@ namespace OpenAuth.WebApi
                     Title = " OpenAuth.WebApi",
                     Description = "by yubaolee"
                 });
-
-                foreach (var name in Directory.GetFiles(AppContext.BaseDirectory, "*.XML",
-                    SearchOption.AllDirectories))
+                
+                logger.LogInformation($"api doc basepath:{AppContext.BaseDirectory}");
+                foreach (var name in Directory.GetFiles(AppContext.BaseDirectory, "*.*",
+                    SearchOption.AllDirectories).Where(f =>Path.GetExtension(f).ToLower() == ".xml"))
                 {
                     option.IncludeXmlComments(name);
+                    logger.LogInformation($"find api file{name}");
                 }
 
                 option.OperationFilter<GlobalHttpHeaderOperationFilter>(); // 添加httpHeader参数

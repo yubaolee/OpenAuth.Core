@@ -11,6 +11,9 @@ using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers
 {
+    /// <summary>
+    /// 模块及菜单管理
+    /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ModulesController : ControllerBase

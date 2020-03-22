@@ -9,7 +9,7 @@ using OpenAuth.Repository.Domain;
 namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
-    /// SysMessage操作
+    /// 用户消息及系统消息
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]

@@ -6,7 +6,7 @@ using OpenAuth.App.Response;
 namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
-    /// 应用列表
+    /// 应用管理
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -18,6 +18,10 @@ namespace OpenAuth.WebApi.Controllers
         {
             _app = app;
         }
+        /// <summary>
+        /// 加载应用列表
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public TableData Load([FromQuery]QueryAppListReq request)
         {

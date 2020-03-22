@@ -9,7 +9,7 @@ using OpenAuth.Repository.Domain;
 namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
-    /// DataPrivilegeRule操作
+    /// 数据权限控制
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -17,7 +17,11 @@ namespace OpenAuth.WebApi.Controllers
     {
         private readonly DataPrivilegeRuleApp _app;
         
-        //获取详情
+        /// <summary>
+        /// 获取数据权限详情
+        /// </summary>
+        /// <param name="id">数据权限id</param>
+        /// <returns></returns>
         [HttpGet]
         public Response<DataPrivilegeRule> Get(string id)
         {
@@ -34,8 +38,10 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
-
-        //添加
+        /// <summary>
+        /// 添加数据权限
+        /// </summary>
+        /// <returns></returns>
        [HttpPost]
         public Response Add(AddOrUpdateDataPriviReq obj)
         {
@@ -54,7 +60,10 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //修改
+        /// <summary>
+        /// 修改数据权限
+        /// </summary>
+        /// <returns></returns>
        [HttpPost]
         public Response Update(AddOrUpdateDataPriviReq obj)
         {

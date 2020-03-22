@@ -70,7 +70,7 @@ namespace OpenAuth.WebApi
                 foreach (var name in Directory.GetFiles(AppContext.BaseDirectory, "*.*",
                     SearchOption.AllDirectories).Where(f =>Path.GetExtension(f).ToLower() == ".xml"))
                 {
-                    option.IncludeXmlComments(name);
+                    option.IncludeXmlComments(name,includeControllerXmlComments:true);
                     logger.LogInformation($"find api file{name}");
                 }
 

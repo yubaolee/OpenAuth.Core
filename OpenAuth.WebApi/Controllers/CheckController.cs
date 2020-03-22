@@ -27,7 +27,7 @@ namespace OpenAuth.WebApi.Controllers
 {
     /// <inheritdoc />
     /// <summary>
-    /// 登录及与登录相关的接口
+    /// 登录及与登录信息获取相关的接口
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]

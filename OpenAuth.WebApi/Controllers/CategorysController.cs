@@ -17,7 +17,11 @@ namespace OpenAuth.WebApi.Controllers
     {
         private readonly CategoryApp _app;
         
-        //获取详情
+        /// <summary>
+        /// 获取分类详情
+        /// </summary>
+        /// <param name="id">分类id</param>
+        /// <returns></returns>
         [HttpGet]
         public Response<Category> Get(string id)
         {
@@ -35,7 +39,10 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //添加
+        /// <summary>
+        /// 添加分类
+        /// </summary>
+        /// <returns></returns>
        [HttpPost]
         public Response Add(AddOrUpdateCategoryReq obj)
         {
@@ -54,7 +61,10 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //修改
+        /// <summary>
+        /// 修改分类（字典）
+        /// </summary>
+        /// <returns></returns>
        [HttpPost]
         public Response Update(AddOrUpdateCategoryReq obj)
         {

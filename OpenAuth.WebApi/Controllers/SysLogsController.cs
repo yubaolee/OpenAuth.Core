@@ -9,7 +9,7 @@ using OpenAuth.Repository.Domain;
 namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
-    /// SysLog操作
+    /// 系统日志
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -35,7 +35,9 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //添加
+        /// <summary>
+        /// 添加
+        /// </summary>
        [HttpPost]
         public Response Add(SysLog obj)
         {
@@ -53,9 +55,11 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
-
-        //修改
-       [HttpPost]
+        
+        /// <summary>
+        /// 修改日志（建议废弃）
+        /// </summary>
+        [HttpPost]
         public Response Update(SysLog obj)
         {
             var result = new Response();

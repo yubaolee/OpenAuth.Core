@@ -8,6 +8,9 @@ using OpenAuth.App.Request;
 
 namespace OpenAuth.WebApi.Controllers
 {
+    /// <summary>
+    /// 分配资源/分配字段等
+    /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class AccessObjsController : ControllerBase
@@ -21,7 +24,8 @@ namespace OpenAuth.WebApi.Controllers
         }
 
         /// <summary>
-        /// 比如给用户分配资源，那么firstId就是用户ID，secIds就是资源ID列表
+        /// 添加关联，自动根据firstId删除以前的关联
+        /// <para>比如给用户分配资源，那么firstId就是用户ID，secIds就是资源ID列表</para>
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -40,6 +44,9 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        /// <summary>
+        /// 取消关联
+        /// </summary>
         [HttpPost]
         public Response UnAssign(AssignReq request)
         {

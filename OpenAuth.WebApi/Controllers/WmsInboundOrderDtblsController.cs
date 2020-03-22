@@ -10,7 +10,7 @@ using OpenAuth.Repository.Domain;
 namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
-    /// WmsInboundOrderDtbl操作
+    /// 订单明细
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]

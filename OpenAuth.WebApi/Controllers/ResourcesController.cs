@@ -11,6 +11,9 @@ using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers
 {
+    /// <summary>
+    /// 三方资源管理（暂时没有业务关联）
+    /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ResourcesController : ControllerBase

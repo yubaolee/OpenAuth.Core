@@ -234,6 +234,7 @@ namespace OpenAuth.App
 
         /// <summary>
         /// 驳回
+        /// 如果NodeRejectStep不为空，优先使用；否则按照NodeRejectType驳回
         /// </summary>
         /// <returns></returns>
         public bool NodeReject(VerificationReq reqest)
@@ -245,7 +246,7 @@ namespace OpenAuth.App
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
             string resnode = "";
-            resnode = string.IsNullOrEmpty(reqest.NodeRejectStep) ? wfruntime.RejectNode() : reqest.NodeRejectStep;
+            resnode = string.IsNullOrEmpty(reqest.NodeRejectStep) ? wfruntime.RejectNode(reqest.NodeRejectType) : reqest.NodeRejectStep;
 
             var tag = new Tag
             {

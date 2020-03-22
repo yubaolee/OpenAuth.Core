@@ -103,6 +103,10 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 流程节点审批
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public Response Verification(VerificationReq request)
         {

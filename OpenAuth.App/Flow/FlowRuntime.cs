@@ -270,34 +270,26 @@ namespace OpenAuth.App.Flow
             }
             return res;
         }
-
         /// <summary>
-        /// 驳回节点0"前一步"1"第一步"2"某一步" 3"不处理"
+        /// 驳回
         /// </summary>
+        /// <param name="rejectType">驳回类型。null:使用节点配置的驳回类型/0:前一步/1:第一步/2：指定节点，使用NodeRejectStep</param>
         /// <returns></returns>
-        public string RejectNode()
+        public string RejectNode(string rejectType)
         {
-            return RejectNode(currentNodeId);
-        }
-
-        public string RejectNode(string nodeId)
-        {
-            dynamic node = Nodes[nodeId];
-            if (node.setInfo != null)
+            dynamic node = Nodes[currentNodeId];
+            if (node.setInfo != null && string.IsNullOrEmpty(rejectType))
             {
-                if (node.setInfo.NodeRejectType == "0")
-                {
-                    return previousId;
-                }
-                if (node.setInfo.NodeRejectType == "1")
-                {
-                    return GetNextNodeId(startNodeId);
-                }
-                if (node.setInfo.NodeRejectType == "2")
-                {
-                    return node.setInfo.NodeRejectStep;
-                }
-                return "";
+                rejectType = node.setInfo.NodeRejectType;
+            }
+            
+            if (rejectType == "0")
+            {
+                return previousId;
+            }
+            if (rejectType == "1")
+            {
+                return GetNextNodeId(startNodeId);
             }
             return previousId;
         }

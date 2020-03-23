@@ -30,6 +30,11 @@ namespace OpenAuth.App
 
         public void Update(FlowScheme flowScheme)
         {
+            if (Repository.IsExist(u => u.SchemeName == flowScheme.SchemeName && u.Id != flowScheme.Id))
+            {
+                throw new Exception("流程名称已经存在");
+            }
+            
             UnitWork.Update<FlowScheme>(u => u.Id == flowScheme.Id, u => new FlowScheme
             {
                 SchemeContent = flowScheme.SchemeContent,

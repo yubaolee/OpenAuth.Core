@@ -12,6 +12,11 @@ namespace OpenAuth.App
     {
         public void Add(FlowScheme flowScheme)
         {
+            if (Repository.IsExist(u => u.SchemeName == flowScheme.SchemeName))
+            {
+                throw new Exception("流程名称已经存在");
+            }
+            
             var user = _auth.GetCurrentUser().User;
             flowScheme.CreateUserId = user.Id;
             flowScheme.CreateUserName = user.Name;

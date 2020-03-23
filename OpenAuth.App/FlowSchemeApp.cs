@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -47,7 +47,7 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.SchemeName.Contains(request.key) || u.Id.Contains(request.key));
             }
 
-            result.data = objs.OrderBy(u => u.SchemeName)
+            result.data = objs.OrderByDescending(u => u.CreateDate)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).ToList();
             result.count = objs.Count();

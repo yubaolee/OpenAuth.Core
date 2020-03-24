@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -12,6 +12,11 @@ namespace OpenAuth.App
     {
         public void Add(FlowScheme flowScheme)
         {
+            if (Repository.IsExist(u => u.SchemeName == flowScheme.SchemeName))
+            {
+                throw new Exception("流程名称已经存在");
+            }
+            
             var user = _auth.GetCurrentUser().User;
             flowScheme.CreateUserId = user.Id;
             flowScheme.CreateUserName = user.Name;
@@ -25,6 +30,11 @@ namespace OpenAuth.App
 
         public void Update(FlowScheme flowScheme)
         {
+            if (Repository.IsExist(u => u.SchemeName == flowScheme.SchemeName && u.Id != flowScheme.Id))
+            {
+                throw new Exception("流程名称已经存在");
+            }
+            
             UnitWork.Update<FlowScheme>(u => u.Id == flowScheme.Id, u => new FlowScheme
             {
                 SchemeContent = flowScheme.SchemeContent,
@@ -47,7 +57,7 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.SchemeName.Contains(request.key) || u.Id.Contains(request.key));
             }
 
-            result.data = objs.OrderBy(u => u.SchemeName)
+            result.data = objs.OrderByDescending(u => u.CreateDate)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).ToList();
             result.count = objs.Count();

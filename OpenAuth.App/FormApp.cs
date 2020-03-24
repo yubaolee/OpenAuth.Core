@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -25,7 +25,7 @@ namespace OpenAuth.App
                 forms = forms.Where(u => u.Name.Contains(request.key) || u.Id.Contains(request.key));
             }
 
-            result.data = forms.OrderBy(u => u.Name)
+            result.data = forms.OrderByDescending(u => u.CreateDate)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).ToList();
             result.count = forms.Count();

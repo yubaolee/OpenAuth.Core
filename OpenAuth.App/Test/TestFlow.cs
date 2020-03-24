@@ -1,4 +1,5 @@
-﻿using Infrastructure.Cache;
+﻿using System.Net.Http;
+using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using OpenAuth.App.SSO;
 
 namespace OpenAuth.App.Test
 {
+    [TestFixture]
     public class TestFlow :TestBase
     {
         //测试流程需要模拟登录用户
@@ -19,10 +21,14 @@ namespace OpenAuth.App.Test
             cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "test" });
             services.AddScoped(x => cachemock.Object);
 
+            //模拟服务端httpContext
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TOKEN_NAME]).Returns("tokentest");
-
             services.AddScoped(x => httpContextAccessorMock.Object);
+
+            //模拟httpclientfactory
+            var mockHttpFac = new Mock<IHttpClientFactory>();
+            services.AddScoped(x => mockHttpFac.Object);
 
             return services;
         }
@@ -35,7 +41,7 @@ namespace OpenAuth.App.Test
             app.Verification(new VerificationReq
             {
                 FlowInstanceId = "d8fa445f-edd9-4604-8d9e-b17ba921f9dd",
-                VerificationFinally = "1"
+                VerificationFinally = "3"
             });
         }
     }

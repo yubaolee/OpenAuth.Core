@@ -388,8 +388,8 @@ namespace OpenAuth.App
                 Description = request.VerificationOpinion,
                 Taged = Int32.Parse(request.VerificationFinally)
             };
-            //驳回
-            if (request.VerificationFinally == TagState.Reject.ToString())
+            bool isReject = TagState.Reject.Equals((TagState) tag.Taged);
+            if (isReject)  //驳回
             {
                 NodeReject(request);
             }

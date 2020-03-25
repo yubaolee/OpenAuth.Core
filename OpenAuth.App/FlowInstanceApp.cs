@@ -148,19 +148,16 @@ namespace OpenAuth.App
 
             if (flowInstance.ActivityType == 0)//当前节点是会签节点
             {
+                //会签时的【当前节点】一直是会签开始节点
                 //TODO: 标记会签节点的状态，这个地方感觉怪怪的
                 wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
 
                 string canCheckId = ""; //寻找当前登录用户可审核的节点Id
-                foreach (string nodeId in wfruntime.FromNodeLines[wfruntime.currentNodeId].Select(u => u.to))
+                foreach (string fromForkStartNodeId in wfruntime.FromNodeLines[wfruntime.currentNodeId].Select(u => u.to))
                 {
-                    var makerList = GetNodeMakers(wfruntime.Nodes[nodeId]);
-                    if (string.IsNullOrEmpty(makerList)) continue;
-
-                    if (makerList.Split(',').Any(one => tag.UserId == one))
-                    {
-                        canCheckId = nodeId;
-                    }
+                    var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId];  //与会前开始节点直接连接的节点
+                    canCheckId = GetOneForkLineCanCheckNodeId(fromForkStartNode, wfruntime, tag);
+                    if(!string.IsNullOrEmpty(canCheckId)) break;
                 }
 
                 if (canCheckId == "")
@@ -230,6 +227,27 @@ namespace OpenAuth.App
 
             wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), tag);
             return true;
+        }
+
+        //会签时，获取一条会签分支上面是否有用户可审核的节点
+        private string GetOneForkLineCanCheckNodeId(FlowNode fromForkStartNode, FlowRuntime wfruntime, Tag tag)
+        {
+            string canCheckId="";
+            var node = fromForkStartNode;
+            do  //沿一条分支线路执行，直到遇到会签结束节点
+            {
+                var makerList = GetNodeMakers(node);
+
+                if (node.setInfo.Taged == null && !string.IsNullOrEmpty(makerList) && makerList.Split(',').Any(one => tag.UserId == one))
+                {
+                    canCheckId = node.id;
+                    break;
+                }
+
+                node = wfruntime.GetNextNode(node.id);
+            } while (node.type != FlowNode.JOIN);
+
+            return canCheckId;
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace OpenAuth.App.Test
             var services = new ServiceCollection();
 
             var cachemock = new Mock<ICacheContext>();
-            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "test" });
+            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "test3" });
             services.AddScoped(x => cachemock.Object);
 
             //模拟服务端httpContext
@@ -40,8 +40,8 @@ namespace OpenAuth.App.Test
             var app = _autofacServiceProvider.GetService<FlowInstanceApp>();
             app.Verification(new VerificationReq
             {
-                FlowInstanceId = "d8fa445f-edd9-4604-8d9e-b17ba921f9dd",
-                VerificationFinally = "3"
+                FlowInstanceId = "76c72db4-d6c8-4734-856e-b6ffee08314a",
+                VerificationFinally = "1"
             });
         }
     }

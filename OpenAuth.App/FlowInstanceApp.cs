@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : OpenAuth.App
 // Author           : 李玉宝
 // Created          : 07-19-2018
@@ -23,6 +23,7 @@ using OpenAuth.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
 
 namespace OpenAuth.App
@@ -429,10 +430,17 @@ namespace OpenAuth.App
 
             if (request.type == "wait")   //待办事项
             {
-                result.count = UnitWork.Find<FlowInstance>(u => u.MakerList == "1" || u.MakerList.Contains(user.User.Id)).Count();
+                Expression<Func<FlowInstance, bool>> waitExp = u => u.MakerList == "1" || u.MakerList.Contains(user.User.Id);
 
-                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit, "CreateDate descending",
-                    u => u.MakerList == "1" || u.MakerList.Contains(user.User.Id)).ToList();
+                // 加入搜索自定义标题
+                if (!string.IsNullOrEmpty(request.key))
+                {
+                    waitExp = waitExp.And(t => t.CustomName.Contains(request.key));
+                }
+
+                result.count = UnitWork.Find(waitExp).Count();
+
+                result.data = UnitWork.Find(request.page, request.limit, "CreateDate descending", waitExp).ToList();
             }
             else if (request.type == "disposed")  //已办事项（即我参与过的流程）
             {
@@ -442,6 +450,12 @@ namespace OpenAuth.App
                             join ct in UnitWork.Find<FlowInstance>(null) on ti equals ct.Id
                             select ct;
 
+                // 加入搜索自定义标题
+                if (!string.IsNullOrEmpty(request.key))
+                {
+                    query = query.Where(t => t.CustomName.Contains(request.key));
+                }
+
                 result.data = query.OrderByDescending(u => u.CreateDate)
                     .Skip((request.page - 1) * request.limit)
                     .Take(request.limit).ToList();
@@ -449,9 +463,17 @@ namespace OpenAuth.App
             }
             else  //我的流程
             {
-                result.count = UnitWork.Find<FlowInstance>(u => u.CreateUserId == user.User.Id).Count();
-                result.data = UnitWork.Find<FlowInstance>(request.page, request.limit,
-                    "CreateDate descending", u => u.CreateUserId == user.User.Id).ToList();
+                Expression<Func<FlowInstance, bool>> myFlowExp = u => u.CreateUserId == user.User.Id;
+
+                // 加入搜索自定义标题
+                if (!string.IsNullOrEmpty(request.key))
+                {
+                    myFlowExp = myFlowExp.And(t => t.CustomName.Contains(request.key));
+                }
+
+                result.count = UnitWork.Find(myFlowExp).Count();
+                result.data = UnitWork.Find(request.page, request.limit,
+                    "CreateDate descending", myFlowExp).ToList();
             }
 
             return result;

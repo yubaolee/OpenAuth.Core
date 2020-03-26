@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
-
+using System.Linq;
+using OpenAuth.App.Request;
 
 namespace OpenAuth.App
 {
@@ -15,10 +16,16 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载当前登录用户可访问的全部角色
         /// </summary>
-        public List<Role> Load()
+        public List<Role> Load(QueryRoleListReq request)
         {
             var loginUser = _auth.GetCurrentUser();
-            return loginUser.Roles;
+            var roles = loginUser.Roles;
+            if (!string.IsNullOrEmpty(request.key))
+            {
+                roles = roles.Where(u => u.Name.Contains(request.key)).ToList();
+            }
+
+            return roles;
         }
 
 

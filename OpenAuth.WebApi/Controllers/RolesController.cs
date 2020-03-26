@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -89,7 +89,7 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<List<Role>>();
             try
             {
-                result.Result = _app.Load();
+                result.Result = _app.Load(request);
 
             }
             catch (Exception ex)

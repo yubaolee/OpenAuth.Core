@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -36,7 +36,7 @@ namespace OpenAuth.App
             var objs = UnitWork.Find<DataPrivilegeRule>(null);
             if (!string.IsNullOrEmpty(request.key))
             {
-                objs = objs.Where(u => u.Id.Contains(request.key));
+                objs = objs.Where(u => u.Id.Contains(request.key) || u.SourceCode.Contains(request.key) || u.Description.Contains(request.key));
             }
 
 

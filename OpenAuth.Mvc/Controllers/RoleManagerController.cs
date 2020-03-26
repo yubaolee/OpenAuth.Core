@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -97,7 +97,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 var result = new Response<List<Role>>
                 {
-                    Result = _app.Load()
+                    Result = _app.Load(request)
                 };
                 return JsonHelper.Instance.Serialize(result);
             }

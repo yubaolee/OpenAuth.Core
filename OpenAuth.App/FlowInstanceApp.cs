@@ -430,7 +430,7 @@ namespace OpenAuth.App
 
             if (request.type == "wait")   //待办事项
             {
-                Expression<Func<FlowInstance, bool>> waitExp = u => u.MakerList == "1" || u.MakerList.Contains(user.User.Id);
+                Expression<Func<FlowInstance, bool>> waitExp = u => (u.MakerList == "1" || u.MakerList.Contains(user.User.Id)) && u.IsFinish != 1 && u.IsFinish != 4;
 
                 // 加入搜索自定义标题
                 if (!string.IsNullOrEmpty(request.key))

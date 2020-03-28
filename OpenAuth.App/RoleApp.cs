@@ -36,6 +36,19 @@ namespace OpenAuth.App
             role.CreateTime = DateTime.Now;
             Repository.Add(role);
             obj.Id = role.Id;   //要把保存后的ID存入view
+           
+            //如果当前账号不是SYSTEM，则直接分配
+            var loginUser = _auth.GetCurrentUser();
+            if (loginUser.User.Account != Define.SYSTEM_USERNAME)
+            {
+                _revelanceApp.Assign(new AssignReq
+                {
+                    type = Define.USERROLE,
+                    firstId = loginUser.User.Id,
+                    secIds = new[] {role.Id}
+                });
+            }
+            
 
         }
         

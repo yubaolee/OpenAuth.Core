@@ -30,14 +30,18 @@ namespace OpenAuth.App
 
             Repository.Add(org);
             
-            //当前登录用户自动添加该部门
-            _revelanceApp.Assign(new AssignReq
+            //如果当前账号不是SYSTEM，则直接分配
+            var loginUser = _auth.GetCurrentUser();
+            if (loginUser.User.Account != Define.SYSTEM_USERNAME)
             {
-                type=Define.USERORG,
-                firstId = loginContext.User.Id,
-                secIds = new[]{org.Id}
-            });
-
+                _revelanceApp.Assign(new AssignReq
+                {
+                    type=Define.USERORG,
+                    firstId = loginContext.User.Id,
+                    secIds = new[]{org.Id}
+                });
+            }
+            
             return org.Id;
         }
 

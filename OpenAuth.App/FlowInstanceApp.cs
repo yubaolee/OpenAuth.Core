@@ -189,6 +189,12 @@ namespace OpenAuth.App
 
                     AddTransHistory(wfruntime);
                 }
+                else
+                {
+                    //会签过程中，需要更新用户
+                    flowInstance.MakerList = GetForkNodeMakers(wfruntime, wfruntime.currentNodeId);
+                    AddTransHistory(wfruntime);
+                }
               
             }
             #endregion 会签
@@ -237,7 +243,7 @@ namespace OpenAuth.App
             var node = fromForkStartNode;
             do  //沿一条分支线路执行，直到遇到会签结束节点
             {
-                var makerList = GetNodeMakers(node);
+                var makerList = GetNodeMarkers(node);
 
                 if (node.setInfo.Taged == null && !string.IsNullOrEmpty(makerList) && makerList.Split(',').Any(one => tag.UserId == one))
                 {
@@ -283,7 +289,7 @@ namespace OpenAuth.App
                 flowInstance.ActivityId = resnode;
                 flowInstance.ActivityType = wfruntime.GetNodeType(resnode);
                 flowInstance.ActivityName = wfruntime.Nodes[resnode].name;
-                flowInstance.MakerList = GetNodeMakers(wfruntime.Nodes[resnode]);//当前节点可执行的人信息
+                flowInstance.MakerList = GetNodeMarkers(wfruntime.Nodes[resnode]);//当前节点可执行的人信息
 
                 AddTransHistory(wfruntime);
             }
@@ -315,6 +321,7 @@ namespace OpenAuth.App
 
         #endregion 流程处理API
 
+        #region 获取各种节点的流程审核者
         /// <summary>
         /// 寻找下一步的执行人
         /// 一般用于本节点审核完成后，修改流程实例的当前执行人，可以做到通知等功能
@@ -329,29 +336,11 @@ namespace OpenAuth.App
             }
             if (wfruntime.nextNodeType == 0)//如果是会签节点
             {
-                List<string> _nodelist = wfruntime.FromNodeLines[wfruntime.nextNodeId].Select(u =>u.to).ToList();
-                string makers = "";
-                foreach (string item in _nodelist)
-                {
-                    makers = GetNodeMakers(wfruntime.Nodes[item]);
-                    if (makers == "")
-                    {
-                        throw (new Exception("无法寻找到会签节点的审核者,请查看流程设计是否有问题!"));
-                    }
-                    if (makers == "1")
-                    {
-                        throw (new Exception("会签节点的审核者不能为所有人,请查看流程设计是否有问题!"));
-                    }
-                    if (makerList != "")
-                    {
-                        makerList += ",";
-                    }
-                    makerList += makers;
-                }
+                makerList = GetForkNodeMakers(wfruntime, wfruntime.nextNodeId);
             }
             else
             {
-                makerList = GetNodeMakers(wfruntime.nextNode);
+                makerList = GetNodeMarkers(wfruntime.nextNode);
                 if (string.IsNullOrEmpty(makerList))
                 {
                     throw (new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!"));
@@ -362,11 +351,66 @@ namespace OpenAuth.App
         }
 
         /// <summary>
+        /// 获取会签开始节点的所有可执行者
+        /// </summary>
+        /// <param name="forkNodeId">会签开始节点</param>
+        /// <returns></returns>
+        private string GetForkNodeMakers(FlowRuntime wfruntime, string forkNodeId)
+        {
+            string makerList="";
+            foreach (string fromForkStartNodeId in wfruntime.FromNodeLines[forkNodeId].Select(u => u.to))
+            {
+                var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId]; //与会前开始节点直接连接的节点
+                if (makerList != "")
+                {
+                    makerList += ",";
+                }
+
+                makerList += GetOneForkLineMakers(fromForkStartNode, wfruntime);
+            }
+
+            return makerList;
+        }
+
+        //获取会签一条线上所有的审核者,会自动过滤已经执行的节点
+        private string GetOneForkLineMakers(FlowNode fromForkStartNode, FlowRuntime wfruntime)
+        {
+            string markers="";
+            var node = fromForkStartNode;
+            do  //沿一条分支线路执行，直到遇到会签结束节点
+            {
+                if (node.setInfo != null && node.setInfo.Taged != null)  //节点已经被审核
+                {
+                    node = wfruntime.GetNextNode(node.id);
+                    continue;
+                }
+                var marker = GetNodeMarkers(node);
+                if (marker == "")
+                {
+                    throw (new Exception($"节点{node.name}没有审核者,请检查!"));
+                }
+                if (marker == "1")
+                {
+                    throw (new Exception($"节点{node.name}是会签节点，不能用所有人,请检查!"));
+                }
+                
+                if (markers != "")
+                {
+                    markers += ",";
+                }
+                markers += marker;
+                node = wfruntime.GetNextNode(node.id);
+            } while (node.type != FlowNode.JOIN);
+
+            return markers;
+        }
+
+        /// <summary>
         /// 寻找该节点执行人
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private string GetNodeMakers(FlowNode node)
+        private string GetNodeMarkers(FlowNode node)
         {
             string makerList = "";
 
@@ -392,6 +436,7 @@ namespace OpenAuth.App
             }
             return makerList;
         }
+        #endregion
 
         /// <summary>
         /// 审核流程
@@ -430,7 +475,7 @@ namespace OpenAuth.App
 
             if (request.type == "wait")   //待办事项
             {
-                Expression<Func<FlowInstance, bool>> waitExp = u => (u.MakerList == "1" || u.MakerList.Contains(user.User.Id)) && u.IsFinish != 1 && u.IsFinish != 4;
+                Expression<Func<FlowInstance, bool>> waitExp = u => (u.MakerList == "1" || u.MakerList.Contains(user.User.Id)) && u.IsFinish == 0;
 
                 // 加入搜索自定义标题
                 if (!string.IsNullOrEmpty(request.key))

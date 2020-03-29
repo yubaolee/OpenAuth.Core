@@ -43,6 +43,27 @@ namespace OpenAuth.WebApi.Controllers
             _logger = logger;
             _authStrategyContext = _authUtil.GetCurrentUser();
         }
+        
+        /// <summary>
+        /// 获取登录用户资料
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public Response<UserView> GetUserProfile()
+        {
+            var resp = new Response<UserView>();
+            try
+            {
+                resp.Result = _authStrategyContext.User.MapTo<UserView>();
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+
+            return resp;
+        }
 
         /// <summary>
         /// 检验token是否有效

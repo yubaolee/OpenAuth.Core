@@ -32,6 +32,52 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        
+        /// <summary>
+        /// 修改用户资料
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Response ChangeProfile(ChangeProfileReq request)
+        {
+            var result = new Response();
+            
+            try
+            {
+                _app.ChangeProfile(request);
+                result.Message = "修改成功，重新登录生效";
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Response ChangePassword(ChangePasswordReq request)
+        {
+            var result = new Response();
+            try
+            {
+                _app.ChangePassword(request);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
 
         //添加或修改
        [HttpPost]

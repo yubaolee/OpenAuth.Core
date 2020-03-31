@@ -372,16 +372,20 @@ namespace OpenAuth.App
             return makerList;
         }
 
-        //获取会签一条线上所有的审核者,会自动过滤已经执行的节点
+        //获取会签一条线上的审核者,该审核者应该是已审核过的节点的下一个人
         private string GetOneForkLineMakers(FlowNode fromForkStartNode, FlowRuntime wfruntime)
         {
             string markers="";
             var node = fromForkStartNode;
-            do  //沿一条分支线路执行，直到遇到会签结束节点
+            do  //沿一条分支线路执行，直到遇到第一个没有审核的节点
             {
-                if (node.setInfo != null && node.setInfo.Taged != null)  //节点已经被审核
+                if (node.setInfo != null && node.setInfo.Taged != null)  
                 {
-                    node = wfruntime.GetNextNode(node.id);
+                    if (node.type != FlowNode.FORK && node.setInfo.Taged != (int) TagState.Ok)  //如果节点是不同意或驳回，则不用再找了
+                    {
+                        break;
+                    }
+                    node = wfruntime.GetNextNode(node.id);  //下一个节点
                     continue;
                 }
                 var marker = GetNodeMarkers(node);
@@ -399,7 +403,7 @@ namespace OpenAuth.App
                     markers += ",";
                 }
                 markers += marker;
-                node = wfruntime.GetNextNode(node.id);
+                break;
             } while (node.type != FlowNode.JOIN);
 
             return markers;

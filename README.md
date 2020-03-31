@@ -10,7 +10,7 @@
 
 ## 关于OpenAuth.Net企业版的说明：
 
-目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出VIP服务，提供VIP专属QQ群，第一时间提供开发进度、内部文档、1V1专属咨询服务等。
+目前OpenAuth.Core以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出VIP服务，提供VIP专属QQ群，第一时间提供开发进度、内部文档、专属技术咨询服务等。
 
 为了进一步扩大会员用户的权益，官方于近期针对VIP2用户推出专属版本，该版本基于OpenAuth.Core的API接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）全面拥抱单页面SPA开发，[如何获取请查看这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
 
@@ -35,7 +35,7 @@
 
 ## 当前版本
 
-`v2.0 即将发布`
+`v2.0`
 
 * 升级.net core sdk至3.1.100💪
 
@@ -115,7 +115,7 @@
 
 ## 权限资源
 
-符合国情的RBAC（基于角色的访问控制），可以直接应用到你的系统。
+符合国情的RBAC（基于角色的访问控制），可以直接应用到你的系统。具体说明请查看：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
 
 1. 菜单权限  经理和业务员登陆系统拥有的功能菜单是不一样的
 2. 按钮权限  经理能够审批，而业务员不可以
@@ -133,7 +133,8 @@
 1. OpenAuth.Repository 系统仓储层，用于数据库操作
 1. OpenAuth.App 应用层，为界面提供接口
 1. OpenAuth.Mvc Web站点
-1. OpenAuth.WebApi SSO服务及为第三方提供接口服务
+1. OpenAuth.WebApi 为企业版或其他三方系统提供接口服务
+1. OpenAuth.Identity 基于IdentityServer4的单点登录服务
 
 ## 使用
 管理员可直接在登录界面用System登录；

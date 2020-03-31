@@ -115,7 +115,7 @@
 
 ## 权限资源
 
-符合国情的RBAC（基于角色的访问控制），可以直接应用到你的系统。具体说明请查看：![通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
+符合国情的RBAC（基于角色的访问控制），可以直接应用到你的系统。具体说明请查看：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
 
 1. 菜单权限  经理和业务员登陆系统拥有的功能菜单是不一样的
 2. 按钮权限  经理能够审批，而业务员不可以

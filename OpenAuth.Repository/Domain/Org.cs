@@ -35,7 +35,7 @@ namespace OpenAuth.Repository.Domain
           this.CreateTime= DateTime.Now;
           this.CreateId= 0;
           this.SortNo= 0;
-          this.ParentId= string.Empty;
+          this.ParentId= null;
           this.TypeName= string.Empty;
           this.TypeId= string.Empty;
         }

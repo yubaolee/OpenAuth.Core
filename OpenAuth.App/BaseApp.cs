@@ -96,6 +96,7 @@ namespace OpenAuth.App
         /// <param name="entity"></param>
         public void ChangeModuleCascade<U>(U entity) where U : TreeEntity
         {
+            if (entity.ParentId == "") entity.ParentId = null;
             string cascadeId;
             int currentCascadeId = 1; //当前结点的级联节点最后一位
             var sameLevels = UnitWork.Find<U>(o => o.ParentId == entity.ParentId && o.Id != entity.Id);

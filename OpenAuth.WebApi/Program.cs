@@ -14,15 +14,16 @@ namespace OpenAuth.WebApi
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-// .ConfigureLogging((hostingContext, logging) =>
-//                {
-//                    logging.ClearProviders();  //去掉默认的日志
-//                   logging.AddFilter("System", LogLevel.Warning);
-//                    logging.AddFilter("Microsoft", LogLevel.Warning);
-//                    logging.AddLog4Net();
-//                })
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())   //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
+            Host.CreateDefaultBuilder(args)
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.ClearProviders(); //去掉默认的日志
+                    logging.AddFilter("System", LogLevel.Error);
+                    logging.AddFilter("Microsoft", LogLevel.Error);
+                    logging.AddLog4Net();
+                })
+                .UseServiceProviderFactory(
+                    new AutofacServiceProviderFactory()) //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseUrls("http://*:52789").UseStartup<Startup>();

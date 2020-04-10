@@ -8,14 +8,6 @@
 
 **官方文档**  http://doc.openauth.me 
 
-## 关于OpenAuth.Net企业版的说明：
-
-目前OpenAuth.Core以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出VIP服务，提供VIP专属QQ群，第一时间提供开发进度、内部文档、专属技术咨询服务等。
-
-为了进一步扩大会员用户的权益，官方于近期针对VIP2用户推出专属版本，该版本基于OpenAuth.Core的API接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）全面拥抱单页面SPA开发，[如何获取请查看这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
-
-效果如下：
-![openauth.pro](http://demo.openauth.me:8887/upload_files/181228200620875.gif "181228200620875.gif")
 
 ## 官方QQ交流群  
 
@@ -29,9 +21,9 @@
 
 ## 演示直达
 
-* 企业版演示地址： http://demo.openauth.me:1803
+* VUE版版本演示地址： http://demo.openauth.me:1803
 
-* 开源版演示地址： http://demo.openauth.me:1802
+* LayUI版本演示地址： http://demo.openauth.me:1802
 
 ## 当前版本
 
@@ -45,15 +37,15 @@
 
 * 增加【个人中心】页面，可修改个人信息及切换当前登录部门
 
-* 完善接口注释，增加【接口文档】页面 `pro版本`
+* 完善接口注释，增加【接口文档】页面 
 
 `v1.7`
 
 * 修复部分bug
 
-* 企业版启用全新可拖拽的表单设计  `pro版本`
+* 企业版启用全新可拖拽的表单设计  
 
-* 企业版启用全新流程设计  `pro版本`
+* 企业版启用全新流程设计  
 
 `v1.6`
 
@@ -69,7 +61,7 @@
 
 * 优化导航排序、支持多级导航
 
-* 企业版启用全新登录界面  `pro版本`
+* 企业版启用全新登录界面  
 
 
 `v1.5 或以前版本`
@@ -103,7 +95,7 @@
 * 设计工具 PowerDesigner + Enterprise Architect
 
 ## 秀外
-
+![openauth.pro](http://demo.openauth.me:8887/upload_files/181228200620875.gif "181228200620875.gif")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/173337_6e017075_362401.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/150758_26ef9d61_362401.png "流程设计")
 

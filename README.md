@@ -11,8 +11,6 @@
 
 ## 官方QQ交流群  
 
-1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、1V1专属咨询服务等，[如何加入VIP请移步这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)**
-
 1. 484498493【已满】
 
 1. 626433139【已满】
@@ -25,74 +23,32 @@
 
 * LayUI版本演示地址： http://demo.openauth.me:1802
 
-## 当前版本
+## 核心看点
 
-`v2.0`
+* 支持.net core sdk 3.1.100
 
-* 升级.net core sdk至3.1.100💪
-
-* 升级layui至2.5.6
-
-* 新增灵活配置用户可访问的机构数据权限💪
-
-* 增加【个人中心】页面，可修改个人信息及切换当前登录部门
-
-* 完善接口注释，增加【接口文档】页面 
-
-`v1.7`
-
-* 修复部分bug
-
-* vue版启用全新可拖拽的表单设计  
-
-* vue版启用全新流程设计  
-
-`v1.6`
-
-* 数据权限控制，超强的自定义权限控制功能 `vue版本提供配置界面`
-
-* 日志功能，任意应用层xxxApp内注入SysLogApp即可轻松记录日志，可以参考OpenAuthFilter.cs
+* 超强的自定义权限控制功能，可灵活配置用户、角色可访问的数据权限
 
 * 完整的字段权限控制，可以控制字段可见及API是否返回字段值
 
-* 启用数据字典功能 `vue版本提供字典组件`
+* 可拖拽的表单设计  
 
-* 优化vue版代码生成器，可以快速生成带有头/明细结构的页面 `vue版本提供`
+* 可视化流程设计  
 
-* 优化导航排序、支持多级导航
+* 基于CodeSmith的代码生成功能，可快速生成带有头/明细结构的页面
 
-* vue版启用全新登录界面  
-
-
-`v1.5 或以前版本`
-
-* 基于.Net Core 2.1开发
-
-* 升级layui至2.5.4
-
-* 升级vue至2.6.10
-
-* 全面支持sqlserver、mysql数据库
-
-* 流程支持角色审批
+* 支持sqlserver、mysql数据库，理论上支持所有数据库
 
 * 集成IdentityServer4，实现基于OAuth2的登录体系
 
 * 建立三方对接规范，已有系统可以无缝对接流程引擎
 
-* 全面实现模块控制、菜单控制
-
-* 全面实现数据权限控制（不同的角色看到的字段不同）`vue版本提供配置界面`
-
-* 完整的代码生成器
-
 * 前端采用 vue + layui + ztree + gooflow + leipiformdesign
 
-* 后端采用 asp.net mvc core 2.1  + EF core+ autofac + json.net
-
-* 代码生成工具 CodeSmith
+* 后端采用 EF core+ autofac + json.net + swagger
 
 * 设计工具 PowerDesigner + Enterprise Architect
+
 
 ## 秀外
 ![openauth.pro](http://demo.openauth.me:8887/upload_files/181228200620875.gif "181228200620875.gif")

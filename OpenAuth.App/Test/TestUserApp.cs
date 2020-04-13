@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac.Extensions.DependencyInjection;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 using OpenAuth.App.Request;
-using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
 
 namespace OpenAuth.App.Test

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Linq.Expressions;
 using Infrastructure;
-using Microsoft.EntityFrameworkCore.Internal;
 using OpenAuth.App.Interface;
 using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Domain;

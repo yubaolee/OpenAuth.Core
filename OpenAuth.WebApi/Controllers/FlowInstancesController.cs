@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using OpenAuth.App;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;

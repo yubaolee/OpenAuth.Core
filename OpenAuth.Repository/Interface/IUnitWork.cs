@@ -13,7 +13,6 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using OpenAuth.Repository.Core;
-using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Repository.Interface
 {

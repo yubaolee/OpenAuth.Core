@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac.Extensions.DependencyInjection;
 using Infrastructure;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
@@ -10,9 +7,7 @@ using Moq;
 using NUnit.Framework;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
-using OpenAuth.App.Response;
 using OpenAuth.App.SSO;
-using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.Test
 {

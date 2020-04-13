@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenAuth.App
+﻿namespace OpenAuth.App
 {
     /// <summary>
     /// 配置项

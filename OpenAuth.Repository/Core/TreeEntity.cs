@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Repository.Core
 {

@@ -51,7 +51,6 @@
 
 
 ## 秀外
-![openauth.pro](http://demo.openauth.me:8887/upload_files/181228200620875.gif "181228200620875.gif")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/173337_6e017075_362401.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/150758_26ef9d61_362401.png "流程设计")
 

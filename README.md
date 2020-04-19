@@ -1,4 +1,4 @@
-![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0420/002145_bdea42ff_362401.png "logo2.png")
 
 **logo图标含义** OpenAuth中OA字母的结合体；整体像鱼，授人以渔；你非说像咸鱼，那也是积极向上的咸鱼；中心是个笑脸，微笑面对生活(✿◡‿◡)。
 

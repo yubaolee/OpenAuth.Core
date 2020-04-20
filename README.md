@@ -10,17 +10,24 @@
 
 ![](https://img.shields.io/badge/release-2.0-blue)
 ![](https://img.shields.io/badge/.net%20core-3.1.100-blue)
-![](https://img.shields.io/badge/IdentityServer-4.0-blue)
+![](https://img.shields.io/badge/IdentityServer4-3.0.1-blue)
+![](https://img.shields.io/badge/Autofac-5.1.2-blue)
+![](https://img.shields.io/badge/NUnit-3.12-blue)
+![](https://img.shields.io/badge/SwaggerUI-OAS%203.0-blue)
+![](https://img.shields.io/badge/Moq-4.13-blue)
+![](https://img.shields.io/badge/log4net-2.0.8-blue)
+
 ![](https://img.shields.io/badge/vue-2.6.10-brightgreen)
 ![](https://img.shields.io/badge/element--ui-2.10.1-brightgreen)
 ![](https://img.shields.io/badge/node-%3E%3D4.0-brightgreen)
 ![](https://img.shields.io/badge/npm-3.0.0-brightgreen)
+![](https://img.shields.io/badge/layui-2.5.6-brightgreen)
 
 
 
 ## 关于OpenAuth.Net企业版的说明：
 
-目前OpenAuth.Core以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出特推出基于vue + element UI 的单页面应用程序，即企业版OpenAuth.Pro。
+目前OpenAuth.Core以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue + element UI 的单页面应用程序，即企业版OpenAuth.Pro
 
 **该版本后端基于OpenAuth.Core的API接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发**
 
@@ -31,7 +38,7 @@
 
 ## 官方QQ交流群  
 
-1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、1V1专属咨询服务等，[如何加入VIP请移步这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)**
+1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、技术咨询服务等，[如何加入VIP请移步这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)**
 
 1. 484498493【已满】
 

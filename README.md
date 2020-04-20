@@ -1,4 +1,4 @@
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0420/002145_bdea42ff_362401.png "logo2.png")
+![LOGO](https://images.gitee.com/uploads/images/2020/0420/002145_bdea42ff_362401.png "logo.png")
 
 **logo图标含义** OpenAuth中OA字母的结合体；整体像鱼，授人以渔；你非说像咸鱼，那也是积极向上的咸鱼；中心是个笑脸，微笑面对生活(✿◡‿◡)。
 
@@ -8,8 +8,30 @@
 
 **官方文档**  http://doc.openauth.me 
 
+![](https://img.shields.io/badge/release-2.0-blue)
+![](https://img.shields.io/badge/.net%20core-3.1.100-blue)
+![](https://img.shields.io/badge/IdentityServer-4.0-blue)
+![](https://img.shields.io/badge/vue-2.6.10-brightgreen)
+![](https://img.shields.io/badge/element--ui-2.10.1-brightgreen)
+![](https://img.shields.io/badge/node-%3E%3D4.0-brightgreen)
+![](https://img.shields.io/badge/npm-3.0.0-brightgreen)
+
+
+
+## 关于OpenAuth.Net企业版的说明：
+
+目前OpenAuth.Core以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出特推出基于vue + element UI 的单页面应用程序，即企业版OpenAuth.Pro。
+
+**该版本后端基于OpenAuth.Core的API接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发**
+
+版本附赠VIP服务，提供VIP专属QQ群，企业发票、专属内部文档、技术咨询服务等。[如何获取请查看这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
+
+效果如下：
+![openauth.pro](http://demo.openauth.me:8887/upload_files/200420211433125.gif "企业版效果图")
 
 ## 官方QQ交流群  
+
+1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、1V1专属咨询服务等，[如何加入VIP请移步这里](http://www.openauth.me/questions/detail?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)**
 
 1. 484498493【已满】
 
@@ -19,9 +41,9 @@
 
 ## 演示直达
 
-* VUE版版本演示地址： http://demo.openauth.me:1803
+* 企业版演示地址： http://demo.openauth.me:1803
 
-* LayUI版本演示地址： http://demo.openauth.me:1802
+* 开源版演示地址： http://demo.openauth.me:1802
 
 ## 核心看点
 
@@ -49,8 +71,9 @@
 
 * 设计工具 PowerDesigner + Enterprise Architect
 
-
 ## 秀外
+
+![输入图片说明](http://demo.openauth.me:8887/upload_files/200414221432025.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/173337_6e017075_362401.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/150758_26ef9d61_362401.png "流程设计")
 
@@ -80,7 +103,7 @@
 1. OpenAuth.Repository 系统仓储层，用于数据库操作
 1. OpenAuth.App 应用层，为界面提供接口
 1. OpenAuth.Mvc Web站点
-1. OpenAuth.WebApi 为vue版或其他三方系统提供接口服务
+1. OpenAuth.WebApi 为企业版或其他三方系统提供接口服务
 1. OpenAuth.Identity 基于IdentityServer4的单点登录服务
 
 ## 使用

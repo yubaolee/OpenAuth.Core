@@ -15,11 +15,9 @@
 // ***********************************************************************
 
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
-using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;

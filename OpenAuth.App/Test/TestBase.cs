@@ -1,6 +1,5 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using OpenAuth.Repository;

@@ -6,7 +6,6 @@
   
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="3.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
   </ItemGroup>

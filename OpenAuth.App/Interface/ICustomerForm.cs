@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenAuth.App.Interface
+﻿namespace OpenAuth.App.Interface
 {
     public interface  ICustomerForm
     {

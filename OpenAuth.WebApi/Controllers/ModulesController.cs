@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
-using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers

@@ -13,7 +13,6 @@
 // ***********************************************************************
 
 using Infrastructure;
-using Newtonsoft.Json.Linq;
 using OpenAuth.App.Flow;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;

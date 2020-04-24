@@ -1,14 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
+﻿using System.IO;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using OpenAuth.App;
 using OpenAuth.Mvc.Models;
 using OpenAuth.Repository;
-using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.Mvc
 {

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using OpenAuth.App.Request;
 using OpenAuth.App.SSO;
 
 namespace OpenAuth.App.Test

@@ -3,7 +3,7 @@
  * 1、可以方便的实现webapi 和本地登录相互切换
  * 2、可以方便的使用mock进行单元测试
  */
-using OpenAuth.App.Response;
+
 using OpenAuth.App.SSO;
 
 namespace OpenAuth.App.Interface

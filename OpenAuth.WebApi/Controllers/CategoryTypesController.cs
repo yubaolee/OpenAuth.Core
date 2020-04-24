@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.Repository.Domain;
 
-namespace OpenAuth.WebApi.Controllers
+ namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
     /// 字典所属分类管理

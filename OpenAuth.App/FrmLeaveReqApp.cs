@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Infrastructure;
+﻿using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;

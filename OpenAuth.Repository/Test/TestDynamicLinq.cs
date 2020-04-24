@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using Infrastructure;
-using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using OpenAuth.Repository.Domain;
 using Microsoft.Extensions.DependencyInjection;
-using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.Repository.Test
 {

@@ -1,5 +1,6 @@
 ﻿﻿using System;
-using Infrastructure;
+ using System.Collections.Generic;
+ using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Request;
@@ -111,6 +112,48 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        
+        /// <summary>
+        /// 获取本地可执行的任务列表
+        /// </summary>
+        [HttpPost]
+        public Response<List<string>> QueryLocalHandlers()
+        {
+            var result = new Response<List<string>>();
+            try
+            {
+                result.Result = _app.QueryLocalHandlers();
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+        
+        /// <summary>
+        /// 改变任务状态，启动/停止
+        /// </summary>
+        [HttpPost]
+        public Response ChangeStatus(ChangeJobStatusReq req)
+        {
+            var result = new Response();
+            try
+            {
+                _app.ChangeJobStatus(req);
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+        
 
         public OpenJobsController(OpenJobApp app) 
         {

@@ -16,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Autofac.Extras.Quartz;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,6 +64,8 @@ namespace OpenAuth.App
             {
                 services.AddScoped(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
             }
+            
+            builder.RegisterModule(new QuartzAutofacFactoryModule());
 
             builder.Populate(services);
 

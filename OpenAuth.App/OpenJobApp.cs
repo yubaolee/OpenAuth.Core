@@ -1,18 +1,22 @@
-﻿﻿using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
+using OpenAuth.App.Jobs;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
+using Quartz;
 
 
 namespace OpenAuth.App
 {
     public class OpenJobApp : BaseApp<OpenJob>
     {
-        private RevelanceManagerApp _revelanceApp;
+        private SysLogApp _sysLogApp;
+        private IScheduler _scheduler;
 
         /// <summary>
         /// 加载列表
@@ -44,17 +48,12 @@ namespace OpenAuth.App
             Repository.Add(obj);
         }
 
-         public void Update(AddOrUpdateOpenJobReq obj)
+        public void Update(AddOrUpdateOpenJobReq obj)
         {
             var user = _auth.GetCurrentUser().User;
             UnitWork.Update<OpenJob>(u => u.Id == obj.Id, u => new OpenJob
             {
                 JobName = obj.JobName,
-                RunCount = obj.RunCount,
-                ErrorCount = obj.ErrorCount,
-                NextRunTime = obj.NextRunTime,
-                LastRunTime = obj.LastRunTime,
-                LastErrorTime = obj.LastErrorTime,
                 JobType = obj.JobType,
                 JobCall = obj.JobCall,
                 JobCallParams = obj.JobCallParams,
@@ -66,14 +65,66 @@ namespace OpenAuth.App
                 UpdateUserName = user.Name
                 //todo:补充或调整自己需要的字段
             });
-
         }
+
+        #region 定时任务运行相关操作
+        
+        /// <summary>
+        /// 返回系统的job接口
+        /// </summary>
+        /// <returns></returns>
+        public List<string> QueryLocalHandlers()
+        {
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes().Where(t => t.GetInterfaces()
+                    .Contains(typeof(IJob))))
+                .ToArray();
+            return types.Select(u => u.FullName).ToList();
+        }
+        
+        public void ChangeJobStatus(ChangeJobStatusReq req)
+        {
+            var job = Repository.FindSingle(u => u.Id == req.Id);
+            if (job == null)
+            {
+                throw new Exception("任务不存在");
+            }
+
+            if (req.Status == 0) //停止
+            {
+                
+            }
+            else  //启动
+            {
+                _scheduler.Start();
+                IJobDetail jobDetail = JobBuilder.Create<SysLogJob>().WithIdentity(job.Id).Build();
+                ITrigger trigger = TriggerBuilder.Create()
+                    .WithCronSchedule(job.Cron)
+                    .WithIdentity(job.Id)
+                    .Build();
+                _scheduler.ScheduleJob(jobDetail, trigger);
+            }
             
+            
+            var user = _auth.GetCurrentUser().User;
+
+            job.Status = req.Status;
+            job.UpdateTime = DateTime.Now;
+            job.UpdateUserId = user.Id;
+            job.UpdateUserName = user.Name;
+            Repository.Update(job);
+        }
+
+        #endregion
+
 
         public OpenJobApp(IUnitWork unitWork, IRepository<OpenJob> repository,
-            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository,auth)
+            IAuth auth, SysLogApp sysLogApp, IScheduler scheduler) : base(unitWork, repository, auth)
         {
-            _revelanceApp = app;
+            _sysLogApp = sysLogApp;
+            _scheduler = scheduler;
         }
+
+       
     }
 }

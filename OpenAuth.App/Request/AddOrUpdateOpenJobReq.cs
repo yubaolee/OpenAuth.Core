@@ -32,26 +32,6 @@ namespace OpenAuth.App.Request
         /// </summary>
         public string JobName { get; set; }
         /// <summary>
-        /// 任务执行次数
-        /// </summary>
-        public int RunCount { get; set; }
-        /// <summary>
-        /// 异常次数
-        /// </summary>
-        public int ErrorCount { get; set; }
-        /// <summary>
-        /// 下次执行时间
-        /// </summary>
-        public System.DateTime? NextRunTime { get; set; }
-        /// <summary>
-        /// 最后一次执行时间
-        /// </summary>
-        public System.DateTime? LastRunTime { get; set; }
-        /// <summary>
-        /// 最后一次失败时间
-        /// </summary>
-        public System.DateTime? LastErrorTime { get; set; }
-        /// <summary>
         /// 任务执行方式0：本地任务；1：外部接口任务
         /// </summary>
         public int JobType { get; set; }

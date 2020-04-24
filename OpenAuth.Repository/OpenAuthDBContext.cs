@@ -43,6 +43,7 @@ namespace OpenAuth.Repository
         
         public virtual DbSet<WmsInboundOrderDtbl> WmsInboundOrderDtbls { get; set; }
         public virtual DbSet<WmsInboundOrderTbl> WmsInboundOrderTbls { get; set; }
+        public virtual DbSet<OpenJob> OpenJobs { get; set; }
 
     }
 }

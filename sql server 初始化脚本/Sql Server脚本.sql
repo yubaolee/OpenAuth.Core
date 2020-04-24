@@ -99,6 +99,194 @@ GO
 
 
 -- ----------------------------
+-- Table structure for OpenJob
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[OpenJob]') AND type IN ('U'))
+	DROP TABLE [dbo].[OpenJob]
+GO
+
+CREATE TABLE [dbo].[OpenJob] (
+  [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [JobName] varchar(200) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [RunCount] int DEFAULT ((0)) NOT NULL,
+  [ErrorCount] int DEFAULT ((0)) NOT NULL,
+  [NextRunTime] datetime NULL,
+  [LastRunTime] datetime NULL,
+  [LastErrorTime] datetime NULL,
+  [JobType] int DEFAULT ((0)) NOT NULL,
+  [JobCall] varchar(500) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [JobCallParams] varchar(500) COLLATE Chinese_PRC_CI_AS NULL,
+  [Cron] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [Status] int DEFAULT ((0)) NOT NULL,
+  [Remark] varchar(128) COLLATE Chinese_PRC_CI_AS NULL,
+  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateUserId] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [CreateUserName] varchar(200) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [UpdateTime] datetime NULL,
+  [UpdateUserId] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [UpdateUserName] varchar(200) COLLATE Chinese_PRC_CI_AS NULL,
+  [OrgId] varchar(50) COLLATE Chinese_PRC_CI_AS NULL
+)
+GO
+
+
+EXEC sp_addextendedproperty
+'MS_Description', N'Id',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'Id'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务名称',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'JobName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务执行次数',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'RunCount'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'异常次数',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'ErrorCount'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'下次执行时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'NextRunTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后一次执行时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'LastRunTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后一次失败时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'LastErrorTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务执行方式0：本地任务；1：外部接口任务',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'JobType'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务地址',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'JobCall'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务参数，JSON格式',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'JobCallParams'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'CRON表达式',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'Cron'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务运行状态（0：停止，1：正在运行，2：暂停）',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'Status'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'备注',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'Remark'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'CreateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'CreateUserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'CreateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后更新时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'UpdateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后更新人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'UpdateUserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后更新人',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'UpdateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'所属部门',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'OrgId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'定时任务',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob'
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table OpenJob
+-- ----------------------------
+ALTER TABLE [dbo].[OpenJob] ADD CONSTRAINT [PK_OPENJOB] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
 -- Table structure for Category
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Category]') AND type IN ('U'))

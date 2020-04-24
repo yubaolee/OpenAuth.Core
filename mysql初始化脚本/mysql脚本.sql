@@ -21,6 +21,31 @@ CREATE TABLE `application`  (
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '应用' ROW_FORMAT = Compact;
 
+DROP TABLE IF EXISTS `openjob`;
+CREATE TABLE `openjob`  (
+  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
+  `JobName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务名称',
+  `RunCount` int(11) NOT NULL DEFAULT 0 COMMENT '任务执行次数',
+  `ErrorCount` int(11) NOT NULL DEFAULT 0 COMMENT '异常次数',
+  `NextRunTime` datetime(0) DEFAULT NULL COMMENT '下次执行时间',
+  `LastRunTime` datetime(0) DEFAULT NULL COMMENT '最后一次执行时间',
+  `LastErrorTime` datetime(0) DEFAULT NULL COMMENT '最后一次失败时间',
+  `JobType` int(11) NOT NULL DEFAULT 0 COMMENT '任务执行方式0：本地任务；1：外部接口任务',
+  `JobCall` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务地址',
+  `JobCallParams` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '任务参数，JSON格式',
+  `Cron` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'CRON表达式',
+  `Status` int(11) NOT NULL DEFAULT 0 COMMENT '任务运行状态（0：停止，1：正在运行，2：暂停）',
+  `Remark` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
+  `CreateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
+  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `UpdateTime` datetime(0) DEFAULT NULL COMMENT '最后更新时间',
+  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最后更新人ID',
+  `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最后更新人',
+  `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属部门',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Compact;
+
 -- ----------------------------
 -- Records of application
 -- ----------------------------

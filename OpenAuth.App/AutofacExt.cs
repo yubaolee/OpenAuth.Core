@@ -31,7 +31,7 @@ namespace OpenAuth.App
     public static  class AutofacExt
     {
         private static IContainer _container;
-        public static IContainer InitAutofac(IServiceCollection services)
+        public static IContainer InitForTest(IServiceCollection services)
         {
             var builder = new ContainerBuilder();
            
@@ -99,6 +99,7 @@ namespace OpenAuth.App
             builder.RegisterType(typeof(CacheContext)).As(typeof(ICacheContext));
             builder.RegisterType(typeof(HttpContextAccessor)).As(typeof(IHttpContextAccessor));
             
+            builder.RegisterModule(new QuartzAutofacFactoryModule());
         }
     }
 }

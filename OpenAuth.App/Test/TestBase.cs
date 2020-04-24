@@ -24,7 +24,7 @@ namespace OpenAuth.App.Test
             serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
                 options.UseSqlServer("Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000;Integrated Security=True"));
 
-            var container = AutofacExt.InitAutofac(serviceCollection);
+            var container = AutofacExt.InitForTest(serviceCollection);
             _autofacServiceProvider = new AutofacServiceProvider(container);
         }
 

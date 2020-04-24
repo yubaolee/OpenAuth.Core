@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using OpenAuth.Repository.Domain;
 using Quartz;
 
@@ -17,9 +18,12 @@ namespace OpenAuth.App.Jobs
         {
             _sysLogApp.Add(new SysLog
             {
+                TypeName = "定时任务",
+                TypeId = "AUTOJOB",
                 Content = "这是一个定时任务"
             });
-            return Task.CompletedTask;
+            Console.WriteLine("这是自动任务");
+            return Task.Delay(1);
         }
     }
 }

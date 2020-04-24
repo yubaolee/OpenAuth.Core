@@ -92,15 +92,23 @@ namespace OpenAuth.App
 
             if (req.Status == 0) //停止
             {
-                
+                TriggerKey triggerKey = new TriggerKey(job.Id);
+                // 停止触发器
+                _scheduler.PauseTrigger(triggerKey);
+                // 移除触发器
+                _scheduler.UnscheduleJob(triggerKey);
+                // 删除任务
+                _scheduler.DeleteJob(new JobKey(job.Id));
             }
             else  //启动
             {
                 _scheduler.Start();
                 IJobDetail jobDetail = JobBuilder.Create<SysLogJob>().WithIdentity(job.Id).Build();
+                jobDetail.JobDataMap["job"] = job;  //传递job信息
                 ITrigger trigger = TriggerBuilder.Create()
                     .WithCronSchedule(job.Cron)
                     .WithIdentity(job.Id)
+                    .StartNow()
                     .Build();
                 _scheduler.ScheduleJob(jobDetail, trigger);
             }

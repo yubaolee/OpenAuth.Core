@@ -2,7 +2,7 @@
 
 **logo图标含义** OpenAuth中OA字母的结合体；整体像鱼，授人以渔；你非说像咸鱼，那也是积极向上的咸鱼；中心是个笑脸，微笑面对生活(✿◡‿◡)。
 
-本项目为OpenAuth.Net基于.net core（最新sdk版本:.net core 3.1.100)的跨平台版本，使用.net 4.5的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
+本项目基于.net core（最新sdk版本v3.1.100)的跨平台版本，使用.net 4.5的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
 
 **官方网站** http://www.openauth.me
 
@@ -11,6 +11,7 @@
 ![](https://img.shields.io/badge/release-2.0-blue)
 ![](https://img.shields.io/badge/.net%20core-3.1.100-blue)
 ![](https://img.shields.io/badge/IdentityServer4-3.0.1-blue)
+![](https://img.shields.io/badge/quartz-3.0.7-blue)
 ![](https://img.shields.io/badge/Autofac-5.1.2-blue)
 ![](https://img.shields.io/badge/NUnit-3.12-blue)
 ![](https://img.shields.io/badge/SwaggerUI-OAS%203.0-blue)
@@ -64,6 +65,8 @@
 
 * 可视化流程设计  
 
+* 基于Quartz.Net的可随时启停的定时任务控制
+
 * 基于CodeSmith的代码生成功能，可快速生成带有头/明细结构的页面
 
 * 支持sqlserver、mysql数据库，理论上支持所有数据库
@@ -72,9 +75,9 @@
 
 * 建立三方对接规范，已有系统可以无缝对接流程引擎
 
-* 前端采用 vue + layui + ztree + gooflow + leipiformdesign
+* 前端采用 vue + layui + elementUI + ztree + gooflow + leipiformdesign
 
-* 后端采用 EF core+ autofac + json.net + swagger
+* 后端采用 .net core +EF core+ autofac + quartz +IdentityServer4 + nunit + swagger
 
 * 设计工具 PowerDesigner + Enterprise Architect
 

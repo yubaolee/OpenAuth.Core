@@ -179,6 +179,15 @@ layui.config({
                 }
             });
         }
+        , btnRoleAccessUser: function () {
+            var checkStatus = table.checkStatus('mainList')
+                , data = checkStatus.data;
+            if (data.length != 1) {
+                toplayer.msg("请选择要分配的角色");
+                return;
+            }
+            layer.msg("开发中...   ");
+        }
     };
 
     $('.toolList .layui-btn').on('click', function () {

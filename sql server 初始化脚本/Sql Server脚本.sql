@@ -99,194 +99,6 @@ GO
 
 
 -- ----------------------------
--- Table structure for OpenJob
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[OpenJob]') AND type IN ('U'))
-	DROP TABLE [dbo].[OpenJob]
-GO
-
-CREATE TABLE [dbo].[OpenJob] (
-  [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,
-  [JobName] varchar(200) COLLATE Chinese_PRC_CI_AS NOT NULL,
-  [RunCount] int DEFAULT ((0)) NOT NULL,
-  [ErrorCount] int DEFAULT ((0)) NOT NULL,
-  [NextRunTime] datetime NULL,
-  [LastRunTime] datetime NULL,
-  [LastErrorTime] datetime NULL,
-  [JobType] int DEFAULT ((0)) NOT NULL,
-  [JobCall] varchar(500) COLLATE Chinese_PRC_CI_AS NOT NULL,
-  [JobCallParams] varchar(500) COLLATE Chinese_PRC_CI_AS NULL,
-  [Cron] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,
-  [Status] int DEFAULT ((0)) NOT NULL,
-  [Remark] varchar(128) COLLATE Chinese_PRC_CI_AS NULL,
-  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
-  [CreateUserId] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,
-  [CreateUserName] varchar(200) COLLATE Chinese_PRC_CI_AS NOT NULL,
-  [UpdateTime] datetime NULL,
-  [UpdateUserId] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
-  [UpdateUserName] varchar(200) COLLATE Chinese_PRC_CI_AS NULL,
-  [OrgId] varchar(50) COLLATE Chinese_PRC_CI_AS NULL
-)
-GO
-
-
-EXEC sp_addextendedproperty
-'MS_Description', N'Id',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'Id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'任务名称',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'JobName'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'任务执行次数',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'RunCount'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'异常次数',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'ErrorCount'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'下次执行时间',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'NextRunTime'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后一次执行时间',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'LastRunTime'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后一次失败时间',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'LastErrorTime'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'任务执行方式0：本地任务；1：外部接口任务',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'JobType'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'任务地址',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'JobCall'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'任务参数，JSON格式',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'JobCallParams'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'CRON表达式',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'Cron'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'任务运行状态（0：停止，1：正在运行，2：暂停）',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'Status'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'Remark'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'CreateTime'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人ID',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'CreateUserId'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'CreateUserName'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'UpdateTime'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人ID',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'UpdateUserId'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'UpdateUserName'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所属部门',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob',
-'COLUMN', N'OrgId'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'定时任务',
-'SCHEMA', N'dbo',
-'TABLE', N'OpenJob'
-GO
-
-
--- ----------------------------
--- Primary Key structure for table OpenJob
--- ----------------------------
-ALTER TABLE [dbo].[OpenJob] ADD CONSTRAINT [PK_OPENJOB] PRIMARY KEY CLUSTERED ([Id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
 -- Table structure for Category
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Category]') AND type IN ('U'))
@@ -2024,6 +1836,9 @@ GO
 INSERT INTO [dbo].[Module]  VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f6', N'.0.3.2.', N'我的消息', N'/SysMessages/Index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'消息日志', N'', N'2', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysMessage', N'1')
 GO
 
+INSERT INTO [dbo].[Module]  VALUES (N'907a24c6-3c95-4073-8f90-ea7ec42c63f7', N'.0.1.19.', N'定时任务', N'/OpenJobs/Index', N'', N'0', N'0', N'layui-icon-time', N'0', N'基础配置', N'', N'2', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'OpenJob', N'1')
+GO
+
 INSERT INTO [dbo].[Module]  VALUES (N'92b00259-2d15-43e7-9321-adffb29e8bf2', N'.0.1.11.', N'表单设计', N'/forms/index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'基础配置', N'', N'5', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Form', N'1')
 GO
 
@@ -2036,7 +1851,7 @@ GO
 INSERT INTO [dbo].[Module]  VALUES (N'9a87c0fa-9172-42a1-9505-7492433dcb8e', N'.0.1.16.', N'数据权限', N'/dataprivilegerules/index', N'', N'0', N'0', N'layui-icon-auz', N'0', N'基础配置', N'', N'1', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'DataPrivilegeRule', N'0')
 GO
 
-INSERT INTO [dbo].[Module]  VALUES (N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'.0.1.12.', N'字典分类', N'/Categories/Index', N'', N'0', N'0', N'layui-icon-app', N'0', N'基础配置', N'', N'7', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Category', N'0')
+INSERT INTO [dbo].[Module]  VALUES (N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'.0.1.17.', N'字典分类', N'/Categories/Index', N'', N'0', N'0', N'', N'0', N'基础配置', N'', N'7', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Category', N'0')
 GO
 
 INSERT INTO [dbo].[Module]  VALUES (N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'.0.3.', N'消息日志', N' /', N'', N'0', N'0', N'layui-icon-set-fill', N'0', N'根节点', N'', N'4', NULL, NULL, N'1')
@@ -2175,10 +1990,13 @@ GO
 -- ----------------------------
 -- Records of [ModuleElement]
 -- ----------------------------
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'054e9699-7828-4b8b-a28b-d7ae45ed3306', N'btnEdit', N'编辑', N'', N'', N'layui-icon-edit', N'layui-btn-normal', N'', N'1', N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'', N'')
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'054e9699-7828-4b8b-a28b-d7ae45ed3306', N'btnEdit', N'编辑', N'', N'', N'layui-icon-edit', N'layui-btn-normal', N'', N'2', N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'', N'')
 GO
 
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'06fe4738-b4f4-4ecf-b9da-07dd3bb26cb3', N'btnDel', N'撤销订单', N'', N'', N'layui-icon-delete', N'layui-btn-danger', N'', N'2', N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'', N'')
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'06fe4738-b4f4-4ecf-b9da-07dd3bb26cb3', N'btnDel', N'撤销订单', N'', N'', N'layui-icon-delete', N'layui-btn-danger', N'', N'3', N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'', N'')
+GO
+
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'0d25438e-1436-48e0-aedf-0f1690693281', N'btnRoleAccessUser', N'添加角色用户', N'', N'assignRoleUser(this)', N'layui-icon-search', N'layui-btn-normal', N'添加角色用户', N'4', N'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'0d25438e-1436-48e0-aedf-0f1690693282', N'btnAccessModule', N'为角色分配模块', N'', N'assignRoleModule(this)', N'layui-icon-search', N'layui-btn-normal', N'为角色分配模块', N'4', N'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL)
@@ -2196,22 +2014,34 @@ GO
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'18cc3217-28a6-49b2-9a20-080230065984', N'btnEdit', N'编辑', N'', N'edit()', N'layui-icon-edit', N'layui-btn-normal', N'', N'1', N'0031262c-689c-4b96-bae2-2c9d67076ade', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'1a473afd-cbd4-41e9-9471-81f9435aaabe', N'btnEdit', N'编辑', N' ', N'edit()', N'layui-icon-edit', N'layui-btn-normal', N'编辑分类', N'0', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL)
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'1a473afd-cbd4-41e9-9471-81f9435aaabe', N'btnEdit', N'编辑', N' ', N'edit()', N'layui-icon-edit', N'layui-btn-normal', N'编辑分类', N'2', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'1c870438-4260-43a5-8996-a6e1dc8bbf6a', N'btnAdd', N'添加', N'', N'add()', N'layui-icon-add-1', N'layui-btn-normal', N'添加部门', N'0', N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'1c870438-4260-43a5-8996-a6e1dc8bbf6b', N'btnAssignOrgUser', N'分配用户', N'', N'assignOrgUser(this)', N'layui-icon-add-1', N'layui-btn-normal', N'分配用户', N'0', N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL)
+GO
+
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'1c9acc3e-a40d-4d07-b495-6e60eb9b71b9', N'btnEdit', N'编辑', N'', N'edit()', N'layui-icon-edit', N'layui-btn-normal', N'编辑角色', N'1', N'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'2d595a2a-5de5-479e-a331-b53c799a6b10', N'btnAdd', N'添加', N'', N'add()', N'layui-icon-add-1', N'layui-btn-normal', N'添加分类', N'0', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL)
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'2d595a2a-5de5-479e-a331-b53c799a6b10', N'btnAdd', N'添加', N'', N'add()', N'layui-icon-add-1', N'layui-btn-normal', N'添加分类', N'1', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'2d595a2a-5de5-479e-a331-b53c799a6b11', N'btnAdd', N'添加', N'', N'add()', N'layui-icon-add-1', N'layui-btn-normal', N'添加定时任务', N'1', N'907a24c6-3c95-4073-8f90-ea7ec42c63f7', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'2feefce1-e3d8-42ac-b811-2352679628da', N'btnDel', N'删除', N'', N'del()', N'layui-icon-delete', N'layui-btn-danger', N'刪除用戶', N'2', N'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'2feefce1-e3d8-42ac-b811-2352679628dd', N'btnDel', N'删除', N'', N'del()', N'layui-icon-delete', N'layui-btn-danger', N'刪除定时任务', N'3', N'907a24c6-3c95-4073-8f90-ea7ec42c63f7', NULL, NULL)
+GO
+
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'34730f5a-d307-457b-9041-5f7de30abfa9', N'btnEdit', N'编辑', N'', N'edit()', N'layui-icon-edit', N'layui-btn-normal', N'编辑用户', N'1', N'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'34730f5a-d307-457b-9041-5f7de30abfaa', N'btnEdit', N'编辑', N'', N'edit()', N'layui-icon-edit', N'layui-btn-normal', N'编辑定时任务', N'2', N'907a24c6-3c95-4073-8f90-ea7ec42c63f7', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'362d1eda-c85e-4b14-a80a-b923291e08de', N'btnAdd', N'添加', N'', N'add()', N'layui-icon-add-1', N'layui-btn-normal', N'添加', N'0', N'f0f06b8f-0a86-487c-8b0e-0a12573ccd46', NULL, NULL)
@@ -2262,7 +2092,7 @@ GO
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'6db928fe-93df-460f-9472-8bb0b6cae52c', N'btnAdd', N'添加', N'', N'add()', N'layui-icon-add-1', N'layui-btn-normal', N'添加进出库', N'0', N'89c3bfbe-246f-4112-8eb1-b6789da54202', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', N'btnVerification', N'处理', N'', N'verificationForm()', N'layui-icon-triangle-r', N'layui-btn-normal', N'', N'5', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL)
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', N'btnVerification', N'处理', N'', N'verificationForm()', N'layui-icon-triangle-r', N'layui-btn-normal', N'', N'1', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'7b2b1ffb-398b-4f7b-83da-8f484e1bcea0', N'btnDel', N'删除', N'', N'del()', N'layui-icon-delete', N'layui-btn-danger', N'删除部门', N'2', N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL)
@@ -2277,13 +2107,13 @@ GO
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'81ce1abe-209d-4e4c-a8d2-efbc6a3b45ba', N'btnAdd', N'添加', N'', N'', N'layui-icon-add-1', N'layui-btn-normal', N'', N'1', N'9a87c0fa-9172-42a1-9505-7492433dcb8e', N'', N'')
 GO
 
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'826b12b3-e916-446d-a2fa-329cfd13c831', N'btnDetail', N'进度详情', N'', N'', N'layui-icon-search', N'layui-btn-normal', N'', N'4', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL)
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'826b12b3-e916-446d-a2fa-329cfd13c831', N'btnDetail', N'进度详情', N'', N'', N'layui-icon-search', N'layui-btn-normal', N'', N'2', N'4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'84694ea5-d6e1-4a65-8a59-7b5b779688d4', N'btnAdd', N'添加', N'', N'add()', N'layui-icon-add-1', N'layui-btn-normal', N'添加模块', N'1', N'bc80478d-0547-4437-9cff-be4b40144bdf', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'84e38920-f6e5-499c-bf52-a3c6f8499ff7', N'btnDel', N'删除', N' ', N'del()', N'layui-icon-delete', N'layui-btn-danger', N'删除分类', N'0', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL)
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'84e38920-f6e5-499c-bf52-a3c6f8499ff7', N'btnDel', N'删除', N' ', N'del()', N'layui-icon-delete', N'layui-btn-danger', N'删除分类', N'3', N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'8966b04f-8e26-4046-8b03-0c64f9f833dd', N'btnDel', N'删除', N'', N'del()', N'layui-icon-delete', N'layui-btn-danger', N'', N'3', N'92b00259-2d15-43e7-9321-adffb29e8bf2', NULL, NULL)
@@ -2319,16 +2149,204 @@ GO
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'd1ba6a72-ba14-44c0-baba-46d0ad96fe8a', N'btnRefresh', N'刷新', N'', N'refresh()', N'layui-icon-refresh', N'layui-btn-normal', N'刷新用户', N'3', N'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'd352c8ee-3dff-4d28-a0de-903ae68f2533', N'btnPreview', N'预览', N'', N'preview()', N'layui-icon-cellphone', N'layui-btn-normal', N'', N'1', N'0031262c-689c-4b96-bae2-2c9d67076ade', NULL, NULL)
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'd352c8ee-3dff-4d28-a0de-903ae68f2533', N'btnPreview', N'预览', N'', N'preview()', N'layui-icon-cellphone', N'layui-btn-normal', N'', N'3', N'0031262c-689c-4b96-bae2-2c9d67076ade', NULL, NULL)
 GO
 
 INSERT INTO [dbo].[ModuleElement]  VALUES (N'daddf3b9-71b5-45ac-b85d-5a11c522f2f4', N'btnDel', N'删除', N' ', N'del()', N'layui-icon-delete', N'layui-btn-danger', N'删除模块', N'3', N'bc80478d-0547-4437-9cff-be4b40144bdf', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'ef42721f-d223-4a00-a1d9-80b81121f21a', N'btnEdit', N'编辑', N' ', N'edit()', N'layui-icon-edit', N'layui-btn-normal', N'编辑部门', N'0', N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL)
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'ef42721f-d223-4a00-a1d9-80b81121f21a', N'btnEdit', N'编辑', N' ', N'edit()', N'layui-icon-edit', N'layui-btn-normal', N'编辑部门', N'1', N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[ModuleElement]  VALUES (N'f8dde22a-2a37-47c4-8e67-70fb3af5303e', N'btnRefresh', N'刷新', N'', N'refresh()', N'layui-icon-refresh', N'layui-btn-normal', N'刷新部门', N'0', N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL)
+INSERT INTO [dbo].[ModuleElement]  VALUES (N'f8dde22a-2a37-47c4-8e67-70fb3af5303e', N'btnRefresh', N'刷新', N'', N'refresh()', N'layui-icon-refresh', N'layui-btn-normal', N'刷新部门', N'3', N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL)
+GO
+
+
+-- ----------------------------
+-- Table structure for OpenJob
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[OpenJob]') AND type IN ('U'))
+	DROP TABLE [dbo].[OpenJob]
+GO
+
+CREATE TABLE [dbo].[OpenJob] (
+  [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [JobName] varchar(200) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [RunCount] int DEFAULT ((0)) NOT NULL,
+  [ErrorCount] int DEFAULT ((0)) NOT NULL,
+  [NextRunTime] datetime NULL,
+  [LastRunTime] datetime NULL,
+  [LastErrorTime] datetime NULL,
+  [JobType] int DEFAULT ((0)) NOT NULL,
+  [JobCall] varchar(500) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [JobCallParams] varchar(500) COLLATE Chinese_PRC_CI_AS NULL,
+  [Cron] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [Status] int DEFAULT ((0)) NOT NULL,
+  [Remark] varchar(128) COLLATE Chinese_PRC_CI_AS NULL,
+  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateUserId] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [CreateUserName] varchar(200) COLLATE Chinese_PRC_CI_AS NOT NULL,
+  [UpdateTime] datetime NULL,
+  [UpdateUserId] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [UpdateUserName] varchar(200) COLLATE Chinese_PRC_CI_AS NULL,
+  [OrgId] varchar(50) COLLATE Chinese_PRC_CI_AS NULL
+)
+GO
+
+ALTER TABLE [dbo].[OpenJob] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'Id',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'Id'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务名称',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'JobName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务执行次数',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'RunCount'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'异常次数',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'ErrorCount'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'下次执行时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'NextRunTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后一次执行时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'LastRunTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后一次失败时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'LastErrorTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务执行方式0：本地任务；1：外部接口任务',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'JobType'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务地址',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'JobCall'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务参数，JSON格式',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'JobCallParams'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'CRON表达式',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'Cron'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务运行状态（0：停止，1：正在运行，2：暂停）',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'Status'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'备注',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'Remark'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'CreateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'CreateUserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'CreateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后更新时间',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'UpdateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后更新人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'UpdateUserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后更新人',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'UpdateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'所属部门',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob',
+'COLUMN', N'OrgId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'定时任务',
+'SCHEMA', N'dbo',
+'TABLE', N'OpenJob'
+GO
+
+
+-- ----------------------------
+-- Records of [OpenJob]
+-- ----------------------------
+INSERT INTO [dbo].[OpenJob]  VALUES (N'f40fe48d-71a4-4f47-b324-6178d97abfb9', N'定时日志任务', N'0', N'0', N'2020-04-25 12:16:19.767', N'2020-04-25 12:16:19.767', N'2020-04-25 12:16:19.767', N'0', N'OpenAuth.App.Jobs.SysLogJob', N'null', N'0/10 * * * * ?', N'0', N'这是个每10秒运行一次的任务，可以在系统日志中查看运行结果', N'2020-04-25 12:16:19.770', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2020-04-25 19:31:37.503', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'')
 GO
 
 
@@ -2783,6 +2801,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'242e9543-3343-41d4-8816-15ffeeaef551', N'', N'UserElement', N'0', N'2016-09-07 15:31:16.000', N'0', N'ea25646b-964b-4d41-ab03-d8964e1494fb', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'24dbc2ce-8474-463f-871b-96cb5edb9800', N'', N'RoleElement', N'0', N'2020-04-25 11:49:36.490', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'4770af29-1375-4d27-ab0c-fdbeab87b710', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'27c4d50c-32da-4dbc-88a1-84b343cdd649', N'', N'UserElement', N'0', N'2016-10-20 17:01:00.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'6839a297-350b-4215-b680-4e5dfdae5615', NULL, NULL)
 GO
 
@@ -2790,6 +2811,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'29b06cd6-af0c-4c63-9aba-e5431c5d62ec', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'2a36a2b7-41aa-4190-b88c-75d44a56ad6e', N'', N'UserModule', N'0', N'2017-02-06 00:14:18.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'92b00259-2d15-43e7-9321-adffb29e8bf2', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'2a818d22-1ca8-48e2-a2ed-3dbc3d05cc8b', N'', N'RoleElement', N'0', N'2020-04-25 11:49:11.127', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'5fba6316-5599-4245-822c-48ff33299868', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'2a8a790f-0b9a-4ab3-8e4f-aae4bfddc609', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'WmsInboundOrderTbl', N'PurchaseNo', N'')
@@ -2879,6 +2903,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'45744773-1b85-4913-bc1b-2f00b95a8198', N'', N'RoleElement', N'0', N'2020-03-19 00:16:54.797', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'9e2c6754-f258-4b14-96a0-b9d981196a65', N'', N'')
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'45dee058-6b62-4005-a134-dcf7c2781851', N'', N'RoleElement', N'0', N'2020-04-25 11:50:18.427', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'a6b61073-9e76-40ef-88ad-15c8789e2033', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'45e97612-46d8-4c36-b89e-ce6572ed7988', N'', N'RoleDataProperty', N'0', N'2020-03-19 00:17:01.923', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'Id', N'')
 GO
 
@@ -2927,6 +2954,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'5167dbcd-3a32-4ae8-827e-6f381cc58fa2', N'', N'RoleElement', N'0', N'2016-09-04 23:21:00.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'fa816af1-a28d-47b5-9b8b-c46e18f902e9', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'51c56567-bbf8-466e-8678-9b6bfb38c493', N'', N'RoleElement', N'0', N'2020-04-25 11:49:11.130', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'5fba6316-5599-4245-822c-48ff33299868', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'526d6f39-e75a-402b-8ba6-9bb08731da1e', N'', N'RoleDataProperty', N'0', N'2020-03-19 00:17:01.923', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Resource', N'CreateTime', N'')
 GO
 
@@ -2934,6 +2964,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'53a4be87-4fa8-415b-97b5-2298ce8b17c8', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'54b2e9b6-1f7c-4a39-92c9-98f58429c1fc', N'', N'RoleModule', N'0', N'2016-09-02 17:03:39.000', N'0', N'211e12c7-e466-496e-8d26-0660a38e24cc', N'bc80478d-0547-4437-9cff-be4b40144bdf', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'54eadc62-a77e-4baa-aa6d-34f5af2d6774', N'', N'RoleElement', N'0', N'2020-04-25 11:49:36.490', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'4770af29-1375-4d27-ab0c-fdbeab87b710', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'55b10ecc-3fb3-4127-b69e-e7a3467d7a1a', N'', N'RoleElement', N'0', N'2016-09-05 09:22:11.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'6db928fe-93df-460f-9472-8bb0b6cae52c', NULL, NULL)
@@ -2946,6 +2979,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'575221eb-0e4d-4cfa-9cd8-59607784d43d', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'5965ae4d-c718-421f-9895-fdf6255a002e', N'', N'RoleDataProperty', N'0', N'2020-03-19 00:17:01.923', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'ReturnBoxNum', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'59c8b633-167e-47c1-bb63-837780ea93dc', N'', N'RoleModule', N'0', N'2020-04-25 11:48:19.567', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'5c55f7eb-4552-4610-a584-d72685f8d064', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'5a20d59c-6ee6-4fe2-98fe-7b35b11026ae', N'', N'UserElement', N'0', N'2016-09-07 15:30:20.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'68484265-7802-4f06-b024-33e8b2f2edcf', NULL, NULL)
@@ -2990,6 +3026,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'66e25fc5-093d-42ab-85dc-a38f6600889b', N'', N'UserOrg', N'0', N'2016-09-02 13:57:32.000', N'0', N'ea25646b-964b-4d41-ab03-d8964e1494fb', N'c36e43df-3a99-45da-80d9-3ac5d24f4014', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'67c502cf-c9bf-4ad3-b749-eda1c7f388e7', N'', N'RoleElement', N'0', N'2020-04-25 11:50:18.430', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'a6b61073-9e76-40ef-88ad-15c8789e2033', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'68912e65-256e-45b6-b48e-036382598d32', N'', N'RoleOrg', N'0', N'2016-10-17 10:03:49.000', N'0', N'2eb423d6-6ad9-4efe-b423-872478a2a434', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
@@ -3015,6 +3054,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'6db5666b-6f8c-4e83-bada-0b45054bd9a4', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'6fe52499-f800-47ce-96fc-a2b5b43505d5', N'', N'UserElement', N'0', N'2018-04-06 09:48:22.000', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'7024c6fa-28d2-494f-93af-0651c690e063', N'', N'RoleModule', N'0', N'2020-04-25 11:48:19.567', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'5c55f7eb-4552-4610-a584-d72685f8d064', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'7082bc48-535e-4b92-9dc0-c58340a8239d', N'', N'RoleDataProperty', N'0', N'2019-11-23 01:05:44.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'Resource', N'Name', N'')
@@ -3143,6 +3185,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'8c93cb3c-b535-4ab1-af9e-b3ad50847423', N'', N'RoleDataProperty', N'0', N'2019-11-23 00:51:40.000', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'Resource', N'Id', N'')
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'8e229d71-3b25-4efe-a2fe-829be732a1c6', N'', N'RoleElement', N'0', N'2020-04-25 11:49:11.133', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'5fba6316-5599-4245-822c-48ff33299868', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'8f741d9e-e7f5-4b73-95f4-4b55e0cf6605', N'', N'RoleDataProperty', N'0', N'2020-03-19 00:17:01.923', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'UpdateUserId', N'')
 GO
 
@@ -3162,6 +3207,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'92f0b297-96c1-47d4-84dd-571374431bc0', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'93bcac7a-0ff1-488c-8d1c-3da7e44cbefc', N'', N'RoleElement', N'0', N'2016-09-04 23:21:00.000', N'0', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', N'd1ba6a72-ba14-44c0-baba-46d0ad96fe8a', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'95b51b38-177e-4e69-9265-d2c9fcd8b09a', N'', N'RoleElement', N'0', N'2020-04-25 11:50:18.433', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'a6b61073-9e76-40ef-88ad-15c8789e2033', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'960224e6-5910-472b-a5ef-b2aa9a8b106f', N'', N'UserRole', N'0', N'2016-09-06 17:06:15.000', N'0', N'3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', N'db309d88-fd21-4b81-a4d9-ae6276a1d813', NULL, NULL)
@@ -3255,6 +3303,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'ab84b111-fb5d-4ddd-99d5-479954d9d521', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'ab924ba7-8a74-4804-82b0-ecbbedf4c13e', N'', N'RoleElement', N'0', N'2016-09-05 09:22:11.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'38109ca0-32ec-44bd-a243-017e591b532b', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'abbf150f-907d-450c-836c-6ad3d6885549', N'', N'RoleModule', N'0', N'2020-04-25 11:48:19.563', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'5c55f7eb-4552-4610-a584-d72685f8d064', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'ac184827-9899-4b40-8939-61fe9d2b187c', N'', N'UserElement', N'0', N'2016-09-07 17:48:49.000', N'0', N'3a95e392-07d4-4af3-b30d-140ca93340f5', N'584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL)
@@ -3371,6 +3422,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'bd783f53-23fa-41f4-8cec-7c61fab52072', N'', N'UserOrg', N'0', N'2018-03-15 09:19:06.000', N'', N'0ceff0f8-f848-440c-bc26-d8605ac858cd', N'86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'bd82fa18-2500-4e6b-920d-dc235b57f788', N'', N'RoleModule', N'0', N'2020-04-25 11:48:19.553', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'5c55f7eb-4552-4610-a584-d72685f8d064', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'bda5f089-64d6-4fb8-9012-d7f3ff36902a', N'', N'UserOrg', N'0', N'2017-10-12 13:59:09.000', N'', N'ffd92ed2-5330-4ec2-a42d-6e0e9005db3b', N'990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL)
 GO
 
@@ -3449,6 +3503,9 @@ GO
 INSERT INTO [dbo].[Relevance]  VALUES (N'da6c0645-0bf9-4ade-9dd3-1b09e91e504c', N'', N'RoleElement', N'0', N'2016-09-05 09:22:07.000', N'0', N'4980a85b-e3db-4607-bc2c-0baf0140d7df', N'816b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL)
 GO
 
+INSERT INTO [dbo].[Relevance]  VALUES (N'db621de5-12e0-4ff1-9532-4cd7a696cf65', N'', N'RoleElement', N'0', N'2020-04-25 11:50:18.433', N'', N'd27ae3cf-135f-4d57-93a6-2120ddf98650', N'a6b61073-9e76-40ef-88ad-15c8789e2033', N'', N'')
+GO
+
 INSERT INTO [dbo].[Relevance]  VALUES (N'dbdd5bf2-5910-4644-b087-2f50711840df', N'', N'UserRole', N'0', N'2019-11-23 00:48:35.000', N'', N'49df1602-f5f3-4d52-afb7-3802da619558', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'', N'')
 GO
 
@@ -3474,6 +3531,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'e4ccd68d-b31b-4d2d-b591-665818a7bd9f', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'e50d78ae-004d-4f89-95a2-bd5c6327d16c', N'', N'RoleModule', N'0', N'2020-03-19 21:23:18.730', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'0031262c-689c-4b96-bae2-2c9d67076ade', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'e5aa43b8-86df-43be-b5f1-9edd13dc07f8', N'', N'RoleElement', N'0', N'2020-04-25 11:49:36.487', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'4770af29-1375-4d27-ab0c-fdbeab87b710', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'e619a82e-edfb-4542-94df-0b92850667ad', N'', N'RoleResource', N'0', N'2018-04-14 14:39:56.000', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'OPENAUTH_MODIFYACCOUNT', NULL, NULL)
@@ -3516,6 +3576,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'f012d886-f204-4599-a00d-7b9847cc0bb7', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'f125441c-f28c-4ffa-9183-c8168ab09afb', N'', N'RoleDataProperty', N'0', N'2020-03-19 00:17:01.923', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'Category', N'TypeId', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'f163873c-2b44-4279-8b2c-498bcd01f05b', N'', N'RoleElement', N'0', N'2020-04-25 11:49:36.490', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'4770af29-1375-4d27-ab0c-fdbeab87b710', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'f25d98ff-46bc-48e7-86a0-5eca5e6d98c2', N'', N'RoleDataProperty', N'0', N'2020-03-19 00:17:01.923', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'WmsInboundOrderTbl', N'UpdateUserName', N'')
@@ -3561,6 +3624,9 @@ INSERT INTO [dbo].[Relevance]  VALUES (N'fa9ce486-4b1f-4630-bad3-7625744cb8e8', 
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'faf837f2-8ac3-4269-8a1c-b2af432bf7b5', N'', N'RoleElement', N'0', N'2020-03-19 21:23:18.730', N'', N'0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', N'a7eea5dc-3b10-4550-9cf3-0dba9b9fc32c', N'', N'')
+GO
+
+INSERT INTO [dbo].[Relevance]  VALUES (N'fafcaba7-57fe-44dd-9343-6112db385dce', N'', N'RoleElement', N'0', N'2020-04-25 11:49:11.133', N'', N'77e6d0c3-f9e1-4933-92c3-c1c6eef75593', N'5fba6316-5599-4245-822c-48ff33299868', N'', N'')
 GO
 
 INSERT INTO [dbo].[Relevance]  VALUES (N'fdc16578-e4eb-474d-8cc8-4188693a7c12', N'', N'RoleElement', N'0', N'2020-03-19 00:16:54.797', N'', N'09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', N'6c814946-db5c-48bd-84dd-b1c38196ad74', N'', N'')
@@ -5080,6 +5146,15 @@ GO
 -- Primary Key structure for table ModuleElement
 -- ----------------------------
 ALTER TABLE [dbo].[ModuleElement] ADD CONSTRAINT [PK_MODULEELEMENT] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table OpenJob
+-- ----------------------------
+ALTER TABLE [dbo].[OpenJob] ADD CONSTRAINT [PK_OPENJOB] PRIMARY KEY CLUSTERED ([Id])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO

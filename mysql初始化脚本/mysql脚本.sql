@@ -21,31 +21,6 @@ CREATE TABLE `application`  (
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '应用' ROW_FORMAT = Compact;
 
-DROP TABLE IF EXISTS `openjob`;
-CREATE TABLE `openjob`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
-  `JobName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务名称',
-  `RunCount` int(11) NOT NULL DEFAULT 0 COMMENT '任务执行次数',
-  `ErrorCount` int(11) NOT NULL DEFAULT 0 COMMENT '异常次数',
-  `NextRunTime` datetime(0) DEFAULT NULL COMMENT '下次执行时间',
-  `LastRunTime` datetime(0) DEFAULT NULL COMMENT '最后一次执行时间',
-  `LastErrorTime` datetime(0) DEFAULT NULL COMMENT '最后一次失败时间',
-  `JobType` int(11) NOT NULL DEFAULT 0 COMMENT '任务执行方式0：本地任务；1：外部接口任务',
-  `JobCall` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务地址',
-  `JobCallParams` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '任务参数，JSON格式',
-  `Cron` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'CRON表达式',
-  `Status` int(11) NOT NULL DEFAULT 0 COMMENT '任务运行状态（0：停止，1：正在运行，2：暂停）',
-  `Remark` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
-  `CreateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
-  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
-  `UpdateTime` datetime(0) DEFAULT NULL COMMENT '最后更新时间',
-  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最后更新人ID',
-  `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最后更新人',
-  `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属部门',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Compact;
-
 -- ----------------------------
 -- Records of application
 -- ----------------------------
@@ -439,11 +414,12 @@ INSERT INTO `module` VALUES ('6a9e1346-0c01-44d2-8eb1-f929fdab542a', '.0.1.10.',
 INSERT INTO `module` VALUES ('7580672f-a390-4bb6-982d-9a4570cb5199', '.0.1.', '基础配置', ' /', '', 0, 0, 'layui-icon-set-fill', 0, '根节点', '', 1, NULL, NULL, 1);
 INSERT INTO `module` VALUES ('7bc7e527-478d-49fd-868d-5f31951586f5', '.0.3.1.', '系统日志', '/SysLogs/Index', '', 0, 0, 'layui-icon-theme', 0, '消息日志', '', 1, 'b19bce90-5508-43b6-93ed-cd9ff9e356a9', 'SysLog', 1);
 INSERT INTO `module` VALUES ('7bc7e527-478d-49fd-868d-5f31951586f6', '.0.3.2.', '我的消息', '/SysMessages/Index', '', 0, 0, 'layui-icon-theme', 0, '消息日志', '', 2, 'b19bce90-5508-43b6-93ed-cd9ff9e356a9', 'SysMessage', 1);
+INSERT INTO `module` VALUES ('907a24c6-3c95-4073-8f90-ea7ec42c63f7', '.0.1.19.', '定时任务', '/OpenJobs/Index', '', 0, 0, 'layui-icon-time', 0, '基础配置', '', 2, '7580672f-a390-4bb6-982d-9a4570cb5199', 'OpenJob', 1);
 INSERT INTO `module` VALUES ('92b00259-2d15-43e7-9321-adffb29e8bf2', '.0.1.11.', '表单设计', '/forms/index', '', 0, 0, 'layui-icon-theme', 0, '基础配置', '', 5, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Form', 1);
 INSERT INTO `module` VALUES ('9486ff22-b696-4d7f-8093-8a3e53c45453', '.0.2.7.', '我的流程', '/flowInstances/Index', '', 0, 0, 'layui-icon-share', 0, '流程中心', '', 2, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstance', 1);
 INSERT INTO `module` VALUES ('98a949e8-8704-40a7-b9a1-c0e8801e4057', '.0.4.1.', '入库订单', '/wmsinboundordertbls/index', '', 0, 0, '', 0, '仓储中心', '', 1, '15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', 'WmsInboundOrderTbl', 0);
 INSERT INTO `module` VALUES ('9a87c0fa-9172-42a1-9505-7492433dcb8e', '.0.1.16.', '数据权限', '/dataprivilegerules/index', '', 0, 0, 'layui-icon-auz', 0, '基础配置', '', 1, '7580672f-a390-4bb6-982d-9a4570cb5199', 'DataPrivilegeRule', 0);
-INSERT INTO `module` VALUES ('a94d5648-c2a9-405e-ba6f-f1602ec9b807', '.0.1.12.', '字典分类', '/Categories/Index', '', 0, 0, 'layui-icon-app', 0, '基础配置', '', 7, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Category', 0);
+INSERT INTO `module` VALUES ('a94d5648-c2a9-405e-ba6f-f1602ec9b807', '.0.1.17.', '字典分类', '/Categories/Index', '', 0, 0, '', 0, '基础配置', '', 7, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Category', 0);
 INSERT INTO `module` VALUES ('b19bce90-5508-43b6-93ed-cd9ff9e356a9', '.0.3.', '消息日志', ' /', '', 0, 0, 'layui-icon-set-fill', 0, '根节点', '', 4, NULL, NULL, 1);
 INSERT INTO `module` VALUES ('bc80478d-0547-4437-9cff-be4b40144bdf', '.0.1.13.', '模块管理', '/ModuleManager/Index', '', 0, 0, 'layui-icon-tabs', 0, '基础配置', '', 1, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Module', 1);
 INSERT INTO `module` VALUES ('bedb41a2-f310-4775-af99-01be08adda93', '.0.1.14.', '角色管理', '/RoleManager/Index', '', 0, 0, 'layui-icon-user', 0, '基础配置', '', 2, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Role', 1);
@@ -473,19 +449,24 @@ CREATE TABLE `moduleelement`  (
 -- ----------------------------
 -- Records of moduleelement
 -- ----------------------------
-INSERT INTO `moduleelement` VALUES ('054e9699-7828-4b8b-a28b-d7ae45ed3306', 'btnEdit', '编辑', '', '', 'layui-icon-edit', 'layui-btn-normal', '', 1, '98a949e8-8704-40a7-b9a1-c0e8801e4057', '', '');
-INSERT INTO `moduleelement` VALUES ('06fe4738-b4f4-4ecf-b9da-07dd3bb26cb3', 'btnDel', '撤销订单', '', '', 'layui-icon-delete', 'layui-btn-danger', '', 2, '98a949e8-8704-40a7-b9a1-c0e8801e4057', '', '');
+INSERT INTO `moduleelement` VALUES ('054e9699-7828-4b8b-a28b-d7ae45ed3306', 'btnEdit', '编辑', '', '', 'layui-icon-edit', 'layui-btn-normal', '', 2, '98a949e8-8704-40a7-b9a1-c0e8801e4057', '', '');
+INSERT INTO `moduleelement` VALUES ('06fe4738-b4f4-4ecf-b9da-07dd3bb26cb3', 'btnDel', '撤销订单', '', '', 'layui-icon-delete', 'layui-btn-danger', '', 3, '98a949e8-8704-40a7-b9a1-c0e8801e4057', '', '');
+INSERT INTO `moduleelement` VALUES ('0d25438e-1436-48e0-aedf-0f1690693281', 'btnRoleAccessUser', '添加角色用户', '', 'assignRoleUser(this)', 'layui-icon-search', 'layui-btn-normal', '添加角色用户', 4, 'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('0d25438e-1436-48e0-aedf-0f1690693282', 'btnAccessModule', '为角色分配模块', '', 'assignRoleModule(this)', 'layui-icon-search', 'layui-btn-normal', '为角色分配模块', 4, 'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('13617796-049c-4ae4-a62b-1ca84002b273', 'btnDelCategory', '删除分类', '', '', 'layui-icon-delete', 'layui-btn-danger', '', 0, 'a94d5648-c2a9-405e-ba6f-f1602ec9b807', '', '');
 INSERT INTO `moduleelement` VALUES ('15a4f88c-4fae-4cab-ba2f-0cbd2cca8736', 'btnAssignReource', '为角色分配资源', '', 'openRoleReourceAccess(this)', 'layui-icon-search', 'layui-btn-normal', '为角色分配资源', 3, 'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('17ae4fd4-ab4e-439e-ba1d-2a53b46d112b', 'btnDel', '删除', '', 'del()', 'layui-icon-delete', 'layui-btn-danger', '', 2, '0031262c-689c-4b96-bae2-2c9d67076ade', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('18cc3217-28a6-49b2-9a20-080230065984', 'btnEdit', '编辑', '', 'edit()', 'layui-icon-edit', 'layui-btn-normal', '', 1, '0031262c-689c-4b96-bae2-2c9d67076ade', NULL, NULL);
-INSERT INTO `moduleelement` VALUES ('1a473afd-cbd4-41e9-9471-81f9435aaabe', 'btnEdit', '编辑', ' ', 'edit()', 'layui-icon-edit', 'layui-btn-normal', '编辑分类', 0, 'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('1a473afd-cbd4-41e9-9471-81f9435aaabe', 'btnEdit', '编辑', ' ', 'edit()', 'layui-icon-edit', 'layui-btn-normal', '编辑分类', 2, 'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('1c870438-4260-43a5-8996-a6e1dc8bbf6a', 'btnAdd', '添加', '', 'add()', 'layui-icon-add-1', 'layui-btn-normal', '添加部门', 0, '6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('1c870438-4260-43a5-8996-a6e1dc8bbf6b', 'btnAssignOrgUser', '分配用户', '', 'assignOrgUser(this)', 'layui-icon-add-1', 'layui-btn-normal', '分配用户', 0, '6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('1c9acc3e-a40d-4d07-b495-6e60eb9b71b9', 'btnEdit', '编辑', '', 'edit()', 'layui-icon-edit', 'layui-btn-normal', '编辑角色', 1, 'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL);
-INSERT INTO `moduleelement` VALUES ('2d595a2a-5de5-479e-a331-b53c799a6b10', 'btnAdd', '添加', '', 'add()', 'layui-icon-add-1', 'layui-btn-normal', '添加分类', 0, 'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('2d595a2a-5de5-479e-a331-b53c799a6b10', 'btnAdd', '添加', '', 'add()', 'layui-icon-add-1', 'layui-btn-normal', '添加分类', 1, 'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('2d595a2a-5de5-479e-a331-b53c799a6b11', 'btnAdd', '添加', '', 'add()', 'layui-icon-add-1', 'layui-btn-normal', '添加定时任务', 1, '907a24c6-3c95-4073-8f90-ea7ec42c63f7', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('2feefce1-e3d8-42ac-b811-2352679628da', 'btnDel', '删除', '', 'del()', 'layui-icon-delete', 'layui-btn-danger', '刪除用戶', 2, 'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('2feefce1-e3d8-42ac-b811-2352679628dd', 'btnDel', '删除', '', 'del()', 'layui-icon-delete', 'layui-btn-danger', '刪除定时任务', 3, '907a24c6-3c95-4073-8f90-ea7ec42c63f7', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('34730f5a-d307-457b-9041-5f7de30abfa9', 'btnEdit', '编辑', '', 'edit()', 'layui-icon-edit', 'layui-btn-normal', '编辑用户', 1, 'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('34730f5a-d307-457b-9041-5f7de30abfaa', 'btnEdit', '编辑', '', 'edit()', 'layui-icon-edit', 'layui-btn-normal', '编辑定时任务', 2, '907a24c6-3c95-4073-8f90-ea7ec42c63f7', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('362d1eda-c85e-4b14-a80a-b923291e08de', 'btnAdd', '添加', '', 'add()', 'layui-icon-add-1', 'layui-btn-normal', '添加', 0, 'f0f06b8f-0a86-487c-8b0e-0a12573ccd46', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('38109ca0-32ec-44bd-a243-017e591b532b', 'btnEditStock', '编辑', ' ', 'edit()', 'layui-icon-edit', 'layui-btn-normal', '编辑进出库', 0, '89c3bfbe-246f-4112-8eb1-b6789da54202', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('3dc0ec4d-bf86-4bae-9ec0-1d6c2403fb99', 'btnAdd', '添加', '', 'add()', 'layui-icon-add-1', 'layui-btn-normal', '', 1, '92b00259-2d15-43e7-9321-adffb29e8bf2', NULL, NULL);
@@ -502,14 +483,14 @@ INSERT INTO `moduleelement` VALUES ('68484265-7802-4f06-b024-33e8b2f2edcf', 'btn
 INSERT INTO `moduleelement` VALUES ('68fc793f-069f-43e1-a012-42ac2d7c585c', 'btnDel', '删除', '', 'del()', 'layui-icon-delete', 'layui-btn-danger', '删除角色', 2, 'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('6c814946-db5c-48bd-84dd-b1c38196ad74', 'btnAdd', '添加模版', '', 'add()', 'layui-icon-add-1', 'layui-btn-normal', '', 0, '0031262c-689c-4b96-bae2-2c9d67076ade', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('6db928fe-93df-460f-9472-8bb0b6cae52c', 'btnAdd', '添加', '', 'add()', 'layui-icon-add-1', 'layui-btn-normal', '添加进出库', 0, '89c3bfbe-246f-4112-8eb1-b6789da54202', NULL, NULL);
-INSERT INTO `moduleelement` VALUES ('79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', 'btnVerification', '处理', '', 'verificationForm()', 'layui-icon-triangle-r', 'layui-btn-normal', '', 5, '4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('79dcd3eb-3aaf-4e08-83c9-713d8ff446fe', 'btnVerification', '处理', '', 'verificationForm()', 'layui-icon-triangle-r', 'layui-btn-normal', '', 1, '4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('7b2b1ffb-398b-4f7b-83da-8f484e1bcea0', 'btnDel', '删除', '', 'del()', 'layui-icon-delete', 'layui-btn-danger', '删除部门', 2, '6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('7f071c63-1620-4486-9264-5806b2e63218', 'btnAccessRole', '为用户分配角色', '', 'openUserRoleAccess(this)', 'layui-icon-search', 'layui-btn-normal', '为用户分配角色', 5, 'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('816b12b3-e916-446d-a2fa-329cfd13c831', 'btnDetail', '进度详情', '', '', 'layui-icon-search', 'layui-btn-normal', '', 4, '9486ff22-b696-4d7f-8093-8a3e53c45453', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('81ce1abe-209d-4e4c-a8d2-efbc6a3b45ba', 'btnAdd', '添加', '', '', 'layui-icon-add-1', 'layui-btn-normal', '', 1, '9a87c0fa-9172-42a1-9505-7492433dcb8e', '', '');
-INSERT INTO `moduleelement` VALUES ('826b12b3-e916-446d-a2fa-329cfd13c831', 'btnDetail', '进度详情', '', '', 'layui-icon-search', 'layui-btn-normal', '', 4, '4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('826b12b3-e916-446d-a2fa-329cfd13c831', 'btnDetail', '进度详情', '', '', 'layui-icon-search', 'layui-btn-normal', '', 2, '4abafc83-c8f5-452f-9882-e113a86e7a3e', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('84694ea5-d6e1-4a65-8a59-7b5b779688d4', 'btnAdd', '添加', '', 'add()', 'layui-icon-add-1', 'layui-btn-normal', '添加模块', 1, 'bc80478d-0547-4437-9cff-be4b40144bdf', NULL, NULL);
-INSERT INTO `moduleelement` VALUES ('84e38920-f6e5-499c-bf52-a3c6f8499ff7', 'btnDel', '删除', ' ', 'del()', 'layui-icon-delete', 'layui-btn-danger', '删除分类', 0, 'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('84e38920-f6e5-499c-bf52-a3c6f8499ff7', 'btnDel', '删除', ' ', 'del()', 'layui-icon-delete', 'layui-btn-danger', '删除分类', 3, 'a94d5648-c2a9-405e-ba6f-f1602ec9b807', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('8966b04f-8e26-4046-8b03-0c64f9f833dd', 'btnDel', '删除', '', 'del()', 'layui-icon-delete', 'layui-btn-danger', '', 3, '92b00259-2d15-43e7-9321-adffb29e8bf2', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('95c2dde0-f2a7-4474-8aa7-c7eaa7c4c87f', 'btnDel', '删除', '', '', 'layui-icon-delete', 'layui-btn-danger', '', 1, '9a87c0fa-9172-42a1-9505-7492433dcb8e', '', '');
 INSERT INTO `moduleelement` VALUES ('9c96e485-84a6-45f0-b6a7-f01dab94b0c6', 'btnPreview', '预览', '', 'preview()', 'layui-icon-search', 'layui-btn-normal', '', 4, '92b00259-2d15-43e7-9321-adffb29e8bf2', NULL, NULL);
@@ -521,10 +502,43 @@ INSERT INTO `moduleelement` VALUES ('c3d7b478-21e9-4c1e-b866-a3c80be7909b', 'btn
 INSERT INTO `moduleelement` VALUES ('c4c1acbb-9cbf-4b1e-9cc0-ccf5ff544ec2', 'btnDel', '删除', '', 'del()', 'layui-icon-delete', 'layui-btn-danger', '删除进出库', 0, '89c3bfbe-246f-4112-8eb1-b6789da54202', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('c7d7daf0-3669-4a22-8bed-b092617deb9c', 'btnDel', '删除', '', 'del()', 'layui-icon-delete', 'layui-btn-danger', '删除资源', 3, 'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('d1ba6a72-ba14-44c0-baba-46d0ad96fe8a', 'btnRefresh', '刷新', '', 'refresh()', 'layui-icon-refresh', 'layui-btn-normal', '刷新用户', 3, 'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', NULL, NULL);
-INSERT INTO `moduleelement` VALUES ('d352c8ee-3dff-4d28-a0de-903ae68f2533', 'btnPreview', '预览', '', 'preview()', 'layui-icon-cellphone', 'layui-btn-normal', '', 1, '0031262c-689c-4b96-bae2-2c9d67076ade', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('d352c8ee-3dff-4d28-a0de-903ae68f2533', 'btnPreview', '预览', '', 'preview()', 'layui-icon-cellphone', 'layui-btn-normal', '', 3, '0031262c-689c-4b96-bae2-2c9d67076ade', NULL, NULL);
 INSERT INTO `moduleelement` VALUES ('daddf3b9-71b5-45ac-b85d-5a11c522f2f4', 'btnDel', '删除', ' ', 'del()', 'layui-icon-delete', 'layui-btn-danger', '删除模块', 3, 'bc80478d-0547-4437-9cff-be4b40144bdf', NULL, NULL);
-INSERT INTO `moduleelement` VALUES ('ef42721f-d223-4a00-a1d9-80b81121f21a', 'btnEdit', '编辑', ' ', 'edit()', 'layui-icon-edit', 'layui-btn-normal', '编辑部门', 0, '6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL);
-INSERT INTO `moduleelement` VALUES ('f8dde22a-2a37-47c4-8e67-70fb3af5303e', 'btnRefresh', '刷新', '', 'refresh()', 'layui-icon-refresh', 'layui-btn-normal', '刷新部门', 0, '6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('ef42721f-d223-4a00-a1d9-80b81121f21a', 'btnEdit', '编辑', ' ', 'edit()', 'layui-icon-edit', 'layui-btn-normal', '编辑部门', 1, '6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL);
+INSERT INTO `moduleelement` VALUES ('f8dde22a-2a37-47c4-8e67-70fb3af5303e', 'btnRefresh', '刷新', '', 'refresh()', 'layui-icon-refresh', 'layui-btn-normal', '刷新部门', 3, '6a9e1346-0c01-44d2-8eb1-f929fdab542a', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for openjob
+-- ----------------------------
+DROP TABLE IF EXISTS `openjob`;
+CREATE TABLE `openjob`  (
+  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
+  `JobName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务名称',
+  `RunCount` int(11) NOT NULL DEFAULT 0 COMMENT '任务执行次数',
+  `ErrorCount` int(11) NOT NULL DEFAULT 0 COMMENT '异常次数',
+  `NextRunTime` datetime(0) DEFAULT NULL COMMENT '下次执行时间',
+  `LastRunTime` datetime(0) DEFAULT NULL COMMENT '最后一次执行时间',
+  `LastErrorTime` datetime(0) DEFAULT NULL COMMENT '最后一次失败时间',
+  `JobType` int(11) NOT NULL DEFAULT 0 COMMENT '任务执行方式0：本地任务；1：外部接口任务',
+  `JobCall` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务地址',
+  `JobCallParams` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '任务参数，JSON格式',
+  `Cron` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'CRON表达式',
+  `Status` int(11) NOT NULL DEFAULT 0 COMMENT '任务运行状态（0：停止，1：正在运行，2：暂停）',
+  `Remark` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
+  `CreateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
+  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `UpdateTime` datetime(0) DEFAULT NULL COMMENT '最后更新时间',
+  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最后更新人ID',
+  `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最后更新人',
+  `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属部门',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of openjob
+-- ----------------------------
+INSERT INTO `openjob` VALUES ('f40fe48d-71a4-4f47-b324-6178d97abfb9', '定时日志任务', 0, 0, '2020-04-25 12:16:20', '2020-04-25 12:16:20', '2020-04-25 12:16:20', 0, 'OpenAuth.App.Jobs.SysLogJob', 'null', '0/10 * * * * ?', 0, '这是个每10秒运行一次的任务，可以在系统日志中查看运行结果', '2020-04-25 12:16:20', '00000000-0000-0000-0000-000000000000', '超级管理员', '2020-04-25 19:31:38', '00000000-0000-0000-0000-000000000000', '超级管理员', '');
 
 -- ----------------------------
 -- Table structure for org

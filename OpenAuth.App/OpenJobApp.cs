@@ -102,9 +102,8 @@ namespace OpenAuth.App
             }
             else  //启动
             {
-                _scheduler.Start();
                 IJobDetail jobDetail = JobBuilder.Create<SysLogJob>().WithIdentity(job.Id).Build();
-                jobDetail.JobDataMap["job"] = job;  //传递job信息
+                jobDetail.JobDataMap[Define.JOBMAPKEY] = job;  //传递job信息
                 ITrigger trigger = TriggerBuilder.Create()
                     .WithCronSchedule(job.Cron)
                     .WithIdentity(job.Id)

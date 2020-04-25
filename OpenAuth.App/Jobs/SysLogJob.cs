@@ -16,11 +16,12 @@ namespace OpenAuth.App.Jobs
 
         public Task Execute(IJobExecutionContext context)
         {
+            var jobdata = (OpenJob)context.Get(Define.JOBMAPKEY);
             _sysLogApp.Add(new SysLog
             {
                 TypeName = "定时任务",
                 TypeId = "AUTOJOB",
-                Content = "这是一个定时任务"
+                Content = $"运行了自动任务：{jobdata.JobName}"
             });
             Console.WriteLine("这是自动任务");
             return Task.Delay(1);

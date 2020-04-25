@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using OpenAuth.App;
+using OpenAuth.App.HostedService;
 using OpenAuth.Repository;
 using OpenAuth.WebApi.Model;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -146,6 +147,9 @@ namespace OpenAuth.WebApi
             services.AddHttpClient();
 
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
+            
+            //设置定时启动的任务
+            services.AddHostedService<QuartzService>();
             
         }
         

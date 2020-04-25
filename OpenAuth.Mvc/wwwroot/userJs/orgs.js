@@ -1,4 +1,4 @@
-layui.config({
+    layui.config({
     base: "/js/"
 }).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
     var form = layui.form,

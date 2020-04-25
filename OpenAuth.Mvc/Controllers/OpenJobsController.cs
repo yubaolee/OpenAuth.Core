@@ -90,6 +90,7 @@ namespace OpenAuth.Mvc.Controllers
             try
             {
                 _app.ChangeJobStatus(req);
+                result.Message = "切换成功，可以在系统日志中查看运行结果";
 
             }
             catch (Exception ex)

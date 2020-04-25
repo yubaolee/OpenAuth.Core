@@ -102,8 +102,22 @@
     table.on('tool(list)', function (obj) {
         var data = obj.data;
         if (obj.event === 'changStatus') {      //启动暂停任务
-            
-            layer.msg('ID：' + data.Id + ' 的查看操作');
+            var currentStatus = 1 - data.Status;
+            layer.confirm('确定执行该操作？', function(index){
+                $.post("/OpenJobs/ChangeStatus",
+                    {
+                        id: data.Id,
+                        status:currentStatus
+                    },
+                    function (data) {
+                        obj.update({
+                            Status: currentStatus
+                        });
+                        layer.msg(data.Message);
+                    },
+                    "json");
+                layer.close(index);
+            });
         }
     });
 

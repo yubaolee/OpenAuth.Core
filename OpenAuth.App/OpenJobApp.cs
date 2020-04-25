@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
+using Microsoft.Extensions.Logging;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Jobs;
 using OpenAuth.App.Request;
@@ -17,6 +18,7 @@ namespace OpenAuth.App
     {
         private SysLogApp _sysLogApp;
         private IScheduler _scheduler;
+        private ILogger<OpenJobApp> _logger;
 
         /// <summary>
         /// 加载列表
@@ -89,6 +91,8 @@ namespace OpenAuth.App
             {
                 throw new Exception("任务不存在");
             }
+            
+            
 
             if (req.Status == 0) //停止
             {
@@ -103,7 +107,7 @@ namespace OpenAuth.App
             else  //启动
             {
                 IJobDetail jobDetail = JobBuilder.Create<SysLogJob>().WithIdentity(job.Id).Build();
-                jobDetail.JobDataMap[Define.JOBMAPKEY] = job;  //传递job信息
+                jobDetail.JobDataMap[Define.JOBMAPKEY] = job.Id;  //传递job信息
                 ITrigger trigger = TriggerBuilder.Create()
                     .WithCronSchedule(job.Cron)
                     .WithIdentity(job.Id)
@@ -121,17 +125,50 @@ namespace OpenAuth.App
             job.UpdateUserName = user.Name;
             Repository.Update(job);
         }
+        
+        /// <summary>
+        /// 记录任务运行结果
+        /// </summary>
+        /// <param name="jobId"></param>
+        public void RecordRun(string jobId)
+        {
+            var job = Repository.FindSingle(u =>u.Id == jobId);
+            if (job == null)
+            {
+                _sysLogApp.Add(new SysLog
+                {
+                    TypeName = "定时任务",
+                    TypeId = "AUTOJOB",
+                    Content = $"未能找到定时任务：{jobId}"
+                });
+                return;
+            }
+
+            job.RunCount++;
+            job.LastRunTime = DateTime.Now;
+            Repository.Update(job);
+            
+            _sysLogApp.Add(new SysLog
+            {
+                CreateName = "Quartz",
+                CreateId = "Quartz",
+                TypeName = "定时任务",
+                TypeId = "AUTOJOB",
+                Content = $"运行了自动任务：{job.JobName}"
+            });
+            _logger.LogInformation($"运行了自动任务：{job.JobName}");
+        }
 
         #endregion
 
 
         public OpenJobApp(IUnitWork unitWork, IRepository<OpenJob> repository,
-            IAuth auth, SysLogApp sysLogApp, IScheduler scheduler) : base(unitWork, repository, auth)
+            IAuth auth, SysLogApp sysLogApp, IScheduler scheduler, ILogger<OpenJobApp> logger) : base(unitWork, repository, auth)
         {
             _sysLogApp = sysLogApp;
             _scheduler = scheduler;
+            _logger = logger;
         }
-
-       
+        
     }
 }

@@ -88,12 +88,12 @@ namespace OpenAuth.App
         public List<Org> LoadForUser(string userId)
         {
             //用户角色与自己分配到的角色ID
-            var moduleIds =
+            var ids =
                 UnitWork.Find<Relevance>(
                     u =>u.FirstId == userId && u.Key == Define.USERORG).Select(u => u.SecondId).ToList();
 
-            if (!moduleIds.Any()) return new List<Org>();
-            return UnitWork.Find<Org>(u => moduleIds.Contains(u.Id)).ToList();
+            if (!ids.Any()) return new List<Org>();
+            return UnitWork.Find<Org>(u => ids.Contains(u.Id)).ToList();
         }
 
         public OrgManagerApp(IUnitWork unitWork, IRepository<Org> repository,IAuth auth, 

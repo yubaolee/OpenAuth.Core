@@ -1,35 +1,26 @@
-﻿
-using System;
+﻿using System;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 
-namespace OpenAuth.WebApi.Controllers
+namespace OpenAuth.Mvc.Controllers
 {
-    /// <summary>
-    /// 分配资源/分配字段等
-    /// </summary>
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class AccessObjsController : ControllerBase
+    public class AccessObjsController : BaseController
     {
         private readonly RevelanceManagerApp _app;
-        private readonly IAuth _authUtil;
-        public AccessObjsController(IAuth authUtil, RevelanceManagerApp app) 
+
+        public AccessObjsController(IAuth authUtil, RevelanceManagerApp app) : base(authUtil)
         {
             _app = app;
-            _authUtil = authUtil;
         }
 
         /// <summary>
         /// 添加关联
-        /// <para>比如给用户分配资源，那么firstId就是用户ID，secIds就是资源ID列表</para>
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
-        public Response Assign(AssignReq request)
+        public string Assign(AssignReq request)
         {
             var result = new Response();
             try
@@ -38,38 +29,38 @@ namespace OpenAuth.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                  result.Code = 500;
+                result.Code = 500;
                 result.Message = ex.InnerException?.Message ?? ex.Message;
             }
 
-            return result;
+            return JsonHelper.Instance.Serialize(result);
         }
+
         /// <summary>
         /// 取消关联
         /// </summary>
         [HttpPost]
-        public Response UnAssign(AssignReq request)
+        public string UnAssign(AssignReq req)
         {
-            var result = new Response();
             try
             {
-                _app.UnAssign(request);
+                _app.UnAssign(req);
             }
             catch (Exception ex)
             {
-                  result.Code = 500;
-                result.Message = ex.InnerException?.Message ?? ex.Message;
+                Result.Code = 500;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
 
-            return result;
+            return JsonHelper.Instance.Serialize(Result);
         }
-        
+
         /// <summary>
         /// 角色分配数据字段权限
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Response AssignDataProperty(AssignDataReq request)
+        public string AssignDataProperty(AssignDataReq request)
         {
             var result = new Response();
             try
@@ -82,8 +73,9 @@ namespace OpenAuth.WebApi.Controllers
                 result.Message = ex.InnerException?.Message ?? ex.Message;
             }
 
-            return result;
+            return JsonHelper.Instance.Serialize(result);
         }
+
         /// <summary>
         /// 取消角色的数据字段权限
         /// <para>如果Properties为空，则把角色的某一个模块权限全部删除</para>
@@ -92,7 +84,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public Response UnAssignDataProperty(AssignDataReq request)
+        public string UnAssignDataProperty(AssignDataReq request)
         {
             var result = new Response();
             try
@@ -105,7 +97,7 @@ namespace OpenAuth.WebApi.Controllers
                 result.Message = ex.InnerException?.Message ?? ex.Message;
             }
 
-            return result;
+            return JsonHelper.Instance.Serialize(Result);
         }
         
         
@@ -113,7 +105,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 角色分配用户，整体提交，会覆盖之前的配置
         /// </summary>
         [HttpPost]
-        public Response AssignRoleUsers(AssignRoleUsers request)
+        public string AssignRoleUsers(AssignRoleUsers request)
         {
             var result = new Response();
             try
@@ -126,14 +118,14 @@ namespace OpenAuth.WebApi.Controllers
                 result.Message = ex.InnerException?.Message ?? ex.Message;
             }
 
-            return result;
+            return JsonHelper.Instance.Serialize(Result);
         }
         
         /// <summary>
         /// 部门分配用户，整体提交，会覆盖之前的配置
         /// </summary>
         [HttpPost]
-        public Response AssignOrgUsers(AssignOrgUsers request)
+        public string AssignOrgUsers(AssignOrgUsers request)
         {
             var result = new Response();
             try
@@ -146,7 +138,7 @@ namespace OpenAuth.WebApi.Controllers
                 result.Message = ex.InnerException?.Message ?? ex.Message;
             }
 
-            return result;
+            return JsonHelper.Instance.Serialize(Result);
         }
     }
 }

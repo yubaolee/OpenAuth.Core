@@ -158,9 +158,9 @@ layui.config({
                     propList(treeNode);
                 },
                 onCheck: function (event, treeId, treeNode) {
-                    var url = "/RelevanceManager/Assign";
+                    var url = "/AccessObjs/Assign";
                     if (!treeNode.checked) {
-                        url = "/RelevanceManager/UnAssign";
+                        url = "/AccessObjs/UnAssign";
                     }
 
                     $.post(url, { type: type, firstId: id, secIds: [treeNode.Id] }
@@ -224,9 +224,9 @@ layui.config({
             ids =[obj.data.Id]
         }
 
-        var url = "/RelevanceManager/Assign";
+        var url = "/AccessObjs/Assign";
         if (!obj.checked) {
-            url = "/RelevanceManager/UnAssign";
+            url = "/AccessObjs/UnAssign";
         }
         $.post(url, { type: menuType, firstId: id, secIds: ids}
                        , function (data) {
@@ -248,9 +248,9 @@ layui.config({
             ids =[obj.data.Key]
         }
 
-        var url = "/RelevanceManager/AssignDataProperty";
+        var url = "/AccessObjs/AssignDataProperty";
         if (!obj.checked) {
-            url = "/RelevanceManager/UnAssignDataProperty";
+            url = "/AccessObjs/UnAssignDataProperty";
         }
         $.post(url,{ moduleCode: currentNode.Code, roleId: id, 'properties': ids } 
                         , function (data) {

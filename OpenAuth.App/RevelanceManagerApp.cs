@@ -10,9 +10,12 @@ namespace OpenAuth.App
 {
     public class RevelanceManagerApp  :BaseApp<Relevance>
     {
+        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository,IAuth auth) : base(unitWork, repository, auth)
+        {
+        }
 
         /// <summary>
-        /// 添加关联，自动根据firstId删除以前的关联
+        /// 添加关联
         /// <para>比如给用户分配资源，那么firstId就是用户ID，secIds就是资源ID列表</para>
         /// </summary>
         /// <param name="type">关联的类型，如Define.USERRESOURCE</param>
@@ -46,15 +49,15 @@ namespace OpenAuth.App
         /// <param name="type">关联的类型，如Define.USERRESOURCE</param>
         /// <param name="firstId">The first identifier.</param>
         /// <param name="secIds">The sec ids.</param>
-        public void UnAssign(string type, string firstId, string[] secIds)
+        public void UnAssign(AssignReq req)
         {
-            if (secIds == null || secIds.Length == 0)
+            if (req.secIds == null || req.secIds.Length == 0)
             {
-                DeleteBy(type, firstId);
+                DeleteBy(req.type, req.firstId);
             }
             else
             {
-               DeleteBy(type, secIds.ToLookup(u => firstId));
+               DeleteBy(req.type, req.secIds.ToLookup(u => req.firstId));
             }
         }
 
@@ -114,10 +117,6 @@ namespace OpenAuth.App
                 .Select(u => u.ThirdId).ToList();
         }
 
-        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository,IAuth auth) : base(unitWork, repository, auth)
-        {
-        }
-
         /// <summary>
         /// 分配数据字段权限
         /// </summary>
@@ -140,6 +139,10 @@ namespace OpenAuth.App
             UnitWork.Save();
         }
 
+        /// <summary>
+        /// 取消数据字段分配
+        /// </summary>
+        /// <param name="request"></param>
         public void UnAssignData(AssignDataReq request)
         {
             if (request.Properties == null || request.Properties.Length == 0)
@@ -163,6 +166,46 @@ namespace OpenAuth.App
                                            && u.ThirdId == property);
                 }
             }
+        }
+
+        /// <summary>
+        /// 为角色分配用户，需要统一提交，会删除以前该角色的所有用户
+        /// </summary>
+        /// <param name="request"></param>
+        public void AssignRoleUsers(AssignRoleUsers request)
+        {
+            //删除以前的所有用户
+            UnitWork.Delete<Relevance>(u => u.SecondId == request.RoleId && u.Key == Define.USERROLE);
+            //批量分配用户角色
+            UnitWork.BatchAdd((from firstId in request.UserIds
+                select new Relevance
+                {
+                    Key = Define.USERROLE,
+                    FirstId = firstId,
+                    SecondId = request.RoleId,
+                    OperateTime = DateTime.Now
+                }).ToArray());
+            UnitWork.Save();
+        }
+
+        /// <summary>
+        /// 为部门分配用户，需要统一提交，会删除以前该部门的所有用户
+        /// </summary>
+        /// <param name="request"></param>
+        public void AssignOrgUsers(AssignOrgUsers request)
+        {
+            //删除以前的所有用户
+            UnitWork.Delete<Relevance>(u => u.SecondId == request.OrgId && u.Key == Define.USERORG);
+            //批量分配用户角色
+            UnitWork.BatchAdd((from firstId in request.UserIds
+                select new Relevance
+                {
+                    Key = Define.USERORG,
+                    FirstId = firstId,
+                    SecondId = request.OrgId,
+                    OperateTime = DateTime.Now
+                }).ToArray());
+            UnitWork.Save();
         }
     }
 }

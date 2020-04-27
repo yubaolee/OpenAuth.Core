@@ -82,9 +82,9 @@ layui.config({
         console.log(obj.data); //选中行的相关数据
         console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
 
-        var url = "/RelevanceManager/Assign";
+        var url = "/AccessObjs/Assign";
         if (!obj.checked) {
-            url = "/RelevanceManager/UnAssign";
+            url = "/AccessObjs/UnAssign";
         }
         $.post(url, { type: type, firstId: id, secIds: [obj.data.Id] }
                        , function (data) {

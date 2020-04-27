@@ -9,17 +9,17 @@ using Z.EntityFramework.Plus;
 
 namespace OpenAuth.Repository
 {
-   public  class BaseRepository<T> :IRepository<T> where T :Entity
-   {
-       private OpenAuthDBContext _context;
+    public class BaseRepository<T> : IRepository<T> where T : Entity
+    {
+        private OpenAuthDBContext _context;
 
-       public BaseRepository(OpenAuthDBContext context)
-       {
-           _context = context;
-       }
+        public BaseRepository(OpenAuthDBContext context)
+        {
+            _context = context;
+        }
 
 
-       /// <summary>
+        /// <summary>
         /// 根据过滤条件，获取记录
         /// </summary>
         /// <param name="exp">The exp.</param>
@@ -47,7 +47,8 @@ namespace OpenAuth.Repository
         /// <param name="pageindex">The pageindex.</param>
         /// <param name="pagesize">The pagesize.</param>
         /// <param name="orderby">排序，格式如："Id"/"Id descending"</param>
-        public IQueryable<T> Find(int pageindex, int pagesize, string orderby = "", Expression<Func<T, bool>> exp = null)
+        public IQueryable<T> Find(int pageindex, int pagesize, string orderby = "",
+            Expression<Func<T, bool>> exp = null)
         {
             if (pageindex < 1) pageindex = 1;
             if (string.IsNullOrEmpty(orderby))
@@ -70,6 +71,7 @@ namespace OpenAuth.Repository
             {
                 entity.Id = Guid.NewGuid().ToString();
             }
+
             _context.Set<T>().Add(entity);
             Save();
             _context.Entry(entity).State = EntityState.Detached;
@@ -85,6 +87,7 @@ namespace OpenAuth.Repository
             {
                 entity.Id = Guid.NewGuid().ToString();
             }
+
             _context.Set<T>().AddRange(entities);
             Save();
         }
@@ -118,7 +121,7 @@ namespace OpenAuth.Repository
         /// <param name="entity">The entity.</param>
         public void Update(Expression<Func<T, bool>> where, Expression<Func<T, T>> entity)
         {
-           _context.Set<T>().Where(where).Update(entity);
+            _context.Set<T>().Where(where).Update(entity);
         }
 
         public virtual void Delete(Expression<Func<T, bool>> exp)
@@ -130,7 +133,7 @@ namespace OpenAuth.Repository
         {
             //try
             //{
-                _context.SaveChanges();
+            _context.SaveChanges();
             //}
             //catch (DbEntityValidationException e)
             //{
@@ -146,21 +149,29 @@ namespace OpenAuth.Repository
             return dbSet;
         }
 
-       public int ExecuteSql(string sql)
-       {
-          return  _context.Database.ExecuteSqlRaw(sql);
-       }
-       
-        public IQueryable<T> FromSql(string sql, params object[] parameters)
-          {
-              return _context.Set<T>().FromSqlRaw(sql, parameters);
-          }
+        public int ExecuteSql(string sql)
+        {
+            return _context.Database.ExecuteSqlRaw(sql);
+        }
 
-          public IQueryable<T> Query(string sql, params object[] parameters) 
-          {
-              return _context.Query<T>().FromSqlRaw(sql, parameters);
-          }
-       
-       
-   }
+        /// <summary>
+        /// 使用SQL脚本查询
+        /// </summary>
+        /// <typeparam name="T"> T为数据库实体</typeparam>
+        /// <returns></returns>
+        public IQueryable<T> FromSql(string sql, params object[] parameters)
+        {
+            return _context.Set<T>().FromSqlRaw(sql, parameters);
+        }
+
+        /// <summary>
+        /// 使用SQL脚本查询
+        /// </summary>
+        /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
+        /// <returns></returns>
+        public IQueryable<T> Query(string sql, params object[] parameters)
+        {
+            return _context.Query<T>().FromSqlRaw(sql, parameters);
+        }
+    }
 }

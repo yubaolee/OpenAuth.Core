@@ -1,7 +1,11 @@
 ﻿using Autofac.Extensions.DependencyInjection;
+using Infrastructure.Cache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Moq;
 using NUnit.Framework;
+using OpenAuth.App.SSO;
 using OpenAuth.Repository;
 
 namespace OpenAuth.App.Test
@@ -16,13 +20,17 @@ namespace OpenAuth.App.Test
             var serviceCollection = GetService();
             serviceCollection.AddMemoryCache();
             serviceCollection.AddOptions();
+            
+            var optionMock = new Mock<IOptions<AppSetting>>();
+            optionMock.Setup(x => x.Value).Returns(new AppSetting { DbType = Define.DBTYPE_MYSQL});
+            serviceCollection.AddScoped(x => optionMock.Object);
 
            // 测试my sql
-           // serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
-           //     options.UseMySql("server=127.0.0.1;user id=root;database=openauthdb;password=000000"));
+           serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
+               options.UseMySql("server=127.0.0.1;user id=root;database=openauthdb;password=000000"));
 
-            serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
-                options.UseSqlServer("Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000;Integrated Security=True"));
+//            serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
+//                options.UseSqlServer("Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000;Integrated Security=True"));
 
             var container = AutofacExt.InitForTest(serviceCollection);
             _autofacServiceProvider = new AutofacServiceProvider(container);

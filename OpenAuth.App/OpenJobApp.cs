@@ -106,7 +106,15 @@ namespace OpenAuth.App
             }
             else  //启动
             {
-                IJobDetail jobDetail = JobBuilder.Create<SysLogJob>().WithIdentity(job.Id).Build();
+                var jobBuilderType = typeof(JobBuilder);
+                var method = jobBuilderType.GetMethods().FirstOrDefault(
+                        x => x.Name.Equals("Create", StringComparison.OrdinalIgnoreCase) &&
+                             x.IsGenericMethod && x.GetParameters().Length == 0)
+                    ?.MakeGenericMethod(Type.GetType(job.JobCall));
+
+                var jobBuilder = (JobBuilder)method.Invoke(null, null);
+                
+                IJobDetail jobDetail = jobBuilder.WithIdentity(job.Id).Build();
                 jobDetail.JobDataMap[Define.JOBMAPKEY] = job.Id;  //传递job信息
                 ITrigger trigger = TriggerBuilder.Create()
                     .WithCronSchedule(job.Cron)

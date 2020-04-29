@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Internal;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -137,7 +138,7 @@ namespace OpenAuth.App
             var users = from userRole in UnitWork.Find<Relevance>(u =>
                     u.SecondId == request.roleId && u.Key == Define.USERROLE)
                 join user in UnitWork.Find<User>(null) on userRole.FirstId equals user.Id into temp
-                from c in temp.DefaultIfEmpty()
+                from c in temp.Where(u =>u.Id != null)
                 select c;
 
             return new TableData
@@ -152,7 +153,7 @@ namespace OpenAuth.App
             var users = from userRole in UnitWork.Find<Relevance>(u =>
                     u.SecondId == request.orgId && u.Key == Define.USERORG)
                 join user in UnitWork.Find<User>(null) on userRole.FirstId equals user.Id into temp
-                from c in temp.DefaultIfEmpty()
+                from c in temp.Where(u =>u.Id != null)
                 select c;
 
             return new TableData

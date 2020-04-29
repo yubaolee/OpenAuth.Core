@@ -118,9 +118,10 @@ namespace OpenAuth.App
         }
 
         public UserManagerApp(IUnitWork unitWork, IRepository<User> repository,
-            RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
+            RevelanceManagerApp app,IAuth auth, OrgManagerApp orgManagerApp) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
+            _orgManagerApp = orgManagerApp;
         }
 
         public void ChangePassword(ChangePasswordReq request)

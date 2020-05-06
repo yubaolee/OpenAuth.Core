@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Internal;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -13,6 +14,7 @@ namespace OpenAuth.App
     public class UserManagerApp : BaseApp<User>
     {
         private RevelanceManagerApp _revelanceApp;
+        private OrgManagerApp _orgManagerApp;
 
         public User GetByAccount(string account)
         {
@@ -54,7 +56,7 @@ namespace OpenAuth.App
             foreach (var user in users.ToList())
             {
                 UserView uv = user;
-                var orgs = LoadByUser(user.Id);
+                var orgs = _orgManagerApp.LoadForUser(user.Id);
                 uv.Organizations = string.Join(",", orgs.Select(u => u.Name).ToList());
                 uv.OrganizationIds = string.Join(",", orgs.Select(u => u.Id).ToList());
                 userviews.Add(uv);
@@ -116,23 +118,11 @@ namespace OpenAuth.App
             _revelanceApp.Assign(Define.USERORG, orgIds.ToLookup(u => requser.Id));
         }
 
-        /// <summary>
-        /// 加载用户的所有机构
-        /// </summary>
-        public IEnumerable<Org> LoadByUser(string userId)
-        {
-            var result = from userorg in UnitWork.Find<Relevance>(null)
-                join org in UnitWork.Find<Org>(null) on userorg.SecondId equals org.Id
-                where userorg.FirstId == userId && userorg.Key == Define.USERORG
-                select org;
-            return result;
-        }
-
-
         public UserManagerApp(IUnitWork unitWork, IRepository<User> repository,
-            RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
+            RevelanceManagerApp app,IAuth auth, OrgManagerApp orgManagerApp) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
+            _orgManagerApp = orgManagerApp;
         }
 
         public void ChangePassword(ChangePasswordReq request)
@@ -148,7 +138,22 @@ namespace OpenAuth.App
             var users = from userRole in UnitWork.Find<Relevance>(u =>
                     u.SecondId == request.roleId && u.Key == Define.USERROLE)
                 join user in UnitWork.Find<User>(null) on userRole.FirstId equals user.Id into temp
-                from c in temp.DefaultIfEmpty()
+                from c in temp.Where(u =>u.Id != null)
+                select c;
+
+            return new TableData
+            {
+                count = users.Count(),
+                data = users.Skip((request.page - 1) * request.limit).Take(request.limit)
+            };
+        }
+        
+        public TableData LoadByOrg(QueryUserListByOrgReq request)
+        {
+            var users = from userRole in UnitWork.Find<Relevance>(u =>
+                    u.SecondId == request.orgId && u.Key == Define.USERORG)
+                join user in UnitWork.Find<User>(null) on userRole.FirstId equals user.Id into temp
+                from c in temp.Where(u =>u.Id != null)
                 select c;
 
             return new TableData

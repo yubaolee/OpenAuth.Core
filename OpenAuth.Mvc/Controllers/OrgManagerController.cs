@@ -23,14 +23,14 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
        
+        /// <summary>
+        /// 获取用户所能访问的部门
+        /// </summary>
         public string LoadForUser(string firstId)
         {
             var orgs = _orgApp.LoadForUser(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
-
-
-
 
         //添加组织提交
         [HttpPost]

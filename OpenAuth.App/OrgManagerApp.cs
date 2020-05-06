@@ -80,20 +80,17 @@ namespace OpenAuth.App
             }
         }
 
-
         /// <summary>
         /// 加载特定用户的部门
         /// </summary>
         /// <param name="userId">The user unique identifier.</param>
         public List<Org> LoadForUser(string userId)
         {
-            //用户角色与自己分配到的角色ID
-            var ids =
-                UnitWork.Find<Relevance>(
-                    u =>u.FirstId == userId && u.Key == Define.USERORG).Select(u => u.SecondId).ToList();
-
-            if (!ids.Any()) return new List<Org>();
-            return UnitWork.Find<Org>(u => ids.Contains(u.Id)).ToList();
+            var result = from userorg in UnitWork.Find<Relevance>(null)
+                join org in UnitWork.Find<Org>(null) on userorg.SecondId equals org.Id
+                where userorg.FirstId == userId && userorg.Key == Define.USERORG
+                select org;
+            return result.ToList();
         }
 
         public OrgManagerApp(IUnitWork unitWork, IRepository<Org> repository,IAuth auth, 

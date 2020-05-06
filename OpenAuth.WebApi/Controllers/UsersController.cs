@@ -101,6 +101,7 @@ namespace OpenAuth.WebApi.Controllers
 
         /// <summary>
         /// 加载列表
+        /// 获取当前登录用户可访问的一个部门及子部门全部用户
         /// </summary>
         [HttpGet]
         public TableData Load([FromQuery]QueryUserListReq request)
@@ -133,6 +134,16 @@ namespace OpenAuth.WebApi.Controllers
         public TableData LoadByRole([FromQuery]QueryUserListByRoleReq request)
         {
             return _app.LoadByRole(request);
+        }
+        
+        /// <summary>
+        /// 加载指定部门的用户
+        /// 不包含下级部门的用户
+        /// </summary>
+        [HttpGet]
+        public TableData LoadByOrg([FromQuery]QueryUserListByOrgReq request)
+        {
+            return _app.LoadByOrg(request);
         }
         
         public UsersController(UserManagerApp app) 

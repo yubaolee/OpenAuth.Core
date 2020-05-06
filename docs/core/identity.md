@@ -1,3 +1,4 @@
+
 OpenAuth.core支持两种登录认证方式：自定义认证和基于IdentityServer的OAuth认证。
 
 这两种方式通过配置webapi或mvc的appsettings.json可以自由切换:

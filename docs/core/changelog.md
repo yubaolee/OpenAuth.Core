@@ -1,3 +1,5 @@
+# 更新日志
+
 `OpenAuth.Core 2.0`
 * 【新增】框架升级至.net core sdk 3.1.100
 

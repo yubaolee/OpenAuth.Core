@@ -1,9 +1,11 @@
 
+# OAuth集成
+
 OpenAuth.core支持两种登录认证方式：自定义认证和基于IdentityServer的OAuth认证。
 
 这两种方式通过配置webapi或mvc的appsettings.json可以自由切换:
 
-```javascript
+```json
 "IdentityServerUrl": "http://localhost:12796", //IdentityServer服务器地址。如果为空，则不启用OAuth认证
 ```
 

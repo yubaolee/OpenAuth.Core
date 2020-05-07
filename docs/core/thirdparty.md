@@ -1,3 +1,5 @@
+# 三方对接
+
 1. 在OpenAuth中设计表单，注意表单中的控件名称，在步骤3调用OpenAuth创建流程实例接口时，frmData参数中的属性必须严格按该命名提交。
 
 ![](http://demo.openauth.me:8887/upload_files/190730144125614.jpg "表单设计说明")

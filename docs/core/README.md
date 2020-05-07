@@ -48,5 +48,20 @@ OpenAuth.Core是一个开源的权限工作流快速开发框架。框架基于M
 
 * 设计工具 PowerDesigner + Enterprise Architect
 
+## 开源版和企业版不同点
+
+|    开源版    | 高级/企业版           |
+| ------------- |:-------------:| 
+| 单站点Asp.Net Core Mvc方式     | 前后端完全分离的Asp.Net Core WebAPI + vue方式 | 
+| 基于最新版LayUI界面     | 基于最新版ElementUI界面  | 
+| 基于Quartz的定时任务控制    | 基于Quartz的定时任务控制，`且支持可视化CRON表达式设计`      |   
+| 基于leipiformdesign的动态表单设计   | 在开源版的基础上，`实现可拖拽的表单设计且独立成vue组件`      |   
+| 基于gooflow的流程设计   | 基于当今世界最流行的jsplumb开发的流程设计      |   
+| 灵活的数据权限控制   | 在开源版的基础上，`实现可视化的权限控制配置`   |   
+| 全部手工码字   | 提供基于CodeSmith的代码生成功能，可快速生成带有头/明细结构的页面   |   
+| --   | 提供数据库结构PowerDesigner设计文件  |   
+
+
+
 
 

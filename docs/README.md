@@ -2,7 +2,7 @@
 home: true
 heroImage: /logo.png
 heroText: OpenAuth.Core
-tagline: 最好用的.net权限工作流框架,超酷的.net/vue前后端分离实践
+tagline: 最好用的.net权限工作流框架,最实用的.net/vue前后端分离方案
 actionText: 快速上手 →
 actionLink: /core/start/
 features:

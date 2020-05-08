@@ -26,6 +26,7 @@ module.exports = {
             title: '基础开发',   // 必要的
             path: 'start',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
             sidebarDepth: 1,    // 可选的, 默认值是 1
+            collapsable: false, 
             children: [
               "start"
               ,"deploy" 
@@ -36,16 +37,17 @@ module.exports = {
           }
           ,{
             title: '权限控制',   // 必要的
-            path: 'dataprivilege',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
             sidebarDepth: 1,    // 可选的, 默认值是 1
+            collapsable: false, 
             children: [
               'dataprivilege'
+              ,'datapropertyrule'
             ]
           }
           ,{
             title: '工作流',   // 必要的
-            path: 'thirdparty',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
             sidebarDepth: 1,    // 可选的, 默认值是 1
+            collapsable: false, 
             children: [
               'thirdparty'
             ]

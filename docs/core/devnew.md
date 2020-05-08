@@ -27,17 +27,17 @@ OpenAuth.Mvc添加新模块的方式非常简单，完全可以参考系统已�
     │    ├─ Domain
     │         └─ Stock.cs
 
-当然全部手撸这些代码还是会疯的。[企业版](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)用户可以直接使用OpenAuth.Pro/CodeSmith代码生成器一键生成上述代码。而且CodeSmith本身也是全部源码，可以根据自己需求调整生成的内容。
+当然全部手撸这些代码还是会疯的。用户可以直接使用项目`CodeSmith`文件夹里面的模板一键生成上述代码。而且CodeSmith模板本身也是全部源码，可以根据自己需求调整生成的内容。
 
 ## 工具准备
 
-CodeSmith Generator Studio 7.0或以上
+CodeSmith Generator Studio 8.0或以上
 
 数据库OpenAuthDB中添加仓储表【Stock】，本文以该数据表为例
 
 ## 添加实体
 
-如下图，使用OpenAuth.Pro文件夹中的CodeSmith模板，右击【ApiGenerate.cst】--【Execute】，选择需要生成的表（本文以Stock为例）及相关的上下文命名空间，点击【Generate】
+如下图，使用CodeSmith文件夹中的模板，右击【ApiGenerate.cst】--【Execute】，选择需要生成的表（本文以Stock为例）及相关的上下文命名空间，点击【Generate】
 
 ![](http://pj.openauth.me/zentao/file-read-26.jpg)
 
@@ -55,7 +55,7 @@ CodeSmith Generator Studio 7.0或以上
 
 ## 添加界面
 
-如下图，使用OpenAuth.Pro文件夹中的CodeSmith模板，右击【WebGenerate.cst】--【Execute】，选择需要生成的表（本文以Stock为例）及相关的上下文命名空间，点击【Generate】
+如下图，使用CodeSmith文件夹中的模板，右击【WebGenerate.cst】--【Execute】，选择需要生成的表（本文以Stock为例）及相关的上下文命名空间，点击【Generate】
 
 ![](http://pj.openauth.me/zentao/file-read-47.png)
 

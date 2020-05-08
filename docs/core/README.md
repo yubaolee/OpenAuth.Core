@@ -48,6 +48,10 @@ OpenAuth.Core是一个开源的权限工作流快速开发框架。框架基于M
 
 * 设计工具 PowerDesigner + Enterprise Architect
 
+## 开源版和企业版关系
+
+![](/architect.png)
+
 ## 开源版和企业版不同点
 
 |    开源版    | 高级/企业版           |

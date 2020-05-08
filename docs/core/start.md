@@ -15,7 +15,11 @@
 ## 打开项目
 
 使用Visual Studio 2019或Rider打开 `OpenAuth.Core.sln`
+::: tip 提示
+v2.0及以后版本因使用.net core 3.1，必须使用visual Studio 2019及以上版本打开
 
+v2.0以前的版本可以使用visual Studio 2017
+:::
 
 
 ## 修改连接字符串

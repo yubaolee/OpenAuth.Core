@@ -1,6 +1,6 @@
 # 部署
 
-::: tip
+::: tip 提示
 因.net core内部有自托管的Web服务器，推荐使用控制台方式部署
 :::
 
@@ -9,13 +9,13 @@
 * 修改部署环境的连接字符串信息,特别注意是`appsettings.Production.json`文件：
 ![说明](/configmvc.png "说明")
 
-::: warning
-dotnet core的正式环境和测试环境的切换是通过环境变量ASPNETCORE_ENVIRONMENT来控制的。
+::: warning 注意
+决定系统部署后读取`appsettings.json`还是`appsettings.Production.json`是通过操作系统的环境变量`ASPNETCORE_ENVIRONMENT`来控制的。
 在centos切换成正式可以用
 ```shell
 export ASPNETCORE_ENVIRONMENT=Production
 ```
-在Widows系统中需要做相同的配置
+在Widows系统中增加对应环境变量即可
 
 :::
 

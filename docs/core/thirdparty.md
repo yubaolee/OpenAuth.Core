@@ -1,15 +1,15 @@
 # 三方对接
 
-1. 在OpenAuth中设计表单，注意表单中的控件名称，在步骤3调用OpenAuth创建流程实例接口时，frmData参数中的属性必须严格按该命名提交。
+* 在OpenAuth中设计表单，注意表单中的控件名称，在步骤3调用OpenAuth创建流程实例接口时，frmData参数中的属性必须严格按该命名提交。
 
-![](http://demo.openauth.me:8887/upload_files/190730144125614.jpg "表单设计说明")
+![](/formthirdparty.png "表单设计说明")
 
 
-2. 在OpenAuth中设计流程，制定相关的工作流程，并在每个流程节点配置回调URL路径，如下：
+* 在OpenAuth中设计流程，制定相关的工作流程，并在每个流程节点配置回调URL路径，如下：
 
-![](http://119.84.146.233:8887/upload_files/190730144422114.jpg "三方URL设置")
+![](/flowthirdparty.png "三方URL设置")
 
-3. 三方已有系统界面，提交表单时，调用创建流程实例接口：http://localhost:52789/api/FlowInstances/Add，在OpenAuth中创建一条新的流程实例； 接口参数如下：
+* 三方已有系统界面，提交表单时，调用创建流程实例接口：http://localhost:52789/api/FlowInstances/Add，在OpenAuth中创建一条新的流程实例； 接口参数如下：
 
 ```javascript
     {
@@ -21,7 +21,7 @@
     }
 ```
 
-4. 用户正常在OpenAuth中执行流程，如果当前节点设置了回调URL的节点，OpenAuth会采用WebAPI POST方式回调，回调时具体参数如下：
+* 用户正常在OpenAuth中执行流程，如果当前节点设置了回调URL的节点，OpenAuth会采用WebAPI POST方式回调，回调时具体参数如下：
 ```javascript
 {
     flowInstanceId:"0ceff0f8-f848-440c-bc26-d8605ac858cd",  //流程实例ID

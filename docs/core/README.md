@@ -50,6 +50,8 @@ OpenAuth.Core是一个开源的权限工作流快速开发框架。框架基于M
 
 ## 开源版和企业版关系
 
+企业版是一套全新的前端界面，基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发。它使用开源版OpenAuth.Core的API接口（即：OpenAuth.WebApi）提供数据服务。二者的关系如下：
+
 ![](/architect.png)
 
 ## 开源版和企业版不同点

@@ -5,6 +5,7 @@ module.exports = {
       ['link', { rel: 'icon', href: '/logo.png' }]
     ]
     ,themeConfig : {
+      lastUpdated: '最后更新时间', // string | boolean
       nav : [
         { text: '首页', link: 'http://openauth.me/' , target:'_blank' },
           { text: 'OpenAuth.Core', link: '/core/' },
@@ -21,10 +22,18 @@ module.exports = {
       sidebar: {
         '/core/': [
           ['','项目介绍']
-          ,"start"
-          ,"deploy" 
-          ,"devnew"
-          ,"identity" 
+          ,{
+            title: '基础开发',   // 必要的
+            path: 'start',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+            sidebarDepth: 1,    // 可选的, 默认值是 1
+            children: [
+              "start"
+              ,"deploy" 
+              ,"devnew"
+              ,"identity" 
+              ,"job"
+            ]
+          }
           ,{
             title: '权限控制',   // 必要的
             path: 'dataprivilege',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在

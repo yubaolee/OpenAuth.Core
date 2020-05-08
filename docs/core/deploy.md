@@ -2,6 +2,8 @@
 
 ::: tip 提示
 因.net core内部有自托管的Web服务器，推荐使用控制台方式部署
+
+PS:不要再问怎么部署到IIS了，都快三年没用IIS了，我也不知道啊。要不，劳驾问下百度 :cold_sweat:
 :::
 
 ## 站点OpenAuth.Mvc部署

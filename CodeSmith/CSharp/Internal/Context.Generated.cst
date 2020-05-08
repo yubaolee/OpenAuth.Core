@@ -1,0 +1,81 @@
+﻿<%@ Template Language="C#" TargetLanguage="C#" Debug="True" Encoding="UTF-8" %>
+
+<%@ Assembly Src="../Internal/Model.cs" %>
+<%@ Assembly Src="../Internal/Extensions.cs" %>
+
+<%@ Import Namespace="System.Collections.Generic" %>
+<%@ Import Namespace="System.Linq" %>
+<%@ Import Namespace="System.Text" %>
+<%@ Import Namespace="System.Text.RegularExpressions" %>
+
+<%@ Import Namespace="SchemaMapper" %>
+
+<%@ Property Name="WholeDb" 
+Type="System.Boolean" 
+Category="1.Database"
+Default="true"
+Description="是否为整个数据库" %>
+
+<%@ Property Name="SourceDatabase"
+    Type="SchemaExplorer.DatabaseSchema"
+    Category="1.Database"
+    Description="The source database." %>
+
+<%@ Property Name="SourceTables" 
+Type="SchemaExplorer.TableSchemaCollection" 
+Category="1.Database" Description="选择部分表" %>
+
+<%@ Property Name="ContextNamespace" Type="System.String"  %>
+<%@ Property Name="EntityNamespace" Type="System.String"  %>
+             
+
+using Microsoft.EntityFrameworkCore;
+using <%= EntityNamespace %>;
+
+namespace <%= ContextNamespace %>
+{
+    <%
+    string dbContextName;
+        if(WholeDb){
+          dbContextName = SourceDatabase.Name.ToSafeName();
+        }
+        else{
+            dbContextName = SourceTables.First().Database.Name.ToSafeName();
+         }
+        dbContextName = StringUtil.ToPascalCase(dbContextName);
+       Response.WriteLine("   public partial class "+ dbContextName +"Context: DbContext");
+        
+    %>
+    {
+    
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //当主键为联合主键时，需要把这里的内容拷贝到对应的位置
+            <%
+            TableSchemaCollection tables;
+            if(WholeDb){
+                tables = SourceDatabase.Tables;
+            }
+            else{
+                tables = SourceTables;
+            }
+
+            foreach(TableSchema table in tables)
+            {
+                if(table.PrimaryKeys.Count <=1) continue;
+                var keys = string.Join(",", table.Columns.Where(u=>u.IsPrimaryKeyMember==true)
+                .Select(u =>"c."+u.Name));
+                Response.WriteLine("        modelBuilder.Entity<"+table.Name+">()");
+                Response.WriteLine("        .HasKey(c => new { "+keys+" });");
+            }
+            %>
+        }
+
+        <%
+        foreach(TableSchema table in tables)
+        {
+            Response.WriteLine("        public virtual DbSet<"+table.Name+"> "+StringUtil.ToPascalCase(StringUtil.ToPlural(table.Name))+" { get; set; }");
+        }
+        %>
+    }
+}

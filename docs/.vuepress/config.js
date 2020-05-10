@@ -53,6 +53,7 @@ module.exports = {
             ]
           }
           ,"changelog" 
+          ,"faq" 
         ],
   
         '/net/': [

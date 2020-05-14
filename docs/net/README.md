@@ -1,6 +1,12 @@
+::: danger 郑重提示 
+
+随着技术不断前进，.NET对跨平台、微服务方面渐渐变得毫无优势。团队后期主要精力会随之投入到 [.net core版本](/core)的开发与维护，该版本不再提供任何技术服务，请喜欢的同学自行优化。
+
+:::
+
 ![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
 
-OpenAuth.Net是一个开源的权限工作流快速开发框架。框架基于Martin Fowler企业级应用开发思想及全新技术组合（Asp.Net MVC、EF、AutoFac、WebAPI、Swagger、Json.Net等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。它的架构精良易于扩展，是中小企业的首选。
+OpenAuth.Net是基于 **.Net Framework 4.5** 的开源权限工作流快速开发框架。框架基于Martin Fowler企业级应用开发思想及全新技术组合（Asp.Net MVC、EF、AutoFac、WebAPI、Swagger、Json.Net等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。它的架构精良易于扩展，是中小企业的首选。
 
 ## 特性
 
@@ -32,9 +38,5 @@ OpenAuth.Net是一个开源的权限工作流快速开发框架。框架基于Ma
 1. OpenAuth.UnitTest 单元测试
 1. Infrastructure 通用工具集合
 1. OpenAuth.WebApi SSO服务及为第三方提供接口服务
-
-## 使用
-
-从[快速开始](getstart.md)开始你的神奇之旅吧！
 
 

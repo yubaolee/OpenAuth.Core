@@ -59,8 +59,8 @@ module.exports = {
         '/net/': [
           ['','项目介绍']
           ,"start"  
-          ,"devnew"
           ,"deploy" 
+          ,"devnew"
         ]
       }
   }

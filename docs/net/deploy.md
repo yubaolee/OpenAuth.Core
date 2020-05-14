@@ -1,6 +1,18 @@
 # 发布部署
 
-部署到IIS时主要用到两个端口：
+直接使用Visual Studio的发布功能，发布到对应的文件夹
+
+* OpenAuth.Mvc发布
+
+![](/dotnetdeploy.png)
+
+* OpenAuth.WebApi发布
+
+![](/dotnetapideploy.png)
+
+
+
+然后把对应的发布文件部署到IIS下。成功后直接访问：
 
 * [http://localhost:56813](http://localhost:56813) 为项目的主界面，对应OpenAuth.Mvc项目。如下图所示：
 ![说明](https://gitee.com/uploads/images/2018/0328/150659_6900820e_362401.png "说明")

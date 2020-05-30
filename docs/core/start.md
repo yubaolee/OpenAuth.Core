@@ -45,4 +45,8 @@ v2.0以前的版本可以使用visual Studio 2017
 
 ![启动](/startmvc.png "启动")
 
+启动成功后使用浏览器打开[http://localhost:1802](http://localhost:1802) 即可访问，如下图所示：
+
+![说明](/mvcmain.png "说明")
+
 

@@ -31,6 +31,7 @@ module.exports = {
               "start"
               ,"deploy" 
               ,"devnew"
+              ,"unitwork"
               ,"identity" 
               ,"job"
             ]

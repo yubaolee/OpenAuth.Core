@@ -91,7 +91,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <typeparam name="U">U必须是一个继承TreeEntity的结构</typeparam>
         /// <param name="entity"></param>
-        public void ChangeModuleCascade<U>(U entity) where U : TreeEntity
+        public void ChangeModuleCascade<U>(U entity, U parent=null) where U : TreeEntity
         {
             if (entity.ParentId == "") entity.ParentId = null;
             string cascadeId;
@@ -105,11 +105,14 @@ namespace OpenAuth.App
 
             if (!string.IsNullOrEmpty(entity.ParentId))
             {
-                var parentOrg = UnitWork.FindSingle<U>(o => o.Id == entity.ParentId);
-                if (parentOrg != null)
+                if (parent == null)
                 {
-                    cascadeId = parentOrg.CascadeId + currentCascadeId + ".";
-                    entity.ParentName = parentOrg.Name;
+                    parent = UnitWork.FindSingle<U>(o => o.Id == entity.ParentId);
+                }
+                if (parent != null)
+                {
+                    cascadeId = parent.CascadeId + currentCascadeId + ".";
+                    entity.ParentName = parent.Name;
                 }
                 else
                 {

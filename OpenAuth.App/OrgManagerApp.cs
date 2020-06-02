@@ -59,7 +59,7 @@ namespace OpenAuth.App
             //更新子部门的CascadeId
             foreach (var a in orgs)
             {
-                ChangeModuleCascade(a);
+                ChangeModuleCascade(a, org);
                 UnitWork.Update(a);
             }
 

@@ -44,5 +44,24 @@ namespace OpenAuth.App.Test
             var org = app.Get(id);
             Console.WriteLine(JsonHelper.Instance.Serialize(org));
         }
+        
+        
+        [Test]
+        public void TestUpdate()
+        {
+            var orgname = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
+            Console.WriteLine(orgname);
+            var app = _autofacServiceProvider.GetService<OrgManagerApp>();
+
+            var id = app.Update(new Org
+            {
+                Id="60620558-89a2-4b28-8637-52f514773725",
+                Name = orgname,
+                ParentId = ""
+            });
+
+            var org = app.Get(id);
+            Console.WriteLine(JsonHelper.Instance.Serialize(org));
+        }
     }
 }

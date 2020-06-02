@@ -55,7 +55,7 @@ namespace OpenAuth.App.Test
 
             var id = app.Update(new Org
             {
-                Id="60620558-89a2-4b28-8637-52f514773725",
+                Id="543a9fcf-4770-4fd9-865f-030e562be238",
                 Name = orgname,
                 ParentId = ""
             });

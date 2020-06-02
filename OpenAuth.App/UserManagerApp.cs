@@ -41,16 +41,28 @@ namespace OpenAuth.App
                 query = UnitWork.Find<User>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
             }
 
-            var ids = loginUser.Orgs.Where(u => u.CascadeId.Contains(cascadeId)).Select(u => u.Id).ToArray();
-            var userIds = _revelanceApp.Get(Define.USERORG, false, ids);
+            IQueryable<User> users;
+            int count = 0;
+            if (loginUser.User.Account == Define.SYSTEM_USERNAME)
+            {
+                users = query
+                    .OrderBy(u => u.Name)
+                    .Skip((request.page - 1) * request.limit)
+                    .Take(request.limit);
+                count = query.Count();
+            }
+            else
+            {
+                var ids = loginUser.Orgs.Where(u => u.CascadeId.Contains(cascadeId)).Select(u => u.Id).ToArray();
+                var userIds = _revelanceApp.Get(Define.USERORG, false, ids);
 
-            var users = query.Where(u => userIds.Contains(u.Id))
-                .OrderBy(u => u.Name)
-                .Skip((request.page - 1) * request.limit)
-                .Take(request.limit);
+                users = query.Where(u => userIds.Contains(u.Id))
+                    .OrderBy(u => u.Name)
+                    .Skip((request.page - 1) * request.limit)
+                    .Take(request.limit);
 
-            var records = query.Count(u => userIds.Contains(u.Id));
-
+                count = query.Count(u => userIds.Contains(u.Id));
+            }
 
             var userviews = new List<UserView>();
             foreach (var user in users.ToList())
@@ -64,7 +76,7 @@ namespace OpenAuth.App
 
             return new TableData
             {
-                count = records,
+                count = count,
                 data = userviews,
             };
         }

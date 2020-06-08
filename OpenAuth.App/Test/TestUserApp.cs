@@ -17,7 +17,7 @@ namespace OpenAuth.App.Test
             var services = new ServiceCollection();
 
             var cachemock = new Mock<ICacheContext>();
-            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "test" });
+            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "System" });
             services.AddScoped(x => cachemock.Object);
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -51,6 +51,20 @@ namespace OpenAuth.App.Test
                 Name = "新名字",
                 OrganizationIds = "08f41bf6-4388-4b1e-bd3e-2ff538b44b1b",
             });
+        }
+        
+        [Test]
+        public void TestLoad()
+        {
+            var app = _autofacServiceProvider.GetService<UserManagerApp>();
+            var result = app.Load(new QueryUserListReq()
+            {
+                page = 1,
+                limit = 10,
+                orgId = "08f41bf6-4388-4b1e-bd3e-2ff538b44b1b"
+            });
+            
+            Console.WriteLine(JsonHelper.Instance.Serialize(result));
         }
 
         [Test]

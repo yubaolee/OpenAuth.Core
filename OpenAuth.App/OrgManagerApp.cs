@@ -75,7 +75,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 删除指定ID的部门及其所有子部门
         /// </summary>
-        public void DelOrg(string[] ids)
+        public void DelOrgCascade(string[] ids)
         {
             var delOrg = Repository.Find(u => ids.Contains(u.Id)).ToList();
             foreach (var org in delOrg)

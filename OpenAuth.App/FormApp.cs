@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Infrastructure;
+using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -13,6 +14,7 @@ namespace OpenAuth.App
     public class FormApp : BaseApp<Form>
     {
         private IAuth _auth;
+        private IOptions<AppSetting> _appConfiguration;
         /// <summary>
         /// 加载列表
         /// </summary>
@@ -40,7 +42,7 @@ namespace OpenAuth.App
             UnitWork.Add(obj);
             if (!string.IsNullOrEmpty(obj.DbName))
             {
-                UnitWork.ExecuteSql(FormUtil.GetSql(obj));
+                UnitWork.ExecuteSql(FormUtil.GetSql(obj, _appConfiguration.Value.DbType));
             }
             UnitWork.Save();
         }
@@ -63,7 +65,7 @@ namespace OpenAuth.App
 
             if (!string.IsNullOrEmpty(obj.DbName))
             {
-                UnitWork.ExecuteSql(FormUtil.GetSql(obj));
+                UnitWork.ExecuteSql(FormUtil.GetSql(obj, _appConfiguration.Value.DbType));
             }
         }
 
@@ -74,9 +76,10 @@ namespace OpenAuth.App
         }
 
         public FormApp(IUnitWork unitWork, IRepository<Form> repository,
-            IAuth auth) : base(unitWork, repository, auth)
+            IAuth auth, IOptions<AppSetting> appConfiguration) : base(unitWork, repository, auth)
         {
             _auth = auth;
+            _appConfiguration = appConfiguration;
         }
     }
 }

@@ -71,13 +71,18 @@ namespace OpenAuth.WebApi.Controllers
         }
 
 
+        /// <summary>
+        /// 删除选中的部门及所有的子部门
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         [HttpPost]
         public Response Delete([FromBody]string[] ids)
         {
             var result = new Response();
             try
             {
-                _app.Delete(ids);
+                _app.DelOrgCascade(ids);
 
             }
             catch (Exception ex)

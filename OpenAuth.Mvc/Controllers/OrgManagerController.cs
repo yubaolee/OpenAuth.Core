@@ -73,7 +73,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                _orgApp.DelOrg(ids);
+                _orgApp.DelOrgCascade(ids);
             }
             catch (Exception e)
             {

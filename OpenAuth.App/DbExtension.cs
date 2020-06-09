@@ -31,7 +31,8 @@ namespace OpenAuth.App
         public List<KeyDescription> GetProperties(string moduleName)
         {
             var result = new List<KeyDescription>();
-            var entity = _context.Model.GetEntityTypes().FirstOrDefault(u => u.Name==moduleName);
+            var entity = _context.Model.GetEntityTypes()
+                .FirstOrDefault(u => u.Name=="OpenAuth.Repository.Domain." + moduleName);
             if (entity == null)
             {
                 throw new Exception($"未能找到{moduleName}对应的实体类");

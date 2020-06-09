@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using OpenAuth.App.Request;
 
 namespace OpenAuth.WebApi.Controllers
 {
@@ -177,12 +176,12 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="orgId">机构ID</param>
         /// <returns></returns>
         [HttpGet]
-        public TableData GetSubOrgs([FromQuery]QuerySubOrgsReq request)
+        public TableData GetSubOrgs(string orgId)
         {
             string cascadeId = ".0.";
-            if (!string.IsNullOrEmpty(request.orgId))
+            if (!string.IsNullOrEmpty(orgId))
             {
-                var org = _authStrategyContext.Orgs.SingleOrDefault(u => u.Id == request.orgId);
+                var org = _authStrategyContext.Orgs.SingleOrDefault(u => u.Id == orgId);
                 if (org == null)
                 {
                     return new TableData
@@ -198,8 +197,7 @@ namespace OpenAuth.WebApi.Controllers
 
             return new TableData
             {
-                data = query .Skip((request.page - 1) * request.limit)
-                    .Take(request.limit).ToList(),
+                data = query.ToList(),
                 count = query.Count(),
             };
         }

@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using Infrastructure;
@@ -27,6 +27,8 @@ namespace OpenAuth.WebApi.Controllers
 
         /// <summary>
         ///  批量上传文件接口
+        ///  swagger ui issues:https://github.com/swagger-api/swagger-ui/pull/6040
+        ///  swagger ui 尚未发布新版本修复此bug，故而Swashbuckle.AspNetCore也未修复此bug.
         /// </summary>
         /// <param name="files"></param>
         /// <returns>服务器存储的文件信息</returns>

@@ -44,8 +44,8 @@ namespace OpenAuth.WebApi.Model
                     Message = "认证失败，请提供认证信息"
                 });
             }
-
-            _logApp.Add(new SysLog
+            //todo:这个地方有个很奇怪的错误，_logApp有时会为空
+            _logApp?.Add(new SysLog
             {
                 Content = $"用户访问",
                 Href = $"{Controllername}/{Actionname}",

@@ -39,17 +39,8 @@ namespace OpenAuth.App
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IUnitWork), typeof(UnitWork));
 
-            //如果当前项目是webapi，则必须是本地,否则会引起死循环
-            if (Assembly.GetEntryAssembly().FullName.Contains("OpenAuth.WebApi"))
-            {
-                services.AddScoped(typeof(IAuth), typeof(LocalAuth));
-            }
-            else  //如果是MVC或者单元测试，则可以根据情况调整，默认是本地授权，无需OpenAuth.WebApi、Identity
-            {
-                services.AddScoped(typeof(IAuth), typeof(LocalAuth));
-                //如果想使用WebApi SSO授权，请使用下面这种方式
-                //services.AddScoped(typeof(IAuth), typeof(ApiAuth));
-            }
+            //注入授权
+            builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth));
 
             //注册app层
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());
@@ -80,19 +71,9 @@ namespace OpenAuth.App
             //注册数据库基础操作和工作单元
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
             builder.RegisterType(typeof(UnitWork)).As(typeof(IUnitWork));
-            //如果当前项目是webapi，则必须是本地,否则会引起死循环
-            if (Assembly.GetEntryAssembly().FullName.Contains("OpenAuth.WebApi"))
-            {
-                builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth));
-               
-            }
-            else  //如果是MVC或者单元测试，则可以根据情况调整，默认是本地授权，无需OpenAuth.WebApi、Identity
-            {
-                builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth));
-                //如果想使用WebApi SSO授权，请使用下面这种方式
-                //builder.RegisterType(typeof(ApiAuth)).As(typeof(IAuth));
-            }
-
+            //注入授权
+            builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth));
+            
             //注册app层
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());
             

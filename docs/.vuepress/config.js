@@ -34,6 +34,7 @@ module.exports = {
               ,"unitwork"
               ,"identity" 
               ,"job"
+              ,"cache"
             ]
           }
           ,{

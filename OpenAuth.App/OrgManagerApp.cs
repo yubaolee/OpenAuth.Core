@@ -8,7 +8,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class OrgManagerApp : BaseApp<Org>
+    public class OrgManagerApp : BaseTreeApp<Org>
     {
         private RevelanceManagerApp _revelanceApp;
         /// <summary>
@@ -24,7 +24,7 @@ namespace OpenAuth.App
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
-            ChangeModuleCascade(org);
+            CaculateCascade(org);
 
             Repository.Add(org);
             
@@ -45,29 +45,7 @@ namespace OpenAuth.App
 
         public string Update(Org org)
         {
-            ChangeModuleCascade(org);
-
-            //获取旧的的CascadeId
-            var cascadeId = Repository.FindSingle(o => o.Id == org.Id).CascadeId;
-            //根据CascadeId查询子部门
-            var orgs = Repository.Find(u => u.CascadeId.Contains(cascadeId) && u.Id != org.Id)
-            .OrderBy(u => u.CascadeId).ToList();
-
-            //更新操作
-            UnitWork.Update(org);
-
-            //更新子部门的CascadeId
-            foreach (var a in orgs)
-            {
-                a.CascadeId = a.CascadeId.Replace(cascadeId, org.CascadeId);
-                if (a.ParentId == org.Id)
-                {
-                    a.ParentName = org.Name;
-                }
-                UnitWork.Update(a);
-            }
-
-            UnitWork.Save();
+            UpdateTreeObj(org);
 
             return org.Id;
         }

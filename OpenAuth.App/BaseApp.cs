@@ -86,12 +86,11 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// 如果一个类有层级结构（树状），则修改该节点时，要修改该节点的所有子节点
-        /// //修改对象的级联ID，生成类似XXX.XXX.X.XX
+        /// 计算实体更新的层级信息
         /// </summary>
         /// <typeparam name="U">U必须是一个继承TreeEntity的结构</typeparam>
         /// <param name="entity"></param>
-        public void ChangeModuleCascade<U>(U entity) where U : TreeEntity
+        public void CaculateCascade<U>(U entity) where U : TreeEntity
         {
             if (entity.ParentId == "") entity.ParentId = null;
             string cascadeId;

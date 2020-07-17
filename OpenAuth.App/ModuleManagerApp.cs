@@ -8,7 +8,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class ModuleManagerApp :BaseApp<Module>
+    public class ModuleManagerApp :BaseTreeApp<Module>
     {
         private RevelanceManagerApp _revelanceApp;
         public void Add(Module model)
@@ -18,7 +18,7 @@ namespace OpenAuth.App
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
-            ChangeModuleCascade(model);
+            CaculateCascade(model);
             
             Repository.Add(model);
             //当前登录用户的所有角色自动分配模块
@@ -34,11 +34,12 @@ namespace OpenAuth.App
            
         }
 
-        public void Update(Module model)
+        public void Update(Module obj)
         {
-            ChangeModuleCascade(model);
-            Repository.Update(model);
+            UpdateTreeObj(obj);
         }
+
+
 
         #region 用户/角色分配模块
 

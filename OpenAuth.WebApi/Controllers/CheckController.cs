@@ -334,7 +334,6 @@ namespace OpenAuth.WebApi.Controllers
         [AllowAnonymous]
         public LoginResult Login([FromBody]PassportLoginRequest request)
         {
-            _logger.LogInformation("Login enter");
             var result = new LoginResult();
             try
             {

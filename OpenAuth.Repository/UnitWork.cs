@@ -67,11 +67,11 @@ namespace OpenAuth.Repository
             return Filter(exp).Count();
         }
 
-        public void Add<T>(T entity) where T : Entity
+        public void Add<T>(T entity) where T : BaseEntity
         {
-            if (string.IsNullOrEmpty(entity.Id))
+            if (entity.KeyIsNull())
             {
-                entity.Id = Guid.NewGuid().ToString();
+                entity.GenerateDefaultKeyVal();
             }
             _context.Set<T>().Add(entity);
         }
@@ -80,11 +80,14 @@ namespace OpenAuth.Repository
         /// 批量添加
         /// </summary>
         /// <param name="entities">The entities.</param>
-        public void BatchAdd<T>(T[] entities) where T : Entity
+        public void BatchAdd<T>(T[] entities) where T : BaseEntity
         {
             foreach (var entity in entities)
             {
-                entity.Id = Guid.NewGuid().ToString();
+                if (entity.KeyIsNull())
+                {
+                    entity.GenerateDefaultKeyVal();
+                }
             }
             _context.Set<T>().AddRange(entities);
         }

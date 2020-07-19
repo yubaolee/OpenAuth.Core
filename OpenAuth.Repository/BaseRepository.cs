@@ -9,7 +9,7 @@ using Z.EntityFramework.Plus;
 
 namespace OpenAuth.Repository
 {
-    public class BaseRepository<T> : IRepository<T> where T : Entity
+    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
     {
         private OpenAuthDBContext _context;
 
@@ -67,9 +67,9 @@ namespace OpenAuth.Repository
 
         public void Add(T entity)
         {
-            if (string.IsNullOrEmpty(entity.Id))
+            if (entity.KeyIsNull())
             {
-                entity.Id = Guid.NewGuid().ToString();
+                entity.GenerateDefaultKeyVal();
             }
 
             _context.Set<T>().Add(entity);
@@ -85,7 +85,10 @@ namespace OpenAuth.Repository
         {
             foreach (var entity in entities)
             {
-                entity.Id = Guid.NewGuid().ToString();
+                if (entity.KeyIsNull())
+                {
+                    entity.GenerateDefaultKeyVal();
+                }
             }
 
             _context.Set<T>().AddRange(entities);

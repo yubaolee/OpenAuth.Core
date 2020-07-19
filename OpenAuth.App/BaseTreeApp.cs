@@ -6,8 +6,7 @@ using OpenAuth.Repository.Interface;
 namespace OpenAuth.App
 {
     /// <summary>
-    /// 业务层基类，UnitWork用于事务操作，Repository用于普通的数据库操作
-    /// <para>如用户管理：Class UserManagerApp:BaseApp<User></para>
+    /// 树状结构处理
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class BaseTreeApp<T> :BaseApp<T> where T : TreeEntity
@@ -20,6 +19,11 @@ namespace OpenAuth.App
         }
 
        
+        /// <summary>
+        /// 更新树状结构实体
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <typeparam name="U"></typeparam>
         public void UpdateTreeObj<U>(U obj) where U : TreeEntity
         {
             CaculateCascade(obj);

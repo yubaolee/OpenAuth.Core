@@ -13,7 +13,7 @@ Unitwork适用于多表操作（尤其是更新操作），有事务需求的场
 在web应用中，由于每个用户的请求都是属于不同线程的，需要保持每次请求的所有数据操作都成功的情况下提交数据，只要有一个失败的操作，则会对用户的此次请求的所有操作进行回滚，以确保用户操作的数据始终处于有效的状态。其实就两个字：**事务**
 :::
 
-## 示例
+## 常规使用
 
 ### Repository
 
@@ -112,3 +112,28 @@ UnitWork还经常在连表查询中使用。
             return result.ToList();
         }
 ```
+
+## SQL 语句查询
+
+框架提供两个SQL语句查询的接口:
+* FromSql: 返回数据库表对应的实体，必需在在DbContext中增加对应的DbSset；
+
+* Query: 返回数据库中不存在的表实体，必需在在DbContext中增加对应的DbQuery；
+
+### 返回数据库表
+
+```csharp
+  //UserManagerApp.cs
+   var users = UnitWork.FromSql<User>("select * from user");
+```
+
+### 返回非数据库表
+
+```csharp
+  //OpenAuthDBContext中添加访问
+  public virtual DbQuery<UserResp> UserResps { get; set; }
+
+  //使用
+   var users = UnitWork.Query<UserResp>("select * from user");
+```
+

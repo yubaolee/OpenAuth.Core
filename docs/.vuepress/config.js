@@ -32,6 +32,7 @@ module.exports = {
               ,"deploy" 
               ,"devnew"
               ,"unitwork"
+              ,"entity"
               ,"identity" 
               ,"job"
               ,"cache"

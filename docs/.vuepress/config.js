@@ -23,7 +23,7 @@ module.exports = {
         '/core/': [
           ['','项目介绍']
           ,{
-            title: '基础开发',   // 必要的
+            title: '后端开发',   // 必要的
             path: 'start',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
             sidebarDepth: 1,    // 可选的, 默认值是 1
             collapsable: false, 
@@ -36,6 +36,7 @@ module.exports = {
               ,"identity" 
               ,"job"
               ,"cache"
+              ,"unittest"
             ]
           }
           ,{
@@ -53,6 +54,14 @@ module.exports = {
             collapsable: false, 
             children: [
               'thirdparty'
+            ]
+          }
+          ,{
+            title: '前端开发',   // 必要的
+            sidebarDepth: 1,    // 可选的, 默认值是 1
+            collapsable: false, 
+            children: [
+              'wwwarchitect'
             ]
           }
           ,"changelog" 

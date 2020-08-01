@@ -64,7 +64,15 @@ module.exports = {
               'wwwarchitect'
             ]
           }
-          ,"changelog" 
+          ,{
+            title: '更新日志',   // 必要的
+            sidebarDepth: 1,    // 可选的, 默认值是 1
+            collapsable: false, 
+            children: [
+              'changelog'
+              ,'routineupdate'
+            ]
+          }
           ,"faq" 
         ],
   

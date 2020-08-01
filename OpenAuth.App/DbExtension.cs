@@ -17,12 +17,6 @@ namespace OpenAuth.App
             _context = context;
         }
 
-        //public List<KeyDescription> GetPropertiesById(string moduleId)
-        //{
-        //    var moduleName = _context.Modules.FirstOrDefault(u => u.Id == moduleId)?.Code;
-        //    return GetProperties(moduleName);
-        //}
-
         /// <summary>
         /// 获取数据库一个表的所有属性值及属性描述
         /// </summary>
@@ -31,8 +25,9 @@ namespace OpenAuth.App
         public List<KeyDescription> GetProperties(string moduleName)
         {
             var result = new List<KeyDescription>();
+            const string domain = "openauth.repository.domain.";
             var entity = _context.Model.GetEntityTypes()
-                .FirstOrDefault(u => u.Name=="OpenAuth.Repository.Domain." + moduleName);
+                .FirstOrDefault(u => u.Name.ToLower()==domain + moduleName.ToLower());
             if (entity == null)
             {
                 throw new Exception($"未能找到{moduleName}对应的实体类");

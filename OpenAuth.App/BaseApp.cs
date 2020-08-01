@@ -75,7 +75,7 @@ namespace OpenAuth.App
         /// 按id批量删除
         /// </summary>
         /// <param name="ids"></param>
-        public void Delete(string[] ids)
+        public virtual void Delete(string[] ids)
         {
             Repository.Delete(u => ids.Contains(u.Id));
         }

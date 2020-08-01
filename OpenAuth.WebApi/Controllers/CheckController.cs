@@ -193,7 +193,9 @@ namespace OpenAuth.WebApi.Controllers
                 cascadeId = org.CascadeId;
             }
 
-            var query = _authStrategyContext.Orgs.Where(u => u.CascadeId.Contains(cascadeId));
+            var query = _authStrategyContext.Orgs
+                .Where(u => u.CascadeId.Contains(cascadeId))
+                .OrderBy(u =>u.CascadeId);
 
             return new TableData
             {

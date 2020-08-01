@@ -44,6 +44,16 @@ namespace OpenAuth.App.Test
             var org = app.Get(id);
             Console.WriteLine(JsonHelper.Instance.Serialize(org));
         }
+
+        /// <summary>
+        /// 测试删除华东、中部片区
+        /// </summary>
+        [Test]
+        public void TestDel()
+        {
+            var app = _autofacServiceProvider.GetService<OrgManagerApp>();
+            app.DelOrgCascade(new []{"66386671-0494-4e83-8346-fbcf73283f7b","182dac38-64a0-414c-990c-7c9b7558a367"});
+        }
         
         
         [Test]

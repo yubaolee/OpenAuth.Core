@@ -49,17 +49,23 @@ namespace OpenAuth.App
 
             return org.Id;
         }
-
+        
         /// <summary>
         /// 删除指定ID的部门及其所有子部门
         /// </summary>
         public void DelOrgCascade(string[] ids)
         {
-            var delOrg = Repository.Find(u => ids.Contains(u.Id)).ToList();
-            foreach (var org in delOrg)
+            var delOrgCascadeIds = UnitWork.Find<Org>(u => ids.Contains(u.Id)).Select(u => u.CascadeId).ToArray();
+            var delOrgIds = new List<string>();
+            foreach (var cascadeId in delOrgCascadeIds)
             {
-                Repository.Delete(u => u.CascadeId.Contains(org.CascadeId));
+                delOrgIds.AddRange(UnitWork.Find<Org>(u=>u.CascadeId.Contains(cascadeId)).Select(u =>u.Id).ToArray());
             }
+            
+            UnitWork.Delete<Relevance>(u =>u.Key == Define.USERORG && delOrgIds.Contains(u.SecondId));
+            UnitWork.Delete<Org>(u => delOrgIds.Contains(u.Id));
+            UnitWork.Save();
+            
         }
 
         /// <summary>

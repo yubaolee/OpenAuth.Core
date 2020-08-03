@@ -19,5 +19,23 @@ namespace OpenAuth.App.Test
             var result = app.GetProperties("Category");
             Console.WriteLine(JsonHelper.Instance.Serialize(result));
         }
+
+        [Test]
+        public void GetDbEntityNames()
+        {
+            var app = _autofacServiceProvider.GetService<DbExtension>();
+
+            var result = app.GetDbEntityNames();
+            Console.WriteLine(JsonHelper.Instance.Serialize(result));
+        }
+        
+        [Test]
+        public void TestGetTables()
+        {
+            var app = _autofacServiceProvider.GetService<DbExtension>();
+
+            var result = app.GetMySqlStructure("application");
+            Console.WriteLine(JsonHelper.Instance.Serialize(result));
+        }
     }
 }

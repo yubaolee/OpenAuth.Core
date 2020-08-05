@@ -16,7 +16,7 @@
 
 using System.Reflection;
 
-namespace Infrastructure
+namespace Infrastructure.Helpers
 {
     public static class ObjectHelper
     {

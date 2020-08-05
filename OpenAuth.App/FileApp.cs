@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Infrastructure;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

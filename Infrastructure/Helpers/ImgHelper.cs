@@ -5,7 +5,7 @@
 // <date>2019-03-07</date>
 // <summary>生成缩略图</summary>
 
-namespace Infrastructure
+namespace Infrastructure.Helpers
 {
     public class ImgHelper
     {

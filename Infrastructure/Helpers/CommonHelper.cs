@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace Infrastructure
+namespace Infrastructure.Helpers
 {
     /// <summary>
     /// 常用公共类

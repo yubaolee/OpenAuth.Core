@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.QueryObj;
 
 namespace OpenAuth.App
 {

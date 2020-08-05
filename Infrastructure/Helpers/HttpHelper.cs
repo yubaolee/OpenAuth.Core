@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace Infrastructure
+namespace Infrastructure.Helpers
 {
     /// <summary>
     /// http请求类

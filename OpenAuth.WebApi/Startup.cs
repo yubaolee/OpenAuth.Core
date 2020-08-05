@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Autofac;
 using IdentityServer4.AccessTokenValidation;
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -169,6 +170,7 @@ namespace OpenAuth.WebApi
             //可以访问根目录下面的静态文件
             var staticfile = new StaticFileOptions {FileProvider = new PhysicalFileProvider(AppContext.BaseDirectory) };
             app.UseStaticFiles(staticfile);
+            
 
             //todo:测试可以允许任意跨域，正式环境要加权限
             app.UseCors(builder => builder.AllowAnyOrigin()
@@ -182,6 +184,9 @@ namespace OpenAuth.WebApi
             {
                 endpoints.MapControllers();
             });
+            
+            //配置HttpContext
+            app.UseStaticHttpContext();
 
           app.UseSwagger();
 

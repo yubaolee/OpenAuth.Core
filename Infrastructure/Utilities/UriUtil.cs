@@ -13,7 +13,7 @@ using System;
 using System.Collections.Specialized;
 using System.Web;
 
-namespace Infrastructure
+namespace Infrastructure.Utilities
 {
     /// <summary>
     /// URl帮助类

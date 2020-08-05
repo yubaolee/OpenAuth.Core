@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure
+namespace Infrastructure.Helpers
 {
     /// <summary>
     /// List转成Tree

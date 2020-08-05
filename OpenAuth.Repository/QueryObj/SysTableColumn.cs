@@ -1,5 +1,8 @@
-﻿namespace OpenAuth.Repository.Domain
+﻿namespace OpenAuth.Repository.QueryObj
 {
+    /// <summary>
+    /// 系统表列信息
+    /// </summary>
      public class SysTableColumn 
     {
 

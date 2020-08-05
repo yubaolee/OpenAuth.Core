@@ -97,6 +97,438 @@ GO
 INSERT INTO [dbo].[Application]  VALUES (N'119', N'XXX管理平台', N'manageryubaolee', N'这是一个第三的平台', NULL, N'0', N'2018-04-14', NULL)
 GO
 
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[BuilderTable]') AND type IN ('U'))
+	DROP TABLE [dbo].[BuilderTable]
+GO
+
+CREATE TABLE [dbo].[BuilderTable] (
+  [Id] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [TableName] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [Comment] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
+  [DetailTableName] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [DetailComment] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ClassName] nvarchar(100) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [Namespace] nvarchar(100) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ModuleCode] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ModuleName] nvarchar(300) COLLATE Chinese_PRC_CI_AS  NULL,
+  [Folder] nvarchar(300) COLLATE Chinese_PRC_CI_AS  NULL,
+  [Options] nvarchar(1000) COLLATE Chinese_PRC_CI_AS  NULL,
+  [TypeId] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [TypeName] nvarchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
+  [CreateTime] datetime2(0)  NOT NULL,
+  [CreateUserId] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [UpdateTime] datetime2(0)  NULL,
+  [UpdateUserId] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [UpdateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
+)
+GO
+
+ALTER TABLE [dbo].[BuilderTable] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'编号',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'Id'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'表英文全称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'TableName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'表描述、中文名称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'Comment'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'子表英文全称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'DetailTableName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'子表描述、中文名称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'DetailComment'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'实体类名称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'ClassName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'命名空间',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'Namespace'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'模块标识',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'ModuleCode'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'模块名称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'ModuleName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'代码相对文件夹路径',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'Folder'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'其它生成选项',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'Options'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'分类ID',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'TypeId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'分类名称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'TypeName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建时间',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'CreateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'CreateUserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改时间',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'UpdateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'UpdateUserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改人姓名',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'UpdateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人姓名',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable',
+'COLUMN', N'CreateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'代码生成器的表信息',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTable'
+GO
+
+
+-- ----------------------------
+-- Table structure for BuilderTableColumn
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[BuilderTableColumn]') AND type IN ('U'))
+	DROP TABLE [dbo].[BuilderTableColumn]
+GO
+
+CREATE TABLE [dbo].[BuilderTableColumn] (
+  [Id] [dbo].[PrimaryKey]  NOT NULL,
+  [TableId] [dbo].[PrimaryKey]  NOT NULL,
+  [TableName] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ColumnName] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
+  [Comment] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ColumnType] nvarchar(100) COLLATE Chinese_PRC_CI_AS  NULL,
+  [EntityType] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
+  [EntityName] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
+  [IsKey] bit DEFAULT ((0)) NOT NULL,
+  [IsIncrement] bit DEFAULT ((0)) NOT NULL,
+  [IsRequired] bit DEFAULT ((0)) NOT NULL,
+  [IsInsert] bit DEFAULT ((0)) NOT NULL,
+  [IsEdit] bit DEFAULT ((0)) NOT NULL,
+  [IsList] bit DEFAULT ((0)) NOT NULL,
+  [IsQuery] bit DEFAULT ((0)) NOT NULL,
+  [QueryType] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
+  [HtmlType] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
+  [EditType] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
+  [Sort] int  NOT NULL,
+  [CreateTime] datetime2(0)  NOT NULL,
+  [CreateUserId] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [UpdateTime] datetime2(0)  NULL,
+  [UpdateUserId] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [EditRow] int  NULL,
+  [EditCol] int  NULL,
+  [UpdateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [MaxLength] int  NULL
+)
+GO
+
+ALTER TABLE [dbo].[BuilderTableColumn] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'编号',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'Id'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'归属表编号',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'TableId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'表名称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'TableName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'列名称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'ColumnName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'列描述',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'Comment'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'列类型',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'ColumnType'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'实体类型',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'EntityType'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'实体名称',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'EntityName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否主键',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'IsKey'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否自增',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'IsIncrement'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否必填',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'IsRequired'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否为插入字段',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'IsInsert'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否编辑字段',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'IsEdit'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否列表字段',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'IsList'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否查询字段',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'IsQuery'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'查询方式（等于、不等于、大于、小于、范围）',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'QueryType'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'HtmlType'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'编辑类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'EditType'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'排序',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'Sort'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建时间',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'CreateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'CreateUserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改时间',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'UpdateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'UpdateUserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改时的行位置',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'EditRow'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改时的列位置',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'EditCol'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改人姓名',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'UpdateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人姓名',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'CreateUserName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最大长度',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn',
+'COLUMN', N'MaxLength'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'代码生成器的字段信息',
+'SCHEMA', N'dbo',
+'TABLE', N'BuilderTableColumn'
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table BuilderTable
+-- ----------------------------
+ALTER TABLE [dbo].[BuilderTable] ADD CONSTRAINT [PK__systable__3214EC074BC5F3BD] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table BuilderTableColumn
+-- ----------------------------
+ALTER TABLE [dbo].[BuilderTableColumn] ADD CONSTRAINT [PK_BUILDERTABLECOLUMN] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
 
 -- ----------------------------
 -- Table structure for Category

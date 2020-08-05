@@ -27,6 +27,70 @@ CREATE TABLE `application`  (
 INSERT INTO `application` VALUES ('110', 'OpenAuth.Net', 'openauthdotnetyubaolee', '最好用的.NET权限工作流框架', NULL, 0, '2018-04-14', NULL);
 INSERT INTO `application` VALUES ('119', 'XXX管理平台', 'manageryubaolee', '这是一个第三的平台', NULL, 0, '2018-04-14', NULL);
 
+
+-- ----------------------------
+-- Table structure for buildertable
+-- ----------------------------
+DROP TABLE IF EXISTS `buildertable`;
+CREATE TABLE `buildertable`  (
+  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
+  `TableName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表英文全称',
+  `Comment` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表描述、中文名称',
+  `DetailTableName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子表英文全称',
+  `DetailComment` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子表描述、中文名称',
+  `ClassName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '实体类名称',
+  `Namespace` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '命名空间',
+  `ModuleCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模块标识',
+  `ModuleName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模块名称',
+  `Folder` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '代码相对文件夹路径',
+  `Options` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其它生成选项',
+  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
+  `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `CreateTime` datetime(0) NOT NULL COMMENT '创建时间',
+  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
+  `UpdateTime` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人ID',
+  `UpdateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人姓名',
+  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人姓名',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成器的表信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for buildertablecolumn
+-- ----------------------------
+DROP TABLE IF EXISTS `buildertablecolumn`;
+CREATE TABLE `buildertablecolumn`  (
+  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
+  `TableId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '归属表编号',
+  `TableName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表名称',
+  `ColumnName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列名称',
+  `Comment` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列描述',
+  `ColumnType` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列类型',
+  `EntityType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实体类型',
+  `EntityName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实体名称',
+  `IsKey` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否主键',
+  `IsIncrement` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否自增',
+  `IsRequired` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否必填',
+  `IsInsert` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否为插入字段',
+  `IsEdit` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否编辑字段',
+  `IsList` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否列表字段',
+  `IsQuery` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否查询字段',
+  `QueryType` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询方式（等于、不等于、大于、小于、范围）',
+  `HtmlType` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+  `EditType` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编辑类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+  `Sort` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
+  `CreateTime` datetime(0) NOT NULL COMMENT '创建时间',
+  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
+  `UpdateTime` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人ID',
+  `EditRow` int(11) NULL DEFAULT NULL COMMENT '修改时的行位置',
+  `EditCol` int(11) NULL DEFAULT NULL COMMENT '修改时的列位置',
+  `UpdateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人姓名',
+  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人姓名',
+  `MaxLength` int(11) NULL DEFAULT NULL COMMENT '最大长度',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成器的字段信息' ROW_FORMAT = Dynamic;
+
 -- ----------------------------
 -- Table structure for category
 -- ----------------------------

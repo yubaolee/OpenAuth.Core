@@ -56,33 +56,33 @@ namespace OpenAuth.App.Request
         /// </summary>
         public string EntityName { get; set; }
         /// <summary>
-        /// 是否主键（1是）
+        /// 是否主键
         /// </summary>
-        public int IsKey { get; set; }
+        public bool IsKey { get; set; }
         /// <summary>
-        /// 是否自增（1是）
+        /// 是否自增
         /// </summary>
-        public int IsIncrement { get; set; }
+        public bool IsIncrement { get; set; }
         /// <summary>
-        /// 是否必填（1是）
+        /// 是否必填
         /// </summary>
-        public int IsRequired { get; set; }
+        public bool IsRequired { get; set; }
         /// <summary>
-        /// 是否为插入字段（1是）
+        /// 是否为插入字段
         /// </summary>
-        public int IsInsert { get; set; }
+        public bool IsInsert { get; set; }
         /// <summary>
-        /// 是否编辑字段（1是）
+        /// 是否编辑字段
         /// </summary>
-        public int IsEdit { get; set; }
+        public bool IsEdit { get; set; }
         /// <summary>
-        /// 是否列表字段（1是）
+        /// 是否列表字段
         /// </summary>
-        public int IsList { get; set; }
+        public bool IsList { get; set; }
         /// <summary>
-        /// 是否查询字段（1是）
+        /// 是否查询字段
         /// </summary>
-        public int IsQuery { get; set; }
+        public bool IsQuery { get; set; }
         /// <summary>
         /// 查询方式（等于、不等于、大于、小于、范围）
         /// </summary>
@@ -131,6 +131,10 @@ namespace OpenAuth.App.Request
         /// 创建人姓名
         /// </summary>
         public string CreateUserName { get; set; }
+        /// <summary>
+        /// 最大长度
+        /// </summary>
+        public int? MaxLength { get; set; }
         
          //todo:添加自己的请求字段
     }

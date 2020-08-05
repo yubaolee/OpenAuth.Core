@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Options;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.QueryObj;
@@ -14,10 +16,13 @@ namespace OpenAuth.App
     public class DbExtension
     {
         private OpenAuthDBContext _context;
+        
+        private IOptions<AppSetting> _appConfiguration;
 
-        public DbExtension(OpenAuthDBContext context)
+        public DbExtension(OpenAuthDBContext context, IOptions<AppSetting> appConfiguration)
         {
             _context = context;
+            _appConfiguration = appConfiguration;
         }
 
         /// <summary>
@@ -81,13 +86,30 @@ namespace OpenAuth.App
 
             return names;
         }
+
+        /// <summary>
+        /// 获取数据库表结构信息
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public IList<SysTableColumn> GetDbTableStructure(string tableName)
+        {
+            if (_appConfiguration.Value.DbType == Define.DBTYPE_MYSQL)
+            {
+                return GetMySqlStructure(tableName);
+            }
+            else
+            {
+                return GetSqlServerStructure(tableName);
+            }
+        }
         
         /// <summary>
         /// 获取Mysql表结构信息
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public IList<SysTableColumn> GetMySqlStructure(string tableName)
+        private IList<SysTableColumn> GetMySqlStructure(string tableName)
         {
             var sql =  $@"SELECT  DISTINCT
                     Column_Name AS ColumnName,
@@ -167,7 +189,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public IList<SysTableColumn> GetSqlServerStructure(string tableName)
+        private IList<SysTableColumn> GetSqlServerStructure(string tableName)
         {
             var sql =  $@"
             SELECT TableName,

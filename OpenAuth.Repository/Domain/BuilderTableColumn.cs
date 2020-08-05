@@ -31,13 +31,6 @@ namespace OpenAuth.Repository.Domain
           this.ColumnType= string.Empty;
           this.EntityType= string.Empty;
           this.EntityName= string.Empty;
-          this.IsKey= 0;
-          this.IsIncrement= 0;
-          this.IsRequired= 0;
-          this.IsInsert= 0;
-          this.IsEdit= 0;
-          this.IsList= 0;
-          this.IsQuery= 0;
           this.QueryType= string.Empty;
           this.HtmlType= string.Empty;
           this.EditType= string.Empty;
@@ -88,40 +81,40 @@ namespace OpenAuth.Repository.Domain
         [Description("实体名称")]
         public string EntityName { get; set; }
         /// <summary>
-        /// 是否主键（1是）
+        /// 是否主键
         /// </summary>
-        [Description("是否主键（1是）")]
-        public int IsKey { get; set; }
+        [Description("是否主键")]
+        public bool IsKey { get; set; }
         /// <summary>
-        /// 是否自增（1是）
+        /// 是否自增
         /// </summary>
-        [Description("是否自增（1是）")]
-        public int IsIncrement { get; set; }
+        [Description("是否自增")]
+        public bool IsIncrement { get; set; }
         /// <summary>
-        /// 是否必填（1是）
+        /// 是否必填
         /// </summary>
-        [Description("是否必填（1是）")]
-        public int IsRequired { get; set; }
+        [Description("是否必填")]
+        public bool IsRequired { get; set; }
         /// <summary>
-        /// 是否为插入字段（1是）
+        /// 是否为插入字段
         /// </summary>
-        [Description("是否为插入字段（1是）")]
-        public int IsInsert { get; set; }
+        [Description("是否为插入字段")]
+        public bool IsInsert { get; set; }
         /// <summary>
-        /// 是否编辑字段（1是）
+        /// 是否编辑字段
         /// </summary>
-        [Description("是否编辑字段（1是）")]
-        public int IsEdit { get; set; }
+        [Description("是否编辑字段")]
+        public bool IsEdit { get; set; }
         /// <summary>
-        /// 是否列表字段（1是）
+        /// 是否列表字段
         /// </summary>
-        [Description("是否列表字段（1是）")]
-        public int IsList { get; set; }
+        [Description("是否列表字段")]
+        public bool IsList { get; set; }
         /// <summary>
-        /// 是否查询字段（1是）
+        /// 是否查询字段
         /// </summary>
-        [Description("是否查询字段（1是）")]
-        public int IsQuery { get; set; }
+        [Description("是否查询字段")]
+        public bool IsQuery { get; set; }
         /// <summary>
         /// 查询方式（等于、不等于、大于、小于、范围）
         /// </summary>
@@ -184,5 +177,10 @@ namespace OpenAuth.Repository.Domain
         /// </summary>
         [Description("创建人姓名")]
         public string CreateUserName { get; set; }
+        /// <summary>
+        /// 最大长度
+        /// </summary>
+        [Description("最大长度")]
+        public int? MaxLength { get; set; }
     }
 }

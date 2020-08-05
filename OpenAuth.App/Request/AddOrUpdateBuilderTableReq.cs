@@ -19,14 +19,13 @@ namespace OpenAuth.App.Request
     /// <summary>
 	/// 代码生成器的表信息
 	/// </summary>
-    [Table("BuilderTable")]
     public partial class AddOrUpdateBuilderTableReq 
     {
-
         /// <summary>
-        /// 编号
+        /// Id为空则为添加
         /// </summary>
         public string Id { get; set; }
+        
         /// <summary>
         /// 表英文全称
         /// </summary>
@@ -75,31 +74,5 @@ namespace OpenAuth.App.Request
         /// 分类名称
         /// </summary>
         public string TypeName { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public System.DateTime CreateTime { get; set; }
-        /// <summary>
-        /// 创建人ID
-        /// </summary>
-        public string CreateUserId { get; set; }
-        /// <summary>
-        /// 修改时间
-        /// </summary>
-        public System.DateTime? UpdateTime { get; set; }
-        /// <summary>
-        /// 修改人ID
-        /// </summary>
-        public string UpdateUserId { get; set; }
-        /// <summary>
-        /// 修改人姓名
-        /// </summary>
-        public string UpdateUserName { get; set; }
-        /// <summary>
-        /// 创建人姓名
-        /// </summary>
-        public string CreateUserName { get; set; }
-        
-         //todo:添加自己的请求字段
     }
 }

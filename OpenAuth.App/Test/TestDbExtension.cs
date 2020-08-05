@@ -34,7 +34,7 @@ namespace OpenAuth.App.Test
         {
             var app = _autofacServiceProvider.GetService<DbExtension>();
 
-            var result = app.GetMySqlStructure("application");
+            var result = app.GetDbTableStructure("application");
             Console.WriteLine(JsonHelper.Instance.Serialize(result));
         }
     }

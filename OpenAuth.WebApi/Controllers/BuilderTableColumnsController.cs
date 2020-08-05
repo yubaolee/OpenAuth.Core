@@ -9,7 +9,7 @@ using OpenAuth.Repository.Domain;
 namespace OpenAuth.WebApi.Controllers
 {
     /// <summary>
-    /// BuilderTableColumn操作
+    /// 代码生成器表字段结构
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -34,25 +34,7 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
-
-        //添加
-       [HttpPost]
-        public Response Add(AddOrUpdateBuilderTableColumnReq obj)
-        {
-            var result = new Response();
-            try
-            {
-                _app.Add(obj);
-
-            }
-            catch (Exception ex)
-            {
-                result.Code = 500;
-                result.Message = ex.InnerException?.Message ?? ex.Message;
-            }
-
-            return result;
-        }
+        
 
         //修改
        [HttpPost]

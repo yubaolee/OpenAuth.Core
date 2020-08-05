@@ -21,6 +21,7 @@ using OpenAuth.Repository.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Infrastructure.Helpers;
 using Microsoft.Extensions.Logging;
 
 namespace OpenAuth.WebApi.Controllers

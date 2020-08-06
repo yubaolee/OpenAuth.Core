@@ -24,9 +24,9 @@ namespace OpenAuth.App
     {
         private BuilderTableColumnApp _builderTableColumnApp;
         private DbExtension _dbExtension;
-        private string webProject = null;
-        private string apiNameSpace = null;
-        private string startName = "";
+        private string _webProject = null;
+        private string _apiNameSpace = null;
+        private string _startName = "";
         private IOptions<AppSetting> _appConfiguration;
 
         public BuilderTableApp(IUnitWork unitWork, IRepository<BuilderTable> repository,
@@ -42,12 +42,12 @@ namespace OpenAuth.App
         {
             get
             {
-                if (startName == "")
+                if (_startName == "")
                 {
-                    startName = WebProject.Substring(0, webProject.IndexOf('.'));
+                    _startName = WebProject.Substring(0, _webProject.IndexOf('.'));
                 }
 
-                return startName;
+                return _startName;
             }
         }
 
@@ -55,17 +55,17 @@ namespace OpenAuth.App
         {
             get
             {
-                if (webProject != null)
-                    return webProject;
-                webProject = ProjectPath.GetLastIndexOfDirectoryName(".WebApi") ??
+                if (_webProject != null)
+                    return _webProject;
+                _webProject = ProjectPath.GetLastIndexOfDirectoryName(".WebApi") ??
                              ProjectPath.GetLastIndexOfDirectoryName("Api") ??
                              ProjectPath.GetLastIndexOfDirectoryName(".Mvc");
-                if (webProject == null)
+                if (_webProject == null)
                 {
                     throw new Exception("未获取到以.WebApi结尾的项目名称,无法创建页面");
                 }
 
-                return webProject;
+                return _webProject;
             }
         }
 
@@ -202,186 +202,86 @@ namespace OpenAuth.App
         private void CreateEntityModel(List<BuilderTableColumn> sysColumn, BuilderTable tableInfo)
         {
             string template = "DomainModel.html";
-
             string domainContent = FileHelper.ReadFile("Template\\" + template);
 
-            StringBuilder AttributeBuilder = new StringBuilder();
+            StringBuilder attributeBuilder = new StringBuilder();
+            StringBuilder constructionBuilder = new StringBuilder();
             sysColumn = sysColumn.OrderByDescending(c => c.Sort).ToList();
-            bool addIgnore = false;
             foreach (BuilderTableColumn column in sysColumn)
             {
-                column.ColumnType = (column.ColumnType ?? "").Trim();
-                AttributeBuilder.Append("/// <summary>");
-                AttributeBuilder.Append("\r\n");
-                AttributeBuilder.Append("       ///" + column.Comment + "");
-                AttributeBuilder.Append("\r\n");
-                AttributeBuilder.Append("       /// </summary>");
-                AttributeBuilder.Append("\r\n");
-                if (column.IsKey)
+                if (column.IsKey) continue;
+
+                attributeBuilder.Append("/// <summary>");
+                attributeBuilder.Append("\r\n");
+                attributeBuilder.Append("       ///" + column.Comment + "");
+                attributeBuilder.Append("\r\n");
+                attributeBuilder.Append("       /// </summary>");
+                attributeBuilder.Append("\r\n");
+
+                string entityType = column.EntityType;
+                if (!column.IsRequired && column.EntityType != "string")
                 {
-                    AttributeBuilder.Append(@"       [Key]" + "");
-                    AttributeBuilder.Append("\r\n");
+                    entityType = entityType + "?";
                 }
 
-                AttributeBuilder.Append("       [Display(Name =\"" + (
-                    string.IsNullOrEmpty(column.Comment) ? column.ColumnName : column.Comment
-                ) + "\")]");
-                AttributeBuilder.Append("\r\n");
+                attributeBuilder.Append("       public " + entityType + " " + column.EntityName + " { get; set; }");
+                attributeBuilder.Append("\r\n\r\n       ");
 
-                if (column != null && (column.ColumnType == "varchar" && column.MaxLength > 8000)
-                    || (column.ColumnType == "nvarchar" && column.MaxLength > 4000))
-                {
-                    column.MaxLength = 0;
-                }
-
-                if (column.ColumnType == "string" && column.MaxLength > 0 && column.MaxLength < 8000)
-                {
-                    AttributeBuilder.Append("       [MaxLength(" + column.MaxLength + ")]");
-                    AttributeBuilder.Append("\r\n");
-                }
-
-
-                if ((column.IsKey && (column.ColumnType == "string" || column.ColumnType == "uniqueidentifier")) ||
-                    column.ColumnType.ToLower() == "guid"
-                    || (IsMysql() && column.ColumnType == "string" && column.MaxLength == 36))
-                {
-                    column.ColumnType = "uniqueidentifier";
-                }
-
-                string MaxLength = string.Empty;
-                if (column.ColumnType != "uniqueidentifier")
-                {
-                    if (column.IsKey && column.ColumnType.ToLower() == "string")
-                    {
-                        //没有指定长度的字符串字段 ，如varchar,nvarchar，text等都默认生成varchar(max),nvarchar(max)
-                        if (column.MaxLength <= 0
-                            || (column.ColumnType == "varchar" && column.MaxLength > 8000)
-                            || (column.ColumnType == "nvarchar" && column.MaxLength > 4000))
-                        {
-                            MaxLength = "(max)";
-                        }
-                        else
-                        {
-                            MaxLength = "(" + column.MaxLength + ")";
-                        }
-                    }
-                }
-
-                AttributeBuilder.Append("       [Column(TypeName=\"" + column.ColumnType + MaxLength + "\")]");
-                AttributeBuilder.Append("\r\n");
-
-
-                if (column.ColumnType == "int" || column.ColumnType == "bigint" || column.ColumnType == "long")
-                {
-                    column.ColumnType = column.ColumnType == "int" ? "int" : "long";
-                }
-
-                if (column.ColumnType == "bool")
-                {
-                    column.ColumnType = "bit";
-                }
-
-                if (column.EditRow != null)
-                {
-                    AttributeBuilder.Append("       [Editable(true)]");
-                    AttributeBuilder.Append("\r\n");
-                }
-
-                string columnType = (column.ColumnType == "Date" ? "DateTime" : column.ColumnType).Trim();
-                if (column?.ColumnType?.ToLower() == "guid")
-                {
-                    columnType = "Guid";
-                }
-
-                if (column.ColumnType.ToLower() != "string" && !column.IsRequired)
-                {
-                    columnType = columnType + "?";
-                }
-
-                //如果主键是string,则默认为是Guid或者使用的是mysql数据，字段类型是字符串并且长度是36则默认为是Guid
-                if ((column.IsKey
-                     && (column.ColumnType == "string"
-                         || column.ColumnType == "uniqueidentifier"))
-                    || column.ColumnType == "guid"
-                    || (IsMysql() && column.ColumnType == "string" && column.MaxLength == 36))
-                {
-                    columnType = "Guid" + (column.IsRequired ? "" : "?");
-                }
-
-                AttributeBuilder.Append("       public " + columnType + " " + column.ColumnName + " { get; set; }");
-                AttributeBuilder.Append("\r\n\r\n       ");
-            }
-
-            if (!string.IsNullOrEmpty(tableInfo.DetailTableName))
-            {
-                AttributeBuilder.Append("[Display(Name =\"" + tableInfo.DetailTableName + "\")]");
-                AttributeBuilder.Append("\r\n       ");
-                AttributeBuilder.Append("[ForeignKey(\"" + sysColumn.Where(x => x.IsKey).FirstOrDefault().ColumnName +
-                                        "\")]");
-                AttributeBuilder.Append("\r\n       ");
-                AttributeBuilder.Append("public List<" + tableInfo.DetailTableName + "> " + tableInfo.DetailTableName +
-                                        " { get; set; }");
-                AttributeBuilder.Append("\r\n");
+                constructionBuilder.Append("this." + column.EntityName
+                                                   + "=" + GetDefault(column.EntityType)
+                                                   + ";\r\n");
             }
 
             //获取的是本地开发代码所在目录，不是发布后的目录
             string mapPath =
                 ProjectPath.GetProjectDirectoryInfo()?.FullName; //new DirectoryInfo(("~/").MapPath()).Parent.FullName;
-            //  string folderPath= string.Format("\\DairyStar.Framework.Core.\\DomainModels\\{0}\\", foldername);
             if (string.IsNullOrEmpty(mapPath))
             {
                 throw new Exception("未找到生成的目录!");
             }
 
-            string[] splitArrr = tableInfo.Namespace.Split('.');
-            domainContent = domainContent.Replace("{TableName}", tableInfo.TableName)
-                .Replace("{AttributeList}", AttributeBuilder.ToString()).Replace("{StartName}", StratName);
-
-            List<string> entityAttribute = new List<string>();
-            entityAttribute.Add("TableCnName = \"" + tableInfo.Comment + "\"");
-            if (!string.IsNullOrEmpty(tableInfo.ModuleCode))
-            {
-                entityAttribute.Add("TableName = \"" + tableInfo.ModuleCode + "\"");
-            }
-
-            if (!string.IsNullOrEmpty(tableInfo.DetailTableName))
-            {
-            }
+            domainContent = domainContent.Replace("{ClassName}", tableInfo.ClassName)
+                .Replace("{AttributeList}", attributeBuilder.ToString())
+                .Replace("{Construction}", constructionBuilder.ToString());
 
 
-            string modelNameSpace = StratName + ".Entity";
-            string tableAttr = string.Join(",", entityAttribute);
-            if (tableAttr != "")
-            {
-                tableAttr = "[Entity(" + tableAttr + ")]";
-            }
+            var tableAttr = new StringBuilder();
 
-            if (!string.IsNullOrEmpty(tableInfo.TableName) && tableInfo.TableName != tableInfo.TableName)
-            {
-                string tableTrueName = tableInfo.TableName;
+            tableAttr.Append("/// <summary>");
+            tableAttr.Append("\r\n");
+            tableAttr.Append("       ///" + tableInfo.Comment + "");
+            tableAttr.Append("\r\n");
+            tableAttr.Append("       /// </summary>");
+            tableAttr.Append("\r\n");
+            tableAttr.Append("[Table(\"" + tableInfo.TableName + "\")]");
+            domainContent = domainContent.Replace("{AttributeManager}", tableAttr.ToString());
 
-                tableAttr = tableAttr + "\r\n[Table(\"" + tableInfo.TableName + "\")]";
-            }
-
-            domainContent = domainContent.Replace("{AttributeManager}", tableAttr)
-                .Replace("{Namespace}", modelNameSpace);
-
-            string folderName = tableInfo.Folder;
-            string tableName = tableInfo.TableName;
-
-
+            string folderName = string.IsNullOrEmpty(tableInfo.Folder) ? "" : tableInfo.Folder + "\\";
             FileHelper.WriteFile(
                 mapPath +
-                string.Format(
-                    "\\" + modelNameSpace + "\\DomainModels\\{0}\\", folderName
-                )
-                , tableName + ".cs",
+                $"\\OpenAuth.Repository\\Domain\\{folderName}", tableInfo.ClassName + ".cs",
                 domainContent);
         }
 
         private bool IsMysql()
         {
             return (_appConfiguration.Value.DbType == Define.DBTYPE_MYSQL);
+        }
+
+        string GetDefault(string type)
+        {
+            Type t = Type.GetType(type);
+            if (t == null)
+            {
+                return string.Empty;
+            }
+
+            if (t.IsValueType)
+            {
+                return Activator.CreateInstance(t).ToString();
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -397,10 +297,10 @@ namespace OpenAuth.App
                 .Default
                 .CompileLibraries
                 .Where(x => !x.Serviceable && x.Type == "project");
-            foreach (var _compilation in compilationLibrary)
+            foreach (var compilation in compilationLibrary)
             {
                 foreach (var entity in AssemblyLoadContext.Default
-                    .LoadFromAssemblyName(new AssemblyName(_compilation.Name))
+                    .LoadFromAssemblyName(new AssemblyName(compilation.Name))
                     .GetTypes().Where(x => x.GetTypeInfo().BaseType != null
                                            && x.BaseType == typeof(BaseEntity)))
                 {

@@ -43,7 +43,6 @@ namespace OpenAuth.App.Test
                TableName = "application",
                Comment = "这是一个普通的应用管理生成模版",
                ClassName = "Application",
-               Folder = "Application",
                ModuleCode = "Application",
                ModuleName = "模块管理"
             });

@@ -114,12 +114,13 @@ namespace OpenAuth.App
             var sql =  $@"SELECT  DISTINCT
                     Column_Name AS ColumnName,
                      '{ tableName}'  as tableName,
-	                Column_Comment AS ColumnCnName,
+	                Column_Comment AS Comment,
+                    data_type as ColumnType,
                         CASE
                           WHEN data_type IN( 'BIT', 'BOOL', 'bit', 'bool') THEN
                 'bool'
 		             WHEN data_type in('smallint','SMALLINT') THEN 'short'
-								WHEN data_type in('tinyint','TINYINT') THEN 'sbyte'
+								WHEN data_type in('tinyint','TINYINT') THEN 'bool'
                         WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN
                     'int'
                     WHEN data_type in ( 'BIGINT','bigint') THEN
@@ -130,7 +131,7 @@ namespace OpenAuth.App
                     'string'
                     WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN
                     'DateTime' ELSE 'string'
-                END AS ColumnType,
+                END AS EntityType,
 	              case WHEN CHARACTER_MAXIMUM_LENGTH>8000 THEN 0 ELSE CHARACTER_MAXIMUM_LENGTH end  AS Maxlength,
             CASE
                     WHEN COLUMN_KEY <> '' THEN  
@@ -194,7 +195,7 @@ namespace OpenAuth.App
             var sql =  $@"
             SELECT TableName,
                 LTRIM(RTRIM(ColumnName)) AS ColumnName,
-                ColumnCNName,
+                Comment,
                 CASE WHEN ColumnType = 'uniqueidentifier' THEN 'guid'
                      WHEN ColumnType IN('smallint', 'INT') THEN 'int'
                      WHEN ColumnType = 'BIGINT' THEN 'long'
@@ -203,15 +204,18 @@ namespace OpenAuth.App
                      THEN 'string'
                      WHEN ColumnType IN('tinyint')
                      THEN 'byte'
+                     WHEN ColumnType IN('bit')
+                     THEN 'bool'
 
-                       WHEN ColumnType IN('bit') THEN 'bool'
+                     WHEN ColumnType IN('bit') THEN 'bool'
                      WHEN ColumnType IN('time', 'date', 'DATETIME', 'smallDATETIME')
                      THEN 'DateTime'
                      WHEN ColumnType IN('smallmoney', 'DECIMAL', 'numeric',
                                           'money') THEN 'decimal'
                      WHEN ColumnType = 'float' THEN 'float'
                      ELSE 'string '
-                END ColumnType,
+                END as  EntityType,
+                    ColumnType,
                     [Maxlength],
                 IsKey,
                 CASE WHEN ColumnName IN('CreateID', 'ModifyID', '')
@@ -220,11 +224,11 @@ namespace OpenAuth.App
                 END AS IsDisplay ,
 				1 AS IsColumnData,
 
-              CASE   WHEN ColumnType IN('time', 'date', 'DATETIME', 'smallDATETIME') THEN 150
+              CASE   WHEN EntityType IN('time', 'date', 'DATETIME', 'smallDATETIME') THEN 150
 
                      WHEN ColumnName IN('Modifier', 'Creator') THEN 130
 
-                     WHEN ColumnType IN('int', 'bigint') OR ColumnName IN('CreateID', 'ModifyID', '') THEN 80
+                     WHEN EntityType IN('int', 'bigint') OR ColumnName IN('CreateID', 'ModifyID', '') THEN 80
                      WHEN[Maxlength] < 110 AND[Maxlength] > 60 THEN 120
 
                      WHEN[Maxlength] < 200 AND[Maxlength] >= 110 THEN 180
@@ -241,7 +245,7 @@ namespace OpenAuth.App
             CASE WHEN IsKey!=1 AND t.[IsNull] = 0 THEN 0 ELSE NULL END AS EditColNo
         FROM    (SELECT obj.name AS TableName ,
                             col.name AS ColumnName ,
-                            CONVERT(NVARCHAR(100),ISNULL(ep.[value], '')) AS ColumnCNName,
+                            CONVERT(NVARCHAR(100),ISNULL(ep.[value], '')) AS Comment,
                             t.name AS ColumnType ,
                            CASE WHEN  col.length<1 THEN 0 ELSE  col.length END  AS[Maxlength],
                             CASE WHEN EXISTS (SELECT   1

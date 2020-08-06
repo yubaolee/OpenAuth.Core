@@ -2,6 +2,9 @@
 {
     public class QueryBuilderTableColumnListReq : PageReq
     {
-        //todo:添加自己的请求字段
+        /// <summary>
+        /// 头表ID
+        /// </summary>
+        public string BuilderTableId { get; set; }
     }
 }

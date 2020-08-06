@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -12,22 +13,28 @@ namespace OpenAuth.App
 {
     public class BuilderTableColumnApp : BaseApp<BuilderTableColumn>
     {
-        private RevelanceManagerApp _revelanceApp;
+        public BuilderTableColumnApp(IUnitWork unitWork, IRepository<BuilderTableColumn> repository,
+            IAuth auth) : base(unitWork, repository,auth)
+        {
+        }
 
         /// <summary>
         /// 加载列表
         /// </summary>
         public TableData Load(QueryBuilderTableColumnListReq request)
         {
-            
+            if (string.IsNullOrEmpty(request.BuilderTableId))
+            {
+                throw new Exception($"缺少必要的参数BuilderTableId");
+            }
             var result = new TableData();
-            var objs = UnitWork.Find<BuilderTableColumn>(null);
+            var objs = UnitWork.Find<BuilderTableColumn>(u =>u.TableId == request.BuilderTableId);
             if (!string.IsNullOrEmpty(request.key))
             {
-                objs = objs.Where(u => u.Id.Contains(request.key));
+                objs = objs.Where(u => u.ColumnName.Contains(request.key));
             }
 
-            result.data = objs.OrderBy(u => u.Id)
+            result.data = objs.OrderBy(u => u.ColumnName)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit);
             result.count = objs.Count();
@@ -72,10 +79,11 @@ namespace OpenAuth.App
         }
             
 
-        public BuilderTableColumnApp(IUnitWork unitWork, IRepository<BuilderTableColumn> repository,
-            RevelanceManagerApp app, IAuth auth) : base(unitWork, repository,auth)
+       
+
+        public List<BuilderTableColumn> Find(string tableId)
         {
-            _revelanceApp = app;
+            return Repository.Find(u => u.TableId == tableId).ToList();
         }
     }
 }

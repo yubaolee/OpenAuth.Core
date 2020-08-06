@@ -17,32 +17,18 @@ namespace OpenAuth.WebApi.Controllers
     {
         private readonly BuilderTableApp _app;
         
-        //获取详情
-        [HttpGet]
-        public Response<BuilderTable> Get(string id)
-        {
-            var result = new Response<BuilderTable>();
-            try
-            {
-                result.Result = _app.Get(id);
-            }
-            catch (Exception ex)
-            {
-                result.Code = 500;
-                result.Message = ex.InnerException?.Message ?? ex.Message;
-            }
-
-            return result;
-        }
-
-        //添加
+        /// <summary>
+        /// 创建一个代码生成的模版
+        /// <para>会自动创建字段明细信息，添加成功后使用BuilderTableColumnsController.Load加载字段明细</para>
+        /// <returns>返回添加的模版ID</returns>
+        /// </summary>
        [HttpPost]
-        public Response Add(AddOrUpdateBuilderTableReq obj)
+        public Response<string> Add(AddOrUpdateBuilderTableReq obj)
         {
-            var result = new Response();
+            var result = new Response<string>();
             try
             {
-                _app.Add(obj);
+                result.Result = _app.Add(obj);
 
             }
             catch (Exception ex)
@@ -54,7 +40,11 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //修改
+        /// <summary>
+        /// 只修改表信息，不会更新明细
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
        [HttpPost]
         public Response Update(AddOrUpdateBuilderTableReq obj)
         {
@@ -83,7 +73,7 @@ namespace OpenAuth.WebApi.Controllers
         }
 
         /// <summary>
-        /// 批量删除
+        /// 批量删除代码生成模版和对应的字段信息
         /// </summary>
        [HttpPost]
         public Response Delete([FromBody]string[] ids)
@@ -91,7 +81,30 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response();
             try
             {
-                _app.Delete(ids);
+                _app.DelTableAndcolumns(ids);
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+        
+        /// <summary>
+        /// 创建实体
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Response CreateEntity(CreateEntityReq obj)
+        {
+            var result = new Response();
+            try
+            {
+                _app.CreateEntity(obj);
 
             }
             catch (Exception ex)

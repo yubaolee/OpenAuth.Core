@@ -67,7 +67,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 加载列表
         /// </summary>
         [HttpGet]
-        public TableData Load([FromQuery]QueryBuilderTableListReq request)
+        public TableResp<BuilderTable> Load([FromQuery]QueryBuilderTableListReq request)
         {
             return _app.Load(request);
         }

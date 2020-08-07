@@ -21,13 +21,13 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryBuilderTableColumnListReq request)
+        public TableResp<BuilderTableColumn> Load(QueryBuilderTableColumnListReq request)
         {
             if (string.IsNullOrEmpty(request.BuilderTableId))
             {
                 throw new Exception($"缺少必要的参数BuilderTableId");
             }
-            var result = new TableData();
+            var result = new TableResp<BuilderTableColumn>();
             var objs = UnitWork.Find<BuilderTableColumn>(u =>u.TableId == request.BuilderTableId);
             if (!string.IsNullOrEmpty(request.key))
             {
@@ -36,7 +36,7 @@ namespace OpenAuth.App
 
             result.data = objs.OrderBy(u => u.ColumnName)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit);
+                .Take(request.limit).ToList();
             result.count = objs.Count();
             return result;
         }

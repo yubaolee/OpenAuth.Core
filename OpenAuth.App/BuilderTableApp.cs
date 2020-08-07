@@ -72,7 +72,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryBuilderTableListReq request)
+        public TableResp<BuilderTable> Load(QueryBuilderTableListReq request)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)
@@ -80,7 +80,7 @@ namespace OpenAuth.App
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
 
-            var result = new TableData();
+            var result = new TableResp<BuilderTable>();
             var objs = UnitWork.Find<BuilderTable>(null);
             if (!string.IsNullOrEmpty(request.key))
             {
@@ -89,7 +89,7 @@ namespace OpenAuth.App
 
             result.data = objs.OrderBy(u => u.Id)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit);
+                .Take(request.limit).ToList();
             result.count = objs.Count();
             return result;
         }

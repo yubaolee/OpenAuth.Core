@@ -11,26 +11,26 @@ namespace OpenAuth.App.Response
         /// <summary>
         /// 状态码
         /// </summary>
-        public int code;
+        public int code { get; set; }
         /// <summary>
         /// 操作消息
         /// </summary>
-        public string msg;
+        public string msg { get; set; }
 
         /// <summary>
         /// 总记录条数
         /// </summary>
-        public int count;
-
-        /// <summary>
-        ///  返回的列表头信息
-        /// </summary>
-        public List<KeyDescription> columnHeaders;
+        public int count { get; set; }
 
         /// <summary>
         /// 数据内容
         /// </summary>
-        public List<T> data;
+        public List<T> data { get; set; }
+        
+        /// <summary>
+        ///  返回的列表头信息
+        /// </summary>
+        public List<KeyDescription> columnHeaders { get; set; }
 
         public TableResp()
         {

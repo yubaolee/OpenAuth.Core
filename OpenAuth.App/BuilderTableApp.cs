@@ -96,6 +96,21 @@ namespace OpenAuth.App
 
         public string Add(AddOrUpdateBuilderTableReq req)
         {
+            if (string.IsNullOrEmpty(req.TableName))
+            {
+                throw new Exception("英文表名不能为空");
+            }
+
+            if (string.IsNullOrEmpty(req.ModuleName))
+            {
+                throw new Exception("模块名称不能为空");
+            }
+            
+            if (string.IsNullOrEmpty(req.Namespace))
+            {
+                throw new Exception("命名空间不能为空");
+            }
+            
             var columns = _dbExtension.GetDbTableStructure(req.TableName);
             if (!columns.Any())
             {
@@ -103,6 +118,9 @@ namespace OpenAuth.App
             }
 
             var obj = req.MapTo<BuilderTable>();
+            if (string.IsNullOrEmpty(obj.ClassName)) obj.ClassName = obj.TableName;
+            if (string.IsNullOrEmpty(obj.ModuleCode)) obj.ModuleCode = obj.TableName;
+            
             //todo:补充或调整自己需要的字段
             obj.CreateTime = DateTime.Now;
             var user = _auth.GetCurrentUser().User;
@@ -181,6 +199,25 @@ namespace OpenAuth.App
         /// </summary>
         /// <returns></returns>
         public void CreateEntity(CreateEntityReq req)
+        {
+            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var tableColumns = _builderTableColumnApp.Find(req.Id);
+            if (sysTableInfo == null
+                || tableColumns == null
+                || tableColumns.Count == 0)
+                throw new Exception("未能找到正确的模版信息");
+
+            CheckExistsModule(sysTableInfo.ModuleName, sysTableInfo.ModuleCode);
+
+            CreateEntityModel(tableColumns, sysTableInfo);
+        }
+        
+        
+        /// <summary>
+        /// 创建业务逻辑层
+        /// </summary>
+        /// <returns></returns>
+        public void CreateBusiness(CreateBusiReq req)
         {
             var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
             var tableColumns = _builderTableColumnApp.Find(req.Id);
@@ -318,6 +355,11 @@ namespace OpenAuth.App
                     }
                 }
             }
+        }
+
+        public void CreateVue(CreateVueReq createVueReq)
+        {
+            throw new NotImplementedException();
         }
     }
 }

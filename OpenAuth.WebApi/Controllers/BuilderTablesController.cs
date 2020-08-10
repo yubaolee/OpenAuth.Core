@@ -115,6 +115,52 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        
+        /// <summary>
+        /// 创建业务逻辑层
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Response CreateBusiness(CreateBusiReq obj)
+        {
+            var result = new Response();
+            try
+            {
+                _app.CreateBusiness(obj);
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+        
+        /// <summary>
+        /// 创建vue界面
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Response CreateVue(CreateVueReq obj)
+        {
+            var result = new Response();
+            try
+            {
+                _app.CreateVue(obj);
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
 
         public BuilderTablesController(BuilderTableApp app) 
         {

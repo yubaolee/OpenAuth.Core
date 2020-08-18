@@ -51,20 +51,20 @@ namespace OpenAuth.App.Test
         [Test]
         public void CreateEntity()
         {
-            var app = _autofacServiceProvider.GetService<BuilderTableApp>();
-            var id = app.Add(new AddOrUpdateBuilderTableReq()
-            {
-                TableName = "application",
-                Comment = "这是一个普通的应用管理生成模版",
-                ClassName = "Application",
-                Folder = "Application",
-                ModuleCode = "Application",
-                ModuleName = "模块管理"
-            });
+             var app = _autofacServiceProvider.GetService<BuilderTableApp>();
+            // var id = app.Add(new AddOrUpdateBuilderTableReq()
+            // {
+            //     TableName = "application",
+            //     Comment = "这是一个普通的应用管理生成模版",
+            //     ClassName = "Application",
+            //     Folder = "Application",
+            //     ModuleCode = "Application",
+            //     ModuleName = "模块管理"
+            // });
             
             app.CreateEntity(new CreateEntityReq
             {
-                Id = id
+                Id = "f4464610-8c5c-441f-8825-13d6073e4385"
             });
         }
     }

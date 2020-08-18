@@ -34,7 +34,7 @@ namespace OpenAuth.App.HostedService
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+           
         }
     }
 }

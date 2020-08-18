@@ -207,7 +207,7 @@ namespace OpenAuth.App
                 || tableColumns.Count == 0)
                 throw new Exception("未能找到正确的模版信息");
 
-            CheckExistsModule(sysTableInfo.ModuleName, sysTableInfo.ModuleCode);
+            CheckExistsModule(sysTableInfo.ClassName);
 
             CreateEntityModel(tableColumns, sysTableInfo);
         }
@@ -226,7 +226,7 @@ namespace OpenAuth.App
                 || tableColumns.Count == 0)
                 throw new Exception("未能找到正确的模版信息");
 
-            CheckExistsModule(sysTableInfo.ModuleName, sysTableInfo.ModuleCode);
+            CheckExistsModule(sysTableInfo.ModuleCode);
 
             CreateEntityModel(tableColumns, sysTableInfo);
         }
@@ -327,7 +327,7 @@ namespace OpenAuth.App
         /// <param name="moduleName"></param>
         /// <param name="moduleCode"></param>
         /// <exception cref="Exception"></exception>
-        private void CheckExistsModule(string moduleName, string moduleCode)
+        public void CheckExistsModule(string moduleCode)
         {
             //如果是第一次创建model，此处反射获取到的是已经缓存过的文件，必须重新运行项目否则新增的文件无法做判断文件是否创建，需要重新做反射实际文件，待修改...
             var compilationLibrary = DependencyContext
@@ -336,21 +336,22 @@ namespace OpenAuth.App
                 .Where(x => !x.Serviceable && x.Type == "project");
             foreach (var compilation in compilationLibrary)
             {
-                foreach (var entity in AssemblyLoadContext.Default
+                var types = AssemblyLoadContext.Default
                     .LoadFromAssemblyName(new AssemblyName(compilation.Name))
                     .GetTypes().Where(x => x.GetTypeInfo().BaseType != null
-                                           && x.BaseType == typeof(BaseEntity)))
+                                           && x.BaseType == typeof(Entity));
+                foreach (var entity in types)
                 {
-                    if (entity.Name == moduleCode && !string.IsNullOrEmpty(moduleName) && moduleName != moduleCode)
-                        throw new Exception($"实际表名【{moduleCode}】已创建实体，不能创建别名【{moduleName}】实体");
+                    if (entity.Name == moduleCode )
+                        throw new Exception($"实际表名【{moduleCode}】已创建实体，不能创建实体");
 
-                    if (entity.Name != moduleName)
+                    if (entity.Name != moduleCode)
                     {
                         var tableAttr = entity.GetCustomAttribute<TableAttribute>();
                         if (tableAttr != null && tableAttr.Name == moduleCode)
                         {
                             throw new Exception(
-                                $"实际表名【{moduleCode}】已被【{entity.Name}】创建建实体,不能创建别名【{moduleName}】实体,请将别名更换为【{entity.Name}】");
+                                $"实际表名【{moduleCode}】已被创建建实体,不能创建");
                         }
                     }
                 }

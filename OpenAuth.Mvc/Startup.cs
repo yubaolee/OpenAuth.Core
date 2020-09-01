@@ -50,6 +50,9 @@ namespace OpenAuth.Mvc
                             NameClaimType = "name",
                             RoleClaimType = "role",
                         };
+                        
+                        options.NonceCookie.SameSite = SameSiteMode.Unspecified;
+                        options.CorrelationCookie.SameSite = SameSiteMode.Unspecified;
                     });
             }
 

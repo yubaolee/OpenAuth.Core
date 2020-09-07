@@ -74,5 +74,16 @@ namespace OpenAuth.App.Test
             var app = _autofacServiceProvider.GetService<BuilderTableApp>();
             app.CheckExistsModule("Application");
         }
+        
+        [Test]
+        public void CreateBusiness()
+        {
+            var app = _autofacServiceProvider.GetService<BuilderTableApp>();
+            
+            app.CreateBusiness(new CreateBusiReq
+            {
+                Id = "f4464610-8c5c-441f-8825-13d6073e4385"
+            });
+        }
     }
 }

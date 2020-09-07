@@ -227,8 +227,25 @@ namespace OpenAuth.App
                 throw new Exception("未能找到正确的模版信息");
 
             CheckExistsModule(sysTableInfo.ModuleCode);
-
-            CreateEntityModel(tableColumns, sysTableInfo);
+            var nameSpace = sysTableInfo.Namespace ?? "OpenAuth.App";
+            
+           //创建API接口
+            string apiPath = ProjectPath.GetProjectDirectoryInfo().GetDirectories()
+                .Where(x => x.Name.ToLower().EndsWith(".webapi")).FirstOrDefault()?.FullName;
+            if (string.IsNullOrEmpty(apiPath))
+            {
+                throw new Exception("未找到webapi类库,请确认是存在weiapi类库命名以.webapi结尾");
+            }
+            
+            apiPath += $"\\Controllers\\";
+            //生成Api控制器
+            string domainContent = FileHelper.ReadFile(@"Template\\ControllerApi.html")
+                .Replace("{TableName}", sysTableInfo.TableName)
+                .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
+                .Replace("{ModuleName}", sysTableInfo.ModuleName)
+                .Replace("{StartName}", StratName);
+            FileHelper.WriteFile(apiPath, sysTableInfo.TableName + "Controller.cs", domainContent);
+            
         }
 
         /// <summary>
@@ -364,3 +381,4 @@ namespace OpenAuth.App
         }
     }
 }
+

@@ -1,11 +1,17 @@
-﻿using System.Net.Http;
+﻿using System.IO;
+using System.Net.Http;
+using System.Reflection;
 using Infrastructure.Cache;
+using Infrastructure.Provider;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Moq;
 using OpenAuth.App.Request;
 using OpenAuth.App.SSO;
+using HttpContext = Infrastructure.Utilities.HttpContext;
 
 namespace OpenAuth.App.Test
 {
@@ -25,11 +31,21 @@ namespace OpenAuth.App.Test
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TOKEN_NAME]).Returns("tokentest");
             services.AddScoped(x => httpContextAccessorMock.Object);
-
+            
             //模拟httpclientfactory
             var mockHttpFac = new Mock<IHttpClientFactory>();
             services.AddScoped(x => mockHttpFac.Object);
 
+            //模拟路径
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                .Replace("\\OpenAuth.App\\bin\\Debug\\netcoreapp3.1","");
+            var mockPathProvider = new Mock<IPathProvider>();
+            mockPathProvider.Setup(x => x.MapPath("",false)).Returns(path);
+            services.AddScoped(x => mockHttpFac.Object);
+            
+            var host = new Mock<IHostEnvironment>();
+            host.Setup(x => x.ContentRootPath).Returns(path);
+            services.AddScoped(x => host.Object);
             return services;
         }
 

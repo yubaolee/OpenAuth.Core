@@ -5,6 +5,7 @@ using System.Linq;
 using Autofac;
 using IdentityServer4.AccessTokenValidation;
 using Infrastructure.Extensions;
+using Infrastructure.Extensions.AutofacManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -185,8 +186,8 @@ namespace OpenAuth.WebApi
                 endpoints.MapControllers();
             });
             
-            //配置HttpContext
-            app.UseStaticHttpContext();
+            //配置ServiceProvider
+            AutofacContainerModule.ConfigServiceProvider(app.ApplicationServices);
 
           app.UseSwagger();
 

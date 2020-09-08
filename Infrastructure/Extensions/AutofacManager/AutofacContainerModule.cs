@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Extensions.AutofacManager
+﻿using System;
+
+namespace Infrastructure.Extensions.AutofacManager
 {
     /// <summary>
     /// 提供全局静态获取服务的能力。
@@ -6,9 +8,15 @@
     /// </summary>
     public class AutofacContainerModule
     {
+        static private IServiceProvider _provider;
+        public static void ConfigServiceProvider(IServiceProvider serviceProvider)
+        {
+            _provider = serviceProvider;
+        }
         public static TService GetService<TService>() where TService:class
         {
-            return typeof(TService).GetService() as TService;
+            Type typeParameterType = typeof(TService);
+            return (TService)_provider.GetService(typeParameterType);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using Infrastructure.Cache;
+using Infrastructure.Extensions.AutofacManager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -34,6 +35,7 @@ namespace OpenAuth.App.Test
 
             var container = AutofacExt.InitForTest(serviceCollection);
             _autofacServiceProvider = new AutofacServiceProvider(container);
+            AutofacContainerModule.ConfigServiceProvider(_autofacServiceProvider);
         }
 
         /// <summary>

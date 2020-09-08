@@ -244,7 +244,7 @@ namespace OpenAuth.App
                 .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{StartName}", StratName);
-            FileHelper.WriteFile(apiPath, sysTableInfo.TableName + "Controller.cs", domainContent);
+            FileHelper.WriteFile(apiPath, sysTableInfo.ClassName + "Controller.cs", domainContent);
             
         }
 

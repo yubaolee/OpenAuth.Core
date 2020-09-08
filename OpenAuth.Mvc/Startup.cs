@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Autofac;
 using Infrastructure.Extensions;
+using Infrastructure.Extensions.AutofacManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
@@ -123,8 +124,8 @@ namespace OpenAuth.Mvc
 
             app.UseStaticFiles();
             
-            //配置HttpContext
-            app.UseStaticHttpContext();
+            //配置ServiceProvider
+            AutofacContainerModule.ConfigServiceProvider(app.ApplicationServices);
 
             app.UseRouting();
 

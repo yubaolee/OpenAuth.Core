@@ -13,15 +13,15 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class {TableName}sController : ControllerBase
+    public class {ClassName}sController : ControllerBase
     {
         private readonly {ModuleCode} _app;
         
         //获取详情
         [HttpGet]
-        public Response<{TableName}> Get(string id)
+        public Response<{ClassName}> Get(string id)
         {
-            var result = new Response<{TableName}>();
+            var result = new Response<{ClassName}>();
             try
             {
                 result.Result = _app.Get(id);
@@ -37,7 +37,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加
        [HttpPost]
-        public Response Add(AddOrUpdate{TableName}Req obj)
+        public Response Add(AddOrUpdate{ClassName}Req obj)
         {
             var result = new Response();
             try
@@ -56,7 +56,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //修改
        [HttpPost]
-        public Response Update(AddOrUpdate{TableName}Req obj)
+        public Response Update(AddOrUpdate{ClassName}Req obj)
         {
             var result = new Response();
             try
@@ -77,7 +77,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 加载列表
         /// </summary>
         [HttpGet]
-        public TableData Load([FromQuery]Query{TableName}ListReq request)
+        public TableData Load([FromQuery]Query{ClassName}ListReq request)
         {
             return _app.Load(request);
         }
@@ -103,7 +103,7 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        public {TableName}sController({ModuleCode} app) 
+        public {ClassName}sController({ModuleCode} app) 
         {
             _app = app;
         }

@@ -44,7 +44,7 @@ namespace OpenAuth.App.Test
             services.AddScoped(x => mockHttpFac.Object);
             
             var host = new Mock<IHostEnvironment>();
-            host.Setup(x => x.ContentRootPath).Returns(path);
+            host.Setup(x => x.ContentRootPath).Returns(Path.Combine(path, "OpenAuth.WebApi"));
             services.AddScoped(x => host.Object);
             return services;
         }

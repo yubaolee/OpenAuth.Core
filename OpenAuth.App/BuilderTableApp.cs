@@ -229,7 +229,7 @@ namespace OpenAuth.App
             CheckExistsModule(sysTableInfo.ModuleCode);
             var nameSpace = sysTableInfo.Namespace ?? "OpenAuth.App";
             
-           //创建API接口
+           //获取WebApi项目的根目录
             string apiPath = ProjectPath.GetProjectDirectoryInfo().GetDirectories()
                 .Where(x => x.Name.ToLower().EndsWith(".webapi")).FirstOrDefault()?.FullName;
             if (string.IsNullOrEmpty(apiPath))
@@ -237,14 +237,17 @@ namespace OpenAuth.App
                 throw new Exception("未找到webapi类库,请确认是存在weiapi类库命名以.webapi结尾");
             }
             
-            apiPath += $"\\Controllers\\";
             //生成Api控制器
+            var controllerName = sysTableInfo.ClassName + "sController";
+            CheckExistsModule(controllerName);  //单元测试下无效，因为没有执行webapi项目
+            var controllerPath = apiPath +  $"\\Controllers\\";
             string domainContent = FileHelper.ReadFile(@"Template\\ControllerApi.html")
                 .Replace("{TableName}", sysTableInfo.TableName)
                 .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
+                .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
-            FileHelper.WriteFile(apiPath, sysTableInfo.ClassName + "Controller.cs", domainContent);
+            FileHelper.WriteFile(controllerPath, controllerName + ".cs", domainContent);
             
         }
 

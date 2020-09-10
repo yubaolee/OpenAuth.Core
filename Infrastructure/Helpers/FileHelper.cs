@@ -140,7 +140,7 @@ namespace Infrastructure.Helpers
             if (!Directory.Exists(path))//如果不存在就创建file文件夹
                 Directory.CreateDirectory(path);
 
-            using (FileStream stream = File.Open(path + fileName, FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream stream = File.Open(Path.Combine(path, fileName), FileMode.OpenOrCreate, FileAccess.Write))
             {
                 byte[] by = Encoding.Default.GetBytes(content);
                 if (appendToLast)

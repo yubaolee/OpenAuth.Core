@@ -257,14 +257,44 @@ namespace OpenAuth.App
             FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"Query{ sysTableInfo.ClassName}ListReq.cs", domainContent);
 
 
-            domainContent = FileHelper.ReadFile(@"Template\\BuildUpdateReq.html")
-               .Replace("{TableName}", sysTableInfo.TableName)
-               .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
-               .Replace("{ModuleName}", sysTableInfo.ModuleName)
-               .Replace("{ClassName}", sysTableInfo.ClassName)
-               .Replace("{StartName}", StratName);
-            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"AddOrUpdate{sysTableInfo.ClassName}Req.cs", domainContent);
+            domainContent = FileHelper.ReadFile(@"Template\\BuildUpdateReq.html");
 
+            StringBuilder attributeBuilder = new StringBuilder();
+            var sysColumn = tableColumns.OrderByDescending(c => c.Sort).ToList();
+            foreach (BuilderTableColumn column in sysColumn)
+            {
+                if (column.IsKey) continue;
+
+                attributeBuilder.Append("/// <summary>");
+                attributeBuilder.Append("\r\n");
+                attributeBuilder.Append("       ///" + column.Comment + "");
+                attributeBuilder.Append("\r\n");
+                attributeBuilder.Append("       /// </summary>");
+                attributeBuilder.Append("\r\n");
+
+                string entityType = column.EntityType;
+                if (!column.IsRequired && column.EntityType != "string")
+                {
+                    entityType = entityType + "?";
+                }
+
+                attributeBuilder.Append("       public " + entityType + " " + column.EntityName + " { get; set; }");
+                attributeBuilder.Append("\r\n\r\n       ");
+            }
+
+            domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
+                .Replace("{AttributeList}", attributeBuilder.ToString());
+
+            var tableAttr = new StringBuilder();
+            tableAttr.Append("/// <summary>");
+            tableAttr.Append("\r\n");
+            tableAttr.Append("       ///" + sysTableInfo.Comment + "");
+            tableAttr.Append("\r\n");
+            tableAttr.Append("       /// </summary>");
+            tableAttr.Append("\r\n");
+            domainContent = domainContent.Replace("{AttributeManager}", tableAttr.ToString());
+
+            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"AddOrUpdate{sysTableInfo.ClassName}Req.cs", domainContent);
 
 
             //生成WebApI接口

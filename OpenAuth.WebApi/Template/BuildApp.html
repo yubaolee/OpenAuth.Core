@@ -8,16 +8,16 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class SysLogApp : BaseApp<SysLog>
+    public class {ModuleCode} : BaseApp<{ClassName}>
     {
 
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QuerySysLogListReq request)
+        public TableData Load(Query{ClassName}ListReq request)
         {
             var result = new TableData();
-            var objs = UnitWork.Find<SysLog>(null);
+            var objs = UnitWork.Find<{ClassName}>(null);
             if (!string.IsNullOrEmpty(request.key))
             {
                 objs = objs.Where(u => u.Content.Contains(request.key) || u.Id.Contains(request.key));
@@ -30,23 +30,23 @@ namespace OpenAuth.App
             return result;
         }
 
-        public void Add(SysLog obj)
+        public void Add(AddOrUpdate{ClassName}Req obj)
         {
             //程序类型取入口应用的名称，可以根据自己需要调整
             obj.Application = Assembly.GetEntryAssembly().FullName.Split(',')[0];
             Repository.Add(obj);
         }
         
-        public void Update(SysLog obj)
+        public void Update(AddOrUpdate{ClassName}Req obj)
         {
-            UnitWork.Update<SysLog>(u => u.Id == obj.Id, u => new SysLog
+            UnitWork.Update<{ClassName}>(u => u.Id == obj.Id, u => new {ClassName}
             {
                //todo:要修改的字段赋值
             });
 
         }
 
-        public SysLogApp(IUnitWork unitWork, IRepository<SysLog> repository) : base(unitWork, repository, null)
+        public {ModuleCode}(IUnitWork unitWork, IRepository<{ClassName}> repository) : base(unitWork, repository, null)
         {
         }
     }

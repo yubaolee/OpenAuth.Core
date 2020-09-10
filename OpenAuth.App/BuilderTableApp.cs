@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -226,29 +227,64 @@ namespace OpenAuth.App
                 || tableColumns.Count == 0)
                 throw new Exception("未能找到正确的模版信息");
 
-            CheckExistsModule(sysTableInfo.ModuleCode);
             var nameSpace = sysTableInfo.Namespace ?? "OpenAuth.App";
-            
-           //获取WebApi项目的根目录
+
+            //生成应用层
+            string appRootPath = ProjectPath.GetProjectDirectoryInfo().GetDirectories()
+                .Where(x => x.Name.ToLower().EndsWith(".app")).FirstOrDefault()?.FullName;
+            if (string.IsNullOrEmpty(appRootPath))
+            {
+                throw new Exception("未找到openauth.app类库,请确认是否存在");
+            }
+
+            CheckExistsModule(sysTableInfo.ModuleCode);
+
+            string domainContent = FileHelper.ReadFile(@"Template\\BuildApp.html")
+                .Replace("{TableName}", sysTableInfo.TableName)
+                .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
+                .Replace("{ModuleName}", sysTableInfo.ModuleName)
+                .Replace("{ClassName}", sysTableInfo.ClassName)
+                .Replace("{StartName}", StratName);
+            FileHelper.WriteFile(appRootPath, sysTableInfo.ModuleCode + ".cs", domainContent);
+
+            //生成Request内容
+            domainContent = FileHelper.ReadFile(@"Template\\BuildQueryReq.html")
+                .Replace("{TableName}", sysTableInfo.TableName)
+                .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
+                .Replace("{ModuleName}", sysTableInfo.ModuleName)
+                .Replace("{ClassName}", sysTableInfo.ClassName)
+                .Replace("{StartName}", StratName);
+            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"Query{ sysTableInfo.ClassName}ListReq.cs", domainContent);
+
+
+            domainContent = FileHelper.ReadFile(@"Template\\BuildUpdateReq.html")
+               .Replace("{TableName}", sysTableInfo.TableName)
+               .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
+               .Replace("{ModuleName}", sysTableInfo.ModuleName)
+               .Replace("{ClassName}", sysTableInfo.ClassName)
+               .Replace("{StartName}", StratName);
+            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"AddOrUpdate{sysTableInfo.ClassName}Req.cs", domainContent);
+
+
+
+            //生成WebApI接口
             string apiPath = ProjectPath.GetProjectDirectoryInfo().GetDirectories()
                 .Where(x => x.Name.ToLower().EndsWith(".webapi")).FirstOrDefault()?.FullName;
             if (string.IsNullOrEmpty(apiPath))
             {
                 throw new Exception("未找到webapi类库,请确认是存在weiapi类库命名以.webapi结尾");
             }
-            
-            //生成Api控制器
             var controllerName = sysTableInfo.ClassName + "sController";
             CheckExistsModule(controllerName);  //单元测试下无效，因为没有执行webapi项目
             var controllerPath = apiPath +  $"\\Controllers\\";
-            string domainContent = FileHelper.ReadFile(@"Template\\ControllerApi.html")
+            domainContent = FileHelper.ReadFile(@"Template\\ControllerApi.html")
                 .Replace("{TableName}", sysTableInfo.TableName)
                 .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
             FileHelper.WriteFile(controllerPath, controllerName + ".cs", domainContent);
-            
+
         }
 
         /// <summary>

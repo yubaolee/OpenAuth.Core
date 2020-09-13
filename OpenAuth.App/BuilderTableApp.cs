@@ -227,11 +227,25 @@ namespace OpenAuth.App
                 || tableColumns.Count == 0)
                 throw new Exception("未能找到正确的模版信息");
 
-            var nameSpace = sysTableInfo.Namespace ?? "OpenAuth.App";
-
             //生成应用层
-            string appRootPath = ProjectPath.GetProjectDirectoryInfo().GetDirectories()
-                .Where(x => x.Name.ToLower().EndsWith(".app")).FirstOrDefault()?.FullName;
+            GenerateApp(sysTableInfo);
+
+            //生成应用层的请求参数
+            GenerateAppReq(sysTableInfo, tableColumns);
+            
+            //生成WebApI接口
+            GenerateWebApi(sysTableInfo);
+        }
+
+        /// <summary>
+        /// 创建应用层
+        /// </summary>
+        /// <param name="sysTableInfo"></param>
+        /// <exception cref="Exception"></exception>
+        private void GenerateApp(BuilderTable sysTableInfo)
+        {
+            string appRootPath = ProjectPath.GetProjectDirectoryInfo()
+                .GetDirectories().FirstOrDefault(x => x.Name.ToLower().EndsWith(".app"))?.FullName;
             if (string.IsNullOrEmpty(appRootPath))
             {
                 throw new Exception("未找到openauth.app类库,请确认是否存在");
@@ -246,15 +260,30 @@ namespace OpenAuth.App
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
             FileHelper.WriteFile(appRootPath, sysTableInfo.ModuleCode + ".cs", domainContent);
-
-            //生成Request内容
+        }
+        
+        /// <summary>
+        /// 生成APP层的请求参数
+        /// </summary>
+        /// <param name="sysTableInfo"></param>
+        /// <param name="tableColumns"></param>
+        private void GenerateAppReq(BuilderTable sysTableInfo, List<BuilderTableColumn> tableColumns)
+        {
+            string appRootPath = ProjectPath.GetProjectDirectoryInfo()
+                .GetDirectories().FirstOrDefault(x => x.Name.ToLower().EndsWith(".app"))?.FullName;
+            if (string.IsNullOrEmpty(appRootPath))
+            {
+                throw new Exception("未找到openauth.app类库,请确认是否存在");
+            }
+            string domainContent;
             domainContent = FileHelper.ReadFile(@"Template\\BuildQueryReq.html")
                 .Replace("{TableName}", sysTableInfo.TableName)
                 .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
-            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"Query{ sysTableInfo.ClassName}ListReq.cs", domainContent);
+            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"Query{sysTableInfo.ClassName}ListReq.cs",
+                domainContent);
 
 
             domainContent = FileHelper.ReadFile(@"Template\\BuildUpdateReq.html");
@@ -294,19 +323,28 @@ namespace OpenAuth.App
             tableAttr.Append("\r\n");
             domainContent = domainContent.Replace("{AttributeManager}", tableAttr.ToString());
 
-            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"AddOrUpdate{sysTableInfo.ClassName}Req.cs", domainContent);
+            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"AddOrUpdate{sysTableInfo.ClassName}Req.cs",
+                domainContent);
+        }
 
-
-            //生成WebApI接口
-            string apiPath = ProjectPath.GetProjectDirectoryInfo().GetDirectories()
-                .Where(x => x.Name.ToLower().EndsWith(".webapi")).FirstOrDefault()?.FullName;
+        /// <summary>
+        /// 创建WebAPI接口
+        /// </summary>
+        /// <param name="sysTableInfo"></param>
+        /// <exception cref="Exception"></exception>
+        private void GenerateWebApi(BuilderTable sysTableInfo)
+        {
+            string domainContent;
+            string apiPath = ProjectPath.GetProjectDirectoryInfo()
+                .GetDirectories().FirstOrDefault(x => x.Name.ToLower().EndsWith(".webapi"))?.FullName;
             if (string.IsNullOrEmpty(apiPath))
             {
                 throw new Exception("未找到webapi类库,请确认是存在weiapi类库命名以.webapi结尾");
             }
+
             var controllerName = sysTableInfo.ClassName + "sController";
-            CheckExistsModule(controllerName);  //单元测试下无效，因为没有执行webapi项目
-            var controllerPath = apiPath +  $"\\Controllers\\";
+            CheckExistsModule(controllerName); //单元测试下无效，因为没有执行webapi项目
+            var controllerPath = apiPath + $"\\Controllers\\";
             domainContent = FileHelper.ReadFile(@"Template\\ControllerApi.html")
                 .Replace("{TableName}", sysTableInfo.TableName)
                 .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
@@ -314,9 +352,8 @@ namespace OpenAuth.App
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
             FileHelper.WriteFile(controllerPath, controllerName + ".cs", domainContent);
-
         }
-
+        
         /// <summary>
         /// 创建实体
         /// </summary>
@@ -444,9 +481,58 @@ namespace OpenAuth.App
             }
         }
 
-        public void CreateVue(CreateVueReq createVueReq)
+        public void CreateVue(CreateVueReq req)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(req.VueProjRootPath))
+            {
+                throw new Exception("请提供vue项目的根目录,如：C:\\OpenAuth.Pro\\Client");
+            }
+            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var tableColumns = _builderTableColumnApp.Find(req.Id);
+            if (sysTableInfo == null
+                || tableColumns == null
+                || tableColumns.Count == 0)
+                throw new Exception("未能找到正确的模版信息");
+            
+            var domainContent = FileHelper.ReadFile(@"Template\\BuildVue.html");
+
+            StringBuilder attributeBuilder = new StringBuilder();
+            var sysColumn = tableColumns.OrderByDescending(c => c.Sort).ToList();
+            foreach (BuilderTableColumn column in sysColumn)
+            {
+                if (column.IsKey) continue;
+
+                attributeBuilder.Append("/// <summary>");
+                attributeBuilder.Append("\r\n");
+                attributeBuilder.Append("       ///" + column.Comment + "");
+                attributeBuilder.Append("\r\n");
+                attributeBuilder.Append("       /// </summary>");
+                attributeBuilder.Append("\r\n");
+
+                string entityType = column.EntityType;
+                if (!column.IsRequired && column.EntityType != "string")
+                {
+                    entityType = entityType + "?";
+                }
+
+                attributeBuilder.Append("       public " + entityType + " " + column.EntityName + " { get; set; }");
+                attributeBuilder.Append("\r\n\r\n       ");
+            }
+
+            domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
+                .Replace("{AttributeList}", attributeBuilder.ToString());
+
+            var tableAttr = new StringBuilder();
+            tableAttr.Append("/// <summary>");
+            tableAttr.Append("\r\n");
+            tableAttr.Append("       ///" + sysTableInfo.Comment + "");
+            tableAttr.Append("\r\n");
+            tableAttr.Append("       /// </summary>");
+            tableAttr.Append("\r\n");
+            domainContent = domainContent.Replace("{AttributeManager}", tableAttr.ToString());
+
+            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, "Request"), $"AddOrUpdate{sysTableInfo.ClassName}Req.cs",
+                domainContent);
         }
     }
 }

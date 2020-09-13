@@ -25,5 +25,9 @@ namespace OpenAuth.App.Request
         /// 代码生成模版Id
         /// </summary>
         public string Id { get; set; }
+        /// <summary>
+        /// vue项目所在的根目录，如：D:\OpenAuth.Pro\Client
+        /// </summary>
+        public string VueProjRootPath { get; set; }
     }
 }

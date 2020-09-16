@@ -101,5 +101,17 @@ namespace OpenAuth.App.Test
                 Id = "f4464610-8c5c-441f-8825-13d6073e4385"
             });
         }
+        
+        [Test]
+        public void CreateVue()
+        {
+            var app = _autofacServiceProvider.GetService<BuilderTableApp>();
+            
+            app.CreateVue(new CreateVueReq()
+            {
+                Id = "f4464610-8c5c-441f-8825-13d6073e4385",
+                VueProjRootPath = "D:\\OpenAuth.Pro\\Client"
+            });
+        }
     }
 }

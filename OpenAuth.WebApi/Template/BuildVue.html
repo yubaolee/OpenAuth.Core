@@ -12,7 +12,7 @@
                 </el-select>
 
                 <el-button class="filter-item" size="mini"  v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
-                <permission-btn moduleName='resources' size="mini" v-on:btn-event="onBtnClicked"></permission-btn>
+                <permission-btn moduleName='{TableName}s' size="mini" v-on:btn-event="onBtnClicked"></permission-btn>
 
                 <el-checkbox class="m-l-15" size="mini" @change='tableKey=tableKey+1' v-model="showDescription">描述</el-checkbox>
             </div>
@@ -51,23 +51,15 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item size="small" :label="'Id'" prop="id">
-                        <el-input v-model="temp.id"></el-input>
-                    </el-form-item>
+                   {DialogFormItem}
 
-                    <el-form-item size="small" :label="'名称'" prop="name">
-                        <el-input v-model="temp.name"></el-input>
-                    </el-form-item>
                     <el-form-item size="small" :label="'状态'">
                         <el-select class="filter-item" v-model="temp.disable" placeholder="Please select">
                             <el-option v-for="item in  statusOptions" :key="item.key" :label="item.display_name" :value="item.key">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item size="small" :label="'描述'">
-                        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input" v-model="temp.description">
-                        </el-input>
-                    </el-form-item>
+                   
                 </el-form>
                 <div slot="footer" >
                     <el-button size="mini" @click="dialogFormVisible = false">取消</el-button>
@@ -81,15 +73,14 @@
 </template>
 
 <script>
-    import * as resources from '@/api/resources'
-    import * as applications from '@/api/applications'
+    import * as {TableName}s from '@/api/{TableName}s'
     import waves from '@/directive/waves' // 水波纹指令
     import Sticky from '@/components/Sticky'
     import permissionBtn from '@/components/PermissionBtn'
     import Pagination from '@/components/Pagination'
     import elDragDialog from '@/directive/el-dragDialog'
     export default {
-        name: 'resource',
+        name: '{TableName}',
         components: { Sticky, permissionBtn, Pagination },
         directives: {
             waves,
@@ -115,12 +106,7 @@
                 ],
                 showDescription: false,
                 temp: {
-                    id: undefined,
-                    description: '',
-                    name: '',
-                    appId: '',
-                    appName: '',
-                    disable: false
+                    {Temp}
                 },
                 dialogFormVisible: false,
                 dialogStatus: '',
@@ -149,9 +135,6 @@
         },
         created() {
             this.getList()
-            applications.getList().then(response => {
-                this.apps = response.data
-            })
         },
         methods: {
             changeApp(value) {
@@ -198,7 +181,7 @@
             },
             getList() {
                 this.listLoading = true
-                resources.getList(this.listQuery).then(response => {
+                {TableName}s.getList(this.listQuery).then(response => {
                     this.list = response.data
                     response.columnHeaders.forEach((item) => {
                         item.key = item.key.substring(0, 1).toLowerCase() + item.key.substring(1)
@@ -230,12 +213,7 @@
             },
             resetTemp() {
                 this.temp = {
-                    id: undefined,
-                    description: '',
-                    name: '',
-                    disable: false,
-                    appId: '',
-                    appName: ''
+                  {Temp}
                 }
             },
             handleCreate() { // 弹出添加框
@@ -249,7 +227,7 @@
             createData() { // 保存提交
                 this.$refs['dataForm'].validate((valid) => {
                     if (valid) {
-                        resources.add(this.temp).then(() => {
+                        {TableName}s.add(this.temp).then(() => {
                             this.list.unshift(this.temp)
                             this.dialogFormVisible = false
                             this.$notify({
@@ -274,7 +252,7 @@
                 this.$refs['dataForm'].validate((valid) => {
                     if (valid) {
                         const tempData = Object.assign({}, this.temp)
-                        resources.update(tempData).then(() => {
+                        {TableName}s.update(tempData).then(() => {
                             for (const v of this.list) {
                                 if (v.id === this.temp.id) {
                                     const index = this.list.indexOf(v)
@@ -294,7 +272,7 @@
                 })
             },
             handleDelete(rows) { // 多行删除
-                resources.del(rows.map(u => u.id)).then(() => {
+                {TableName}s.del(rows.map(u => u.id)).then(() => {
                     this.$notify({
                         title: '成功',
                         message: '删除成功',

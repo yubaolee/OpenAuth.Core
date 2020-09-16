@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
 using Infrastructure;
+using Infrastructure.Extensions;
 using Infrastructure.Helpers;
 using Infrastructure.Utilities;
 using Microsoft.Extensions.DependencyModel;
@@ -481,6 +482,11 @@ namespace OpenAuth.App
             }
         }
 
+        /// <summary>
+        /// 创建vue界面
+        /// </summary>
+        /// <param name="req"></param>
+        /// <exception cref="Exception"></exception>
         public void CreateVue(CreateVueReq req)
         {
             if (string.IsNullOrEmpty(req.VueProjRootPath))
@@ -496,42 +502,40 @@ namespace OpenAuth.App
             
             var domainContent = FileHelper.ReadFile(@"Template\\BuildVue.html");
 
-            StringBuilder attributeBuilder = new StringBuilder();
+            StringBuilder dialogStrBuilder = new StringBuilder();   //编辑对话框
+            StringBuilder tempBuilder = new StringBuilder();   //临时类的默认值属性
             var sysColumn = tableColumns.OrderByDescending(c => c.Sort).ToList();
             foreach (BuilderTableColumn column in sysColumn)
             {
-                if (column.IsKey) continue;
+                if (!column.IsEdit) continue;
+                tempBuilder.Append($"{column.ColumnName.ToCamelCase()}: ");
+                
+                dialogStrBuilder.Append($"<el-form-item size=\"small\" :label=\"'{column.Comment}'\" prop=\"{column.ColumnName.ToCamelCase()}\" v-if=\"Object.keys(temp).indexOf('{column.ColumnName.ToCamelCase()}')>=0\">\r\n");
 
-                attributeBuilder.Append("/// <summary>");
-                attributeBuilder.Append("\r\n");
-                attributeBuilder.Append("       ///" + column.Comment + "");
-                attributeBuilder.Append("\r\n");
-                attributeBuilder.Append("       /// </summary>");
-                attributeBuilder.Append("\r\n");
-
-                string entityType = column.EntityType;
-                if (!column.IsRequired && column.EntityType != "string")
+                if (column.EditType == "bool")
                 {
-                    entityType = entityType + "?";
+                    dialogStrBuilder.Append($"<el-switch v-model=\"temp.{column.ColumnName.ToCamelCase()}\" ></el-switch>\r\n");
+                    tempBuilder.Append($"false, //{column.Comment}");
                 }
-
-                attributeBuilder.Append("       public " + entityType + " " + column.EntityName + " { get; set; }");
-                attributeBuilder.Append("\r\n\r\n       ");
+                else
+                {
+                    dialogStrBuilder.Append($"<el-input v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");
+                    tempBuilder.Append($"'', //{column.Comment}");
+                } 
+                
+                dialogStrBuilder.Append("</el-form-item>\r\n");
+                dialogStrBuilder.Append("\r\n");
             }
 
+            tempBuilder.Append("nothing:''  //代码生成时的占位符，看不顺眼可以删除");
+
             domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
-                .Replace("{AttributeList}", attributeBuilder.ToString());
+                .Replace("{Temp}", tempBuilder.ToString())
+                .Replace("{DialogFormItem}", dialogStrBuilder.ToString());
+            
 
-            var tableAttr = new StringBuilder();
-            tableAttr.Append("/// <summary>");
-            tableAttr.Append("\r\n");
-            tableAttr.Append("       ///" + sysTableInfo.Comment + "");
-            tableAttr.Append("\r\n");
-            tableAttr.Append("       /// </summary>");
-            tableAttr.Append("\r\n");
-            domainContent = domainContent.Replace("{AttributeManager}", tableAttr.ToString());
-
-            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, "Request"), $"AddOrUpdate{sysTableInfo.ClassName}Req.cs",
+            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"/src/views/{sysTableInfo.ClassName.ToCamelCase()}s/"), 
+                $"index.vue",
                 domainContent);
         }
     }

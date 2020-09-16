@@ -24,6 +24,21 @@ namespace Infrastructure.Extensions
             return path.Replace("\\", "/");
 
         }
+        
+        /// <summary>
+        /// 把一个字符串转成驼峰规则的字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string ToCamelCase(this string str)
+        {                    
+            if(!string.IsNullOrEmpty(str) && str.Length > 1)
+            {
+                return Char.ToLowerInvariant(str[0]) + str.Substring(1);
+            }
+            return str;
+        }
+        
         private static DateTime dateStart = new DateTime(1970, 1, 1, 8, 0, 0);
 
         private static long longTime = 621355968000000000;

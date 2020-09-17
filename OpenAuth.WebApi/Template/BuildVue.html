@@ -2,19 +2,11 @@
     <div class="flex-column">
         <sticky :className="'sub-navbar'">
             <div class="filter-container">
-                <el-input @keyup.enter.native="handleFilter" size="mini"  style="width: 200px;" class="filter-item" :placeholder="'名称'" v-model="listQuery.key">
+                <el-input @keyup.enter.native="handleFilter" size="mini"  style="width: 200px;" class="filter-item" :placeholder="'搜索关键字'" v-model="listQuery.key">
                 </el-input>
-
-                <el-select clearable size="mini"  class="filter-item" style="width: 200px" v-model="listQuery.appId" :placeholder="'所属应用'">
-                    <el-option value="" label="">请选择</el-option>
-                    <el-option v-for="item in  apps" :key="item.id" :label="item.name+'('+item.id+')'" :value="item.id">
-                    </el-option>
-                </el-select>
 
                 <el-button class="filter-item" size="mini"  v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
                 <permission-btn moduleName='{TableName}s' size="mini" v-on:btn-event="onBtnClicked"></permission-btn>
-
-                <el-checkbox class="m-l-15" size="mini" @change='tableKey=tableKey+1' v-model="showDescription">描述</el-checkbox>
             </div>
         </sticky>
         <div class="app-container flex-item">
@@ -45,21 +37,7 @@
             </div>
             <el-dialog v-el-drag-dialog   class="dialog-mini" width="500px" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
                 <el-form :rules="rules" ref="dataForm" :model="temp" label-position="right" label-width="100px">
-                    <el-form-item size="small" :label="'所属应用'" prop="appId">
-                        <el-select class="filter-item" v-model="temp.appId" placeholder="请选择" @change="changeApp">
-                            <el-option v-for="item in  apps" :key="item.id" :label="item.name" :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                   {DialogFormItem}
-
-                    <el-form-item size="small" :label="'状态'">
-                        <el-select class="filter-item" v-model="temp.disable" placeholder="Please select">
-                            <el-option v-for="item in  statusOptions" :key="item.key" :label="item.display_name" :value="item.key">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                   
+{DialogFormItem}
                 </el-form>
                 <div slot="footer" >
                     <el-button size="mini" @click="dialogFormVisible = false">取消</el-button>
@@ -99,14 +77,12 @@
                     key: undefined,
                     appId: undefined
                 },
-                apps: [],
                 statusOptions: [
                     { key: true, display_name: '停用' },
                     { key: false, display_name: '正常' }
                 ],
-                showDescription: false,
                 temp: {
-                    {Temp}
+{Temp}
                 },
                 dialogFormVisible: false,
                 dialogStatus: '',
@@ -117,7 +93,6 @@
                 dialogPvVisible: false,
                 pvData: [],
                 rules: {
-                    appId: [{ required: true, message: '必须选择一个应用', trigger: 'change' }],
                     name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
                 },
                 downloadLoading: false,
@@ -137,11 +112,6 @@
             this.getList()
         },
         methods: {
-            changeApp(value) {
-                this.temp.appName = this.apps.find((e) => { // 把应用名称加上
-                    return e.id === value
-                }).name
-            },
             rowClick(row) {
                 this.$refs.mainTable.clearSelection()
                 this.$refs.mainTable.toggleRowSelection(row)
@@ -213,7 +183,7 @@
             },
             resetTemp() {
                 this.temp = {
-                  {Temp}
+{Temp}
                 }
             },
             handleCreate() { // 弹出添加框

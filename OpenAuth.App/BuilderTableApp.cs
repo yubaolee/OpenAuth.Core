@@ -508,34 +508,60 @@ namespace OpenAuth.App
             foreach (BuilderTableColumn column in sysColumn)
             {
                 if (!column.IsEdit) continue;
-                tempBuilder.Append($"{column.ColumnName.ToCamelCase()}: ");
+                tempBuilder.Append($"                    {column.ColumnName.ToCamelCase()}: ");
                 
-                dialogStrBuilder.Append($"<el-form-item size=\"small\" :label=\"'{column.Comment}'\" prop=\"{column.ColumnName.ToCamelCase()}\" v-if=\"Object.keys(temp).indexOf('{column.ColumnName.ToCamelCase()}')>=0\">\r\n");
+                dialogStrBuilder.Append($"                   <el-form-item size=\"small\" :label=\"'{column.Comment}'\" prop=\"{column.ColumnName.ToCamelCase()}\" v-if=\"Object.keys(temp).indexOf('{column.ColumnName.ToCamelCase()}')>=0\">\r\n");
 
                 if (column.EditType == "bool")
                 {
-                    dialogStrBuilder.Append($"<el-switch v-model=\"temp.{column.ColumnName.ToCamelCase()}\" ></el-switch>\r\n");
-                    tempBuilder.Append($"false, //{column.Comment}");
+                    dialogStrBuilder.Append($"                     <el-switch v-model=\"temp.{column.ColumnName.ToCamelCase()}\" ></el-switch>\r\n");
+                    tempBuilder.Append($"false, //{column.Comment} \r\n");
                 }
                 else
                 {
-                    dialogStrBuilder.Append($"<el-input v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment}");
+                    dialogStrBuilder.Append($"                     <el-input v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");
+                    tempBuilder.Append($"'', //{column.Comment} \r\n");
                 } 
                 
-                dialogStrBuilder.Append("</el-form-item>\r\n");
+                dialogStrBuilder.Append("                   </el-form-item>\r\n");
                 dialogStrBuilder.Append("\r\n");
             }
 
-            tempBuilder.Append("nothing:''  //代码生成时的占位符，看不顺眼可以删除");
+            tempBuilder.Append("                    nothing:''  //代码生成时的占位符，看不顺眼可以删除 \r\n");
 
             domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
+                .Replace("{TableName}", sysTableInfo.ClassName.ToCamelCase())
                 .Replace("{Temp}", tempBuilder.ToString())
                 .Replace("{DialogFormItem}", dialogStrBuilder.ToString());
             
-
-            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"/src/views/{sysTableInfo.ClassName.ToCamelCase()}s/"), 
+            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/views/{sysTableInfo.ClassName.ToCamelCase()}s/"), 
                 $"index.vue",
+                domainContent);
+        }
+        
+        /// <summary>
+        /// 创建vue接口
+        /// </summary>
+        /// <param name="req"></param>
+        /// <exception cref="Exception"></exception>
+        public void CreateVueApi(CreateVueReq req)
+        {
+            if (string.IsNullOrEmpty(req.VueProjRootPath))
+            {
+                throw new Exception("请提供vue项目的根目录,如：C:\\OpenAuth.Pro\\Client");
+            }
+            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var tableColumns = _builderTableColumnApp.Find(req.Id);
+            if (sysTableInfo == null
+                || tableColumns == null
+                || tableColumns.Count == 0)
+                throw new Exception("未能找到正确的模版信息");
+            
+            var domainContent = FileHelper.ReadFile(@"Template\\BuildVueApi.html");
+
+            domainContent = domainContent.Replace("{TableName}", sysTableInfo.ClassName.ToCamelCase());
+            
+            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/api/"),$"{sysTableInfo.ClassName.ToCamelCase()}s.js", 
                 domainContent);
         }
     }

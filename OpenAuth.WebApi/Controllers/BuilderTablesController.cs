@@ -151,6 +151,7 @@ namespace OpenAuth.WebApi.Controllers
             try
             {
                 _app.CreateVue(obj);
+                _app.CreateVueApi(obj);
 
             }
             catch (Exception ex)

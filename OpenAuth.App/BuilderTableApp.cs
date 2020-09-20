@@ -346,7 +346,7 @@ namespace OpenAuth.App
             var controllerName = sysTableInfo.ClassName + "sController";
             CheckExistsModule(controllerName); //单元测试下无效，因为没有执行webapi项目
             var controllerPath = apiPath + $"\\Controllers\\";
-            domainContent = FileHelper.ReadFile(@"Template\\ControllerApi.html")
+            domainContent = FileHelper.ReadFile(@"Template\\BuildControllerApi.html")
                 .Replace("{TableName}", sysTableInfo.TableName)
                 .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
@@ -362,11 +362,11 @@ namespace OpenAuth.App
         /// <param name="sysTableInfo"></param>
         private void CreateEntityModel(List<BuilderTableColumn> sysColumn, BuilderTable tableInfo)
         {
-            string template = "DomainModel.html";
+            string template = "BuildEntity.html";
             string domainContent = FileHelper.ReadFile("Template\\" + template);
 
             StringBuilder attributeBuilder = new StringBuilder();
-            StringBuilder constructionBuilder = new StringBuilder();
+            StringBuilder constructionBuilder = new StringBuilder();   //生成构造函数初始化值
             sysColumn = sysColumn.OrderByDescending(c => c.Sort).ToList();
             foreach (BuilderTableColumn column in sysColumn)
             {
@@ -388,8 +388,8 @@ namespace OpenAuth.App
                 attributeBuilder.Append("       public " + entityType + " " + column.EntityName + " { get; set; }");
                 attributeBuilder.Append("\r\n\r\n       ");
 
-                constructionBuilder.Append("this." + column.EntityName
-                                                   + "=" + GetDefault(column.EntityType)
+                constructionBuilder.Append("       this." + column.EntityName
+                                                   + "=" + (GetDefault(column.EntityType)??"\"\"")
                                                    + ";\r\n");
             }
 
@@ -414,7 +414,7 @@ namespace OpenAuth.App
             tableAttr.Append("\r\n");
             tableAttr.Append("       /// </summary>");
             tableAttr.Append("\r\n");
-            tableAttr.Append("[Table(\"" + tableInfo.TableName + "\")]");
+            tableAttr.Append("       [Table(\"" + tableInfo.TableName + "\")]");
             domainContent = domainContent.Replace("{AttributeManager}", tableAttr.ToString());
 
             string folderName = string.IsNullOrEmpty(tableInfo.Folder) ? "" : tableInfo.Folder + "\\";
@@ -429,21 +429,38 @@ namespace OpenAuth.App
             return (_appConfiguration.Value.DbType == Define.DBTYPE_MYSQL);
         }
 
-        string GetDefault(string type)
+        Dictionary<string, Type> PrimitiveTypes = new Dictionary<string, Type>()
         {
-            Type t = Type.GetType(type);
+            {"int", typeof(int)}
+            ,{"long", typeof(long)}
+            ,{"string", typeof(string)}
+            ,{"bool", typeof(bool)}
+            ,{"byte", typeof(byte)}
+            ,{"char", typeof(char)}
+            ,{"decimal", typeof(decimal)}
+            ,{"double", typeof(double)}
+            ,{"DateTime", typeof(DateTime)}
+        };
+        string? GetDefault(string type)
+        {
+            Type t = PrimitiveTypes[type];
             if (t == null)
             {
-                return string.Empty;
+                return null;
             }
 
             if (t.IsValueType)
             {
+                if (type == "DateTime")
+                {
+                    return "DateTime.Now;";
+                }
                 return Activator.CreateInstance(t).ToString();
             }
 
-            return string.Empty;
+            return null;
         }
+        
 
         /// <summary>
         /// 校验模块是否已经存在

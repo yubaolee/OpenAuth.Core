@@ -80,7 +80,7 @@ namespace OpenAuth.App.Test
             
             app.CreateEntity(new CreateEntityReq
             {
-                Id = "f4464610-8c5c-441f-8825-13d6073e4385"
+                Id = "98dcbefb-8460-421f-b513-71618228a631"
             });
         }
 

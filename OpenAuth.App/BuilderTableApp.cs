@@ -293,8 +293,6 @@ namespace OpenAuth.App
             var sysColumn = tableColumns.OrderByDescending(c => c.Sort).ToList();
             foreach (BuilderTableColumn column in sysColumn)
             {
-                if (column.IsKey) continue;
-
                 attributeBuilder.Append("/// <summary>");
                 attributeBuilder.Append("\r\n");
                 attributeBuilder.Append("       ///" + column.Comment + "");
@@ -378,6 +376,9 @@ namespace OpenAuth.App
                 attributeBuilder.Append("\r\n");
                 attributeBuilder.Append("       /// </summary>");
                 attributeBuilder.Append("\r\n");
+                
+                attributeBuilder.Append("       [Description(\""+ column.Comment +"\")]");
+                attributeBuilder.Append("\r\n");
 
                 string entityType = column.EntityType;
                 if (!column.IsRequired && column.EntityType != "string")
@@ -417,10 +418,9 @@ namespace OpenAuth.App
             tableAttr.Append("       [Table(\"" + tableInfo.TableName + "\")]");
             domainContent = domainContent.Replace("{AttributeManager}", tableAttr.ToString());
 
-            string folderName = string.IsNullOrEmpty(tableInfo.Folder) ? "" : tableInfo.Folder + "\\";
             FileHelper.WriteFile(
                 mapPath +
-                $"\\OpenAuth.Repository\\Domain\\{folderName}", tableInfo.ClassName + ".cs",
+                $"\\OpenAuth.Repository\\Domain\\", tableInfo.ClassName + ".cs",
                 domainContent);
         }
 

@@ -529,11 +529,36 @@ namespace OpenAuth.App
                 
                 dialogStrBuilder.Append($"                   <el-form-item size=\"small\" :label=\"'{column.Comment}'\" prop=\"{column.ColumnName.ToCamelCase()}\" v-if=\"Object.keys(temp).indexOf('{column.ColumnName.ToCamelCase()}')>=0\">\r\n");
 
-                if (column.EditType == "bool")
+                if (column.EditType == "switch")
                 {
                     dialogStrBuilder.Append($"                     <el-switch v-model=\"temp.{column.ColumnName.ToCamelCase()}\" ></el-switch>\r\n");
                     tempBuilder.Append($"false, //{column.Comment} \r\n");
                 }
+                else  if (column.EditType == "date")
+                {
+                    dialogStrBuilder.Append($"                     <el-date-picker  v-model=\"temp.{column.ColumnName.ToCamelCase()}\" type=\"date\" placeholder=\"选择日期\"> </el-date-picker>\r\n");
+                    tempBuilder.Append($"'', //{column.Comment} \r\n");
+                }
+                else  if (column.EditType == "datetime")
+                {
+                    dialogStrBuilder.Append($"                     <el-date-picker  v-model=\"temp.{column.ColumnName.ToCamelCase()}\" type=\"datetime\" placeholder=\"选择日期时间\"> </el-date-picker>\r\n");
+                    tempBuilder.Append($"'', //{column.Comment} \r\n");
+                }
+                else  if (column.EditType == "decimal")  //小数
+                {
+                    dialogStrBuilder.Append($"                     <el-input-number v-model=\"temp.{column.ColumnName.ToCamelCase()}\" :min=\"1\" :max=\"100\" ></el-input-number>\r\n");
+                    tempBuilder.Append($"0, //{column.Comment} \r\n");
+                }
+                else  if (column.EditType =="number") //整数
+                {
+                    dialogStrBuilder.Append($"                     <el-input-number v-model=\"temp.{column.ColumnName.ToCamelCase()}\" :min=\"1\" :max=\"100\" ></el-input-number>\r\n");
+                    tempBuilder.Append($"0, //{column.Comment} \r\n");
+                }
+                else if (column.EditType =="textarea") 
+                {
+                    dialogStrBuilder.Append($"                     <el-input type=\"textarea\" :rows=\"3\"  v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");
+                    tempBuilder.Append($"'', //{column.Comment} \r\n");
+                } 
                 else
                 {
                     dialogStrBuilder.Append($"                     <el-input v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");

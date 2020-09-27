@@ -56,11 +56,12 @@ namespace OpenAuth.App.Test
             var app = _autofacServiceProvider.GetService<BuilderTableApp>();
             app.Add(new AddOrUpdateBuilderTableReq()
             {
-               TableName = "application",
+               TableName = "Stock",
                Comment = "这是一个普通的应用管理生成模版",
-               ClassName = "Application",
-               ModuleCode = "Application",
-               ModuleName = "模块管理"
+               ClassName = "Stock",
+               Namespace = "OpenAuth.Repository.Domain",
+               ModuleCode = "StockApp",
+               ModuleName = "仓储管理"
             });
         }
 

@@ -224,15 +224,10 @@ namespace OpenAuth.App
                 END AS IsDisplay ,
 				1 AS IsColumnData,
 
-              CASE   WHEN EntityType IN('time', 'date', 'DATETIME', 'smallDATETIME') THEN 150
-
+              CASE   
                      WHEN ColumnName IN('Modifier', 'Creator') THEN 130
-
-                     WHEN EntityType IN('int', 'bigint') OR ColumnName IN('CreateID', 'ModifyID', '') THEN 80
                      WHEN[Maxlength] < 110 AND[Maxlength] > 60 THEN 120
-
                      WHEN[Maxlength] < 200 AND[Maxlength] >= 110 THEN 180
-
                      WHEN[Maxlength] > 200 THEN 220
                      ELSE 90
                    END AS ColumnWidth ,

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -58,6 +59,11 @@ namespace OpenAuth.App
              UnitWork.Delete<CategoryType>(u=>ids.Contains(u.Id));
              UnitWork.Delete<Category>(u=>ids.Contains(u.TypeId));
              UnitWork.Save();
+         }
+         
+         public List<CategoryType> AllTypes()
+         {
+             return UnitWork.Find<CategoryType>(null).ToList();
          }
 
         public CategoryTypeApp(IUnitWork unitWork, IRepository<CategoryType> repository,

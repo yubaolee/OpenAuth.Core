@@ -25,6 +25,7 @@ namespace OpenAuth.App
     public class BuilderTableApp : BaseApp<BuilderTable>
     {
         private BuilderTableColumnApp _builderTableColumnApp;
+        private CategoryApp _categoryApp;
         private DbExtension _dbExtension;
         private string _webProject = null;
         private string _apiNameSpace = null;
@@ -33,11 +34,12 @@ namespace OpenAuth.App
 
         public BuilderTableApp(IUnitWork unitWork, IRepository<BuilderTable> repository,
             RevelanceManagerApp app, IAuth auth, DbExtension dbExtension, BuilderTableColumnApp builderTableColumnApp,
-            IOptions<AppSetting> appConfiguration) : base(unitWork, repository, auth)
+            IOptions<AppSetting> appConfiguration, CategoryApp categoryApp) : base(unitWork, repository, auth)
         {
             _dbExtension = dbExtension;
             _builderTableColumnApp = builderTableColumnApp;
             _appConfiguration = appConfiguration;
+            _categoryApp = categoryApp;
         }
 
         private string StratName
@@ -521,8 +523,15 @@ namespace OpenAuth.App
 
             StringBuilder dialogStrBuilder = new StringBuilder();   //编辑对话框
             StringBuilder tempBuilder = new StringBuilder();   //临时类的默认值属性
-            var sysColumn = tableColumns.OrderByDescending(c => c.Sort).ToList();
-            foreach (BuilderTableColumn column in sysColumn)
+            var syscolums = tableColumns.OrderByDescending(c => c.Sort).ToList();
+            
+            string[] eidtTye = new string[] { "select", "selectList", "checkbox" };
+            if (syscolums.Exists(x => eidtTye.Contains(x.EditType) && string.IsNullOrEmpty(x.DataSource)))
+            {
+                throw new Exception($"编辑类型为[{string.Join(',', eidtTye)}]时必须选择数据源");
+            }
+            
+            foreach (BuilderTableColumn column in syscolums)
             {
                 if (!column.IsEdit) continue;
                 tempBuilder.Append($"                    {column.ColumnName.ToCamelCase()}: ");
@@ -558,6 +567,38 @@ namespace OpenAuth.App
                 {
                     dialogStrBuilder.Append($"                     <el-input type=\"textarea\" :rows=\"3\"  v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");
                     tempBuilder.Append($"'', //{column.Comment} \r\n");
+                } 
+                else if (column.EditType =="select")
+                {
+                    var categories = _categoryApp.LoadByTypeId(column.DataSource);
+                    if (categories.IsNullOrEmpty())
+                    {
+                        throw new Exception($"未能找到{column.DataSource}对应的值，请在分类管理里面添加");
+                    }
+                    
+                    dialogStrBuilder.Append($"                     <el-select v-model=\"temp.{column.ColumnName.ToCamelCase()}\" placeholder=\"请选择\">\r\n");
+                    foreach (var category in categories)
+                    {
+                        dialogStrBuilder.Append($"                          <el-option label=\"{category.Name}\" value=\"{category.DtValue}\"> </el-option>\r\n");
+                    }
+                    dialogStrBuilder.Append("                     </el-select>\r\n");
+                    tempBuilder.Append($"'', //{column.Comment} \r\n");
+                } 
+                else if (column.EditType =="checkbox")
+                {
+                    var categories = _categoryApp.LoadByTypeId(column.DataSource);
+                    if (categories.IsNullOrEmpty())
+                    {
+                        throw new Exception($"未能找到{column.DataSource}对应的值，请在分类管理里面添加");
+                    }
+                    
+                    dialogStrBuilder.Append($"                     <el-checkbox-group v-model=\"temp.{column.ColumnName.ToCamelCase()}\">\r\n");
+                    foreach (var category in categories)
+                    {
+                        dialogStrBuilder.Append($"                         <el-checkbox label=\"{category.DtValue}\"></el-checkbox>\r\n");
+                    }
+                    dialogStrBuilder.Append("                     </el-checkbox-group>\r\n");
+                    tempBuilder.Append($"[], //{column.Comment} \r\n");
                 } 
                 else
                 {

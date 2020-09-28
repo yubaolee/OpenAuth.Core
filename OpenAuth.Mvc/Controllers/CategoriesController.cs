@@ -11,9 +11,11 @@ namespace OpenAuth.Mvc.Controllers
     public class CategoriesController : BaseController
     {
         private readonly CategoryApp _app;
-        public CategoriesController(IAuth authUtil, CategoryApp app) : base(authUtil)
+        private CategoryTypeApp _categoryTypeApp;
+        public CategoriesController(IAuth authUtil, CategoryApp app, CategoryTypeApp categoryTypeApp) : base(authUtil)
         {
             _app = app;
+            _categoryTypeApp = categoryTypeApp;
         }
 
         //
@@ -78,10 +80,13 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(resp);
         }
 
-        //所有得分类类型
+        /// <summary>
+        /// 得到所有的字典定义
+        /// </summary>
+        /// <returns></returns>
         public string AllTypes()
         {
-            var data = _app.AllTypes();
+            var data = _categoryTypeApp.AllTypes();
             return JsonHelper.Instance.Serialize(data);
         }
 

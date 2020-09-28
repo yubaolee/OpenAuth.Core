@@ -182,5 +182,11 @@ namespace OpenAuth.Repository.Domain
         /// </summary>
         [Description("最大长度")]
         public int? MaxLength { get; set; }
+        
+        /// <summary>
+        /// 数据源（用于下拉框、复选框等取值）
+        /// </summary>
+        [Description("数据源（用于下拉框、复选框等取值）")]
+        public string DataSource { get; set; }
     }
 }

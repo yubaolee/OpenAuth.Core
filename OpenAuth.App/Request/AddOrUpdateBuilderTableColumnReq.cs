@@ -136,6 +136,11 @@ namespace OpenAuth.App.Request
         /// </summary>
         public int? MaxLength { get; set; }
         
+        /// <summary>
+        /// 数据源（用于下拉框、复选框等取值）
+        /// </summary>
+        public string DataSource { get; set; }
+        
          //todo:添加自己的请求字段
     }
 }

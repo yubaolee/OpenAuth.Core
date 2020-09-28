@@ -70,6 +70,7 @@ namespace OpenAuth.App
                 EditCol = obj.EditCol,
                 CreateUserName = obj.CreateUserName,
                 MaxLength = obj.MaxLength,
+                DataSource = obj.DataSource,
                 UpdateTime = DateTime.Now,
                 UpdateUserId = user.Id,
                 UpdateUserName = user.Name

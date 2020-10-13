@@ -617,7 +617,7 @@ namespace OpenAuth.App
                 .Replace("{Temp}", tempBuilder.ToString())
                 .Replace("{DialogFormItem}", dialogStrBuilder.ToString());
             
-            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/views/{sysTableInfo.ClassName.ToCamelCase()}s/"), 
+            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/views/{sysTableInfo.ClassName.ToLower()}s/"), 
                 $"index.vue",
                 domainContent);
         }

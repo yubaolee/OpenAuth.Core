@@ -213,7 +213,7 @@ namespace OpenAuth.App
                      WHEN ColumnType IN('smallmoney', 'DECIMAL', 'numeric',
                                           'money') THEN 'decimal'
                      WHEN ColumnType = 'float' THEN 'float'
-                     ELSE 'string '
+                     ELSE 'string'
                 END as  EntityType,
                     ColumnType,
                     [Maxlength],

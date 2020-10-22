@@ -1,732 +1,500 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2A9D9687-1822-41CF-B7DF-819BFC0F8FE9}</ProjectGuid>
-    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenAuth.Mvc</RootNamespace>
-    <AssemblyName>OpenAuth.Mvc</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode />
-    <UseGlobalApplicationHostFile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
-    <Use64BitIISExpress />
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseRazorBuildServer>false</UseRazorBuildServer>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac.Configuration">
-      <HintPath>..\packages\Autofac.Configuration.3.3.0\lib\net40\Autofac.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac.Integration.Mvc">
-      <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.Entity.6.9.8\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http">
-    </Reference>
-    <Reference Include="System.Net.Http.WebRequest">
-    </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Compile Remove="Views\Base\**" />
+    <Content Remove="Views\Base\**" />
+    <EmbeddedResource Remove="Views\Base\**" />
+    <None Remove="Views\Base\**" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\ApplicationsController.cs" />
-    <Compile Include="Controllers\ResourcesController.cs" />
-    <Compile Include="Controllers\CategoriesController.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\FlowInstancesController.cs" />
-    <Compile Include="Controllers\FlowSchemesController.cs" />
-    <Compile Include="Controllers\FormsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\ModuleManagerController.cs" />
-    <Compile Include="Controllers\OrgManagerController.cs" />
-    <Compile Include="Controllers\RelevanceManagerController.cs" />
-    <Compile Include="Controllers\RoleManagerController.cs" />
-    <Compile Include="Controllers\UserManagerController.cs" />
-    <Compile Include="Controllers\UserSessionController.cs" />
-    <Compile Include="Models\JobjectModelBinder.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AuthenticateAttribute.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="css\formpreview.css" />
-    <Content Include="images\login\buttonbg.png" />
-    <Content Include="images\login\cloud.png" />
-    <Content Include="images\login\hand.png" />
-    <Content Include="images\login\left_hand.png" />
-    <Content Include="images\login\light.png" />
-    <Content Include="images\login\loginbg1.png" />
-    <Content Include="images\login\loginbg2.png" />
-    <Content Include="images\login\loginbg3.png" />
-    <Content Include="images\login\logininfo.png" />
-    <Content Include="images\login\loginpassword.png" />
-    <Content Include="images\login\loginsj.png" />
-    <Content Include="images\login\loginuser.png" />
-    <Content Include="images\login\logo.png" />
-    <Content Include="images\login\right_hand.png" />
-    <Content Include="images\login\tou.png" />
-    <Content Include="images\logo.png" />
-    <Content Include="js\bootstrap.js" />
-    <Content Include="js\flow\config.js" />
-    <Content Include="js\flow\fonts\demo.css" />
-    <Content Include="js\flow\fonts\demo_fontclass.html" />
-    <Content Include="js\flow\fonts\demo_symbol.html" />
-    <Content Include="js\flow\fonts\demo_unicode.html" />
-    <Content Include="js\flow\fonts\iconflow.svg" />
-    <Content Include="js\flow\fonts\iconfont.css" />
-    <Content Include="js\flow\fonts\iconfont.js" />
-    <Content Include="js\flow\GooFlow.css" />
-    <Content Include="js\flow\GooFlow.export.js" />
-    <Content Include="js\flow\GooFlow.js" />
-    <Content Include="js\flow\GooFlow.print.js" />
-    <Content Include="js\flow\GooFunc.js" />
-    <Content Include="js\flow\img\gooflow_icon.png" />
-    <Content Include="js\flowlayout.js" />
-    <Content Include="js\slimscroll.js" />
-    <Content Include="js\utils.js" />
-    <Content Include="layui\css\modules\laydate\default\font.css" />
-    <Content Include="userJs\assignResource.js" />
-    <Content Include="userJs\assignRole.js" />
-    <Content Include="userJs\flowSchemePreview.js" />
-    <Content Include="userJs\flowinstanceDetail.js" />
-    <Content Include="userJs\resources.js" />
-    <Content Include="userJs\verification.js" />
-    <Content Include="userJs\flowInstanceEdit.js" />
-    <Content Include="userJs\flowInstanceWait.js" />
-    <Content Include="userJs\flowInstanceDisposed.js" />
-    <Content Include="userJs\flowSchemes.js" />
-    <Content Include="userJs\formEdit.js" />
-    <Content Include="userJs\nodeInfo.js" />
-    <Content Include="userJs\categories.js" />
-    <Content Include="userJs\assignModule.js" />
-    <Content Include="js\openauth.js" />
-    <Content Include="js\droptree.js" />
-    <Content Include="css\images.css" />
-    <Content Include="css\login.css" />
-    <Content Include="css\main.css" />
-    <Content Include="css\metroStyle\img\line_conn.png" />
-    <Content Include="css\metroStyle\img\loading.gif" />
-    <Content Include="css\metroStyle\img\metro.gif" />
-    <Content Include="css\metroStyle\img\metro.png" />
-    <Content Include="css\metroStyle\metroStyle.css" />
-    <Content Include="css\treetable.css" />
-    <Content Include="favicon.ico" />
-    <Content Include="Global.asax" />
-    <Content Include="images\alipay.jpg" />
-    <Content Include="images\code.jpg" />
-    <Content Include="images\face.jpg" />
-    <Content Include="images\userface1.jpg" />
-    <Content Include="images\userface2.jpg" />
-    <Content Include="images\userface3.jpg" />
-    <Content Include="images\userface4.jpg" />
-    <Content Include="images\userface5.jpg" />
-    <Content Include="images\wechat.jpg" />
-    <Content Include="userJs\flowInstances.js" />
-    <Content Include="userJs\flowSchemeDesign.js" />
-    <Content Include="userJs\modules.js" />
-    <Content Include="userJs\orgs.js" />
-    <Content Include="userJs\roles.js" />
-    <Content Include="js\ueditor\dialogs\anchor\anchor.html" />
-    <Content Include="js\ueditor\dialogs\attachment\attachment.css" />
-    <Content Include="js\ueditor\dialogs\attachment\attachment.html" />
-    <Content Include="js\ueditor\dialogs\attachment\attachment.js" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_chm.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_default.png" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_doc.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_exe.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_jpg.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_mp3.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_mv.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_pdf.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_ppt.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_psd.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_rar.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_txt.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\fileTypeImages\icon_xls.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\images\alignicon.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\images\alignicon.png" />
-    <Content Include="js\ueditor\dialogs\attachment\images\bg.png" />
-    <Content Include="js\ueditor\dialogs\attachment\images\file-icons.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\images\file-icons.png" />
-    <Content Include="js\ueditor\dialogs\attachment\images\icons.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\images\icons.png" />
-    <Content Include="js\ueditor\dialogs\attachment\images\image.png" />
-    <Content Include="js\ueditor\dialogs\attachment\images\progress.png" />
-    <Content Include="js\ueditor\dialogs\attachment\images\success.gif" />
-    <Content Include="js\ueditor\dialogs\attachment\images\success.png" />
-    <Content Include="js\ueditor\dialogs\background\background.css" />
-    <Content Include="js\ueditor\dialogs\background\background.html" />
-    <Content Include="js\ueditor\dialogs\background\background.js" />
-    <Content Include="js\ueditor\dialogs\background\images\bg.png" />
-    <Content Include="js\ueditor\dialogs\background\images\success.png" />
-    <Content Include="js\ueditor\dialogs\charts\chart.config.js" />
-    <Content Include="js\ueditor\dialogs\charts\charts.css" />
-    <Content Include="js\ueditor\dialogs\charts\charts.html" />
-    <Content Include="js\ueditor\dialogs\charts\charts.js" />
-    <Content Include="js\ueditor\dialogs\charts\images\charts0.png" />
-    <Content Include="js\ueditor\dialogs\charts\images\charts1.png" />
-    <Content Include="js\ueditor\dialogs\charts\images\charts2.png" />
-    <Content Include="js\ueditor\dialogs\charts\images\charts3.png" />
-    <Content Include="js\ueditor\dialogs\charts\images\charts4.png" />
-    <Content Include="js\ueditor\dialogs\charts\images\charts5.png" />
-    <Content Include="js\ueditor\dialogs\emotion\emotion.css" />
-    <Content Include="js\ueditor\dialogs\emotion\emotion.html" />
-    <Content Include="js\ueditor\dialogs\emotion\emotion.js" />
-    <Content Include="js\ueditor\dialogs\emotion\images\0.gif" />
-    <Content Include="js\ueditor\dialogs\emotion\images\bface.gif" />
-    <Content Include="js\ueditor\dialogs\emotion\images\cface.gif" />
-    <Content Include="js\ueditor\dialogs\emotion\images\fface.gif" />
-    <Content Include="js\ueditor\dialogs\emotion\images\jxface2.gif" />
-    <Content Include="js\ueditor\dialogs\emotion\images\neweditor-tab-bg.png" />
-    <Content Include="js\ueditor\dialogs\emotion\images\tface.gif" />
-    <Content Include="js\ueditor\dialogs\emotion\images\wface.gif" />
-    <Content Include="js\ueditor\dialogs\emotion\images\yface.gif" />
-    <Content Include="js\ueditor\dialogs\gmap\gmap.html" />
-    <Content Include="js\ueditor\dialogs\help\help.css" />
-    <Content Include="js\ueditor\dialogs\help\help.html" />
-    <Content Include="js\ueditor\dialogs\help\help.js" />
-    <Content Include="js\ueditor\dialogs\image\image.css" />
-    <Content Include="js\ueditor\dialogs\image\image.html" />
-    <Content Include="js\ueditor\dialogs\image\image.js" />
-    <Content Include="js\ueditor\dialogs\image\images\alignicon.jpg" />
-    <Content Include="js\ueditor\dialogs\image\images\bg.png" />
-    <Content Include="js\ueditor\dialogs\image\images\icons.gif" />
-    <Content Include="js\ueditor\dialogs\image\images\icons.png" />
-    <Content Include="js\ueditor\dialogs\image\images\image.png" />
-    <Content Include="js\ueditor\dialogs\image\images\progress.png" />
-    <Content Include="js\ueditor\dialogs\image\images\success.gif" />
-    <Content Include="js\ueditor\dialogs\image\images\success.png" />
-    <Content Include="js\ueditor\dialogs\insertframe\insertframe.html" />
-    <Content Include="js\ueditor\dialogs\internal.js" />
-    <Content Include="js\ueditor\dialogs\link\link.html" />
-    <Content Include="js\ueditor\dialogs\map\map.html" />
-    <Content Include="js\ueditor\dialogs\map\show.html" />
-    <Content Include="js\ueditor\dialogs\music\music.css" />
-    <Content Include="js\ueditor\dialogs\music\music.html" />
-    <Content Include="js\ueditor\dialogs\music\music.js" />
-    <Content Include="js\ueditor\dialogs\preview\preview.html" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\addimg.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\brush.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\delimg.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\delimgH.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\empty.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\emptyH.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\eraser.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\redo.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\redoH.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\scale.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\scaleH.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\size.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\undo.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\images\undoH.png" />
-    <Content Include="js\ueditor\dialogs\scrawl\scrawl.css" />
-    <Content Include="js\ueditor\dialogs\scrawl\scrawl.html" />
-    <Content Include="js\ueditor\dialogs\scrawl\scrawl.js" />
-    <Content Include="js\ueditor\dialogs\searchreplace\searchreplace.html" />
-    <Content Include="js\ueditor\dialogs\searchreplace\searchreplace.js" />
-    <Content Include="js\ueditor\dialogs\snapscreen\snapscreen.html" />
-    <Content Include="js\ueditor\dialogs\spechars\spechars.html" />
-    <Content Include="js\ueditor\dialogs\spechars\spechars.js" />
-    <Content Include="js\ueditor\dialogs\table\dragicon.png" />
-    <Content Include="js\ueditor\dialogs\table\edittable.css" />
-    <Content Include="js\ueditor\dialogs\table\edittable.html" />
-    <Content Include="js\ueditor\dialogs\table\edittable.js" />
-    <Content Include="js\ueditor\dialogs\table\edittd.html" />
-    <Content Include="js\ueditor\dialogs\table\edittip.html" />
-    <Content Include="js\ueditor\dialogs\template\config.js" />
-    <Content Include="js\ueditor\dialogs\template\images\bg.gif" />
-    <Content Include="js\ueditor\dialogs\template\images\pre0.png" />
-    <Content Include="js\ueditor\dialogs\template\images\pre1.png" />
-    <Content Include="js\ueditor\dialogs\template\images\pre2.png" />
-    <Content Include="js\ueditor\dialogs\template\images\pre3.png" />
-    <Content Include="js\ueditor\dialogs\template\images\pre4.png" />
-    <Content Include="js\ueditor\dialogs\template\template.css" />
-    <Content Include="js\ueditor\dialogs\template\template.html" />
-    <Content Include="js\ueditor\dialogs\template\template.js" />
-    <Content Include="js\ueditor\dialogs\video\images\bg.png" />
-    <Content Include="js\ueditor\dialogs\video\images\center_focus.jpg" />
-    <Content Include="js\ueditor\dialogs\video\images\file-icons.gif" />
-    <Content Include="js\ueditor\dialogs\video\images\file-icons.png" />
-    <Content Include="js\ueditor\dialogs\video\images\icons.gif" />
-    <Content Include="js\ueditor\dialogs\video\images\icons.png" />
-    <Content Include="js\ueditor\dialogs\video\images\image.png" />
-    <Content Include="js\ueditor\dialogs\video\images\left_focus.jpg" />
-    <Content Include="js\ueditor\dialogs\video\images\none_focus.jpg" />
-    <Content Include="js\ueditor\dialogs\video\images\progress.png" />
-    <Content Include="js\ueditor\dialogs\video\images\right_focus.jpg" />
-    <Content Include="js\ueditor\dialogs\video\images\success.gif" />
-    <Content Include="js\ueditor\dialogs\video\images\success.png" />
-    <Content Include="js\ueditor\dialogs\video\video.css" />
-    <Content Include="js\ueditor\dialogs\video\video.html" />
-    <Content Include="js\ueditor\dialogs\video\video.js" />
-    <Content Include="js\ueditor\dialogs\webapp\webapp.html" />
-    <Content Include="js\ueditor\dialogs\wordimage\fClipboard_ueditor.swf" />
-    <Content Include="js\ueditor\dialogs\wordimage\imageUploader.swf" />
-    <Content Include="js\ueditor\dialogs\wordimage\tangram.js" />
-    <Content Include="js\ueditor\dialogs\wordimage\wordimage.html" />
-    <Content Include="js\ueditor\dialogs\wordimage\wordimage.js" />
-    <Content Include="js\ueditor\formdesign\bootstrap-ie.js" />
-    <Content Include="js\ueditor\formdesign\bootstrap\css\bootstrap-ie6.css" />
-    <Content Include="js\ueditor\formdesign\bootstrap\css\bootstrap-ie6.min.css" />
-    <Content Include="js\ueditor\formdesign\bootstrap\css\bootstrap-responsive.css" />
-    <Content Include="js\ueditor\formdesign\bootstrap\css\bootstrap-responsive.min.css" />
-    <Content Include="js\ueditor\formdesign\bootstrap\css\bootstrap.css" />
-    <Content Include="js\ueditor\formdesign\bootstrap\css\bootstrap.min.css" />
-    <Content Include="js\ueditor\formdesign\bootstrap\css\ie.css" />
-    <Content Include="js\ueditor\formdesign\bootstrap\img\glyphicons-halflings-white.png" />
-    <Content Include="js\ueditor\formdesign\bootstrap\img\glyphicons-halflings.png" />
-    <Content Include="js\ueditor\formdesign\bootstrap\js\bootstrap.js" />
-    <Content Include="js\ueditor\formdesign\bootstrap\js\bootstrap.min.js" />
-    <Content Include="js\ueditor\formdesign\checkbox.html" />
-    <Content Include="js\ueditor\formdesign\checkboxs.html" />
-    <Content Include="js\ueditor\formdesign\error.html" />
-    <Content Include="js\ueditor\formdesign\images\leipi_formdesign.png" />
-    <Content Include="js\ueditor\formdesign\images\progressbar.gif" />
-    <Content Include="js\ueditor\formdesign\images\qrcode.gif" />
-    <Content Include="js\ueditor\formdesign\images\template\bg.gif" />
-    <Content Include="js\ueditor\formdesign\images\template\pre0.png" />
-    <Content Include="js\ueditor\formdesign\images\template\pre1.png" />
-    <Content Include="js\ueditor\formdesign\jquery-1.7.2.min.js" />
-    <Content Include="js\ueditor\formdesign\leipi.formdesign.v4.js" />
-    <Content Include="js\ueditor\formdesign\leipi.html" />
-    <Content Include="js\ueditor\formdesign\leipi.style.css" />
-    <Content Include="js\ueditor\formdesign\listctrl.html" />
-    <Content Include="js\ueditor\formdesign\macros.html" />
-    <Content Include="js\ueditor\formdesign\more.html" />
-    <Content Include="js\ueditor\formdesign\progressbar.html" />
-    <Content Include="js\ueditor\formdesign\qrcode.html" />
-    <Content Include="js\ueditor\formdesign\radio.html" />
-    <Content Include="js\ueditor\formdesign\radios.html" />
-    <Content Include="js\ueditor\formdesign\Readme.txt" />
-    <Content Include="js\ueditor\formdesign\select.html" />
-    <Content Include="js\ueditor\formdesign\template.html" />
-    <Content Include="js\ueditor\formdesign\text.html" />
-    <Content Include="js\ueditor\formdesign\textarea.html" />
-    <Content Include="js\ueditor\index.html" />
-    <Content Include="js\ueditor\lang\en\en.js" />
-    <Content Include="js\ueditor\lang\en\images\addimage.png" />
-    <Content Include="js\ueditor\lang\en\images\alldeletebtnhoverskin.png" />
-    <Content Include="js\ueditor\lang\en\images\alldeletebtnupskin.png" />
-    <Content Include="js\ueditor\lang\en\images\background.png" />
-    <Content Include="js\ueditor\lang\en\images\button.png" />
-    <Content Include="js\ueditor\lang\en\images\copy.png" />
-    <Content Include="js\ueditor\lang\en\images\deletedisable.png" />
-    <Content Include="js\ueditor\lang\en\images\deleteenable.png" />
-    <Content Include="js\ueditor\lang\en\images\listbackground.png" />
-    <Content Include="js\ueditor\lang\en\images\localimage.png" />
-    <Content Include="js\ueditor\lang\en\images\music.png" />
-    <Content Include="js\ueditor\lang\en\images\rotateleftdisable.png" />
-    <Content Include="js\ueditor\lang\en\images\rotateleftenable.png" />
-    <Content Include="js\ueditor\lang\en\images\rotaterightdisable.png" />
-    <Content Include="js\ueditor\lang\en\images\rotaterightenable.png" />
-    <Content Include="js\ueditor\lang\en\images\upload.png" />
-    <Content Include="js\ueditor\lang\zh-cn\images\copy.png" />
-    <Content Include="js\ueditor\lang\zh-cn\images\localimage.png" />
-    <Content Include="js\ueditor\lang\zh-cn\images\music.png" />
-    <Content Include="js\ueditor\lang\zh-cn\images\upload.png" />
-    <Content Include="js\ueditor\lang\zh-cn\zh-cn.js" />
-    <Content Include="js\ueditor\themes\default\css\ueditor.css" />
-    <Content Include="js\ueditor\themes\default\css\ueditor.min.css" />
-    <Content Include="js\ueditor\themes\default\dialogbase.css" />
-    <Content Include="js\ueditor\themes\default\images\anchor.gif" />
-    <Content Include="js\ueditor\themes\default\images\arrow.png" />
-    <Content Include="js\ueditor\themes\default\images\arrow_down.png" />
-    <Content Include="js\ueditor\themes\default\images\arrow_up.png" />
-    <Content Include="js\ueditor\themes\default\images\button-bg.gif" />
-    <Content Include="js\ueditor\themes\default\images\cancelbutton.gif" />
-    <Content Include="js\ueditor\themes\default\images\charts.png" />
-    <Content Include="js\ueditor\themes\default\images\cursor_h.gif" />
-    <Content Include="js\ueditor\themes\default\images\cursor_h.png" />
-    <Content Include="js\ueditor\themes\default\images\cursor_v.gif" />
-    <Content Include="js\ueditor\themes\default\images\cursor_v.png" />
-    <Content Include="js\ueditor\themes\default\images\dialog-title-bg.png" />
-    <Content Include="js\ueditor\themes\default\images\filescan.png" />
-    <Content Include="js\ueditor\themes\default\images\highlighted.gif" />
-    <Content Include="js\ueditor\themes\default\images\icons-all.gif" />
-    <Content Include="js\ueditor\themes\default\images\icons.gif" />
-    <Content Include="js\ueditor\themes\default\images\icons.png" />
-    <Content Include="js\ueditor\themes\default\images\loaderror.png" />
-    <Content Include="js\ueditor\themes\default\images\loading.gif" />
-    <Content Include="js\ueditor\themes\default\images\lock.gif" />
-    <Content Include="js\ueditor\themes\default\images\neweditor-tab-bg.png" />
-    <Content Include="js\ueditor\themes\default\images\pagebreak.gif" />
-    <Content Include="js\ueditor\themes\default\images\scale.png" />
-    <Content Include="js\ueditor\themes\default\images\sortable.png" />
-    <Content Include="js\ueditor\themes\default\images\spacer.gif" />
-    <Content Include="js\ueditor\themes\default\images\sparator_v.png" />
-    <Content Include="js\ueditor\themes\default\images\table-cell-align.png" />
-    <Content Include="js\ueditor\themes\default\images\tangram-colorpicker.png" />
-    <Content Include="js\ueditor\themes\default\images\toolbar_bg.png" />
-    <Content Include="js\ueditor\themes\default\images\unhighlighted.gif" />
-    <Content Include="js\ueditor\themes\default\images\upload.png" />
-    <Content Include="js\ueditor\themes\default\images\videologo.gif" />
-    <Content Include="js\ueditor\themes\default\images\word.gif" />
-    <Content Include="js\ueditor\themes\default\images\wordpaste.png" />
-    <Content Include="js\ueditor\themes\iframe.css" />
-    <Content Include="js\ueditor\third-party\webuploader\Uploader.swf" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.css" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.custom.js" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.custom.min.js" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.flashonly.js" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.flashonly.min.js" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.html5only.js" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.html5only.min.js" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.js" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.min.js" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.withoutimage.js" />
-    <Content Include="js\ueditor\third-party\webuploader\webuploader.withoutimage.min.js" />
-    <Content Include="js\ueditor\ueditor.all.js" />
-    <Content Include="js\ueditor\ueditor.all.min.js" />
-    <Content Include="js\ueditor\ueditor.config.js" />
-    <Content Include="js\ueditor\ueditor.parse.js" />
-    <Content Include="js\ueditor\ueditor.parse.min.js" />
-    <Content Include="userJs\users.js" />
-    <Content Include="js\bodyTab.js" />
-    <Content Include="js\index.js" />
-    <Content Include="js\leftNav.js" />
-    <Content Include="userJs\login.js" />
-    <Content Include="userJs\main.js" />
-    <Content Include="js\vue.js" />
-    <Content Include="layui\css\layui.css" />
-    <Content Include="layui\css\layui.mobile.css" />
-    <Content Include="layui\css\modules\code.css" />
-    <Content Include="layui\css\modules\laydate\default\laydate.css" />
-    <Content Include="layui\css\modules\laydate\icon.png" />
-    <Content Include="layui\css\modules\laydate\laydate.css" />
-    <Content Include="layui\css\modules\layer\default\icon-ext.png" />
-    <Content Include="layui\css\modules\layer\default\icon.png" />
-    <Content Include="layui\css\modules\layer\default\layer.css" />
-    <Content Include="layui\css\modules\layer\default\loading-0.gif" />
-    <Content Include="layui\css\modules\layer\default\loading-1.gif" />
-    <Content Include="layui\css\modules\layer\default\loading-2.gif" />
-    <Content Include="layui\font\iconfont.svg" />
-    <Content Include="layui\images\face\0.gif" />
-    <Content Include="layui\images\face\1.gif" />
-    <Content Include="layui\images\face\10.gif" />
-    <Content Include="layui\images\face\11.gif" />
-    <Content Include="layui\images\face\12.gif" />
-    <Content Include="layui\images\face\13.gif" />
-    <Content Include="layui\images\face\14.gif" />
-    <Content Include="layui\images\face\15.gif" />
-    <Content Include="layui\images\face\16.gif" />
-    <Content Include="layui\images\face\17.gif" />
-    <Content Include="layui\images\face\18.gif" />
-    <Content Include="layui\images\face\19.gif" />
-    <Content Include="layui\images\face\2.gif" />
-    <Content Include="layui\images\face\20.gif" />
-    <Content Include="layui\images\face\21.gif" />
-    <Content Include="layui\images\face\22.gif" />
-    <Content Include="layui\images\face\23.gif" />
-    <Content Include="layui\images\face\24.gif" />
-    <Content Include="layui\images\face\25.gif" />
-    <Content Include="layui\images\face\26.gif" />
-    <Content Include="layui\images\face\27.gif" />
-    <Content Include="layui\images\face\28.gif" />
-    <Content Include="layui\images\face\29.gif" />
-    <Content Include="layui\images\face\3.gif" />
-    <Content Include="layui\images\face\30.gif" />
-    <Content Include="layui\images\face\31.gif" />
-    <Content Include="layui\images\face\32.gif" />
-    <Content Include="layui\images\face\33.gif" />
-    <Content Include="layui\images\face\34.gif" />
-    <Content Include="layui\images\face\35.gif" />
-    <Content Include="layui\images\face\36.gif" />
-    <Content Include="layui\images\face\37.gif" />
-    <Content Include="layui\images\face\38.gif" />
-    <Content Include="layui\images\face\39.gif" />
-    <Content Include="layui\images\face\4.gif" />
-    <Content Include="layui\images\face\40.gif" />
-    <Content Include="layui\images\face\41.gif" />
-    <Content Include="layui\images\face\42.gif" />
-    <Content Include="layui\images\face\43.gif" />
-    <Content Include="layui\images\face\44.gif" />
-    <Content Include="layui\images\face\45.gif" />
-    <Content Include="layui\images\face\46.gif" />
-    <Content Include="layui\images\face\47.gif" />
-    <Content Include="layui\images\face\48.gif" />
-    <Content Include="layui\images\face\49.gif" />
-    <Content Include="layui\images\face\5.gif" />
-    <Content Include="layui\images\face\50.gif" />
-    <Content Include="layui\images\face\51.gif" />
-    <Content Include="layui\images\face\52.gif" />
-    <Content Include="layui\images\face\53.gif" />
-    <Content Include="layui\images\face\54.gif" />
-    <Content Include="layui\images\face\55.gif" />
-    <Content Include="layui\images\face\56.gif" />
-    <Content Include="layui\images\face\57.gif" />
-    <Content Include="layui\images\face\58.gif" />
-    <Content Include="layui\images\face\59.gif" />
-    <Content Include="layui\images\face\6.gif" />
-    <Content Include="layui\images\face\60.gif" />
-    <Content Include="layui\images\face\61.gif" />
-    <Content Include="layui\images\face\62.gif" />
-    <Content Include="layui\images\face\63.gif" />
-    <Content Include="layui\images\face\64.gif" />
-    <Content Include="layui\images\face\65.gif" />
-    <Content Include="layui\images\face\66.gif" />
-    <Content Include="layui\images\face\67.gif" />
-    <Content Include="layui\images\face\68.gif" />
-    <Content Include="layui\images\face\69.gif" />
-    <Content Include="layui\images\face\7.gif" />
-    <Content Include="layui\images\face\70.gif" />
-    <Content Include="layui\images\face\71.gif" />
-    <Content Include="layui\images\face\8.gif" />
-    <Content Include="layui\images\face\9.gif" />
-    <Content Include="layui\layui.all.js" />
-    <Content Include="layui\layui.js" />
-    <Content Include="layui\lay\dest\layui.all.js" />
-    <Content Include="layui\lay\modules\carousel.js" />
-    <Content Include="layui\lay\modules\code.js" />
-    <Content Include="layui\lay\modules\element.js" />
-    <Content Include="layui\lay\modules\flow.js" />
-    <Content Include="layui\lay\modules\form.js" />
-    <Content Include="layui\lay\modules\jquery.js" />
-    <Content Include="layui\lay\modules\laydate.js" />
-    <Content Include="layui\lay\modules\layedit.js" />
-    <Content Include="layui\lay\modules\layer.js" />
-    <Content Include="layui\lay\modules\layim.js" />
-    <Content Include="layui\lay\modules\laypage.js" />
-    <Content Include="layui\lay\modules\laytpl.js" />
-    <Content Include="layui\lay\modules\mobile.js" />
-    <Content Include="layui\lay\modules\table.js" />
-    <Content Include="layui\lay\modules\tree.js" />
-    <Content Include="layui\lay\modules\upload.js" />
-    <Content Include="layui\lay\modules\util.js" />
-    <Content Include="js\ztree.js" />
-    <Content Include="layui\font\iconfont.eot" />
-    <Content Include="layui\font\iconfont.ttf" />
-    <Content Include="layui\font\iconfont.woff" />
-    <Content Include="js\ueditor\formdesign\textfield.html.ajax.bak" />
-    <Content Include="js\flow\fonts\iconflow.eot" />
-    <Content Include="js\flow\fonts\iconflow.ttf" />
-    <Content Include="js\flow\fonts\iconflow.woff" />
-    <None Include="Properties\PublishProfiles\default.pubxml" />
-    <Content Include="userJs\preview.js" />
-    <Content Include="userJs\forms.js" />
-    <Content Include="Views\Home\git.cshtml" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_FlowForm.cshtml" />
-    <Content Include="Views\Home\Main.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Categories\Index.cshtml" />
-    <Content Include="Views\ModuleManager\Assign.cshtml" />
-    <Content Include="Views\RoleManager\Index.cshtml" />
-    <Content Include="Views\Forms\index.cshtml" />
-    <Content Include="Views\Forms\Preview.cshtml" />
-    <Content Include="Views\FlowInstances\Index.cshtml" />
-    <Content Include="Views\FlowSchemes\Index.cshtml" />
-    <Content Include="Views\FlowSchemes\NodeInfo.cshtml" />
-    <Content Include="Views\FlowSchemes\Design.cshtml" />
-    <Content Include="Views\FlowInstances\Edit.cshtml" />
-    <Content Include="Views\FlowInstances\Verification.cshtml" />
-    <Content Include="Views\Forms\Edit.cshtml" />
-    <Content Include="Views\FlowInstances\Disposed.cshtml" />
-    <Content Include="Views\FlowInstances\Wait.cshtml" />
-    <Content Include="Views\RoleManager\Assign.cshtml" />
-    <Content Include="Views\FlowInstances\Detail.cshtml" />
-    <Content Include="Views\Resources\Index.cshtml" />
-    <Content Include="Views\Resources\Assign.cshtml" />
-    <Content Include="Views\FlowSchemes\Preview.cshtml" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\OpenAuth.App\OpenAuth.App.csproj" />
+    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="layui\lay\modules\mobile\" />
+    <None Include="wwwroot\css\formpreview.css" />
+    <None Include="wwwroot\css\images.css" />
+    <None Include="wwwroot\css\login.css" />
+    <None Include="wwwroot\css\main.css" />
+    <None Include="wwwroot\css\metroStyle\img\line_conn.png" />
+    <None Include="wwwroot\css\metroStyle\img\loading.gif" />
+    <None Include="wwwroot\css\metroStyle\img\metro.gif" />
+    <None Include="wwwroot\css\metroStyle\img\metro.png" />
+    <None Include="wwwroot\css\metroStyle\metroStyle.css" />
+    <None Include="wwwroot\css\treetable.css" />
+    <None Include="wwwroot\images\alipay.jpg" />
+    <None Include="wwwroot\images\code.jpg" />
+    <None Include="wwwroot\images\face.jpg" />
+    <None Include="wwwroot\images\login\buttonbg.png" />
+    <None Include="wwwroot\images\login\cloud.png" />
+    <None Include="wwwroot\images\login\hand.png" />
+    <None Include="wwwroot\images\login\left_hand.png" />
+    <None Include="wwwroot\images\login\light.png" />
+    <None Include="wwwroot\images\login\loginbg1.png" />
+    <None Include="wwwroot\images\login\loginbg2.png" />
+    <None Include="wwwroot\images\login\loginbg3.png" />
+    <None Include="wwwroot\images\login\logininfo.png" />
+    <None Include="wwwroot\images\login\loginpassword.png" />
+    <None Include="wwwroot\images\login\loginsj.png" />
+    <None Include="wwwroot\images\login\loginuser.png" />
+    <None Include="wwwroot\images\login\logo.png" />
+    <None Include="wwwroot\images\login\right_hand.png" />
+    <None Include="wwwroot\images\login\tou.png" />
+    <None Include="wwwroot\images\logo.png" />
+    <None Include="wwwroot\images\userface1.jpg" />
+    <None Include="wwwroot\images\userface2.jpg" />
+    <None Include="wwwroot\images\userface3.jpg" />
+    <None Include="wwwroot\images\userface4.jpg" />
+    <None Include="wwwroot\images\userface5.jpg" />
+    <None Include="wwwroot\images\wechat.jpg" />
+    <None Include="wwwroot\js\bodyTab.js" />
+    <None Include="wwwroot\js\bootstrap.js" />
+    <None Include="wwwroot\js\droptree.js" />
+    <None Include="wwwroot\js\dtree.js" />
+    <None Include="wwwroot\js\dtree\font\dtreefont.svg" />
+    <None Include="wwwroot\js\flow-ui\img\wallbg.png" />
+    <None Include="wwwroot\js\flowlayout.js" />
+    <None Include="wwwroot\js\flow\config.js" />
+    <None Include="wwwroot\js\flow\fonts\demo.css" />
+    <None Include="wwwroot\js\flow\fonts\demo_fontclass.html" />
+    <None Include="wwwroot\js\flow\fonts\demo_symbol.html" />
+    <None Include="wwwroot\js\flow\fonts\demo_unicode.html" />
+    <None Include="wwwroot\js\flow\fonts\iconflow.eot" />
+    <None Include="wwwroot\js\flow\fonts\iconflow.svg" />
+    <None Include="wwwroot\js\flow\fonts\iconflow.ttf" />
+    <None Include="wwwroot\js\flow\fonts\iconflow.woff" />
+    <None Include="wwwroot\js\flow\fonts\iconfont.css" />
+    <None Include="wwwroot\js\flow\fonts\iconfont.js" />
+    <None Include="wwwroot\js\flow\GooFlow.css" />
+    <None Include="wwwroot\js\flow\GooFlow.export.js" />
+    <None Include="wwwroot\js\flow\gooflow.js" />
+    <None Include="wwwroot\js\flow\GooFlow.print.js" />
+    <None Include="wwwroot\js\flow\GooFunc.js" />
+    <None Include="wwwroot\js\flow\img\gooflow_icon.png" />
+    <None Include="wwwroot\js\index.js" />
+    <None Include="wwwroot\js\leftNav.js" />
+    <None Include="wwwroot\js\openauth.js" />
+    <None Include="wwwroot\js\slimscroll.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\anchor\anchor.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\attachment.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\attachment.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\attachment.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_chm.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_default.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_doc.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_exe.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_jpg.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_mp3.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_mv.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_pdf.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_ppt.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_psd.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_rar.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_txt.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\fileTypeImages\icon_xls.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\alignicon.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\alignicon.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\bg.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\file-icons.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\file-icons.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\icons.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\icons.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\image.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\progress.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\success.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\images\success.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\background\background.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\background\background.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\background\background.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\background\images\bg.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\background\images\success.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\chart.config.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\charts.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\charts.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\charts.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\images\charts0.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\images\charts1.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\images\charts2.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\images\charts3.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\images\charts4.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\images\charts5.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\emotion.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\emotion.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\emotion.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\images\0.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\images\bface.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\images\cface.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\images\fface.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\images\jxface2.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\images\neweditor-tab-bg.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\images\tface.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\images\wface.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\images\yface.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\gmap\gmap.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\help\help.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\help\help.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\help\help.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\image.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\image.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\image.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\images\alignicon.jpg" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\images\bg.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\images\icons.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\images\icons.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\images\image.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\images\progress.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\images\success.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\images\success.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\insertframe\insertframe.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\internal.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\link\link.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\map\map.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\map\show.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\music\music.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\music\music.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\music\music.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\preview\preview.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\addimg.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\brush.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\delimg.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\delimgH.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\empty.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\emptyH.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\eraser.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\redo.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\redoH.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\scale.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\scaleH.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\size.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\undo.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\images\undoH.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\scrawl.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\scrawl.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\scrawl.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\searchreplace\searchreplace.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\searchreplace\searchreplace.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\snapscreen\snapscreen.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\spechars\spechars.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\spechars\spechars.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\table\dragicon.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\table\edittable.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\table\edittable.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\table\edittable.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\table\edittd.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\table\edittip.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\config.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\images\bg.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\images\pre0.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\images\pre1.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\images\pre2.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\images\pre3.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\images\pre4.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\template.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\template.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\template.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\bg.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\center_focus.jpg" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\file-icons.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\file-icons.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\icons.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\icons.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\image.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\left_focus.jpg" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\none_focus.jpg" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\progress.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\right_focus.jpg" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\success.gif" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\images\success.png" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\video.css" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\video.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\video.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\webapp\webapp.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\wordimage\fClipboard_ueditor.swf" />
+    <None Include="wwwroot\js\ueditor\dialogs\wordimage\imageUploader.swf" />
+    <None Include="wwwroot\js\ueditor\dialogs\wordimage\tangram.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\wordimage\wordimage.html" />
+    <None Include="wwwroot\js\ueditor\dialogs\wordimage\wordimage.js" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap-ie.js" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\css\bootstrap-ie6.css" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\css\bootstrap-ie6.min.css" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\css\bootstrap-responsive.css" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\css\bootstrap-responsive.min.css" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\css\bootstrap.css" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\css\bootstrap.min.css" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\css\ie.css" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\img\glyphicons-halflings-white.png" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\img\glyphicons-halflings.png" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\js\bootstrap.js" />
+    <None Include="wwwroot\js\ueditor\formdesign\bootstrap\js\bootstrap.min.js" />
+    <None Include="wwwroot\js\ueditor\formdesign\checkbox.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\checkboxs.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\error.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\images\leipi_formdesign.png" />
+    <None Include="wwwroot\js\ueditor\formdesign\images\progressbar.gif" />
+    <None Include="wwwroot\js\ueditor\formdesign\images\qrcode.gif" />
+    <None Include="wwwroot\js\ueditor\formdesign\images\template\bg.gif" />
+    <None Include="wwwroot\js\ueditor\formdesign\images\template\pre0.png" />
+    <None Include="wwwroot\js\ueditor\formdesign\images\template\pre1.png" />
+    <None Include="wwwroot\js\ueditor\formdesign\jquery-1.7.2.min.js" />
+    <None Include="wwwroot\js\ueditor\formdesign\leipi.formdesign.v4.js" />
+    <None Include="wwwroot\js\ueditor\formdesign\leipi.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\leipi.style.css" />
+    <None Include="wwwroot\js\ueditor\formdesign\listctrl.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\macros.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\more.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\progressbar.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\qrcode.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\radio.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\radios.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\Readme.txt" />
+    <None Include="wwwroot\js\ueditor\formdesign\select.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\template.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\text.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\textarea.html" />
+    <None Include="wwwroot\js\ueditor\formdesign\textfield.html.ajax.bak" />
+    <None Include="wwwroot\js\ueditor\index.html" />
+    <None Include="wwwroot\js\ueditor\lang\en\en.js" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\addimage.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\alldeletebtnhoverskin.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\alldeletebtnupskin.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\background.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\button.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\copy.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\deletedisable.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\deleteenable.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\listbackground.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\localimage.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\music.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\rotateleftdisable.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\rotateleftenable.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\rotaterightdisable.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\rotaterightenable.png" />
+    <None Include="wwwroot\js\ueditor\lang\en\images\upload.png" />
+    <None Include="wwwroot\js\ueditor\lang\zh-cn\images\copy.png" />
+    <None Include="wwwroot\js\ueditor\lang\zh-cn\images\localimage.png" />
+    <None Include="wwwroot\js\ueditor\lang\zh-cn\images\music.png" />
+    <None Include="wwwroot\js\ueditor\lang\zh-cn\images\upload.png" />
+    <None Include="wwwroot\js\ueditor\lang\zh-cn\zh-cn.js" />
+    <None Include="wwwroot\js\ueditor\themes\default\css\ueditor.css" />
+    <None Include="wwwroot\js\ueditor\themes\default\css\ueditor.min.css" />
+    <None Include="wwwroot\js\ueditor\themes\default\dialogbase.css" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\anchor.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\arrow.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\arrow_down.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\arrow_up.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\button-bg.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\cancelbutton.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\charts.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\cursor_h.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\cursor_h.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\cursor_v.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\cursor_v.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\dialog-title-bg.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\filescan.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\highlighted.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\icons-all.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\icons.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\icons.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\loaderror.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\loading.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\lock.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\neweditor-tab-bg.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\pagebreak.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\scale.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\sortable.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\spacer.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\sparator_v.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\table-cell-align.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\tangram-colorpicker.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\toolbar_bg.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\unhighlighted.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\upload.png" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\videologo.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\word.gif" />
+    <None Include="wwwroot\js\ueditor\themes\default\images\wordpaste.png" />
+    <None Include="wwwroot\js\ueditor\themes\iframe.css" />
+    <None Include="wwwroot\js\ueditor\third-party\codemirror\codemirror.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\Uploader.swf" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.css" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.custom.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.custom.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.flashonly.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.flashonly.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.html5only.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.html5only.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.withoutimage.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.withoutimage.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\zeroclipboard\ZeroClipboard.js" />
+    <None Include="wwwroot\js\ueditor\third-party\zeroclipboard\ZeroClipboard.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\zeroclipboard\ZeroClipboard.swf" />
+    <None Include="wwwroot\js\ueditor\ueditor.all.js" />
+    <None Include="wwwroot\js\ueditor\ueditor.all.min.js" />
+    <None Include="wwwroot\js\ueditor\ueditor.config.js" />
+    <None Include="wwwroot\js\ueditor\ueditor.parse.js" />
+    <None Include="wwwroot\js\ueditor\ueditor.parse.min.js" />
+    <None Include="wwwroot\js\utils.js" />
+    <None Include="wwwroot\js\vue.js" />
+    <None Include="wwwroot\js\ztree.js" />
+    <None Include="wwwroot\layui\css\layui.css" />
+    <None Include="wwwroot\layui\css\layui.mobile.css" />
+    <None Include="wwwroot\layui\css\modules\code.css" />
+    <None Include="wwwroot\layui\css\modules\laydate\default\font.css" />
+    <None Include="wwwroot\layui\css\modules\laydate\default\laydate.css" />
+    <None Include="wwwroot\layui\css\modules\laydate\icon.png" />
+    <None Include="wwwroot\layui\css\modules\laydate\laydate.css" />
+    <None Include="wwwroot\layui\css\modules\layer\default\icon-ext.png" />
+    <None Include="wwwroot\layui\css\modules\layer\default\icon.png" />
+    <None Include="wwwroot\layui\css\modules\layer\default\layer.css" />
+    <None Include="wwwroot\layui\css\modules\layer\default\loading-0.gif" />
+    <None Include="wwwroot\layui\css\modules\layer\default\loading-1.gif" />
+    <None Include="wwwroot\layui\css\modules\layer\default\loading-2.gif" />
+    <None Include="wwwroot\layui\font\iconfont.eot" />
+    <None Include="wwwroot\layui\font\iconfont.svg" />
+    <None Include="wwwroot\layui\font\iconfont.ttf" />
+    <None Include="wwwroot\layui\font\iconfont.woff" />
+    <None Include="wwwroot\layui\font\iconfont.woff2" />
+    <None Include="wwwroot\layui\images\face\0.gif" />
+    <None Include="wwwroot\layui\images\face\1.gif" />
+    <None Include="wwwroot\layui\images\face\10.gif" />
+    <None Include="wwwroot\layui\images\face\11.gif" />
+    <None Include="wwwroot\layui\images\face\12.gif" />
+    <None Include="wwwroot\layui\images\face\13.gif" />
+    <None Include="wwwroot\layui\images\face\14.gif" />
+    <None Include="wwwroot\layui\images\face\15.gif" />
+    <None Include="wwwroot\layui\images\face\16.gif" />
+    <None Include="wwwroot\layui\images\face\17.gif" />
+    <None Include="wwwroot\layui\images\face\18.gif" />
+    <None Include="wwwroot\layui\images\face\19.gif" />
+    <None Include="wwwroot\layui\images\face\2.gif" />
+    <None Include="wwwroot\layui\images\face\20.gif" />
+    <None Include="wwwroot\layui\images\face\21.gif" />
+    <None Include="wwwroot\layui\images\face\22.gif" />
+    <None Include="wwwroot\layui\images\face\23.gif" />
+    <None Include="wwwroot\layui\images\face\24.gif" />
+    <None Include="wwwroot\layui\images\face\25.gif" />
+    <None Include="wwwroot\layui\images\face\26.gif" />
+    <None Include="wwwroot\layui\images\face\27.gif" />
+    <None Include="wwwroot\layui\images\face\28.gif" />
+    <None Include="wwwroot\layui\images\face\29.gif" />
+    <None Include="wwwroot\layui\images\face\3.gif" />
+    <None Include="wwwroot\layui\images\face\30.gif" />
+    <None Include="wwwroot\layui\images\face\31.gif" />
+    <None Include="wwwroot\layui\images\face\32.gif" />
+    <None Include="wwwroot\layui\images\face\33.gif" />
+    <None Include="wwwroot\layui\images\face\34.gif" />
+    <None Include="wwwroot\layui\images\face\35.gif" />
+    <None Include="wwwroot\layui\images\face\36.gif" />
+    <None Include="wwwroot\layui\images\face\37.gif" />
+    <None Include="wwwroot\layui\images\face\38.gif" />
+    <None Include="wwwroot\layui\images\face\39.gif" />
+    <None Include="wwwroot\layui\images\face\4.gif" />
+    <None Include="wwwroot\layui\images\face\40.gif" />
+    <None Include="wwwroot\layui\images\face\41.gif" />
+    <None Include="wwwroot\layui\images\face\42.gif" />
+    <None Include="wwwroot\layui\images\face\43.gif" />
+    <None Include="wwwroot\layui\images\face\44.gif" />
+    <None Include="wwwroot\layui\images\face\45.gif" />
+    <None Include="wwwroot\layui\images\face\46.gif" />
+    <None Include="wwwroot\layui\images\face\47.gif" />
+    <None Include="wwwroot\layui\images\face\48.gif" />
+    <None Include="wwwroot\layui\images\face\49.gif" />
+    <None Include="wwwroot\layui\images\face\5.gif" />
+    <None Include="wwwroot\layui\images\face\50.gif" />
+    <None Include="wwwroot\layui\images\face\51.gif" />
+    <None Include="wwwroot\layui\images\face\52.gif" />
+    <None Include="wwwroot\layui\images\face\53.gif" />
+    <None Include="wwwroot\layui\images\face\54.gif" />
+    <None Include="wwwroot\layui\images\face\55.gif" />
+    <None Include="wwwroot\layui\images\face\56.gif" />
+    <None Include="wwwroot\layui\images\face\57.gif" />
+    <None Include="wwwroot\layui\images\face\58.gif" />
+    <None Include="wwwroot\layui\images\face\59.gif" />
+    <None Include="wwwroot\layui\images\face\6.gif" />
+    <None Include="wwwroot\layui\images\face\60.gif" />
+    <None Include="wwwroot\layui\images\face\61.gif" />
+    <None Include="wwwroot\layui\images\face\62.gif" />
+    <None Include="wwwroot\layui\images\face\63.gif" />
+    <None Include="wwwroot\layui\images\face\64.gif" />
+    <None Include="wwwroot\layui\images\face\65.gif" />
+    <None Include="wwwroot\layui\images\face\66.gif" />
+    <None Include="wwwroot\layui\images\face\67.gif" />
+    <None Include="wwwroot\layui\images\face\68.gif" />
+    <None Include="wwwroot\layui\images\face\69.gif" />
+    <None Include="wwwroot\layui\images\face\7.gif" />
+    <None Include="wwwroot\layui\images\face\70.gif" />
+    <None Include="wwwroot\layui\images\face\71.gif" />
+    <None Include="wwwroot\layui\images\face\8.gif" />
+    <None Include="wwwroot\layui\images\face\9.gif" />
+    <None Include="wwwroot\layui\layui.all.js" />
+    <None Include="wwwroot\layui\layui.js" />
+    <None Include="wwwroot\layui\lay\dest\layui.all.js" />
+    <None Include="wwwroot\layui\lay\modules\carousel.js" />
+    <None Include="wwwroot\layui\lay\modules\code.js" />
+    <None Include="wwwroot\layui\lay\modules\colorpicker.js" />
+    <None Include="wwwroot\layui\lay\modules\element.js" />
+    <None Include="wwwroot\layui\lay\modules\flow.js" />
+    <None Include="wwwroot\layui\lay\modules\form.js" />
+    <None Include="wwwroot\layui\lay\modules\jquery.js" />
+    <None Include="wwwroot\layui\lay\modules\laydate.js" />
+    <None Include="wwwroot\layui\lay\modules\layedit.js" />
+    <None Include="wwwroot\layui\lay\modules\layer.js" />
+    <None Include="wwwroot\layui\lay\modules\layim.js" />
+    <None Include="wwwroot\layui\lay\modules\laypage.js" />
+    <None Include="wwwroot\layui\lay\modules\laytpl.js" />
+    <None Include="wwwroot\layui\lay\modules\mobile.js" />
+    <None Include="wwwroot\layui\lay\modules\rate.js" />
+    <None Include="wwwroot\layui\lay\modules\slider.js" />
+    <None Include="wwwroot\layui\lay\modules\table.js" />
+    <None Include="wwwroot\layui\lay\modules\transfer.js" />
+    <None Include="wwwroot\layui\lay\modules\tree.js" />
+    <None Include="wwwroot\layui\lay\modules\upload.js" />
+    <None Include="wwwroot\layui\lay\modules\util.js" />
+    <None Include="wwwroot\userJs\assignModule.js" />
+    <None Include="wwwroot\userJs\assignResource.js" />
+    <None Include="wwwroot\userJs\assignRole.js" />
+    <None Include="wwwroot\userJs\categories.js" />
+    <None Include="wwwroot\userJs\flowinstanceDetail.js" />
+    <None Include="wwwroot\userJs\flowInstanceDisposed.js" />
+    <None Include="wwwroot\userJs\flowInstanceEdit.js" />
+    <None Include="wwwroot\userJs\flowInstances.js" />
+    <None Include="wwwroot\userJs\flowInstanceWait.js" />
+    <None Include="wwwroot\userJs\flowSchemeDesign.js" />
+    <None Include="wwwroot\userJs\flowSchemePreview.js" />
+    <None Include="wwwroot\userJs\flowSchemes.js" />
+    <None Include="wwwroot\userJs\formEdit.js" />
+    <None Include="wwwroot\userJs\forms.js" />
+    <None Include="wwwroot\userJs\login.js" />
+    <None Include="wwwroot\userJs\main.js" />
+    <None Include="wwwroot\userJs\modules.js" />
+    <None Include="wwwroot\userJs\nodeInfo.js" />
+    <None Include="wwwroot\userJs\orgs.js" />
+    <None Include="wwwroot\userJs\preview.js" />
+    <None Include="wwwroot\userJs\resources.js" />
+    <None Include="wwwroot\userJs\roles.js" />
+    <None Include="wwwroot\userJs\users.js" />
+    <None Include="wwwroot\userJs\verification.js" />
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="packages.config">
-      <SubType>Designer</SubType>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
-      <Project>{5feaec9a-4f1e-4ee7-b377-9db1b0870dac}</Project>
-      <Name>Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenAuth.App\OpenAuth.App.csproj">
-      <Project>{0bbf2d65-fffd-4272-b138-8ea4fb6fec48}</Project>
-      <Name>OpenAuth.App</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenAuth.Repository\OpenAuth.Repository.csproj">
-      <Project>{e8df8dea-e2cf-4bdb-8f4f-3f8205b0e03a}</Project>
-      <Name>OpenAuth.Repository</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Login\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\OrgManager\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\ModuleManager\Index.cshtml" />
-    <Content Include="Views\UserManager\Index.cshtml" />
-  </ItemGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
-    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
-  </Target>
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
-        <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>56813</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:56813/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-        </WebProjectProperties>
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
-  <!--  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target> -->
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target> -->
+
 </Project>

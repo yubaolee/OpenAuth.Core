@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
-using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
@@ -23,7 +24,7 @@ namespace OpenAuth.App
 
         public void Update(Application Application)
         {
-            Repository.Update(u =>u.Id,Application);
+            Repository.Update(Application);
         }
 
 
@@ -34,5 +35,8 @@ namespace OpenAuth.App
             return applications.ToList();
         }
 
+        public AppManager(IUnitWork unitWork, IRepository<Application> repository,IAuth auth) : base(unitWork, repository, auth)
+        {
+        }
     }
 }

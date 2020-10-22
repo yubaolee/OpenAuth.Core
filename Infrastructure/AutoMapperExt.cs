@@ -12,10 +12,10 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System;
 using AutoMapper;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 
 namespace Infrastructure
 {
@@ -27,8 +27,10 @@ namespace Infrastructure
         public static T MapTo<T>(this object obj)
         {
             if (obj == null) return default(T);
-            Mapper.CreateMap(obj.GetType(), typeof(T));
-            return Mapper.Map<T>(obj);
+
+            var config = new MapperConfiguration(cfg=>cfg.CreateMap(obj.GetType(),typeof(T)));
+            var mapper = config.CreateMapper();
+            return mapper.Map<T>(obj);
         }
 
         /// <summary>
@@ -36,13 +38,11 @@ namespace Infrastructure
         /// </summary>
         public static List<TDestination> MapToList<TDestination>(this IEnumerable source)
         {
-            foreach (var first in source)
-            {
-                var type = first.GetType();
-                Mapper.CreateMap(type, typeof(TDestination));
-                break;
-            }
-            return Mapper.Map<List<TDestination>>(source);
+            Type sourceType = source.GetType().GetGenericArguments()[0];  //获取枚举的成员类型
+            var config = new MapperConfiguration(cfg => cfg.CreateMap(sourceType, typeof(TDestination)));
+            var mapper = config.CreateMapper();
+
+            return mapper.Map<List<TDestination>>(source);
         }
 
         /// <summary>
@@ -50,9 +50,10 @@ namespace Infrastructure
         /// </summary>
         public static List<TDestination> MapToList<TSource, TDestination>(this IEnumerable<TSource> source)
         {
-            //IEnumerable<T> 类型需要创建元素的映射
-            Mapper.CreateMap<TSource, TDestination>();
-            return Mapper.Map<List<TDestination>>(source);
+            var config = new MapperConfiguration(cfg => cfg.CreateMap(typeof(TSource), typeof(TDestination)));
+            var mapper = config.CreateMapper();
+
+            return mapper.Map<List<TDestination>>(source);
         }
 
         /// <summary>
@@ -63,18 +64,11 @@ namespace Infrastructure
             where TDestination : class
         {
             if (source == null) return destination;
-            Mapper.CreateMap<TSource, TDestination>();
-            return Mapper.Map(source, destination);
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap(typeof(TSource), typeof(TDestination)));
+            var mapper = config.CreateMapper();
+            return mapper.Map<TDestination>(source);
         }
 
-        /// <summary>
-        /// DataReader映射
-        /// </summary>
-        public static IEnumerable<T> DataReaderMapTo<T>(this IDataReader reader)
-        {
-            Mapper.Reset();
-            Mapper.CreateMap<IDataReader, IEnumerable<T>>();
-            return Mapper.Map<IDataReader, IEnumerable<T>>(reader);
-        }
     }
 }

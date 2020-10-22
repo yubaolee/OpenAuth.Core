@@ -277,7 +277,8 @@ namespace Infrastructure
 
         private ClassFactory() {
             AssemblyName name = new AssemblyName("DynamicClasses");
-            AssemblyBuilder assembly = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.Run);
+            AssemblyBuilder assembly = AssemblyBuilder.DefineDynamicAssembly(name, AssemblyBuilderAccess.Run);
+           // AssemblyBuilder assembly = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.Run);
 #if ENABLE_LINQ_PARTIAL_TRUST
             new ReflectionPermission(PermissionState.Unrestricted).Assert();
 #endif
@@ -300,7 +301,10 @@ namespace Infrastructure
                 Type type;
                 if (!classes.TryGetValue(signature, out type)) {
                     type = CreateDynamicClass(signature.properties);
-                    classes.Add(signature, type);
+                    //fixed by  https://gitee.com/DUWENINK
+                    if (!classes.ContainsKey(signature)){
+                        classes.Add(signature, type);
+                    }
                 }
                 return type;
             }

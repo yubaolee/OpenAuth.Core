@@ -12,7 +12,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Interface
 {
@@ -25,6 +25,7 @@ namespace OpenAuth.Repository.Interface
     /// </summary>
     public interface IUnitWork
     {
+        OpenAuthDBContext GetDbContext();
         T FindSingle<T>(Expression<Func<T, bool>> exp = null) where T:class;
         bool IsExist<T>(Expression<Func<T, bool>> exp) where T:class;
         IQueryable<T> Find<T>(Expression<Func<T, bool>> exp = null) where T:class;
@@ -34,9 +35,9 @@ namespace OpenAuth.Repository.Interface
 
         int GetCount<T>(Expression<Func<T, bool>> exp = null) where T:class;
 
-        void Add<T>(T entity) where T:Entity;
+        void Add<T>(T entity) where T:BaseEntity;
 
-        void BatchAdd<T>(T[] entities) where T:Entity;
+        void BatchAdd<T>(T[] entities) where T:BaseEntity;
 
         /// <summary>
         /// 更新一个实体的所有属性
@@ -45,10 +46,6 @@ namespace OpenAuth.Repository.Interface
 
         void Delete<T>(T entity) where T:class;
 
-        /// <summary>
-        /// 按指定的ID进行批量更新
-        /// </summary>
-        void Update<T>(Expression<Func<T, object>> identityExp, T entity) where T:class;
 
         /// <summary>
         /// 实现按需要只更新部分更新
@@ -64,6 +61,19 @@ namespace OpenAuth.Repository.Interface
 
         void Save();
 
-        void ExecuteSql(string sql);
+        int ExecuteSql(string sql);
+        
+        /// <summary>
+        /// 使用SQL脚本查询
+        /// </summary>
+        /// <typeparam name="T"> T为数据库实体</typeparam>
+        /// <returns></returns>
+        IQueryable<T> FromSql<T>(string sql, params object[] parameters) where T:class;
+        /// <summary>
+        /// 使用SQL脚本查询
+        /// </summary>
+        /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
+        /// <returns></returns>
+        IQueryable<T> Query<T>(string sql, params object[] parameters) where T : class;
     }
 }

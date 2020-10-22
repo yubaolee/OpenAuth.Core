@@ -5,7 +5,7 @@
         /// <summary>
         /// TypeID
         /// </summary>
-        public string TypeId { get; set; }
+        public string appId { get; set; }
 
     }
 }

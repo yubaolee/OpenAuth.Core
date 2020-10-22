@@ -1,0 +1,34 @@
+﻿import request from '@/utils/request'
+
+export function getList(params) {
+  return request({
+    url: '/{TableName}s/load',
+    method: 'get',
+    params
+  })
+}
+
+export function add(data) {
+  return request({
+    url: '/{TableName}s/add',
+    method: 'post',
+    data
+  })
+}
+
+export function update(data) {
+  return request({
+    url: '/{TableName}s/update',
+    method: 'post',
+    data
+  })
+}
+
+export function del(data) {
+  return request({
+    url: '/{TableName}s/delete',
+    method: 'post',
+    data
+  })
+}
+

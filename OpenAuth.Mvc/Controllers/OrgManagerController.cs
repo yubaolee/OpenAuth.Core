@@ -1,36 +1,36 @@
 ﻿using Infrastructure;
 using OpenAuth.App;
-using OpenAuth.Mvc.Models;
 using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using OpenAuth.App.Interface;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class OrgManagerController : BaseController
     {
-        public OrgManagerApp OrgApp { get; set; }
+        private OrgManagerApp _orgApp;
+        public OrgManagerController(IAuth authUtil, OrgManagerApp orgApp) : base(authUtil)
+        {
+            _orgApp = orgApp;
+        }
 
         //
         // GET: /OrgManager/
-        [Authenticate]
+       
         public ActionResult Index()
         {
             return View();
         }
        
+        /// <summary>
+        /// 获取用户所能访问的部门
+        /// </summary>
         public string LoadForUser(string firstId)
         {
-            var orgs = OrgApp.LoadForUser(firstId);
+            var orgs = _orgApp.LoadForUser(firstId);
             return JsonHelper.Instance.Serialize(orgs);
         }
-
-        public string LoadForRole(string firstId)
-        {
-            var orgs = OrgApp.LoadForRole(firstId);
-            return JsonHelper.Instance.Serialize(orgs);
-        }
-
 
         //添加组织提交
         [HttpPost]
@@ -38,12 +38,12 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                OrgApp.Add(org);
+                _orgApp.Add(org);
             }
             catch (Exception ex)
             {
                   Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -54,12 +54,12 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                OrgApp.Update(org);
+                _orgApp.Update(org);
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -73,15 +73,16 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                OrgApp.DelOrg(ids);
+                _orgApp.DelOrgCascade(ids);
             }
             catch (Exception e)
             {
                   Result.Code = 500;
-                Result.Message = e.Message;
+                Result.Message = e.InnerException?.Message ?? e.Message;
             }
 
             return JsonHelper.Instance.Serialize(Result);
         }
+
     }
 }

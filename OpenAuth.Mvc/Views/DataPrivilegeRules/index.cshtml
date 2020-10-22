@@ -1,0 +1,83 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css"/>
+}
+
+<blockquote class="layui-elem-quote news_search toolList" id="menus">
+</blockquote>
+
+<div class="layui-card">
+
+    <table class="layui-table" id="mainList"
+           lay-data="{height: 'full-80', page:true, id:'mainList'}"
+           lay-filter="list" lay-size="sm">
+    </table>
+
+    <script type="text/html" id="Disable">
+        {{# if(d.Disable){ }}
+        <span class="layui-badge">已禁用</span>
+        {{# } else{}}
+        <span class="layui-badge layui-bg-green">正常</span>
+        {{# } }}
+    </script>
+
+</div>
+
+<!--添加/编辑窗口-->
+<div id="divEdit" style="display: none">
+    <form class="layui-form" action="" id="formEdit">
+        <input type="hidden" name="Id" v-model="Id"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源标识</label>
+            <div class="layui-input-block">
+                <input type="text" name="SourceCode" v-model="SourceCode" required lay-verify="required"
+                       placeholder="即模块标识，比如Resource" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">二级标识</label>
+            <div class="layui-input-block">
+                <input type="text" name="SubSourceCode" v-model="SubSourceCode" required lay-verify="required"
+                       placeholder="二级资源标识" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限描述</label>
+            <div class="layui-input-block">
+                <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                       placeholder="权限描述" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序号</label>
+            <div class="layui-input-block">
+                <input type="text" name="SortNo" v-model="SortNo" required lay-verify="required"
+                       placeholder="1" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限规则</label>
+            <div class="layui-input-block">
+                <input type="text" name="PrivilegeRules" v-model="PrivilegeRules" required lay-verify="required"
+                       placeholder="这个界面太复杂，请查看企业版效果" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否可用</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="Enable" v-model="Enable" lay-skin="switch" value="1">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/dataprivilegerules.js"></script>

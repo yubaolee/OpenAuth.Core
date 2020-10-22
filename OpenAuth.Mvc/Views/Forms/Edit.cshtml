@@ -1,6 +1,8 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+     <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
     <style>
         .layui-btn + .layui-btn {
             margin-left: inherit !important;
@@ -10,7 +12,7 @@
 
 
 <form class="layui-form layui-form-pane" action="" id="formEdit">
-    <input type="hidden" name="Id" v-model="Id" />
+    <input type="hidden" name="Id" v-model="tmp.Id" />
     <input type="hidden" name="Fields" id="Fields" value="0">
 
     <div class="layui-row">
@@ -24,7 +26,7 @@
                     <div class="layui-form-item" pane>
                         <label class="layui-form-label">表单名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                            <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
                                    placeholder="表单名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -32,7 +34,7 @@
                     <div class="layui-form-item" pane>
                         <label class="layui-form-label">关联数据表名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="DbName" v-model="DbName" required 
+                            <input type="text" name="DbName" v-model="tmp.DbName" required 
                                    placeholder="关联数据表名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -40,14 +42,14 @@
                     <div class="layui-form-item" pane>
                         <label class="layui-form-label">排序码</label>
                         <div class="layui-input-block">
-                            <input type="text" name="SortCode" v-model="SortCode" class="layui-input">
+                            <input type="text" name="SortCode" v-model="tmp.SortCode" class="layui-input">
                         </div>
                     </div>
 
                     <div class="layui-form-item" pane>
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-block">
-                            <textarea  name="Description" v-model="Description"
+                            <textarea  name="Description" v-model="tmp.Description"
                                    placeholder="备注" class="layui-textarea"></textarea>
                         </div>
                     </div>
@@ -90,6 +92,6 @@
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/formdesign/leipi.formdesign.v4.js?2023"></script>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/formEdit.js?v4"></script>
+<script type="text/javascript" src="/userJs/formEdit.js?v2.0.0"></script>
 
 

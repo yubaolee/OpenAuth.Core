@@ -1,52 +1,48 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Infrastructure;
+using OpenAuth.App.Interface;
+using OpenAuth.App.Request;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class ModuleManagerApp :BaseApp<Module>
+    public class ModuleManagerApp :BaseTreeApp<Module>
     {
-        public RevelanceManagerApp RevelanceManagerApp { get; set; }
+        private RevelanceManagerApp _revelanceApp;
         public void Add(Module model)
         {
-            ChangeModuleCascade(model);
+            var loginContext = _auth.GetCurrentUser();
+            if (loginContext == null)
+            {
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+            }
+            CaculateCascade(model);
+            
             Repository.Add(model);
+            //当前登录用户的所有角色自动分配模块
+            loginContext.Roles.ForEach(u =>
+            {    
+                _revelanceApp.Assign(new AssignReq
+                {
+                    type=Define.ROLEMODULE,
+                    firstId = u.Id,
+                    secIds = new[]{model.Id}
+                });
+            });
+           
         }
 
-        public void Update(Module model)
+        public void Update(Module obj)
         {
-            ChangeModuleCascade(model);
-            Repository.Update(u =>u.Id, model);
+            UpdateTreeObj(obj);
         }
+
+
 
         #region 用户/角色分配模块
 
-        /// <summary>
-        /// 加载特定用户的模块
-        /// TODO:这里会加载用户及用户角色的所有模块，“为用户分配模块”功能会给人一种混乱的感觉，但可以接受
-        /// </summary>
-        /// <param name="userId">The user unique identifier.</param>
-        public IEnumerable<Module> LoadForUser(string userId)
-        {
-            var roleIds = RevelanceManagerApp.Get(Define.USERROLE, true, userId);
-            var moduleIds = UnitWork.Find<Relevance>(
-                u =>
-                    (u.FirstId == userId && u.Key == Define.USERMODULE) ||
-                    (u.Key == Define.ROLEMODULE && roleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-            return UnitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo);
-        }
-
-        /// <summary>
-        /// 根据某用户ID获取可访问某模块的菜单项
-        /// </summary>
-        /// <param name="moduleId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public IEnumerable<ModuleElement> LoadMenusForUser(string moduleId, string userId)
-        {
-            var elementIds = RevelanceManagerApp.Get(Define.USERELEMENT, true, userId);
-            return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id) && u.ModuleId == moduleId);
-        }
 
         /// <summary>
         /// 加载特定角色的模块
@@ -59,11 +55,22 @@ namespace OpenAuth.App
             return UnitWork.Find<Module>(u => moduleIds.Contains(u.Id)).OrderBy(u => u.SortNo);
         }
 
+        //获取角色可访问的模块字段
+        public IEnumerable<string> LoadPropertiesForRole(string roleId, string moduleCode)
+        {
+            return _revelanceApp.Get(Define.ROLEDATAPROPERTY, roleId, moduleCode);
+        }
+
         public IEnumerable<ModuleElement> LoadMenusForRole(string moduleId, string roleId)
         {
-            var elementIds = RevelanceManagerApp.Get(Define.ROLEELEMENT, true, roleId);
-            return UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id) && u.ModuleId == moduleId);
+            var elementIds = _revelanceApp.Get(Define.ROLEELEMENT, true, roleId);
+            var query = UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
+            if (!string.IsNullOrEmpty(moduleId))
+            {
+               query =  query.Where(u => u.ModuleId == moduleId);
+            }
 
+            return query;
         }
 
         #endregion 用户/角色分配模块
@@ -77,19 +84,42 @@ namespace OpenAuth.App
         public void DelMenu(string[] ids)
         {
             UnitWork.Delete<ModuleElement>(u => ids.Contains(u.Id));
+            UnitWork.Save();
         }
 
         public void AddMenu(ModuleElement model)
         {
+            var loginContext = _auth.GetCurrentUser();
+            if (loginContext == null)
+            {
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+            }
             UnitWork.Add(model);
+            
+            //当前登录用户的所有角色自动分配菜单
+            loginContext.Roles.ForEach(u =>
+            {    
+                _revelanceApp.Assign(new AssignReq
+                {
+                    type=Define.ROLEELEMENT,
+                    firstId = u.Id,
+                    secIds = new[]{model.Id}
+                });
+            });
             UnitWork.Save();
         }
         #endregion
 
         public void UpdateMenu(ModuleElement model)
         {
-            UnitWork.Update<ModuleElement>(u =>u.Id, model);
+            UnitWork.Update<ModuleElement>(model);
             UnitWork.Save();
+        }
+
+        public ModuleManagerApp(IUnitWork unitWork, IRepository<Module> repository
+        ,RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
+        {
+            _revelanceApp = app;
         }
     }
 }

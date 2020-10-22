@@ -10,17 +10,22 @@
 // ***********************************************************************
 
 using System;
-using System.Web;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Infrastructure.Cache
 {
     public class CacheContext : ICacheContext
     {
-        private readonly System.Web.Caching.Cache _objCache = HttpRuntime.Cache;
+        private IMemoryCache _objCache;
+
+        public CacheContext(IMemoryCache objCache)
+        {
+            _objCache = objCache;
+        }
+
         public override T Get<T>(string key)
         {
-            System.Web.Caching.Cache objCache = HttpRuntime.Cache;
-            return (T) objCache[key];
+            return  _objCache.Get<T>(key);
         }
 
         public override bool Set<T>(string key, T t, DateTime expire)
@@ -30,8 +35,10 @@ namespace Infrastructure.Cache
             {
                 Remove(key);
             }
-                
-            _objCache.Insert(key, t, null, expire, System.Web.Caching.Cache.NoSlidingExpiration);
+
+            _objCache.Set(key, t, new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(expire));   //绝对过期时间
+
             return true;
         }
 

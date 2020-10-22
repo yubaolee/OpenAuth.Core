@@ -1,40 +1,93 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Http;
-using System.Web.Mvc;
 using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.Mvc.Models;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class UserManagerController : BaseController
     {
-        public UserManagerApp App { get; set; }
-
+        private readonly UserManagerApp _app;
+        public UserManagerController(IAuth authUtil, UserManagerApp app) : base(authUtil)
+        {
+            _app = app;
+        }
         //
         // GET: /UserManager/
-        [Authenticate]
+       
         public ActionResult Index()
         {
             return View();
         }
+        
+        public ActionResult Profile()
+        {
+            return View();
+        }
 
-        //添加或修改组织
-        [System.Web.Mvc.HttpPost]
-        public string AddOrUpdate(UserView view)
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        
+        /// <summary>
+        /// 修改用户资料
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string ChangeProfile(ChangeProfileReq request)
         {
             try
             {
-                App.AddOrUpdate(view);
+                _app.ChangeProfile(request);
+                Result.Message = "修改成功，重新登录生效";
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string ChangePassword(ChangePasswordReq request)
+        {
+            try
+            {
+                _app.ChangePassword(request);
+            }
+            catch (Exception ex)
+            {
+                Result.Code = 500;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
+        //添加或修改组织
+        [HttpPost]
+        public string AddOrUpdate(UpdateUserReq request)
+        {
+            try
+            {
+                _app.AddOrUpdate(request);
 
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -42,22 +95,22 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载组织下面的所有用户
         /// </summary>
-        public string Load([FromUri]QueryUserListReq request)
+        public string Load([FromQuery]QueryUserListReq request)
         {
-            return JsonHelper.Instance.Serialize(App.Load(request));
+            return JsonHelper.Instance.Serialize(_app.Load(request));
         }
 
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Delete(string[] ids)
         {
             try
             {
-                App.Delete(ids);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {
                 Result.Code = 500;
-                Result.Message = e.Message;
+                Result.Message = e.InnerException?.Message ?? e.Message;
             }
 
             return JsonHelper.Instance.Serialize(Result);
@@ -71,7 +124,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetAccessedUsers()
         {
-            IEnumerable<UserView> users = App.Load(new QueryUserListReq()).data;
+            IEnumerable<UserView> users = _app.Load(new QueryUserListReq()).data;
             var result = new Dictionary<string, object>();
             foreach (var user in users)
             {
@@ -92,5 +145,6 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(result);
         }
         #endregion
+
     }
 }

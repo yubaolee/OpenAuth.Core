@@ -21,45 +21,34 @@ Description="连接的数据库" %>
 <blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
 
-    <div class="layui-row">
-        <div class="layui-col-xs2">
-            <ul id="tree" class="ztree"
-                style="padding: 2px; border: 1px solid #ddd; overflow: auto;">
-            </ul>
-        </div>
-        <div class="layui-col-xs10">
-            <table class="layui-table"
-                lay-data="{height: 'full-80', page:true, id:'mainList'}"
-                lay-filter="list"  lay-size="sm">
-                <thead>
-                <tr>
-                    <th lay-data="{checkbox:true, fixed: true}"></th>
-                <% foreach (ColumnSchema column in this.SourceTable.Columns) {%>
-                    <th lay-data="{field:'<%=column.Name%>', width:150}"><%=Tools.GetDescription(column)%></th>
-                <% }%>
-                    <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>
-                </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
+<div class="layui-card">
 
-<script type="text/html" id="barList">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-</script>
+    <table class="layui-table" id="mainList"
+           lay-data="{height: 'full-80', page:true, id:'mainList'}"
+           lay-filter="list" lay-size="sm">
+    </table>
 
+    <script type="text/html" id="Disable">
+        {{# if(d.Disable){ }}
+        <span class="layui-badge">已禁用</span>
+        {{# } else{}}
+        <span class="layui-badge layui-bg-green">正常</span>
+        {{# } }}
+    </script>
+
+</div>  
 
 <!--添加/编辑窗口-->
 <div id="divEdit" style="display: none">
     <form class="layui-form" action=""  id="formEdit">
 <% foreach (ColumnSchema column in this.SourceTable.Columns) {
     if(column.IsPrimaryKeyMember){%>
-    <input type="hidden" name="<%=column.Name%>" v-model="<%=column.Name%>" />
+    <input type="hidden" name="<%=column.Name%>" v-model="tmp.<%=column.Name%>" />
     <%}else if(CSharpAlias[column.SystemType.FullName] == "bool") {%>
     <div class="layui-form-item">
         <label class="layui-form-label"><%=Tools.GetDescription(column)%></label>
         <div class="layui-input-block">
-            <input type="checkbox" name="<%=column.Name%>" v-model="<%=column.Name%>" lay-skin="switch" value="1">
+            <input type="checkbox" name="<%=column.Name%>" v-model="tmp.<%=column.Name%>" lay-skin="switch" value="1">
         </div>
     </div>
     <%}else if(CSharpAlias[column.SystemType.FullName] == "int" ) {%>
@@ -74,7 +63,7 @@ Description="连接的数据库" %>
     <div class="layui-form-item">
         <label class="layui-form-label"><%=Tools.GetDescription(column)%></label>
         <div class="layui-input-block">
-            <input type="text" name="<%=column.Name%>" v-model="<%=column.Name%>" required lay-verify="required"
+            <input type="text" name="<%=column.Name%>" v-model="tmp.<%=column.Name%>" required lay-verify="required"
                 placeholder="<%=Tools.GetDescription(column)%>" autocomplete="off" class="layui-input">
         </div>
     </div>
@@ -104,6 +93,6 @@ Description="连接的数据库" %>
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/<%=ModuleName%>s.js"></script>
+<script type="text/javascript" src="/userJs/<%=ModuleName.ToLower()%>s.js"></script>
 
 

@@ -1,22 +1,24 @@
 ﻿using System;
-using System.Linq;
-using System.Web.Mvc;
+using System.Collections.Generic;
 using Infrastructure;
-using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.Mvc.Models;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class FlowInstancesController : BaseController
     {
-        public FlowInstanceApp App { get; set; }
+        private readonly FlowInstanceApp _app;
+        public FlowInstancesController(IAuth authUtil, FlowInstanceApp app) : base(authUtil)
+        {
+            _app = app;
+        }
 
         //
-        [Authenticate]
         public ActionResult Index()
         {
             return View();
@@ -66,13 +68,13 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                App.Verification(request);
+                _app.Verification(request);
 
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -81,7 +83,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var flowinstance = App.Get(id);
+                var flowinstance = _app.Get(id);
 
                 var result = new Response<FlowVerificationResp>
                 {
@@ -92,41 +94,41 @@ namespace OpenAuth.Mvc.Controllers
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
 
         //添加或修改
-        [System.Web.Mvc.HttpPost]
-        [ValidateInput(false)]
-        public string Add(JObject obj)
+       [HttpPost]
+       
+        public string Add(AddFlowInstanceReq obj)
         {
             try
             {
-                App.CreateInstance(obj);
+                _app.CreateInstance(obj);
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
 
         //添加或修改
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Update(FlowInstance obj)
         {
             try
             {
-                App.Update(obj);
+                _app.Update(obj);
 
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -134,25 +136,46 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载列表
         /// </summary>
-        public string Load([System.Web.Http.FromUri]QueryFlowInstanceListReq request)
+        public string Load([FromQuery]QueryFlowInstanceListReq request)
         {
-            return JsonHelper.Instance.Serialize(App.Load(request));
+            return JsonHelper.Instance.Serialize(_app.Load(request));
         }
 
-        [System.Web.Mvc.HttpPost]
+        /// <summary>
+        /// 获取一个流程实例的操作历史记录
+        /// </summary>
+        [HttpGet]
+        public string QueryHistories([FromQuery]QueryFlowInstanceHistoryReq request)
+        {
+            var result = new Response<List<FlowInstanceOperationHistory>>();
+            try
+            {
+                result.Result = _app.QueryHistories(request);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return JsonHelper.Instance.Serialize(result);
+        }
+
+        [HttpPost]
         public string Delete(string[] ids)
         {
             try
             {
-                App.Delete(ids);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {
                 Result.Code = 500;
-                Result.Message = e.Message;
+                Result.Message = e.InnerException?.Message ?? e.Message;
             }
 
             return JsonHelper.Instance.Serialize(Result);
         }
+
     }
 }

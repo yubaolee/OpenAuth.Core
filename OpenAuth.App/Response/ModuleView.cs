@@ -48,6 +48,12 @@ namespace OpenAuth.App.Response
         public string IconName { get; set; }
 
 
+        /// <summary>
+        /// 当前状态，0：正常，-1：隐藏，不在导航列表中显示
+        /// </summary>
+        public int Status { get; set; }
+
+
         public bool Checked { get; set; }
 
         /// <summary>
@@ -57,10 +63,12 @@ namespace OpenAuth.App.Response
 
         public string Code { get; set; }
 
+        public bool IsSys { get; set; }
+
         /// <summary>
         /// 模块中的元素
         /// </summary>
-        public List<ModuleElement> Elements = new List<ModuleElement>();
+        public List<ModuleElement> Elements { get; set; }
 
         public static implicit operator ModuleView(Module module)
         {

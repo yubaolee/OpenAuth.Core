@@ -1,6 +1,8 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+     <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList" id ="menus">
 </blockquote>
@@ -39,19 +41,19 @@
 <div id="divEdit" style="display: none">
     <form class="layui-form layui-form-pane" action="" id="formEdit">
 
-        <input type="hidden" name="Id" v-model="Id" />
+        <input type="hidden" name="Id" v-model="tmp.Id" />
 
         <div class="layui-form-item">
             <label class="layui-form-label">部门名称</label>
             <div class="layui-input-block">
-                <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
                        placeholder="请输入部门名称" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">排序号</label>
             <div class="layui-input-block">
-                <input type="text" name="SortNo" v-model="SortNo" required lay-verify="required"
+                <input type="text" name="SortNo" v-model="tmp.SortNo" required lay-verify="required"
                        placeholder="请输入排序号" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -59,11 +61,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属部门</label>
             <div class="layui-input-block">
-                <input id="ParentName" name="ParentName" v-model="ParentName" class="layui-input" />
-                <input id="ParentId" name="ParentId" v-model="ParentId"  type="hidden" />
-                <div id="menuContent" class="menuContent" style="display: none;">
-                    <ul id="org" class="ztree"></ul>
-                </div>
+                <input id="ParentName" name="ParentName" v-model="tmp.ParentName" class="layui-input" />
+                <input id="ParentId" name="ParentId" v-model="tmp.ParentId"  type="hidden" />
+                
             </div>
         </div>
 
@@ -77,4 +77,4 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/orgs.js"></script>
+<script type="text/javascript" src="/userJs/orgs.js?v=1"></script>

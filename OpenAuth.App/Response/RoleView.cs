@@ -42,16 +42,6 @@ namespace OpenAuth.App.Response
 
 
         /// <summary>
-        /// 所属组织名称，多个可用，分隔
-        /// </summary>
-        public string Organizations { get; set; }
-
-        /// <summary>
-        /// 所属组织ID，多个可用，分隔
-        /// </summary>
-        public string OrganizationIds { get; set; }
-
-        /// <summary>
         ///是否属于某用户 
         /// </summary>
         public bool Checked { get; set; }

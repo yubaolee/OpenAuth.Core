@@ -1,122 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E8DF8DEA-E2CF-4BDB-8F4F-3F8205B0E03A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenAuth.Repository</RootNamespace>
-    <AssemblyName>OpenAuth.Repository</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp3.1\OpenAuth.Repository.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.Extended">
-      <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Autofac" Version="5.1.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
+    <PackageReference Include="MySql.Data" Version="8.0.13" />
+
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="3.0.40" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Core\TreeEntity.cs" />
-    <Compile Include="Domain\Application.cs" />
-    <Compile Include="Domain\Category.cs" />
-    <Compile Include="Domain\CategoryType.cs" />
-    <Compile Include="Core\Entity.cs" />
-    <Compile Include="Domain\FlowInstance.cs" />
-    <Compile Include="Domain\FlowInstanceOperationHistory.cs" />
-    <Compile Include="Domain\FlowInstanceTransitionHistory.cs" />
-    <Compile Include="Domain\FlowScheme.cs" />
-    <Compile Include="Domain\Form.cs" />
-    <Compile Include="Domain\Module.cs" />
-    <Compile Include="Domain\ModuleElement.cs" />
-    <Compile Include="Domain\Org.cs" />
-    <Compile Include="Domain\Relevance.cs" />
-    <Compile Include="Domain\Resource.cs" />
-    <Compile Include="Domain\Role.cs" />
-    <Compile Include="Domain\Stock.cs" />
-    <Compile Include="Domain\User.cs" />
-    <Compile Include="Domain\UserExt.cs" />
-    <Compile Include="Interface\IRepository.cs" />
-    <Compile Include="Interface\IUnitWork.cs" />
-    <Compile Include="Mapping\ApplicationMap.cs" />
-    <Compile Include="Mapping\CategoryTypeMap.cs" />
-    <Compile Include="Mapping\FlowInstanceMap.cs" />
-    <Compile Include="Mapping\FlowInstanceOperationHistoryMap.cs" />
-    <Compile Include="Mapping\FlowInstanceTransitionHistoryMap.cs" />
-    <Compile Include="Mapping\FlowSchemeMap.cs" />
-    <Compile Include="Mapping\FormMap.cs" />
-    <Compile Include="UnitWork.cs" />
-    <Compile Include="BaseRepository.cs" />
-    <Compile Include="Mapping\CategoryMap.cs" />
-    <Compile Include="Mapping\ModuleElementMap.cs" />
-    <Compile Include="Mapping\ModuleMap.cs" />
-    <Compile Include="Mapping\OrgMap.cs" />
-    <Compile Include="Mapping\RelevanceMap.cs" />
-    <Compile Include="Mapping\ResourceMap.cs" />
-    <Compile Include="Mapping\RoleMap.cs" />
-    <Compile Include="Mapping\StockMap.cs" />
-    <Compile Include="Mapping\UserMap.cs" />
-    <Compile Include="OpenAuthDBContext.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
-      <Project>{5feaec9a-4f1e-4ee7-b377-9db1b0870dac}</Project>
-      <Name>Infrastructure</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

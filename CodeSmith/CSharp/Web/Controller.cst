@@ -10,34 +10,39 @@ Description: Create a list of properties from a database table
 <%@ Import Namespace="SchemaExplorer" %>
 
 using System;
-using System.Web.Http;
-using System.Web.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
-using OpenAuth.App.Response;
-using OpenAuth.Mvc.Models;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class <%=ModuleName%>sController : BaseController
     {
-        public <%=ModuleName%>App App { get; set; }
+        private readonly <%=ModuleName%>App _app;
 
-        //
-        [Authenticate]
+         public <%=ModuleName%>sController(<%=ModuleName%>App app, IAuth auth) : base(auth)
+        {
+            _app = app;
+        }
+
+        //主页
         public ActionResult Index()
         {
             return View();
         }
 
         //添加或修改
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         public string Add(<%=ModuleName%> obj)
         {
             try
             {
-                App.Add(obj);
+                _app.Add(obj);
 
             }
             catch (Exception ex)
@@ -49,12 +54,12 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         //添加或修改
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         public string Update(<%=ModuleName%> obj)
         {
             try
             {
-                App.Update(obj);
+                _app.Update(obj);
 
             }
             catch (Exception ex)
@@ -68,17 +73,17 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载列表
         /// </summary>
-        public string Load([FromUri]Query<%=ModuleName%>ListReq request)
+        public string Load([FromQuery]Query<%=ModuleName%>ListReq request)
         {
-            return JsonHelper.Instance.Serialize(App.Load(request));
+            return JsonHelper.Instance.Serialize(_app.Load(request));
         }
 
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         public string Delete(string[] ids)
         {
             try
             {
-                App.Delete(ids);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {

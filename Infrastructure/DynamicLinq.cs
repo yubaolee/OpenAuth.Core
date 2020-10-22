@@ -34,43 +34,51 @@ namespace Infrastructure
         {
             PropertyInfo property = typeof(T).GetProperty(filterObj.Key);
 
-            //组装左边
-            Expression left = Expression.Property(param, property);
+            Expression left = null; //组装左边
             //组装右边
             Expression right = null;
 
-            if (property.PropertyType == typeof(int))
+            if (property != null)
             {
-                right = Expression.Constant(int.Parse(filterObj.Value));
+                left = Expression.Property(param, property);
+                if (property.PropertyType == typeof(int))
+                {
+                    right = Expression.Constant(int.Parse(filterObj.Value));
+                }
+                else if (property.PropertyType == typeof(DateTime))
+                {
+                    right = Expression.Constant(DateTime.Parse(filterObj.Value));
+                }
+                else if (property.PropertyType == typeof(string))
+                {
+                    right = Expression.Constant(filterObj.Value);
+                }
+                else if (property.PropertyType == typeof(decimal))
+                {
+                    right = Expression.Constant(decimal.Parse(filterObj.Value));
+                }
+                else if (property.PropertyType == typeof(Guid))
+                {
+                    right = Expression.Constant(Guid.Parse(filterObj.Value));
+                }
+                else if (property.PropertyType == typeof(bool))
+                {
+                    right = Expression.Constant(filterObj.Value.Equals("1"));
+                }
+                else if (property.PropertyType == typeof(Guid?))
+                {
+                    left = Expression.Property(left, "Value");
+                    right = Expression.Constant(Guid.Parse(filterObj.Value));
+                }
+                else
+                {
+                    throw new Exception("暂不能解析该Key的类型");
+                }
             }
-            else if (property.PropertyType == typeof(DateTime))
+            else //如果左边不是属性，直接是值的情况
             {
-                right = Expression.Constant(DateTime.Parse(filterObj.Value));
-            }
-            else if (property.PropertyType == typeof(string))
-            {
-                right = Expression.Constant((filterObj.Value));
-            }
-            else if (property.PropertyType == typeof(decimal))
-            {
-                right = Expression.Constant(decimal.Parse(filterObj.Value));
-            }
-            else if (property.PropertyType == typeof(Guid))
-            {
-                right = Expression.Constant(Guid.Parse(filterObj.Value));
-            }
-            else if (property.PropertyType == typeof(bool))
-            {
-                right = Expression.Constant(filterObj.Value.Equals("1"));
-            }
-            else if (property.PropertyType == typeof(Guid?))
-            {
-                left = Expression.Property(left, "Value");
-                right = Expression.Constant(Guid.Parse(filterObj.Value));
-            }
-            else
-            {
-                throw new Exception("暂不能解析该Key的类型");
+                left = Expression.Constant(filterObj.Key);
+                right = Expression.Constant(filterObj.Value);
             }
 
             //c.XXX=="XXX"
@@ -95,20 +103,33 @@ namespace Infrastructure
                 case "!=":
                     filter = Expression.NotEqual(left, right);
                     break;
-
-                case "like":
-                    filter = Expression.Call(left, typeof(string).GetMethod("Contains", new Type[] { typeof(string) }),
-                                 Expression.Constant(filterObj.Value));
-                    break;
-                case "not in":
-                    var listExpression = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
-                    var method = typeof(List<string>).GetMethod("Contains", new Type[] { typeof(string) }); //Contains语句
-                    filter = Expression.Not(Expression.Call(listExpression, method, left));
+                case "contains":
+                    filter = Expression.Call(left, typeof(string).GetMethod("Contains", new Type[] {typeof(string)}),
+                        Expression.Constant(filterObj.Value));
                     break;
                 case "in":
                     var lExp = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
-                    var methodInfo = typeof(List<string>).GetMethod("Contains", new Type[] { typeof(string) }); //Contains语句
+                    var methodInfo = typeof(List<string>).GetMethod("Contains",
+                        new Type[] {typeof(string)}); //Contains语句
                     filter = Expression.Call(lExp, methodInfo, left);
+                    break;
+                case "not in":
+                    var listExpression = Expression.Constant(filterObj.Value.Split(',').ToList()); //数组
+                    var method = typeof(List<string>).GetMethod("Contains", new Type[] {typeof(string)}); //Contains语句
+                    filter = Expression.Not(Expression.Call(listExpression, method, left));
+                    break;
+                //交集，使用交集时左值必须时固定的值
+                case "intersect": //交集
+                    if (property != null)
+                    {
+                        throw new Exception("交集模式下，表达式左边不能为变量，请调整数据规则，如:c=>\"A,B,C\" intersect \"B,D\"");
+                    }
+
+                    var rightval = filterObj.Value.Split(',').ToList();
+                    var leftval = filterObj.Key.Split(',').ToList();
+                    var val = rightval.Intersect(leftval);
+
+                    filter = Expression.Constant(val.Count() > 0);
                     break;
             }
 
@@ -117,7 +138,7 @@ namespace Infrastructure
 
         public static Expression<Func<T, bool>> GenerateTypeBody<T>(this ParameterExpression param, Filter filterObj)
         {
-            return (Expression<Func<T, bool>>)(param.GenerateBody<T>(filterObj));
+            return (Expression<Func<T, bool>>) (param.GenerateBody<T>(filterObj));
         }
 
         /// <summary>
@@ -131,7 +152,7 @@ namespace Infrastructure
 
         public static Expression<Func<T, bool>> GenerateTypeLambda<T>(this ParameterExpression param, Expression body)
         {
-            return (Expression<Func<T, bool>>)(param.GenerateLambda(body));
+            return (Expression<Func<T, bool>>) (param.GenerateLambda(body));
         }
 
         public static Expression AndAlso(this Expression expression, Expression expressionRight)
@@ -149,32 +170,137 @@ namespace Infrastructure
             return Expression.And(expression, expressionRight);
         }
 
-        //系统已经有该函数的实现
-        //public static IQueryable<T> Where<T>(this IQueryable<T> query, Expression expression)
-        //{
-        //    Expression expr = Expression.Call(typeof(Queryable), "Where", new[] { typeof(T) },
-        //       Expression.Constant(query), expression);
-        //    //生成动态查询
-        //    IQueryable<T> result = query.Provider.CreateQuery<T>(expr);
-        //    return result;
-        //}
-
-        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, string filterjson)
+        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, string parametername, string filterjson)
         {
             if (!string.IsNullOrEmpty(filterjson))
             {
-                var filters = JsonHelper.Instance.Deserialize<IEnumerable<Filter>>(filterjson);
-                var param = CreateLambdaParam<T>("c");
+                var filterGroup = JsonHelper.Instance.Deserialize<FilterGroup>(filterjson);
+                query = GenerateFilter(query, parametername, filterGroup);
+            }
 
-                Expression result = Expression.Constant(true);
-                foreach (var filter in filters)
+            return query;
+        }
+
+        /// <summary>
+        /// 转换FilterGroup为Lambda表达式
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="parametername"></param>
+        /// <param name="filterGroup"></param>
+        /// <returns></returns>
+        public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, string parametername,
+            FilterGroup filterGroup)
+        {
+            var param = CreateLambdaParam<T>(parametername);
+            Expression result = ConvertGroup<T>(filterGroup, param);
+            query = query.Where(param.GenerateTypeLambda<T>(result));
+            return query;
+        }
+
+        /// <summary>
+        /// 转换filtergroup为表达式
+        /// </summary>
+        /// <param name="filterGroup"></param>
+        /// <param name="param"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Expression ConvertGroup<T>(FilterGroup filterGroup, ParameterExpression param)
+        {
+            if (filterGroup == null) return null;
+
+            if (filterGroup.Filters.Length == 1 &&(filterGroup.Children == null || !filterGroup.Children.Any())) //只有一个条件
+            {
+                return param.GenerateBody<T>(filterGroup.Filters[0]);
+            }
+
+            Expression result = ConvertFilters<T>(filterGroup.Filters, param, filterGroup.Operation);
+            Expression gresult = ConvertGroup<T>(filterGroup.Children, param, filterGroup.Operation);
+            if (gresult == null) return result;
+            if (result == null) return gresult;
+
+            if (filterGroup.Operation == "and")
+            {
+                return result.AndAlso(gresult);
+            }
+            else //or
+            {
+                return result.Or(gresult);
+            }
+        }
+
+        /// <summary>
+        /// 转换FilterGroup[]为表达式，不管FilterGroup里面的Filters
+        /// </summary>
+        /// <param name="groups"></param>
+        /// <param name="param"></param>
+        /// <param name="operation"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        private static Expression ConvertGroup<T>(FilterGroup[] groups, ParameterExpression param, string operation)
+        {
+            if (groups == null || !groups.Any()) return null;
+
+            Expression result = ConvertGroup<T>(groups[0], param);
+
+            if (groups.Length == 1) return result;
+
+            if (operation == "and")
+            {
+                foreach (var filter in groups.Skip(1))
+                {
+                    result = result.AndAlso(ConvertGroup<T>(filter, param));
+                }
+            }
+            else
+            {
+                foreach (var filter in groups.Skip(1))
+                {
+                    result = result.Or(ConvertGroup<T>(filter, param));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 转换Filter数组为表达式
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <param name="param"></param>
+        /// <param name="operation"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        private static Expression ConvertFilters<T>(Filter[] filters, ParameterExpression param, string operation)
+        {
+            if (filters == null || !filters.Any())
+            {
+                return null;
+            }
+
+            Expression result = param.GenerateBody<T>(filters[0]);
+
+            if (filters.Length == 1)
+            {
+                return result;
+            }
+
+            if (operation == "and")
+            {
+                foreach (var filter in filters.Skip(1))
                 {
                     result = result.AndAlso(param.GenerateBody<T>(filter));
                 }
-
-                query = query.Where(param.GenerateTypeLambda<T>(result));
             }
-            return query;
+            else
+            {
+                foreach (var filter in filters.Skip(1))
+                {
+                    result = result.Or(param.GenerateBody<T>(filter));
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Web.Http;
-using System.Web.Mvc;
 using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
-using OpenAuth.Mvc.Models;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class FlowSchemesController : BaseController
     {
-        public FlowSchemeApp App { get; set; }
+        private readonly FlowSchemeApp _app;
 
         //
-        [Authenticate]
+       
         public ActionResult Index()
         {
             return View();
@@ -39,47 +38,47 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var result = new Response<FlowScheme> {Result = App.Get(id)};
+                var result = new Response<FlowScheme> {Result = _app.Get(id)};
                 return JsonHelper.Instance.Serialize(result);
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
 
         //添加或修改
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Add(FlowScheme obj)
         {
             try
             {
-                App.Add(obj);
+                _app.Add(obj);
 
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
 
         //添加或修改
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Update(FlowScheme obj)
         {
             try
             {
-                App.Update(obj);
+                _app.Update(obj);
 
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -87,25 +86,30 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载列表
         /// </summary>
-        public string Load([FromUri]QueryFlowSchemeListReq request)
+        public string Load([FromQuery]QueryFlowSchemeListReq request)
         {
-            return JsonHelper.Instance.Serialize(App.Load(request));
+            return JsonHelper.Instance.Serialize(_app.Load(request));
         }
 
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Delete(string[] ids)
         {
             try
             {
-                App.Delete(ids);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {
                 Result.Code = 500;
-                Result.Message = e.Message;
+                Result.Message = e.InnerException?.Message ?? e.Message;
             }
 
             return JsonHelper.Instance.Serialize(Result);
+        }
+
+        public FlowSchemesController(IAuth authUtil, FlowSchemeApp app) : base(authUtil)
+        {
+            _app = app;
         }
     }
 }

@@ -1,21 +1,29 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Data.Entity.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
-using EntityFramework.Extensions;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Interface;
+using Z.EntityFramework.Plus;
 
 namespace OpenAuth.Repository
 {
    public  class UnitWork: IUnitWork
    {
-       protected OpenAuthDBContext Context = new OpenAuthDBContext();
+       private OpenAuthDBContext _context;
 
+       public UnitWork(OpenAuthDBContext context)
+       {
+           _context = context;
+       }
+       public OpenAuthDBContext GetDbContext()
+       {
+           return _context;
+       }
 
-       /// <summary>
+        /// <summary>
         /// 根据过滤条件，获取记录
         /// </summary>
         /// <param name="exp">The exp.</param>
@@ -26,7 +34,7 @@ namespace OpenAuth.Repository
 
         public bool IsExist<T>(Expression<Func<T, bool>> exp) where T : class
         {
-            return Context.Set<T>().Any(exp);
+            return _context.Set<T>().Any(exp);
         }
 
         /// <summary>
@@ -34,7 +42,7 @@ namespace OpenAuth.Repository
         /// </summary>
         public T FindSingle<T>(Expression<Func<T, bool>> exp) where T:class 
         {
-            return Context.Set<T>().AsNoTracking().FirstOrDefault(exp);
+            return _context.Set<T>().AsNoTracking().FirstOrDefault(exp);
         }
 
         /// <summary>
@@ -60,35 +68,38 @@ namespace OpenAuth.Repository
             return Filter(exp).Count();
         }
 
-        public void Add<T>(T entity) where T : Domain.Entity
+        public void Add<T>(T entity) where T : BaseEntity
         {
-            if (string.IsNullOrEmpty(entity.Id))
+            if (entity.KeyIsNull())
             {
-                entity.Id = Guid.NewGuid().ToString();
+                entity.GenerateDefaultKeyVal();
             }
-            Context.Set<T>().Add(entity);
+            _context.Set<T>().Add(entity);
         }
 
         /// <summary>
         /// 批量添加
         /// </summary>
         /// <param name="entities">The entities.</param>
-        public void BatchAdd<T>(T[] entities) where T : Domain.Entity
+        public void BatchAdd<T>(T[] entities) where T : BaseEntity
         {
             foreach (var entity in entities)
             {
-                entity.Id = Guid.NewGuid().ToString();
+                if (entity.KeyIsNull())
+                {
+                    entity.GenerateDefaultKeyVal();
+                }
             }
-            Context.Set<T>().AddRange(entities);
+            _context.Set<T>().AddRange(entities);
         }
 
         public void Update<T>(T entity) where T:class
         {
-            var entry = this.Context.Entry(entity);
+            var entry = this._context.Entry(entity);
             entry.State = EntityState.Modified;
 
             //如果数据没有发生变化
-            if (!this.Context.ChangeTracker.HasChanges())
+            if (!this._context.ChangeTracker.HasChanges())
             {
                 entry.State = EntityState.Unchanged;
             }
@@ -97,17 +108,7 @@ namespace OpenAuth.Repository
 
         public void Delete<T>(T entity) where T:class
         {
-            Context.Set<T>().Remove(entity);
-        }
-
-        /// <summary>
-        /// 按指定id更新实体,会更新整个实体
-        /// </summary>
-        /// <param name="identityExp">The identity exp.</param>
-        /// <param name="entity">The entity.</param>
-        public void Update<T>(Expression<Func<T, object>> identityExp, T entity) where T:class
-        {
-            Context.Set<T>().AddOrUpdate(identityExp, entity);
+            _context.Set<T>().Remove(entity);
         }
 
         /// <summary>
@@ -118,39 +119,64 @@ namespace OpenAuth.Repository
         /// <param name="entity">The entity.</param>
         public void Update<T>(Expression<Func<T, bool>> where, Expression<Func<T, T>> entity) where T:class
         {
-            Context.Set<T>().Where(where).Update(entity);
+            _context.Set<T>().Where(where).Update(entity);
         }
 
         public virtual void Delete<T>(Expression<Func<T, bool>> exp) where T : class
         {
-            Context.Set<T>().Where(exp).Delete();
+            _context.Set<T>().RemoveRange(Filter(exp));
         }
 
         public void Save()
         {
             try
             {
-                Context.SaveChanges();
+                var entities = _context.ChangeTracker.Entries()
+                    .Where(e => e.State == EntityState.Added
+                                || e.State == EntityState.Modified)
+                    .Select(e => e.Entity);
+
+                foreach (var entity in entities)
+                {
+                    var validationContext = new ValidationContext(entity);
+                    Validator.ValidateObject(entity, validationContext, validateAllProperties: true);
+                }
+
+                _context.SaveChanges();
             }
-            catch (DbEntityValidationException e)
+            catch (ValidationException exc)
             {
-                throw new Exception(e.EntityValidationErrors.First().ValidationErrors.First().ErrorMessage);
+                Console.WriteLine($"{nameof(Save)} validation exception: {exc?.Message}");
+                throw (exc.InnerException as Exception ?? exc);
+            }
+            catch (Exception ex) //DbUpdateException 
+            {
+                throw (ex.InnerException as Exception ?? ex);
             }
           
         }
 
         private IQueryable<T> Filter<T>(Expression<Func<T, bool>> exp) where T : class
         {
-            var dbSet = Context.Set<T>().AsNoTracking().AsQueryable();
+            var dbSet = _context.Set<T>().AsNoTracking().AsQueryable();
             if (exp != null)
                 dbSet = dbSet.Where(exp);
             return dbSet;
         }
 
-       public void ExecuteSql(string sql)
+       public int ExecuteSql(string sql)
        {
-            Context.Database.ExecuteSqlCommand(sql);
+            return _context.Database.ExecuteSqlRaw(sql);
         }
 
+       public IQueryable<T> FromSql<T>(string sql, params object[] parameters) where T : class
+       {
+           return _context.Set<T>().FromSqlRaw(sql, parameters);
+       }
+        
+       public IQueryable<T> Query<T>(string sql, params object[] parameters) where T : class
+       {
+           return _context.Query<T>().FromSqlRaw(sql, parameters);
+       }
     }
 }

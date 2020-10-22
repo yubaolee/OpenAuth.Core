@@ -1,6 +1,8 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+     <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
@@ -19,7 +21,7 @@
             <tr>
                 <th lay-data="{checkbox:true, fixed: true}"></th>
                 <th lay-data="{field:'Id', width:150}">主键Id</th>
-                <th lay-data="{field:'IsFinish', width:150, templet:'#IsFinish'}">是否完成</th>
+                <th lay-data="{field:'IsFinish', width:150, templet:'#IsFinish'}">流程状态</th>
                 <th lay-data="{field:'CustomName', width:150}">实例名称</th>
                 <th lay-data="{field:'Code', width:150}">实例编号</th>
                 <th lay-data="{field:'ActivityName', width:150}">当前节点名称</th>
@@ -34,10 +36,12 @@
         <script type="text/html" id="IsFinish">
             {{# if(d.IsFinish == 0){ }}
             <span class="layui-badge layui-bg-blue">正在运行</span>
+            {{# } else if(d.IsFinish == 3){ }}
+            <span class="layui-badge">不同意</span>
             {{# } else if(d.IsFinish == 4){ }}
-            <span class="layui-badge">被驳回</span>
+            <span class="layui-badge layui-bg-gray">被驳回</span>
             {{# } else{}}
-            <span class="layui-badge layui-bg-green">已完成</span>
+            <span class="layui-badge layui-bg-green">审批通过</span>
             {{# } }}
         </script>
     </div>

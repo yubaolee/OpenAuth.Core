@@ -1,18 +1,14 @@
 ﻿
 @section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+     <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
     <link href="/js/flow/GooFlow.css" rel="stylesheet" />
     <link href="/css/formpreview.css" rel="stylesheet" />
 }
 
-<form class="layui-form layui-form-pane" action="" id="formEdit">
-    <input type="hidden" name="Id" v-model="Id" />
-    <input type="hidden" id="FrmId" name="FrmId" v-model="FrmId" />
-    <input type="hidden" id="SchemeContent" name="SchemeContent" v-model="SchemeContent" />
-    <input type="hidden" id="FrmContentData" name="FrmContentData" v-model="FrmContentData" />
-    <input type="hidden" id="FrmContentParse" name="FrmContentParse" v-model="FrmContentParse" />
-    <input type="hidden" id="FrmData" name="FrmData" v-model="FrmData" />
+<div class="layui-form layui-form-pane" id="formEdit">
 
     <div class="layui-row">
         <div class="layui-tab layui-tab-brief" lay-filter="tab" style="margin: 0px">
@@ -23,11 +19,11 @@
 
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    
+                        
                     <div class="layui-form-item">
                         <label class="layui-form-label">实例编号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="Code" v-model="Code" required lay-verify="required"
+                            <input type="text" name="Code" v-model="tmp.Code" required lay-verify="required"
                                    placeholder="实例编号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -35,7 +31,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">标题</label>
                         <div class="layui-input-block">
-                            <input type="text" name="CustomName" v-model="CustomName" required lay-verify="required"
+                            <input type="text" name="CustomName" v-model="tmp.CustomName" required lay-verify="required"
                                    placeholder="自定义名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -43,7 +39,7 @@
                     <div class="layui-form-item" pane>
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-block">
-                            <textarea name="Description" v-model="Description"  placeholder="请输入" class="layui-textarea"></textarea>
+                            <textarea name="Description" v-model="tmp.Description"  placeholder="请输入" class="layui-textarea"></textarea>
                         </div>
                     </div>
                 </div>
@@ -52,7 +48,7 @@
 
                     <div class="layui-row">
                         <div class="layui-col-xs3">
-                            <ul id="frmTree" class="ztree"
+                            <ul id="tree" class="dtree"
                                 style="padding: 2px; border: 1px solid #ddd; overflow: auto;"></ul>
                         </div>
                         <div class="layui-col-xs9 layui-col-space10">
@@ -60,7 +56,10 @@
                                 <fieldset class="layui-elem-field">
                                     <legend>申请内容</legend>
                                     <div class="layui-field-box">
-                                        <div id="frmPreview"></div>
+                                        <form  class="layui-form ">
+                                            <div id="frmPreview"></div>
+                                            <input type="hidden" lay-submit id="btnSubmit" lay-filter="formSubmit" />
+                                        </form>
                                     </div>
                                 </fieldset>
                             </div>
@@ -80,8 +79,12 @@
         </div>
     </div>
 
-    <input type="hidden" lay-submit id="btnSubmit" lay-filter="formSubmit" />
-</form>
+</div>
+
+<script type="text/javascript" src="/js/vue2.6.10.js"></script>
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/flowInstanceEdit.js?v2"></script>
+<script type="text/javascript" src="/userJs/flowInstanceEdit.js?v2.0.0"></script>
+<style >
+    .dtree{ width:99% !important}
+</style>
 

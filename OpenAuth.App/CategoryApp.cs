@@ -1,75 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Infrastructure;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
+
 
 namespace OpenAuth.App
 {
-    /// <summary>
-    /// 分类管理
-    /// </summary>
-    public class CategoryApp:BaseApp<Category>
+    public class CategoryApp : BaseApp<Category>
     {
-
-        public IEnumerable<Category> Get(string type)
+        /// <summary>
+        /// 加载列表
+        /// </summary>
+        public TableData Load(QueryCategoryListReq request)
         {
-            return Repository.Find(u => u.TypeId == type);
-        }
-
-        public void Add(Category category)
-        {
-            if (string.IsNullOrEmpty(category.Id))
+            var loginContext = _auth.GetCurrentUser();
+            if (loginContext == null)
             {
-                category.Id = Guid.NewGuid().ToString();
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
-            Repository.Add(category);
-        }
 
-        public void Update(Category category)
-        {
-            Repository.Update(u =>u.Id,category);
-        }
+            var properties = loginContext.GetProperties("Category");
 
-
-        public TableData All(QueryCategoriesReq request)
-        {
+            if (properties == null || properties.Count == 0)
+            {
+                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
+            }
+            
             var result = new TableData();
-            var categories =  UnitWork.Find<Category>(null) ;
-            if (!string.IsNullOrEmpty(request.key))
-            {
-                categories = categories.Where(u => u.Name.Contains(request.key) || u.Id.Contains(request.key));
-            }
-
+            var objs = UnitWork.Find<Category>(null);
             if (!string.IsNullOrEmpty(request.TypeId))
             {
-                categories = categories.Where(u => u.TypeId == request.TypeId);
+                objs = objs.Where(u => u.TypeId == request.TypeId);
+            }
+            
+            if (!string.IsNullOrEmpty(request.key))
+            {
+                objs = objs.Where(u => u.Id.Contains(request.key) || u.Name.Contains(request.key));
             }
 
-            var  query = from category in categories
-                    join ct in UnitWork.Find<CategoryType>(null) on category.TypeId equals ct.Id
-                    into tmp
-                from ct in tmp.DefaultIfEmpty()
-                select new
-                {
-                    category.Name,
-                    category.Id,
-                    category.TypeId,
-                    TypeName = ct.Name,
-                    category.Description
-                };
-
-            result.data = query.OrderBy(u => u.TypeId)
+            var propertyStr = string.Join(',', properties.Select(u =>u.Key));
+            result.columnHeaders = properties;
+            result.data = objs.OrderBy(u => u.DtCode)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit).ToList();
-            result.count = categories.Count();
+                .Take(request.limit).Select($"new ({propertyStr})");
+            result.count = objs.Count();
             return result;
         }
 
-        public List<CategoryType> AllTypes()
+        public void Add(AddOrUpdateCategoryReq req)
         {
-            return UnitWork.Find<CategoryType>(null).ToList();
+            var obj = req.MapTo<Category>();
+            obj.CreateTime = DateTime.Now;
+            var user = _auth.GetCurrentUser().User;
+            obj.CreateUserId = user.Id;
+            obj.CreateUserName = user.Name;
+            Repository.Add(obj);
+        }
+        
+        public void Update(AddOrUpdateCategoryReq obj)
+        {
+            var user = _auth.GetCurrentUser().User;
+            UnitWork.Update<Category>(u => u.Id == obj.Id, u => new Category
+            {
+                Enable = obj.Enable,
+                DtValue = obj.DtValue,
+                DtCode = obj.DtCode,
+                TypeId = obj.TypeId,
+                UpdateTime = DateTime.Now,
+                UpdateUserId = user.Id,
+                UpdateUserName = user.Name
+               //todo:要修改的字段赋值
+            });
+
+        }
+
+        /// <summary>
+        /// 加载一个分类类型里面的所有值，即字典的所有值
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <returns></returns>
+        public List<Category> LoadByTypeId(string typeId)
+        {
+            return Repository.Find(u => u.TypeId == typeId).ToList();
+        }
+
+        public CategoryApp(IUnitWork unitWork, IRepository<Category> repository,IAuth auth) : base(unitWork, repository, auth)
+        {
         }
     }
 }

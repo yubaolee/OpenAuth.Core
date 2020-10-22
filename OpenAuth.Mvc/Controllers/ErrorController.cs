@@ -1,48 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Web;
-using System.Web.Mvc;
+﻿// ***********************************************************************
+// Assembly         : OpenAuth.Mvc
+// Author           : 李玉宝
+// Created          : 07-24-2018
+//
+// Last Modified By : 李玉宝
+// Last Modified On : 07-24-2018
+// ***********************************************************************
+// <copyright file="ErrorController.cs" company="OpenAuth.Mvc">
+//     Copyright (c) http://www.openauth.me. All rights reserved.
+// </copyright>
+// <summary>
+// 异常处理页面
+//</summary>
+// ***********************************************************************
+
 using Infrastructure;
-using OpenAuth.Mvc.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class ErrorController : Controller
     {
-        public ActionResult Http404()
+        [AllowAnonymous]
+        public string Demo()
         {
-            return Content("貌似URL不在~~", "text/plain");
-        }
-
-        /// <summary>
-        /// 演示版本禁止提交
-        /// </summary>
-        public string DemoError()
-        {
-            Response.Charset = "utf-8";
-            var response = new Response
+            return JsonHelper.Instance.Serialize(new Response
             {
                 Code = 500,
-                Message = "演示版本，不能进行此操作"
-            };
-            return JsonHelper.Instance.Serialize(response);
+                Message = "演示版本，不要乱动"
+            });
         }
 
-        /// <summary>
-        /// 没有登录
-        /// </summary>
-        /// <returns>ActionResult.</returns>
-        public ActionResult Http401()
+        [AllowAnonymous]
+        public ActionResult Auth()
         {
-            return RedirectToAction("Index", "Login");
-        }
-
-
-        public ActionResult Http500()
-        {
-            return Content("哇哦！服务器内部出问题了，让站长看看日志吧~~", "text/plain");
+            return View();
         }
     }
 }

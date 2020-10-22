@@ -1,0 +1,67 @@
+﻿@section header
+    {
+    <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
+}
+<form class="layui-form layui-form-pane" action="" id="formEdit">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-block">
+            <input type="text" name="Account" v-model="tmp.Account" required lay-verify="required"
+                   readonly="readonly" class="layui-input">
+        </div>
+    </div>
+       
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="radio" name="Sex" value="1" title="男" v-model="tmp.Sex" >
+            <input type="radio" name="Sex" value="0" title="女" v-model="tmp.Sex" >
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  <legend>权限信息</legend>
+</fieldset>   
+ 
+<div style="padding: 20px; background-color: #F2F2F2;">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header">可访问的部门（点击可切换）</div>
+        <div class="layui-card-body">
+         <ul id="tree" class="ztree" style="padding: 2px; border: 1px solid #ddd; overflow: auto;">    </ul>
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header">可访问的模块权限</div>
+        <div class="layui-card-body">
+          <ul id="treeModule" class="ztree" style="padding: 2px; border: 1px solid #ddd; overflow: auto;">    </ul>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/profile.js"></script>

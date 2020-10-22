@@ -1,66 +1,43 @@
 ﻿using System;
-using System.Configuration;
-using System.Web.Mvc;
 using Infrastructure;
-using OpenAuth.App.SSO;
-using System.Web;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using OpenAuth.App;
+using OpenAuth.App.Interface;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class LoginController : Controller
     {
-        private string _appKey = ConfigurationManager.AppSettings["SSOAppKey"];
+        private string _appKey = "openauth";
+        private IOptions<AppSetting> _appConfiguration;
+
+        private IAuth _authUtil;
+
+        public LoginController(IAuth authUtil, IOptions<AppSetting> appConfiguration)
+        {
+            _authUtil = authUtil;
+            _appConfiguration = appConfiguration;
+        }
 
         // GET: Login
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            ViewBag.AppKey = _appKey;
             return View();
         }
 
-        [HttpPost]
-        public string Index(string username, string password)
-        {
-            var resp = new LoginResult();
-            try
-            {
-                var result = AuthUtil.Login(_appKey, username, password);
-                if (result.Code == 200)
-                {
-
-                    var cookie = new HttpCookie("Token", result.Token)
-                    {
-                        Expires = DateTime.Now.AddDays(10)
-                    };
-                    Response.Cookies.Add(cookie);
-                    resp.Result = "/home/index";
-                }
-                else
-                {
-                    resp.Message = "登录失败";
-                }
-            }
-            catch (Exception e)
-            {
-                resp.Code = 500;
-                resp.Message = e.Message;
-            }
-            return JsonHelper.Instance.Serialize(resp);
-        }
-
+        [AllowAnonymous]
         public string Login(string username, string password)
         {
             var resp = new Response();
             try
             {
-                var result = AuthUtil.Login(_appKey, username, password);
+                var result = _authUtil.Login(_appKey, username, password);
                 if (result.Code == 200)
                 {
-                    var cookie = new HttpCookie("Token", result.Token)
-                    {
-                        Expires = DateTime.Now.AddDays(10)
-                    };
-                    Response.Cookies.Add(cookie);
+                   Response.Cookies.Append(Define.TOKEN_NAME, result.Token);
                 }
                 else
                 {
@@ -78,10 +55,14 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(resp);
         }
 
+        [AllowAnonymous]
         public ActionResult Logout()
         {
-
-            AuthUtil.Logout();
+            if (_appConfiguration.Value.IsIdentityAuth)
+            {
+                return SignOut("Cookies", "oidc");
+            }
+            _authUtil.Logout();
             return RedirectToAction("Index", "Login");
         }
     }

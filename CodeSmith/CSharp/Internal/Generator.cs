@@ -205,6 +205,27 @@ namespace SchemaMapper
             get { return _settings; }
         }
 
+        //按表信息创建DbContext
+        public EntityContext Generate(TableSchema tableSchema)
+        {
+            // only DeepLoad when in ignore mode
+            tableSchema.DeepLoad = !Settings.InclusionMode;
+
+            var entityContext = new EntityContext();
+            entityContext.DatabaseName = tableSchema.Database.Name;
+
+            string dataContextName = StringUtil.ToPascalCase(tableSchema.Database.Name) + "Context";
+            dataContextName = _namer.UniqueClassName(dataContextName);
+
+            entityContext.ClassName = dataContextName;
+
+            GetEntity(entityContext, tableSchema);
+
+
+            return entityContext;
+        }
+
+        //按数据库连接信息创建DbContext
         public EntityContext Generate(DatabaseSchema databaseSchema)
         {
             // only DeepLoad when in ignore mode
@@ -240,8 +261,8 @@ namespace SchemaMapper
             return entityContext;
         }
 
-
-        private Entity GetEntity(EntityContext entityContext, TableSchema tableSchema, bool processRelationships = true, bool processMethods = true)
+        //根据DbContext和tableSchema获取实体
+        public Entity GetEntity(EntityContext entityContext, TableSchema tableSchema, bool processRelationships = true, bool processMethods = true)
         {
             string key = tableSchema.FullName;
 
@@ -363,7 +384,7 @@ namespace SchemaMapper
                 if (Settings.IsIgnored(tableKey.ForeignKeyTable.FullName)
                     || Settings.IsIgnored(tableKey.PrimaryKeyTable.FullName))
                 {
-                    Debug.WriteLine("Skipping relationship '{0}' because table '{1}' or '{2}' is ignored.", 
+                    Debug.WriteLine("Skipping relationship '{0}' because table '{1}' or '{2}' is ignored.",
                         tableKey.FullName, tableKey.ForeignKeyTable.FullName, tableKey.PrimaryKeyTable.FullName);
 
                     continue;

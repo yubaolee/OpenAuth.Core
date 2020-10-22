@@ -1,0 +1,28 @@
+﻿@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+}
+<blockquote class="layui-elem-quote news_search toolList" id="menus">
+</blockquote>
+
+<div class="layui-card">
+
+    <table class="layui-table" id="mainList"
+           lay-data="{height: 'full-80', page:true, id:'mainList'}"
+           lay-filter="list" lay-size="sm">
+    </table>
+
+    <script type="text/html" id="Result">
+        {{# if(d.Result ==1){ }}
+        <span class="layui-badge">失败</span>
+        {{# } else{}}
+        <span class="layui-badge layui-bg-green">成功</span>
+        {{# } }}
+    </script>
+
+</div>  
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/userJs/syslogs.js"></script>
+
+

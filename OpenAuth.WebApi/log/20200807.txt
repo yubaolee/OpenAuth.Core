@@ -1,0 +1,92 @@
+2020-08-07 14:39:04,933 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Default Quartz.NET properties loaded from embedded resource file
+2020-08-07 14:39:05,486 [1] INFO  Quartz.Core.SchedulerSignalerImpl [(null)] - Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2020-08-07 14:39:05,503 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Quartz Scheduler v.3.0.7.0 created.
+2020-08-07 14:39:05,504 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - JobFactory set to: Autofac.Extras.Quartz.AutofacJobFactory
+2020-08-07 14:39:05,505 [1] INFO  Quartz.Simpl.RAMJobStore [(null)] - RAMJobStore initialized.
+2020-08-07 14:39:05,512 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler meta-data: Quartz Scheduler (v3.0.7.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2020-08-07 14:39:05,516 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler 'DefaultQuartzScheduler' initialized
+2020-08-07 14:39:05,516 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler version: 3.0.7.0
+2020-08-07 14:39:05,749 [1] INFO  OpenAuth.App.HostedService.QuartzService [(null)] - 启动定时job，可以在这里配置读取数据库需要启动的任务，然后启动他们
+2020-08-07 14:39:05,756 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2020-08-07 14:39:09,971 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - api doc basepath:C:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\
+2020-08-07 14:39:10,389 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\Infrastructure.xml
+2020-08-07 14:39:10,415 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.App.xml
+2020-08-07 14:39:10,923 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.Repository.xml
+2020-08-07 14:39:11,110 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.WebApi.xml
+2020-08-07 14:39:11,153 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\temp-keys\key-1d85dca2-27e9-431f-97d3-3f455c7b8852.xml
+2020-08-07 14:44:03,021 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Default Quartz.NET properties loaded from embedded resource file
+2020-08-07 14:44:03,383 [1] INFO  Quartz.Core.SchedulerSignalerImpl [(null)] - Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2020-08-07 14:44:03,425 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Quartz Scheduler v.3.0.7.0 created.
+2020-08-07 14:44:03,430 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - JobFactory set to: Autofac.Extras.Quartz.AutofacJobFactory
+2020-08-07 14:44:03,440 [1] INFO  Quartz.Simpl.RAMJobStore [(null)] - RAMJobStore initialized.
+2020-08-07 14:44:03,445 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler meta-data: Quartz Scheduler (v3.0.7.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2020-08-07 14:44:03,447 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler 'DefaultQuartzScheduler' initialized
+2020-08-07 14:44:03,448 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler version: 3.0.7.0
+2020-08-07 14:44:03,649 [1] INFO  OpenAuth.App.HostedService.QuartzService [(null)] - 启动定时job，可以在这里配置读取数据库需要启动的任务，然后启动他们
+2020-08-07 14:44:03,654 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2020-08-07 14:44:04,890 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - api doc basepath:C:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\
+2020-08-07 14:44:04,981 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\Infrastructure.xml
+2020-08-07 14:44:04,985 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.App.xml
+2020-08-07 14:44:05,001 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.Repository.xml
+2020-08-07 14:44:05,003 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.WebApi.xml
+2020-08-07 14:44:05,028 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\temp-keys\key-1d85dca2-27e9-431f-97d3-3f455c7b8852.xml
+2020-08-07 14:51:17,022 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Default Quartz.NET properties loaded from embedded resource file
+2020-08-07 14:51:17,208 [1] INFO  Quartz.Core.SchedulerSignalerImpl [(null)] - Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2020-08-07 14:51:17,223 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Quartz Scheduler v.3.0.7.0 created.
+2020-08-07 14:51:17,223 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - JobFactory set to: Autofac.Extras.Quartz.AutofacJobFactory
+2020-08-07 14:51:17,224 [1] INFO  Quartz.Simpl.RAMJobStore [(null)] - RAMJobStore initialized.
+2020-08-07 14:51:17,228 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler meta-data: Quartz Scheduler (v3.0.7.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2020-08-07 14:51:17,228 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler 'DefaultQuartzScheduler' initialized
+2020-08-07 14:51:17,228 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler version: 3.0.7.0
+2020-08-07 14:51:17,367 [1] INFO  OpenAuth.App.HostedService.QuartzService [(null)] - 启动定时job，可以在这里配置读取数据库需要启动的任务，然后启动他们
+2020-08-07 14:51:17,375 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2020-08-07 14:51:18,494 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - api doc basepath:C:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\
+2020-08-07 14:51:18,539 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\Infrastructure.xml
+2020-08-07 14:51:18,541 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.App.xml
+2020-08-07 14:51:18,544 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.Repository.xml
+2020-08-07 14:51:18,546 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.WebApi.xml
+2020-08-07 14:51:18,550 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\temp-keys\key-1d85dca2-27e9-431f-97d3-3f455c7b8852.xml
+2020-08-07 14:53:08,792 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Default Quartz.NET properties loaded from embedded resource file
+2020-08-07 14:53:08,982 [1] INFO  Quartz.Core.SchedulerSignalerImpl [(null)] - Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2020-08-07 14:53:08,994 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Quartz Scheduler v.3.0.7.0 created.
+2020-08-07 14:53:08,995 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - JobFactory set to: Autofac.Extras.Quartz.AutofacJobFactory
+2020-08-07 14:53:08,996 [1] INFO  Quartz.Simpl.RAMJobStore [(null)] - RAMJobStore initialized.
+2020-08-07 14:53:08,998 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler meta-data: Quartz Scheduler (v3.0.7.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2020-08-07 14:53:08,999 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler 'DefaultQuartzScheduler' initialized
+2020-08-07 14:53:08,999 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler version: 3.0.7.0
+2020-08-07 14:53:09,131 [1] INFO  OpenAuth.App.HostedService.QuartzService [(null)] - 启动定时job，可以在这里配置读取数据库需要启动的任务，然后启动他们
+2020-08-07 14:53:09,136 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2020-08-07 14:53:10,015 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - api doc basepath:C:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\
+2020-08-07 14:53:10,053 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\Infrastructure.xml
+2020-08-07 14:53:10,056 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.App.xml
+2020-08-07 14:53:10,058 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.Repository.xml
+2020-08-07 14:53:10,062 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.WebApi.xml
+2020-08-07 14:53:10,067 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\temp-keys\key-1d85dca2-27e9-431f-97d3-3f455c7b8852.xml

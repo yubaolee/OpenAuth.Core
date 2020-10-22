@@ -1,11 +1,10 @@
-﻿using System.Text;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using OpenAuth.App.Interface;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class HomeController : BaseController
     {
-
         public ActionResult Index()
         {
             return View();
@@ -23,6 +22,9 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-      
+
+        public HomeController(IAuth authUtil) : base(authUtil)
+        {
+        }
     }
 }

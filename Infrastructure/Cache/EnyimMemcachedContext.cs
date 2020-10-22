@@ -5,9 +5,11 @@
 //
 // Last Modified By : yubaolee
 // Last Modified On : 06-21-2016
-// Contact : 
+// Contact : Add services.AddEnyimMemcached(...)
+//                  and app.UseEnyimMemcached() in Startup. 
 // File: EnyimMemcachedContext.cs
 // ***********************************************************************
+
 
 
 using System;
@@ -18,7 +20,12 @@ namespace Infrastructure.Cache
 {
     public sealed class EnyimMemcachedContext : ICacheContext
     {
-        private static readonly MemcachedClient _memcachedClient  = new MemcachedClient();
+        private  IMemcachedClient _memcachedClient;
+
+        public EnyimMemcachedContext(IMemcachedClient client)
+        {
+            _memcachedClient = client;
+        }
 
         public override T Get<T>(string key)
         {

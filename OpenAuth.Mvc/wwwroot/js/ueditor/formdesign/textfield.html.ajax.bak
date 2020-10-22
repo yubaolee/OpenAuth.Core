@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>插入文本框</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div class="content">
+
+    <table class="table table-bordered table-striped table-hover">
+     <tr>
+        <th><span>控件名称</span><span class="label label-danger">*</span></th>
+        <th><span>默认值</span> </th>
+    </tr>
+    <tr>
+        <td><input type="text" class="form-control input-sm" id="txtName" placeholder="必填项"></td>
+        <td><input type="text" class="form-control input-sm" id="txtValue" placeholder="无则不填"></td>
+    </tr>
+    <tr>
+        <th><span>输入框样式</span> </th>
+        <th><span>可见性</span> </th>
+    </tr>
+    <tr>
+        <td>
+            宽 <input id="txtWidth" type="text" value="150" size="5"/> px
+            &nbsp;&nbsp;
+            高 <input id="txtHeight" type="text" value="20" size="5"/> px
+        </td>
+        <td> <label><input id="txtHidden" type="checkbox"  /> 隐藏 </label> </td>
+    </tr>
+    <tr>
+        <th><span>字体大小</span> </th>
+        <th><span>对齐方式</span> </th>
+    </tr>
+    <tr>
+        <td> <input id="txtFontSize" type="text" size="5" value="12" /> px</td>
+        <td>
+            <select id="txtAlign" class="form-control">
+                <option value="left" >左对齐</option>
+                <option value="center">居中对齐</option>
+                <option value="right">右对齐</option>
+            </select>
+        </td>
+    </tr>
+    </table>
+</div>
+<script type="text/javascript">
+            var oNode = null;
+            window.onload = function() {
+                //弹出窗口初始化函数，这里主要是判断是编辑文本框还是新增
+                //以下这个对象定义在editor.all.js第13259行。
+                if( UE.plugins['textfield'].editdom ){
+                    oNode = UE.plugins['textfield'].editdom;
+                    $G('txtName').value = oNode.getAttribute('title');
+                    $G('txtValue').value = oNode.getAttribute('value');
+                    var nHidden = oNode.getAttribute('hide');
+                    if ( nHidden == '1' ) {
+                        $G('txtHidden').checked = true ;
+                    } else {
+                        nHidden = '0';
+                    }
+                    var sItemId = oNode.getAttribute('name').substr(5);
+                    var sFontSize = oNode.style.fontSize;
+                    $G('txtFontSize').value = sFontSize.substr(0, sFontSize.length - 2);//这里的substr是为了去掉末尾的'px'
+                    var sSizeWidth = oNode.style.width;
+                    $G('txtWidth').value = sSizeWidth.substr(0, sSizeWidth.length - 2);
+                    var sSizeHeight = oNode.style.height;
+                    $G('txtHeight').value = sSizeHeight.substr(0, sSizeHeight.length - 2);
+                    $G('txtAlign').value = oNode.style.textAlign;
+                }
+            }
+            dialog.oncancel = function () {
+                if( UE.plugins['textfield'].editdom ) {
+                    delete UE.plugins['textfield'].editdom;
+                }
+            };
+            dialog.onok = function (){
+                if($G('txtName').value==''){
+                    alert('请输入控件名称');
+                    return false;
+                }
+
+                if( !oNode ) {
+                    var sUrl = '/itemid.html'// parent.getItemUrl;
+                    var nItemId = 0;
+                   ajax.request(sUrl, {method: 'GET',timeout:60000,async: false,onsuccess:function (xhr) {
+                            try {
+                                nItemId = xhr.responseText;
+                                var html = '<input type="text"';
+                                html += ' title = "' + $G('txtName').value + '"';
+                                html += ' name = "data_' + nItemId + '"';
+                                html += ' value = "' + $G('txtValue').value + '"';
+                                if ( $G('txtHidden').checked ) {
+                                    html += ' hide = "1"';
+                                } else {
+                                    html += ' hide = "0"';
+                                }
+                                html += ' style = "';
+                                if( $G('txtFontSize').value != '' ) {
+                                    html += 'font-size:' + $G('txtFontSize').value + 'px;';
+                                }
+                                if( $G('txtAlign').value != '' ) {
+                                    html += 'text-align:' + $G('txtAlign').value + ';';
+                                }
+                                if( $G('txtWidth').value != '' ) {
+                                    html += 'width:' + $G('txtWidth').value + 'px;';
+                                }
+                                if( $G('txtHeight').value != '' ) {
+                                    html += 'height:' + $G('txtHeight').value + 'px;';
+                                }
+                                html += '" />';
+                                editor.execCommand('insertHtml',html);
+                            } catch (e) {
+                                return;
+                            }
+                        },
+                        error:function () {
+                            alert('Request TimeOut');
+                        }
+                    })
+                } else {
+                    oNode.setAttribute('title', $G('txtName').value);
+                    oNode.setAttribute('value', $G('txtValue').value);
+                    if( $G('txtHidden').checked ) {
+                        oNode.setAttribute('hide', 1);
+                    } else {
+                        oNode.setAttribute('hide', 0);
+                    }
+                    var style = '';
+                    if( $G('txtFontSize').value != '' ) {
+                        style += 'font-size:' + $G('txtFontSize').value + 'px;';
+                    }
+                    if( $G('txtAlign').value != '' ) {
+                        style += 'text-align:' + $G('txtAlign').value + ';';
+                    }
+                    if( $G('txtWidth').value != '' ) {
+                        style += 'width:' + $G('txtWidth').value + 'px;';
+                    }
+                    if( $G('txtHeight').value != '' ) {
+                        style += 'height:' + $G('txtHeight').value + 'px;';
+                    }
+                    oNode.setAttribute('style',style );
+                    delete UE.plugins['textfield'].editdom; //使用后清空这个对象，变回新增模式
+                }
+            };
+        </script>
+</body>
+</html>

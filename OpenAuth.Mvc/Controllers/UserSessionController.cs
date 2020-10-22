@@ -1,24 +1,69 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : OpenAuth.Mvc
+// Author           : 李玉宝
+// Created          : 06-08-2018
+//
+// Last Modified By : 李玉宝
+// Last Modified On : 07-04-2018
+// ***********************************************************************
+// <copyright file="UserSessionController.cs" company="OpenAuth.Mvc">
+//     Copyright (c) http://www.openauth.me. All rights reserved.
+// </copyright>
+// <summary>
+// 获取登录用户的全部信息
+// 所有和当前登录用户相关的操作都在这里
+// </summary>
+// ***********************************************************************
+
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
+using Infrastructure.Helpers;
+using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
-using OpenAuth.App.SSO;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
-    /// <summary>
-    /// 获取登录用户的全部信息
-    /// <para>所有和当前登录用户相关的操作都在这里</para>
-    /// </summary>
     public class UserSessionController : BaseController
     {
-        UserWithAccessedCtrls user = AuthUtil.GetCurrentUser();
+        private readonly AuthStrategyContext _authStrategyContext;
+        public UserSessionController(IAuth authUtil) : base(authUtil)
+        {
+            _authStrategyContext = _authUtil.GetCurrentUser();
+        }
+
+        /// <summary>
+        /// 获取用户资料
+        /// </summary>
+        /// <returns></returns>
+        public string GetUserProfile()
+        {
+            var resp = new Response<UserView>();
+            try
+            {
+                resp.Result = _authStrategyContext.User.MapTo<UserView>();
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(resp);
+        }
+
+        public string GetUserName()
+        {
+            return _authUtil.GetUserName();
+        }
         /// <summary>
         /// 获取登录用户可访问的所有模块，及模块的操作菜单
         /// </summary>
         public string GetModulesTree()
         {
-            var moduleTree = user.Modules.GenerateTree(u => u.Id, u => u.ParentId);
+            var moduleTree = _authStrategyContext.Modules.GenerateTree(u => u.Id, u => u.ParentId);
             return JsonHelper.Instance.Serialize(moduleTree);
         }
 
@@ -27,18 +72,18 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         /// <param name="pId"></param>
         /// <returns></returns>
-        public string GetModules(string pId)
+        public string GetModulesTable(string pId)
         {
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(pId))
             {
-                var obj = user.Modules.SingleOrDefault(u => u.Id == pId);
+                var obj = _authStrategyContext.Modules.SingleOrDefault(u => u.Id == pId);
                 if (obj == null)
                     throw new Exception("未能找到指定对象信息");
                 cascadeId = obj.CascadeId;
             }
 
-            var query = user.Modules.Where(u => u.CascadeId.Contains(cascadeId));
+            var query = _authStrategyContext.Modules.Where(u => u.CascadeId.Contains(cascadeId));
 
             return JsonHelper.Instance.Serialize(new TableData
             {
@@ -51,10 +96,19 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 获取用户可访问的模块列表
         /// </summary>
-        public string QueryModuleList()
+        public string GetModules()
         {
-            var orgs = user.Modules.MapToList<ModuleView>();
-            return JsonHelper.Instance.Serialize(orgs);
+            var resp = new Response<List<ModuleView>>();
+            try
+            {
+                resp.Result = _authStrategyContext.Modules;
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(resp);
         }
 
         /// <summary>
@@ -63,7 +117,43 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetOrgs()
         {
-            return JsonHelper.Instance.Serialize(user.Orgs);
+             var resp = new Response<List<Org>>();
+            try
+            {
+                resp.Result = _authStrategyContext.Orgs;
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(resp);
+        }
+
+        /// <summary>
+        /// 获取当前登录用户可访问的字段
+        /// </summary>
+        /// <param name="moduleCode">模块的Code，如Category</param>
+        /// <returns></returns>
+        public string GetProperties(string moduleCode)
+        {
+            try
+            {
+                var list = _authStrategyContext.GetProperties(moduleCode);
+                return JsonHelper.Instance.Serialize(new TableData
+                {
+                    data = list,
+                    count = list.Count(),
+                });
+            }
+            catch (Exception ex)
+            {
+                return JsonHelper.Instance.Serialize(new TableData
+                    {
+                        msg =ex.Message,
+                        code = 500,
+                    });
+            }
         }
 
         /// <summary>
@@ -76,7 +166,7 @@ namespace OpenAuth.Mvc.Controllers
             string cascadeId = ".0.";
             if (!string.IsNullOrEmpty(orgId))
             {
-                var org = user.Orgs.SingleOrDefault(u => u.Id == orgId);
+                var org = _authStrategyContext.Orgs.SingleOrDefault(u => u.Id == orgId);
                 if (org == null)
                 {
                     return JsonHelper.Instance.Serialize(new TableData
@@ -88,7 +178,7 @@ namespace OpenAuth.Mvc.Controllers
                 cascadeId = org.CascadeId;
             }
 
-            var query = user.Orgs.Where(u => u.CascadeId.Contains(cascadeId));
+            var query = _authStrategyContext.Orgs.Where(u => u.CascadeId.Contains(cascadeId));
 
             return JsonHelper.Instance.Serialize(new TableData
             {
@@ -97,11 +187,5 @@ namespace OpenAuth.Mvc.Controllers
             });
         }
 
-        //获取当前页面菜单
-        public string GetButtonns()
-        {
-            var module = user.Modules.Single(u => u.Name.Contains(""));
-            return JsonHelper.Instance.Serialize(module.Elements);
-        }
     }
 }

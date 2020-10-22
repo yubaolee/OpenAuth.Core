@@ -1,17 +1,22 @@
 ﻿using System;
-using System.Web.Http;
-using System.Web.Mvc;
 using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class CategoriesController : BaseController
     {
-        public CategoryApp App { get; set; }
+        private readonly CategoryApp _app;
+        private CategoryTypeApp _categoryTypeApp;
+        public CategoriesController(IAuth authUtil, CategoryApp app, CategoryTypeApp categoryTypeApp) : base(authUtil)
+        {
+            _app = app;
+            _categoryTypeApp = categoryTypeApp;
+        }
 
         //
         // GET: /UserManager/
@@ -20,20 +25,20 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public string All([FromUri]QueryCategoriesReq request)
+        public string All([FromQuery]QueryCategoryListReq request)
         {
             TableData data = new TableData();
-            data = App.All(request);
+            data = _app.Load(request);
             return JsonHelper.Instance.Serialize(data);
         }
 
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Delete(string[] ids)
         {
             Response resp = new Response();
             try
             {
-                App.Delete(ids);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {
@@ -43,13 +48,13 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(resp);
         }
 
-        [System.Web.Mvc.HttpPost]
-        public string Add(Category obj)
+       [HttpPost]
+        public string Add(AddOrUpdateCategoryReq obj)
         {
             Response resp = new Response();
             try
             {
-                App.Add(obj);
+                _app.Add(obj);
             }
             catch (Exception e)
             {
@@ -59,13 +64,13 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(resp);
         }
 
-        [System.Web.Mvc.HttpPost]
-        public string Update(Category obj)
+       [HttpPost]
+        public string Update(AddOrUpdateCategoryReq obj)
         {
             Response resp = new Response();
             try
             {
-                App.Update(obj);
+                _app.Update(obj);
             }
             catch (Exception e)
             {
@@ -75,10 +80,13 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(resp);
         }
 
-        //所有得分类类型
+        /// <summary>
+        /// 得到所有的字典定义
+        /// </summary>
+        /// <returns></returns>
         public string AllTypes()
         {
-            var data = App.AllTypes();
+            var data = _categoryTypeApp.AllTypes();
             return JsonHelper.Instance.Serialize(data);
         }
 

@@ -1,4 +1,4 @@
-﻿using OpenAuth.Repository.Domain;
+﻿using System.ComponentModel;
 
 namespace OpenAuth.Repository.Core
 {
@@ -8,23 +8,27 @@ namespace OpenAuth.Repository.Core
     public abstract class TreeEntity: Entity
     {
         /// <summary>
-        /// 父节点名称
+        /// 节点语义ID
         /// </summary>
+        [Description("节点语义ID")]
+        public string CascadeId { get; set; }
+        /// <summary>
+        /// 功能模块名称
+        /// </summary>
+        [Description("名称")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 父节点流水号
+        /// </summary>
+        [Description("父节点流水号")]
         public string ParentId { get; set; }
         /// <summary>
         /// 父节点名称
         /// </summary>
+        [Description("父节点名称")]
         public string ParentName { get; set; }
 
-        /// <summary>
-        /// 节点语义ID
-        /// </summary>
-        public string CascadeId { get; set; }
-
-        /// <summary>
-        /// 名称
-        /// </summary>
-        public string Name { get; set; }
     }
 
 }

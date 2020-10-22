@@ -1,31 +1,41 @@
 ﻿using System;
-using System.Web.Http;
-using System.Web.Mvc;
+using System.Collections.Generic;
 using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
-using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class ApplicationsController : BaseController
     {
-        public AppManager App { get; set; }
+        private readonly AppManager _app;
 
 
-        public string GetList([FromUri]QueryAppListReq request)
+        public string GetList([FromQuery]QueryAppListReq request)
         {
-            return JsonHelper.Instance.Serialize(App.GetList(request));
+            var resp = new Response<List<Application>>();
+            try
+            {
+                resp.Result = _app.GetList(request);
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(resp);
         }
 
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Delete(string[] ids)
         {
             Response resp = new Response();
             try
             {
-                App.Delete(ids);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {
@@ -35,13 +45,13 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(resp);
         }
 
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Add(Application obj)
         {
             Response resp = new Response();
             try
             {
-                App.Add(obj);
+                _app.Add(obj);
             }
             catch (Exception e)
             {
@@ -51,13 +61,13 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(resp);
         }
 
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Update(Application obj)
         {
             Response resp = new Response();
             try
             {
-                App.Update(obj);
+                _app.Update(obj);
             }
             catch (Exception e)
             {
@@ -68,5 +78,9 @@ namespace OpenAuth.Mvc.Controllers
         }
 
 
+        public ApplicationsController(IAuth authUtil, AppManager app) : base(authUtil)
+        {
+            _app = app;
+        }
     }
 }

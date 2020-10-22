@@ -1,6 +1,8 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+     <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
@@ -20,11 +22,11 @@
                 <th lay-data="{checkbox:true, fixed: true}"></th>
                 <th lay-data="{field:'Id', width:150}">表单模板Id</th>
                 <th lay-data="{field:'Name', width:150}">表单名称</th>
-                <th lay-data="{field:'Fields', width:150}">字段个数</th>
+                <th lay-data="{field:'Description', width:250}">备注</th>
+                <th lay-data="{field:'Fields', width:100}">字段个数</th>
                 <th lay-data="{field:'ContentData', width:150}">表单中的字段数据</th>
                 <th lay-data="{field:'DbName', width:150}">关联的数据库</th>
                 <th lay-data="{field:'Enabled', width:150}">有效</th>
-                <th lay-data="{field:'Description', width:150}">备注</th>
                 <th lay-data="{field:'CreateDate', width:150}">创建时间</th>
                 <th lay-data="{field:'ModifyDate', width:150}">修改时间</th>
                 <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barList'}"></th>

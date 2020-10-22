@@ -40,10 +40,6 @@ namespace OpenAuth.Repository.Interface
 
         void Delete(T entity);
 
-        /// <summary>
-        /// 按指定的ID进行批量更新
-        /// </summary>
-        void Update(Expression<Func<T, object>> identityExp, T entity);
 
         /// <summary>
         /// 实现按需要只更新部分更新
@@ -60,5 +56,18 @@ namespace OpenAuth.Repository.Interface
         void Save();
 
         int ExecuteSql(string sql);
+        
+         /// <summary>
+        /// 使用SQL脚本查询
+        /// </summary>
+        /// <typeparam name="T"> T为数据库实体</typeparam>
+        /// <returns></returns>
+        IQueryable<T> FromSql(string sql, params object[] parameters);
+            /// <summary>
+            /// 使用SQL脚本查询
+            /// </summary>
+            /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
+            /// <returns></returns>
+        IQueryable<T> Query(string sql, params object[] parameters);
     }
 }

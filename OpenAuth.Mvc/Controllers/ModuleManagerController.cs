@@ -1,52 +1,34 @@
 ﻿using Infrastructure;
 using OpenAuth.App;
-using OpenAuth.App.SSO;
-using OpenAuth.Mvc.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using System.Collections.Generic;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class ModuleManagerController : BaseController
     {
-        public ModuleManagerApp App { get; set; }
+        private ModuleManagerApp _app;
+        public ModuleManagerController(IAuth authUtil, ModuleManagerApp app) : base(authUtil)
+        {
+            _app = app;
+        }
 
         // GET: /ModuleManager/
-        [Authenticate]
+       
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authenticate]
+       
         public ActionResult Assign()
         {
             return View();
-        }
-
-        /// <summary>
-        /// 加载特定用户的模块
-        /// </summary>
-        /// <param name="firstId">The user identifier.</param>
-        /// <returns>System.String.</returns>
-        public string LoadForUser(string firstId)
-        {
-            var modules = App.LoadForUser(firstId);
-            return JsonHelper.Instance.Serialize(modules);
-        }
-        /// <summary>
-        /// 根据某用户ID获取可访问某模块的菜单项
-        /// </summary>
-        /// <returns></returns>
-        public string LoadMenusForUser(string moduleId, string firstId)
-        {
-            var menus = App.LoadMenusForUser(moduleId, firstId);
-            return JsonHelper.Instance.Serialize(menus);
         }
 
         /// <summary>
@@ -56,8 +38,35 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadForRole(string firstId)
         {
-            var modules = App.LoadForRole(firstId);
+            var modules = _app.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(modules);
+        }
+                /// <summary>
+        /// 获取角色已经分配的字段
+        /// </summary>
+        /// <param name="roleId">角色id</param>
+        /// <param name="moduleCode">模块代码，如Category</param>
+        /// <returns></returns>
+        [HttpGet]
+        public string LoadPropertiesForRole(string roleId, string moduleCode)
+        {
+            try
+            {
+                var props = _app.LoadPropertiesForRole(roleId, moduleCode);
+                 var data = new Response<IEnumerable<string>>
+                {
+                    Result = props.ToList(),
+                };
+                return JsonHelper.Instance.Serialize(data);
+            }
+            catch (Exception ex)
+            {
+                return JsonHelper.Instance.Serialize(new Response
+                    {
+                        Message =ex.Message,
+                        Code = 500,
+                    });
+            }
         }
 
         /// <summary>
@@ -66,7 +75,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns></returns>
         public string LoadMenusForRole(string moduleId, string firstId)
         {
-            var menus = App.LoadMenusForRole(moduleId, firstId);
+            var menus = _app.LoadMenusForRole(moduleId, firstId);
             return JsonHelper.Instance.Serialize(menus);
         }
 
@@ -76,7 +85,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadAuthorizedMenus(string modulecode)
         {
-            var user = AuthUtil.GetCurrentUser();
+            var user = _authUtil.GetCurrentUser();
             var module = user.Modules.First(u =>u.Code == modulecode);
             if (module != null)
             {
@@ -91,34 +100,34 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加模块
         [HttpPost]
-        [ValidateInput(false)]
+       
         public string Add(Module model)
         {
             try
             {
-                App.Add(model);
+                _app.Add(model);
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message??ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
 
         //修改模块
         [HttpPost]
-        [ValidateInput(false)]
+       
         public string Update(Module model)
         {
             try
             {
-                App.Update(model);
+                _app.Update(model);
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -128,12 +137,12 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                App.Delete(ids);
+                _app.Delete(ids);
             }
             catch (Exception e)
             {
                 Result.Code = 500;
-                Result.Message = e.Message;
+                Result.Message = e.InnerException?.Message ?? e.Message;
             }
 
             return JsonHelper.Instance.Serialize(Result);
@@ -148,7 +157,7 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns>System.String.</returns>
         public string LoadMenus(string moduleId)
         {
-            var user = AuthUtil.GetCurrentUser();
+            var user = _authUtil.GetCurrentUser();
 
             var module = user.Modules.Single(u => u.Id == moduleId);
              
@@ -162,34 +171,34 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加菜单
         [HttpPost]
-        [ValidateInput(false)]
+       
         public string AddMenu(ModuleElement model)
         {
             try
             {
-                App.AddMenu(model);
+                _app.AddMenu(model);
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
 
         //添加菜单
         [HttpPost]
-        [ValidateInput(false)]
+       
         public string UpdateMenu(ModuleElement model)
         {
             try
             {
-                App.UpdateMenu(model);
+                _app.UpdateMenu(model);
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -203,15 +212,17 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                App.DelMenu(ids);
+                _app.DelMenu(ids);
             }
             catch (Exception e)
             {
                 Result.Code = 500;
-                Result.Message = e.Message;
+                Result.Message = e.InnerException?.Message ?? e.Message;
             }
 
             return JsonHelper.Instance.Serialize(Result);
         }
+
+        
     }
 }

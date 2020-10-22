@@ -1,0 +1,114 @@
+2020-06-24 14:03:34,468 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Default Quartz.NET properties loaded from embedded resource file
+2020-06-24 14:03:34,620 [1] INFO  Quartz.Core.SchedulerSignalerImpl [(null)] - Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2020-06-24 14:03:34,633 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Quartz Scheduler v.3.0.7.0 created.
+2020-06-24 14:03:34,634 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - JobFactory set to: Autofac.Extras.Quartz.AutofacJobFactory
+2020-06-24 14:03:34,635 [1] INFO  Quartz.Simpl.RAMJobStore [(null)] - RAMJobStore initialized.
+2020-06-24 14:03:34,639 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler meta-data: Quartz Scheduler (v3.0.7.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2020-06-24 14:03:34,640 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler 'DefaultQuartzScheduler' initialized
+2020-06-24 14:03:34,640 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler version: 3.0.7.0
+2020-06-24 14:03:34,784 [1] INFO  OpenAuth.App.HostedService.QuartzService [(null)] - 启动定时job，可以在这里配置读取数据库需要启动的任务，然后启动他们
+2020-06-24 14:03:34,794 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2020-06-24 14:03:38,536 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - api doc basepath:C:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\
+2020-06-24 14:03:38,966 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\Infrastructure.xml
+2020-06-24 14:03:38,974 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.App.xml
+2020-06-24 14:03:39,021 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.Repository.xml
+2020-06-24 14:03:39,023 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.WebApi.xml
+2020-06-24 14:03:39,028 [8] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\temp-keys\key-1d85dca2-27e9-431f-97d3-3f455c7b8852.xml
+2020-06-24 14:09:15,588 [19] INFO  OpenAuth.WebApi.Controllers.CheckController [(null)] - Login enter
+2020-06-24 14:09:31,985 [21] ERROR Microsoft.EntityFrameworkCore.Database.Command [(null)] - Failed executing DbCommand (374ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `w`.`ExternalNo`, `w`.`ExternalType`, `w`.`Status`, `w`.`OrderType`, `w`.`GoodsType`, `w`.`PurchaseNo`, `w`.`StockId`, `w`.`OwnerId`, `w`.`ShipperId`, `w`.`SupplierId`, `w`.`ScheduledInboundTime`, `w`.`Remark`, `w`.`Enable`, `w`.`TransferType`, `w`.`InBondedArea`, `w`.`ReturnBoxNum`, `w`.`CreateTime`, `w`.`CreateUserId`, `w`.`CreateUserName`, `w`.`UpdateTime`, `w`.`UpdateUserId`, `w`.`UpdateUserName`, `w`.`OrgId`, `w`.`Id`
+FROM `WmsInboundOrderTbl` AS `w`
+ORDER BY `w`.`Id`
+LIMIT @__p_1 OFFSET @__p_0
+2020-06-24 14:09:32,138 [21] ERROR Microsoft.EntityFrameworkCore.Query [(null)] - An exception occurred while iterating over the results of a query for context type 'OpenAuth.Repository.OpenAuthDBContext'.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'w.OrgId' in 'field list'
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'w.OrgId' in 'field list'
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\Core\ResultSet.cs:line 49
+   at MySql.Data.MySqlClient.MySqlDataReader.ActivateResultSet() in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 130
+   at MySql.Data.MySqlClient.MySqlDataReader.CreateAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 391
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(IReadOnlyList`1 commands, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\Core\CommandExecutor.cs:line 62
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlCommand.cs:line 217
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'w.OrgId' in 'field list'
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'w.OrgId' in 'field list'
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\Core\ResultSet.cs:line 49
+   at MySql.Data.MySqlClient.MySqlDataReader.ActivateResultSet() in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 130
+   at MySql.Data.MySqlClient.MySqlDataReader.CreateAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 391
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(IReadOnlyList`1 commands, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\Core\CommandExecutor.cs:line 62
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlCommand.cs:line 217
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+2020-06-24 14:09:32,269 [21] ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware [(null)] - An unhandled exception has occurred while executing the request.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'w.OrgId' in 'field list'
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'w.OrgId' in 'field list'
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\Core\ResultSet.cs:line 49
+   at MySql.Data.MySqlClient.MySqlDataReader.ActivateResultSet() in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 130
+   at MySql.Data.MySqlClient.MySqlDataReader.CreateAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 391
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(IReadOnlyList`1 commands, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\Core\CommandExecutor.cs:line 62
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlCommand.cs:line 217
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Serialize(JsonWriter jsonWriter, Object value)
+   at Microsoft.AspNetCore.Mvc.Formatters.NewtonsoftJsonOutputFormatter.WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+   at Microsoft.AspNetCore.Mvc.Formatters.NewtonsoftJsonOutputFormatter.WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+   at Microsoft.AspNetCore.Mvc.Formatters.NewtonsoftJsonOutputFormatter.WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-06-24 14:11:13,907 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Default Quartz.NET properties loaded from embedded resource file
+2020-06-24 14:11:14,108 [1] INFO  Quartz.Core.SchedulerSignalerImpl [(null)] - Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2020-06-24 14:11:14,121 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Quartz Scheduler v.3.0.7.0 created.
+2020-06-24 14:11:14,121 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - JobFactory set to: Autofac.Extras.Quartz.AutofacJobFactory
+2020-06-24 14:11:14,122 [1] INFO  Quartz.Simpl.RAMJobStore [(null)] - RAMJobStore initialized.
+2020-06-24 14:11:14,126 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler meta-data: Quartz Scheduler (v3.0.7.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2020-06-24 14:11:14,127 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler 'DefaultQuartzScheduler' initialized
+2020-06-24 14:11:14,127 [1] INFO  Quartz.Impl.StdSchedulerFactory [(null)] - Quartz scheduler version: 3.0.7.0
+2020-06-24 14:11:14,261 [1] INFO  OpenAuth.App.HostedService.QuartzService [(null)] - 启动定时job，可以在这里配置读取数据库需要启动的任务，然后启动他们
+2020-06-24 14:11:14,267 [1] INFO  Quartz.Core.QuartzScheduler [(null)] - Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2020-06-24 14:11:15,882 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - api doc basepath:C:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\
+2020-06-24 14:11:15,912 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\Infrastructure.xml
+2020-06-24 14:11:15,914 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.App.xml
+2020-06-24 14:11:15,916 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.Repository.xml
+2020-06-24 14:11:15,918 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\OpenAuth.WebApi.xml
+2020-06-24 14:11:15,923 [9] INFO  OpenAuth.WebApi.Model.StartupLogger [(null)] - find api fileC:\Project\OpenAuth.Core\OpenAuth.WebApi\bin\Debug\netcoreapp3.1\temp-keys\key-1d85dca2-27e9-431f-97d3-3f455c7b8852.xml
+2020-06-24 14:12:33,310 [8] INFO  OpenAuth.WebApi.Controllers.CheckController [(null)] - Login enter
+2020-06-24 14:16:58,276 [20] INFO  OpenAuth.WebApi.Controllers.CheckController [(null)] - Login enter
+2020-06-24 14:24:35,722 [56] INFO  OpenAuth.WebApi.Controllers.CheckController [(null)] - Login enter
+2020-06-24 14:33:59,644 [68] INFO  OpenAuth.WebApi.Controllers.CheckController [(null)] - Login enter

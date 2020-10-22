@@ -1,26 +1,16 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+     <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/js/dtree/dtree.css" />
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList" id="menus"></blockquote>
 
 <div class="layui-card">
 
-    <table class="layui-table"
+    <table class="layui-table" id="mainList"
            lay-data="{height: 'full-80', page:true, id:'mainList'}"
            lay-filter="list" lay-size="sm">
-        <thead>
-            <tr>
-                <th lay-data="{checkbox:true, fixed: true}"></th>
-                <th lay-data="{field:'Id', width:200}">资源标识</th>
-                <th lay-data="{field:'Name', width:150}">名称</th>
-                <th lay-data="{field:'Disable', width:150, templet:'#Disable'}">是否可用</th>
-                <th lay-data="{field:'SortNo', width:50}">排序</th>
-                <th lay-data="{field:'Description', width:200}">描述</th>
-                <th lay-data="{field:'AppName', width:150}">所属应用</th>
-                <th lay-data="{field:'TypeName', width:150}">分类名称</th>
-            </tr>
-        </thead>
     </table>
 
     <script type="text/html" id="Disable">
@@ -39,7 +29,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">资源标识</label>
             <div class="layui-input-block">
-                <input type="text" name="Id" v-model="Id" required lay-verify="required"
+                <input type="text" name="Id" v-model="tmp.Id" required lay-verify="required"
                        placeholder="名称" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -47,7 +37,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">名称</label>
             <div class="layui-input-block">
-                <input type="text" name="Name" v-model="Name" required lay-verify="required"
+                <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
                        placeholder="名称" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -55,7 +45,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">
-                <input type="text" name="Description" v-model="Description" required lay-verify="required"
+                <input type="text" name="Description" v-model="tmp.Description" required lay-verify="required"
                        placeholder="描述" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -63,13 +53,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属应用</label>
             <div class="layui-input-block">
-
-                <input id="AppName" name="AppName" v-model="AppName" class="layui-input" />
-                <input id="AppId" name="AppId" v-model="AppId" type="hidden" />
-                <div id="menuContent" class="menuContent" style="display: none;">
-                    <ul id="org" class="ztree"></ul>
-                </div>
-
+                <input id="AppName" name="AppName" v-model="tmp.AppName" class="layui-input" />
+                <input id="AppId" name="AppId" v-model="tmp.AppId" type="hidden" />
             </div>
         </div>
 
@@ -83,6 +68,6 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/Resources.js"></script>
+<script type="text/javascript" src="/userJs/resources.js?v=1.5.1"></script>
 
 

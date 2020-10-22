@@ -1,7 +1,7 @@
 ﻿<%@ Template Language="C#" TargetLanguage="C#" Debug="True" Encoding="UTF-8" %>
 
-<%@ Assembly Src="Model.cs" %>
-<%@ Assembly Src="Extensions.cs" %>
+<%@ Assembly Src="../Internal/Model.cs" %>
+<%@ Assembly Src="../Internal/Extensions.cs" %>
 
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="System.Linq" %>
@@ -10,8 +10,8 @@
 
 <%@ Import Namespace="SchemaMapper" %>
 
-<%@ Property Name="Entity"
-             Type="SchemaMapper.Entity"  %>
+<%@ Property Name="Table"
+             Type="SchemaExplorer.TableSchema"  %>
 
 <%@ Property Name="EntityNamespace"
              Type="System.String"  %>
@@ -26,47 +26,50 @@
 //------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using OpenAuth.Repository.Core;
 
 namespace <%= EntityNamespace %>
 {
     /// <summary>
-	/// <%= Entity.Description %>
+	/// <%= Table.Description %>
 	/// </summary>
-    public partial class <%= Entity.ClassName.ToSafeName() %> : Entity
+    [Table("<%= Table.Name%>")]
+    public partial class <%= Table.Name %> : Entity
     {
-        public <%= Entity.ClassName.ToSafeName() %>()
+        public <%= Table.Name %>()
         {
-<% foreach(var p in Entity.Properties) { 
-    if(p.IsPrimaryKey ==true) continue;
-    string type = p.SystemType.ToNullableType(p.IsNullable == true);
-    if(type =="int" || type=="decimal")
-    Response.WriteLine("          this."+p.PropertyName.ToSafeName()+"= 0;");
-    else if(type =="string")
-    Response.WriteLine("          this."+p.PropertyName.ToSafeName()+"= string.Empty;");
-     else if(type.ToLower().Contains("datetime"))
-    Response.WriteLine("          this."+p.PropertyName.ToSafeName()+"= DateTime.Now;");
- } // foreach %>
-<% foreach(var r in Entity.Relationships.Where(e => e.ThisCardinality == Cardinality.Many)) { %>
-            <%= r.ThisPropertyName.ToSafeName() %> = new List<<%= r.OtherEntity.ToSafeName() %>>();
-<% } // foreach %>
+            <% foreach(ColumnSchema p in Table.Columns) { 
+                if(p.IsPrimaryKeyMember) continue;
+                string type = p.SystemType.ToNullableType(p.AllowDBNull == true);
+                if(type =="int" || type=="decimal")
+                Response.WriteLine("          this."+p.Name+"= 0;");
+                else if(type =="string")
+                Response.WriteLine("          this."+p.Name+"= string.Empty;");
+                 else if(type.ToLower().Contains("datetime"))
+                Response.WriteLine("          this."+p.Name+"= DateTime.Now;");
+             } // foreach %>
         }
 
-<% foreach(var p in Entity.Properties) {
-    if(p.IsPrimaryKey ==true) continue;
-    %>
+        
+        <%   
+        foreach(ColumnSchema p in Table.Columns) { 
+            if(p.IsPrimaryKeyMember) continue;
+        %>
         /// <summary>
-	    /// <%=p.Description %>
-	    /// </summary>
-        public <%= p.SystemType.ToNullableType(p.IsNullable == true) %> <%= p.PropertyName.ToSafeName() %> { get; set; }
-<% } // foreach %>
-
-<% foreach(var r in Entity.Relationships) { %>
-<% if(r.ThisCardinality == Cardinality.Many) { %>
-        public virtual ICollection<<%= r.OtherEntity.ToSafeName() %>> <%= r.ThisPropertyName.ToSafeName() %> { get; set; }
-<% } else { %>
-        public virtual <%= r.OtherEntity.ToSafeName() %> <%= r.ThisPropertyName.ToSafeName() %> { get; set; }
-<% } %>
-<% } // foreach %>
+        /// <%=p.Description %>
+        /// </summary>
+        [Description("<%=p.Description%>")]
+        <%if(p.Name.LastIndexOf("Id") != -1){%>
+        [Browsable(false)]
+        <%}%>
+        <%if(p.DataType == DbType.Byte){%>
+        public bool <%= p.Name%> { get; set; }
+        <%}else{%>
+        public <%= p.SystemType.ToNullableType(p.AllowDBNull == true) %> <%= p.Name%> { get; set; }
+        <%}%>
+        <% } // foreach %>
     }
 }

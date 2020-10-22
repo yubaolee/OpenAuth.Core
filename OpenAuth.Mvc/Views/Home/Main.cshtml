@@ -73,16 +73,13 @@
 <blockquote class="layui-elem-quote explain">
     <p>官方博客：<a href="http://www.cnblogs.com/yubaolee/">http://www.cnblogs.com/yubaolee/</a> </p>
     <p>
-        系统默认System账号登录，可以查看所有权限，如果用其他账号（如：admin/test）可以查看相应的授权情况。
+        系统默认System账号登录，可以查看所有权限，如果用其他账号（如：admin/test）可以查看相应的授权/可见字段情况。
         数据库密码明文存储，不要问为什么不加密，因为你要问这些账号的密码我也记不住啊O(∩_∩)O
     </p>
     <p>
-        <span style="color: #1E9FFF;">郑重提示：为安全起见，关闭了所有修改请求，如想体验完整功能可搭建本地环境，并将version置为空字符串</span>
-    </p>
-    <p>
-        <a href="https://git.oschina.net/yubaolee/OpenAuth.Net" target="_blank" class="layui-btn layui-btn-xs layui-btn-danger">项目地址</a>
-        <a class="layui-btn layui-btn-xs" target="_blank" href="https://www.w3cschool.cn/openauthdotnet/e8931tly.html">在线文档</a>
-        <a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank" href="http://git.oschina.net/yubaolee/OpenAuth.Net/stargazers">喜欢就Star一下吧</a>
+        <a href="https://gitee.com/yubaolee/OpenAuth.Core" target="_blank" class="layui-btn layui-btn-xs layui-btn-danger">项目地址</a>
+        <a class="layui-btn layui-btn-xs" target="_blank" href="http://doc.openauth.me">在线文档</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank" href="http://demo.openauth.me:1803">企业版入口</a>
         <span style="color: #f00;">注：【本框架遵循LGPL开源协议，企业单位如商用请联系作者授权，谢谢】</span>
     </p>
     <p>技术交流QQ群：484498493【已满】 &nbsp; &nbsp; 626433139【已满】 &nbsp;&nbsp; 566344079</p>
@@ -90,12 +87,43 @@
 <div class="row">
     <div class="sysNotice col">
         <blockquote class="layui-elem-quote title">更新日志</blockquote>
+         <div class="layui-elem-quote layui-quote-nm">
+            <h3># 2.0</h3>
+            <p>* 【新增】框架升级至.net core sdk 3.1.100</p>
+             <p>* 【新增】增加<a href="javascript:;" data-url="/usermanager/profile"><cite>个人中心</cite></a>页面，可修改个人信息及切换当前默认部门</p>
+             <p>* 【优化】升级layui至2.5.6</p>
+            <p>* 【优化】可以灵活配置用户可访问的机构数据权限</p>
+         </div>
+         <div class="layui-elem-quote layui-quote-nm">
+            <h3># 1.6</h3>
+            <p>* 【新增】日志及用户消息板块</p>
+            <p>* 【新增】企业版代码生成器，可以快速生成带有头/明细结构的页面</p>
+            <p>* 【新增】数据权限控制，超强的自定义权限控制功能。详见:<a href="https://www.cnblogs.com/yubaolee/p/DataPrivilege.html" target="_blank" class="layui-btn layui-btn-xs layui-btn-danger">https://www.cnblogs.com/yubaolee/p/DataPrivilege.html</a></p>
+            <p>* 【新增】完整的字段权限控制，可以控制字段可见及API是否返回字段值</p>
+            <p>* 【优化】启用数据字典功能</p>
+            <p>* 【优化】优化导航排序、支持多级导航</p>
+         </div>
         <div class="layui-elem-quote layui-quote-nm">
-            <h3># v4.0（颠覆） - 2018</h3>
-            <p>* 引入最新版layui，这是有史以来最酷的Openauth.net</p>
-            <p>* 全面优化数据结构</p>
-            <p>* 全面优化流程引擎</p>
+            <h3># 1.5 - 2019.7</h3>
+            <p>* 【优化】升级layui至2.5.4</p>
+            <p>* 【优化】流程处理页面展示</p>
+            <p>* 【优化】流程支持角色审批</p>
+            <p>* 【新增】集成IdentityServer4，实现基于OAuth2的登录体系</p>
+            <p>* 【新增】建立三方对接规范，已有系统可以无缝对接流程引擎，请参考官方<a href="http://doc.openauth.me/thirdparty" target="_top">对接说明</a></p>
         </div>
+        
+        <div class="layui-elem-quote layui-quote-nm">
+            <h3># 1.4 - 2019.3</h3>
+            <p>* 【优化】升级layui至2.4.5</p>
+            <p>* 【优化】升级vue至2.6.10</p>
+            <p>* 【优化】全面调整icon设计</p>
+            <p>* 【优化】全面优化树形选择控件</p>
+            <p>* 【优化】全面重写界面初始化交互，优化layui与vue数据初始化赋值，读取。</p>
+            <p>* 【优化】全面优化log4net日志输出</p>
+            <p>* 【新增】全面实现数据字段权限控制。针对自定义模块，可以为角色分配可见字段</p>
+            <p>* 【新增】模块可隐藏功能，只授权，但不在导航栏显示</p>
+        </div>
+
     </div>
     <div class="sysNotice col">
         <blockquote class="layui-elem-quote title">系统基本参数</blockquote>
@@ -140,4 +168,4 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/main.js"></script>
+<script type="text/javascript" src="/userJs/main.js?v=2.0.0"></script>

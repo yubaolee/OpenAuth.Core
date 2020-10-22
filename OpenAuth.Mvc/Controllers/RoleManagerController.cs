@@ -1,23 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Web.Http;
-using System.Web.Mvc;
 using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.Mvc.Models;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Controllers
 {
     public class RoleManagerController : BaseController
     {
-        public RoleApp App { get; set; }
-        public RevelanceManagerApp RevelanceManagerApp { get; set; }
-
+        private readonly RoleApp _app;
+        private readonly RevelanceManagerApp _revelanceManagerApp;
+        public RoleManagerController(IAuth authUtil, RevelanceManagerApp revelanceManagerApp, RoleApp app) : base(authUtil)
+        {
+            _revelanceManagerApp = revelanceManagerApp;
+            _app = app;
+        }
         //
         // GET: /UserManager/
-        [Authenticate]
+       
         public ActionResult Index()
         {
             return View();
@@ -29,35 +33,35 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         //添加或修改组织
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Add(RoleView obj)
         {
             try
             {
-                App.Add(obj);
+                _app.Add(obj);
 
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
 
         //添加或修改组织
-        [System.Web.Mvc.HttpPost]
+       [HttpPost]
         public string Update(RoleView obj)
         {
             try
             {
-                App.Update(obj);
+                _app.Update(obj);
 
             }
             catch (Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
@@ -71,41 +75,56 @@ namespace OpenAuth.Mvc.Controllers
             {
                 var result = new Response<List<string>>
                 {
-                    Result = RevelanceManagerApp.Get(Define.USERROLE, true, userId)
+                    Result = _revelanceManagerApp.Get(Define.USERROLE, true, userId)
                 };
                 return JsonHelper.Instance.Serialize(result);
             }
             catch (Exception e)
             {
                 Result.Code = 500;
-                Result.Message = e.Message;
+                Result.Message = e.InnerException?.Message ?? e.Message;
             }
 
             return JsonHelper.Instance.Serialize(Result);
         }
 
         /// <summary>
-        /// 加载组织下面的所有用户
+        /// 加载登录用户可以访问的所有角色
         /// </summary>
-        public string Load([FromUri]QueryRoleListReq request)
-        {
-            return JsonHelper.Instance.Serialize(App.Load(request));
-        }
-
-        [System.Web.Mvc.HttpPost]
-        public string Delete(string[] ids)
+        public string Load([FromQuery]QueryRoleListReq request)
         {
             try
             {
-                App.Delete(ids);
+                var result = new Response<List<Role>>
+                {
+                    Result = _app.Load(request)
+                };
+                return JsonHelper.Instance.Serialize(result);
             }
             catch (Exception e)
             {
                 Result.Code = 500;
-                Result.Message = e.Message;
+                Result.Message = e.InnerException?.Message ?? e.Message;
             }
 
             return JsonHelper.Instance.Serialize(Result);
         }
+
+       [HttpPost]
+        public string Delete(string[] ids)
+        {
+            try
+            {
+                _app.Delete(ids);
+            }
+            catch (Exception e)
+            {
+                Result.Code = 500;
+                Result.Message = e.InnerException?.Message ?? e.Message;
+            }
+
+            return JsonHelper.Instance.Serialize(Result);
+        }
+
     }
 }

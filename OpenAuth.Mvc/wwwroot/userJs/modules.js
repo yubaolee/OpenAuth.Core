@@ -235,7 +235,8 @@ layui.config({
                 show({
                     Id: "",
                     ModuleId:moduleId,
-                    Sort: 1
+                    Sort: 1,
+                    Icon:'layui-icon-app'
                 });
             },
             update: function (data) { //弹出编辑框

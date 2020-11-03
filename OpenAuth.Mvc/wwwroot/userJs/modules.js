@@ -6,12 +6,57 @@ layui.config({
         $ = layui.jquery;
     var iconPicker = layui.iconPicker;
     var btnIconPicker = layui.iconPicker;
+    var vmMenu = new Vue({
+            el: "#mfromEdit",
+            data(){
+                return {
+                    tmp: {}  
+                }
+            },
+            watch:{
+                tmp(val){
+                    this.$nextTick(function () {
+                        form.render();  //刷新select等
+                        btnIconPicker.checkIcon('btnIconPicker', this.tmp.Icon);
+                    })
+                }
+            },
+            mounted(){
+                form.render();
+            }
+        });
+    var  vmModule = new Vue({
+            el: "#formEdit",
+            data(){
+                return {
+                    tmp: {}  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
+                }
+            },
+            watch:{
+                tmp(val){
+                    this.$nextTick(function () {
+                        form.render();  //刷新select等
+                        layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
+    
+                        iconPicker.checkIcon('iconPicker', this.tmp.IconName);
+                    })
+                }
+            },
+            mounted(){
+                form.render();
+                layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
+            }
+        });
     iconPicker.render({
         // 选择器，推荐使用input
         elem: '#IconName',
         type: 'fontClass',
         // 每个图标格子的宽度：'43px'或'20%'
         cellWidth: '43px',
+        // 点击回调
+        click: function (data) {
+            vmModule.tmp.IconName = data.icon;
+        }
     });
     btnIconPicker.render({   //按钮的图标
         // 选择器，推荐使用input
@@ -19,6 +64,10 @@ layui.config({
         type: 'fontClass',
         // 每个图标格子的宽度：'43px'或'20%'
         cellWidth: '43px',
+        // 点击回调
+        click: function (data) {
+            vmMenu.tmp.Icon = data.icon;
+        }
     });
 
     var table = layui.table;
@@ -98,7 +147,6 @@ layui.config({
     $("#tree").height($("div.layui-table-view").height());
     //添加（编辑）模块对话框
     var editDlg = function() {
-        var vm;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
@@ -108,34 +156,12 @@ layui.config({
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
-                   if(vm == undefined){
-                    vm = new Vue({
-                        el: "#formEdit",
-                        data(){
-                            return {
-                                tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
-                            }
-                        },
-                        watch:{
-                            tmp(val){
-                                this.$nextTick(function () {
-                                    form.render();  //刷新select等
-                                    layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
-
-                                   iconPicker.checkIcon('iconPicker', this.tmp.IconName);
-                               })
-                            }
-                        },
-                        mounted(){
-                            form.render();
-                            layui.droptree("/UserSession/GetModules", "#ParentName", "#ParentId", false);
-
-                             iconPicker.checkIcon('iconPicker', data.IconName);
+                    if(data.Id ==''){
+                        for(var key in vmModule.tmp){
+                            delete vmModule.tmp[key];
                         }
-                    });
-                   }else{
-                    vm.tmp = Object.assign({}, vm.tmp,data)
-                   }
+                    }
+                        vmModule.tmp = Object.assign({}, vmModule.tmp,data)
                 },
                 end: mainList
             });
@@ -176,7 +202,6 @@ layui.config({
 
     //添加菜单对话框
     var meditDlg = function () {
-       var vm ;
         var update = false;  //是否为更新
         var show = function (data) {
             var title = update ? "编辑信息" : "添加";
@@ -186,30 +211,12 @@ layui.config({
                 type: 1,
                 content: $('#divMenuEdit'),
                 success: function () {
-                    if(vm == undefined){
-                        vm = new Vue({
-                            el: "#mfromEdit",
-                            data(){
-                                return {
-                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
-                                }
-                            },
-                            watch:{
-                                tmp(val){
-                                    this.$nextTick(function () {
-                                       form.render();  //刷新select等
-                                       btnIconPicker.checkIcon('btnIconPicker', this.tmp.Icon);
-                                   })
-                                }
-                            },
-                            mounted(){
-                                 form.render();
-                                 btnIconPicker.checkIcon('btnIconPicker', data.Icon);
-                            }
-                        });
-                       }else{
-                        vm.tmp = Object.assign({}, vm.tmp,data)
-                       }
+                    if(data.Id ==''){
+                        for(var key in vmMenu.tmp){
+                            delete vmMenu.tmp[key];
+                        }
+                    }
+                    vmMenu.tmp = Object.assign({}, vmMenu.tmp,data)
                 },
                 end: menuList
             });

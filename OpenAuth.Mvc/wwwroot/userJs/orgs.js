@@ -93,7 +93,11 @@
                             },
                             mounted(){
                                 form.render();
-                                layui.droptree("/UserSession/GetOrgs", "#ParentName", "#ParentId", false);
+                                var _this = this;
+                                layui.droptree("/UserSession/GetOrgs", "#ParentName", "#ParentId", false,function (ids, names) {
+                                    _this.tmp.ParentId = ids;
+                                    _this.tmp.ParentName = names;
+                                });
 
                             }
                         });

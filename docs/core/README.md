@@ -1,6 +1,6 @@
 ![LOGO](/logocore.png "1.png")
 
-OpenAuth.Core是基于 **.Net Core** 的开源权限工作流快速开发框架。框架汲取Martin Fowler企业级应用开发思想及全新技术组合（IdentityServer、EF core、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE、Element-ui等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
+OpenAuth.Core是基于 **.Net Core/.Net 5** 的开源权限工作流快速开发框架。框架汲取Martin Fowler企业级应用开发思想及全新技术组合（IdentityServer、EF core、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE、Element-ui等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
 
 ## 技术栈
 

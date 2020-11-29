@@ -8,8 +8,8 @@ module.exports = {
       lastUpdated: '最后更新时间', // string | boolean
       nav : [
         { text: '首页', link: 'http://openauth.me/' , target:'_blank' },
-          { text: 'OpenAuth.Core', link: '/core/' },
-          { text: 'OpenAuth.Net', link: '/net/' },
+          { text: 'OpenAuth.Core(.Net Core/.Net 5)', link: '/core/' },
+          { text: 'OpenAuth.Net(.Net 4.5)', link: '/net/' },
           {
             text: '项目地址',
             ariaLabel: 'Proj Menu',
@@ -29,6 +29,7 @@ module.exports = {
             collapsable: false, 
             children: [
               "start"
+              ,"specialist"
               ,"deploy" 
               ,"devnew"
               ,"unitwork"

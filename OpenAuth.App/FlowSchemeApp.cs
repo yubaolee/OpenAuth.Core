@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -48,7 +49,7 @@ namespace OpenAuth.App
             });
         }
 
-        public TableData Load(QueryFlowSchemeListReq request)
+        public async Task<TableData> Load(QueryFlowSchemeListReq request)
         {
             var result = new TableData();
             var objs = GetDataPrivilege("u");

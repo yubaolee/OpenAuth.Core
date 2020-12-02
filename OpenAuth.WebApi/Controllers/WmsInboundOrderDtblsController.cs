@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -83,9 +84,9 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         [HttpGet]
         [AllowAnonymous]
-        public TableData Load([FromQuery]QueryWmsInboundOrderDtblListReq request)
+        public async Task<TableData> Load([FromQuery]QueryWmsInboundOrderDtblListReq request)
         {
-            return _app.Load(request);
+            return await _app.Load(request);
         }
 
         /// <summary>

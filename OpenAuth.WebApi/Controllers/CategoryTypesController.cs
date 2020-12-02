@@ -1,5 +1,6 @@
 ﻿﻿using System;
-using Infrastructure;
+ using System.Threading.Tasks;
+ using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
 using OpenAuth.App.Request;
@@ -58,9 +59,9 @@ using OpenAuth.App.Response;
         /// 加载列表
         /// </summary>
         [HttpGet]
-        public TableData Load([FromQuery]QueryCategoryTypeListReq request)
+        public async Task<TableData> Load([FromQuery]QueryCategoryTypeListReq request)
         {
-            return _app.Load(request);
+            return await _app.Load(request);
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -95,9 +96,10 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载组织下面的所有用户
         /// </summary>
-        public string Load([FromQuery]QueryUserListReq request)
+        public async Task<string> Load([FromQuery]QueryUserListReq request)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(request));
+            var load = await _app.Load(request);
+            return JsonHelper.Instance.Serialize(load);
         }
 
        [HttpPost]
@@ -120,11 +122,11 @@ namespace OpenAuth.Mvc.Controllers
 
         /// <summary>
         /// 获取用户可访问的账号
-        /// <para>李玉宝于2017-02-28 15:12:19</para>
         /// </summary>
-        public string GetAccessedUsers()
+        public async Task<string> GetAccessedUsers()
         {
-            IEnumerable<UserView> users = _app.Load(new QueryUserListReq()).data;
+            var data = await _app.Load(new QueryUserListReq());
+            IEnumerable<UserView> users = data.data;
             var result = new Dictionary<string, object>();
             foreach (var user in users)
             {

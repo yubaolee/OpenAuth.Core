@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -21,7 +22,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableResp<BuilderTableColumn> Load(QueryBuilderTableColumnListReq request)
+        public async Task<TableResp<BuilderTableColumn>> Load(QueryBuilderTableColumnListReq request)
         {
             if (string.IsNullOrEmpty(request.BuilderTableId))
             {

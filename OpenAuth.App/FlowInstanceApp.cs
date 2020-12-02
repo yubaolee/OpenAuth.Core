@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Infrastructure.Helpers;
 
 namespace OpenAuth.App
@@ -472,7 +473,7 @@ namespace OpenAuth.App
             Repository.Update(flowScheme);
         }
 
-        public TableData Load(QueryFlowInstanceListReq request)
+        public async Task<TableData> Load(QueryFlowInstanceListReq request)
         {
             var result = new TableData();
             var user = _auth.GetCurrentUser();

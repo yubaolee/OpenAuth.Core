@@ -16,7 +16,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(Query{ClassName}ListReq request)
+        public async Task<TableData> Load(Query{ClassName}ListReq request)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)

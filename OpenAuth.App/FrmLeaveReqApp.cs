@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using System.Threading.Tasks;
+using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -15,7 +16,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryFrmLeaveReqListReq request)
+        public async Task<TableData> Load(QueryFrmLeaveReqListReq request)
         {
              return new TableData
             {

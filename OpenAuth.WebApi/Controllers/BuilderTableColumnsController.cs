@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -59,9 +60,10 @@ namespace OpenAuth.WebApi.Controllers
         /// 加载列表
         /// </summary>
         [HttpGet]
-        public TableResp<BuilderTableColumn> Load([FromQuery]QueryBuilderTableColumnListReq request)
+        public async Task<TableResp<BuilderTableColumn>> Load([FromQuery]QueryBuilderTableColumnListReq request)
         {
-            return _app.Load(request);
+            var tableResp = await _app.Load(request);
+            return tableResp;
         }
 
         /// <summary>

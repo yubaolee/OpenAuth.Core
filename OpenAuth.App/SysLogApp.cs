@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
@@ -14,7 +15,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QuerySysLogListReq request)
+        public async Task<TableData> Load(QuerySysLogListReq request)
         {
             var result = new TableData();
             var objs = UnitWork.Find<SysLog>(null);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -47,7 +48,7 @@ namespace OpenAuth.App
             return UnitWork.Find<Resource>(u => elementIds.Contains(u.Id) && (appId == null || appId =="" || u.AppId == appId));
         }
         
-        public TableData Load(QueryResourcesReq request)
+        public async Task<TableData> Load(QueryResourcesReq request)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)

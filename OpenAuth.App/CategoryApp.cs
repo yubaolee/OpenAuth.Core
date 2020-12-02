@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -16,7 +17,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryCategoryListReq request)
+        public async Task<TableData> Load(QueryCategoryListReq request)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)

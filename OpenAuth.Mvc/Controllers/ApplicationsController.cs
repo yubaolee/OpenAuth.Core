@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -14,12 +15,12 @@ namespace OpenAuth.Mvc.Controllers
         private readonly AppManager _app;
 
 
-        public string GetList([FromQuery]QueryAppListReq request)
+        public async Task<string> GetList([FromQuery]QueryAppListReq request)
         {
             var resp = new Response<List<Application>>();
             try
             {
-                resp.Result = _app.GetList(request);
+                resp.Result = await _app.GetList(request);
             }
             catch (Exception e)
             {

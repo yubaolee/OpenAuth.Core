@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.Extensions.Logging;
 using OpenAuth.App.Interface;
@@ -23,7 +24,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryOpenJobListReq request)
+        public async Task<TableData> Load(QueryOpenJobListReq request)
         {
             var result = new TableData();
             var objs = Repository.Find(null);

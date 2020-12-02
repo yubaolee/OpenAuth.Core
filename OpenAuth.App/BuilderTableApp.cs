@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
+using System.Threading.Tasks;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Helpers;
@@ -76,7 +77,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableResp<BuilderTable> Load(QueryBuilderTableListReq request)
+        public async Task<TableResp<BuilderTable>> Load(QueryBuilderTableListReq request)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)

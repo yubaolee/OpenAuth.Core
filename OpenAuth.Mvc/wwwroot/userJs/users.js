@@ -90,13 +90,17 @@ layui.config({
                                 tmp(val){
                                     this.$nextTick(function () {
                                         form.render();  //刷新select等
-                                        layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+                                        //layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
                                    })
                                 }
                             },
                             mounted(){
                                 form.render();
-                                layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
+                                var _this = this;
+                                layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds", true,function (ids, names) {
+                                    _this.tmp.OrganizationIds = ids;
+                                    _this.tmp.Organizations = names;
+                                });
                             }
                         });
                        }else{

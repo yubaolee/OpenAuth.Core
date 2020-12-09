@@ -21,6 +21,8 @@ namespace OpenAuth.App
             CaculateCascade(model);
             
             Repository.Add(model);
+            
+            AddDefaultMenus(model);
             //当前登录用户的所有角色自动分配模块
             loginContext.Roles.ForEach(u =>
             {    
@@ -87,6 +89,7 @@ namespace OpenAuth.App
             UnitWork.Save();
         }
 
+        
         public void AddMenu(ModuleElement model)
         {
             var loginContext = _auth.GetCurrentUser();
@@ -108,13 +111,50 @@ namespace OpenAuth.App
             });
             UnitWork.Save();
         }
-        #endregion
-
+        
         public void UpdateMenu(ModuleElement model)
         {
             UnitWork.Update<ModuleElement>(model);
             UnitWork.Save();
         }
+        
+        //添加默认按钮
+        private void AddDefaultMenus(Module module)
+        {
+            AddMenu(new ModuleElement
+            {
+                ModuleId = module.Id,
+                DomId = "btnAdd",
+                Script = "add()",
+                Name = "添加",
+                Icon = "xinzeng",
+                Class = "success",
+                Remark = "新增" +module.Name
+            });
+            AddMenu(new ModuleElement
+            {
+                ModuleId = module.Id,
+                DomId = "btnEdit",
+                Script = "edit()",
+                Name = "编辑",
+                Icon = "bianji-copy",
+                Class = "primary",
+                Remark = "修改" +module.Name
+            });
+            AddMenu(new ModuleElement
+            {
+                ModuleId = module.Id,
+                DomId = "btnDel",
+                Script = "del()",
+                Name = "删除",
+                Icon = "shanchu",
+                Class = "danger",
+                Remark = "删除" +module.Name
+            });
+        }
+        #endregion
+
+       
 
         public ModuleManagerApp(IUnitWork unitWork, IRepository<Module> repository
         ,RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)

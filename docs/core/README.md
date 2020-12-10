@@ -22,7 +22,7 @@ OpenAuth.Core是基于 **.Net Core/.Net 5** 的开源权限工作流快速开发
 
 ## 核心看点
 
-* 支持.net core sdk 3.1.100
+* 支持.net core sdk 3.1.100 及.Net 5（[一分钟从.net core 3.1切换至.Net 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)）
 
 * 超强的自定义权限控制功能，请参考：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
 

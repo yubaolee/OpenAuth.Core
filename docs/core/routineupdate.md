@@ -1,5 +1,7 @@
 # 日常提交(针对dev分支)
 
+* 2020.12.11 Repository增加异步读写接口；
+
 * 2020.12.09 fix issue [#I1RFOQ](https://gitee.com/yubaolee/OpenAuth.Core/issues/I1RFOQ)；
 
 * 2020.12.02 所有数据加载调整为异步模式；

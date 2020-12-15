@@ -15,6 +15,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace OpenAuth.Repository.Interface
 {
@@ -48,6 +49,7 @@ namespace OpenAuth.Repository.Interface
         /// <param name="where">更新条件</param>
         /// <param name="entity">更新后的实体</param>
         void Update(Expression<Func<T, bool>> where, Expression<Func<T, T>> entity);
+
         /// <summary>
         /// 批量删除
         /// </summary>
@@ -55,19 +57,35 @@ namespace OpenAuth.Repository.Interface
 
         void Save();
 
-        int ExecuteSql(string sql);
-        
-         /// <summary>
+        int ExecuteSqlRaw(string sql);
+
+        /// <summary>
         /// 使用SQL脚本查询
         /// </summary>
         /// <typeparam name="T"> T为数据库实体</typeparam>
         /// <returns></returns>
         IQueryable<T> FromSql(string sql, params object[] parameters);
-            /// <summary>
-            /// 使用SQL脚本查询
-            /// </summary>
-            /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
-            /// <returns></returns>
+
+        /// <summary>
+        /// 使用SQL脚本查询
+        /// </summary>
+        /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
+        /// <returns></returns>
         IQueryable<T> Query(string sql, params object[] parameters);
+
+
+        #region 异步接口
+
+        Task<int> ExecuteSqlRawAsync(string sql);
+        Task<int> AddAsync(T entity);
+        Task<int> BatchAddAsync(T[] entities);
+        Task<int> UpdateAsync(T entity);
+        Task<int> DeleteAsync(T entity);
+        Task<int> SaveAsync();
+        Task<int> CountAsync(Expression<Func<T, bool>> exp = null);
+        Task<bool> IsExistAsync(Expression<Func<T, bool>> exp);
+        Task<T> FindSingleAsync(Expression<Func<T, bool>> exp);
+
+        #endregion
     }
 }

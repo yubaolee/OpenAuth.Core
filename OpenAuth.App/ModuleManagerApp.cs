@@ -127,6 +127,7 @@ namespace OpenAuth.App
                 DomId = "btnAdd",
                 Script = "add()",
                 Name = "添加",
+                Sort = 1,
                 Icon = "xinzeng",
                 Class = "success",
                 Remark = "新增" +module.Name
@@ -137,6 +138,7 @@ namespace OpenAuth.App
                 DomId = "btnEdit",
                 Script = "edit()",
                 Name = "编辑",
+                Sort = 2,
                 Icon = "bianji-copy",
                 Class = "primary",
                 Remark = "修改" +module.Name
@@ -147,10 +149,13 @@ namespace OpenAuth.App
                 DomId = "btnDel",
                 Script = "del()",
                 Name = "删除",
+                Sort = 3,
                 Icon = "shanchu",
                 Class = "danger",
                 Remark = "删除" +module.Name
             });
+            
+            //todo:可以自己添加更多默认按钮
         }
         #endregion
 

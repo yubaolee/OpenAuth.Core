@@ -121,7 +121,7 @@ namespace OpenAuth.App
             requser.CreateId = _auth.GetCurrentUser().User.Id;
             if (string.IsNullOrEmpty(request.Id))
             {
-                if (UnitWork.IsExist<User>(u => u.Account == request.Account))
+                if (UnitWork.Any<User>(u => u.Account == request.Account))
                 {
                     throw new Exception("用户账号已存在");
                 }

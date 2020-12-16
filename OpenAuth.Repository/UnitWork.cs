@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -211,5 +212,74 @@ namespace OpenAuth.Repository
        {
            return _context.Query<T>().FromSqlRaw(sql, parameters);
        }
+       
+        #region 异步实现
+        
+        /// <summary>
+        /// 异步执行sql
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public async Task<int> ExecuteSqlRawAsync(string sql)
+        {
+            return await _context.Database.ExecuteSqlRawAsync(sql);
+        }
+        
+       
+        /// <summary>
+        /// 异步保存
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<int> SaveAsync()
+        {
+            try
+            {
+                var entities = _context.ChangeTracker.Entries()
+                    .Where(e => e.State == EntityState.Added
+                                || e.State == EntityState.Modified)
+                    .Select(e => e.Entity);
+
+                foreach (var entity in entities)
+                {
+                    var validationContext = new ValidationContext(entity);
+                    Validator.ValidateObject(entity, validationContext, validateAllProperties: true);
+                }
+
+                return await _context.SaveChangesAsync();
+            }
+            catch (ValidationException exc)
+            {
+                Console.WriteLine($"{nameof(Save)} validation exception: {exc?.Message}");
+                throw (exc.InnerException as Exception ?? exc);
+            }
+            catch (Exception ex) //DbUpdateException 
+            {
+                throw (ex.InnerException as Exception ?? ex);
+            }
+        }
+        
+        /// <summary>
+        /// 根据过滤条件获取记录数
+        /// </summary>
+        public async Task<int> CountAsync<T>(Expression<Func<T, bool>> exp = null) where T : class
+        {
+            return await Filter(exp).CountAsync();
+        }
+        
+        public async Task<bool> AnyAsync<T>(Expression<Func<T, bool>> exp) where T : class
+        {
+            return await _context.Set<T>().AnyAsync(exp);
+        }
+
+        /// <summary>
+        /// 查找单个，且不被上下文所跟踪
+        /// </summary>
+        public async Task<T> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> exp) where T : class
+        {
+            return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(exp);
+        }
+
+        #endregion
     }
 }

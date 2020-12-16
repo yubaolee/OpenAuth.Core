@@ -81,7 +81,7 @@ namespace OpenAuth.App
 
         public T Get(string id)
         {
-            return Repository.FindSingle(u => u.Id == id);
+            return Repository.FirstOrDefault(u => u.Id == id);
         }
 
         /// <summary>

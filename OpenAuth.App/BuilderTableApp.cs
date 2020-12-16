@@ -205,7 +205,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public void CreateEntity(CreateEntityReq req)
         {
-            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null
@@ -224,7 +224,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public void CreateBusiness(CreateBusiReq req)
         {
-            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null
@@ -513,7 +513,7 @@ namespace OpenAuth.App
             {
                 throw new Exception("请提供vue项目的根目录,如：C:\\OpenAuth.Pro\\Client");
             }
-            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null
@@ -634,7 +634,7 @@ namespace OpenAuth.App
             {
                 throw new Exception("请提供vue项目的根目录,如：C:\\OpenAuth.Pro\\Client");
             }
-            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null

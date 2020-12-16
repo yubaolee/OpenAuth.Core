@@ -12,6 +12,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Interface
@@ -104,5 +105,15 @@ namespace OpenAuth.Repository.Interface
         /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
         /// <returns></returns>
         IQueryable<T> Query<T>(string sql, params object[] parameters) where T : class;
+        
+        #region 异步接口
+
+        Task<int> ExecuteSqlRawAsync(string sql);
+        Task<int> SaveAsync();
+        Task<int> CountAsync<T>(Expression<Func<T, bool>> exp = null) where T : class;
+        Task<bool> AnyAsync<T>(Expression<Func<T, bool>> exp) where T : class;
+        Task<T> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> exp) where T : class;
+
+        #endregion
     }
 }

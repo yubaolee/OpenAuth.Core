@@ -51,7 +51,7 @@ namespace OpenAuth.App.SSO
                 }
                 else
                 {
-                    userInfo = _app.FindSingle(u =>u.Account == model.Account);
+                    userInfo = _app.FirstOrDefault(u =>u.Account == model.Account);
                 }
                
                 if (userInfo == null)

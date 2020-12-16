@@ -21,24 +21,24 @@ namespace OpenAuth.Repository.Interface
 {
     public interface IRepository<T> where T : class
     {
-        T FindSingle(Expression<Func<T, bool>> exp = null);
-        bool IsExist(Expression<Func<T, bool>> exp);
+        /// <summary>
+        /// 返回一个单独的实体，如果记录多于1个则取第一个
+        /// </summary>
+        T FirstOrDefault(Expression<Func<T, bool>> exp = null);
+        /// <summary>
+        /// 判断指定条件的记录是否存在
+        /// </summary>
+        bool Any(Expression<Func<T, bool>> exp);
         IQueryable<T> Find(Expression<Func<T, bool>> exp = null);
-
         IQueryable<T> Find(int pageindex = 1, int pagesize = 10, string orderby = "",
             Expression<Func<T, bool>> exp = null);
-
-        int GetCount(Expression<Func<T, bool>> exp = null);
-
+        int Count(Expression<Func<T, bool>> exp = null);
         void Add(T entity);
-
         void BatchAdd(T[] entities);
-
         /// <summary>
         /// 更新一个实体的所有属性
         /// </summary>
         void Update(T entity);
-
         void Delete(T entity);
 
 
@@ -83,8 +83,8 @@ namespace OpenAuth.Repository.Interface
         Task<int> DeleteAsync(T entity);
         Task<int> SaveAsync();
         Task<int> CountAsync(Expression<Func<T, bool>> exp = null);
-        Task<bool> IsExistAsync(Expression<Func<T, bool>> exp);
-        Task<T> FindSingleAsync(Expression<Func<T, bool>> exp);
+        Task<bool> AnyAsync(Expression<Func<T, bool>> exp);
+        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> exp);
 
         #endregion
     }

@@ -29,7 +29,7 @@ namespace OpenAuth.App
             CaculateCascade(obj);
 
             //获取旧的的CascadeId
-            var cascadeId = Repository.FindSingle(o => o.Id == obj.Id).CascadeId;
+            var cascadeId = Repository.FirstOrDefault(o => o.Id == obj.Id).CascadeId;
             //根据CascadeId查询子部门
             var objs = Repository.Find(u => u.CascadeId.Contains(cascadeId) && u.Id != obj.Id)
                 .OrderBy(u => u.CascadeId).ToList();

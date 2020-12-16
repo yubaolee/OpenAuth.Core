@@ -26,7 +26,7 @@ namespace OpenAuth.App
 
         public User GetByAccount(string account)
         {
-            return Repository.FindSingle(u => u.Account == account);
+            return Repository.FirstOrDefault(u => u.Account == account);
         }
 
         /// <summary>

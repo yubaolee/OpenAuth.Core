@@ -94,24 +94,24 @@ namespace OpenAuth.Repository.Test
                 Id = id
             });
 
-            var user = repository.FindSingle(u => u.Id == id);
+            var user = repository.FirstOrDefault(u => u.Id == id);
             Assert.NotNull(user);
 
             //修改一个实体
             account = "newuser_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
             user.Account = account;
             repository.Update(user);
-            var newuser = repository.FindSingle(u => u.Account == account);
+            var newuser = repository.FirstOrDefault(u => u.Account == account);
             Assert.NotNull(newuser);
 
             //批量修改
             repository.Update(u => u.Id == id, u =>new User{ Name = account});
-            newuser = repository.FindSingle(u => u.Name == account);
+            newuser = repository.FirstOrDefault(u => u.Name == account);
             Assert.NotNull(newuser);
 
             //删除
             repository.Delete(u =>u.Id == id);
-            newuser = repository.FindSingle(u => u.Id == id);
+            newuser = repository.FirstOrDefault(u => u.Id == id);
             Assert.IsNull(newuser);
         }
     }

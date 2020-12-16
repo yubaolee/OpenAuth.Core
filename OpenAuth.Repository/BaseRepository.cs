@@ -30,7 +30,7 @@ namespace OpenAuth.Repository
             return Filter(exp);
         }
 
-        public bool IsExist(Expression<Func<T, bool>> exp)
+        public bool Any(Expression<Func<T, bool>> exp)
         {
             return _context.Set<T>().Any(exp);
         }
@@ -38,7 +38,7 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 查找单个，且不被上下文所跟踪
         /// </summary>
-        public T FindSingle(Expression<Func<T, bool>> exp)
+        public T FirstOrDefault(Expression<Func<T, bool>> exp)
         {
             return _context.Set<T>().AsNoTracking().FirstOrDefault(exp);
         }
@@ -62,7 +62,7 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 根据过滤条件获取记录数
         /// </summary>
-        public int GetCount(Expression<Func<T, bool>> exp = null)
+        public int Count(Expression<Func<T, bool>> exp = null)
         {
             return Filter(exp).Count();
         }
@@ -303,7 +303,7 @@ namespace OpenAuth.Repository
             return await Filter(exp).CountAsync();
         }
         
-        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> exp)
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> exp)
         {
             return await _context.Set<T>().AnyAsync(exp);
         }
@@ -311,7 +311,7 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 查找单个，且不被上下文所跟踪
         /// </summary>
-        public async Task<T> FindSingleAsync(Expression<Func<T, bool>> exp)
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> exp)
         {
             return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(exp);
         }

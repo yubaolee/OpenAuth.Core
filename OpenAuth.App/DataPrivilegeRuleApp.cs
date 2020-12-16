@@ -52,7 +52,7 @@ namespace OpenAuth.App
 
         public void Add(AddOrUpdateDataPriviReq req)
         {
-            if (Repository.IsExist(u => u.SourceCode == req.SourceCode))
+            if (Repository.Any(u => u.SourceCode == req.SourceCode))
             {
                 throw new Exception($"已经存在{req.SourceCode}的数据规则，如果想调整规制请直接修改");
             }
@@ -86,7 +86,7 @@ namespace OpenAuth.App
 
         public DataPrivilegeRule GetByModuleName(string moduleName)
         {
-            return Repository.FindSingle(u=>u.SourceCode == moduleName);
+            return Repository.FirstOrDefault(u=>u.SourceCode == moduleName);
         }
 
         public void Clear()

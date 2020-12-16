@@ -13,7 +13,7 @@ namespace OpenAuth.App
     {
         public void Add(FlowScheme flowScheme)
         {
-            if (Repository.IsExist(u => u.SchemeName == flowScheme.SchemeName))
+            if (Repository.Any(u => u.SchemeName == flowScheme.SchemeName))
             {
                 throw new Exception("流程名称已经存在");
             }
@@ -26,12 +26,12 @@ namespace OpenAuth.App
 
         public FlowScheme FindByCode(string code)
         {
-            return Repository.FindSingle(u => u.SchemeCode == code);
+            return Repository.FirstOrDefault(u => u.SchemeCode == code);
         }
 
         public void Update(FlowScheme flowScheme)
         {
-            if (Repository.IsExist(u => u.SchemeName == flowScheme.SchemeName && u.Id != flowScheme.Id))
+            if (Repository.Any(u => u.SchemeName == flowScheme.SchemeName && u.Id != flowScheme.Id))
             {
                 throw new Exception("流程名称已经存在");
             }

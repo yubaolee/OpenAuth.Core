@@ -57,9 +57,13 @@ namespace OpenAuth.App
          
          public new void Delete(string[] ids)
          {
-             UnitWork.Delete<CategoryType>(u=>ids.Contains(u.Id));
-             UnitWork.Delete<Category>(u=>ids.Contains(u.TypeId));
-             UnitWork.Save();
+             UnitWork.ExecuteWithTransaction(() =>
+             {
+                 UnitWork.Delete<CategoryType>(u=>ids.Contains(u.Id));
+                 UnitWork.Delete<Category>(u=>ids.Contains(u.TypeId));
+                 UnitWork.Save();
+             });
+          
          }
          
          public List<CategoryType> AllTypes()

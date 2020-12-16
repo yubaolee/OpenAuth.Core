@@ -68,69 +68,71 @@ namespace OpenAuth.App
                     _wmsInboundOrderDtblApp.AddNoSave(detail);
                 }
             }
-            
+
             UnitWork.Save();
         }
 
-         public void Update(AddOrUpdateWmsInboundOrderTblReq obj)
+        public void Update(AddOrUpdateWmsInboundOrderTblReq obj)
         {
             var user = _auth.GetCurrentUser().User;
-            
-            if (obj.WmsInboundOrderDtblReqs != null && obj.WmsInboundOrderDtblReqs.Any())
-            {
-                //id为空的添加
-                foreach (var detail in obj.WmsInboundOrderDtblReqs.Where(u =>string.IsNullOrEmpty(u.Id)))
-                {
-                    detail.OrderId = obj.Id;
-                    _wmsInboundOrderDtblApp.AddNoSave(detail);
-                }
-                
-                //id比数据库少的，删除
-                var containids = obj.WmsInboundOrderDtblReqs.Select(u => u.Id)
-                    .Where(u =>!string.IsNullOrEmpty(u)).ToList();
-                if (containids.Any())
-                {
-                    UnitWork.Delete<WmsInboundOrderDtbl>(u =>(!containids.Contains(u.Id)) && u.OrderId == obj.Id);
-                }
-                
-                
-                //更新id相同的
-                foreach (var detail in obj.WmsInboundOrderDtblReqs.Where(u =>!string.IsNullOrEmpty(u.Id)))
-                {
-                    _wmsInboundOrderDtblApp.Update(detail);
-                }
-            }
-            
-            UnitWork.Update<WmsInboundOrderTbl>(u => u.Id == obj.Id, u => new WmsInboundOrderTbl
-            {
-                ExternalNo = obj.ExternalNo,
-                ExternalType = obj.ExternalType,
-                Status = obj.Status,
-                OrderType = obj.OrderType,
-                GoodsType = obj.GoodsType,
-                PurchaseNo = obj.PurchaseNo,
-                StockId = obj.StockId,
-                OwnerId = obj.OwnerId,
-                ShipperId = obj.ShipperId,
-                SupplierId = obj.SupplierId,
-                ScheduledInboundTime = obj.ScheduledInboundTime,
-                Remark = obj.Remark,
-                Enable = obj.Enable,
-                TransferType = obj.TransferType,
-                InBondedArea = obj.InBondedArea,
-                ReturnBoxNum = obj.ReturnBoxNum,
-                UpdateTime = DateTime.Now,
-                UpdateUserId = user.Id,
-                UpdateUserName = user.Name
-                //todo:补充或调整自己需要的字段
-            });
-            
-            UnitWork.Save();
 
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                if (obj.WmsInboundOrderDtblReqs != null && obj.WmsInboundOrderDtblReqs.Any())
+                {
+                    //id为空的添加
+                    foreach (var detail in obj.WmsInboundOrderDtblReqs.Where(u => string.IsNullOrEmpty(u.Id)))
+                    {
+                        detail.OrderId = obj.Id;
+                        _wmsInboundOrderDtblApp.AddNoSave(detail);
+                    }
+
+                    //id比数据库少的，删除
+                    var containids = obj.WmsInboundOrderDtblReqs.Select(u => u.Id)
+                        .Where(u => !string.IsNullOrEmpty(u)).ToList();
+                    if (containids.Any())
+                    {
+                        UnitWork.Delete<WmsInboundOrderDtbl>(u => (!containids.Contains(u.Id)) && u.OrderId == obj.Id);
+                    }
+
+                    //更新id相同的
+                    foreach (var detail in obj.WmsInboundOrderDtblReqs.Where(u => !string.IsNullOrEmpty(u.Id)))
+                    {
+                        _wmsInboundOrderDtblApp.Update(detail);
+                    }
+                }
+
+                UnitWork.Update<WmsInboundOrderTbl>(u => u.Id == obj.Id, u => new WmsInboundOrderTbl
+                {
+                    ExternalNo = obj.ExternalNo,
+                    ExternalType = obj.ExternalType,
+                    Status = obj.Status,
+                    OrderType = obj.OrderType,
+                    GoodsType = obj.GoodsType,
+                    PurchaseNo = obj.PurchaseNo,
+                    StockId = obj.StockId,
+                    OwnerId = obj.OwnerId,
+                    ShipperId = obj.ShipperId,
+                    SupplierId = obj.SupplierId,
+                    ScheduledInboundTime = obj.ScheduledInboundTime,
+                    Remark = obj.Remark,
+                    Enable = obj.Enable,
+                    TransferType = obj.TransferType,
+                    InBondedArea = obj.InBondedArea,
+                    ReturnBoxNum = obj.ReturnBoxNum,
+                    UpdateTime = DateTime.Now,
+                    UpdateUserId = user.Id,
+                    UpdateUserName = user.Name
+                    //todo:补充或调整自己需要的字段
+                });
+
+                UnitWork.Save();
+            });
         }
 
         public WmsInboundOrderTblApp(IUnitWork unitWork, IRepository<WmsInboundOrderTbl> repository,
-            RevelanceManagerApp app, IAuth auth, WmsInboundOrderDtblApp wmsInboundOrderDtblApp) : base(unitWork, repository,auth)
+            RevelanceManagerApp app, IAuth auth, WmsInboundOrderDtblApp wmsInboundOrderDtblApp) : base(unitWork,
+            repository, auth)
         {
             _revelanceApp = app;
             _wmsInboundOrderDtblApp = wmsInboundOrderDtblApp;

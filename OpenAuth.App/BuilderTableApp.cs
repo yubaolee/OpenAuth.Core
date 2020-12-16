@@ -193,9 +193,12 @@ namespace OpenAuth.App
         /// <param name="ids"></param>
         public void DelTableAndcolumns(string[] ids)
         {
-            UnitWork.Delete<BuilderTable>(u => ids.Contains(u.Id));
-            UnitWork.Delete<BuilderTableColumn>(u => ids.Contains(u.TableId));
-            UnitWork.Save();
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                UnitWork.Delete<BuilderTable>(u => ids.Contains(u.Id));
+                UnitWork.Delete<BuilderTableColumn>(u => ids.Contains(u.TableId));
+                UnitWork.Save();
+            });
         }
 
 

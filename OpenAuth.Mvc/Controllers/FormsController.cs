@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -87,9 +88,10 @@ namespace OpenAuth.Mvc.Controllers
         /// <summary>
         /// 加载列表
         /// </summary>
-        public string Load([FromQuery]QueryFormListReq request)
+        public async Task<string> Load([FromQuery]QueryFormListReq request)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(request));
+            var objs = await _app.Load(request);
+            return JsonHelper.Instance.Serialize(objs);
         }
 
        [HttpPost]

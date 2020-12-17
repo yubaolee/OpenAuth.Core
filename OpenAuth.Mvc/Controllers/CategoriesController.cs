@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -25,10 +26,10 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        public string All([FromQuery]QueryCategoryListReq request)
+        public async Task<string> All([FromQuery]QueryCategoryListReq request)
         {
             TableData data = new TableData();
-            data = _app.Load(request);
+            data = await _app.Load(request);
             return JsonHelper.Instance.Serialize(data);
         }
 

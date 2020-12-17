@@ -18,13 +18,12 @@ namespace OpenAuth.App
         /// <summary>
         /// 用于普通的数据库操作
         /// </summary>
-        /// <value>The repository.</value>
         protected IRepository<T> Repository;
 
         /// <summary>
         /// 用于事务操作
+        /// <para>使用详见：http://doc.openauth.me/core/unitwork.html</para>
         /// </summary>
-        /// <value>The unit work.</value>
         protected IUnitWork UnitWork;
 
         protected IAuth _auth;
@@ -47,7 +46,7 @@ namespace OpenAuth.App
             if (loginUser.User.Account == Define.SYSTEM_USERNAME) return UnitWork.Find<T>(null);  //超级管理员特权
             
             var moduleName = typeof(T).Name;
-            var rule = UnitWork.FindSingle<DataPrivilegeRule>(u => u.SourceCode == moduleName);
+            var rule = UnitWork.FirstOrDefault<DataPrivilegeRule>(u => u.SourceCode == moduleName);
             if (rule == null) return UnitWork.Find<T>(null); //没有设置数据规则，那么视为该资源允许被任何主体查看
             if (rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINUSER) ||
                                              rule.PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINROLE)||
@@ -82,7 +81,7 @@ namespace OpenAuth.App
 
         public T Get(string id)
         {
-            return Repository.FindSingle(u => u.Id == id);
+            return Repository.FirstOrDefault(u => u.Id == id);
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace OpenAuth.App
 
             if (!string.IsNullOrEmpty(entity.ParentId))
             {
-                var parentOrg = UnitWork.FindSingle<U>(o => o.Id == entity.ParentId);
+                var parentOrg = UnitWork.FirstOrDefault<U>(o => o.Id == entity.ParentId);
                 if (parentOrg != null)
                 {
                     cascadeId = parentOrg.CascadeId + currentCascadeId + ".";

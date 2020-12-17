@@ -51,7 +51,7 @@ namespace OpenAuth.App.SSO
                 }
                 else
                 {
-                    userInfo = _app.FindSingle(u =>u.Account == model.Account);
+                    userInfo = _app.FirstOrDefault(u =>u.Account == model.Account);
                 }
                
                 if (userInfo == null)
@@ -61,6 +61,11 @@ namespace OpenAuth.App.SSO
                 if (userInfo.Password != model.Password)
                 {
                     throw new Exception("密码错误");
+                }
+
+                if (userInfo.Status != 0)
+                {
+                    throw new Exception("账号状态异常，可能已停用");
                 }
 
                 var currentSession = new UserAuthSession

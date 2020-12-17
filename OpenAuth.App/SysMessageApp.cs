@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -16,7 +17,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QuerySysMessageListReq request)
+        public async Task<TableData> Load(QuerySysMessageListReq request)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)

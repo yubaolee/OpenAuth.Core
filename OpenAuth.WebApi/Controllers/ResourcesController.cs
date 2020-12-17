@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -25,9 +26,9 @@ namespace OpenAuth.WebApi.Controllers
             _app = app;
         }
         [HttpGet]
-        public TableData Load([FromQuery]QueryResourcesReq request)
+        public async Task<TableData> Load([FromQuery]QueryResourcesReq request)
         {
-            return _app.Load(request);
+            return await _app.Load(request);
         }
 
        [HttpPost]

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -16,7 +17,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryDataPrivilegeRuleListReq request)
+        public async Task<TableData> Load(QueryDataPrivilegeRuleListReq request)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)
@@ -51,7 +52,7 @@ namespace OpenAuth.App
 
         public void Add(AddOrUpdateDataPriviReq req)
         {
-            if (Repository.IsExist(u => u.SourceCode == req.SourceCode))
+            if (Repository.Any(u => u.SourceCode == req.SourceCode))
             {
                 throw new Exception($"已经存在{req.SourceCode}的数据规则，如果想调整规制请直接修改");
             }
@@ -85,7 +86,7 @@ namespace OpenAuth.App
 
         public DataPrivilegeRule GetByModuleName(string moduleName)
         {
-            return Repository.FindSingle(u=>u.SourceCode == moduleName);
+            return Repository.FirstOrDefault(u=>u.SourceCode == moduleName);
         }
 
         public void Clear()

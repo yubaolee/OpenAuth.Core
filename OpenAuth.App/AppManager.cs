@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.Repository.Domain;
@@ -28,7 +29,7 @@ namespace OpenAuth.App
         }
 
 
-        public List<Application> GetList(QueryAppListReq request)
+        public async Task<List<Application>> GetList(QueryAppListReq request)
         {
             var applications =  UnitWork.Find<Application>(null) ;
            

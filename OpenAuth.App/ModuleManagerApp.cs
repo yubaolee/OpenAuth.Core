@@ -8,9 +8,10 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class ModuleManagerApp :BaseTreeApp<Module>
+    public class ModuleManagerApp : BaseTreeApp<Module>
     {
         private RevelanceManagerApp _revelanceApp;
+
         public void Add(Module model)
         {
             var loginContext = _auth.GetCurrentUser();
@@ -18,20 +19,22 @@ namespace OpenAuth.App
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
+
             CaculateCascade(model);
-            
+
             Repository.Add(model);
+
+            AddDefaultMenus(model);
             //当前登录用户的所有角色自动分配模块
             loginContext.Roles.ForEach(u =>
-            {    
+            {
                 _revelanceApp.Assign(new AssignReq
                 {
-                    type=Define.ROLEMODULE,
+                    type = Define.ROLEMODULE,
                     firstId = u.Id,
-                    secIds = new[]{model.Id}
+                    secIds = new[] {model.Id}
                 });
             });
-           
         }
 
         public void Update(Module obj)
@@ -40,9 +43,7 @@ namespace OpenAuth.App
         }
 
 
-
         #region 用户/角色分配模块
-
 
         /// <summary>
         /// 加载特定角色的模块
@@ -67,7 +68,7 @@ namespace OpenAuth.App
             var query = UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
             if (!string.IsNullOrEmpty(moduleId))
             {
-               query =  query.Where(u => u.ModuleId == moduleId);
+                query = query.Where(u => u.ModuleId == moduleId);
             }
 
             return query;
@@ -77,6 +78,7 @@ namespace OpenAuth.App
 
 
         #region 菜单操作
+
         /// <summary>
         /// 删除指定的菜单
         /// </summary>
@@ -87,6 +89,7 @@ namespace OpenAuth.App
             UnitWork.Save();
         }
 
+
         public void AddMenu(ModuleElement model)
         {
             var loginContext = _auth.GetCurrentUser();
@@ -94,21 +97,24 @@ namespace OpenAuth.App
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
-            UnitWork.Add(model);
-            
-            //当前登录用户的所有角色自动分配菜单
-            loginContext.Roles.ForEach(u =>
-            {    
-                _revelanceApp.Assign(new AssignReq
+
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                UnitWork.Add(model);
+
+                //当前登录用户的所有角色自动分配菜单
+                loginContext.Roles.ForEach(u =>
                 {
-                    type=Define.ROLEELEMENT,
-                    firstId = u.Id,
-                    secIds = new[]{model.Id}
+                    _revelanceApp.Assign(new AssignReq
+                    {
+                        type = Define.ROLEELEMENT,
+                        firstId = u.Id,
+                        secIds = new[] {model.Id}
+                    });
                 });
+                UnitWork.Save();
             });
-            UnitWork.Save();
         }
-        #endregion
 
         public void UpdateMenu(ModuleElement model)
         {
@@ -116,8 +122,51 @@ namespace OpenAuth.App
             UnitWork.Save();
         }
 
+        //添加默认按钮
+        private void AddDefaultMenus(Module module)
+        {
+            AddMenu(new ModuleElement
+            {
+                ModuleId = module.Id,
+                DomId = "btnAdd",
+                Script = "add()",
+                Name = "添加",
+                Sort = 1,
+                Icon = "xinzeng",
+                Class = "success",
+                Remark = "新增" + module.Name
+            });
+            AddMenu(new ModuleElement
+            {
+                ModuleId = module.Id,
+                DomId = "btnEdit",
+                Script = "edit()",
+                Name = "编辑",
+                Sort = 2,
+                Icon = "bianji-copy",
+                Class = "primary",
+                Remark = "修改" + module.Name
+            });
+            AddMenu(new ModuleElement
+            {
+                ModuleId = module.Id,
+                DomId = "btnDel",
+                Script = "del()",
+                Name = "删除",
+                Sort = 3,
+                Icon = "shanchu",
+                Class = "danger",
+                Remark = "删除" + module.Name
+            });
+
+            //todo:可以自己添加更多默认按钮
+        }
+
+        #endregion
+
+
         public ModuleManagerApp(IUnitWork unitWork, IRepository<Module> repository
-        ,RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
+            , RevelanceManagerApp app, IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
         }

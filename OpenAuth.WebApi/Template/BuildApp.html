@@ -16,7 +16,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(Query{ClassName}ListReq request)
+        public async Task<TableData> Load(Query{ClassName}ListReq request)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)
@@ -35,7 +35,7 @@ namespace OpenAuth.App
             var objs = GetDataPrivilege("u");
             if (!string.IsNullOrEmpty(request.key))
             {
-            objs = objs.Where(u => u.Name.Contains(request.key) || u.Id.Contains(request.key));
+            objs = objs.Where(u => u.Id.Contains(request.key));
             }
             
             var propertyStr = string.Join(',', properties.Select(u => u.Key));

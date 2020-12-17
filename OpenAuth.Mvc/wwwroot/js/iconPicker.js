@@ -385,6 +385,10 @@ layui.define(['laypage', 'form'], function (exports) {
     IconPicker.prototype.checkIcon = function (filter, iconName){
         var p = $('*[lay-filter='+ filter +']').next().find('.layui-iconpicker-item .layui-icon'),
             c = iconName;
+        
+        if(c == undefined){
+            return;
+        }
 
         if (c.indexOf('#xe') > 0){
             p.html(c);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -18,7 +19,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryWmsInboundOrderDtblListReq request)
+        public async Task<TableData> Load(QueryWmsInboundOrderDtblListReq request)
         {
 
             var loginContext = _auth.GetCurrentUser();

@@ -134,7 +134,7 @@ namespace OpenAuth.App
                 END AS EntityType,
 	              case WHEN CHARACTER_MAXIMUM_LENGTH>8000 THEN 0 ELSE CHARACTER_MAXIMUM_LENGTH end  AS Maxlength,
             CASE
-                    WHEN COLUMN_KEY <> '' THEN  
+                    WHEN COLUMN_KEY = 'PRI' THEN  
                     1 ELSE 0
                 END AS IsKey,
             CASE

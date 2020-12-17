@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Castle.Core.Internal;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -25,14 +26,14 @@ namespace OpenAuth.App
 
         public User GetByAccount(string account)
         {
-            return Repository.FindSingle(u => u.Account == account);
+            return Repository.FirstOrDefault(u => u.Account == account);
         }
 
         /// <summary>
         /// 加载当前登录用户可访问的一个部门及子部门全部用户
         /// 如果请求的request.OrgId为空，则可以获取到已被删除机构的用户（即：没有分配任何机构的用户）
         /// </summary>
-        public TableData Load(QueryUserListReq request)
+        public async Task<TableData> Load(QueryUserListReq request)
         {
             var loginUser = _auth.GetCurrentUser();
          
@@ -120,7 +121,7 @@ namespace OpenAuth.App
             requser.CreateId = _auth.GetCurrentUser().User.Id;
             if (string.IsNullOrEmpty(request.Id))
             {
-                if (UnitWork.IsExist<User>(u => u.Account == request.Account))
+                if (UnitWork.Any<User>(u => u.Account == request.Account))
                 {
                     throw new Exception("用户账号已存在");
                 }
@@ -191,7 +192,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public TableData LoadByRole(QueryUserListByRoleReq request)
+        public async Task<TableData> LoadByRole(QueryUserListByRoleReq request)
         {
             var users = from userRole in UnitWork.Find<Relevance>(u =>
                     u.SecondId == request.roleId && u.Key == Define.USERROLE)
@@ -211,7 +212,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public TableData LoadByOrg(QueryUserListByOrgReq request)
+        public async Task<TableData> LoadByOrg(QueryUserListByOrgReq request)
         {
             var users = from userRole in UnitWork.Find<Relevance>(u =>
                     u.SecondId == request.orgId && u.Key == Define.USERORG)

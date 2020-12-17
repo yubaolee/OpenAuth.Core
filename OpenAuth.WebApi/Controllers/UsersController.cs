@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -104,9 +105,9 @@ namespace OpenAuth.WebApi.Controllers
         /// 获取当前登录用户可访问的一个部门及子部门全部用户
         /// </summary>
         [HttpGet]
-        public TableData Load([FromQuery]QueryUserListReq request)
+        public async Task<TableData> Load([FromQuery]QueryUserListReq request)
         {
-            return _app.Load(request);
+            return await _app.Load(request);
         }
 
        [HttpPost]
@@ -131,9 +132,9 @@ namespace OpenAuth.WebApi.Controllers
         /// 加载指定角色的用户
         /// </summary>
         [HttpGet]
-        public TableData LoadByRole([FromQuery]QueryUserListByRoleReq request)
+        public async Task<TableData> LoadByRole([FromQuery]QueryUserListByRoleReq request)
         {
-            return _app.LoadByRole(request);
+            return await _app.LoadByRole(request);
         }
         
         /// <summary>
@@ -141,9 +142,9 @@ namespace OpenAuth.WebApi.Controllers
         /// 不包含下级部门的用户
         /// </summary>
         [HttpGet]
-        public TableData LoadByOrg([FromQuery]QueryUserListByOrgReq request)
+        public async Task<TableData> LoadByOrg([FromQuery]QueryUserListByOrgReq request)
         {
-            return _app.LoadByOrg(request);
+            return await _app.LoadByOrg(request);
         }
         
         public UsersController(UserManagerApp app) 

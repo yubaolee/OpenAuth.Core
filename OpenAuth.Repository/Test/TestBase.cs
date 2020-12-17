@@ -8,6 +8,10 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.Repository.Test
 {
+    /// <summary>
+    /// Repository测试基类
+    /// 测试用于测试DbContext、UnitWork、Repository，如果需要测试业务逻辑，请使用OpenAuth.App里面的单元测试
+    /// </summary>
     public class TestBase
     {
         protected AutofacServiceProvider _autofacServiceProvider;
@@ -19,6 +23,7 @@ namespace OpenAuth.Repository.Test
             serviceCollection.AddMemoryCache();
             serviceCollection.AddOptions();
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+            serviceCollection.AddScoped(typeof(IUnitWork), typeof(UnitWork));
 
             serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
                 options.UseSqlServer("Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000;Integrated Security=True"));
@@ -28,7 +33,6 @@ namespace OpenAuth.Repository.Test
             //注册repository层
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());
 
-            //   builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).PropertiesAutowired();
             builder.Populate(serviceCollection);
           
             var _container = builder.Build();

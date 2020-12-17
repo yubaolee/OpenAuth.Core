@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using OpenAuth.Repository.Core;
@@ -29,7 +30,7 @@ namespace OpenAuth.Repository
             return Filter(exp);
         }
 
-        public bool IsExist(Expression<Func<T, bool>> exp)
+        public bool Any(Expression<Func<T, bool>> exp)
         {
             return _context.Set<T>().Any(exp);
         }
@@ -37,7 +38,7 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 查找单个，且不被上下文所跟踪
         /// </summary>
-        public T FindSingle(Expression<Func<T, bool>> exp)
+        public T FirstOrDefault(Expression<Func<T, bool>> exp)
         {
             return _context.Set<T>().AsNoTracking().FirstOrDefault(exp);
         }
@@ -61,7 +62,7 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 根据过滤条件获取记录数
         /// </summary>
-        public int GetCount(Expression<Func<T, bool>> exp = null)
+        public int Count(Expression<Func<T, bool>> exp = null)
         {
             return Filter(exp).Count();
         }
@@ -116,7 +117,6 @@ namespace OpenAuth.Repository
             Save();
         }
 
-
         /// <summary>
         /// 实现按需要只更新部分更新
         /// <para>如：Update(u =>u.Id==1,u =>new User{Name="ok"});</para>
@@ -132,7 +132,7 @@ namespace OpenAuth.Repository
         {
             _context.Set<T>().Where(exp).Delete();
         }
-
+        
         public void Save()
         {
             try
@@ -169,7 +169,7 @@ namespace OpenAuth.Repository
             return dbSet;
         }
 
-        public int ExecuteSql(string sql)
+        public int ExecuteSqlRaw(string sql)
         {
             return _context.Database.ExecuteSqlRaw(sql);
         }
@@ -193,5 +193,129 @@ namespace OpenAuth.Repository
         {
             return _context.Query<T>().FromSqlRaw(sql, parameters);
         }
+
+        #region 异步实现
+        
+        /// <summary>
+        /// 异步执行sql
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public async Task<int> ExecuteSqlRawAsync(string sql)
+        {
+            return await _context.Database.ExecuteSqlRawAsync(sql);
+        }
+        
+        public async Task<int> AddAsync(T entity)
+        {
+            if (entity.KeyIsNull())
+            {
+                entity.GenerateDefaultKeyVal();
+            }
+
+            _context.Set<T>().Add(entity);
+            return await SaveAsync();
+            //_context.Entry(entity).State = EntityState.Detached;
+        }
+        
+        public async Task<int> BatchAddAsync(T[] entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (entity.KeyIsNull())
+                {
+                    entity.GenerateDefaultKeyVal();
+                }
+            }
+
+            await _context.Set<T>().AddRangeAsync(entities);
+            return await SaveAsync();
+        }
+        
+        /// <summary>
+        /// 异步更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<int> UpdateAsync(T entity)
+        {
+            var entry = this._context.Entry(entity);
+            entry.State = EntityState.Modified;
+
+            //如果数据没有发生变化
+            if (!this._context.ChangeTracker.HasChanges())
+            {
+                return 0;
+            }
+
+            return await SaveAsync();
+        }
+        
+        /// <summary>
+        /// 异步删除
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<int> DeleteAsync(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+            return await SaveAsync();
+        }
+        
+        /// <summary>
+        /// 异步保存
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<int> SaveAsync()
+        {
+            try
+            {
+                var entities = _context.ChangeTracker.Entries()
+                    .Where(e => e.State == EntityState.Added
+                                || e.State == EntityState.Modified)
+                    .Select(e => e.Entity);
+
+                foreach (var entity in entities)
+                {
+                    var validationContext = new ValidationContext(entity);
+                    Validator.ValidateObject(entity, validationContext, validateAllProperties: true);
+                }
+
+                return await _context.SaveChangesAsync();
+            }
+            catch (ValidationException exc)
+            {
+                Console.WriteLine($"{nameof(Save)} validation exception: {exc?.Message}");
+                throw (exc.InnerException as Exception ?? exc);
+            }
+            catch (Exception ex) //DbUpdateException 
+            {
+                throw (ex.InnerException as Exception ?? ex);
+            }
+        }
+        
+        /// <summary>
+        /// 根据过滤条件获取记录数
+        /// </summary>
+        public async Task<int> CountAsync(Expression<Func<T, bool>> exp = null)
+        {
+            return await Filter(exp).CountAsync();
+        }
+        
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> exp)
+        {
+            return await _context.Set<T>().AnyAsync(exp);
+        }
+
+        /// <summary>
+        /// 查找单个，且不被上下文所跟踪
+        /// </summary>
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> exp)
+        {
+            return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(exp);
+        }
+
+        #endregion
     }
 }

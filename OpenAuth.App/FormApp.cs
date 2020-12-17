@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
@@ -18,7 +19,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryFormListReq request)
+        public async Task<TableData> Load(QueryFormListReq request)
         {
             var result = new TableData();
             var forms = GetDataPrivilege("u");

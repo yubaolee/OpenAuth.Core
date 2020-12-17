@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -18,7 +19,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryCategoryTypeListReq request)
+        public async Task<TableData> Load(QueryCategoryTypeListReq request)
         {
             var result = new TableData();
             var objs = UnitWork.Find<CategoryType>(null);
@@ -56,9 +57,13 @@ namespace OpenAuth.App
          
          public new void Delete(string[] ids)
          {
-             UnitWork.Delete<CategoryType>(u=>ids.Contains(u.Id));
-             UnitWork.Delete<Category>(u=>ids.Contains(u.TypeId));
-             UnitWork.Save();
+             UnitWork.ExecuteWithTransaction(() =>
+             {
+                 UnitWork.Delete<CategoryType>(u=>ids.Contains(u.Id));
+                 UnitWork.Delete<Category>(u=>ids.Contains(u.TypeId));
+                 UnitWork.Save();
+             });
+          
          }
          
          public List<CategoryType> AllTypes()

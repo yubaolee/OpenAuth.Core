@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
+using System.Threading.Tasks;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Helpers;
@@ -76,7 +77,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableResp<BuilderTable> Load(QueryBuilderTableListReq request)
+        public async Task<TableResp<BuilderTable>> Load(QueryBuilderTableListReq request)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)
@@ -192,9 +193,12 @@ namespace OpenAuth.App
         /// <param name="ids"></param>
         public void DelTableAndcolumns(string[] ids)
         {
-            UnitWork.Delete<BuilderTable>(u => ids.Contains(u.Id));
-            UnitWork.Delete<BuilderTableColumn>(u => ids.Contains(u.TableId));
-            UnitWork.Save();
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                UnitWork.Delete<BuilderTable>(u => ids.Contains(u.Id));
+                UnitWork.Delete<BuilderTableColumn>(u => ids.Contains(u.TableId));
+                UnitWork.Save();
+            });
         }
 
 
@@ -204,7 +208,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public void CreateEntity(CreateEntityReq req)
         {
-            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null
@@ -223,7 +227,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public void CreateBusiness(CreateBusiReq req)
         {
-            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null
@@ -512,7 +516,7 @@ namespace OpenAuth.App
             {
                 throw new Exception("请提供vue项目的根目录,如：C:\\OpenAuth.Pro\\Client");
             }
-            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null
@@ -617,7 +621,7 @@ namespace OpenAuth.App
                 .Replace("{Temp}", tempBuilder.ToString())
                 .Replace("{DialogFormItem}", dialogStrBuilder.ToString());
             
-            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/views/{sysTableInfo.ClassName.ToCamelCase()}s/"), 
+            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/views/{sysTableInfo.ClassName.ToLower()}s/"), 
                 $"index.vue",
                 domainContent);
         }
@@ -633,7 +637,7 @@ namespace OpenAuth.App
             {
                 throw new Exception("请提供vue项目的根目录,如：C:\\OpenAuth.Pro\\Client");
             }
-            var sysTableInfo = Repository.FindSingle(u => u.Id == req.Id);
+            var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null

@@ -121,6 +121,9 @@ layui.config({
                   
                   $(that.config.idDOM).val(ids.join(","));
                   $(that.config.nameDOM).val(names.join(","));
+                  if(options.callback){
+                      options.callback(ids.join(","), names.join(","));
+                  }
                   $(that.config.idDOM).change(); 
                   if(flag){
                     layer.close(index);
@@ -135,14 +138,17 @@ layui.config({
         text: 'Name',
         key: 'Id',
         parentKey: 'ParentId',
+        callback:null,   //选中后的回调
         selectedMulti: true    //默认是多选
+        
     };
 
-    exports('droptree', function (url, name, id, selectedMulti) {
+    exports('droptree', function (url, name, id, selectedMulti,callback) {
       var options = {
             nameDOM: name,   //显示的文本框ID，如："#catetoryName"
             idDOM: id,   //隐藏的文本框，如："#categoryId"
-            url: url,
+            url: url, 
+            callback:callback,  //选中后的回调
             selectedMulti: selectedMulti  //是否为多选
         }
         inst = new DropTree(options);

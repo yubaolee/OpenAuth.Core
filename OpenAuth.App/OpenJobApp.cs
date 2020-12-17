@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.Extensions.Logging;
 using OpenAuth.App.Interface;
@@ -23,7 +24,7 @@ namespace OpenAuth.App
         /// <summary>
         /// 加载列表
         /// </summary>
-        public TableData Load(QueryOpenJobListReq request)
+        public async Task<TableData> Load(QueryOpenJobListReq request)
         {
             var result = new TableData();
             var objs = Repository.Find(null);
@@ -86,7 +87,7 @@ namespace OpenAuth.App
         
         public void ChangeJobStatus(ChangeJobStatusReq req)
         {
-            var job = Repository.FindSingle(u => u.Id == req.Id);
+            var job = Repository.FirstOrDefault(u => u.Id == req.Id);
             if (job == null)
             {
                 throw new Exception("任务不存在");
@@ -140,7 +141,7 @@ namespace OpenAuth.App
         /// <param name="jobId"></param>
         public void RecordRun(string jobId)
         {
-            var job = Repository.FindSingle(u =>u.Id == jobId);
+            var job = Repository.FirstOrDefault(u =>u.Id == jobId);
             if (job == null)
             {
                 _sysLogApp.Add(new SysLog

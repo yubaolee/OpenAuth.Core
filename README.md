@@ -2,7 +2,7 @@
 
 **logo图标含义** OpenAuth中OA字母的结合体；整体像鱼，授人以渔；你非说像咸鱼，那也是积极向上的咸鱼；中心是个笑脸，微笑面对生活(✿◡‿◡)。
 
-本项目基于.net core（最新sdk版本v3.1.100)的跨平台版本，使用.net 4.5的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
+本项目基于.Net Core 3.1.100的跨平台版本，如果使用传统.Net Framework 4.5及最新 **.Net 5** 的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
 
 **官方网站** http://www.openauth.me
 
@@ -56,7 +56,7 @@
 
 ## 核心看点
 
-* 支持.net core sdk 3.1.100
+* 支持.net core sdk 3.1.100 及.Net 5（[一分钟从.net core 3.1切换至.Net 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)）
 
 * 超强的自定义权限控制功能，可灵活配置用户、角色可访问的数据权限。请参考：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
 

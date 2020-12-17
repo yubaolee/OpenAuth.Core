@@ -1,5 +1,9 @@
 # 日常提交(针对dev分支)
 
+* 2020.12.17 增加异步测试、事务测试；
+
+* 2020.12.16 完成UnitWork异步化；
+
 * 2020.12.11 Repository增加异步读写接口；
 
 * 2020.12.09 fix issue [#I1RFOQ](https://gitee.com/yubaolee/OpenAuth.Core/issues/I1RFOQ)；

@@ -162,11 +162,12 @@ namespace OpenAuth.App
             {
                 foreach (var property in request.Properties)
                 {
-                    Repository.Delete(u => u.Key == Define.ROLEDATAPROPERTY
+                    UnitWork.Delete<Relevance>(u => u.Key == Define.ROLEDATAPROPERTY
                                            && u.FirstId == request.RoleId 
                                            && u.SecondId == request.ModuleCode 
                                            && u.ThirdId == property);
                 }
+                UnitWork.Save();
             }
         }
 

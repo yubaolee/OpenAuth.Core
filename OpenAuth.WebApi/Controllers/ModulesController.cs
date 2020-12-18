@@ -187,7 +187,10 @@ namespace OpenAuth.WebApi.Controllers
 
         #endregion 添加编辑模块
 
-        //添加或修改
+        /// <summary>
+        /// 新增菜单
+        /// <para>当前登录用户的所有角色会自动分配菜单</para>
+        /// </summary>
         [HttpPost]
         public Response<ModuleElement> AddMenu(ModuleElement obj)
         {
@@ -206,7 +209,9 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //添加或修改
+        /// <summary>
+        /// 修改菜单属性
+        /// </summary>
         [HttpPost]
         public Response UpdateMenu(ModuleElement obj)
         {
@@ -226,6 +231,9 @@ namespace OpenAuth.WebApi.Controllers
         }
 
 
+        /// <summary>
+        /// 删除菜单
+        /// </summary>
         [HttpPost]
         public Response DeleteMenu([FromBody]string[] ids)
         {

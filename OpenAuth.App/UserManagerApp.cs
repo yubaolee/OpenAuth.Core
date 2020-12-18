@@ -119,47 +119,52 @@ namespace OpenAuth.App
                 throw new Exception("请为用户分配机构");
             User requser = request;
             requser.CreateId = _auth.GetCurrentUser().User.Id;
-            if (string.IsNullOrEmpty(request.Id))
+            
+            UnitWork.ExecuteWithTransaction(() =>
             {
-                if (UnitWork.Any<User>(u => u.Account == request.Account))
+                if (string.IsNullOrEmpty(request.Id))
                 {
-                    throw new Exception("用户账号已存在");
+                    if (UnitWork.Any<User>(u => u.Account == request.Account))
+                    {
+                        throw new Exception("用户账号已存在");
+                    }
+
+                    if (string.IsNullOrEmpty(requser.Password))
+                    {
+                        requser.Password = requser.Account;   //如果客户端没提供密码，默认密码同账号
+                    }
+
+                    requser.CreateTime = DateTime.Now;
+
+                    UnitWork.Add(requser);
+                    request.Id = requser.Id; //要把保存后的ID存入view
                 }
-
-                if (string.IsNullOrEmpty(requser.Password))
-                {
-                    requser.Password = requser.Account;   //如果客户端没提供密码，默认密码同账号
-                }
-
-                requser.CreateTime = DateTime.Now;
-
-                UnitWork.Add(requser);
-                request.Id = requser.Id; //要把保存后的ID存入view
-            }
-            else
-            {
-                UnitWork.Update<User>(u => u.Id == request.Id, u => new User
-                {
-                    Account = requser.Account,
-                    BizCode = requser.BizCode,
-                    Name = requser.Name,
-                    Sex = requser.Sex,
-                    Status = requser.Status
-                });
-                if (!string.IsNullOrEmpty(requser.Password))  //密码为空的时候，不做修改
+                else
                 {
                     UnitWork.Update<User>(u => u.Id == request.Id, u => new User
                     {
-                        Password = requser.Password
+                        Account = requser.Account,
+                        BizCode = requser.BizCode,
+                        Name = requser.Name,
+                        Sex = requser.Sex,
+                        Status = requser.Status
                     });
+                    if (!string.IsNullOrEmpty(requser.Password))  //密码为空的时候，不做修改
+                    {
+                        UnitWork.Update<User>(u => u.Id == request.Id, u => new User
+                        {
+                            Password = requser.Password
+                        });
+                    }
                 }
-            }
 
-            UnitWork.Save();
-            string[] orgIds = request.OrganizationIds.Split(',').ToArray();
+                UnitWork.Save();
+                string[] orgIds = request.OrganizationIds.Split(',').ToArray();
 
-            _revelanceApp.DeleteBy(Define.USERORG, requser.Id);
-            _revelanceApp.Assign(Define.USERORG, orgIds.ToLookup(u => requser.Id));
+                _revelanceApp.DeleteBy(Define.USERORG, requser.Id);
+                _revelanceApp.Assign(Define.USERORG, orgIds.ToLookup(u => requser.Id));
+            });
+            
         }
         
         /// <summary>
@@ -168,10 +173,14 @@ namespace OpenAuth.App
         /// <param name="ids"></param>
         public override void Delete(string[] ids)
         {
-            UnitWork.Delete<Relevance>(u =>(u.Key == Define.USERROLE || u.Key == Define.USERORG) 
-                                           && ids.Contains(u.FirstId));
-            UnitWork.Delete<User>(u => ids.Contains(u.Id));
-            UnitWork.Save();
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                UnitWork.Delete<Relevance>(u =>(u.Key == Define.USERROLE || u.Key == Define.USERORG) 
+                                               && ids.Contains(u.FirstId));
+                UnitWork.Delete<User>(u => ids.Contains(u.Id));
+                UnitWork.Save();
+            });
+           
         }
         
 

@@ -69,30 +69,80 @@ namespace OpenAuth.App
 
 ### UnitWork
 
-比如上面示例中的Update函数，现在需要增加系统日志和更新一些表的记录。则代码如下：
+默认情况下，EF每执行一次SaveChanges()方法时就会新建一个事务，然后将context中的CUD操作都在这个事务中进行。如下：
 
 ```csharp
         public void Update(AddOrUpdateStockReq obj)
         {
-            var user = _auth.GetCurrentUser().User;
-            UnitWork.Update<Stock>(u => u.Id == obj.Id, u => new Stock
-            {
-                //todo:补充或调整自己需要的字段
-            });
 
             UnitWork.Add<SysLog>(new SysLog
             {
-                //todo:补充或调整自己需要的字段
+                //todo:模拟新增操作
             });
 
-            //如果还需要更新其他表
-            UnitWork.Update<OtherTable>(u => u.Id == obj.Id, u => new Stock
+            var stock = UnitWork.FirstOrDefault<Stock>(u => u.Id == obj.Id);
+            stock.Name = "xxxx";
+            UnitWork.Update(stock);  //更新操作
+
+            var other = UnitWork.FirstOrDefault<OtherTable>(u => u.Id == obj.Id);
+            other.Name = "xxxx";
+            UnitWork.Update(other);  //其他更新操作
+
+            UnitWork.Save();  //只有一次Save()操作
+
+        }
+
+```
+
+如果在一个事务里面有多次`SaveChanges()`的情况，需要使用OpenAuth.Core提供的`ExecuteWithTransaction`处理。如下：
+
+```csharp
+        //代码详见TestTransaction.cs/NormalSubmit()
+        UnitWork.ExecuteWithTransaction(() =>
+        {
+            var account = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
+            var user = new User
             {
-                //todo:补充或调整自己需要的字段
+                Id = account,
+                Account = account,
+                Name = account,
+            };
+
+            unitWork.Add(user);
+            unitWork.Save();  //第一次savechanges()
+
+            user.Account = "Trans_" + user.Account;
+            unitWork.Update(user);
+            unitWork.Save();  //第二次savechanges()
+
+            //Z.EntityFramework.Plus的Update内部自动调用了SaveChanges()，算第三次
+            unitWork.Update<User>(u => u.Id == account, u => new User
+            {
+                Account = "Trans2_" + user.Account
             });
+        });
+```
 
-            UnitWork.Save();
+发生这种情况，通常是因为在各个应用层逻辑内部已经调用了`UnitWrok.Save()`,比如：
 
+```csharp
+        //详细代码请查看UserManagerApp.cs,本例简化真实逻辑，方便理解
+        private RevelanceManagerApp _revelanceApp;
+        public void AddOrUpdate(UpdateUserReq request)
+        {
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                User requser = request;
+                requser.CreateTime = DateTime.Now;
+
+                UnitWork.Add(requser);
+                UnitWork.Save();
+
+                string[] orgIds = request.OrganizationIds.Split(',').ToArray();
+                //下面两个方法各自内部都会调用UnitWork.Save()
+                _revelanceApp.DeleteBy(Define.USERORG, requser.Id);
+                _revelanceApp.Assign(Define.USERORG, orgIds.ToLookup(u => requser.Id));
+            });
         }
 
 ```

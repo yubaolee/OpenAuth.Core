@@ -1,29 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
+using OpenAuth.App.Request;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
     /// <summary>
-    /// 文件
+    /// 文件管理
     /// </summary>
     public class FileApp : BaseApp<UploadFile>
     {
         private ILogger<FileApp> _logger;
         private string _filePath;
-        private string _dbFilePath;   //数据库中的文件路径
-        private string _dbThumbnail;   //数据库中的缩略图路径
+        private string _dbFilePath; //数据库中的文件路径
+        private string _dbThumbnail; //数据库中的缩略图路径
 
-        public FileApp( IOptions<AppSetting> setOptions, IUnitWork unitWork, IRepository<UploadFile> repository, ILogger<FileApp> logger, IAuth auth)
-            :base(unitWork, repository, auth)
+        public FileApp(IOptions<AppSetting> setOptions, IUnitWork unitWork, IRepository<UploadFile> repository,
+            ILogger<FileApp> logger, IAuth auth)
+            : base(unitWork, repository, auth)
         {
             _logger = logger;
             _filePath = setOptions.Value.UploadPath;
@@ -33,6 +38,30 @@ namespace OpenAuth.App
             }
         }
 
+        /// <summary>
+        /// 加载附件列表
+        /// </summary>
+        public async Task<TableData> Load(QueryFileListReq request)
+        {
+            var result = new TableData();
+            var objs = UnitWork.Find<UploadFile>(null);
+            if (!string.IsNullOrEmpty(request.key))
+            {
+                objs = objs.Where(u => u.FileName.Contains(request.key) || u.FilePath.Contains(request.key));
+            }
+
+            result.data = objs.OrderByDescending(u => u.CreateTime)
+                .Skip((request.page - 1) * request.limit)
+                .Take(request.limit);
+            result.count = objs.Count();
+            return result;
+        }
+
+        /// <summary>
+        /// 批量添加附件
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
         public List<UploadFile> Add(IFormFileCollection files)
         {
             var result = new List<UploadFile>();
@@ -55,13 +84,14 @@ namespace OpenAuth.App
             {
                 _logger.LogWarning("收到新文件为空");
             }
+
             if (file != null && file.Length > 0 && file.Length < 10485760)
             {
                 using (var binaryReader = new BinaryReader(file.OpenReadStream()))
                 {
                     var fileName = Path.GetFileName(file.FileName);
-                    var data = binaryReader.ReadBytes((int)file.Length);
-                    UploadFile(fileName, data);
+                    var data = binaryReader.ReadBytes((int) file.Length);
+                    SaveFile(fileName, data);
 
                     var filedb = new UploadFile
                     {
@@ -82,7 +112,7 @@ namespace OpenAuth.App
             }
         }
 
-        private void UploadFile(string fileName, byte[] fileBuffers)
+        private void SaveFile(string fileName, byte[] fileBuffers)
         {
             string folder = DateTime.Now.ToString("yyyyMMdd");
 
@@ -98,7 +128,7 @@ namespace OpenAuth.App
                 throw new Exception("文件不能为空");
             }
 
-            var uploadPath = Path.Combine(_filePath , folder );
+            var uploadPath = Path.Combine(_filePath, folder);
             _logger.LogInformation("文件写入：" + uploadPath);
             if (!Directory.Exists(uploadPath))
             {
@@ -108,21 +138,22 @@ namespace OpenAuth.App
             var ext = Path.GetExtension(fileName).ToLower();
             string newName = GenerateId.GenerateOrderNumber() + ext;
 
-            using (var fs = new FileStream(Path.Combine(uploadPath , newName), FileMode.Create))
+            using (var fs = new FileStream(Path.Combine(uploadPath, newName), FileMode.Create))
             {
                 fs.Write(fileBuffers, 0, fileBuffers.Length);
                 fs.Close();
 
                 //生成缩略图
-                if (ext.Contains(".jpg") || ext.Contains(".jpeg") || ext.Contains(".png") || ext.Contains(".bmp") || ext.Contains(".gif"))
+                if (ext.Contains(".jpg") || ext.Contains(".jpeg") || ext.Contains(".png") || ext.Contains(".bmp") ||
+                    ext.Contains(".gif"))
                 {
                     string thumbnailName = GenerateId.GenerateOrderNumber() + ext;
-                    ImgHelper.MakeThumbnail(Path.Combine(uploadPath , newName), Path.Combine(uploadPath , thumbnailName));
-                    _dbThumbnail = Path.Combine(folder , thumbnailName);
+                    ImgHelper.MakeThumbnail(Path.Combine(uploadPath, newName), Path.Combine(uploadPath, thumbnailName));
+                    _dbThumbnail = Path.Combine(folder, thumbnailName);
                 }
 
 
-                _dbFilePath = Path.Combine(folder , newName);
+                _dbFilePath = Path.Combine(folder, newName);
             }
         }
     }

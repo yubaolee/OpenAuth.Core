@@ -1,11 +1,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Request;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers
@@ -23,6 +26,15 @@ namespace OpenAuth.WebApi.Controllers
         public FilesController(FileApp app)
         {
             _app = app;
+        }
+        
+        /// <summary>
+        /// 加载附件列表
+        /// </summary>
+        [HttpGet]
+        public async Task<TableData> Load([FromQuery]QueryFileListReq request)
+        {
+            return await _app.Load(request);
         }
 
         /// <summary>

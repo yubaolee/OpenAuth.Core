@@ -56,7 +56,7 @@ namespace OpenAuth.App
             result.count = objs.Count();
             return result;
         }
-
+        
         /// <summary>
         /// 批量添加附件
         /// </summary>
@@ -99,6 +99,7 @@ namespace OpenAuth.App
                         Thumbnail = _dbThumbnail,
                         FileName = fileName,
                         FileSize = file.Length,
+                        CreateUserName = _auth.GetUserName(),
                         FileType = Path.GetExtension(fileName),
                         Extension = Path.GetExtension(fileName)
                     };
@@ -111,7 +112,23 @@ namespace OpenAuth.App
                 throw new Exception("文件过大");
             }
         }
+        
+        /// <summary>
+        /// 删除附件
+        /// </summary>
+        /// <param name="ids"></param>
+        public override void Delete(string[] ids)
+        {
+            UnitWork.Delete<UploadFile>(u => ids.Contains(u.Id));
+            UnitWork.Save();
+        }
 
+        /// <summary>
+        /// 存储文件，如果是图片文件则生成缩略图
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="fileBuffers"></param>
+        /// <exception cref="Exception"></exception>
         private void SaveFile(string fileName, byte[] fileBuffers)
         {
             string folder = DateTime.Now.ToString("yyyyMMdd");

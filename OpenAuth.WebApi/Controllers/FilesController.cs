@@ -36,6 +36,29 @@ namespace OpenAuth.WebApi.Controllers
         {
             return await _app.Load(request);
         }
+        
+        /// <summary>
+        /// 删除附件
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Response Delete([FromBody]string[] ids)
+        {
+            var result = new Response();
+            try
+            {
+                _app.Delete(ids);
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
 
         /// <summary>
         ///  批量上传文件接口

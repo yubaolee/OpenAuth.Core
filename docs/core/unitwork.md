@@ -1,4 +1,4 @@
-# 如何进行数据库操作
+# 数据库读写及事务处理
 
 OpenAuth.Core使用Repository和Unitwork两种方式访问数据库。
 
@@ -13,9 +13,7 @@ Unitwork适用于多表操作（尤其是更新操作），有事务需求的场
 在web应用中，由于每个用户的请求都是属于不同线程的，需要保持每次请求的所有数据操作都成功的情况下提交数据，只要有一个失败的操作，则会对用户的此次请求的所有操作进行回滚，以确保用户操作的数据始终处于有效的状态。其实就两个字：**事务**
 :::
 
-## 常规使用
-
-### Repository
+## 单表操作Repository
 
 假设数据库有一个表名称为Stock。则在OpenAuth.App中编写业务代码。比如`StockApp`
 
@@ -67,9 +65,9 @@ namespace OpenAuth.App
 }
 ```
 
-### UnitWork
+## 事务操作UnitWork
 
-默认情况下，EF每执行一次SaveChanges()方法时就会新建一个事务，然后将context中的CUD操作都在这个事务中进行。如下：
+默认情况下，EF每执行一次SaveChanges()方法时就会新建一个事务，然后将context中的CUD操作都在这个事务中进行。使用方式如下：
 
 ```csharp
         public void Update(AddOrUpdateStockReq obj)
@@ -147,7 +145,9 @@ namespace OpenAuth.App
 
 ```
 
-UnitWork还经常在连表查询中使用。
+## 多表查询
+
+简单的多表查询可以使用UnitWork完成。例如：
 
 ```csharp
         /// <summary>
@@ -162,6 +162,8 @@ UnitWork还经常在连表查询中使用。
             return result.ToList();
         }
 ```
+
+如果是复杂的SQL查询，建议使用下面的SQL语句查询，以获得更高的性能。
 
 ## SQL 语句查询
 

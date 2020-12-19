@@ -27,6 +27,7 @@ namespace OpenAuth.WebApi.Controllers
 
         /// <summary>
         ///  批量上传文件接口
+        /// <para>客户端文本框需设置name='files'</para>
         /// </summary>
         /// <param name="files"></param>
         /// <returns>服务器存储的文件信息</returns>

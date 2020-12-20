@@ -51,7 +51,7 @@ namespace OpenAuth.Repository.Domain
         /// <summary>
 	    /// 文件大小
 	    /// </summary>
-        public long FileSize { get; set; }
+        public int? FileSize { get; set; }
         /// <summary>
 	    /// 扩展名称
 	    /// </summary>

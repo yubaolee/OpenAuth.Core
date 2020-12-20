@@ -72,14 +72,16 @@ namespace OpenAuth.App
             {
                 foreach (var value in sameVals)
                 {
-                    Repository.Delete(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
+                    UnitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
                 }
             }
+            UnitWork.Save();
         }
 
         public void DeleteBy(string key, params string[] firstIds)
         {
-            Repository.Delete(u => firstIds.Contains(u.FirstId) && u.Key == key);
+            UnitWork.Delete<Relevance>(u => firstIds.Contains(u.FirstId) && u.Key == key);
+            UnitWork.Save();
         }
 
 
@@ -160,11 +162,12 @@ namespace OpenAuth.App
             {
                 foreach (var property in request.Properties)
                 {
-                    Repository.Delete(u => u.Key == Define.ROLEDATAPROPERTY
+                    UnitWork.Delete<Relevance>(u => u.Key == Define.ROLEDATAPROPERTY
                                            && u.FirstId == request.RoleId 
                                            && u.SecondId == request.ModuleCode 
                                            && u.ThirdId == property);
                 }
+                UnitWork.Save();
             }
         }
 
@@ -174,18 +177,21 @@ namespace OpenAuth.App
         /// <param name="request"></param>
         public void AssignRoleUsers(AssignRoleUsers request)
         {
-            //删除以前的所有用户
-            UnitWork.Delete<Relevance>(u => u.SecondId == request.RoleId && u.Key == Define.USERROLE);
-            //批量分配用户角色
-            UnitWork.BatchAdd((from firstId in request.UserIds
-                select new Relevance
-                {
-                    Key = Define.USERROLE,
-                    FirstId = firstId,
-                    SecondId = request.RoleId,
-                    OperateTime = DateTime.Now
-                }).ToArray());
-            UnitWork.Save();
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                //删除以前的所有用户
+                UnitWork.Delete<Relevance>(u => u.SecondId == request.RoleId && u.Key == Define.USERROLE);
+                //批量分配用户角色
+                UnitWork.BatchAdd((from firstId in request.UserIds
+                    select new Relevance
+                    {
+                        Key = Define.USERROLE,
+                        FirstId = firstId,
+                        SecondId = request.RoleId,
+                        OperateTime = DateTime.Now
+                    }).ToArray());
+                UnitWork.Save();
+            });
         }
 
         /// <summary>
@@ -194,18 +200,21 @@ namespace OpenAuth.App
         /// <param name="request"></param>
         public void AssignOrgUsers(AssignOrgUsers request)
         {
-            //删除以前的所有用户
-            UnitWork.Delete<Relevance>(u => u.SecondId == request.OrgId && u.Key == Define.USERORG);
-            //批量分配用户角色
-            UnitWork.BatchAdd((from firstId in request.UserIds
-                select new Relevance
-                {
-                    Key = Define.USERORG,
-                    FirstId = firstId,
-                    SecondId = request.OrgId,
-                    OperateTime = DateTime.Now
-                }).ToArray());
-            UnitWork.Save();
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                //删除以前的所有用户
+                UnitWork.Delete<Relevance>(u => u.SecondId == request.OrgId && u.Key == Define.USERORG);
+                //批量分配用户角色
+                UnitWork.BatchAdd((from firstId in request.UserIds
+                    select new Relevance
+                    {
+                        Key = Define.USERORG,
+                        FirstId = firstId,
+                        SecondId = request.OrgId,
+                        OperateTime = DateTime.Now
+                    }).ToArray());
+                UnitWork.Save();
+            });
         }
     }
 }

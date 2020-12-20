@@ -1,11 +1,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
+using OpenAuth.App.Request;
+using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.WebApi.Controllers
@@ -24,9 +27,42 @@ namespace OpenAuth.WebApi.Controllers
         {
             _app = app;
         }
+        
+        /// <summary>
+        /// 加载附件列表
+        /// </summary>
+        [HttpGet]
+        public async Task<TableData> Load([FromQuery]QueryFileListReq request)
+        {
+            return await _app.Load(request);
+        }
+        
+        /// <summary>
+        /// 删除附件
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Response Delete([FromBody]string[] ids)
+        {
+            var result = new Response();
+            try
+            {
+                _app.Delete(ids);
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
 
         /// <summary>
         ///  批量上传文件接口
+        /// <para>客户端文本框需设置name='files'</para>
         /// </summary>
         /// <param name="files"></param>
         /// <returns>服务器存储的文件信息</returns>

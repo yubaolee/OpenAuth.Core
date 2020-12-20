@@ -62,6 +62,9 @@ namespace OpenAuth.App
             return _revelanceApp.Get(Define.ROLEDATAPROPERTY, roleId, moduleCode);
         }
 
+        /// <summary>
+        /// 根据某角色ID获取可访问某模块的菜单项
+        /// </summary>
         public IEnumerable<ModuleElement> LoadMenusForRole(string moduleId, string roleId)
         {
             var elementIds = _revelanceApp.Get(Define.ROLEELEMENT, true, roleId);
@@ -90,6 +93,10 @@ namespace OpenAuth.App
         }
 
 
+        /// <summary>
+        /// 新增菜单
+        /// <para>当前登录用户的所有角色会自动分配菜单</para>
+        /// </summary>
         public void AddMenu(ModuleElement model)
         {
             var loginContext = _auth.GetCurrentUser();

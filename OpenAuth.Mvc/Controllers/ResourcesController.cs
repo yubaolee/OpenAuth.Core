@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -54,9 +55,10 @@ namespace OpenAuth.Mvc.Controllers
         }
 
 
-        public string Load([FromQuery]QueryResourcesReq request)
+        public async Task<string> Load([FromQuery]QueryResourcesReq request)
         {
-            return JsonHelper.Instance.Serialize(_app.Load(request));
+            var objs = await _app.Load(request);
+            return JsonHelper.Instance.Serialize(objs);
         }
 
        [HttpPost]

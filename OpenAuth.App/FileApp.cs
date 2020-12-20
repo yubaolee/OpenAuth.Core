@@ -119,8 +119,17 @@ namespace OpenAuth.App
         /// <param name="ids"></param>
         public override void Delete(string[] ids)
         {
-            UnitWork.Delete<UploadFile>(u => ids.Contains(u.Id));
-            UnitWork.Save();
+            var files = base.Repository.Find(u => ids.Contains(u.Id)).ToList();
+            for (int i = 0; i < files.Count(); i++)
+            {
+                var uploadPath = Path.Combine(_filePath, files[i].FilePath);
+                FileHelper.FileDel(uploadPath);
+                if (!string.IsNullOrEmpty(files[i].Thumbnail))
+                {
+                    FileHelper.FileDel(Path.Combine(_filePath, files[i].Thumbnail));
+                }
+                Repository.Delete(u =>u.Id == files[i].Id);
+            }
         }
 
         /// <summary>

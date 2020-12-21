@@ -65,6 +65,11 @@ namespace OpenAuth.App
         /// <returns></returns>
         public List<UploadFile> Add(IFormFileCollection files)
         {
+            if (!_auth.CheckLogin())
+            {
+                throw new Exception("必需登录才能上传附件");
+            }
+            
             var result = new List<UploadFile>();
             foreach (var file in files)
             {

@@ -34,6 +34,7 @@ module.exports = {
               ,"devnew"
               ,"unitwork"
               ,"entity"
+              ,"log"
               ,"identity" 
               ,"job"
               ,"cache"

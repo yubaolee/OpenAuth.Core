@@ -28,6 +28,27 @@ namespace OpenAuth.App.Test
             return services;
         }
         
+        /// <summary>
+        /// 测试添加用户时，数据校验。
+        /// 因为请求数据没有Account，Name等，该测试会提示异常
+        /// </summary>
+        [Test]
+        public void TestValidation()
+        {
+            var app = _autofacServiceProvider.GetService<UserManagerApp>();
+            try
+            {
+                app.AddOrUpdate(new UpdateUserReq
+                {
+                    OrganizationIds = "08f41bf6-4388-4b1e-bd3e-2ff538b44b1b",
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        
         [Test]
         public void TestAdd()
         {

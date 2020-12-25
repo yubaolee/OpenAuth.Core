@@ -61,10 +61,22 @@ namespace OpenAuth.App.Test
         public void UnAssign()
         {
             var app = _autofacServiceProvider.GetService<RevelanceManagerApp>();
-
             app.UnAssignData(new AssignDataReq
             {
                 ModuleCode = "WmsInboundOrderTbl",
+                Properties = new string[]{},
+                RoleId = "09ee2ffa-7463-4938-ae0b-1cb4e80c7c13"
+            });
+            app.UnAssignData(new AssignDataReq
+            {
+                ModuleCode = "Category",
+                Properties = new string[]{},
+                RoleId = "09ee2ffa-7463-4938-ae0b-1cb4e80c7c13"
+            });
+
+            app.UnAssignData(new AssignDataReq
+            {
+                ModuleCode = "Resource",
                 Properties = new string[]{},
                 RoleId = "09ee2ffa-7463-4938-ae0b-1cb4e80c7c13"
             });

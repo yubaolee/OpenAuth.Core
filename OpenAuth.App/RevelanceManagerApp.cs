@@ -8,9 +8,10 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class RevelanceManagerApp  :BaseApp<Relevance>
+    public class RevelanceManagerApp : BaseApp<Relevance>
     {
-        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository,IAuth auth) : base(unitWork, repository, auth)
+        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository, IAuth auth) : base(unitWork,
+            repository, auth)
         {
         }
 
@@ -57,7 +58,7 @@ namespace OpenAuth.App
             }
             else
             {
-               DeleteBy(req.type, req.secIds.ToLookup(u => req.firstId));
+                DeleteBy(req.type, req.secIds.ToLookup(u => req.firstId));
             }
         }
 
@@ -68,23 +69,18 @@ namespace OpenAuth.App
         /// <param name="idMaps">关联的&lt;firstId, secondId&gt;数组</param>
         private void DeleteBy(string key, ILookup<string, string> idMaps)
         {
-            UnitWork.ExecuteWithTransaction(() =>
+            foreach (var sameVals in idMaps)
             {
-                foreach (var sameVals in idMaps)
+                foreach (var value in sameVals)
                 {
-                    foreach (var value in sameVals)
-                    {
-                        UnitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
-                    }
+                    UnitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
                 }
-                UnitWork.Save();
-            });
+            }
         }
 
         public void DeleteBy(string key, params string[] firstIds)
         {
             UnitWork.Delete<Relevance>(u => firstIds.Contains(u.FirstId) && u.Key == key);
-            UnitWork.Save();
         }
 
 
@@ -100,12 +96,12 @@ namespace OpenAuth.App
             if (returnSecondIds)
             {
                 return Repository.Find(u => u.Key == key
-                                                      && ids.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
+                                            && ids.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
             }
             else
             {
                 return Repository.Find(u => u.Key == key
-                     && ids.Contains(u.SecondId)).Select(u => u.FirstId).ToList();
+                                            && ids.Contains(u.SecondId)).Select(u => u.FirstId).ToList();
             }
         }
 
@@ -132,6 +128,7 @@ namespace OpenAuth.App
             {
                 return;
             }
+
             var relevances = new List<Relevance>();
             foreach (var requestProperty in request.Properties)
             {
@@ -144,6 +141,7 @@ namespace OpenAuth.App
                     OperateTime = DateTime.Now
                 });
             }
+
             UnitWork.BatchAdd(relevances.ToArray());
             UnitWork.Save();
         }
@@ -156,25 +154,24 @@ namespace OpenAuth.App
         {
             if (request.Properties == null || request.Properties.Length == 0)
             {
-                if (string.IsNullOrEmpty(request.ModuleCode))  //模块为空，直接把角色的所有授权删除
+                if (string.IsNullOrEmpty(request.ModuleCode)) //模块为空，直接把角色的所有授权删除
                 {
                     DeleteBy(Define.ROLEDATAPROPERTY, request.RoleId);
                 }
-                else  //把角色的某一个模块权限全部删除
+                else //把角色的某一个模块权限全部删除
                 {
-                    DeleteBy(Define.ROLEDATAPROPERTY, new []{ request.ModuleCode }.ToLookup(u =>request.RoleId));
+                    DeleteBy(Define.ROLEDATAPROPERTY, new[] {request.ModuleCode}.ToLookup(u => request.RoleId));
                 }
             }
-            else  //按具体的id删除
+            else //按具体的id删除
             {
                 foreach (var property in request.Properties)
                 {
                     UnitWork.Delete<Relevance>(u => u.Key == Define.ROLEDATAPROPERTY
-                                           && u.FirstId == request.RoleId 
-                                           && u.SecondId == request.ModuleCode 
-                                           && u.ThirdId == property);
+                                                    && u.FirstId == request.RoleId
+                                                    && u.SecondId == request.ModuleCode
+                                                    && u.ThirdId == property);
                 }
-                UnitWork.Save();
             }
         }
 

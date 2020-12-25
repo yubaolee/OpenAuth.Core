@@ -125,6 +125,10 @@ namespace OpenAuth.App
         /// <param name="request"></param>
         public void AssignData(AssignDataReq request)
         {
+            if (!request.Properties.Any())
+            {
+                return;
+            }
             var relevances = new List<Relevance>();
             foreach (var requestProperty in request.Properties)
             {

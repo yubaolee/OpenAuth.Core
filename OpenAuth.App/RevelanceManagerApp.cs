@@ -68,14 +68,17 @@ namespace OpenAuth.App
         /// <param name="idMaps">关联的&lt;firstId, secondId&gt;数组</param>
         private void DeleteBy(string key, ILookup<string, string> idMaps)
         {
-            foreach (var sameVals in idMaps)
+            UnitWork.ExecuteWithTransaction(() =>
             {
-                foreach (var value in sameVals)
+                foreach (var sameVals in idMaps)
                 {
-                    UnitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
+                    foreach (var value in sameVals)
+                    {
+                        UnitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
+                    }
                 }
-            }
-            UnitWork.Save();
+                UnitWork.Save();
+            });
         }
 
         public void DeleteBy(string key, params string[] firstIds)
@@ -125,6 +128,10 @@ namespace OpenAuth.App
         /// <param name="request"></param>
         public void AssignData(AssignDataReq request)
         {
+            if (!request.Properties.Any())
+            {
+                return;
+            }
             var relevances = new List<Relevance>();
             foreach (var requestProperty in request.Properties)
             {

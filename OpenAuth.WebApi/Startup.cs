@@ -6,8 +6,11 @@ using Autofac;
 using IdentityServer4.AccessTokenValidation;
 using Infrastructure.Extensions;
 using Infrastructure.Extensions.AutofacManager;
+using Infrastructure.Validator;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +41,11 @@ namespace OpenAuth.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           services.Configure<ApiBehaviorOptions>(options =>
+           {
+               options.SuppressModelStateInvalidFilter = true;
+           });
+            
             services.AddSingleton(provider =>
             {
                 var service = provider.GetRequiredService<ILogger<StartupLogger>>();

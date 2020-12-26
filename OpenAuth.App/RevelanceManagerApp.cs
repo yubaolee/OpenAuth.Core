@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.Repository.Domain;
@@ -10,9 +11,11 @@ namespace OpenAuth.App
 {
     public class RevelanceManagerApp : BaseApp<Relevance>
     {
-        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository, IAuth auth) : base(unitWork,
+        private readonly ILogger<RevelanceManagerApp> _logger;
+        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository, IAuth auth, ILogger<RevelanceManagerApp> logger) : base(unitWork,
             repository, auth)
         {
+            _logger = logger;
         }
 
         /// <summary>
@@ -73,7 +76,16 @@ namespace OpenAuth.App
             {
                 foreach (var value in sameVals)
                 {
-                    UnitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
+                    _logger.LogInformation($"start=> delete {key} {sameVals.Key} {value}");
+                    try
+                    {
+                        UnitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e,e.Message);
+                    }
+                    _logger.LogInformation($"end=> {key} {sameVals.Key} {value}");
                 }
             }
         }

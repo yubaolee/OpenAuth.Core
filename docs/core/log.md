@@ -47,7 +47,7 @@
 
 ## EF打印Sql日志
 
-在调试数据库时，需要打印真正执行的SQL信息。可以使用下面方法输出到控制台：
+在调试数据库时，需要打印真正执行的SQL信息。最简单的方式是使用下面方法输出到控制台：
 
 ```csharp
     public partial class OpenAuthDBContext : DbContext
@@ -65,3 +65,17 @@
         }
     }
 ```
+
+## EF输出Sql到log4net
+
+框架目前直接配置`appsettings.Development.json`即可完成输出sql语句到log4net对应的日志文件中。如下：
+
+```
+  "Logging": {
+    "LogLevel": {
+      "Microsoft.EntityFrameworkCore.Database.Command": "Information"  //EF输出SQL语句
+    }
+  }
+```
+
+正式发布环境下，如无特殊需求，建议在`appsettings.Production.json`配置中关闭该输出

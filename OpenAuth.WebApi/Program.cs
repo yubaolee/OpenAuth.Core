@@ -17,8 +17,6 @@ namespace OpenAuth.WebApi
                 .ConfigureLogging((hostingContext, logging) =>
                 {
                     logging.ClearProviders(); //去掉默认的日志
-                    logging.AddFilter("System", LogLevel.Error);
-                    logging.AddFilter("Microsoft", LogLevel.Error);
                     logging.AddLog4Net();
                 })
                 .UseServiceProviderFactory(

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Castle.Core.Internal;
+using Infrastructure.Extensions;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -115,6 +116,8 @@ namespace OpenAuth.App
 
         public void AddOrUpdate(UpdateUserReq request)
         {
+            request.ValidationEntity(u => new {u.Account,u.Name, u.OrganizationIds});
+            
             if (string.IsNullOrEmpty(request.OrganizationIds))
                 throw new Exception("请为用户分配机构");
             User requser = request;

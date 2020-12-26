@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.Repository.Domain;
@@ -8,10 +9,13 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class RevelanceManagerApp  :BaseApp<Relevance>
+    public class RevelanceManagerApp : BaseApp<Relevance>
     {
-        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository,IAuth auth) : base(unitWork, repository, auth)
+        private readonly ILogger<RevelanceManagerApp> _logger;
+        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository, IAuth auth, ILogger<RevelanceManagerApp> logger) : base(unitWork,
+            repository, auth)
         {
+            _logger = logger;
         }
 
         /// <summary>
@@ -57,7 +61,7 @@ namespace OpenAuth.App
             }
             else
             {
-               DeleteBy(req.type, req.secIds.ToLookup(u => req.firstId));
+                DeleteBy(req.type, req.secIds.ToLookup(u => req.firstId));
             }
         }
 
@@ -72,16 +76,23 @@ namespace OpenAuth.App
             {
                 foreach (var value in sameVals)
                 {
-                    UnitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
+                    _logger.LogInformation($"start=> delete {key} {sameVals.Key} {value}");
+                    try
+                    {
+                        UnitWork.Delete<Relevance>(u => u.Key == key && u.FirstId == sameVals.Key && u.SecondId == value);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e,e.Message);
+                    }
+                    _logger.LogInformation($"end=> {key} {sameVals.Key} {value}");
                 }
             }
-            UnitWork.Save();
         }
 
         public void DeleteBy(string key, params string[] firstIds)
         {
             UnitWork.Delete<Relevance>(u => firstIds.Contains(u.FirstId) && u.Key == key);
-            UnitWork.Save();
         }
 
 
@@ -97,12 +108,12 @@ namespace OpenAuth.App
             if (returnSecondIds)
             {
                 return Repository.Find(u => u.Key == key
-                                                      && ids.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
+                                            && ids.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
             }
             else
             {
                 return Repository.Find(u => u.Key == key
-                     && ids.Contains(u.SecondId)).Select(u => u.FirstId).ToList();
+                                            && ids.Contains(u.SecondId)).Select(u => u.FirstId).ToList();
             }
         }
 
@@ -125,6 +136,11 @@ namespace OpenAuth.App
         /// <param name="request"></param>
         public void AssignData(AssignDataReq request)
         {
+            if (!request.Properties.Any())
+            {
+                return;
+            }
+
             var relevances = new List<Relevance>();
             foreach (var requestProperty in request.Properties)
             {
@@ -137,6 +153,7 @@ namespace OpenAuth.App
                     OperateTime = DateTime.Now
                 });
             }
+
             UnitWork.BatchAdd(relevances.ToArray());
             UnitWork.Save();
         }
@@ -149,25 +166,24 @@ namespace OpenAuth.App
         {
             if (request.Properties == null || request.Properties.Length == 0)
             {
-                if (string.IsNullOrEmpty(request.ModuleCode))  //模块为空，直接把角色的所有授权删除
+                if (string.IsNullOrEmpty(request.ModuleCode)) //模块为空，直接把角色的所有授权删除
                 {
                     DeleteBy(Define.ROLEDATAPROPERTY, request.RoleId);
                 }
-                else  //把角色的某一个模块权限全部删除
+                else //把角色的某一个模块权限全部删除
                 {
-                    DeleteBy(Define.ROLEDATAPROPERTY, new []{ request.ModuleCode }.ToLookup(u =>request.RoleId));
+                    DeleteBy(Define.ROLEDATAPROPERTY, new[] {request.ModuleCode}.ToLookup(u => request.RoleId));
                 }
             }
-            else  //按具体的id删除
+            else //按具体的id删除
             {
                 foreach (var property in request.Properties)
                 {
                     UnitWork.Delete<Relevance>(u => u.Key == Define.ROLEDATAPROPERTY
-                                           && u.FirstId == request.RoleId 
-                                           && u.SecondId == request.ModuleCode 
-                                           && u.ThirdId == property);
+                                                    && u.FirstId == request.RoleId
+                                                    && u.SecondId == request.ModuleCode
+                                                    && u.ThirdId == property);
                 }
-                UnitWork.Save();
             }
         }
 

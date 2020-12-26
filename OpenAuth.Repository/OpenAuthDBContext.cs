@@ -1,15 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.QueryObj;
 
 namespace OpenAuth.Repository
 {
+    
     public partial class OpenAuthDBContext : DbContext
     {
 
-        public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options)
+        private ILoggerFactory _LoggerFactory;
+        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging (true);  //允许打印参数
+            optionsBuilder.UseLoggerFactory (_LoggerFactory);
+
+            base.OnConfiguring (optionsBuilder);
+        }
+        
+        public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options, ILoggerFactory loggerFactory)
             : base(options)
-        {}
+        {
+            _LoggerFactory = loggerFactory;
+        }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

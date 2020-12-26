@@ -41,8 +41,10 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //添加或修改
-       [HttpPost]
+        /// <summary>
+        /// 添加角色，如果当前登录用户不是System，则直接把新角色分配给当前登录用户
+        /// </summary>
+        [HttpPost]
         public Response<RoleView> Add(RoleView obj)
         {
             var result = new Response<RoleView>();
@@ -60,8 +62,12 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
-
-        //添加或修改
+        
+        /// <summary>
+        /// 更新角色属性
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
        [HttpPost]
         public Response Update(RoleView obj)
         {

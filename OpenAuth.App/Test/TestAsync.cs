@@ -21,7 +21,7 @@ namespace OpenAuth.App.Test
 
             var cachemock = new Mock<ICacheContext>();
             cachemock.Setup(x => x.Get<UserAuthSession>("tokentest"))
-                .Returns(new UserAuthSession { Account = "System" });
+                .Returns(new UserAuthSession { Account = Define.SYSTEM_USERNAME });
             services.AddScoped(x => cachemock.Object);
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();

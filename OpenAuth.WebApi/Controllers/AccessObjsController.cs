@@ -91,13 +91,17 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        private static string lockobj = "lock";
         [HttpPost]
         public Response UnAssignDataProperty(AssignDataReq request)
         {
             var result = new Response();
             try
             {
-                _app.UnAssignData(request);
+                lock (lockobj)
+                {
+                    _app.UnAssignData(request);
+                }
             }
             catch (Exception ex)
             {

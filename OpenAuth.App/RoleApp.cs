@@ -29,29 +29,37 @@ namespace OpenAuth.App
         }
 
 
+        /// <summary>
+        /// 添加角色，如果当前登录用户不是System，则直接把新角色分配给当前登录用户
+        /// </summary>
         public void Add(RoleView obj)
         {
-          
-            Role role = obj;
-            role.CreateTime = DateTime.Now;
-            Repository.Add(role);
-            obj.Id = role.Id;   //要把保存后的ID存入view
+           UnitWork.ExecuteWithTransaction(() =>
+           {
+               Role role = obj;
+               role.CreateTime = DateTime.Now;
+               UnitWork.Add(role);
+               UnitWork.Save();
+               obj.Id = role.Id;   //要把保存后的ID存入view
            
-            //如果当前账号不是SYSTEM，则直接分配
-            var loginUser = _auth.GetCurrentUser();
-            if (loginUser.User.Account != Define.SYSTEM_USERNAME)
-            {
-                _revelanceApp.Assign(new AssignReq
-                {
-                    type = Define.USERROLE,
-                    firstId = loginUser.User.Id,
-                    secIds = new[] {role.Id}
-                });
-            }
-            
-
+               //如果当前账号不是SYSTEM，则直接分配
+               var loginUser = _auth.GetCurrentUser();
+               if (loginUser.User.Account != Define.SYSTEM_USERNAME)
+               {
+                   _revelanceApp.Assign(new AssignReq
+                   {
+                       type = Define.USERROLE,
+                       firstId = loginUser.User.Id,
+                       secIds = new[] {role.Id}
+                   });
+               }
+           });
         }
         
+        /// <summary>
+        /// 更新角色属性
+        /// </summary>
+        /// <param name="obj"></param>
         public void Update(RoleView obj)
         {
             Role role = obj;

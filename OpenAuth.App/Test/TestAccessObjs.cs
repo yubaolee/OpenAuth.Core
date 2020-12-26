@@ -22,7 +22,7 @@ namespace OpenAuth.App.Test
 
             var cachemock = new Mock<ICacheContext>();
             cachemock.Setup(x => x.Get<UserAuthSession>("tokentest"))
-                .Returns(new UserAuthSession { Account = "System" });
+                .Returns(new UserAuthSession { Account = Define.SYSTEM_USERNAME });
             services.AddScoped(x => cachemock.Object);
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -55,6 +55,33 @@ namespace OpenAuth.App.Test
             
             Console.WriteLine(JsonHelper.Instance.Serialize(result));
 
+        }
+        
+        [Test]
+        public void UnAssign()
+        {
+            var app = _autofacServiceProvider.GetService<RevelanceManagerApp>();
+            app.UnAssignData(new AssignDataReq
+            {
+                ModuleCode = "WmsInboundOrderTbl",
+                Properties = new string[]{},
+                RoleId = "09ee2ffa-7463-4938-ae0b-1cb4e80c7c13"
+            });
+            app.UnAssignData(new AssignDataReq
+            {
+                ModuleCode = "Category",
+                Properties = new string[]{},
+                RoleId = "09ee2ffa-7463-4938-ae0b-1cb4e80c7c13"
+            });
+
+            app.UnAssignData(new AssignDataReq
+            {
+                ModuleCode = "Resource",
+                Properties = new string[]{},
+                RoleId = "09ee2ffa-7463-4938-ae0b-1cb4e80c7c13"
+            });
+
+        
         }
     }
 }

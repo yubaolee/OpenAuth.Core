@@ -26,13 +26,14 @@ using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Infrastructure.Helpers;
+using OpenAuth.Repository;
 
 namespace OpenAuth.App
 {
     /// <summary>
     /// 工作流实例表操作
     /// </summary>
-    public class FlowInstanceApp : BaseApp<FlowInstance>
+    public class FlowInstanceApp : BaseApp<FlowInstance,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         private FlowSchemeApp _flowSchemeApp;
@@ -551,7 +552,7 @@ namespace OpenAuth.App
             });
         }
 
-        public FlowInstanceApp(IUnitWork unitWork, IRepository<FlowInstance> repository
+        public FlowInstanceApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<FlowInstance,OpenAuthDBContext> repository
         , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,IAuth auth, IServiceProvider serviceProvider) 
             : base(unitWork, repository, auth)
         {

@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -29,7 +30,7 @@ namespace OpenAuth.App
     /// <para>超级管理员权限</para>
     /// <para>超级管理员使用guid.empty为ID，可以根据需要修改</para>
     /// </summary>
-    public class SystemAuthStrategy : BaseApp<User>, IAuthStrategy
+    public class SystemAuthStrategy : BaseApp<User,OpenAuthDBContext>, IAuthStrategy
     {
         protected User _user;
         private DbExtension _dbExtension;
@@ -97,7 +98,7 @@ namespace OpenAuth.App
         }
 
 
-        public SystemAuthStrategy(IUnitWork unitWork, IRepository<User> repository, DbExtension dbExtension) : base(unitWork, repository, null)
+        public SystemAuthStrategy(IUnitWork<OpenAuthDBContext> unitWork, IRepository<User,OpenAuthDBContext> repository, DbExtension dbExtension) : base(unitWork, repository, null)
         {
             _dbExtension = dbExtension;
             _user = new User

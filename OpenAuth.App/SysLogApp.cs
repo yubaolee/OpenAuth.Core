@@ -3,13 +3,14 @@ using System.Reflection;
 using System.Threading.Tasks;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class SysLogApp : BaseApp<SysLog>
+    public class SysLogApp : BaseApp<SysLog,OpenAuthDBContext>
     {
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace OpenAuth.App
 
         }
 
-        public SysLogApp(IUnitWork unitWork, IRepository<SysLog> repository) : base(unitWork, repository, null)
+        public SysLogApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<SysLog,OpenAuthDBContext> repository) : base(unitWork, repository, null)
         {
         }
     }

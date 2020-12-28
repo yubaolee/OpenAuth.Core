@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -27,7 +28,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 普通用户授权策略
     /// </summary>
-    public class NormalAuthStrategy :BaseApp<User>, IAuthStrategy
+    public class NormalAuthStrategy :BaseApp<User,OpenAuthDBContext>, IAuthStrategy
     {
         
         protected User _user;
@@ -134,7 +135,7 @@ namespace OpenAuth.App
 
         //用户角色
 
-        public NormalAuthStrategy(IUnitWork unitWork, IRepository<User> repository, DbExtension dbExtension) : base(unitWork, repository,null)
+        public NormalAuthStrategy(IUnitWork<OpenAuthDBContext> unitWork, IRepository<User,OpenAuthDBContext> repository, DbExtension dbExtension) : base(unitWork, repository,null)
         {
             _dbExtension = dbExtension;
         }

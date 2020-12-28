@@ -8,6 +8,7 @@ using OpenAuth.App.Interface;
 using OpenAuth.App.Jobs;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 using Quartz;
@@ -15,7 +16,7 @@ using Quartz;
 
 namespace OpenAuth.App
 {
-    public class OpenJobApp : BaseApp<OpenJob>
+    public class OpenJobApp : BaseApp<OpenJob, OpenAuthDBContext>
     {
         private SysLogApp _sysLogApp;
         private IScheduler _scheduler;
@@ -171,7 +172,7 @@ namespace OpenAuth.App
         #endregion
 
 
-        public OpenJobApp(IUnitWork unitWork, IRepository<OpenJob> repository,
+        public OpenJobApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<OpenJob,OpenAuthDBContext> repository,
             IAuth auth, SysLogApp sysLogApp, IScheduler scheduler, ILogger<OpenJobApp> logger) : base(unitWork, repository, auth)
         {
             _sysLogApp = sysLogApp;

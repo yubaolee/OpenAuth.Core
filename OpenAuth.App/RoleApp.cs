@@ -6,10 +6,11 @@ using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 using System.Linq;
 using OpenAuth.App.Request;
+using OpenAuth.Repository;
 
 namespace OpenAuth.App
 {
-    public class RoleApp : BaseApp<Role>
+    public class RoleApp : BaseApp<Role,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 
@@ -73,7 +74,7 @@ namespace OpenAuth.App
         }
 
 
-        public RoleApp(IUnitWork unitWork, IRepository<Role> repository,
+        public RoleApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Role,OpenAuthDBContext> repository,
             RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;

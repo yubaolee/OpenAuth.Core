@@ -41,8 +41,8 @@ namespace OpenAuth.App
             var builder = new ContainerBuilder();
            
             //注册数据库基础操作和工作单元
-            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-            services.AddScoped(typeof(IUnitWork), typeof(UnitWork));
+            services.AddScoped(typeof(IRepository<,>), typeof(BaseRepository<,>));
+            services.AddScoped(typeof(IUnitWork<>), typeof(UnitWork<>));
 
             //注入授权
             builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth));
@@ -77,8 +77,8 @@ namespace OpenAuth.App
         {
             
             //注册数据库基础操作和工作单元
-            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
-            builder.RegisterType(typeof(UnitWork)).As(typeof(IUnitWork));
+            builder.RegisterGeneric(typeof(BaseRepository<,>)).As(typeof(IRepository<,>));
+            builder.RegisterGeneric(typeof(UnitWork<>)).As(typeof(IUnitWork<>));
             //注入授权
             builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth));
             

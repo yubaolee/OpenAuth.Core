@@ -22,8 +22,8 @@ namespace OpenAuth.Repository.Test
             var serviceCollection = GetService();
             serviceCollection.AddMemoryCache();
             serviceCollection.AddOptions();
-            serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-            serviceCollection.AddScoped(typeof(IUnitWork), typeof(UnitWork));
+            serviceCollection.AddScoped(typeof(IRepository<,>), typeof(BaseRepository<,>));
+            serviceCollection.AddScoped(typeof(IUnitWork<>), typeof(UnitWork<>));
 
             serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
                 options.UseSqlServer("Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000;Integrated Security=True"));

@@ -6,13 +6,14 @@
 // Last Modified By : yubaolee
 // Last Modified On : 12-15-2020
 // Contact : Microsoft
-// File: IUnitWork.cs
+// File: IUnitWork<OpenAuthDBContext>.cs
 // ***********************************************************************
 
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Interface
@@ -25,7 +26,7 @@ namespace OpenAuth.Repository.Interface
     /// <para>2 需要多表联合查询</para>
     /// <para>因为架构采用的是EF访问数据库，暂时可以不用考虑采用传统Unit Work的注册机制</para>
     /// </summary>
-    public interface IUnitWork
+    public interface IUnitWork<TDbContext> where TDbContext:DbContext
     {
         /// <summary>
         /// EF默认情况下，每调用一次SaveChanges()都会执行一个单独的事务
@@ -36,7 +37,7 @@ namespace OpenAuth.Repository.Interface
         /// 返回DbContext,用于多线程等极端情况
         /// </summary>
         /// <returns></returns>
-        OpenAuthDBContext GetDbContext();
+        DbContext GetDbContext();
         /// <summary>
         /// 返回一个单独的实体，如果记录多于1个则取第一个
         /// </summary>

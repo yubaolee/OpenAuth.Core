@@ -6,15 +6,16 @@ using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class BuilderTableColumnApp : BaseApp<BuilderTableColumn>
+    public class BuilderTableColumnApp : BaseApp<BuilderTableColumn,OpenAuthDBContext>
     {
-        public BuilderTableColumnApp(IUnitWork unitWork, IRepository<BuilderTableColumn> repository,
+        public BuilderTableColumnApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<BuilderTableColumn,OpenAuthDBContext> repository,
             IAuth auth) : base(unitWork, repository,auth)
         {
         }

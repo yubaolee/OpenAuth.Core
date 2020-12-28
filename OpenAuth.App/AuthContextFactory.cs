@@ -14,6 +14,7 @@
 //</summary>
 // ***********************************************************************
 
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -27,11 +28,11 @@ namespace OpenAuth.App
     {
         private SystemAuthStrategy _systemAuth;
         private NormalAuthStrategy _normalAuthStrategy;
-        private readonly IUnitWork _unitWork;
+        private readonly IUnitWork<OpenAuthDBContext> _unitWork;
 
         public AuthContextFactory(SystemAuthStrategy sysStrategy
             , NormalAuthStrategy normalAuthStrategy
-            , IUnitWork unitWork)
+            , IUnitWork<OpenAuthDBContext> unitWork)
         {
             _systemAuth = sysStrategy;
             _normalAuthStrategy = normalAuthStrategy;

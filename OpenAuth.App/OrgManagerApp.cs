@@ -3,12 +3,13 @@ using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class OrgManagerApp : BaseTreeApp<Org>
+    public class OrgManagerApp : BaseTreeApp<Org,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         /// <summary>
@@ -81,7 +82,7 @@ namespace OpenAuth.App
             return result.ToList();
         }
 
-        public OrgManagerApp(IUnitWork unitWork, IRepository<Org> repository,IAuth auth, 
+        public OrgManagerApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Org,OpenAuthDBContext> repository,IAuth auth, 
             RevelanceManagerApp revelanceApp) : base(unitWork, repository, auth)
         {
             _revelanceApp = revelanceApp;

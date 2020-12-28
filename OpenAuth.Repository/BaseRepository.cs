@@ -11,11 +11,11 @@ using Z.EntityFramework.Plus;
 
 namespace OpenAuth.Repository
 {
-    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
+    public class BaseRepository<T,TDbContext> : IRepository<T,TDbContext> where T : BaseEntity where TDbContext: DbContext
     {
-        private OpenAuthDBContext _context;
+        private TDbContext _context;
 
-        public BaseRepository(OpenAuthDBContext context)
+        public BaseRepository(TDbContext context)
         {
             _context = context;
         }

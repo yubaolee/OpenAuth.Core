@@ -6,6 +6,7 @@ using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -14,7 +15,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 分类管理
     /// </summary>
-    public class ResourceApp:BaseApp<Resource>
+    public class ResourceApp:BaseApp<Resource,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 
@@ -85,7 +86,7 @@ namespace OpenAuth.App
             return result;
         }
 
-        public ResourceApp(IUnitWork unitWork, IRepository<Resource> repository
+        public ResourceApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Resource,OpenAuthDBContext> repository
         ,RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;

@@ -7,18 +7,19 @@ using Infrastructure.Extensions;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class UserManagerApp : BaseApp<User>
+    public class UserManagerApp : BaseApp<User,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         private OrgManagerApp _orgManagerApp;
         
-        public UserManagerApp(IUnitWork unitWork, IRepository<User> repository,
+        public UserManagerApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<User,OpenAuthDBContext> repository,
             RevelanceManagerApp app,IAuth auth, OrgManagerApp orgManagerApp) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;

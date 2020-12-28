@@ -17,7 +17,7 @@ namespace OpenAuth.Repository.Test
         [Test]
         public void NormalSubmit()
         {
-            var unitWork = _autofacServiceProvider.GetService<IUnitWork>();
+            var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
             unitWork.ExecuteWithTransaction(() =>
             {
                 var account = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
@@ -33,7 +33,7 @@ namespace OpenAuth.Repository.Test
         [Test]
         public void SubmitWithRollback()
         {
-            var unitWork = _autofacServiceProvider.GetService<IUnitWork>();
+            var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
             var account = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
             try
             {
@@ -57,7 +57,7 @@ namespace OpenAuth.Repository.Test
         /// <summary>
         /// 测试添加，单个修改，Z.EntityFramework.Plus条件修改
         /// </summary>
-        private void AddAndUpdate(string account, IUnitWork unitWork)
+        private void AddAndUpdate(string account, IUnitWork<OpenAuthDBContext> unitWork)
         {
             var user = new User
             {

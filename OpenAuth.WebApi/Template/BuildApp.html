@@ -10,7 +10,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class {ModuleCode} : BaseApp<{ClassName}>
+    public class {ModuleCode} : BaseApp<{ClassName},OpenAuthDBContext>
     {
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace OpenAuth.App
 
         }
 
-        public {ModuleCode}(IUnitWork unitWork, IRepository<{ClassName}> repository, IAuth auth) : base(unitWork, repository, auth)
+        public {ModuleCode}(IUnitWork<OpenAuthDBContext> unitWork, IRepository<{ClassName},OpenAuthDBContext> repository, IAuth auth) : base(unitWork, repository, auth)
         {
         }
     }

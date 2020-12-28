@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class FlowSchemeApp :BaseApp<FlowScheme>
+    public class FlowSchemeApp :BaseApp<FlowScheme,OpenAuthDBContext>
     {
         public void Add(FlowScheme flowScheme)
         {
@@ -65,7 +66,7 @@ namespace OpenAuth.App
             return result;
         }
 
-        public FlowSchemeApp(IUnitWork unitWork, IRepository<FlowScheme> repository,IAuth auth) : base(unitWork, repository, auth)
+        public FlowSchemeApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<FlowScheme,OpenAuthDBContext> repository,IAuth auth) : base(unitWork, repository, auth)
         {
         }
     }

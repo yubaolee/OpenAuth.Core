@@ -12,11 +12,11 @@ using Z.EntityFramework.Plus;
 
 namespace OpenAuth.Repository
 {
-   public  class UnitWork: IUnitWork
+   public  class UnitWork<TDbContext>: IUnitWork<TDbContext> where TDbContext: DbContext
    {
-       private OpenAuthDBContext _context;
+       private TDbContext _context;
 
-       public UnitWork(OpenAuthDBContext context)
+       public UnitWork(TDbContext context)
        {
            _context = context;
        }
@@ -45,7 +45,7 @@ namespace OpenAuth.Repository
        /// <summary>
        /// 返回DbContext,用于多线程等极端情况
        /// </summary>
-       public OpenAuthDBContext GetDbContext()
+       public DbContext GetDbContext()
        {
            return _context;
        }

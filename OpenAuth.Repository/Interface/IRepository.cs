@@ -16,10 +16,11 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace OpenAuth.Repository.Interface
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T,TDbContext> where T : class where TDbContext: DbContext
     {
         /// <summary>
         /// 返回一个单独的实体，如果记录多于1个则取第一个

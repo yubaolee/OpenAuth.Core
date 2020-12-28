@@ -4,7 +4,7 @@
 
 ## 增加注解
 
-在OpenAuth.App中调用验证
+在请求参数中添加验证注解
 
 ```csharp
 namespace OpenAuth.App.Request

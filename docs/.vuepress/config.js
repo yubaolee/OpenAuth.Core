@@ -32,6 +32,7 @@ module.exports = {
               ,"specialist"
               ,"deploy" 
               ,"devnew"
+              ,"multidbs"
               ,"unitwork"
               ,"entity"
               ,"datavalidation"

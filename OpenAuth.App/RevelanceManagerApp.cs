@@ -4,15 +4,16 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class RevelanceManagerApp : BaseApp<Relevance>
+    public class RevelanceManagerApp : BaseApp<Relevance,OpenAuthDBContext>
     {
         private readonly ILogger<RevelanceManagerApp> _logger;
-        public RevelanceManagerApp(IUnitWork unitWork, IRepository<Relevance> repository, IAuth auth, ILogger<RevelanceManagerApp> logger) : base(unitWork,
+        public RevelanceManagerApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Relevance,OpenAuthDBContext> repository, IAuth auth, ILogger<RevelanceManagerApp> logger) : base(unitWork,
             repository, auth)
         {
             _logger = logger;

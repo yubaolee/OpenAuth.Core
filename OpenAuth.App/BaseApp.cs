@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
 using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Domain;
@@ -13,22 +14,22 @@ namespace OpenAuth.App
     /// <para>如用户管理：Class UserManagerApp:BaseApp<User></para>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseApp<T> where T : Entity
+    public class BaseApp<T, TDbContext> where T : Entity where TDbContext: DbContext
     {
         /// <summary>
         /// 用于普通的数据库操作
         /// </summary>
-        protected IRepository<T> Repository;
+        protected IRepository<T, TDbContext> Repository;
 
         /// <summary>
         /// 用于事务操作
         /// <para>使用详见：http://doc.openauth.me/core/unitwork.html</para>
         /// </summary>
-        protected IUnitWork UnitWork;
+        protected IUnitWork<TDbContext> UnitWork;
 
         protected IAuth _auth;
 
-        public BaseApp(IUnitWork unitWork, IRepository<T> repository, IAuth auth)
+        public BaseApp(IUnitWork<TDbContext> unitWork, IRepository<T,TDbContext> repository, IAuth auth)
         {
             UnitWork = unitWork;
             Repository = repository;

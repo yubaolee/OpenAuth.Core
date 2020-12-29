@@ -5,13 +5,14 @@ using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class DataPrivilegeRuleApp : BaseApp<DataPrivilegeRule>
+    public class DataPrivilegeRuleApp : BaseApp<DataPrivilegeRule,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         /// <summary>
@@ -78,7 +79,7 @@ namespace OpenAuth.App
     
         }
 
-        public DataPrivilegeRuleApp(IUnitWork unitWork, IRepository<DataPrivilegeRule> repository,
+        public DataPrivilegeRuleApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<DataPrivilegeRule,OpenAuthDBContext> repository,
             RevelanceManagerApp app, IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;

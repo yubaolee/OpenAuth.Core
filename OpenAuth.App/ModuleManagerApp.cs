@@ -3,12 +3,13 @@ using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class ModuleManagerApp : BaseTreeApp<Module>
+    public class ModuleManagerApp : BaseTreeApp<Module,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 
@@ -172,7 +173,7 @@ namespace OpenAuth.App
         #endregion
 
 
-        public ModuleManagerApp(IUnitWork unitWork, IRepository<Module> repository
+        public ModuleManagerApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Module,OpenAuthDBContext> repository
             , RevelanceManagerApp app, IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;

@@ -8,6 +8,7 @@ using Moq;
 using NUnit.Framework;
 using OpenAuth.App.Request;
 using OpenAuth.App.SSO;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -48,7 +49,7 @@ namespace OpenAuth.App.Test
 
         private async Task AddOrUpdate()
         {
-            var repository = _autofacServiceProvider.GetService<IRepository<User>>();
+            var repository = _autofacServiceProvider.GetService<IRepository<User,OpenAuthDBContext>>();
 
             var account = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
 

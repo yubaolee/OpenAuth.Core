@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
@@ -23,7 +24,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class BuilderTableApp : BaseApp<BuilderTable>
+    public class BuilderTableApp : BaseApp<BuilderTable,OpenAuthDBContext>
     {
         private BuilderTableColumnApp _builderTableColumnApp;
         private CategoryApp _categoryApp;
@@ -33,7 +34,7 @@ namespace OpenAuth.App
         private string _startName = "";
         private IOptions<AppSetting> _appConfiguration;
 
-        public BuilderTableApp(IUnitWork unitWork, IRepository<BuilderTable> repository,
+        public BuilderTableApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<BuilderTable,OpenAuthDBContext> repository,
             RevelanceManagerApp app, IAuth auth, DbExtension dbExtension, BuilderTableColumnApp builderTableColumnApp,
             IOptions<AppSetting> appConfiguration, CategoryApp categoryApp) : base(unitWork, repository, auth)
         {

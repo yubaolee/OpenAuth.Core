@@ -6,13 +6,14 @@ using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class CategoryTypeApp : BaseApp<CategoryType>
+    public class CategoryTypeApp : BaseApp<CategoryType,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 
@@ -71,7 +72,7 @@ namespace OpenAuth.App
              return UnitWork.Find<CategoryType>(null).ToList();
          }
 
-        public CategoryTypeApp(IUnitWork unitWork, IRepository<CategoryType> repository,
+        public CategoryTypeApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<CategoryType,OpenAuthDBContext> repository,
             RevelanceManagerApp app, IAuth auth) : base(unitWork, repository,auth)
         {
             _revelanceApp = app;

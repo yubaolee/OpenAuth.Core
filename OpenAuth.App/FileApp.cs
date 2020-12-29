@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -20,14 +21,14 @@ namespace OpenAuth.App
     /// <summary>
     /// 文件管理
     /// </summary>
-    public class FileApp : BaseApp<UploadFile>
+    public class FileApp : BaseApp<UploadFile,OpenAuthDBContext>
     {
         private ILogger<FileApp> _logger;
         private string _filePath;
         private string _dbFilePath; //数据库中的文件路径
         private string _dbThumbnail; //数据库中的缩略图路径
 
-        public FileApp(IOptions<AppSetting> setOptions, IUnitWork unitWork, IRepository<UploadFile> repository,
+        public FileApp(IOptions<AppSetting> setOptions, IUnitWork<OpenAuthDBContext> unitWork, IRepository<UploadFile,OpenAuthDBContext> repository,
             ILogger<FileApp> logger, IAuth auth)
             : base(unitWork, repository, auth)
         {

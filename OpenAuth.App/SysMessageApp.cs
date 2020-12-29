@@ -4,13 +4,14 @@ using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class SysMessageApp : BaseApp<SysMessage>
+    public class SysMessageApp : BaseApp<SysMessage,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 
@@ -54,7 +55,7 @@ namespace OpenAuth.App
 
         }
 
-        public SysMessageApp(IUnitWork unitWork, IRepository<SysMessage> repository,
+        public SysMessageApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<SysMessage,OpenAuthDBContext> repository,
             RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;

@@ -5,13 +5,14 @@ using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class WmsInboundOrderTblApp : BaseApp<WmsInboundOrderTbl>
+    public class WmsInboundOrderTblApp : BaseApp<WmsInboundOrderTbl,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         private WmsInboundOrderDtblApp _wmsInboundOrderDtblApp;
@@ -130,7 +131,7 @@ namespace OpenAuth.App
             });
         }
 
-        public WmsInboundOrderTblApp(IUnitWork unitWork, IRepository<WmsInboundOrderTbl> repository,
+        public WmsInboundOrderTblApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<WmsInboundOrderTbl,OpenAuthDBContext> repository,
             RevelanceManagerApp app, IAuth auth, WmsInboundOrderDtblApp wmsInboundOrderDtblApp) : base(unitWork,
             repository, auth)
         {

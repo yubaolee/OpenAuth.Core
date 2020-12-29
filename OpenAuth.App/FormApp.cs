@@ -6,13 +6,14 @@ using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class FormApp : BaseApp<Form>
+    public class FormApp : BaseApp<Form,OpenAuthDBContext>
     {
         private IAuth _auth;
         private IOptions<AppSetting> _appConfiguration;
@@ -76,7 +77,7 @@ namespace OpenAuth.App
             return form.MapTo<FormResp>();
         }
 
-        public FormApp(IUnitWork unitWork, IRepository<Form> repository,
+        public FormApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Form,OpenAuthDBContext> repository,
             IAuth auth, IOptions<AppSetting> appConfiguration) : base(unitWork, repository, auth)
         {
             _auth = auth;

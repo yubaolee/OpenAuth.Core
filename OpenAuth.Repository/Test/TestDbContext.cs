@@ -83,7 +83,7 @@ namespace OpenAuth.Repository.Test
 
             Console.WriteLine(account);
 
-            var repository = _autofacServiceProvider.GetService<IRepository<User>>();
+            var repository = _autofacServiceProvider.GetService<IRepository<User,OpenAuthDBContext>>();
 
             //新增
             repository.Add(new User

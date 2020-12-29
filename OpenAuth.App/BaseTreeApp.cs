@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
 using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Interface;
@@ -9,11 +10,11 @@ namespace OpenAuth.App
     /// 树状结构处理
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseTreeApp<T> :BaseApp<T> where T : TreeEntity
+    public class BaseTreeApp<T,TDbContext> :BaseApp<T,TDbContext> where T : TreeEntity where TDbContext :DbContext
     {
 
 
-        public BaseTreeApp(IUnitWork unitWork, IRepository<T> repository, IAuth auth) 
+        public BaseTreeApp(IUnitWork<TDbContext> unitWork, IRepository<T, TDbContext> repository, IAuth auth) 
             : base(unitWork, repository,auth)
         {
         }

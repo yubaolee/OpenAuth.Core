@@ -3,13 +3,14 @@ using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class FrmLeaveReqApp : BaseApp<FrmLeaveReq>, ICustomerForm
+    public class FrmLeaveReqApp : BaseApp<FrmLeaveReq,OpenAuthDBContext>, ICustomerForm
     {
         private RevelanceManagerApp _revelanceApp;
 
@@ -39,7 +40,7 @@ namespace OpenAuth.App
 
         }
 
-        public FrmLeaveReqApp(IUnitWork unitWork, IRepository<FrmLeaveReq> repository,
+        public FrmLeaveReqApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<FrmLeaveReq,OpenAuthDBContext> repository,
             RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;

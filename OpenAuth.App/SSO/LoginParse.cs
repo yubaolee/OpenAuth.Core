@@ -4,6 +4,7 @@
  */
 using System;
 using Infrastructure.Cache;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -14,11 +15,11 @@ namespace OpenAuth.App.SSO
     {
 
         //这个地方使用IRepository<User> 而不使用UserManagerApp是防止循环依赖
-        public IRepository<User> _app;
+        public IRepository<User,OpenAuthDBContext> _app;
         private ICacheContext _cacheContext;
         private AppInfoService _appInfoService;
 
-        public LoginParse( AppInfoService infoService, ICacheContext cacheContext, IRepository<User> userApp)
+        public LoginParse( AppInfoService infoService, ICacheContext cacheContext, IRepository<User,OpenAuthDBContext> userApp)
         {
             _appInfoService = infoService;
             _cacheContext = cacheContext;

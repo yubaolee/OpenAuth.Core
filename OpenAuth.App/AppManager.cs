@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
@@ -12,7 +13,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 分类管理
     /// </summary>
-    public class AppManager : BaseApp<Application>
+    public class AppManager : BaseApp<Application,OpenAuthDBContext>
     {
         public void Add(Application Application)
         {
@@ -36,7 +37,7 @@ namespace OpenAuth.App
             return applications.ToList();
         }
 
-        public AppManager(IUnitWork unitWork, IRepository<Application> repository,IAuth auth) : base(unitWork, repository, auth)
+        public AppManager(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Application,OpenAuthDBContext> repository,IAuth auth) : base(unitWork, repository, auth)
         {
         }
     }

@@ -22,13 +22,14 @@ using Infrastructure;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 
 
 namespace OpenAuth.App
 {
-    public class <%=Table.Name%>App : BaseApp<<%=Table.Name%>>
+    public class <%=Table.Name%>App : BaseApp<<%=Table.Name%>, OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 
@@ -176,7 +177,7 @@ namespace OpenAuth.App
         }
         %>
 
-        public <%=Table.Name%>App(IUnitWork unitWork, IRepository<<%=Table.Name%>> repository,
+        public <%=Table.Name%>App(IUnitWork<OpenAuthDBContext> unitWork, IRepository<<%=Table.Name%>, OpenAuthDBContext> repository,
             RevelanceManagerApp app, IAuth auth) : base(unitWork, repository,auth)
         {
             _revelanceApp = app;

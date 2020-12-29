@@ -21,7 +21,7 @@ Unitwork适用于多表操作（尤其是更新操作），有事务需求的场
 
 namespace OpenAuth.App
 {
-    public class StockApp : BaseApp<Stock>
+    public class StockApp : BaseApp<Stock,OpenAuthDBContext>
     {
         /// <summary>
         /// 加载列表
@@ -58,7 +58,7 @@ namespace OpenAuth.App
             });
         }
 
-        public StockApp(IUnitWork unitWork, IRepository<Stock> repository,IAuth auth) : base(unitWork, repository,auth)
+        public StockApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Stock,OpenAuthDBContext> repository,IAuth auth) : base(unitWork, repository,auth)
         {
         }
     }

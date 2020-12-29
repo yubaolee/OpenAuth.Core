@@ -44,7 +44,7 @@ namespace OpenAuth.App.Request
 ```csharp
 namespace OpenAuth.App
 {
-    public class UserManagerApp : BaseApp<User>
+    public class UserManagerApp : BaseApp<User,OpenAuthDBContext>
     {
         public void AddOrUpdate(UpdateUserReq request)
         {

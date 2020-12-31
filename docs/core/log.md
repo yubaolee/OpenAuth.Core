@@ -38,7 +38,7 @@
             });
     }
 
-     public OpenJobApp(IUnitWork unitWork, IRepository<OpenJob> repository,
+     public OpenJobApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<OpenJob,OpenAuthDBContext> repository,
             IAuth auth, SysLogApp sysLogApp) : base(unitWork, repository, auth)
         {
             _sysLogApp = sysLogApp;

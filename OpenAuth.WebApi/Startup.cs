@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Autofac;
 using IdentityServer4.AccessTokenValidation;
+using Infrastructure;
 using Infrastructure.Extensions.AutofacManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -79,7 +80,7 @@ namespace OpenAuth.WebApi
                     SearchOption.AllDirectories).Where(f =>Path.GetExtension(f).ToLower() == ".xml"))
                 {
                     option.IncludeXmlComments(name,includeControllerXmlComments:true);
-                    logger.LogInformation($"find api file{name}");
+                    // logger.LogInformation($"find api file{name}");
                 }
 
                 option.OperationFilter<GlobalHttpHeaderOperationFilter>(); // 添加httpHeader参数
@@ -140,15 +141,17 @@ namespace OpenAuth.WebApi
 //                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
             var dbType = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbType")).Value;
+            var connectionString = Configuration.GetConnectionString("OpenAuthDBContext");
+            logger.LogInformation($"当前数据库类型：{dbType}，连接字符串：{connectionString}");
             if (dbType == Define.DBTYPE_SQLSERVER)
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
+                    options.UseSqlServer(connectionString));
             }
             else  //mysql
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext")));
+                    options.UseMySql(connectionString));
             }
 
             services.AddHttpClient();

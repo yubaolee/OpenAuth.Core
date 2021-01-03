@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace OpenAuth.WebApi.Model
+namespace Infrastructure
 {
     /// <summary>
     /// 从3.0开始Startup ConfigureServices中不能使用ILogger，需要扩展

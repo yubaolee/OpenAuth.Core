@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Autofac;
-using Infrastructure.Extensions;
+using Infrastructure;
 using Infrastructure.Extensions.AutofacManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using OpenAuth.App;
 using OpenAuth.App.HostedService;
@@ -28,6 +29,12 @@ namespace OpenAuth.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(provider =>
+            {
+                var service = provider.GetRequiredService<ILogger<StartupLogger>>();
+                return new StartupLogger(service);
+            });
+            var logger = services.BuildServiceProvider().GetRequiredService<StartupLogger>();
             var identityServer = ((ConfigurationSection)Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
             if (!string.IsNullOrEmpty(identityServer))
             {
@@ -81,16 +88,19 @@ namespace OpenAuth.Mvc
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
 
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
-            var dbType = ((ConfigurationSection) Configuration.GetSection("AppSetting:DbType")).Value;
+            var dbType = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbType")).Value;
+            var connectionString = Configuration.GetConnectionString("OpenAuthDBContext");
+            logger.LogInformation($"当前数据库类型：{dbType}，连接字符串：{connectionString}");
+
             if (dbType == Define.DBTYPE_SQLSERVER)
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
+                    options.UseSqlServer(connectionString));
             }
             else  //mysql
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext")));
+                    options.UseMySql(connectionString));
             }
 
             services.AddHttpClient();

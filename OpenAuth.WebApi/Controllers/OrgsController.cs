@@ -15,6 +15,9 @@ namespace OpenAuth.WebApi.Controllers
     {
         private readonly OrgManagerApp _app;
 
+        /// <summary>
+        /// 获取机构详情
+        /// </summary>
         [HttpGet]
         public Response<Org> Get(string id)
         {
@@ -32,7 +35,12 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //添加或修改
+        /// <summary>
+        /// 新增机构
+        /// <para>如果ID为空，会自动创建ID；会自动为当前登录用户分配添加的机构</para>
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
         public Response<Org> Add(Org obj)
         {

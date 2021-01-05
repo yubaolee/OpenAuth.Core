@@ -30,6 +30,7 @@ namespace OpenAuth.App
             UnitWork.ExecuteWithTransaction(() =>
             {
                 UnitWork.Add(org);
+                UnitWork.Save();
 
                 //如果当前账号不是SYSTEM，则直接分配
                 var loginUser = _auth.GetCurrentUser();

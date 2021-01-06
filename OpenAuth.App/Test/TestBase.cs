@@ -21,6 +21,7 @@ namespace OpenAuth.App.Test
             var serviceCollection = GetService();
             serviceCollection.AddMemoryCache();
             serviceCollection.AddOptions();
+            serviceCollection.AddLogging();
             
             var optionMock = new Mock<IOptions<AppSetting>>();
             optionMock.Setup(x => x.Value).Returns(new AppSetting { DbType = Define.DBTYPE_MYSQL});

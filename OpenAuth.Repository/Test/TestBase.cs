@@ -22,6 +22,7 @@ namespace OpenAuth.Repository.Test
             var serviceCollection = GetService();
             serviceCollection.AddMemoryCache();
             serviceCollection.AddOptions();
+            serviceCollection.AddLogging();
             serviceCollection.AddScoped(typeof(IRepository<,>), typeof(BaseRepository<,>));
             serviceCollection.AddScoped(typeof(IUnitWork<>), typeof(UnitWork<>));
 

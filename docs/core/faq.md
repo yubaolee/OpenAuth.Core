@@ -39,3 +39,13 @@ lower_case_table_names=1
 ```
 从而不区分大小写，即可解决该问题
 
+## WebApi里增加一个控制器,Swagger不显示
+
+需要在控制器上面添加注释，如：
+```caharp
+    /// <summary>  文件上传</summary>
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class FilesController :ControllerBase
+```
+

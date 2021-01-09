@@ -27,20 +27,24 @@ namespace OpenAuth.App
             }
             CaculateCascade(org);
 
-            Repository.Add(org);
-            
-            //如果当前账号不是SYSTEM，则直接分配
-            var loginUser = _auth.GetCurrentUser();
-            if (loginUser.User.Account != Define.SYSTEM_USERNAME)
+            UnitWork.ExecuteWithTransaction(() =>
             {
-                _revelanceApp.Assign(new AssignReq
+                UnitWork.Add(org);
+                UnitWork.Save();
+
+                //如果当前账号不是SYSTEM，则直接分配
+                var loginUser = _auth.GetCurrentUser();
+                if (loginUser.User.Account != Define.SYSTEM_USERNAME)
                 {
-                    type=Define.USERORG,
-                    firstId = loginContext.User.Id,
-                    secIds = new[]{org.Id}
-                });
-            }
-            
+                    _revelanceApp.Assign(new AssignReq
+                    {
+                        type = Define.USERORG,
+                        firstId = loginContext.User.Id,
+                        secIds = new[] { org.Id }
+                    });
+                }
+            });
+
             return org.Id;
         }
 

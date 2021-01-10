@@ -33,6 +33,7 @@ module.exports = {
               ,"deploy" 
               ,"devnew"
               ,"multidbs"
+              ,"multitenant"
               ,"unitwork"
               ,"entity"
               ,"datavalidation"

@@ -1,4 +1,4 @@
-﻿namespace OpenAuth.App
+﻿namespace Infrastructure
 {
     /// <summary>
     /// 配置项

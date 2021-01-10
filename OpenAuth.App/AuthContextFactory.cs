@@ -14,6 +14,7 @@
 //</summary>
 // ***********************************************************************
 
+using Infrastructure;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;

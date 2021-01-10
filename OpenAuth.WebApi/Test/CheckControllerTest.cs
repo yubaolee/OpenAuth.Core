@@ -34,11 +34,6 @@ namespace OpenAuth.WebApi.Test
             cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession{Account = "admin"});
             services.AddScoped(x => cachemock.Object);
 
-            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TOKEN_NAME]).Returns("tokentest");
-
-            services.AddScoped(x => httpContextAccessorMock.Object);
-
             services.AddMvc().AddControllersAsServices();
             services.AddScoped<CheckController>();
 

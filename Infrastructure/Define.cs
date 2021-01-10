@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenAuth.App
+﻿namespace Infrastructure
 {
     public static class Define
     {
@@ -18,6 +16,7 @@ namespace OpenAuth.App
         public const int INVALID_TOKEN = 50014;     //token无效
 
         public const string TOKEN_NAME = "X-Token";
+        public const string TENANT_ID = "tenantId";
 
 
         public const string SYSTEM_USERNAME = "System";

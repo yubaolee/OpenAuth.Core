@@ -2,6 +2,7 @@ using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using OpenAuth.App.Interface;
 using System;
+using Infrastructure;
 using Microsoft.Extensions.Options;
 using OpenAuth.Repository.Domain;
 

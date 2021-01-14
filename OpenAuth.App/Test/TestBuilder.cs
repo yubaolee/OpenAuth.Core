@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net.Http;
 using System.Reflection;
+using Infrastructure;
 using Infrastructure.Cache;
 using Infrastructure.Provider;
 using Microsoft.AspNetCore.Http;

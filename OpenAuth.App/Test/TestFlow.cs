@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using Infrastructure;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;

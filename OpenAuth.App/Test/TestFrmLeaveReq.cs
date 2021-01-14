@@ -1,4 +1,5 @@
-﻿using Infrastructure.Cache;
+﻿using Infrastructure;
+using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;

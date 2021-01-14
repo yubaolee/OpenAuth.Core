@@ -3,6 +3,7 @@
  * 处理登录逻辑，验证客户段提交的账号密码，保存登录信息
  */
 using System;
+using Infrastructure;
 using Infrastructure.Cache;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;

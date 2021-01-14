@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Infrastructure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.QueryObj;
 
@@ -12,21 +14,64 @@ namespace OpenAuth.Repository
     {
 
         private ILoggerFactory _LoggerFactory;
-        
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.EnableSensitiveDataLogging (true);  //允许打印参数
-            optionsBuilder.UseLoggerFactory (_LoggerFactory);
+        private IHttpContextAccessor _httpContextAccessor;
+        private IConfiguration _configuration;
+        private IOptions<AppSetting> _appConfiguration;
 
-            base.OnConfiguring (optionsBuilder);
-        }
-        
-        public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options, ILoggerFactory loggerFactory)
+        public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options, ILoggerFactory loggerFactory, 
+            IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IOptions<AppSetting> appConfiguration)
             : base(options)
         {
             _LoggerFactory = loggerFactory;
+            _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
+            _appConfiguration = appConfiguration;
         }
-        
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging(true);  //允许打印参数
+            optionsBuilder.UseLoggerFactory(_LoggerFactory);
+            InitTenant(optionsBuilder);
+            base.OnConfiguring(optionsBuilder);
+        }
+
+        //初始化多租户信息，根据租户id调整数据库
+        private void InitTenant(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (_httpContextAccessor == null || _httpContextAccessor.HttpContext == null)
+            {
+                return;
+            }
+
+            //读取多租户ID
+            string tenantId = _httpContextAccessor.HttpContext.Request.Query[Define.TENANT_ID];
+            if (string.IsNullOrEmpty(tenantId))
+            {
+                tenantId = _httpContextAccessor.HttpContext.Request.Headers[Define.TENANT_ID];
+            }
+
+            //如果没有租户id，或租户用的是默认的OpenAuthDBContext,则不做任何调整
+            if (string.IsNullOrEmpty(tenantId) || tenantId == "OpenAuthDBContext")
+            {
+                return;
+            }
+
+            string connect = _configuration.GetConnectionString(tenantId);
+           if (string.IsNullOrEmpty(connect)) return;
+
+           var dbType =_appConfiguration.Value.DbType;
+           if (dbType == Define.DBTYPE_SQLSERVER)
+           {
+               optionsBuilder.UseSqlServer(connect);
+            }
+            else  //mysql
+           {
+               optionsBuilder.UseMySql(connect);
+           }
+
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DataPrivilegeRule>()

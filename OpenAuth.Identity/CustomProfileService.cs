@@ -6,6 +6,7 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Test;
+using Infrastructure;
 using Microsoft.Extensions.Logging;
 using OpenAuth.App;
 using OpenAuth.Repository.Domain;

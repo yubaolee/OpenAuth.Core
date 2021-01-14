@@ -23,10 +23,6 @@ namespace OpenAuth.App.Test
             cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = Define.SYSTEM_USERNAME });
             services.AddScoped(x => cachemock.Object);
 
-            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TOKEN_NAME]).Returns("tokentest");
-            
-           services.AddScoped(x => httpContextAccessorMock.Object);
 
            var logMock = new Mock<ILogger<FileApp>>();
            services.AddScoped(x => logMock.Object);

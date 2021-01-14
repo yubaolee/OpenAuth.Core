@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using IdentityModel;
 using IdentityServer4.Test;
+using Infrastructure;
 using OpenAuth.App;
 
 namespace OpenAuth.IdentityServer.Quickstart

@@ -1,7 +1,10 @@
 ﻿using Autofac.Extensions.DependencyInjection;
+using Infrastructure;
 using Infrastructure.Cache;
 using Infrastructure.Extensions.AutofacManager;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -23,12 +26,24 @@ namespace OpenAuth.App.Test
             serviceCollection.AddOptions();
             serviceCollection.AddLogging();
             
+            //模拟配置文件
             var optionMock = new Mock<IOptions<AppSetting>>();
             optionMock.Setup(x => x.Value).Returns(new AppSetting { DbType = Define.DBTYPE_MYSQL});
             serviceCollection.AddScoped(x => optionMock.Object);
 
-           // 测试my sql
-           serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
+            //模拟多租户id
+            var configMock = new Mock<IConfiguration>();
+            configMock.Setup(x => x.GetSection("ConnectionStrings")[Define.TENANT_ID]).Returns("");
+            serviceCollection.AddScoped(x => configMock.Object);
+
+            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TOKEN_NAME]).Returns("tokentest");
+            httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TENANT_ID]).Returns("OpenAuthDBContext");
+
+            serviceCollection.AddScoped(x => httpContextAccessorMock.Object);
+
+            // 测试my sql
+            serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
                options.UseMySql("server=127.0.0.1;user id=root;database=openauthdb;password=000000"));
 
 //            serviceCollection.AddDbContext<OpenAuthDBContext>(options =>

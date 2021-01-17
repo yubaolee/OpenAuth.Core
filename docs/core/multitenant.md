@@ -10,6 +10,71 @@
 
 为了兼容以前的版本，OpenAuth采用的是第一种方式，即为每个租户建一个新的数据库，然后通过客户端请求的租户Id（tenantId）来分离数据。
 
-`文档紧急编写中...最晚1月18日呈现，敬请期待`
 
+## 如何增加一个新租户？
+
+#### 后端添加
+
+后端添加新租户连接字符串即可：
+
+```javascript
+  "ConnectionStrings": {
+    "new_tenantid": "server=127.0.0.1;user id=root;database=openauthpro;password=000000" //新租户id对应的连接字符串
+  },
+```
+
+::: warning 注意
+这里为了方便理解，租户id用的是`new_tenantid`,真实环境里，最好用类似UUID风格的无意义id
+:::
+
+#### 前端添加
+
+比如在vue element-ui中,在登录时增加选择租户列表：
+
+```html
+
+  <el-select v-model="tenant" placeholder="请选择" @change="tenantChange">
+    <el-option
+        v-for="item in tenants"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+    </el-option>
+ </el-select>
+
+
+export default {
+    name: 'login',
+    data() {
+        return {
+        tenant: this.tenantid || 'OpenAuthDBContext',  //当前选择的租户
+        tenants:[{
+          value: 'OpenAuthDBContext',
+          label: '默认租户'
+        },{   //添加的新租户
+          value: 'new_tenantid',
+          label: '新租户'
+        }]
+        }
+    }
+}
+```
+
+前端在所有http请求的时候，在请求头中增加`tenantId`信息,保证每次请求带上租户信息。比如用axios请求时：
+
+```javascript
+
+// 创建axios实例
+const service = axios.create({
+  baseURL: process.env.VUE_APP_BASE_API, // api的base_url
+  timeout: 50000 // 请求超时时间
+})
+
+// request拦截器
+service.interceptors.request.use(config => {
+  config.headers['tenantId'] = store.getters.tenantid
+  //其他代码略...
+})
+
+```
 

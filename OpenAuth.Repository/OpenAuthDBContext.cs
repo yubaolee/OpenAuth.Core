@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using System;
+using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -58,7 +59,10 @@ namespace OpenAuth.Repository
             }
 
             string connect = _configuration.GetConnectionString(tenantId);
-           if (string.IsNullOrEmpty(connect)) return;
+            if (string.IsNullOrEmpty(connect))
+            {
+                throw new Exception($"未能找到租户{tenantId}对应的连接字符串信息");
+            }
 
            var dbType =_appConfiguration.Value.DbType;
            if (dbType == Define.DBTYPE_SQLSERVER)

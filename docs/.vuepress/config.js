@@ -49,9 +49,10 @@ module.exports = {
             sidebarDepth: 1,    // 可选的, 默认值是 1
             collapsable: false, 
             children: [
-              'dataprivilege'
+              'logininfo'
+              ,'dataprivilege'
               ,'datapropertyrule'
-              ,'logininfo'
+              
             ]
           }
           ,{

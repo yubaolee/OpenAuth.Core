@@ -1,5 +1,15 @@
 # 日常提交(针对dev分支)
 
+* 2021.01.17 调整非法租户逻辑；
+
+* 2021.01.14 fix issue [#I2D0CX](https://gitee.com/yubaolee/OpenAuth.Core/issues/I2D0CX)；
+
+* 2021.01.10 完成对多租户的支持；
+
+* 2021.01.06 fix issue [#I2C4K0](https://gitee.com/yubaolee/OpenAuth.Core/issues/I2C4K0)；
+
+* 2021.01.03 启动时显示连接字符串；
+
 * 2020.12.28 新增多数据源；
 
 * 2020.12.27 优化EF输出SQL语句；

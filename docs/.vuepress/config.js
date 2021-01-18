@@ -51,6 +51,7 @@ module.exports = {
             children: [
               'dataprivilege'
               ,'datapropertyrule'
+              ,'logininfo'
             ]
           }
           ,{

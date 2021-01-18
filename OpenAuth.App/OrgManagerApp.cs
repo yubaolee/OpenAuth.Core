@@ -33,8 +33,7 @@ namespace OpenAuth.App
                 UnitWork.Save();
 
                 //如果当前账号不是SYSTEM，则直接分配
-                var loginUser = _auth.GetCurrentUser();
-                if (loginUser.User.Account != Define.SYSTEM_USERNAME)
+                if (loginContext.User.Account != Define.SYSTEM_USERNAME)
                 {
                     _revelanceApp.Assign(new AssignReq
                     {

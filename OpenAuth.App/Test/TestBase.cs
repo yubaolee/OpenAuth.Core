@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
@@ -24,7 +25,11 @@ namespace OpenAuth.App.Test
             var serviceCollection = GetService();
             serviceCollection.AddMemoryCache();
             serviceCollection.AddOptions();
-            serviceCollection.AddLogging();
+            serviceCollection.AddLogging(builder =>
+            {
+                builder.ClearProviders(); //去掉默认的日志
+                builder.AddLog4Net();
+            });
             
             //模拟配置文件
             var optionMock = new Mock<IOptions<AppSetting>>();

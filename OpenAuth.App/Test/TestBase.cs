@@ -1,4 +1,6 @@
-﻿using Autofac.Extensions.DependencyInjection;
+﻿using System;
+using System.IO;
+using Autofac.Extensions.DependencyInjection;
 using Infrastructure;
 using Infrastructure.Cache;
 using Infrastructure.Extensions.AutofacManager;
@@ -25,21 +27,36 @@ namespace OpenAuth.App.Test
             var serviceCollection = GetService();
             serviceCollection.AddMemoryCache();
             serviceCollection.AddOptions();
+            
+            var path = AppContext.BaseDirectory;
+            int pos = path.IndexOf("OpenAuth.App");
+            var basepath = Path.Combine(path.Substring(0,pos) ,"OpenAuth.WebApi");
+
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(basepath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.Development.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
+            Console.WriteLine($"config:{config.GetSection("Logging:LogLevel")["System"]}");
+
             serviceCollection.AddLogging(builder =>
             {
                 builder.ClearProviders(); //去掉默认的日志
+                builder.AddConfiguration(config.GetSection("Logging"));  //读取配置文件中的Logging配置
                 builder.AddLog4Net();
             });
             
             //模拟配置文件
-            var optionMock = new Mock<IOptions<AppSetting>>();
-            optionMock.Setup(x => x.Value).Returns(new AppSetting { DbType = Define.DBTYPE_MYSQL});
-            serviceCollection.AddScoped(x => optionMock.Object);
+            // var optionMock = new Mock<IOptions<AppSetting>>();
+            // optionMock.Setup(x => x.Value).Returns(new AppSetting { DbType = Define.DBTYPE_MYSQL});
+            // serviceCollection.AddScoped(x => optionMock.Object);
 
             //模拟多租户id
-            var configMock = new Mock<IConfiguration>();
-            configMock.Setup(x => x.GetSection("ConnectionStrings")[Define.TENANT_ID]).Returns("");
-            serviceCollection.AddScoped(x => configMock.Object);
+            // var configMock = new Mock<IConfiguration>();
+            // configMock.Setup(x => x.GetSection("ConnectionStrings")[Define.TENANT_ID]).Returns("");
+            // serviceCollection.AddScoped(x => configMock.Object);
+            serviceCollection.AddScoped(x => config);
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TOKEN_NAME]).Returns("tokentest");

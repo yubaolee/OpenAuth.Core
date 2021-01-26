@@ -53,9 +53,9 @@ namespace OpenAuth.Repository
             }
 
             //如果没有租户id，或租户用的是默认的OpenAuthDBContext,则不做任何调整
-            if (string.IsNullOrEmpty(tenantId) || tenantId == "OpenAuthDBContext")
+            if (string.IsNullOrEmpty(tenantId))
             {
-                return;
+                tenantId = "OpenAuthDBContext";
             }
 
             string connect = _configuration.GetConnectionString(tenantId);

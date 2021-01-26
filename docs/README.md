@@ -18,7 +18,7 @@ features:
   details: 组织机构、角色用户、数据权限、拖拽表单、工作流引擎、定时任务。
 - title: 主流技术
   details: IdentityServer、EF core、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE、Element-ui。
-footer: Copyright © 2020- yubaolee
+footer: Copyright © 2021- yubaolee
 ---
 
 

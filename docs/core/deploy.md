@@ -1,12 +1,10 @@
 # 部署
 
 ::: tip 提示
-因.net core内部有自托管的Web服务器，推荐使用控制台方式部署
-
-PS:不要再问怎么部署到IIS了，都快三年没用IIS了，我也不知道啊。要不，劳驾问下百度 :cold_sweat:
+因.net core内部有自托管的Web服务器，推荐使用控制台方式部署。本内容基于控制台命令的方式。如果部署到IIS请自行百度:cold_sweat:
 :::
 
-## 站点OpenAuth.Mvc部署
+## 生成发布文件
 
 * 修改部署环境的连接字符串信息,特别注意是`appsettings.Production.json`文件：
 ![说明](/configmvc.png "说明")
@@ -29,9 +27,42 @@ export ASPNETCORE_ENVIRONMENT=Production
 
 ![说明](http://pj.openauth.me/zentao/file-read-69.png "说明")
 
-* 发布【OpenAuth.Mvc】完成后进入文件目录【netcoreapp2.1\publish】，直接使用`dotnet  openauth.mvc.dll` 命令启动。启动成功后使用浏览器打开http://localhost:1802 即可访问，如下图所示：
+## 部署OpenAuth.Mvc
+
+将发布后的文件拷贝到服务器文件夹。直接使用`dotnet  openauth.mvc.dll` 命令启动。启动成功后使用浏览器打开http://localhost:1802 即可访问，如下图所示：
 
 ![说明](/mvcmain.png "说明")
+
+
+## jenkins部署OpenAuth.Mvc
+
+OpenAuth.Core采用的是gitee托管源码，只需使用Gitee WebHook构建触发器。配置如下：
+
+![说明](/giteesource.png "说明")
+
+做好上面的配置后，代码提交时就会触发jenkins工作。剩下的就是编写自己的构建脚本。增加构建步骤，选择执行Shell。并输入以下脚本：
+
+```shell
+#!/bin/bash
+kill -9 $(ps -ef|grep OpenAuth.Mvc.dll|grep -v grep|awk '{print $2}')
+
+#项目启动之后才不会被Jenkins杀掉。
+export BUILD_ID=dontKillMe
+pwd
+echo $PATH
+dotnet restore # 还原nuget包
+
+cd ./OpenAuth.Mvc
+dotnet build # 编译
+
+rm -rf /data/openauthmvc #最终站点路径
+mkdir /data/openauthmvc
+dotnet publish -c:Release -o /data/openauthmvc # 生成发布文件到/data/openauthmvc
+
+nohup dotnet /data/openauthmvc/OpenAuth.Mvc.dll &
+
+echo '============================end build======================================='
+```
 
 
 ## 接口OpenAuth.WebApi部署

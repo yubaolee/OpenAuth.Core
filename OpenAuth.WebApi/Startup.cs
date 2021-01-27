@@ -139,20 +139,12 @@ namespace OpenAuth.WebApi
 //            }
 //            services.AddCors(option=>option.AddPolicy("cors", policy =>
 //                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
+
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
             var dbType = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbType")).Value;
             var connectionString = Configuration.GetConnectionString("OpenAuthDBContext");
             logger.LogInformation($"当前数据库类型：{dbType}，连接字符串：{connectionString}");
-            if (dbType == Define.DBTYPE_SQLSERVER)
-            {
-                services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseSqlServer(connectionString));
-            }
-            else  //mysql
-            {
-                services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseMySql(connectionString));
-            }
+            services.AddDbContext<OpenAuthDBContext>();
 
             services.AddHttpClient();
 

@@ -53,9 +53,9 @@ namespace OpenAuth.Repository
             }
 
             //如果没有租户id，或租户用的是默认的OpenAuthDBContext,则不做任何调整
-            if (string.IsNullOrEmpty(tenantId) || tenantId == "OpenAuthDBContext")
+            if (string.IsNullOrEmpty(tenantId))
             {
-                return;
+                tenantId = "OpenAuthDBContext";
             }
 
             string connect = _configuration.GetConnectionString(tenantId);
@@ -64,7 +64,8 @@ namespace OpenAuth.Repository
                 throw new Exception($"未能找到租户{tenantId}对应的连接字符串信息");
             }
 
-           var dbType =_appConfiguration.Value.DbType;
+            //这个地方如果用IOption，在单元测试的时候会获取不到AppSetting的值😅
+           var dbType = _configuration.GetSection("AppSetting")["DbType"];
            if (dbType == Define.DBTYPE_SQLSERVER)
            {
                optionsBuilder.UseSqlServer(connect);

@@ -40,24 +40,24 @@ namespace OpenAuth.Repository
         //初始化多租户信息，根据租户id调整数据库
         private void InitTenant(DbContextOptionsBuilder optionsBuilder)
         {
-            if (_httpContextAccessor == null || _httpContextAccessor.HttpContext == null)
+            string tenantId = "OpenAuthDBContext";
+            
+            if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null)
             {
-                return;
+                //读取多租户ID
+                var httpTenantId = _httpContextAccessor.HttpContext.Request.Query[Define.TENANT_ID];
+                if (string.IsNullOrEmpty(httpTenantId))
+                {
+                    httpTenantId = _httpContextAccessor.HttpContext.Request.Headers[Define.TENANT_ID];
+                }
+                
+                //如果没有租户id，或租户用的是默认的OpenAuthDBContext,则不做任何调整
+                if (!string.IsNullOrEmpty(httpTenantId))
+                {
+                    tenantId = httpTenantId;
+                }
             }
-
-            //读取多租户ID
-            string tenantId = _httpContextAccessor.HttpContext.Request.Query[Define.TENANT_ID];
-            if (string.IsNullOrEmpty(tenantId))
-            {
-                tenantId = _httpContextAccessor.HttpContext.Request.Headers[Define.TENANT_ID];
-            }
-
-            //如果没有租户id，或租户用的是默认的OpenAuthDBContext,则不做任何调整
-            if (string.IsNullOrEmpty(tenantId))
-            {
-                tenantId = "OpenAuthDBContext";
-            }
-
+            
             string connect = _configuration.GetConnectionString(tenantId);
             if (string.IsNullOrEmpty(connect))
             {

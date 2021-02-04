@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Infrastructure;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,18 @@ namespace OpenAuth.App.Test
             var app = _autofacServiceProvider.GetService<OpenJobApp>();
             var result = app.QueryLocalHandlers();
             Console.WriteLine(JsonHelper.Instance.Serialize(result));
+        }
+
+        [Test]
+        public void ChangeStatus()
+        {
+            var app = _autofacServiceProvider.GetService<OpenJobApp>();
+            app.ChangeJobStatus(new ChangeJobStatusReq
+            {
+                Id = "f40fe48d-71a4-4f47-b324-6178d97abfb9",
+                Status = 1
+            });
+            Thread.Sleep(60000);
         }
     }
 }

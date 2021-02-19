@@ -98,7 +98,7 @@ namespace OpenAuth.App
             UnitWork.Add(flowInstance);
             wfruntime.flowInstanceId = flowInstance.Id;
 
-            if (flowInstance.FrmType == 1)
+            if (flowInstance.FrmType == 1) //如果是开发者自定义的表单
             {
                 var t = Type.GetType("OpenAuth.App."+ flowInstance.DbName +"App");
                 ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);

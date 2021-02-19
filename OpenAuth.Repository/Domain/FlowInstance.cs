@@ -105,8 +105,10 @@ namespace OpenAuth.Repository.Domain
         public string FrmData { get; set; }
         /// <summary>
 	    /// 表单类型
+	    /// <para>0：动态表单；1：开发者自定义表单；2：拖动表单</para>
+	    /// <para>当类型为1时，流程实例必需有DbName，用于直接向对应数据库表中写入数据</para>
 	    /// </summary>
-         [Description("表单类型")]
+         [Description("表单类型：0：动态表单；1：开发者自定义表单；2：拖动表单")]
         public int FrmType { get; set; }
         /// <summary>
 	    /// 表单中的控件属性描述

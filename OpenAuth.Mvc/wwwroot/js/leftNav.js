@@ -48,11 +48,15 @@ function navBar(strData){
 						}
 
 						if (data[i].Children[j].Children[k].target == "_blank") {
-							ulHtml += '<li><a href="javascript:;" data-url="' + data[i].Children[j].Children[k].Item.Url + '" target="' + data[i].Children[j].Children[k].target + '" ><cite>' + data[i].Children[j].Children[k].Item.Name + '</cite></a></li>';
+							ulHtml += '<li><a href="javascript:;" data-url="' + data[i].Children[j].Children[k].Item.Url + '" target="' + data[i].Children[j].Children[k].target + '">';
+							
 						} else {
-							ulHtml += '<li><a href="javascript:;" data-url="' + data[i].Children[j].Children[k].Item.Url + '"><cite>' + data[i].Children[j].Children[k].Item.Name + '</cite></a></li>';
+							ulHtml += '<li><a href="javascript:;" data-url="' + data[i].Children[j].Children[k].Item.Url + '">';
 						}
-
+						if (data[i].Children[j].Children[k].Item.IconName != undefined && data[i].Children[j].Children[k].Item.IconName != '') {
+							ulHtml += '&nbsp;&nbsp;&nbsp;&nbsp;<i class="layui-icon ' + data[i].Children[j].Children[k].Item.IconName + '"></i>'
+						}
+						ulHtml += '<cite>' + data[i].Children[j].Children[k].Item.Name + '</cite></a ></li > ';
 					}
 
 					if (idx > 0) {

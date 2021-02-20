@@ -9,7 +9,23 @@ layui.config({
 		tab = layui.bodyTab({
 			openTabNum : "50",  //最大可打开窗口数量
 			url: "/UserSession/GetModulesTree" //获取菜单json地址
-    });
+		});
+
+	$(".menu_three").on("click", function () {
+
+		$(this).next().toggle();
+		$.each($(this).parent().siblings(), function (i, e) {
+
+			$(e).find("ol").hide();;
+		});
+
+	})
+	$("ol").on("click", "li a", function () {
+		$.each($(this).parent().siblings(), function (i, e) {
+			$(e).find("a").removeClass('three_this')
+		});
+		$(this).addClass('three_this');                            // 添加当前元素的样式
+	})
 
     $.get('/UserSession/GetUserName',
         function(data) {

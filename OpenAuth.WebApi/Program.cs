@@ -17,7 +17,7 @@ namespace OpenAuth.WebApi
                 .ConfigureLogging((hostingContext, logging) =>
                 {
                     logging.ClearProviders(); //去掉默认的日志
-                    logging.AddLog4Net();
+                    // logging.AddLog4Net();
                 })
                 .UseServiceProviderFactory(
                     new AutofacServiceProviderFactory()) //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory

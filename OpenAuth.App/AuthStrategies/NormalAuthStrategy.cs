@@ -126,6 +126,14 @@ namespace OpenAuth.App
         public List<KeyDescription> GetProperties(string moduleCode)
         {
             var allprops = _dbExtension.GetProperties(moduleCode);
+            
+            //如果是系统模块，直接返回所有字段。防止开发者把模块配置成系统模块，还在外层调用loginContext.GetProperties("xxxx");
+            bool? isSysModule = UnitWork.FirstOrDefault<Module>(u => u.Code == moduleCode)?.IsSys;
+            if (isSysModule!= null && isSysModule.Value)
+            {
+                return allprops;
+            }
+            
             var props =UnitWork.Find<Relevance>(u =>
                     u.Key == Define.ROLEDATAPROPERTY && _userRoleIds.Contains(u.FirstId) && u.SecondId == moduleCode)
                 .Select(u => u.ThirdId);

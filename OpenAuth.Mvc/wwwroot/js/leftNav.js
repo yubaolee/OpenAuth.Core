@@ -32,7 +32,33 @@ function navBar(strData){
 				if(data[i].Children[j].Item.IconName != undefined && data[i].Children[j].Item.IconName != ''){
 					ulHtml += '<i class="layui-icon '+ data[i].Children[j].Item.IconName +'"></i>'
 				}
-				ulHtml += '<cite>'+data[i].Children[j].Item.Name+'</cite></a></dd>';
+				ulHtml += '<cite>' + data[i].Children[j].Item.Name + '</cite></a>';
+
+				if (data[i].Children[j].Children != undefined && data[i].Children[j].Children.length > 0) {
+
+					let idx = 0;
+					for (var k = 0; k < data[i].Children[j].Children.length; k++) {
+
+						if (data[i].Children[j].Children[k].Item.Status === -1) continue;
+
+						idx++;
+
+						if (idx == 1) {
+							ulHtml += '<ol class="layui-nav-child">';
+						}
+
+						if (data[i].Children[j].Children[k].target == "_blank") {
+							ulHtml += '<li><a href="javascript:;" data-url="' + data[i].Children[j].Children[k].Item.Url + '" target="' + data[i].Children[j].Children[k].target + '" ><cite>' + data[i].Children[j].Children[k].Item.Name + '</cite></a></li>';
+						} else {
+							ulHtml += '<li><a href="javascript:;" data-url="' + data[i].Children[j].Children[k].Item.Url + '"><cite>' + data[i].Children[j].Children[k].Item.Name + '</cite></a></li>';
+						}
+
+					}
+
+					if (idx > 0) {
+						ulHtml += '</ol>';
+					}
+				}
 			}
 			ulHtml += "</dl>";
 		}else{

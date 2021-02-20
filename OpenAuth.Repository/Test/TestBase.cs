@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Infrastructure;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
@@ -32,14 +35,27 @@ namespace OpenAuth.Repository.Test
             serviceCollection.AddScoped(typeof(IUnitWork<>), typeof(UnitWork<>));
 
             //模拟配置文件
-            var optionMock = new Mock<IOptions<AppSetting>>();
-            optionMock.Setup(x => x.Value).Returns(new AppSetting { DbType = Define.DBTYPE_MYSQL });
-            serviceCollection.AddScoped(x => optionMock.Object);
+            //读取OpenAuth.WebApi的配置文件用于单元测试
+            var path = AppContext.BaseDirectory;
+            int pos = path.IndexOf("OpenAuth.Repository");
+            var basepath = Path.Combine(path.Substring(0,pos) ,"OpenAuth.WebApi");
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(basepath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.Development.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
+            Console.WriteLine($"单元测试数据库信息:{config.GetSection("AppSetting")["DbType"]}/{config.GetSection("ConnectionStrings")["OpenAuthDBContext"]}");
 
-            //模拟多租户id
-            var configMock = new Mock<IConfiguration>();
-            configMock.Setup(x => x.GetSection("ConnectionStrings")[Define.TENANT_ID]).Returns("");
-            serviceCollection.AddScoped(x => configMock.Object);
+            //添加log4net
+            serviceCollection.AddLogging(builder =>
+            {
+                builder.ClearProviders(); //去掉默认的日志
+                builder.AddConfiguration(config.GetSection("Logging"));  //读取配置文件中的Logging配置
+            });
+            //注入OpenAuth.WebApi配置文件
+            serviceCollection.AddScoped(x => config);
+            
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(x => x.HttpContext.Request.Query[Define.TOKEN_NAME]).Returns("tokentest");
@@ -47,8 +63,7 @@ namespace OpenAuth.Repository.Test
 
             serviceCollection.AddScoped(x => httpContextAccessorMock.Object);
 
-            serviceCollection.AddDbContext<OpenAuthDBContext>(options =>
-                options.UseSqlServer("Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000;Integrated Security=True"));
+            serviceCollection.AddDbContext<OpenAuthDBContext>();
 
             var builder = new ContainerBuilder();
 

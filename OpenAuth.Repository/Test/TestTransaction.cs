@@ -82,5 +82,22 @@ namespace OpenAuth.Repository.Test
                 Account = "Trans2_" + user.Account
             });
         }
+
+
+        [Test]
+        public void MultiUpdate()
+        {
+            var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
+
+            var users = unitWork.Find<User>(u => u.Account.Contains("test"));
+            foreach (var user in users)
+            {
+                user.Name  = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
+                unitWork.Update(user);
+            }
+            
+            unitWork.Save();
+            
+        }
     }
 }

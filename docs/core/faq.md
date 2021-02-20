@@ -42,10 +42,21 @@ lower_case_table_names=1
 ## WebApi里增加一个控制器,Swagger不显示
 
 需要在控制器上面添加注释，如：
-```caharp
+```csharp
     /// <summary>  文件上传</summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class FilesController :ControllerBase
 ```
 
+## 实体没有主键
+
+定义一个实体，有时会出现没有主键的问题，即提示“Unable to track an instance of type xxxx because it does not have a primary key.”，这时可以强制在`OpenAuthDbContext.cs`中指定一个主键，如下：
+```csharp
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<DataPrivilegeRule>()
+            .HasKey(c => new { c.Id });
+    }
+
+```

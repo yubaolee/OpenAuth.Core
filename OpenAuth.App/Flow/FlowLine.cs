@@ -34,14 +34,16 @@ namespace OpenAuth.App.Flow
             {
 
                 bool isDecimal = decimal.TryParse(compare.Value, out decimal value);
-                decimal frmvalue = decimal.Parse(frmDataJson.GetValue(compare.FieldName.ToLower()).ToString()); //表单中填写的值
+                var fieldVal = frmDataJson.GetValue(compare.FieldName.ToLower()).ToString();
 
                 if (isDecimal)  //如果是数字或小数
                 {
+                    decimal frmvalue = decimal.Parse(fieldVal); //表单中填写的值
+
                     switch (compare.Operation)
                     {
                         case DataCompare.Equal:
-                            result &= compare.Value == frmDataJson.GetValue(compare.FieldName).ToString();
+                            result &= compare.Value == fieldVal;
                             break;
                         case DataCompare.Larger:
                             result &= frmvalue > value;
@@ -59,7 +61,7 @@ namespace OpenAuth.App.Flow
                 }
                 else //如果只是字符串，只判断相等
                 {
-                    result &= compare.Value == frmDataJson.GetValue(compare.FieldName).ToString();
+                    result &= compare.Value == fieldVal;
                 }
 
                 

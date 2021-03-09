@@ -57,9 +57,11 @@
     import permissionBtn from '@/components/PermissionBtn'
     import Pagination from '@/components/Pagination'
     import elDragDialog from '@/directive/el-dragDialog'
+    import extend from "@/extensions/delRows.js"
     export default {
         name: '{TableName}',
         components: { Sticky, permissionBtn, Pagination },
+        mixins: [extend],
         directives: {
             waves,
             elDragDialog
@@ -242,18 +244,7 @@
                 })
             },
             handleDelete(rows) { // 多行删除
-                {TableName}s.del(rows.map(u => u.id)).then(() => {
-                    this.$notify({
-                        title: '成功',
-                        message: '删除成功',
-                        type: 'success',
-                        duration: 2000
-                    })
-                    rows.forEach(row => {
-                        const index = this.list.indexOf(row)
-                        this.list.splice(index, 1)
-                    })
-                })
+                this.delrows({TableName}s, rows)
             }
         }
     }

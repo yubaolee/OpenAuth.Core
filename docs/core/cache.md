@@ -6,11 +6,11 @@
 
 * 基于.net自带的`MemoryCache`实现的`CacheContext`
 
-* 基于`StackExchange.Redis`实现的`RedisCacheContext`
+* 基于`StackExchange.Redis`实现的`RedisCacheContext`【新增💪】
 
 * 基于`Enyim Memcache`实现的`EnyimMemcachedContext`
 
-可以根据自己需要，扩展Redis等缓存。OpenAuth.Mvc和OpenAuth.Api默认使用的是CacheContext。可以在`AutofacExt.cs`跟换自己喜欢的缓存：
+可以根据自己需要，扩展其他缓存。OpenAuth.Mvc和OpenAuth.Api默认使用的是CacheContext。可以在`AutofacExt.cs`跟换自己喜欢的缓存：
 ```csharp
 public static void InitAutofac(ContainerBuilder builder)
 {

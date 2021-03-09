@@ -35,6 +35,7 @@ namespace OpenAuth.App.Test
                 .Build();
             Console.WriteLine($"单元测试数据库信息:{config.GetSection("AppSetting")["DbType"]}/{config.GetSection("ConnectionStrings")["OpenAuthDBContext"]}");
 
+            serviceCollection.Configure<AppSetting>(config.GetSection("AppSetting"));
             //添加log4net
             serviceCollection.AddLogging(builder =>
             {

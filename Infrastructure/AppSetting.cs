@@ -35,6 +35,11 @@
 
         //identity授权的地址
         public string IdentityServerUrl { get; set; }
+        
+        /// <summary>
+        /// Redis服务器配置
+        /// </summary>
+        public string RedisConf { get; set; }
 
         //是否是Identity授权方式
         public bool IsIdentityAuth => !string.IsNullOrEmpty(IdentityServerUrl);

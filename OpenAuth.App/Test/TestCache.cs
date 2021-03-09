@@ -29,14 +29,35 @@ namespace OpenAuth.App.Test
         }
 
 
+        /// <summary>
+        /// 测试字符串
+        /// </summary>
         [Test]
-        public void SetAndGet()
+        public void SetString()
         {
             var app = _autofacServiceProvider.GetService<ICacheContext>();
             app.Set("yubaolee", "ok", DateTime.Now.AddDays(1));
 
             var result = app.Get<string>("yubaolee");
             Console.WriteLine($"redis结果:{result}");
+        }
+        
+        /// <summary>
+        /// 测试对象
+        /// </summary>
+        [Test]
+        public void SetObj()
+        {
+            var app = _autofacServiceProvider.GetService<ICacheContext>();
+            app.Set("yubaolee", new User
+            {
+                Name = "测试",
+                Account ="Test",
+                BizCode = "0.1.1"
+            }, DateTime.Now.AddDays(1));
+
+            var result = app.Get<User>("yubaolee");
+            Console.WriteLine($"redis结果:{JsonHelper.Instance.Serialize(result)}");
         }
 
 

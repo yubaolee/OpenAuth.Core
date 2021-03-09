@@ -38,11 +38,11 @@ namespace Infrastructure.Cache
         {
             if (typeof(T) == typeof(string))
             {
-                return iDatabase.StringSet(key, t.ToString());
+                return iDatabase.StringSet(key, t.ToString(), expire-DateTime.Now);
             }
             else
             {
-                return iDatabase.StringSet(key, JsonHelper.Instance.Serialize(t));
+                return iDatabase.StringSet(key, JsonHelper.Instance.Serialize(t), expire - DateTime.Now);
             }
         }
 

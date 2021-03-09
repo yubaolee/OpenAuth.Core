@@ -45,7 +45,8 @@
 版本附赠VIP服务，提供VIP专属QQ群，企业发票、专属内部文档、技术咨询服务等。[如何获取请查看这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
 
 效果如下：
-![openauth.pro](http://demo.openauth.me:8887/upload_files/200420211433125.gif "企业版效果图")
+![](https://images.gitee.com/uploads/images/2021/0128/224913_6bda2388_362401.png "form.png")
+![](https://images.gitee.com/uploads/images/2021/0128/225024_57595ce9_362401.png "flow.png")
 
 ## 官方QQ交流群  
 
@@ -94,7 +95,6 @@
 
 ## 秀外
 
-![输入图片说明](http://demo.openauth.me:8887/upload_files/200414221432025.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/173337_6e017075_362401.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/150758_26ef9d61_362401.png "流程设计")
 

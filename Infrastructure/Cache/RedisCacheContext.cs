@@ -11,19 +11,24 @@ namespace Infrastructure.Cache
     /// </summary>
     public sealed class RedisCacheContext : ICacheContext
     {
-        private ConnectionMultiplexer Redis { get; set; }
+        private ConnectionMultiplexer _conn { get; set; }
         private IDatabase iDatabase { get; set; }
 
         private AppSetting _appSettings;
         public RedisCacheContext(IOptions<AppSetting> options)
         {
-            Redis = ConnectionMultiplexer.Connect(options.Value.RedisConf);
-            iDatabase = Redis.GetDatabase();
+            _conn = ConnectionMultiplexer.Connect(options.Value.RedisConf);
+            iDatabase = _conn.GetDatabase();
         }
 
         public override T Get<T>(string key)
         {
             RedisValue value = iDatabase.StringGet(key);
+            if (!value.HasValue)
+            {
+                return default(T);
+            }
+            
             if (typeof(T) == typeof(string))
             {
                 return (T) Convert.ChangeType(value, typeof(T));

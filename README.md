@@ -37,7 +37,6 @@
 效果如下：
 ![](https://images.gitee.com/uploads/images/2021/0128/224913_6bda2388_362401.png "form.png")
 ![](https://images.gitee.com/uploads/images/2021/0128/225024_57595ce9_362401.png "flow.png")
-![openauth.pro](http://demo.openauth.me:8887/upload_files/200420211433125.gif "企业版效果图")
 
 ## 官方QQ交流群  
 
@@ -85,8 +84,6 @@
 * 设计工具 PowerDesigner + Enterprise Architect
 
 ## 秀外
-
-![输入图片说明](http://demo.openauth.me:8887/upload_files/200414221432025.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/173337_6e017075_362401.png "表单设计")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0328/150758_26ef9d61_362401.png "流程设计")
 

@@ -60,8 +60,10 @@ module.exports = {
             sidebarDepth: 1,    // 可选的, 默认值是 1
             collapsable: false, 
             children: [
-              'thirdparty',
-              'flowinstancestatus'
+              'flowinstance',
+              'flowinstancestatus',
+              'thirdparty'
+              
             ]
           }
           ,{

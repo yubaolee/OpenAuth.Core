@@ -6,7 +6,6 @@ namespace OpenAuth.Repository.Core
     /// <summary>
     /// 数据库Id为numberic类型的数据实体使用该基类，用法同Entity
     /// 数据库Id字段为numberic(16,0)或以上长度的整型，采用雪花算法生成Id。
-    /// 
     /// </summary>
     public class LongEntity :BaseEntity
     {

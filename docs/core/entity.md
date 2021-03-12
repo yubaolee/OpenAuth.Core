@@ -9,44 +9,42 @@
  public string Id { get; set; }
 ```
 
+## 如何添加主键类型为numberic的业务代码
 
-## 添加非统一主键
-
-系统默认的主键是以`Id`命名，如果数据库表中存在其他类型或名称的主键，可以通过继承`BaseEntity`实现。目前系统默认有两个实体基类：
+如果数据库表中存在其他类型的主键，可以通过继承`BaseEntity`实现。目前系统默认有两个实体基类：
  
 - `StringEntity`：针对数据库主键为varchar类型的数据表,主键按guid方式生成;
 
 - `LongEntity`：针对数据库主键为numberic(长度>=15)类型的数据表，主键按雪花算法生成；【新功能】
 
+这两个基类可以覆盖80%以上的业务场景。如果这两个不能满足需求，可以自己按需求扩展。参考代码如下：
+
 ```csharp
     /// <summary>
-    /// 数据库Id为numberic类型的数据实体使用该基类，用法同Entity
-    /// 数据库Id字段为numberic(16,0)或以上长度的整型，采用雪花算法生成Id。
+    /// 数据库Id为int类型的数据实体使用该基类，用法同Entity
     /// </summary>
-    public class LongEntity :BaseEntity
+    public class IntEntity :BaseEntity
     {
         [Browsable(false)]
-        public long Id { get; set; }
+        public int Id { get; set; }
         public override bool KeyIsNull()
         {
             return Id == 0;
         }
 
         /// <summary>
-        /// 采用雪花算法计算Id
+        /// 需要自己有个生成随机ID的算法，可参考LongEntity中的雪花算法
         /// </summary>
         public override void GenerateDefaultKeyVal()
         {
-            var options = new IdGeneratorOptions(){ WorkerId = 1};
-            IIdGenerator IdHelper = new YitIdGenerator(options);
-            Id =  IdHelper.NewLong();
+            Id =  RandomInt();
         }
     }
 ```
 
-#### 添加主键类型为numberic的相关业务
+## 具体如何做
 
-我们以下表为例：
+我们以一个主键为numeric(16)的表（表名为LongTable）为例：
 
 ```SQL
 create table LongTable
@@ -60,7 +58,27 @@ go
 
 ```
 
-首先创建对应的业务层代码。在`OpenAuth.App`中添加：
+1. 首先创建对应的业务实体。在`OpenAuth.Repository.Domain`中添加：
+
+```csharp
+namespace OpenAuth.Repository.Domain
+{
+    [Table("LongTable")]
+    public class LongTable :LongEntity
+    {
+        public string Name { get; set; }
+    }
+}
+```
+
+2. 修改`OpenAuth.Repository.OpenAuthDBContext`,增加成员变量：
+
+```csharp
+        public virtual DbSet<LongTable> IntTables { get; set; }
+```
+
+3. 最后创建对应的业务层代码。在`OpenAuth.App`中添加：
+
 ```csharp
 namespace OpenAuth.App
 {

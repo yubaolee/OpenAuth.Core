@@ -114,6 +114,9 @@ namespace OpenAuth.Repository
         public virtual DbSet<BuilderTable> BuilderTables { get; set; }
         public virtual DbSet<BuilderTableColumn> BuilderTableColumns { get; set; }
         
+        //numberic类型主键
+        public virtual DbSet<LongTable> IntTables { get; set; }
+
         //非数据库表格
         public virtual DbQuery<SysTableColumn> SysTableColumns { get; set; }
 

@@ -19,7 +19,7 @@ namespace OpenAuth.Repository.Domain
 	/// 工作流流程实例表
 	/// </summary>
       [Table("FlowInstance")]
-    public partial class FlowInstance : Entity
+    public partial class FlowInstance : StringEntity
     {
         public FlowInstance()
         {

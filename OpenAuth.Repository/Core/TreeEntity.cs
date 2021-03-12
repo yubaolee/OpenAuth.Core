@@ -5,7 +5,7 @@ namespace OpenAuth.Repository.Core
     /// <summary>
     /// 树状结构实体
     /// </summary>
-    public abstract class TreeEntity: Entity
+    public abstract class TreeEntity: StringEntity
     {
         /// <summary>
         /// 节点语义ID

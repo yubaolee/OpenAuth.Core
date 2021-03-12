@@ -18,7 +18,7 @@ namespace OpenAuth.Repository.Domain
 	/// 系统授权规制表
 	/// </summary>
     [Table("DataPrivilegeRule")]
-    public partial class DataPrivilegeRule : Entity
+    public partial class DataPrivilegeRule : StringEntity
     {
         public DataPrivilegeRule()
         {

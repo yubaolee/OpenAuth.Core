@@ -6,7 +6,7 @@ namespace OpenAuth.Repository.Core
     /// <summary>
     /// 主键为字符串的实体基类，为系统默认的实体类型
     /// </summary>
-    public class Entity : BaseEntity
+    public class StringEntity : BaseEntity
     {
         [Browsable(false)]
         public string Id { get; set; }

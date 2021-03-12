@@ -18,7 +18,7 @@ namespace OpenAuth.Repository.Domain
 	/// 入库通知单（入库订单）
 	/// </summary>
     [Table("WmsInboundOrderTbl")]
-    public partial class WmsInboundOrderTbl : Entity
+    public partial class WmsInboundOrderTbl : StringEntity
     {
         public WmsInboundOrderTbl()
         {

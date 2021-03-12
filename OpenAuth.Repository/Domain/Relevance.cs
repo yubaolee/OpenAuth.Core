@@ -18,7 +18,7 @@ namespace OpenAuth.Repository.Domain
 	/// 多对多关系集中映射
 	/// </summary>
       [Table("Relevance")]
-    public partial class Relevance : Entity
+    public partial class Relevance : StringEntity
     {
         public Relevance()
         {

@@ -14,7 +14,7 @@ namespace OpenAuth.App
     /// <para>如用户管理：Class UserManagerApp:BaseApp<User></para>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseApp<T, TDbContext> where T : Entity where TDbContext: DbContext
+    public class BaseApp<T, TDbContext> where T : StringEntity where TDbContext: DbContext
     {
         /// <summary>
         /// 用于普通的数据库操作

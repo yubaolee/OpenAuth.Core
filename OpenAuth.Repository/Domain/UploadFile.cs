@@ -15,7 +15,7 @@ namespace OpenAuth.Repository.Domain
 	/// 文件
 	/// </summary>
     [Table("UploadFile")]
-    public partial class UploadFile : Entity
+    public partial class UploadFile : StringEntity
     {
         public UploadFile()
         {

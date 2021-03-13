@@ -18,7 +18,7 @@ namespace OpenAuth.Repository.Domain
 	/// 表单模板表
 	/// </summary>
       [Table("Form")]
-    public partial class Form : Entity
+    public partial class Form : StringEntity
     {
         public Form()
         {

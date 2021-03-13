@@ -20,7 +20,7 @@ namespace OpenAuth.Repository.Domain
 	/// 代码生成器的字段信息
 	/// </summary>
     [Table("BuilderTableColumn")]
-    public partial class BuilderTableColumn : Entity
+    public partial class BuilderTableColumn : StringEntity
     {
         public BuilderTableColumn()
         {

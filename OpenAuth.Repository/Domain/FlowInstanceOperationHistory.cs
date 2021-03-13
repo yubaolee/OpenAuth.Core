@@ -18,7 +18,7 @@ namespace OpenAuth.Repository.Domain
 	/// 工作流实例操作记录
 	/// </summary>
       [Table("FlowInstanceOperationHistory")]
-    public partial class FlowInstanceOperationHistory : Entity
+    public partial class FlowInstanceOperationHistory : StringEntity
     {
         public FlowInstanceOperationHistory()
         {

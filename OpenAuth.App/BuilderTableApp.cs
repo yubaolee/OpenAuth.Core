@@ -487,7 +487,7 @@ namespace OpenAuth.App
                 var types = AssemblyLoadContext.Default
                     .LoadFromAssemblyName(new AssemblyName(compilation.Name))
                     .GetTypes().Where(x => x.GetTypeInfo().BaseType != null
-                                           && x.BaseType == typeof(Entity));
+                                           && x.BaseType == typeof(StringEntity));
                 foreach (var entity in types)
                 {
                     if (entity.Name == moduleCode )

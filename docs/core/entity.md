@@ -15,7 +15,7 @@
  
 - `StringEntity`：针对数据库主键为varchar类型的数据表,主键按guid方式生成;
 
-- `LongEntity`：针对数据库主键为numberic(长度>=15)类型的数据表，主键按雪花算法生成；【新功能】
+- `LongEntity`：针对数据库主键为numberic(15)的数据表，主键按雪花算法生成；【新功能，官方推荐使用方式👍】
 
 - `IntAutoGenEntity`：针对数据库主键为numberic且为数据库自动生成的类型表，通常为SqlServer的自动增长类型和Oracle的Sequence生成；【新功能】
 

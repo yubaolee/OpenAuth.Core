@@ -28,7 +28,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 普通用户授权策略
     /// </summary>
-    public class NormalAuthStrategy :BaseApp<User,OpenAuthDBContext>, IAuthStrategy
+    public class NormalAuthStrategy :BaseStringApp<User,OpenAuthDBContext>, IAuthStrategy
     {
         
         protected User _user;

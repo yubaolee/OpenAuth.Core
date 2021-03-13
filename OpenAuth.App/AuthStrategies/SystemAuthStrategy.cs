@@ -30,7 +30,7 @@ namespace OpenAuth.App
     /// <para>超级管理员权限</para>
     /// <para>超级管理员使用guid.empty为ID，可以根据需要修改</para>
     /// </summary>
-    public class SystemAuthStrategy : BaseApp<User,OpenAuthDBContext>, IAuthStrategy
+    public class SystemAuthStrategy : BaseStringApp<User,OpenAuthDBContext>, IAuthStrategy
     {
         protected User _user;
         private DbExtension _dbExtension;

@@ -13,7 +13,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class CategoryApp : BaseApp<Category,OpenAuthDBContext>
+    public class CategoryApp : BaseStringApp<Category,OpenAuthDBContext>
     {
         /// <summary>
         /// 加载列表

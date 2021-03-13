@@ -13,7 +13,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class FormApp : BaseApp<Form,OpenAuthDBContext>
+    public class FormApp : BaseStringApp<Form,OpenAuthDBContext>
     {
         private IAuth _auth;
         private IOptions<AppSetting> _appConfiguration;

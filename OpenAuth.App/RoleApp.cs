@@ -11,7 +11,7 @@ using OpenAuth.Repository;
 
 namespace OpenAuth.App
 {
-    public class RoleApp : BaseApp<Role,OpenAuthDBContext>
+    public class RoleApp : BaseStringApp<Role,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 

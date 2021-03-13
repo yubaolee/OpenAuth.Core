@@ -10,7 +10,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class FrmLeaveReqApp : BaseApp<FrmLeaveReq,OpenAuthDBContext>, ICustomerForm
+    public class FrmLeaveReqApp : BaseStringApp<FrmLeaveReq,OpenAuthDBContext>, ICustomerForm
     {
         private RevelanceManagerApp _revelanceApp;
 

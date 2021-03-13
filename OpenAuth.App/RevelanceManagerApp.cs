@@ -11,7 +11,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class RevelanceManagerApp : BaseApp<Relevance,OpenAuthDBContext>
+    public class RevelanceManagerApp : BaseStringApp<Relevance,OpenAuthDBContext>
     {
         private readonly ILogger<RevelanceManagerApp> _logger;
         public RevelanceManagerApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Relevance,OpenAuthDBContext> repository, IAuth auth, ILogger<RevelanceManagerApp> logger) : base(unitWork,

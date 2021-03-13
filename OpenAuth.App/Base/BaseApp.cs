@@ -9,12 +9,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    /// <summary>
-    /// 业务层基类，UnitWork用于事务操作，Repository用于普通的数据库操作
-    /// <para>如用户管理：Class UserManagerApp:BaseApp<User></para>
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class BaseApp<T, TDbContext> where T : StringEntity where TDbContext: DbContext
+    public abstract class BaseApp<T, TDbContext> where T : class where TDbContext: DbContext
     {
         /// <summary>
         /// 用于普通的数据库操作
@@ -70,21 +65,7 @@ namespace OpenAuth.App
             return UnitWork.Find<T>(null).GenerateFilter(parametername,
                 JsonHelper.Instance.Deserialize<FilterGroup>(rule.PrivilegeRules));
         }
-
-        /// <summary>
-        /// 按id批量删除
-        /// </summary>
-        /// <param name="ids"></param>
-        public virtual void Delete(string[] ids)
-        {
-            Repository.Delete(u => ids.Contains(u.Id));
-        }
-
-        public T Get(string id)
-        {
-            return Repository.FirstOrDefault(u => u.Id == id);
-        }
-
+        
         /// <summary>
         /// 计算实体更新的层级信息
         /// </summary>

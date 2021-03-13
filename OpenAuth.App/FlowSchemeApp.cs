@@ -10,7 +10,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class FlowSchemeApp :BaseApp<FlowScheme,OpenAuthDBContext>
+    public class FlowSchemeApp :BaseStringApp<FlowScheme,OpenAuthDBContext>
     {
         public void Add(FlowScheme flowScheme)
         {

@@ -10,7 +10,7 @@ namespace OpenAuth.App
     /// 树状结构处理
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseTreeApp<T,TDbContext> :BaseApp<T,TDbContext> where T : TreeEntity where TDbContext :DbContext
+    public class BaseTreeApp<T,TDbContext> :BaseStringApp<T,TDbContext> where T : TreeEntity where TDbContext :DbContext
     {
 
 

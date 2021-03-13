@@ -15,7 +15,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 分类管理
     /// </summary>
-    public class ResourceApp:BaseApp<Resource,OpenAuthDBContext>
+    public class ResourceApp:BaseStringApp<Resource,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 

@@ -10,11 +10,11 @@ using OpenAuth.Repository.Interface;
 namespace OpenAuth.App
 {
     /// <summary>
-    /// ⭐⭐数据库Id为numberic类型的数据表相关业务使用该基类⭐⭐
     /// 业务层基类，UnitWork用于事务操作，Repository用于普通的数据库操作
+    /// <para>如用户管理：Class UserManagerApp:BaseApp<User></para>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseLongApp<T, TDbContext> where T : LongEntity where TDbContext: DbContext
+    public class BaseStringApp<T, TDbContext> where T : StringEntity where TDbContext: DbContext
     {
         /// <summary>
         /// 用于普通的数据库操作
@@ -29,7 +29,7 @@ namespace OpenAuth.App
 
         protected IAuth _auth;
 
-        public BaseLongApp(IUnitWork<TDbContext> unitWork, IRepository<T,TDbContext> repository, IAuth auth)
+        public BaseStringApp(IUnitWork<TDbContext> unitWork, IRepository<T,TDbContext> repository, IAuth auth)
         {
             UnitWork = unitWork;
             Repository = repository;
@@ -75,12 +75,12 @@ namespace OpenAuth.App
         /// 按id批量删除
         /// </summary>
         /// <param name="ids"></param>
-        public virtual void Delete(long[] ids)
+        public virtual void Delete(string[] ids)
         {
             Repository.Delete(u => ids.Contains(u.Id));
         }
 
-        public T Get(long id)
+        public T Get(string id)
         {
             return Repository.FirstOrDefault(u => u.Id == id);
         }

@@ -11,7 +11,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class SysMessageApp : BaseApp<SysMessage,OpenAuthDBContext>
+    public class SysMessageApp : BaseStringApp<SysMessage,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 

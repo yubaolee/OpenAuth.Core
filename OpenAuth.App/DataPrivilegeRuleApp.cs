@@ -12,7 +12,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class DataPrivilegeRuleApp : BaseApp<DataPrivilegeRule,OpenAuthDBContext>
+    public class DataPrivilegeRuleApp : BaseStringApp<DataPrivilegeRule,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         /// <summary>

@@ -13,7 +13,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class CategoryTypeApp : BaseApp<CategoryType,OpenAuthDBContext>
+    public class CategoryTypeApp : BaseStringApp<CategoryType,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 

@@ -16,7 +16,7 @@ using Quartz;
 
 namespace OpenAuth.App
 {
-    public class OpenJobApp : BaseApp<OpenJob, OpenAuthDBContext>
+    public class OpenJobApp : BaseStringApp<OpenJob, OpenAuthDBContext>
     {
         private SysLogApp _sysLogApp;
         private IScheduler _scheduler;

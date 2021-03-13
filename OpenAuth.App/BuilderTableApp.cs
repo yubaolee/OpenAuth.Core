@@ -24,7 +24,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class BuilderTableApp : BaseApp<BuilderTable,OpenAuthDBContext>
+    public class BuilderTableApp : BaseStringApp<BuilderTable,OpenAuthDBContext>
     {
         private BuilderTableColumnApp _builderTableColumnApp;
         private CategoryApp _categoryApp;

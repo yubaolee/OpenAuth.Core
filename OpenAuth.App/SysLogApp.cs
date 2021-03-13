@@ -10,7 +10,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class SysLogApp : BaseApp<SysLog,OpenAuthDBContext>
+    public class SysLogApp : BaseStringApp<SysLog,OpenAuthDBContext>
     {
 
         /// <summary>

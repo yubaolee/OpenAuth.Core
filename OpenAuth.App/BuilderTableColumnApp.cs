@@ -13,7 +13,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class BuilderTableColumnApp : BaseApp<BuilderTableColumn,OpenAuthDBContext>
+    public class BuilderTableColumnApp : BaseStringApp<BuilderTableColumn,OpenAuthDBContext>
     {
         public BuilderTableColumnApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<BuilderTableColumn,OpenAuthDBContext> repository,
             IAuth auth) : base(unitWork, repository,auth)

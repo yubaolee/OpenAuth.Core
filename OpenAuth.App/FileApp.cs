@@ -21,7 +21,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 文件管理
     /// </summary>
-    public class FileApp : BaseApp<UploadFile,OpenAuthDBContext>
+    public class FileApp : BaseStringApp<UploadFile,OpenAuthDBContext>
     {
         private ILogger<FileApp> _logger;
         private string _filePath;

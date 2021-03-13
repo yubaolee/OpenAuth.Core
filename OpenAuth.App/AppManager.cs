@@ -13,7 +13,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 分类管理
     /// </summary>
-    public class AppManager : BaseApp<Application,OpenAuthDBContext>
+    public class AppManager : BaseStringApp<Application,OpenAuthDBContext>
     {
         public void Add(Application Application)
         {

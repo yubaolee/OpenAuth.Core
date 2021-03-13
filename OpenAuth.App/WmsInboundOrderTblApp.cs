@@ -12,7 +12,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class WmsInboundOrderTblApp : BaseApp<WmsInboundOrderTbl,OpenAuthDBContext>
+    public class WmsInboundOrderTblApp : BaseStringApp<WmsInboundOrderTbl,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         private WmsInboundOrderDtblApp _wmsInboundOrderDtblApp;

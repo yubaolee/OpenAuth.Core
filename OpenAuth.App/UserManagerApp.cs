@@ -15,7 +15,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class UserManagerApp : BaseApp<User,OpenAuthDBContext>
+    public class UserManagerApp : BaseStringApp<User,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         private OrgManagerApp _orgManagerApp;

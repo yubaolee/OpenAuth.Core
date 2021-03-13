@@ -33,7 +33,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 工作流实例表操作
     /// </summary>
-    public class FlowInstanceApp : BaseApp<FlowInstance,OpenAuthDBContext>
+    public class FlowInstanceApp : BaseStringApp<FlowInstance,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         private FlowSchemeApp _flowSchemeApp;

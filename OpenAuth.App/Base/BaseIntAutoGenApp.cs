@@ -10,11 +10,12 @@ using OpenAuth.Repository.Interface;
 namespace OpenAuth.App
 {
     /// <summary>
+    /// 数据库Id为numberic且为数据库自动生成的业务类型
+    /// <para>该场景通常为SqlServer的自动增长类型和Oracle自带的Sequence</para>
     /// 业务层基类，UnitWork用于事务操作，Repository用于普通的数据库操作
-    /// <para>如用户管理：Class UserManagerApp:BaseApp<User></para>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseApp<T, TDbContext> where T : StringEntity where TDbContext: DbContext
+    public class BaseIntAutoGenApp<T, TDbContext> where T : IntAutoGenEntity where TDbContext: DbContext
     {
         /// <summary>
         /// 用于普通的数据库操作
@@ -29,7 +30,7 @@ namespace OpenAuth.App
 
         protected IAuth _auth;
 
-        public BaseApp(IUnitWork<TDbContext> unitWork, IRepository<T,TDbContext> repository, IAuth auth)
+        public BaseIntAutoGenApp(IUnitWork<TDbContext> unitWork, IRepository<T,TDbContext> repository, IAuth auth)
         {
             UnitWork = unitWork;
             Repository = repository;
@@ -75,12 +76,12 @@ namespace OpenAuth.App
         /// 按id批量删除
         /// </summary>
         /// <param name="ids"></param>
-        public virtual void Delete(string[] ids)
+        public virtual void Delete(long[] ids)
         {
             Repository.Delete(u => ids.Contains(u.Id));
         }
 
-        public T Get(string id)
+        public T Get(long id)
         {
             return Repository.FirstOrDefault(u => u.Id == id);
         }

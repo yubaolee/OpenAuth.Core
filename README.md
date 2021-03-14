@@ -38,7 +38,7 @@
 
 ## 关于OpenAuth.Net企业版的说明：
 
-目前OpenAuth.Core以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue + element UI 的单页面应用程序，即企业版OpenAuth.Pro
+目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue + element UI 的单页面应用程序，即企业版OpenAuth.Pro
 
 **该版本后端基于OpenAuth.Core的API接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发**
 

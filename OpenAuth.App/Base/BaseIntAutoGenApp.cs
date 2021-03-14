@@ -19,9 +19,6 @@ namespace OpenAuth.App
     {
         public BaseIntAutoGenApp(IUnitWork<TDbContext> unitWork, IRepository<T,TDbContext> repository, IAuth auth) : base(unitWork, repository, auth)
         {
-            UnitWork = unitWork;
-            Repository = repository;
-            _auth = auth;
         }
 
         /// <summary>

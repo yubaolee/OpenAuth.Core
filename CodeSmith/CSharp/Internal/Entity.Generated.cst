@@ -37,7 +37,7 @@ namespace <%= EntityNamespace %>
 	/// <%= Table.Description %>
 	/// </summary>
     [Table("<%= Table.Name%>")]
-    public partial class <%= Table.Name %> : Entity
+    public partial class <%= Table.Name %> : StringEntity
     {
         public <%= Table.Name %>()
         {

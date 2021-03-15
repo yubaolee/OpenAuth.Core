@@ -21,6 +21,7 @@ namespace OpenAuth.Repository.Core
         public override void GenerateDefaultKeyVal()
         {
             //主键自动增长类型，可以不用该方法生成主键，设置该方法为空方法即可
+            //当DbContext执行SaveChanges()后，如果添加成功，可以直接获取对象的Id
         }
     }
 }

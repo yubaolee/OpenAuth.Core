@@ -29,7 +29,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class <%=Table.Name%>App : BaseApp<<%=Table.Name%>, OpenAuthDBContext>
+    public class <%=Table.Name%>App : BaseStringApp<<%=Table.Name%>, OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
 

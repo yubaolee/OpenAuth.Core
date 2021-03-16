@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Infrastructure;
 using Infrastructure.Cache;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using OpenAuth.App.Request;
 using OpenAuth.App.SSO;
+using Yitter.IdGenerator;
 
 namespace OpenAuth.App.Test
 {
@@ -19,7 +21,7 @@ namespace OpenAuth.App.Test
             var services = new ServiceCollection();
 
             var cachemock = new Mock<ICacheContext>();
-            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "test3" });
+            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "admin" });
             services.AddScoped(x => cachemock.Object);
 
             //模拟服务端httpContext
@@ -33,6 +35,24 @@ namespace OpenAuth.App.Test
 
             return services;
         }
+        
+        [Test]
+        public void Create()
+        {
+            var options = new IdGeneratorOptions(){ WorkerId = 1};
+            IIdGenerator idHelper = new YitIdGenerator(options);
+            var code  =  idHelper.NewLong().ToString();
+            
+            var app = _autofacServiceProvider.GetService<FlowInstanceApp>();
+            app.CreateInstance(new AddFlowInstanceReq
+            {
+               SchemeId = "18a34903-175b-4cfb-9947-db67b538bbc8",
+               FrmType = 2,
+               FrmData = "{\"WorkDate\":\"2021-03-15\",\"Time\":\"8\",\"Reason\":\"dsdsds\"}",
+               CustomName = DateTime.Now.ToString(),
+               Code = code
+            });
+        }
 
 
         [Test]
@@ -41,8 +61,8 @@ namespace OpenAuth.App.Test
             var app = _autofacServiceProvider.GetService<FlowInstanceApp>();
             app.Verification(new VerificationReq
             {
-                FlowInstanceId = "76c72db4-d6c8-4734-856e-b6ffee08314a",
-                VerificationFinally = "1"
+                FlowInstanceId = "c2d6d4b9-527d-426e-98db-1d5dc905a994",
+                VerificationFinally = "3"
             });
         }
     }

@@ -272,8 +272,8 @@ namespace OpenAuth.App
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
-            string resnode = "";
-            resnode = string.IsNullOrEmpty(reqest.NodeRejectStep) ? wfruntime.RejectNode(reqest.NodeRejectType) : reqest.NodeRejectStep;
+            string rejectNode = "";  //驳回的节点
+            rejectNode = string.IsNullOrEmpty(reqest.NodeRejectStep) ? wfruntime.RejectNode(reqest.NodeRejectType) : reqest.NodeRejectStep;
 
             var tag = new Tag
             {
@@ -285,13 +285,13 @@ namespace OpenAuth.App
 
             wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
             flowInstance.IsFinish = 4;//4表示驳回（需要申请者重新提交表单）
-            if (resnode != "")
+            if (rejectNode != "")
             {
                 flowInstance.PreviousId = flowInstance.ActivityId;
-                flowInstance.ActivityId = resnode;
-                flowInstance.ActivityType = wfruntime.GetNodeType(resnode);
-                flowInstance.ActivityName = wfruntime.Nodes[resnode].name;
-                flowInstance.MakerList = GetNodeMarkers(wfruntime.Nodes[resnode]);//当前节点可执行的人信息
+                flowInstance.ActivityId = rejectNode;
+                flowInstance.ActivityType = wfruntime.GetNodeType(rejectNode);
+                flowInstance.ActivityName = wfruntime.Nodes[rejectNode].name;
+                flowInstance.MakerList = GetNodeMarkers(wfruntime.Nodes[rejectNode], flowInstance.CreateUserId);
 
                 AddTransHistory(wfruntime);
             }
@@ -416,11 +416,14 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private string GetNodeMarkers(FlowNode node)
+        private string GetNodeMarkers(FlowNode node,string flowinstanceCreateUserId="")
         {
             string makerList = "";
-
-            if (node.setInfo != null)
+            if (node.type == FlowNode.START && (!string.IsNullOrEmpty(flowinstanceCreateUserId))) //如果是开始节点，通常情况下是驳回到开始了
+            {
+                makerList = flowinstanceCreateUserId;
+            }
+            else if (node.setInfo != null)
             {
                 if (node.setInfo.NodeDesignate == Setinfo.ALL_USER)//所有成员
                 {

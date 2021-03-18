@@ -429,6 +429,9 @@ namespace OpenAuth.App
                 mapPath +
                 $"\\OpenAuth.Repository\\Domain\\", tableInfo.ClassName + ".cs",
                 domainContent);
+
+            string openAuthDBContextPath = mapPath + "\\OpenAuth.Repository\\OpenAuthDBContext.cs";
+            FileHelper.RegxAddContentByParenthesis(openAuthDBContextPath, "public virtual DbSet<" + tableInfo.ClassName + "> " + tableInfo.TableName + "s { get; set; }");
         }
 
         private bool IsMysql()

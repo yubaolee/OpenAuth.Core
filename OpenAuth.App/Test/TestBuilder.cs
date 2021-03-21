@@ -39,7 +39,7 @@ namespace OpenAuth.App.Test
 
             //模拟路径
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
-                .Replace("\\OpenAuth.App\\bin\\Debug\\netcoreapp3.1","");
+                .Replace("\\OpenAuth.App\\bin\\Debug\\net5.0","");
             var mockPathProvider = new Mock<IPathProvider>();
             mockPathProvider.Setup(x => x.MapPath("",false)).Returns(path);
             services.AddScoped(x => mockHttpFac.Object);

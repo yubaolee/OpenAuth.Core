@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using Autofac.Extensions.DependencyInjection;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
@@ -15,14 +19,14 @@ namespace OpenAuth.App
 {
     public class DbExtension
     {
-        private OpenAuthDBContext _context;
+        private List<DbContext> _contexts = new List<DbContext>();
         
         private IOptions<AppSetting> _appConfiguration;
 
-        public DbExtension(OpenAuthDBContext context, IOptions<AppSetting> appConfiguration)
+        public DbExtension(IOptions<AppSetting> appConfiguration, OpenAuthDBContext openAuthDbContext)
         {
-            _context = context;
             _appConfiguration = appConfiguration;
+            _contexts.Add(openAuthDbContext);  //如果有多个DBContext，可以按OpenAuthDBContext同样的方式添加到_contexts中
         }
 
         /// <summary>
@@ -34,8 +38,12 @@ namespace OpenAuth.App
         {
             var result = new List<KeyDescription>();
             const string domain = "openauth.repository.domain.";
-            var entity = _context.Model.GetEntityTypes()
-                .FirstOrDefault(u => u.Name.ToLower()==domain + moduleName.ToLower());
+            IEntityType entity = null; 
+            _contexts.ForEach(u =>
+            {
+                entity = u.Model.GetEntityTypes()
+                    .FirstOrDefault(u => u.Name.ToLower() == domain + moduleName.ToLower());
+            });
             if (entity == null)
             {
                 throw new Exception($"未能找到{moduleName}对应的实体类");
@@ -74,14 +82,17 @@ namespace OpenAuth.App
         public List<string> GetDbEntityNames()
         {
             var names = new List<string>();
-            var model = _context.Model;
+            var models = _contexts.Select(u =>u.Model);
 
-            // Get all the entity types information contained in the DbContext class, ...
-            var entityTypes = model.GetEntityTypes();
-            foreach (var entityType in entityTypes)
+            foreach (var model in models)
             {
-                var tableNameAnnotation = entityType.GetAnnotation("Relational:TableName");
-                names.Add(tableNameAnnotation.Value.ToString());
+                // Get all the entity types information contained in the DbContext class, ...
+                var entityTypes = model.GetEntityTypes();
+                foreach (var entityType in entityTypes)
+                {
+                    var tableNameAnnotation = entityType.GetAnnotation("Relational:TableName");
+                    names.Add(tableNameAnnotation.Value.ToString());
+                }
             }
 
             return names;
@@ -109,8 +120,15 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        private IList<SysTableColumn> GetMySqlStructure(string tableName)
+        private IList<SysTableColumn> GetMySqlStructure(string dbandTableName)
         {
+            if (!dbandTableName.Contains("."))
+            {
+                throw new Exception("代码生成器使用mysql时，表名必需用【schemeName.tableName】形式");
+            }
+            var splits = dbandTableName.Split(".");
+            var tableName = splits[1];
+            var schemeName = splits[0];
             var sql =  $@"SELECT  DISTINCT
                     Column_Name AS ColumnName,
                      '{ tableName}'  as tableName,
@@ -156,34 +174,22 @@ namespace OpenAuth.App
                 FROM
                     information_schema.COLUMNS
                 WHERE
-                    table_name = '{tableName}' {GetMysqlTableSchema()}";
-            
-            var columns = _context.Query<SysTableColumn>().FromSqlRaw(sql);
-            return columns.ToList();
-        }
-        
-        /// <summary>
-        /// 获取mysql当前的数据库名称
-        /// </summary>
-        /// <returns></returns>
-        private string GetMysqlTableSchema()
-        {
-            try
+                    table_name = '{tableName}' {schemeName}";
+
+            foreach (var context in _contexts)
             {
-                string dbName = _context.Database.GetDbConnection().ConnectionString.Split("Database=")[1].Split(";")[0]?.Trim();
-                if (!string.IsNullOrEmpty(dbName))
+                var columns = context.Query<SysTableColumn>().FromSqlRaw(sql);
+                var columnList = columns?.ToList();
+                if (columnList != null && columnList.Any())
                 {
-                    dbName = $" and table_schema = '{dbName}' ";
+                    return columnList;
                 }
-                return dbName;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"获取mysql数据库名异常:{ex.Message}");
-                return "";
-            }
+            
+            return new List<SysTableColumn>();
+            
         }
-        
+       
         
          /// <summary>
         /// 获取SqlServer表结构信息
@@ -276,8 +282,16 @@ namespace OpenAuth.App
                   WHERE obj.name =  '{ tableName}') AS t
             ORDER BY t.colorder";
 
-            var columns = _context.Query<SysTableColumn>().FromSqlRaw(sql);
-            return columns.ToList();
+            foreach (var context in _contexts)
+            {
+                var columns = context.Query<SysTableColumn>().FromSqlRaw(sql);
+                var columnList = columns?.ToList();
+                if (columnList != null && columnList.Any())
+                {
+                    return columnList;
+                }
+            }
+            return new List<SysTableColumn>();
         }
     }
 }

@@ -15,18 +15,25 @@ namespace OpenAuth.Repository.Core
         {
             return Id == 0;
         }
+        
+        static LongEntity()
+        {
+            //设置参数，程序初始化时执行一次
+            var options = new IdGeneratorOptions()
+            {
+                Method = 1,
+                WorkerId = 1
+            };
+            
+            YitIdHelper.SetIdGenerator(options);
+        }
 
         /// <summary>
         /// 采用雪花算法计算Id
         /// </summary>
         public override void GenerateDefaultKeyVal()
         {
-            // 全局初始化设置WorkerId，默认最大2^16-1。（初始化过程全局只需一次，且必须最先设置）
-            var options = new IdGeneratorOptions(){ WorkerId = 1};
-            IIdGenerator IdHelper = new YitIdGenerator(options);
-            
-            // 初始化以后，就可以在需要的地方调用方法生成ID。
-            Id =  IdHelper.NewLong();
+            Id = YitIdHelper.NextId();
         }
     }
 }

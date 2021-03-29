@@ -39,19 +39,28 @@ namespace OpenAuth.App.Test
         [Test]
         public void Create()
         {
-            var options = new IdGeneratorOptions(){ WorkerId = 1};
-            IIdGenerator idHelper = new YitIdGenerator(options);
-            var code  =  idHelper.NewLong().ToString();
+            // 全局初始化设置WorkerId，默认最大2^16-1。（初始化过程全局只需一次，且必须最先设置）
+            var options = new IdGeneratorOptions()
+            {
+                Method = 1,
+                WorkerId = 1
+            };
+            
+            YitIdHelper.SetIdGenerator(options);
+            var code = YitIdHelper.NextId().ToString();
             
             var app = _autofacServiceProvider.GetService<FlowInstanceApp>();
-            app.CreateInstance(new AddFlowInstanceReq
+            var instanceReq = new AddFlowInstanceReq
             {
-               SchemeId = "18a34903-175b-4cfb-9947-db67b538bbc8",
-               FrmType = 2,
-               FrmData = "{\"WorkDate\":\"2021-03-15\",\"Time\":\"8\",\"Reason\":\"dsdsds\"}",
-               CustomName = DateTime.Now.ToString(),
-               Code = code
-            });
+                SchemeId = "0dac17c2-fec7-4bcd-a391-4ff74de8506a",
+                FrmType = 1,
+                DbName = "FrmLeaveReq",
+                FrmData = "{\"id\":\"\",\"userName\":\"周翔宇\",\"requestType\":\"病假\",\"startDate\":\"2021-03-08T16:00:00.000Z\",\"startTime\":\"2021-03-16T15:11:28.000Z\",\"endDate\":\"2021-03-24T16:00:00.000Z\",\"endTime\":\"2021-03-16T15:11:31.000Z\",\"requestComment\":\"1111\",\"attachment\":\"\",\"files\":[],\"extendInfo\":\"\"}",
+                CustomName = DateTime.Now.ToString(),
+                Code = code
+            };
+            app.CreateInstance(instanceReq);
+            
         }
 
 
@@ -61,7 +70,7 @@ namespace OpenAuth.App.Test
             var app = _autofacServiceProvider.GetService<FlowInstanceApp>();
             app.Verification(new VerificationReq
             {
-                FlowInstanceId = "c2d6d4b9-527d-426e-98db-1d5dc905a994",
+                FlowInstanceId = "12a99820-3762-40a7-9f0f-ad0f8a0aab2d",
                 VerificationFinally = "3"
             });
         }

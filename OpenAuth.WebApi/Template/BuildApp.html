@@ -12,7 +12,7 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class {ModuleCode} : BaseStringApp<{ClassName},OpenAuthDBContext>
+    public class {ModuleCode} : {BaseAppName}<{ClassName},OpenAuthDBContext>
     {
 
         /// <summary>
@@ -23,21 +23,22 @@ namespace OpenAuth.App
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)
             {
-            throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+                throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
             
             var properties = loginContext.GetProperties("{ClassName}");
             
             if (properties == null || properties.Count == 0)
             {
-            throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
+                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
             }
                         
             var result = new TableData();
             var objs = GetDataPrivilege("u");
             if (!string.IsNullOrEmpty(request.key))
             {
-            objs = objs.Where(u => u.Id.Contains(request.key));
+                //增加筛选条件,如：
+                //objs = objs.Where(u => u.Name.Contains(request.key));
             }
             
             var propertyStr = string.Join(',', properties.Select(u => u.Key));

@@ -242,7 +242,7 @@ namespace OpenAuth.App
             GenerateAppReq(sysTableInfo, tableColumns);
             
             //生成WebApI接口
-            GenerateWebApi(sysTableInfo);
+            GenerateWebApi(sysTableInfo, tableColumns);
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="sysTableInfo"></param>
         /// <exception cref="Exception"></exception>
-        private void GenerateWebApi(BuilderTable sysTableInfo)
+        private void GenerateWebApi(BuilderTable sysTableInfo, List<BuilderTableColumn> sysColumns)
         {
             string domainContent;
             string apiPath = ProjectPath.GetProjectDirectoryInfo()
@@ -380,6 +380,27 @@ namespace OpenAuth.App
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
+                
+                var primarykey = sysColumns.FirstOrDefault(u => u.IsKey);
+                if (primarykey == null)
+                {
+                    throw new Exception($"未能找到表{sysTableInfo.TableName}的主键字段");
+                }
+                if (primarykey.ColumnType == "decimal" || primarykey.ColumnType == "numberic") //是否为数字
+                {
+                    if(primarykey.IsIncrement) //是否自增
+                    {
+                        domainContent = domainContent.Replace("{KeyTypeName}", "int");
+                    }
+                    else //普通的雪花算法生成id
+                    {
+                        domainContent = domainContent.Replace("{KeyTypeName}", "long");
+                    }
+                }
+                else 
+                {
+                    domainContent = domainContent.Replace("{KeyTypeName}", "string");
+                }
             FileHelper.WriteFile(controllerPath, controllerName + ".cs", domainContent);
         }
         

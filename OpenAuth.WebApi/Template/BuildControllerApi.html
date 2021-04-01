@@ -20,7 +20,7 @@ namespace OpenAuth.WebApi.Controllers
         
         //获取详情
         [HttpGet]
-        public Response<{ClassName}> Get(string id)
+        public Response<{ClassName}> Get({KeyTypeName} id)
         {
             var result = new Response<{ClassName}>();
             try
@@ -87,7 +87,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 批量删除
         /// </summary>
        [HttpPost]
-        public Response Delete([FromBody]string[] ids)
+        public Response Delete([FromBody]{KeyTypeName}[] ids)
         {
             var result = new Response();
             try

@@ -120,15 +120,8 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        private IList<SysTableColumn> GetMySqlStructure(string dbandTableName)
+        private IList<SysTableColumn> GetMySqlStructure(string tableName)
         {
-            if (!dbandTableName.Contains("."))
-            {
-                throw new Exception("代码生成器使用mysql时，表名必需用【schemeName.tableName】形式");
-            }
-            var splits = dbandTableName.Split(".");
-            var tableName = splits[1];
-            var schemeName = splits[0];
             var sql =  $@"SELECT  DISTINCT
                     Column_Name AS ColumnName,
                      '{ tableName}'  as tableName,
@@ -174,7 +167,7 @@ namespace OpenAuth.App
                 FROM
                     information_schema.COLUMNS
                 WHERE
-                    table_name = '{tableName}' {schemeName}";
+                    table_name = '{tableName}'";
 
             foreach (var context in _contexts)
             {

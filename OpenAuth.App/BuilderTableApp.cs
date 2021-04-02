@@ -236,13 +236,13 @@ namespace OpenAuth.App
                 throw new Exception("未能找到正确的模版信息");
 
             //生成应用层
-            GenerateApp(sysTableInfo);
+            GenerateApp(sysTableInfo,tableColumns);
 
             //生成应用层的请求参数
             GenerateAppReq(sysTableInfo, tableColumns);
             
             //生成WebApI接口
-            GenerateWebApi(sysTableInfo);
+            GenerateWebApi(sysTableInfo, tableColumns);
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="sysTableInfo"></param>
         /// <exception cref="Exception"></exception>
-        private void GenerateApp(BuilderTable sysTableInfo)
+        private void GenerateApp(BuilderTable sysTableInfo, List<BuilderTableColumn> sysColumns)
         {
             string appRootPath = ProjectPath.GetProjectDirectoryInfo()
                 .GetDirectories().FirstOrDefault(x => x.Name.ToLower().EndsWith(".app"))?.FullName;
@@ -261,12 +261,35 @@ namespace OpenAuth.App
 
             CheckExistsModule(sysTableInfo.ModuleCode);
 
-            string domainContent = FileHelper.ReadFile(@"Template\\BuildApp.html")
+            string domainContent = FileHelper.ReadFile(@"Template\\BuildApp.html");
+                domainContent = domainContent
                 .Replace("{TableName}", sysTableInfo.TableName)
                 .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
+                
+                
+                var primarykey = sysColumns.FirstOrDefault(u => u.IsKey);
+                if (primarykey == null)
+                {
+                    throw new Exception($"未能找到表{sysTableInfo.TableName}的主键字段");
+                }
+                if (primarykey.ColumnType == "decimal" || primarykey.ColumnType == "numberic") //是否为数字
+                {
+                    if(primarykey.IsIncrement) //是否自增
+                    {
+                        domainContent = domainContent.Replace("{BaseAppName}", "BaseIntAutoGenApp");
+                    }
+                    else //普通的雪花算法生成id
+                    {
+                        domainContent = domainContent.Replace("{BaseAppName}", "BaseLongApp");
+                    }
+                }
+                else 
+                {
+                    domainContent = domainContent.Replace("{BaseAppName}", "BaseStringApp");
+                }
             FileHelper.WriteFile(appRootPath, sysTableInfo.ModuleCode + ".cs", domainContent);
         }
         
@@ -338,7 +361,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="sysTableInfo"></param>
         /// <exception cref="Exception"></exception>
-        private void GenerateWebApi(BuilderTable sysTableInfo)
+        private void GenerateWebApi(BuilderTable sysTableInfo, List<BuilderTableColumn> sysColumns)
         {
             string domainContent;
             string apiPath = ProjectPath.GetProjectDirectoryInfo()
@@ -357,6 +380,27 @@ namespace OpenAuth.App
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
+                
+                var primarykey = sysColumns.FirstOrDefault(u => u.IsKey);
+                if (primarykey == null)
+                {
+                    throw new Exception($"未能找到表{sysTableInfo.TableName}的主键字段");
+                }
+                if (primarykey.ColumnType == "decimal" || primarykey.ColumnType == "numberic") //是否为数字
+                {
+                    if(primarykey.IsIncrement) //是否自增
+                    {
+                        domainContent = domainContent.Replace("{KeyTypeName}", "int");
+                    }
+                    else //普通的雪花算法生成id
+                    {
+                        domainContent = domainContent.Replace("{KeyTypeName}", "long");
+                    }
+                }
+                else 
+                {
+                    domainContent = domainContent.Replace("{KeyTypeName}", "string");
+                }
             FileHelper.WriteFile(controllerPath, controllerName + ".cs", domainContent);
         }
         
@@ -365,15 +409,15 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="tableColumns"></param>
         /// <param name="sysTableInfo"></param>
-        private void CreateEntityModel(List<BuilderTableColumn> sysColumn, BuilderTable tableInfo)
+        private void CreateEntityModel(List<BuilderTableColumn> sysColumns, BuilderTable tableInfo)
         {
             string template = "BuildEntity.html";
             string domainContent = FileHelper.ReadFile("Template\\" + template);
 
             StringBuilder attributeBuilder = new StringBuilder();
             StringBuilder constructionBuilder = new StringBuilder();   //生成构造函数初始化值
-            sysColumn = sysColumn.OrderByDescending(c => c.Sort).ToList();
-            foreach (BuilderTableColumn column in sysColumn)
+            sysColumns = sysColumns.OrderByDescending(c => c.Sort).ToList();
+            foreach (BuilderTableColumn column in sysColumns)
             {
                 if (column.IsKey) continue;
 
@@ -407,6 +451,27 @@ namespace OpenAuth.App
             if (string.IsNullOrEmpty(mapPath))
             {
                 throw new Exception("未找到生成的目录!");
+            }
+
+            var primarykey = sysColumns.FirstOrDefault(u => u.IsKey);
+            if (primarykey == null)
+            {
+                throw new Exception($"未能找到表{tableInfo.TableName}的主键字段");
+            }
+            if (primarykey.ColumnType == "decimal" || primarykey.ColumnType == "numberic") //是否为数字
+            {
+                if(primarykey.IsIncrement) //是否自增
+                {
+                    domainContent = domainContent.Replace("{BaseEntityName}", "IntAutoGenEntity");
+                }
+                else //普通的雪花算法生成id
+                {
+                    domainContent = domainContent.Replace("{BaseEntityName}", "LongEntity");
+                }
+            }
+            else 
+            {
+                domainContent = domainContent.Replace("{BaseEntityName}", "StringEntity");
             }
 
             domainContent = domainContent.Replace("{ClassName}", tableInfo.ClassName)

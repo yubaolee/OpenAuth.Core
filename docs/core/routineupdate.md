@@ -1,5 +1,9 @@
 # 日常提交(针对dev分支)
 
+* 2021.04.01 优化代码生成器，可以根据主键类型自动匹配父类；
+
+* 2021.03.29 优化雪花算法；
+
 * 2021.03.22 全面删除svg图标，使用iconfont，并增加图标选择；
 
 * 2021.03.18 fix https://gitee.com/dotnetchina/OpenAuth.Net/issues/I3BUF5；

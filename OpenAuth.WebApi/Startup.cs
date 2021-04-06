@@ -9,7 +9,6 @@ using Infrastructure.Extensions.AutofacManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -171,7 +170,15 @@ namespace OpenAuth.WebApi
             }
 
             //可以访问根目录下面的静态文件
-            var staticfile = new StaticFileOptions {FileProvider = new PhysicalFileProvider(AppContext.BaseDirectory) };
+            var staticfile = new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(AppContext.BaseDirectory),
+                OnPrepareResponse = (ctx) =>
+                {
+                    //可以在这里为静态文件添加其他http头信息，默认添加跨域信息
+                    ctx.Context.Response.Headers["Access-Control-Allow-Origin"] = "*";
+                }
+            };
             app.UseStaticFiles(staticfile);
             
 

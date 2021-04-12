@@ -8,6 +8,27 @@
 
 下载安装微软官方SDK，代码地址：https://dotnet.microsoft.com/download
 
+## 项目结构
+
+📦OpenAuth.Core
+ ┣ 📂CodeSmith
+ ┃ ┗ 📂CSharp
+ ┃ ┃ ┣ 📜ApiGenerate.cst  //生成api接口
+ ┃ ┃ ┗ 📜WebGenerate.cst  //生成Web页面
+ ┣ 📂Infrastructure       //基础工具类
+ ┣ 📂mysql初始化脚本       
+ ┣ 📂OpenAuth.App         //应用逻辑代码
+ ┣ 📂OpenAuth.Identity    //IdentityServer4服务器，提供OAuth服务
+ ┣ 📂OpenAuth.Mvc         //开源版Web站点
+ ┣ 📂OpenAuth.Repository  //数据库访问相关代码
+ ┣ 📂OpenAuth.WebApi      //WebApi接口站点
+ ┣ 📂sql server 初始化脚本
+ ┣ 📜.gitattributes
+ ┣ 📜.gitignore
+ ┣ 📜LICENSE
+ ┣ 📜OpenAuth.Core.sln    //解决方案
+ ┗ 📜README.md
+
 ## 初始化数据库
 
 使用数据库脚本`sql server 初始化脚本`或`mysql初始化脚本` 文件夹里面的结构脚本和数据脚本初始化数据库

@@ -9,7 +9,7 @@
 下载安装微软官方SDK，代码地址：https://dotnet.microsoft.com/download
 
 ## 项目结构
-
+```
 📦OpenAuth.Core
  ┣ 📂CodeSmith
  ┃ ┗ 📂CSharp
@@ -28,7 +28,7 @@
  ┣ 📜LICENSE
  ┣ 📜OpenAuth.Core.sln    //解决方案
  ┗ 📜README.md
-
+```
 ## 初始化数据库
 
 使用数据库脚本`sql server 初始化脚本`或`mysql初始化脚本` 文件夹里面的结构脚本和数据脚本初始化数据库

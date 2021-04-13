@@ -83,6 +83,25 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        
+        /// <summary>召回流程</summary>
+        /// <remarks> 召回后流程状态为【草稿】状态，可以再次发起流程。所有的流程节点状态还原，但保留审批记录 </remarks>
+        [HttpPost]
+        public Response ReCall([FromBody]RecallFlowInstanceReq obj)
+        {
+            var result = new Response();
+            try
+            {
+                _app.ReCall(obj);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
 
         //添加或修改
        [HttpPost]

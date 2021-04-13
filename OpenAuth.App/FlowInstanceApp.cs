@@ -41,6 +41,17 @@ namespace OpenAuth.App
         private FormApp _formApp;
         private IHttpClientFactory _httpClientFactory;
         private IServiceProvider _serviceProvider;
+        
+        public FlowInstanceApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<FlowInstance,OpenAuthDBContext> repository
+            , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,IAuth auth, IServiceProvider serviceProvider) 
+            : base(unitWork, repository, auth)
+        {
+            _revelanceApp = app;
+            _flowSchemeApp = flowSchemeApp;
+            _formApp = formApp;
+            _httpClientFactory = httpClientFactory;
+            _serviceProvider = serviceProvider;
+        }
 
         #region 流程处理API
 
@@ -557,21 +568,28 @@ namespace OpenAuth.App
             });
         }
 
-        public FlowInstanceApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<FlowInstance,OpenAuthDBContext> repository
-        , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,IAuth auth, IServiceProvider serviceProvider) 
-            : base(unitWork, repository, auth)
-        {
-            _revelanceApp = app;
-            _flowSchemeApp = flowSchemeApp;
-            _formApp = formApp;
-            _httpClientFactory = httpClientFactory;
-            _serviceProvider = serviceProvider;
-        }
-
         public List<FlowInstanceOperationHistory> QueryHistories(QueryFlowInstanceHistoryReq request)
         {
             return UnitWork.Find<FlowInstanceOperationHistory>(u => u.InstanceId == request.FlowInstanceId)
                 .OrderByDescending(u => u.CreateDate).ToList();
+        }
+
+        /// <summary>
+        /// 召回流程
+        /// </summary>
+        /// <param name="recallFlowInstanceReq"></param>
+        public void ReCall(RecallFlowInstanceReq recallFlowInstanceReq)
+        {
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                UnitWork.Update<FlowInstance>(u =>u.Id == recallFlowInstanceReq.FlowInstanceId, 
+                    instance =>new FlowInstance
+                {
+                    IsFinish = FlowInstanceStatus.Draft
+                } );
+                
+                UnitWork.Save();
+            });
         }
     }
 }

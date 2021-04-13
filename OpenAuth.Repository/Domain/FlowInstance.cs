@@ -11,6 +11,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using Infrastructure.Const;
 using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
@@ -44,7 +45,7 @@ namespace OpenAuth.Repository.Domain
           this.CreateUserName= string.Empty;
           this.FlowLevel= 0;
           this.Description= string.Empty;
-          this.IsFinish= 0;
+          this.IsFinish= FlowInstanceStatus.Running;
           this.MakerList= string.Empty;
         }
 

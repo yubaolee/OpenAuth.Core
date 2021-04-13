@@ -25,6 +25,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Infrastructure.Const;
 using Infrastructure.Helpers;
 using OpenAuth.Repository;
 
@@ -93,7 +94,7 @@ namespace OpenAuth.App
             flowInstance.CreateUserId = user.User.Id;
             flowInstance.CreateUserName = user.User.Account;
             flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime) : "");
-            flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4 ? 1 : 0);
+            flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running);
 
             UnitWork.Add(flowInstance);
             wfruntime.flowInstanceId = flowInstance.Id;
@@ -177,7 +178,7 @@ namespace OpenAuth.App
                 string res = wfruntime.NodeConfluence(canCheckId, tag);
                 if (res == TagState.No.ToString("D"))
                 {
-                    flowInstance.IsFinish = 3;
+                    flowInstance.IsFinish = FlowInstanceStatus.Disagree;
                 }
                 else if(!string.IsNullOrEmpty(res))
                 {
@@ -185,7 +186,7 @@ namespace OpenAuth.App
                     flowInstance.ActivityId = wfruntime.nextNodeId;
                     flowInstance.ActivityType = wfruntime.nextNodeType;
                     flowInstance.ActivityName = wfruntime.nextNode.name;
-                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? 1 : 0);
+                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running);
                     flowInstance.MakerList =
                         (wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime));
 
@@ -213,12 +214,12 @@ namespace OpenAuth.App
                     flowInstance.ActivityType = wfruntime.nextNodeType;
                     flowInstance.ActivityName = wfruntime.nextNode.name;
                     flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime);
-                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? 1 : 0);
+                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running);
                     AddTransHistory(wfruntime);
                 }
                 else
                 {
-                    flowInstance.IsFinish = 3; //表示该节点不同意
+                    flowInstance.IsFinish = FlowInstanceStatus.Disagree; //表示该节点不同意
                 }
                 flowInstanceOperationHistory.Content = "【" + wfruntime.currentNode.name
                                                            + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm")
@@ -284,7 +285,7 @@ namespace OpenAuth.App
             };
 
             wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
-            flowInstance.IsFinish = 4;//4表示驳回（需要申请者重新提交表单）
+            flowInstance.IsFinish = FlowInstanceStatus.Rejected;//4表示驳回（需要申请者重新提交表单）
             if (rejectNode != "")
             {
                 flowInstance.PreviousId = flowInstance.ActivityId;
@@ -484,7 +485,8 @@ namespace OpenAuth.App
 
             if (request.type == "wait")   //待办事项
             {
-                Expression<Func<FlowInstance, bool>> waitExp = u => (u.MakerList == "1" || u.MakerList.Contains(user.User.Id)) && (u.IsFinish == 0|| u.IsFinish==4);
+                Expression<Func<FlowInstance, bool>> waitExp = u => (u.MakerList == "1" 
+                                                                     || u.MakerList.Contains(user.User.Id)) && (u.IsFinish == FlowInstanceStatus.Running|| u.IsFinish==FlowInstanceStatus.Rejected);
 
                 // 加入搜索自定义标题
                 if (!string.IsNullOrEmpty(request.key))

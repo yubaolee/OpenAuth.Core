@@ -563,7 +563,7 @@ namespace OpenAuth.App
                 ToNodeId = wfruntime.nextNodeId,
                 ToNodeName = wfruntime.nextNode.name,
                 ToNodeType = wfruntime.nextNodeType,
-                IsFinish = wfruntime.nextNodeType == 4 ? 1 : 0,
+                IsFinish = wfruntime.nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running,
                 TransitionSate = 0
             });
         }
@@ -577,19 +577,45 @@ namespace OpenAuth.App
         /// <summary>
         /// 召回流程
         /// </summary>
-        /// <param name="recallFlowInstanceReq"></param>
-        public void ReCall(RecallFlowInstanceReq recallFlowInstanceReq)
+        public void ReCall(RecallFlowInstanceReq request)
         {
-            UnitWork.ExecuteWithTransaction(() =>
+            var user = _auth.GetCurrentUser().User;
+            FlowInstance flowInstance = Get(request.FlowInstanceId);
+
+            FlowRuntime wfruntime = new FlowRuntime(flowInstance);
+            
+            string startNodeId = wfruntime.startNodeId;  //起始节点
+
+            wfruntime.ReCall();
+            flowInstance.IsFinish = FlowInstanceStatus.Draft;
+
+            flowInstance.PreviousId = flowInstance.ActivityId;
+            flowInstance.ActivityId = startNodeId;
+            flowInstance.ActivityType = wfruntime.GetNodeType(startNodeId);
+            flowInstance.ActivityName = wfruntime.Nodes[startNodeId].name;
+            flowInstance.MakerList = GetNodeMarkers(wfruntime.Nodes[startNodeId], flowInstance.CreateUserId);
+
+            AddTransHistory(wfruntime);
+
+            UnitWork.Update(flowInstance);
+
+            UnitWork.Add(new FlowInstanceOperationHistory
             {
-                UnitWork.Update<FlowInstance>(u =>u.Id == recallFlowInstanceReq.FlowInstanceId, 
-                    instance =>new FlowInstance
-                {
-                    IsFinish = FlowInstanceStatus.Draft
-                } );
-                
-                UnitWork.Save();
+                InstanceId = request.FlowInstanceId
+                ,
+                CreateUserId = user.Id
+                ,
+                CreateUserName = user.Name
+                ,
+                CreateDate = DateTime.Now
+                ,
+                Content = "【"
+                          + wfruntime.currentNode.name
+                          + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】撤回,备注："
+                          + request.Description
             });
+
+            UnitWork.Save();
         }
     }
 }

@@ -87,7 +87,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <summary>召回流程</summary>
         /// <remarks> 召回后流程状态为【草稿】状态，可以再次发起流程。所有的流程节点状态还原，但保留审批记录 </remarks>
         [HttpPost]
-        public Response ReCall([FromBody]RecallFlowInstanceReq obj)
+        public Response ReCall(RecallFlowInstanceReq obj)
         {
             var result = new Response();
             try

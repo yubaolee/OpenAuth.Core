@@ -381,6 +381,7 @@ namespace Infrastructure.Helpers
         /// <param name="addStr">追加内容</param>
         public static void RegxAddContentByParenthesis(string path, string addStr)
         {
+            path = StringExtension.ReplacePath(path);
             FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(fs);
             string originStr = sr.ReadToEnd();

@@ -102,6 +102,25 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        
+        /// <summary>启动流程</summary>
+        /// <remarks> 通常是对状态为【草稿】的流程进行操作，进入运行状态 </remarks>
+        [HttpPost]
+        public Response Start(StartFlowInstanceReq obj)
+        {
+            var result = new Response();
+            try
+            {
+                _app.Start(obj);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
 
         //添加或修改
        [HttpPost]

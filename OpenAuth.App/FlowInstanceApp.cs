@@ -34,16 +34,18 @@ namespace OpenAuth.App
     /// <summary>
     /// 工作流实例表操作
     /// </summary>
-    public class FlowInstanceApp : BaseStringApp<FlowInstance,OpenAuthDBContext>
+    public class FlowInstanceApp : BaseStringApp<FlowInstance, OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         private FlowSchemeApp _flowSchemeApp;
         private FormApp _formApp;
         private IHttpClientFactory _httpClientFactory;
         private IServiceProvider _serviceProvider;
-        
-        public FlowInstanceApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<FlowInstance,OpenAuthDBContext> repository
-            , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,IAuth auth, IServiceProvider serviceProvider) 
+
+        public FlowInstanceApp(IUnitWork<OpenAuthDBContext> unitWork,
+            IRepository<FlowInstance, OpenAuthDBContext> repository
+            , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp,
+            IHttpClientFactory httpClientFactory, IAuth auth, IServiceProvider serviceProvider)
             : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
@@ -105,14 +107,16 @@ namespace OpenAuth.App
             flowInstance.CreateUserId = user.User.Id;
             flowInstance.CreateUserName = user.User.Account;
             flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime) : "");
-            flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running);
+            flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4
+                ? FlowInstanceStatus.Finished
+                : FlowInstanceStatus.Running);
 
             UnitWork.Add(flowInstance);
             wfruntime.flowInstanceId = flowInstance.Id;
 
             if (flowInstance.FrmType == 1) //如果是开发者自定义的表单
             {
-                var t = Type.GetType("OpenAuth.App."+ flowInstance.DbName +"App");
+                var t = Type.GetType("OpenAuth.App." + flowInstance.DbName + "App");
                 ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
                 icf.Add(flowInstance.Id, flowInstance.FrmData);
             }
@@ -156,23 +160,24 @@ namespace OpenAuth.App
                 CreateUserId = tag.UserId,
                 CreateUserName = tag.UserName,
                 CreateDate = DateTime.Now
-            };//操作记录
+            }; //操作记录
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
             #region 会签
 
-            if (flowInstance.ActivityType == 0)//当前节点是会签节点
+            if (flowInstance.ActivityType == 0) //当前节点是会签节点
             {
                 //会签时的【当前节点】一直是会签开始节点
                 //TODO: 标记会签节点的状态，这个地方感觉怪怪的
                 wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
 
                 string canCheckId = ""; //寻找当前登录用户可审核的节点Id
-                foreach (string fromForkStartNodeId in wfruntime.FromNodeLines[wfruntime.currentNodeId].Select(u => u.to))
+                foreach (string fromForkStartNodeId in wfruntime.FromNodeLines[wfruntime.currentNodeId]
+                    .Select(u => u.to))
                 {
-                    var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId];  //与会前开始节点直接连接的节点
+                    var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId]; //与会前开始节点直接连接的节点
                     canCheckId = GetOneForkLineCanCheckNodeId(fromForkStartNode, wfruntime, tag);
-                    if(!string.IsNullOrEmpty(canCheckId)) break;
+                    if (!string.IsNullOrEmpty(canCheckId)) break;
                 }
 
                 if (canCheckId == "")
@@ -191,13 +196,15 @@ namespace OpenAuth.App
                 {
                     flowInstance.IsFinish = FlowInstanceStatus.Disagree;
                 }
-                else if(!string.IsNullOrEmpty(res))
+                else if (!string.IsNullOrEmpty(res))
                 {
                     flowInstance.PreviousId = flowInstance.ActivityId;
                     flowInstance.ActivityId = wfruntime.nextNodeId;
                     flowInstance.ActivityType = wfruntime.nextNodeType;
                     flowInstance.ActivityName = wfruntime.nextNode.name;
-                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running);
+                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4
+                        ? FlowInstanceStatus.Finished
+                        : FlowInstanceStatus.Running);
                     flowInstance.MakerList =
                         (wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime));
 
@@ -209,8 +216,8 @@ namespace OpenAuth.App
                     flowInstance.MakerList = GetForkNodeMakers(wfruntime, wfruntime.currentNodeId);
                     AddTransHistory(wfruntime);
                 }
-              
             }
+
             #endregion 会签
 
             #region 一般审核
@@ -225,13 +232,16 @@ namespace OpenAuth.App
                     flowInstance.ActivityType = wfruntime.nextNodeType;
                     flowInstance.ActivityName = wfruntime.nextNode.name;
                     flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime);
-                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running);
+                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4
+                        ? FlowInstanceStatus.Finished
+                        : FlowInstanceStatus.Running);
                     AddTransHistory(wfruntime);
                 }
                 else
                 {
                     flowInstance.IsFinish = FlowInstanceStatus.Disagree; //表示该节点不同意
                 }
+
                 flowInstanceOperationHistory.Content = "【" + wfruntime.currentNode.name
                                                            + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm")
                                                            + "】" + (tag.Taged == 1 ? "同意" : "不同意") + ",备注："
@@ -253,13 +263,14 @@ namespace OpenAuth.App
         //会签时，获取一条会签分支上面是否有用户可审核的节点
         private string GetOneForkLineCanCheckNodeId(FlowNode fromForkStartNode, FlowRuntime wfruntime, Tag tag)
         {
-            string canCheckId="";
+            string canCheckId = "";
             var node = fromForkStartNode;
-            do  //沿一条分支线路执行，直到遇到会签结束节点
+            do //沿一条分支线路执行，直到遇到会签结束节点
             {
                 var makerList = GetNodeMarkers(node);
 
-                if (node.setInfo.Taged == null && !string.IsNullOrEmpty(makerList) && makerList.Split(',').Any(one => tag.UserId == one))
+                if (node.setInfo.Taged == null && !string.IsNullOrEmpty(makerList) &&
+                    makerList.Split(',').Any(one => tag.UserId == one))
                 {
                     canCheckId = node.id;
                     break;
@@ -284,8 +295,10 @@ namespace OpenAuth.App
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
-            string rejectNode = "";  //驳回的节点
-            rejectNode = string.IsNullOrEmpty(reqest.NodeRejectStep) ? wfruntime.RejectNode(reqest.NodeRejectType) : reqest.NodeRejectStep;
+            string rejectNode = ""; //驳回的节点
+            rejectNode = string.IsNullOrEmpty(reqest.NodeRejectStep)
+                ? wfruntime.RejectNode(reqest.NodeRejectType)
+                : reqest.NodeRejectStep;
 
             var tag = new Tag
             {
@@ -296,7 +309,7 @@ namespace OpenAuth.App
             };
 
             wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
-            flowInstance.IsFinish = FlowInstanceStatus.Rejected;//4表示驳回（需要申请者重新提交表单）
+            flowInstance.IsFinish = FlowInstanceStatus.Rejected; //4表示驳回（需要申请者重新提交表单）
             if (rejectNode != "")
             {
                 flowInstance.PreviousId = flowInstance.ActivityId;
@@ -312,14 +325,10 @@ namespace OpenAuth.App
 
             UnitWork.Add(new FlowInstanceOperationHistory
             {
-                InstanceId = reqest.FlowInstanceId
-                ,
-                CreateUserId = user.Id
-                ,
-                CreateUserName = user.Name
-                ,
-                CreateDate = DateTime.Now
-                ,
+                InstanceId = reqest.FlowInstanceId,
+                CreateUserId = user.Id,
+                CreateUserName = user.Name,
+                CreateDate = DateTime.Now,
                 Content = "【"
                           + wfruntime.currentNode.name
                           + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】驳回,备注："
@@ -336,6 +345,7 @@ namespace OpenAuth.App
         #endregion 流程处理API
 
         #region 获取各种节点的流程审核者
+
         /// <summary>
         /// 寻找下一步的执行人
         /// 一般用于本节点审核完成后，修改流程实例的当前执行人，可以做到通知等功能
@@ -348,7 +358,8 @@ namespace OpenAuth.App
             {
                 throw (new Exception("无法寻找到下一个节点"));
             }
-            if (wfruntime.nextNodeType == 0)//如果是会签节点
+
+            if (wfruntime.nextNodeType == 0) //如果是会签节点
             {
                 makerList = GetForkNodeMakers(wfruntime, wfruntime.nextNodeId);
             }
@@ -371,7 +382,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         private string GetForkNodeMakers(FlowRuntime wfruntime, string forkNodeId)
         {
-            string makerList="";
+            string makerList = "";
             foreach (string fromForkStartNodeId in wfruntime.FromNodeLines[forkNodeId].Select(u => u.to))
             {
                 var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId]; //与会前开始节点直接连接的节点
@@ -389,33 +400,37 @@ namespace OpenAuth.App
         //获取会签一条线上的审核者,该审核者应该是已审核过的节点的下一个人
         private string GetOneForkLineMakers(FlowNode fromForkStartNode, FlowRuntime wfruntime)
         {
-            string markers="";
+            string markers = "";
             var node = fromForkStartNode;
-            do  //沿一条分支线路执行，直到遇到第一个没有审核的节点
+            do //沿一条分支线路执行，直到遇到第一个没有审核的节点
             {
-                if (node.setInfo != null && node.setInfo.Taged != null)  
+                if (node.setInfo != null && node.setInfo.Taged != null)
                 {
-                    if (node.type != FlowNode.FORK && node.setInfo.Taged != (int) TagState.Ok)  //如果节点是不同意或驳回，则不用再找了
+                    if (node.type != FlowNode.FORK && node.setInfo.Taged != (int) TagState.Ok) //如果节点是不同意或驳回，则不用再找了
                     {
                         break;
                     }
-                    node = wfruntime.GetNextNode(node.id);  //下一个节点
+
+                    node = wfruntime.GetNextNode(node.id); //下一个节点
                     continue;
                 }
+
                 var marker = GetNodeMarkers(node);
                 if (marker == "")
                 {
                     throw (new Exception($"节点{node.name}没有审核者,请检查!"));
                 }
+
                 if (marker == "1")
                 {
                     throw (new Exception($"节点{node.name}是会签节点，不能用所有人,请检查!"));
                 }
-                
+
                 if (markers != "")
                 {
                     markers += ",";
                 }
+
                 markers += marker;
                 break;
             } while (node.type != FlowNode.JOIN);
@@ -428,7 +443,7 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private string GetNodeMarkers(FlowNode node,string flowinstanceCreateUserId="")
+        private string GetNodeMarkers(FlowNode node, string flowinstanceCreateUserId = "")
         {
             string makerList = "";
             if (node.type == FlowNode.START && (!string.IsNullOrEmpty(flowinstanceCreateUserId))) //如果是开始节点，通常情况下是驳回到开始了
@@ -437,26 +452,28 @@ namespace OpenAuth.App
             }
             else if (node.setInfo != null)
             {
-                if (node.setInfo.NodeDesignate == Setinfo.ALL_USER)//所有成员
+                if (node.setInfo.NodeDesignate == Setinfo.ALL_USER) //所有成员
                 {
                     makerList = "1";
                 }
-                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_USER)//指定成员
+                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_USER) //指定成员
                 {
                     makerList = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.users, makerList);
                 }
-                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_ROLE)  //指定角色
+                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_ROLE) //指定角色
                 {
                     var users = _revelanceApp.Get(Define.USERROLE, false, node.setInfo.NodeDesignateData.roles);
                     makerList = GenericHelpers.ArrayToString(users, makerList);
                 }
             }
-            else  //如果没有设置节点信息，默认所有人都可以审核
+            else //如果没有设置节点信息，默认所有人都可以审核
             {
                 makerList = "1";
             }
+
             return makerList;
         }
+
         #endregion
 
         /// <summary>
@@ -474,7 +491,7 @@ namespace OpenAuth.App
                 Taged = Int32.Parse(request.VerificationFinally)
             };
             bool isReject = TagState.Reject.Equals((TagState) tag.Taged);
-            if (isReject)  //驳回
+            if (isReject) //驳回
             {
                 NodeReject(request);
             }
@@ -494,10 +511,12 @@ namespace OpenAuth.App
             var result = new TableData();
             var user = _auth.GetCurrentUser();
 
-            if (request.type == "wait")   //待办事项
+            if (request.type == "wait") //待办事项
             {
-                Expression<Func<FlowInstance, bool>> waitExp = u => (u.MakerList == "1" 
-                                                                     || u.MakerList.Contains(user.User.Id)) && (u.IsFinish == FlowInstanceStatus.Running|| u.IsFinish==FlowInstanceStatus.Rejected);
+                Expression<Func<FlowInstance, bool>> waitExp = u => (u.MakerList == "1"
+                                                                     || u.MakerList.Contains(user.User.Id)) &&
+                                                                    (u.IsFinish == FlowInstanceStatus.Running ||
+                                                                     u.IsFinish == FlowInstanceStatus.Rejected);
 
                 // 加入搜索自定义标题
                 if (!string.IsNullOrEmpty(request.key))
@@ -509,13 +528,13 @@ namespace OpenAuth.App
 
                 result.data = UnitWork.Find(request.page, request.limit, "CreateDate descending", waitExp).ToList();
             }
-            else if (request.type == "disposed")  //已办事项（即我参与过的流程）
+            else if (request.type == "disposed") //已办事项（即我参与过的流程）
             {
                 var instances = UnitWork.Find<FlowInstanceTransitionHistory>(u => u.CreateUserId == user.User.Id)
                     .Select(u => u.InstanceId).Distinct();
                 var query = from ti in instances
-                            join ct in UnitWork.Find<FlowInstance>(null) on ti equals ct.Id
-                            select ct;
+                    join ct in UnitWork.Find<FlowInstance>(null) on ti equals ct.Id
+                    select ct;
 
                 // 加入搜索自定义标题
                 if (!string.IsNullOrEmpty(request.key))
@@ -528,7 +547,7 @@ namespace OpenAuth.App
                     .Take(request.limit).ToList();
                 result.count = instances.Count();
             }
-            else  //我的流程
+            else //我的流程
             {
                 Expression<Func<FlowInstance, bool>> myFlowExp = u => u.CreateUserId == user.User.Id;
 
@@ -583,12 +602,12 @@ namespace OpenAuth.App
             FlowInstance flowInstance = Get(request.FlowInstanceId);
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
-            
-            string startNodeId = wfruntime.startNodeId;  //起始节点
+
+            string startNodeId = wfruntime.startNodeId; //起始节点
 
             wfruntime.ReCall();
-            flowInstance.IsFinish = FlowInstanceStatus.Draft;
 
+            flowInstance.IsFinish = FlowInstanceStatus.Draft;
             flowInstance.PreviousId = flowInstance.ActivityId;
             flowInstance.ActivityId = startNodeId;
             flowInstance.ActivityType = wfruntime.GetNodeType(startNodeId);
@@ -601,20 +620,54 @@ namespace OpenAuth.App
 
             UnitWork.Add(new FlowInstanceOperationHistory
             {
-                InstanceId = request.FlowInstanceId
-                ,
-                CreateUserId = user.Id
-                ,
-                CreateUserName = user.Name
-                ,
-                CreateDate = DateTime.Now
-                ,
-                Content = "【"
-                          + wfruntime.currentNode.name
-                          + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】撤回,备注："
-                          + request.Description
+                InstanceId = request.FlowInstanceId,
+                CreateUserId = user.Id,
+                CreateUserName = user.Name,
+                CreateDate = DateTime.Now,
+                Content = $"【撤销】由{user.Name}撤销,备注：{request.Description}" 
             });
 
+            UnitWork.Save();
+        }
+
+        /// <summary>启动流程</summary>
+        /// <remarks> 通常是对状态为【草稿】的流程进行操作，进入运行状态 </remarks>
+        public void Start(StartFlowInstanceReq request)
+        {
+            FlowInstance flowInstance = Get(request.FlowInstanceId);
+            var wfruntime = new FlowRuntime(flowInstance);
+            var user = _auth.GetCurrentUser();
+
+            #region 根据运行实例改变当前节点状态
+            flowInstance.ActivityId = wfruntime.nextNodeId;
+            flowInstance.ActivityType = wfruntime.GetNextNodeType();
+            flowInstance.ActivityName = wfruntime.nextNode.name;
+            flowInstance.PreviousId = wfruntime.currentNodeId;
+            flowInstance.CreateUserId = user.User.Id;
+            flowInstance.CreateUserName = user.User.Account;
+            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime) : "");
+            flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4
+                ? FlowInstanceStatus.Finished
+                : FlowInstanceStatus.Running);
+
+            UnitWork.Update(flowInstance);
+            #endregion 根据运行实例改变当前节点状态
+
+            #region 流程操作记录
+
+            FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory
+            {
+                InstanceId = flowInstance.Id,
+                CreateUserId = user.User.Id,
+                CreateUserName = user.User.Name,
+                CreateDate = DateTime.Now,
+                Content = $"【启动】由用户{user.User.Name}启动"
+            };
+            UnitWork.Add(processOperationHistoryEntity);
+
+            #endregion 流程操作记录
+
+            AddTransHistory(wfruntime);
             UnitWork.Save();
         }
     }

@@ -10,7 +10,7 @@ namespace OpenAuth.WebApi
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine(@"
+            Console.WriteLine($@"
                ____                                 _   _       _   _      _   
               / __ \                     /\        | | | |     | \ | |    | |  
              | |  | |_ __   ___ _ __    /  \  _   _| |_| |__   |  \| | ___| |_ 
@@ -24,7 +24,7 @@ namespace OpenAuth.WebApi
             .Net 5 Repository:  https://gitee.com/dotnetchina/OpenAuth.Net
             .Net core 3.1    :  https://gitee.com/yubaolee/OpenAuth.Core
             -------------------------------------------------------------------
-            ");
+            Start Time:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
             CreateHostBuilder(args).Build().Run();
         }
 

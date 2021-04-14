@@ -325,6 +325,17 @@ namespace OpenAuth.App.Flow
             return previousId;
         }
 
+        /// <summary>
+        /// 撤销流程，清空所有节点
+        /// </summary>
+        public void ReCall()
+        {
+            foreach (var item in Nodes)
+            {
+                item.Value.setInfo = null;
+            }
+        }
+
         ///<summary>
         /// 标记节点1通过，-1不通过，0驳回
         /// </summary>

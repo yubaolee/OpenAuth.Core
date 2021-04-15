@@ -39,7 +39,7 @@ namespace OpenAuth.App.Test
 
             //模拟路径
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
-                .Replace("\\OpenAuth.App\\bin\\Debug\\net5.0","");
+                .Replace("\\OpenAuth.App\\bin\\Debug\\netcoreapp3.1","");
             var mockPathProvider = new Mock<IPathProvider>();
             mockPathProvider.Setup(x => x.MapPath("",false)).Returns(path);
             services.AddScoped(x => mockHttpFac.Object);
@@ -70,15 +70,6 @@ namespace OpenAuth.App.Test
         public void CreateEntity()
         {
              var app = _autofacServiceProvider.GetService<BuilderTableApp>();
-            // var id = app.Add(new AddOrUpdateBuilderTableReq()
-            // {
-            //     TableName = "application",
-            //     Comment = "这是一个普通的应用管理生成模版",
-            //     ClassName = "Application",
-            //     Folder = "Application",
-            //     ModuleCode = "Application",
-            //     ModuleName = "模块管理"
-            // });
             
             app.CreateEntity(new CreateEntityReq
             {

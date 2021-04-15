@@ -290,7 +290,7 @@ namespace OpenAuth.App
                 {
                     domainContent = domainContent.Replace("{BaseAppName}", "BaseStringApp");
                 }
-            FileHelper.WriteFile(appRootPath, sysTableInfo.ModuleCode + ".cs", domainContent);
+            FileHelper.WriteFile($"{appRootPath}\\{sysTableInfo.ModuleCode}", $"{sysTableInfo.ModuleCode}.cs", domainContent);
         }
         
         /// <summary>
@@ -313,7 +313,7 @@ namespace OpenAuth.App
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
-            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"Query{sysTableInfo.ClassName}ListReq.cs",
+            FileHelper.WriteFile(Path.Combine(appRootPath, $"{sysTableInfo.ModuleCode}\\Request"), $"Query{sysTableInfo.ClassName}ListReq.cs",
                 domainContent);
 
 
@@ -352,7 +352,7 @@ namespace OpenAuth.App
             tableAttr.Append("\r\n");
             domainContent = domainContent.Replace("{AttributeManager}", tableAttr.ToString());
 
-            FileHelper.WriteFile(Path.Combine(appRootPath, "Request"), $"AddOrUpdate{sysTableInfo.ClassName}Req.cs",
+            FileHelper.WriteFile(Path.Combine(appRootPath, $"{sysTableInfo.ModuleCode}\\Request"), $"AddOrUpdate{sysTableInfo.ClassName}Req.cs",
                 domainContent);
         }
 
@@ -528,7 +528,7 @@ namespace OpenAuth.App
             {
                 if (type == "DateTime")
                 {
-                    return "DateTime.Now;";
+                    return "DateTime.Now";
                 }
                 return Activator.CreateInstance(t).ToString();
             }

@@ -13,14 +13,20 @@ namespace OpenAuth.App
     /// <summary>
     /// 分类管理
     /// </summary>
-    public class AppManager : BaseStringApp<Application,OpenAuthDBContext>
+    public class AppManager : BaseStringApp<Application, OpenAuthDBContext>
     {
+        public AppManager(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Application, OpenAuthDBContext> repository,
+            IAuth auth) : base(unitWork, repository, auth)
+        {
+        }
+
         public void Add(Application Application)
         {
             if (string.IsNullOrEmpty(Application.Id))
             {
                 Application.Id = Guid.NewGuid().ToString();
             }
+
             Repository.Add(Application);
         }
 
@@ -32,13 +38,15 @@ namespace OpenAuth.App
 
         public async Task<List<Application>> GetList(QueryAppListReq request)
         {
-            var applications =  UnitWork.Find<Application>(null) ;
-           
+            var applications = UnitWork.Find<Application>(null);
+
             return applications.ToList();
         }
 
-        public AppManager(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Application,OpenAuthDBContext> repository,IAuth auth) : base(unitWork, repository, auth)
+
+        public Application GetByAppKey(string modelAppKey)
         {
+            return Repository.FirstOrDefault(u => u.AppSecret == modelAppKey);
         }
     }
 }

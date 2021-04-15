@@ -15,8 +15,7 @@ namespace OpenAuth.App
     /// </summary>
     public class AppManager : BaseStringApp<Application, OpenAuthDBContext>
     {
-        public AppManager(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Application, OpenAuthDBContext> repository,
-            IAuth auth) : base(unitWork, repository, auth)
+        public AppManager(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Application, OpenAuthDBContext> repository) : base(unitWork, repository, null)
         {
         }
 

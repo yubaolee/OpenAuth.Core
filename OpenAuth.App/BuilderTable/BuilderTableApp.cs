@@ -528,7 +528,7 @@ namespace OpenAuth.App
             {
                 if (type == "DateTime")
                 {
-                    return "DateTime.Now;";
+                    return "DateTime.Now";
                 }
                 return Activator.CreateInstance(t).ToString();
             }

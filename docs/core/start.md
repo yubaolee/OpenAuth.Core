@@ -48,13 +48,13 @@ v2.0以前的版本可以使用visual Studio 2017
 * 修改OpenAuth.Mvc/appsettings.json连接字符串，如下：
 ```json
  "OpenAuthDBContext": "Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000"
- "DbType": "SqlServer" //数据库类型：SqlServer、MySql
+ "DbType": "SqlServer" //数据库类型：SqlServer、MySql、Oracle
 ```
 
 * 修改OpenAuth.WebApi/appsettings.json连接字符串,如下：
 ```json
  "OpenAuthDBContext": "Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000"
- "DbType": "SqlServer" //数据库类型：SqlServer、MySql
+ "DbType": "SqlServer" //数据库类型：SqlServer、MySql、Oracle
 ```
 
 ## 编译运行

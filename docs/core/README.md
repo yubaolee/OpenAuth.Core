@@ -36,9 +36,11 @@ OpenAuth.Core是基于 **.Net Core/.Net 5** 的开源权限工作流快速开发
 
 * 基于CodeSmith的代码生成功能，可快速生成带有头/明细结构的页面
 
-* 支持sqlserver、mysql数据库，理论上支持所有数据库
+* 支持sqlserver、mysql、Oracle(已集成驱动,但无Oracle脚本，可以利用工具把其他数据库的数据导过来），理论上支持所有数据库
 
 * 支持同时访问多数据源
+
+* 支持多租户
 
 * 集成IdentityServer4，实现基于OAuth2的登录体系
 

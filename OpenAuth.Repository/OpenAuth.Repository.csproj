@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
     <PackageReference Include="Moq" Version="4.13.1" />
@@ -19,6 +20,8 @@
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.0" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="3.19.110" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="3.0.40" />
   </ItemGroup>

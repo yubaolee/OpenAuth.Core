@@ -70,9 +70,13 @@ namespace OpenAuth.Repository
            {
                optionsBuilder.UseSqlServer(connect);
             }
-            else  //mysql
+            else if(dbType == Define.DBTYPE_MYSQL)  //mysql
            {
                optionsBuilder.UseMySql(connect);
+           }
+           else
+           {
+               optionsBuilder.UseOracle(connect);
            }
 
         }

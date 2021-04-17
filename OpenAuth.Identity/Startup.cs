@@ -77,10 +77,15 @@ namespace OpenAuth.IdentityServer
                 services.AddDbContext<OpenAuthDBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
             }
-            else  //mysql
+            else if(dbType == Define.DBTYPE_MYSQL) //mysql
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext")));
+            }
+            else  //oracle
+            {
+                services.AddDbContext<OpenAuthDBContext>(options =>
+                    options.UseOracle(Configuration.GetConnectionString("OpenAuthDBContext")));
             }
 
         }

@@ -10,7 +10,8 @@
         public const string ROLEDATAPROPERTY = "RoleDataProperty";   //角色数据字段权限
 
         public const string DBTYPE_SQLSERVER = "SqlServer";    //sql server
-        public const string DBTYPE_MYSQL = "MySql";    //sql server
+        public const string DBTYPE_MYSQL = "MySql";    //mysql
+        public const string DBTYPE_ORACLE = "Oracle";    //oracle
 
 
         public const int INVALID_TOKEN = 50014;     //token无效

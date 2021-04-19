@@ -52,7 +52,7 @@ namespace OpenAuth.App.Flow
                             result &= frmvalue < value;
                             break;
                         case DataCompare.LargerEqual:
-                            result &= frmvalue <= value;
+                            result &= frmvalue >= value;
                             break;
                         case DataCompare.LessEqual:
                             result &= frmvalue <= value;

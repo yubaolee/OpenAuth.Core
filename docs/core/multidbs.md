@@ -22,10 +22,36 @@ public class OpenAuthDBContext2 : DbContext
     {
 
         private ILoggerFactory _LoggerFactory;
+        private const string _connectstr = "OpenAuthDBContext2";
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLoggerFactory (_LoggerFactory);
+
+             string connect = _configuration.GetConnectionString(_connectstr);
+            if (string.IsNullOrEmpty(connect))
+            {
+                throw new Exception($"未能找到租户{_connectstr}对应的连接字符串信息");
+            }
+
+            //这个地方如果用IOption，在单元测试的时候会获取不到AppSetting的值😅
+            var dbtypes = _configuration.GetSection("AppSetting:DbTypes").GetChildren()
+                .ToDictionary(x => x.Key, x => x.Value);
+            
+            var dbType = dbtypes[_connectstr];
+            if (dbType == Define.DBTYPE_SQLSERVER)
+            {
+                optionsBuilder.UseSqlServer(connect);
+                }
+                else if(dbType == Define.DBTYPE_MYSQL)  //mysql
+            {
+                optionsBuilder.UseMySql(connect);
+            }
+            else
+            {
+                optionsBuilder.UseOracle(connect);
+            }
+
             base.OnConfiguring (optionsBuilder);
         }
         
@@ -45,8 +71,7 @@ public class OpenAuthDBContext2 : DbContext
 在项目（OpenAuth.WebApi等）的启动代码`Startup.cs`中，注入刚刚添加的数据库
 
 ```csharp
- services.AddDbContext<OpenAuthDBContext2>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext2")));
+ services.AddDbContext<OpenAuthDBContext2>();
 ```
 
 ## 编写业务代码

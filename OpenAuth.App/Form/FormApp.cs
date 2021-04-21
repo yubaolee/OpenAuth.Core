@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure;
+using Infrastructure.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -17,6 +19,7 @@ namespace OpenAuth.App
     {
         private IAuth _auth;
         private IOptions<AppSetting> _appConfiguration;
+        private IHttpContextAccessor _httpContextAccessor;
         /// <summary>
         /// 加载列表
         /// </summary>
@@ -44,7 +47,9 @@ namespace OpenAuth.App
             UnitWork.Add(obj);
             if (!string.IsNullOrEmpty(obj.DbName))
             {
-                UnitWork.ExecuteSql(FormUtil.GetSql(obj, _appConfiguration.Value.DbType));
+                var dbtype = _appConfiguration.Value.DbTypes[_httpContextAccessor.GetTenantId()];
+                
+                UnitWork.ExecuteSql(FormUtil.GetSql(obj, dbtype));
             }
             UnitWork.Save();
         }
@@ -67,7 +72,8 @@ namespace OpenAuth.App
 
             if (!string.IsNullOrEmpty(obj.DbName))
             {
-                UnitWork.ExecuteSql(FormUtil.GetSql(obj, _appConfiguration.Value.DbType));
+                var dbtype = _appConfiguration.Value.DbTypes[_httpContextAccessor.GetTenantId()];
+                UnitWork.ExecuteSql(FormUtil.GetSql(obj, dbtype));
             }
         }
 
@@ -78,10 +84,11 @@ namespace OpenAuth.App
         }
 
         public FormApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Form,OpenAuthDBContext> repository,
-            IAuth auth, IOptions<AppSetting> appConfiguration) : base(unitWork, repository, auth)
+            IAuth auth, IOptions<AppSetting> appConfiguration, IHttpContextAccessor httpContextAccessor) : base(unitWork, repository, auth)
         {
             _auth = auth;
             _appConfiguration = appConfiguration;
+            _httpContextAccessor = httpContextAccessor;
         }
     }
 }

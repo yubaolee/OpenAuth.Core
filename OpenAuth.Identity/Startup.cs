@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Linq;
 using Autofac;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -69,9 +70,11 @@ namespace OpenAuth.IdentityServer
             
             //映射配置文件
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
-
+            
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
-            var dbType = ((ConfigurationSection) Configuration.GetSection("AppSetting:DbType")).Value;
+            var dbtypes = ((ConfigurationSection)Configuration).GetSection("AppSetting:DbTypes").GetChildren()
+                .ToDictionary(x => x.Key, x => x.Value);
+            var dbType = dbtypes["OpenAuthDBContext"];
             if (dbType == Define.DBTYPE_SQLSERVER)
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>

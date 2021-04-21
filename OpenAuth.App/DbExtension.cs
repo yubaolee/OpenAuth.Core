@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using Autofac.Extensions.DependencyInjection;
 using Infrastructure;
+using Infrastructure.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -22,10 +24,12 @@ namespace OpenAuth.App
         private List<DbContext> _contexts = new List<DbContext>();
         
         private IOptions<AppSetting> _appConfiguration;
+        private IHttpContextAccessor _httpContextAccessor;
 
-        public DbExtension(IOptions<AppSetting> appConfiguration, OpenAuthDBContext openAuthDbContext)
+        public DbExtension(IOptions<AppSetting> appConfiguration, OpenAuthDBContext openAuthDbContext, IHttpContextAccessor httpContextAccessor)
         {
             _appConfiguration = appConfiguration;
+            _httpContextAccessor = httpContextAccessor;
             _contexts.Add(openAuthDbContext);  //如果有多个DBContext，可以按OpenAuthDBContext同样的方式添加到_contexts中
         }
 
@@ -105,7 +109,8 @@ namespace OpenAuth.App
         /// <returns></returns>
         public IList<SysTableColumn> GetDbTableStructure(string tableName)
         {
-            if (_appConfiguration.Value.DbType == Define.DBTYPE_MYSQL)
+            var dbtype = _appConfiguration.Value.DbTypes[_httpContextAccessor.GetTenantId()];
+            if (dbtype == Define.DBTYPE_MYSQL)
             {
                 return GetMySqlStructure(tableName);
             }

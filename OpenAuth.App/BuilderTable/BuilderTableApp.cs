@@ -499,11 +499,6 @@ namespace OpenAuth.App
             FileHelper.RegxAddContentByParenthesis(openAuthDBContextPath, "public virtual DbSet<" + tableInfo.ClassName + "> " + tableInfo.TableName + "s { get; set; }");
         }
 
-        private bool IsMysql()
-        {
-            return (_appConfiguration.Value.DbType == Define.DBTYPE_MYSQL);
-        }
-
         Dictionary<string, Type> PrimitiveTypes = new Dictionary<string, Type>()
         {
             {"int", typeof(int)}

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Infrastructure;
+using Infrastructure.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,8 +47,7 @@ namespace OpenAuth.Repository.Test
                 .AddJsonFile("appsettings.Development.json", optional: true)
                 .AddEnvironmentVariables()
                 .Build();
-            Console.WriteLine($"单元测试数据库信息:{config.GetSection("AppSetting")["DbType"]}/{config.GetSection("ConnectionStrings")["OpenAuthDBContext"]}");
-
+         
             //添加log4net
             serviceCollection.AddLogging(builder =>
             {
@@ -74,6 +75,12 @@ namespace OpenAuth.Repository.Test
           
             var _container = builder.Build();
             _autofacServiceProvider = new AutofacServiceProvider(_container);
+            
+            var dbtypes = config.GetSection("AppSetting:DbTypes").GetChildren()
+                .ToDictionary(x => x.Key, x => x.Value);
+            
+            Console.WriteLine($"单元测试数据库信息:{dbtypes[httpContextAccessorMock.Object.GetTenantId()]}/{config.GetSection("ConnectionStrings")["OpenAuthDBContext"]}");
+
 
         }
 

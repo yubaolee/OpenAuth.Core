@@ -11,6 +11,12 @@
     "OpenAuthDBContext": "Data Source=.;Initial Catalog=OpenAuthPro;User=sa;Password=000000",
     "OpenAuthDBContext2": "Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000"
   }
+ "AppSetting": {
+    "DbTypes": {
+        "OpenAuthDBContext":"SqlServer"   //数据库类型：SqlServer、MySql、Oracle
+       ,"OpenAuthDBContext2":"SqlServer"  //链接字符串OpenAuthDBContext2对应的数据库类型
+    }
+  }
 ```
 
 ## 添加新的数据上下文
@@ -20,7 +26,7 @@
 ```csharp
 public class OpenAuthDBContext2 : DbContext
     {
-
+        private IConfiguration _configuration;
         private ILoggerFactory _LoggerFactory;
         private const string _connectstr = "OpenAuthDBContext2";
         
@@ -31,7 +37,7 @@ public class OpenAuthDBContext2 : DbContext
              string connect = _configuration.GetConnectionString(_connectstr);
             if (string.IsNullOrEmpty(connect))
             {
-                throw new Exception($"未能找到租户{_connectstr}对应的连接字符串信息");
+                throw new Exception($"未能找到{_connectstr}对应的连接字符串信息");
             }
 
             //这个地方如果用IOption，在单元测试的时候会获取不到AppSetting的值😅
@@ -42,8 +48,8 @@ public class OpenAuthDBContext2 : DbContext
             if (dbType == Define.DBTYPE_SQLSERVER)
             {
                 optionsBuilder.UseSqlServer(connect);
-                }
-                else if(dbType == Define.DBTYPE_MYSQL)  //mysql
+            }
+            else if(dbType == Define.DBTYPE_MYSQL)  //mysql
             {
                 optionsBuilder.UseMySql(connect);
             }
@@ -55,13 +61,15 @@ public class OpenAuthDBContext2 : DbContext
             base.OnConfiguring (optionsBuilder);
         }
         
-        public OpenAuthDBContext2(DbContextOptions<OpenAuthDBContext2> options, ILoggerFactory loggerFactory)
+        public OpenAuthDBContext2(DbContextOptions<OpenAuthDBContext2> options, 
+        ILoggerFactory loggerFactory,IConfiguration configuration)
             : base(options)
         {
             _LoggerFactory = loggerFactory;
+            _configuration = configuration;
         }
 
-        ... //其他代码略
+        ... //其他代码请参考OpenAuthDbContext
     }
 
 ```

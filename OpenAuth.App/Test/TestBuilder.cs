@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Moq;
 using OpenAuth.App.Request;
 using OpenAuth.App.SSO;
-using HttpContext = Infrastructure.Utilities.HttpContext;
 
 namespace OpenAuth.App.Test
 {

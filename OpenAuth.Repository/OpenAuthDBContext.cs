@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Infrastructure;
+using Infrastructure.Extensions;
+using Infrastructure.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -40,24 +44,8 @@ namespace OpenAuth.Repository
         //初始化多租户信息，根据租户id调整数据库
         private void InitTenant(DbContextOptionsBuilder optionsBuilder)
         {
-            string tenantId = "OpenAuthDBContext";
-            
-            if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null)
-            {
-                //读取多租户ID
-                var httpTenantId = _httpContextAccessor.HttpContext.Request.Query[Define.TENANT_ID];
-                if (string.IsNullOrEmpty(httpTenantId))
-                {
-                    httpTenantId = _httpContextAccessor.HttpContext.Request.Headers[Define.TENANT_ID];
-                }
-                
-                //如果没有租户id，或租户用的是默认的OpenAuthDBContext,则不做任何调整
-                if (!string.IsNullOrEmpty(httpTenantId))
-                {
-                    tenantId = httpTenantId;
-                }
-            }
-            
+
+            var tenantId = _httpContextAccessor.GetTenantId();
             string connect = _configuration.GetConnectionString(tenantId);
             if (string.IsNullOrEmpty(connect))
             {
@@ -65,7 +53,10 @@ namespace OpenAuth.Repository
             }
 
             //这个地方如果用IOption，在单元测试的时候会获取不到AppSetting的值😅
-           var dbType = _configuration.GetSection("AppSetting")["DbType"];
+            var dbtypes = _configuration.GetSection("AppSetting:DbTypes").GetChildren()
+                .ToDictionary(x => x.Key, x => x.Value);
+            
+           var dbType = dbtypes[tenantId];
            if (dbType == Define.DBTYPE_SQLSERVER)
            {
                optionsBuilder.UseSqlServer(connect);

@@ -1,4 +1,6 @@
-﻿namespace Infrastructure
+﻿using System.Collections.Generic;
+
+namespace Infrastructure
 {
     /// <summary>
     /// 配置项
@@ -12,7 +14,6 @@
             Version = "";
             UploadPath = "";
             IdentityServerUrl = "";
-            DbType = Define.DBTYPE_SQLSERVER;
         }
         /// <summary>
         /// SSO地址
@@ -28,7 +29,7 @@
         /// <summary>
         /// 数据库类型 SqlServer、MySql
         /// </summary>
-        public string DbType { get; set; }
+        public Dictionary<string, string> DbTypes { get; set; }
 
         /// <summary> 附件上传路径</summary>
         public string UploadPath { get; set; }

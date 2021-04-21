@@ -140,7 +140,7 @@ namespace OpenAuth.WebApi
 //                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
 
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
-            var dbtypes = ((ConfigurationSection)Configuration).GetSection("AppSetting:DbTypes").GetChildren()
+            var dbtypes = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbTypes")).GetChildren()
                 .ToDictionary(x => x.Key, x => x.Value);
             var connectionString = Configuration.GetConnectionString("OpenAuthDBContext");
             logger.LogInformation($"系统配置的数据库类型：{JsonHelper.Instance.Serialize(dbtypes)}，连接字符串：{connectionString}");

@@ -154,6 +154,13 @@ namespace OpenAuth.App
         public bool NodeVerification(string instanceId, Tag tag)
         {
             FlowInstance flowInstance = Get(instanceId);
+            
+            var user = _auth.GetCurrentUser().User;
+            if (flowInstance.MakerList != "1" && !flowInstance.MakerList.Contains(user.Id))
+            {
+                throw new Exception("当前用户没有审批该节点权限");
+            }
+            
             FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
             {
                 InstanceId = instanceId,
@@ -290,8 +297,11 @@ namespace OpenAuth.App
         public bool NodeReject(VerificationReq reqest)
         {
             var user = _auth.GetCurrentUser().User;
-
             FlowInstance flowInstance = Get(reqest.FlowInstanceId);
+            if (flowInstance.MakerList != "1" && !flowInstance.MakerList.Contains(user.Id))
+            {
+                throw new Exception("当前用户没有驳回该节点权限");
+            }
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 

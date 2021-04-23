@@ -373,6 +373,11 @@ namespace OpenAuth.App
             {
                 makerList = GetForkNodeMakers(wfruntime, wfruntime.nextNodeId);
             }
+            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE
+                     || wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
+            {
+                //todo:如果是运行时选择，则需要接收前端传过来的值
+            }
             else
             {
                 makerList = GetNodeMarkers(wfruntime.nextNode);
@@ -474,6 +479,11 @@ namespace OpenAuth.App
                 {
                     var users = _revelanceApp.Get(Define.USERROLE, false, node.setInfo.NodeDesignateData.roles);
                     makerList = GenericHelpers.ArrayToString(users, makerList);
+                }
+                else if (node.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE
+                         || node.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
+                {
+                    //如果是运行时选定的用户，则暂不处理。由上个节点审批时选定
                 }
             }
             else //如果没有设置节点信息，默认所有人都可以审核

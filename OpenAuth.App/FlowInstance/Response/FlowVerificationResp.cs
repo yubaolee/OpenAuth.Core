@@ -12,5 +12,10 @@ namespace OpenAuth.App.Response
         {
             get { return FormUtil.Preview(this); }
         }
+        
+        /// <summary>
+        /// 下个节点的执行权限方式
+        /// </summary>
+        public string NextNodeDesignateType { get; set; }
     }
 }

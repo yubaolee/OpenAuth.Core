@@ -32,8 +32,7 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<FlowVerificationResp>();
             try
             {
-                var flowinstance = _app.Get(id);
-                result.Result = flowinstance.MapTo<FlowVerificationResp>();
+                result.Result = _app.GetForVerification(id);
             }
             catch (Exception ex)
             {

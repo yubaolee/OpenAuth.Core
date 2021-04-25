@@ -540,6 +540,20 @@ namespace OpenAuth.App
             Repository.Update(flowScheme);
         }
 
+        /// <summary>
+        /// 返回用于处理流程节点
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public FlowVerificationResp GetForVerification(string id)
+        {
+            var flowinstance = Get(id);
+            var resp =flowinstance.MapTo<FlowVerificationResp>();
+            //todo:需要处理下个节点的执行权限方式
+            resp.NextNodeDesignateType = Setinfo.RUNTIME_SPECIAL_USER;
+            return resp;
+        }
+
         public async Task<TableData> Load(QueryFlowInstanceListReq request)
         {
             var result = new TableData();

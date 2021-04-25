@@ -106,7 +106,7 @@ namespace OpenAuth.App
             flowInstance.PreviousId = wfruntime.currentNodeId;
             flowInstance.CreateUserId = user.User.Id;
             flowInstance.CreateUserName = user.User.Account;
-            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime) : "");
+            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime, addFlowInstanceReq) : "");
             flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4
                 ? FlowInstanceStatus.Finished
                 : FlowInstanceStatus.Running);
@@ -371,7 +371,7 @@ namespace OpenAuth.App
         /// 一般用于本节点审核完成后，修改流程实例的当前执行人，可以做到通知等功能
         /// </summary>
         /// <returns></returns>
-        private string GetNextMakers(FlowRuntime wfruntime, VerificationReq request=null)
+        private string GetNextMakers(FlowRuntime wfruntime, NodeDesignateReq request=null)
         {
             string makerList = "";
             if (wfruntime.nextNodeId == "-1")
@@ -398,7 +398,7 @@ namespace OpenAuth.App
                 {
                     throw new Exception("前端提交的节点权限类型异常，请检查流程");
                 }
-                makerList = request.NodeDesignates;
+                makerList = GenericHelpers.ArrayToString(request.NodeDesignates, makerList);
             }
             else
             {
@@ -524,6 +524,11 @@ namespace OpenAuth.App
         /// </summary>
         public void Verification(VerificationReq request)
         {
+            if ((request.NodeDesignateType == Setinfo.RUNTIME_SPECIAL_ROLE
+                 || request.NodeDesignateType == Setinfo.RUNTIME_SPECIAL_USER) && request.NodeDesignates.Length == 0)
+            {
+                throw new Exception("下个节点需要选择执行人或执行角色");
+            }
             bool isReject = TagState.Reject.Equals((TagState) Int32.Parse(request.VerificationFinally));
             if (isReject) //驳回
             {
@@ -549,8 +554,11 @@ namespace OpenAuth.App
         {
             var flowinstance = Get(id);
             var resp =flowinstance.MapTo<FlowVerificationResp>();
-            //todo:需要处理下个节点的执行权限方式
-            resp.NextNodeDesignateType = Setinfo.RUNTIME_SPECIAL_USER;
+            var runtime = new FlowRuntime(flowinstance);
+            if (runtime.nextNode != null && runtime.nextNode.setInfo !=null && runtime.nextNodeType != 4)
+            {
+                resp.NextNodeDesignateType = runtime.nextNode.setInfo.NodeDesignate;
+            }
             return resp;
         }
 

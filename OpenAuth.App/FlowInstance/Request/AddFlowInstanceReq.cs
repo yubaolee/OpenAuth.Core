@@ -15,7 +15,7 @@ namespace OpenAuth.App.Request
     /// <summary>
 	/// 创建工作流请求
 	/// </summary>
-    public class AddFlowInstanceReq 
+    public class AddFlowInstanceReq : NodeDesignateReq
     {
 
         /// <summary>

@@ -151,11 +151,21 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="instanceId"></param>
         /// <returns></returns>
-        public bool NodeVerification(string instanceId, Tag tag)
+        public bool NodeVerification(VerificationReq request)
         {
+            var user = _auth.GetCurrentUser().User;
+            var instanceId = request.FlowInstanceId;
+            
+            var tag = new Tag
+            {
+                UserName = user.Name,
+                UserId = user.Id,
+                Description = request.VerificationOpinion,
+                Taged = Int32.Parse(request.VerificationFinally)
+            };
+            
             FlowInstance flowInstance = Get(instanceId);
             
-            var user = _auth.GetCurrentUser().User;
             if (flowInstance.MakerList != "1" && !flowInstance.MakerList.Contains(user.Id))
             {
                 throw new Exception("当前用户没有审批该节点权限");
@@ -238,7 +248,7 @@ namespace OpenAuth.App
                     flowInstance.ActivityId = wfruntime.nextNodeId;
                     flowInstance.ActivityType = wfruntime.nextNodeType;
                     flowInstance.ActivityName = wfruntime.nextNode.name;
-                    flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime);
+                    flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime, request);
                     flowInstance.IsFinish = (wfruntime.nextNodeType == 4
                         ? FlowInstanceStatus.Finished
                         : FlowInstanceStatus.Running);
@@ -361,7 +371,7 @@ namespace OpenAuth.App
         /// 一般用于本节点审核完成后，修改流程实例的当前执行人，可以做到通知等功能
         /// </summary>
         /// <returns></returns>
-        private string GetNextMakers(FlowRuntime wfruntime)
+        private string GetNextMakers(FlowRuntime wfruntime, VerificationReq request=null)
         {
             string makerList = "";
             if (wfruntime.nextNodeId == "-1")
@@ -373,10 +383,22 @@ namespace OpenAuth.App
             {
                 makerList = GetForkNodeMakers(wfruntime, wfruntime.nextNodeId);
             }
-            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE
-                     || wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
-            {
-                //todo:如果是运行时选择，则需要接收前端传过来的值
+            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE)
+            { //如果是运行时指定角色
+                if (wfruntime.nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+                var users = _revelanceApp.Get(Define.USERROLE, false, request.NodeDesignates);
+                makerList = GenericHelpers.ArrayToString(users, makerList);
+            }
+            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
+            {  //如果是运行时指定用户
+                if (wfruntime.nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+                makerList = request.NodeDesignates;
             }
             else
             {
@@ -502,22 +524,14 @@ namespace OpenAuth.App
         /// </summary>
         public void Verification(VerificationReq request)
         {
-            var user = _auth.GetCurrentUser().User;
-            var tag = new Tag
-            {
-                UserName = user.Name,
-                UserId = user.Id,
-                Description = request.VerificationOpinion,
-                Taged = Int32.Parse(request.VerificationFinally)
-            };
-            bool isReject = TagState.Reject.Equals((TagState) tag.Taged);
+            bool isReject = TagState.Reject.Equals((TagState) Int32.Parse(request.VerificationFinally));
             if (isReject) //驳回
             {
                 NodeReject(request);
             }
             else
             {
-                NodeVerification(request.FlowInstanceId, tag);
+                NodeVerification(request);
             }
         }
 

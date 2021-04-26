@@ -180,7 +180,7 @@ Category="1.Database" Description="可以选择一个或多个表（使用Ctrl�
 
         foreach(TableSchema table in tables)
         {
-            string generatedFile = Path.GetFullPath(directory) + "OpenAuth.App\\"+  table.Name + "App.cs";
+            string generatedFile = Path.GetFullPath(directory) + "OpenAuth.App\\"+ table.Name +"\\"+  table.Name + "App.cs";
             generatedClass.Table = table;
             //generatedClass.Entity = entity;
             Response.WriteLine("已生成"+generatedFile);
@@ -196,7 +196,7 @@ Category="1.Database" Description="可以选择一个或多个表（使用Ctrl�
         this.CopyPropertiesTo(generatedClass);
          foreach(TableSchema table in tables)
         {
-            string generatedFile = Path.GetFullPath(directory) + "OpenAuth.App\\Request\\Query"+   table.Name + "ListReq.cs";
+            string generatedFile = Path.GetFullPath(directory) + "OpenAuth.App\\"+ table.Name +"\\Request\\Query"+   table.Name + "ListReq.cs";
             generatedClass.ModuleName =  table.Name;
             Response.WriteLine("已生成"+generatedFile);
             generatedClass.RenderToFile(generatedFile, generatedFile, true);
@@ -207,7 +207,7 @@ Category="1.Database" Description="可以选择一个或多个表（使用Ctrl�
         this.CopyPropertiesTo(modifyReqGenerateClass);
          foreach(TableSchema table in tables)
         {
-            string generatedFile = Path.GetFullPath(directory) + "OpenAuth.App\\Request\\AddOrUpdate"+   table.Name + "Req.cs";
+            string generatedFile = Path.GetFullPath(directory) + "OpenAuth.App\\"+ table.Name +"\\Request\\AddOrUpdate"+   table.Name + "Req.cs";
             modifyReqGenerateClass.Table = table;
             Response.WriteLine("已生成"+generatedFile);
             modifyReqGenerateClass.RenderToFile(generatedFile, generatedFile, true);

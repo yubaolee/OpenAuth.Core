@@ -63,6 +63,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public bool CreateInstance(AddFlowInstanceReq addFlowInstanceReq)
         {
+            CheckNodeDesignate(addFlowInstanceReq);
             FlowScheme scheme = null;
             if (!string.IsNullOrEmpty(addFlowInstanceReq.SchemeId))
             {
@@ -106,7 +107,7 @@ namespace OpenAuth.App
             flowInstance.PreviousId = wfruntime.currentNodeId;
             flowInstance.CreateUserId = user.User.Id;
             flowInstance.CreateUserName = user.User.Account;
-            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime) : "");
+            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime, addFlowInstanceReq) : "");
             flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4
                 ? FlowInstanceStatus.Finished
                 : FlowInstanceStatus.Running);
@@ -151,11 +152,21 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="instanceId"></param>
         /// <returns></returns>
-        public bool NodeVerification(string instanceId, Tag tag)
+        public bool NodeVerification(VerificationReq request)
         {
+            var user = _auth.GetCurrentUser().User;
+            var instanceId = request.FlowInstanceId;
+            
+            var tag = new Tag
+            {
+                UserName = user.Name,
+                UserId = user.Id,
+                Description = request.VerificationOpinion,
+                Taged = Int32.Parse(request.VerificationFinally)
+            };
+            
             FlowInstance flowInstance = Get(instanceId);
             
-            var user = _auth.GetCurrentUser().User;
             if (flowInstance.MakerList != "1" && !flowInstance.MakerList.Contains(user.Id))
             {
                 throw new Exception("当前用户没有审批该节点权限");
@@ -238,7 +249,7 @@ namespace OpenAuth.App
                     flowInstance.ActivityId = wfruntime.nextNodeId;
                     flowInstance.ActivityType = wfruntime.nextNodeType;
                     flowInstance.ActivityName = wfruntime.nextNode.name;
-                    flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime);
+                    flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime, request);
                     flowInstance.IsFinish = (wfruntime.nextNodeType == 4
                         ? FlowInstanceStatus.Finished
                         : FlowInstanceStatus.Running);
@@ -361,7 +372,7 @@ namespace OpenAuth.App
         /// 一般用于本节点审核完成后，修改流程实例的当前执行人，可以做到通知等功能
         /// </summary>
         /// <returns></returns>
-        private string GetNextMakers(FlowRuntime wfruntime)
+        private string GetNextMakers(FlowRuntime wfruntime, NodeDesignateReq request=null)
         {
             string makerList = "";
             if (wfruntime.nextNodeId == "-1")
@@ -372,6 +383,23 @@ namespace OpenAuth.App
             if (wfruntime.nextNodeType == 0) //如果是会签节点
             {
                 makerList = GetForkNodeMakers(wfruntime, wfruntime.nextNodeId);
+            }
+            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE)
+            { //如果是运行时指定角色
+                if (wfruntime.nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+                var users = _revelanceApp.Get(Define.USERROLE, false, request.NodeDesignates);
+                makerList = GenericHelpers.ArrayToString(users, makerList);
+            }
+            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
+            {  //如果是运行时指定用户
+                if (wfruntime.nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+                makerList = GenericHelpers.ArrayToString(request.NodeDesignates, makerList);
             }
             else
             {
@@ -475,6 +503,11 @@ namespace OpenAuth.App
                     var users = _revelanceApp.Get(Define.USERROLE, false, node.setInfo.NodeDesignateData.roles);
                     makerList = GenericHelpers.ArrayToString(users, makerList);
                 }
+                else if (node.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE
+                         || node.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
+                {
+                    //如果是运行时选定的用户，则暂不处理。由上个节点审批时选定
+                }
             }
             else //如果没有设置节点信息，默认所有人都可以审核
             {
@@ -492,28 +525,52 @@ namespace OpenAuth.App
         /// </summary>
         public void Verification(VerificationReq request)
         {
-            var user = _auth.GetCurrentUser().User;
-            var tag = new Tag
-            {
-                UserName = user.Name,
-                UserId = user.Id,
-                Description = request.VerificationOpinion,
-                Taged = Int32.Parse(request.VerificationFinally)
-            };
-            bool isReject = TagState.Reject.Equals((TagState) tag.Taged);
+            CheckNodeDesignate(request);
+            bool isReject = TagState.Reject.Equals((TagState) Int32.Parse(request.VerificationFinally));
             if (isReject) //驳回
             {
                 NodeReject(request);
             }
             else
             {
-                NodeVerification(request.FlowInstanceId, tag);
+                NodeVerification(request);
+            }
+        }
+
+        /// <summary>
+        /// 判定节点需要选择执行人或执行角色
+        /// </summary>
+        /// <param name="request"></param>
+        /// <exception cref="Exception"></exception>
+        private void CheckNodeDesignate(NodeDesignateReq request)
+        {
+            if ((request.NodeDesignateType == Setinfo.RUNTIME_SPECIAL_ROLE
+                 || request.NodeDesignateType == Setinfo.RUNTIME_SPECIAL_USER) && request.NodeDesignates.Length == 0)
+            {
+                throw new Exception("下个节点需要选择执行人或执行角色");
             }
         }
 
         public void Update(FlowInstance flowScheme)
         {
             Repository.Update(flowScheme);
+        }
+
+        /// <summary>
+        /// 返回用于处理流程节点
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public FlowVerificationResp GetForVerification(string id)
+        {
+            var flowinstance = Get(id);
+            var resp =flowinstance.MapTo<FlowVerificationResp>();
+            var runtime = new FlowRuntime(flowinstance);
+            if (runtime.nextNode != null && runtime.nextNode.setInfo !=null && runtime.nextNodeType != 4)
+            {
+                resp.NextNodeDesignateType = runtime.nextNode.setInfo.NodeDesignate;
+            }
+            return resp;
         }
 
         public async Task<TableData> Load(QueryFlowInstanceListReq request)

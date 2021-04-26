@@ -1,6 +1,8 @@
-﻿namespace OpenAuth.App.Request
+﻿using System.Collections.Generic;
+
+namespace OpenAuth.App.Request
 {
-    public class VerificationReq
+    public class VerificationReq : NodeDesignateReq
     {
         public string FlowInstanceId { get; set; }
         /// <summary>
@@ -22,5 +24,6 @@
         /// 驳回类型。null:使用节点配置的驳回类型/0:前一步/1:第一步/2：指定节点，使用NodeRejectStep
         /// </summary>
         public string NodeRejectType { get; set; }
+        
     }
 }

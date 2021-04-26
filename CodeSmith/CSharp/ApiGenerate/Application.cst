@@ -9,13 +9,13 @@ Description: Create a list of properties from a database table
 <%@ Import Namespace="SchemaExplorer" %>
 <%@ Property Name="Table"
              Type="SchemaExplorer.TableSchema"  %>
-
 <%@ Property Name="HeaderModel" 
 Type="System.Boolean" 
 Category="1.Database"
 Default="true"
 Description="是否为启用头表模式，即类似‘入库订单’界面" %>
-
+<%@ Assembly Src="../Web/Util.cs" %>
+<%@ Import Namespace="Util" %>
 using System;
 using System.Linq;
 using Infrastructure;
@@ -25,14 +25,11 @@ using OpenAuth.App.Response;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
-
-
 namespace OpenAuth.App
 {
     public class <%=Table.Name%>App : BaseStringApp<<%=Table.Name%>, OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
-
         /// <summary>
         /// 加载列表
         /// </summary>
@@ -43,23 +40,17 @@ namespace OpenAuth.App
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
-
             var properties = loginContext.GetProperties("<%=Table.Name%>");
-
             if (properties == null || properties.Count == 0)
             {
                 throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
             }
-
-
             var result = new TableData();
             var objs = UnitWork.Find<<%=Table.Name%>>(null);
             if (!string.IsNullOrEmpty(request.key))
             {
                 objs = objs.Where(u => u.Id.Contains(request.key));
             }
-
-
             var propertyStr = string.Join(',', properties.Select(u => u.Key));
             result.columnHeaders = properties;
             result.data = objs.OrderBy(u => u.Id)
@@ -68,12 +59,10 @@ namespace OpenAuth.App
             result.count = objs.Count();
             return result;
         }
-
         <%
         if(Table.Name.Contains("Tbl") && (!Table.Name.Contains("Dtbl")) && this.HeaderModel){
             var dtblName = Table.Name.Replace("Tbl","Dtbl");  //明细表的表名    
         %>
-        
         public void Add(AddOrUpdate<%=Table.Name%>Req req)
         {
             var obj = req.MapTo<<%=Table.Name%>>();
@@ -91,14 +80,11 @@ namespace OpenAuth.App
                     _<%=dtblName%>App.AddNoSave(detail);
                 }
             }
-            
             UnitWork.Save();
         }
-
          public void Update(AddOrUpdate<%=Table.Name%>Req obj)
         {
             var user = _auth.GetCurrentUser().User;
-            
             if (obj.<%=dtblName%>Reqs != null && obj.<%=dtblName%>Reqs.Any())
             {
                 //id为空的添加
@@ -107,7 +93,6 @@ namespace OpenAuth.App
                     detail.ForeignKeyId = obj.Id; //todo:调整自己的明细表外键
                     _<%=dtblName%>App.AddNoSave(detail);
                 }
-                
                 //id比数据库少的，删除
                 var containids = obj.<%=dtblName%>Reqs.Select(u => u.Id)
                     .Where(u =>!string.IsNullOrEmpty(u)).ToList();
@@ -115,30 +100,15 @@ namespace OpenAuth.App
                 {
                     UnitWork.Delete<<%=dtblName%>>(u =>(!containids.Contains(u.Id)) && u.ForeignKeyId == obj.Id);  //todo:调整自己的明细表外键
                 }
-                
-                
                 //更新id相同的
                 foreach (var detail in obj.<%=dtblName%>Reqs.Where(u =>!string.IsNullOrEmpty(u.Id)))
                 {
                     _<%=dtblName%>App.Update(detail);
                 }
             }
-            
-            UnitWork.Update<<%=Table.Name%>>(u => u.Id == obj.Id, u => new <%=Table.Name%>
-            {
-                 <% foreach(ColumnSchema p in Table.Columns) {  
-               if(p.IsPrimaryKeyMember) continue; 
-            %>
-                <%= p.Name%> = obj.<%= p.Name%>,
-            <% } %>
-                //todo:根据自己的业务场景，补充或调整字段
-            });
-            
+            <%CreateUpdate();%>
             UnitWork.Save();
-
         }
-
-       
         <%
         }else{     %>
         public void Add(AddOrUpdate<%=Table.Name%>Req req)
@@ -151,26 +121,13 @@ namespace OpenAuth.App
             // obj.CreateUserName = user.Name;
             Repository.Add(obj);
         }
-
          public void Update(AddOrUpdate<%=Table.Name%>Req obj)
         {
-            var user = _auth.GetCurrentUser().User;
-            UnitWork.Update<<%=Table.Name%>>(u => u.Id == obj.Id, u => new <%=Table.Name%>
-            {
-            <% foreach(ColumnSchema p in Table.Columns) {  
-               if(p.IsPrimaryKeyMember) continue; 
-            %>
-                <%= p.Name%> = obj.<%= p.Name%>,
-            <% }  %>
-                //todo:根据自己的业务场景，补充或调整字段
-            });
-
+             <%CreateUpdate();%>
         }
-            
         <%
         }
         %>
-
         public <%=Table.Name%>App(IUnitWork<OpenAuthDBContext> unitWork, IRepository<<%=Table.Name%>, OpenAuthDBContext> repository,
             RevelanceManagerApp app, IAuth auth) : base(unitWork, repository,auth)
         {
@@ -178,3 +135,22 @@ namespace OpenAuth.App
         }
     }
 }
+<script runat="template">
+/// <summary>
+/// 创建更新字段
+/// </summary>
+public void CreateUpdate() {
+    var updatestr = Tools.CreateBlank(1) + "UnitWork.Update<" + Table.Name + ">(u => u.Id == obj.Id, u => new " + Table.Name + "\r\n";
+    updatestr +=Tools.CreateBlank(1) + "{\r\n";
+    var columnstr = "";
+    foreach (ColumnSchema p in Table.Columns) {
+        if (p.IsPrimaryKeyMember) continue ;
+        columnstr += Tools.CreateBlank(2)+ p.Name + " = obj." + p.Name + ", \r\n";
+    }
+    columnstr = columnstr.Substring(0, columnstr.Length - 4);  //删除最后一个逗号
+    updatestr += columnstr;
+    updatestr +=  "\r\n" +Tools.CreateBlank(2) +"//todo:根据自己的业务场景，补充或调整字段";
+    updatestr += "\r\n" +Tools.CreateBlank(1) +"});";
+    Response.WriteLine(updatestr);
+}
+</script>

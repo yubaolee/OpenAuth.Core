@@ -63,6 +63,7 @@ namespace OpenAuth.App
         /// <returns></returns>
         public bool CreateInstance(AddFlowInstanceReq addFlowInstanceReq)
         {
+            CheckNodeDesignate(addFlowInstanceReq);
             FlowScheme scheme = null;
             if (!string.IsNullOrEmpty(addFlowInstanceReq.SchemeId))
             {
@@ -524,11 +525,7 @@ namespace OpenAuth.App
         /// </summary>
         public void Verification(VerificationReq request)
         {
-            if ((request.NodeDesignateType == Setinfo.RUNTIME_SPECIAL_ROLE
-                 || request.NodeDesignateType == Setinfo.RUNTIME_SPECIAL_USER) && request.NodeDesignates.Length == 0)
-            {
-                throw new Exception("下个节点需要选择执行人或执行角色");
-            }
+            CheckNodeDesignate(request);
             bool isReject = TagState.Reject.Equals((TagState) Int32.Parse(request.VerificationFinally));
             if (isReject) //驳回
             {
@@ -537,6 +534,20 @@ namespace OpenAuth.App
             else
             {
                 NodeVerification(request);
+            }
+        }
+
+        /// <summary>
+        /// 判定节点需要选择执行人或执行角色
+        /// </summary>
+        /// <param name="request"></param>
+        /// <exception cref="Exception"></exception>
+        private void CheckNodeDesignate(NodeDesignateReq request)
+        {
+            if ((request.NodeDesignateType == Setinfo.RUNTIME_SPECIAL_ROLE
+                 || request.NodeDesignateType == Setinfo.RUNTIME_SPECIAL_USER) && request.NodeDesignates.Length == 0)
+            {
+                throw new Exception("下个节点需要选择执行人或执行角色");
             }
         }
 

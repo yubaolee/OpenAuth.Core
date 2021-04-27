@@ -1,5 +1,9 @@
 # 日常提交(针对dev分支)
 
+* 2021.04.27 增加存储过程调用的支持；
+
+* 2021.04.26 fix issue [https://gitee.com/yubaolee/OpenAuth.Core/issues/I3O5S3](https://gitee.com/yubaolee/OpenAuth.Core/issues/I3O5S3) 生成的更新字段不包含默认的CreateUser等；
+
 * 2021.04.25 增加流程执行时可以选择用户或角色（而不是设计时选择）；
 
 * 2021.04.21 不同的租户，可以连不同类型数据库；

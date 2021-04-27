@@ -189,3 +189,21 @@ namespace OpenAuth.App
    var users = UnitWork.Query<UserResp>("select * from user");
 ```
 
+## 执行存储过程
+
+UnitWork提供执行存储过程接口`ExecProcedure`，使用如下：
+
+``` csharp
+    var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
+    var users = unitWork.ExecProcedure<User>("sp_alluser");
+    Console.WriteLine(JsonHelper.Instance.Serialize(users));
+```
+
+存储过程`sp_alluser`定义如下：
+```sql
+    CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_alluser`()
+    BEGIN
+        SELECT * from `user`;
+    END
+```
+

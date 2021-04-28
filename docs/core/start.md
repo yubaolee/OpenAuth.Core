@@ -43,20 +43,48 @@ v2.0以前的版本可以使用visual Studio 2017
 :::
 
 
-## 修改连接字符串
+## 修改配置
+
+在 `ASP.NET Core` 应用程序启动时默认加载`appsettings.json`作为应用配置。同时还支持不同的运行环境加载对应的配置文件，如：
+
+- 开发环境Development对应 `appsettings.Development.json`
+
+- 部署环境Production对应 `appsettings.Production.json`
+
+::: tip 提示
+
+很多用户部署后提示连接数据库失败，很大原因就是没有修改`appsettings.Production.json`里面连接字符串
+
+:::
+
+#### 修改单数据库连接字符串
 
 * 修改OpenAuth.Mvc/appsettings.json连接字符串，如下：
 ```json
- "OpenAuthDBContext": "Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000"
- "DbType": "SqlServer" //数据库类型：SqlServer、MySql、Oracle
+  "ConnectionStrings": {
+    "OpenAuthDBContext": "Data Source=.;Initial Catalog=OpenAuthPro;User=sa;Password=000000"
+  },
+  "AppSetting": {
+    "DbTypes": {
+        "OpenAuthDBContext":"SqlServer" //数据库类型：SqlServer、MySql、Oracle
+    }
 ```
 
-* 修改OpenAuth.WebApi/appsettings.json连接字符串,如下：
+#### 修改多数据库连接字符串
+
 ```json
- "OpenAuthDBContext": "Data Source=.;Initial Catalog=OpenAuthDB;User=sa;Password=000000"
- "DbType": "SqlServer" //数据库类型：SqlServer、MySql、Oracle
+  "ConnectionStrings": {
+    "OpenAuthDBContext": "Data Source=.;Initial Catalog=OpenAuthPro;User=sa;Password=000000"
+    "OpenAuthDBContext2": "DATA SOURCE=192.168.0.118:1521/YUBAO;PASSWORD=000000;Validate Connection=true;PERSIST SECURITY INFO=True;USER ID=yubaolee;" //racle
+    "OpenAuthDBContext3": "server=127.0.0.1;user id=root;database=openauthpro;password=000000" //my sql
+  },
+  "AppSetting": {
+    "DbTypes": {
+        "OpenAuthDBContext":"SqlServer" //数据库类型：SqlServer、MySql、Oracle
+       ,"OpenAuthDBContext2":"Oracle"
+       ,"OpenAuthDBContext3":"MySql"
+    }, 
 ```
-
 ## 编译运行
 
 使用visualstudio生成解决方案。

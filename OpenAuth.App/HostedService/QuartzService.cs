@@ -7,6 +7,9 @@ using Quartz;
 
 namespace OpenAuth.App.HostedService
 {
+    /// <summary>
+    /// 自启动服务，本服务用于启动所有状态为【正在运行】的定时任务
+    /// </summary>
     public class QuartzService : IHostedService, IDisposable
     {
         private readonly ILogger<QuartzService> _logger;

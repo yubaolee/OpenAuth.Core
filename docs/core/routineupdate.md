@@ -1,5 +1,7 @@
 # 日常提交(针对dev分支)
 
+* 2021.04.28 增加站点启动时自动运行状态为【正在运行】的定时任务；
+
 * 2021.04.27 增加存储过程调用的支持；
 
 * 2021.04.26 fix issue [https://gitee.com/yubaolee/OpenAuth.Core/issues/I3O5S3](https://gitee.com/yubaolee/OpenAuth.Core/issues/I3O5S3) 生成的更新字段不包含默认的CreateUser等；

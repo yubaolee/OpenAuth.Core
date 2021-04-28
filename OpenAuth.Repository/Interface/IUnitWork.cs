@@ -10,6 +10,8 @@
 // ***********************************************************************
 
 using System;
+using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -106,6 +108,13 @@ namespace OpenAuth.Repository.Interface
         /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
         /// <returns></returns>
         IQueryable<T> Query<T>(string sql, params object[] parameters) where T : class;
+        
+        /// <summary>
+        /// 执行存储过程
+        /// </summary>
+        /// <param name="procName">存储过程名称</param>
+        /// <param name="sqlParams">存储过程参数</param>
+        List<T> ExecProcedure<T>(string procName,params DbParameter[] sqlParams) where T : class;
         
         #region 异步接口
 

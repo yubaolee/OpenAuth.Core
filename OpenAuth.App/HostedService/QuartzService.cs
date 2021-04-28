@@ -11,17 +11,19 @@ namespace OpenAuth.App.HostedService
     {
         private readonly ILogger<QuartzService> _logger;
         private IScheduler _scheduler;
+        private OpenJobApp _openJobApp;
 
-        public QuartzService(ILogger<QuartzService> logger, IScheduler scheduler)
+        public QuartzService(ILogger<QuartzService> logger, IScheduler scheduler, OpenJobApp openJobApp)
         {
             _logger = logger;
             _scheduler = scheduler;
+            _openJobApp = openJobApp;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("启动定时job，可以在这里配置读取数据库需要启动的任务，然后启动他们");
             _scheduler.Start();
+            _openJobApp.StartAll();
             return Task.CompletedTask;
         }
 

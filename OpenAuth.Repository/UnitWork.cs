@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Infrastructure;
+using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using OpenAuth.Repository.Core;
@@ -212,8 +216,29 @@ namespace OpenAuth.Repository
        {
            return _context.Query<T>().FromSqlRaw(sql, parameters);
        }
-       
-        #region 异步实现
+
+       /// <summary>
+       /// 执行存储过程
+       /// </summary>
+       /// <param name="procName">存储过程名称</param>
+       /// <param name="sqlParams">存储过程参数</param>
+       public List<T> ExecProcedure<T>(string procName, params DbParameter[] sqlParams) where T : class
+       {
+           var connection = _context.Database.GetDbConnection();
+           using (var cmd = connection.CreateCommand())
+           {
+               _context.Database.OpenConnection();
+               cmd.CommandText = procName;
+               cmd.CommandType = CommandType.StoredProcedure;
+               cmd.Parameters.AddRange(sqlParams);
+               DbDataReader dr =  cmd.ExecuteReader();                
+               var datatable = new DataTable();
+               datatable.Load(dr);
+               return datatable.ToList<T>();
+           }
+       }
+
+       #region 异步实现
         
         /// <summary>
         /// 异步执行sql

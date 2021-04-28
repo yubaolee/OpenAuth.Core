@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure;
+using Infrastructure.Const;
 using Microsoft.Extensions.Logging;
+using OpenAuth.App.Extensions;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Jobs;
 using OpenAuth.App.Request;
@@ -16,6 +18,9 @@ using Quartz;
 
 namespace OpenAuth.App
 {
+    /// <summary>
+    /// 系统定时任务管理
+    /// </summary>
     public class OpenJobApp : BaseStringApp<OpenJob, OpenAuthDBContext>
     {
         private SysLogApp _sysLogApp;
@@ -41,10 +46,25 @@ namespace OpenAuth.App
             return result;
         }
 
+        /// <summary>
+        /// 启动所有状态为正在运行的任务
+        /// <para>通常应用在系统加载的时候</para>
+        /// </summary>
+        /// <returns></returns>
+        public async Task StartAll()
+        {
+            var jobs = Repository.Find(u => u.Status == (int) JobStatus.Running);
+            foreach (var job in jobs)
+            {
+                job.Start(_scheduler);
+            }
+            _logger.LogInformation("所有状态为正在运行的任务已启动");
+
+        }
+
         public void Add(AddOrUpdateOpenJobReq req)
         {
             var obj = req.MapTo<OpenJob>();
-            //todo:补充或调整自己需要的字段
             obj.CreateTime = DateTime.Now;
             var user = _auth.GetCurrentUser().User;
             obj.CreateUserId = user.Id;
@@ -67,12 +87,11 @@ namespace OpenAuth.App
                 UpdateTime = DateTime.Now,
                 UpdateUserId = user.Id,
                 UpdateUserName = user.Name
-                //todo:补充或调整自己需要的字段
             });
         }
 
         #region 定时任务运行相关操作
-        
+
         /// <summary>
         /// 返回系统的job接口
         /// </summary>
@@ -85,7 +104,7 @@ namespace OpenAuth.App
                 .ToArray();
             return types.Select(u => u.FullName).ToList();
         }
-        
+
         public void ChangeJobStatus(ChangeJobStatusReq req)
         {
             var job = Repository.FirstOrDefault(u => u.Id == req.Id);
@@ -93,40 +112,18 @@ namespace OpenAuth.App
             {
                 throw new Exception("任务不存在");
             }
-            
-            
 
-            if (req.Status == 0) //停止
-            {
-                TriggerKey triggerKey = new TriggerKey(job.Id);
-                // 停止触发器
-                _scheduler.PauseTrigger(triggerKey);
-                // 移除触发器
-                _scheduler.UnscheduleJob(triggerKey);
-                // 删除任务
-                _scheduler.DeleteJob(new JobKey(job.Id));
-            }
-            else  //启动
-            {
-                var jobBuilderType = typeof(JobBuilder);
-                var method = jobBuilderType.GetMethods().FirstOrDefault(
-                        x => x.Name.Equals("Create", StringComparison.OrdinalIgnoreCase) &&
-                             x.IsGenericMethod && x.GetParameters().Length == 0)
-                    ?.MakeGenericMethod(Type.GetType(job.JobCall));
 
-                var jobBuilder = (JobBuilder)method.Invoke(null, null);
-                
-                IJobDetail jobDetail = jobBuilder.WithIdentity(job.Id).Build();
-                jobDetail.JobDataMap[Define.JOBMAPKEY] = job.Id;  //传递job信息
-                ITrigger trigger = TriggerBuilder.Create()
-                    .WithCronSchedule(job.Cron)
-                    .WithIdentity(job.Id)
-                    .StartNow()
-                    .Build();
-                _scheduler.ScheduleJob(jobDetail, trigger);
+            if (req.Status == (int) JobStatus.NotRun) //停止
+            {
+                job.Stop(_scheduler);
             }
-            
-            
+            else //启动
+            {
+                job.Start(_scheduler);
+            }
+
+
             var user = _auth.GetCurrentUser().User;
 
             job.Status = req.Status;
@@ -135,14 +132,13 @@ namespace OpenAuth.App
             job.UpdateUserName = user.Name;
             Repository.Update(job);
         }
-        
         /// <summary>
         /// 记录任务运行结果
         /// </summary>
         /// <param name="jobId"></param>
         public void RecordRun(string jobId)
         {
-            var job = Repository.FirstOrDefault(u =>u.Id == jobId);
+            var job = Repository.FirstOrDefault(u => u.Id == jobId);
             if (job == null)
             {
                 _sysLogApp.Add(new SysLog
@@ -157,7 +153,7 @@ namespace OpenAuth.App
             job.RunCount++;
             job.LastRunTime = DateTime.Now;
             Repository.Update(job);
-            
+
             _sysLogApp.Add(new SysLog
             {
                 CreateName = "Quartz",
@@ -172,13 +168,13 @@ namespace OpenAuth.App
         #endregion
 
 
-        public OpenJobApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<OpenJob,OpenAuthDBContext> repository,
-            IAuth auth, SysLogApp sysLogApp, IScheduler scheduler, ILogger<OpenJobApp> logger) : base(unitWork, repository, auth)
+        public OpenJobApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<OpenJob, OpenAuthDBContext> repository,
+            IAuth auth, SysLogApp sysLogApp, IScheduler scheduler, ILogger<OpenJobApp> logger) : base(unitWork,
+            repository, auth)
         {
             _sysLogApp = sysLogApp;
             _scheduler = scheduler;
             _logger = logger;
         }
-        
     }
 }

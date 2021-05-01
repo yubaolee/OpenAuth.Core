@@ -449,7 +449,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 下一个节点对象
         /// </summary>
-        public FlowNode nextNode => Nodes[nextNodeId];
+        public FlowNode nextNode => nextNodeId != "-1"? Nodes[nextNodeId] : null;
 
         /// <summary>
         /// 上一个节点

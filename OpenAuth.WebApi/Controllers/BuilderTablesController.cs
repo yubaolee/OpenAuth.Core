@@ -14,6 +14,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "BuilderTables")]
     public class BuilderTablesController : ControllerBase
     {
         private readonly BuilderTableApp _app;

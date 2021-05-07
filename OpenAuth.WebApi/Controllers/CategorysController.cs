@@ -14,6 +14,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Categorys")]
     public class CategorysController : ControllerBase
     {
         private readonly CategoryApp _app;

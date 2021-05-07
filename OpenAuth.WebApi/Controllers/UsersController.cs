@@ -12,7 +12,8 @@ namespace OpenAuth.WebApi.Controllers
     /// 用户操作
     /// </summary>
     [Route("api/[controller]/[action]")]
-    [ApiController]
+    [ApiController] 
+    [ApiExplorerSettings(GroupName = "Users")]
     public class UsersController : ControllerBase
     {
         private readonly UserManagerApp _app;

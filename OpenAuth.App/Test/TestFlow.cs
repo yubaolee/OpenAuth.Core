@@ -63,6 +63,15 @@ namespace OpenAuth.App.Test
             
         }
 
+        [Test]
+        public void GetDetail()
+        {
+            var app = _autofacServiceProvider.GetService<FlowInstanceApp>();
+            var flowinstance = app.GetForVerification("80e9db5f-419b-4b65-a274-abe2660608dd");
+            Console.WriteLine(JsonHelper.Instance.Serialize(flowinstance));
+
+        }
+
 
         [Test]
         public void Verificate()

@@ -36,9 +36,13 @@ namespace OpenAuth.Mvc.Controllers
             return View();
         }
 
-        //添加或修改
+        /// <summary>
+        /// MVC界面添加
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
-        public string Add(<%=ModuleName%> obj)
+        public string Add(AddOrUpdate<%=ModuleName%>Req obj)
         {
             try
             {
@@ -53,9 +57,13 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
 
-        //添加或修改
+        /// <summary>
+        /// MVC界面修改
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
-        public string Update(<%=ModuleName%> obj)
+        public string Update(AddOrUpdate<%=ModuleName%>Req obj)
         {
             try
             {

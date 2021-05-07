@@ -11,6 +11,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Orgs")]
     public class OrgsController : ControllerBase
     {
         private readonly OrgManagerApp _app;

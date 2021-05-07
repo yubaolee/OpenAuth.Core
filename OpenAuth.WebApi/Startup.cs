@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Autofac;
 using IdentityServer4.AccessTokenValidation;
 using Infrastructure;
@@ -35,22 +36,21 @@ namespace OpenAuth.WebApi
             Environment = environment;
         }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           services.Configure<ApiBehaviorOptions>(options =>
-           {
-               options.SuppressModelStateInvalidFilter = true;
-           });
-            
+            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+
             services.AddSingleton(provider =>
             {
                 var service = provider.GetRequiredService<ILogger<StartupLogger>>();
                 return new StartupLogger(service);
             });
             var logger = services.BuildServiceProvider().GetRequiredService<StartupLogger>();
-            
-            var identityServer = ((ConfigurationSection)Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
+
+            var identityServer =
+                ((ConfigurationSection) Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
             if (!string.IsNullOrEmpty(identityServer))
             {
                 services.AddAuthorization();
@@ -59,26 +59,29 @@ namespace OpenAuth.WebApi
                     .AddJwtBearer(options =>
                     {
                         options.Authority = identityServer;
-                        options.RequireHttpsMetadata = false;  // 指定是否为HTTPS
+                        options.RequireHttpsMetadata = false; // 指定是否为HTTPS
                         options.Audience = "openauthapi";
-                   });
+                    });
             }
-         
 
+            //添加swagger
             services.AddSwaggerGen(option =>
             {
-                option.SwaggerDoc("v1", new OpenApiInfo
+                foreach (var controller in GetControllers())
                 {
-                    Version = "v1",
-                    Title = " OpenAuth.WebApi",
-                    Description = "by yubaolee"
-                });
-                
+                    option.SwaggerDoc(controller.Name.Replace("Controller", ""), new OpenApiInfo
+                    {
+                        Version = "v1",
+                        Title = controller.Name.Replace("Controller", ""),
+                        Description = "by yubaolee"
+                    });
+                }
+
                 logger.LogInformation($"api doc basepath:{AppContext.BaseDirectory}");
                 foreach (var name in Directory.GetFiles(AppContext.BaseDirectory, "*.*",
-                    SearchOption.AllDirectories).Where(f =>Path.GetExtension(f).ToLower() == ".xml"))
+                    SearchOption.AllDirectories).Where(f => Path.GetExtension(f).ToLower() == ".xml"))
                 {
-                    option.IncludeXmlComments(name,includeControllerXmlComments:true);
+                    option.IncludeXmlComments(name, includeControllerXmlComments: true);
                     // logger.LogInformation($"find api file{name}");
                 }
 
@@ -98,21 +101,16 @@ namespace OpenAuth.WebApi
                                 AuthorizationUrl = new Uri($"{identityServer}/connect/authorize"),
                                 Scopes = new Dictionary<string, string>
                                 {
-                                    { "openauthapi", "同意openauth.webapi 的访问权限" }//指定客户端请求的api作用域。 如果为空，则客户端无法访问
+                                    {"openauthapi", "同意openauth.webapi 的访问权限"} //指定客户端请求的api作用域。 如果为空，则客户端无法访问
                                 }
                             }
                         }
                     });
                     option.OperationFilter<AuthResponsesOperationFilter>();
                 }
-
-                
             });
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
-            services.AddControllers(option =>
-            {
-                option.Filters.Add< OpenAuthFilter>();
-            }).AddNewtonsoftJson(options =>
+            services.AddControllers(option => { option.Filters.Add<OpenAuthFilter>(); }).AddNewtonsoftJson(options =>
             {
                 //忽略循环引用
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -140,7 +138,7 @@ namespace OpenAuth.WebApi
 //                policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins)));
 
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
-            var dbtypes = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbTypes")).GetChildren()
+            var dbtypes = ((ConfigurationSection) Configuration.GetSection("AppSetting:DbTypes")).GetChildren()
                 .ToDictionary(x => x.Key, x => x.Value);
             var connectionString = Configuration.GetConnectionString("OpenAuthDBContext");
             logger.LogInformation($"系统配置的数据库类型：{JsonHelper.Instance.Serialize(dbtypes)}，连接字符串：{connectionString}");
@@ -149,12 +147,21 @@ namespace OpenAuth.WebApi
             services.AddHttpClient();
 
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
-            
+
             //设置定时启动的任务
             services.AddHostedService<QuartzService>();
-            
         }
-        
+
+        private List<Type> GetControllers()
+        {
+            Assembly asm = Assembly.GetExecutingAssembly();
+
+            var controlleractionlist = asm.GetTypes()
+                .Where(type => typeof(ControllerBase).IsAssignableFrom(type))
+                .OrderBy(x => x.Name).ToList();
+            return controlleractionlist;
+        }
+
         public void ConfigureContainer(ContainerBuilder builder)
         {
             AutofacExt.InitAutofac(builder);
@@ -164,7 +171,7 @@ namespace OpenAuth.WebApi
         public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddLog4Net();
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -181,36 +188,37 @@ namespace OpenAuth.WebApi
                 }
             };
             app.UseStaticFiles(staticfile);
-            
+
 
             //todo:测试可以允许任意跨域，正式环境要加权限
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-            
+
             app.UseRouting();
             app.UseAuthentication();
-            
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-            
+
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
             //配置ServiceProvider
             AutofacContainerModule.ConfigServiceProvider(app.ApplicationServices);
 
-          app.UseSwagger();
+            app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+                foreach (var controller in GetControllers())
+                {
+                    c.SwaggerEndpoint($"/swagger/{controller.Name.Replace("Controller", "")}/swagger.json",
+                        controller.Name.Replace("Controller", ""));
+                }
+
                 c.DocExpansion(DocExpansion.None);
-                c.OAuthClientId("OpenAuth.WebApi");  //oauth客户端名称
+                c.OAuthClientId("OpenAuth.WebApi"); //oauth客户端名称
                 c.OAuthAppName("开源版webapi认证"); // 描述
             });
-
         }
     }
 }

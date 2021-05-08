@@ -41,13 +41,13 @@ namespace OpenAuth.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
-
-            services.AddSingleton(provider =>
+            
+            //在startup中需要强制创建log4net
+            var loggerFactory = LoggerFactory.Create(builder =>
             {
-                var service = provider.GetRequiredService<ILogger<StartupLogger>>();
-                return new StartupLogger(service);
+                builder.AddLog4Net();                
             });
-            var logger = services.BuildServiceProvider().GetRequiredService<StartupLogger>();
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
 
             var identityServer =
                 ((ConfigurationSection) Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
@@ -215,7 +215,7 @@ namespace OpenAuth.WebApi
                         controller.Name.Replace("Controller", ""));
                 }
 
-                c.DocExpansion(DocExpansion.None);
+                c.DocExpansion(DocExpansion.List);  //默认展开列表
                 c.OAuthClientId("OpenAuth.WebApi"); //oauth客户端名称
                 c.OAuthAppName("开源版webapi认证"); // 描述
             });

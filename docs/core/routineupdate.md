@@ -1,5 +1,7 @@
 # 日常提交(针对dev分支)
 
+* 2021.05.08 合并PR：[增加API访问审计;禁用.net自动模态验证,采用系统全局异常捕获机制](https://gitee.com/dotnetchina/OpenAuth.Net/pulls/12)；
+
 * 2021.05.07 swagger增加分组的功能；
 
 * 2021.05.06 fix issue [会签节点异常,提示'-1' was not present in the dictionary](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I3PE3R)；

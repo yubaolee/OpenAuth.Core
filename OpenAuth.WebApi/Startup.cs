@@ -7,6 +7,7 @@ using Autofac;
 using IdentityServer4.AccessTokenValidation;
 using Infrastructure;
 using Infrastructure.Extensions.AutofacManager;
+using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
@@ -110,14 +111,19 @@ namespace OpenAuth.WebApi
                 }
             });
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
-            services.AddControllers(option => { option.Filters.Add<OpenAuthFilter>(); }).AddNewtonsoftJson(options =>
-            {
-                //忽略循环引用
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                //不使用驼峰样式的key
-                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();    
-                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-            });
+            services.AddControllers(option => { option.Filters.Add<OpenAuthFilter>(); })
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    // 禁用自动模态验证
+                    options.SuppressModelStateInvalidFilter = true;
+                }).AddNewtonsoftJson(options =>
+                {
+                    //忽略循环引用
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    //不使用驼峰样式的key
+                    //options.SerializerSettings.ContractResolver = new DefaultContractResolver();    
+                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                });
             services.AddMemoryCache();
             services.AddCors();
 //          todo:如果正式 环境请用下面的方式限制随意访问跨域
@@ -197,6 +203,9 @@ namespace OpenAuth.WebApi
 
             app.UseRouting();
             app.UseAuthentication();
+
+            // 启用日志追踪记录和异常友好提示
+            app.UseLogMiddleware();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 

@@ -215,7 +215,7 @@ namespace OpenAuth.WebApi
                         controller.Name.Replace("Controller", ""));
                 }
 
-                c.DocExpansion(DocExpansion.None);
+                c.DocExpansion(DocExpansion.List);  //默认展开列表
                 c.OAuthClientId("OpenAuth.WebApi"); //oauth客户端名称
                 c.OAuthAppName("开源版webapi认证"); // 描述
             });

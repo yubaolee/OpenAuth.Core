@@ -12,6 +12,7 @@ namespace OpenAuth.App.SSO
         /// <summary>
         /// 应用的AppSecrect，目前没判定可以随便填一个。如果需要判定请根据注释调整LoginParse.Do方法
         /// </summary>
+        /// <example>openauth</example>
         public string AppKey { get; set; }
 
         public void Trim()

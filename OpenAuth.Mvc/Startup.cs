@@ -30,12 +30,12 @@ namespace OpenAuth.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(provider =>
+            //在startup中需要强制创建log4net
+            var loggerFactory = LoggerFactory.Create(builder =>
             {
-                var service = provider.GetRequiredService<ILogger<StartupLogger>>();
-                return new StartupLogger(service);
+                builder.AddLog4Net();
             });
-            var logger = services.BuildServiceProvider().GetRequiredService<StartupLogger>();
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
             var identityServer = ((ConfigurationSection)Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
             if (!string.IsNullOrEmpty(identityServer))
             {

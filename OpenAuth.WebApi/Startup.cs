@@ -41,9 +41,7 @@ namespace OpenAuth.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
-            
-            //在startup中需要强制创建log4net
+           //在startup中需要强制创建log4net
             var loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder.AddLog4Net();                
@@ -115,7 +113,15 @@ namespace OpenAuth.WebApi
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     // 禁用自动模态验证
-                    options.SuppressModelStateInvalidFilter = true;
+                    // options.SuppressModelStateInvalidFilter = true;
+
+                    //启动WebAPI自动模态验证，处理返回值
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problems = new CustomBadRequest(context);
+
+                        return new BadRequestObjectResult(problems);
+                    };
                 }).AddNewtonsoftJson(options =>
                 {
                     //忽略循环引用

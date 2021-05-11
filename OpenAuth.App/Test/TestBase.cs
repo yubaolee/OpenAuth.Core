@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using Autofac.Extensions.DependencyInjection;
@@ -27,7 +27,7 @@ namespace OpenAuth.App.Test
             serviceCollection.AddOptions();
             //读取OpenAuth.WebApi的配置文件用于单元测试
             var path = AppContext.BaseDirectory;
-            int pos = path.IndexOf("OpenAuth.App");
+            int pos = path.LastIndexOf("OpenAuth.");
             var basepath = Path.Combine(path.Substring(0,pos) ,"OpenAuth.WebApi");
             IConfiguration config = new ConfigurationBuilder()
                 .SetBasePath(basepath)

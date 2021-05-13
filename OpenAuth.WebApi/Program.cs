@@ -1,6 +1,8 @@
 ﻿using System;
 using Autofac.Extensions.DependencyInjection;
+using Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -39,7 +41,18 @@ namespace OpenAuth.WebApi
                     new AutofacServiceProviderFactory()) //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("http://*:52789").UseStartup<Startup>();
+                    var configurationBuilder = new ConfigurationBuilder();
+                    configurationBuilder.SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                        .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}.json", 
+                            optional: true)
+                        .AddEnvironmentVariables();
+                    
+                   var configuration = configurationBuilder.Build();
+                    var httpHost = configuration["AppSetting:HttpHost"];
+                    
+                    webBuilder.UseUrls(httpHost).UseStartup<Startup>();
+                    Console.WriteLine($"启动成功，接口访问地址:{httpHost}/swagger/index.html");
                 });
     }
 }

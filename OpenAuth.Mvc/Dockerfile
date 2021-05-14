@@ -4,10 +4,10 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["OpenAuth.Mvc/OpenAuth.Mvc.csproj", "OpenAuth.Mvc/"]
-COPY ["OpenAuth.Repository/OpenAuth.Repository.csproj", "OpenAuth.Repository/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
-COPY ["OpenAuth.App/OpenAuth.App.csproj", "OpenAuth.App/"]
+COPY ["../OpenAuth.Mvc/OpenAuth.Mvc.csproj", "../OpenAuth.Mvc/"]
+COPY ["../OpenAuth.Repository/OpenAuth.Repository.csproj", "../OpenAuth.Repository/"]
+COPY ["../Infrastructure/Infrastructure.csproj", "../Infrastructure/"]
+COPY ["../OpenAuth.App/OpenAuth.App.csproj", "../OpenAuth.App/"]
 RUN dotnet restore "OpenAuth.Mvc/OpenAuth.Mvc.csproj"
 COPY . .
 WORKDIR "/src/OpenAuth.Mvc"

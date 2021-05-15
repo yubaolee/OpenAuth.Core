@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac.Extensions.DependencyInjection;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -37,7 +38,10 @@ namespace OpenAuth.Mvc
                .UseServiceProviderFactory(new AutofacServiceProviderFactory())   //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
                 .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseUrls("http://*:1802").UseStartup<Startup>();
+                var configuration = ConfigHelper.GetConfigRoot();
+                var httpHost = configuration["AppSetting:HttpHost"];
+                webBuilder.UseUrls(httpHost).UseStartup<Startup>();
+                Console.WriteLine($"启动成功，访问地址:{httpHost}");
             });
 
     }

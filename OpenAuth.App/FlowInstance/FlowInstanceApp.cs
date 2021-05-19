@@ -667,6 +667,11 @@ namespace OpenAuth.App
         {
             var user = _auth.GetCurrentUser().User;
             FlowInstance flowInstance = Get(request.FlowInstanceId);
+            if (flowInstance.IsFinish == FlowInstanceStatus.Draft 
+                || flowInstance.IsFinish == FlowInstanceStatus.Finished)
+            {
+                throw new Exception("当前流程状态不能召回");
+            }
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
@@ -702,6 +707,10 @@ namespace OpenAuth.App
         public void Start(StartFlowInstanceReq request)
         {
             FlowInstance flowInstance = Get(request.FlowInstanceId);
+            if (flowInstance.IsFinish != FlowInstanceStatus.Draft)
+            {
+                throw new Exception("当前流程不是草稿状态，不能启动");
+            }
             var wfruntime = new FlowRuntime(flowInstance);
             var user = _auth.GetCurrentUser();
 

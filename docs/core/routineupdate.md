@@ -1,5 +1,13 @@
 # 日常提交(针对dev分支)
 
+* 2021.05.17 [增加配置启动端口](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I3QUV1)；
+
+* 2021.05.14 调整样式，添加刷新页面，tag标签保留功能；
+
+* 2021.05.12 [修复拖动表单上传异常](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I3QN22)；
+
+* 2021.05.09 增加自定义模态验证异常返回信息；
+
 * 2021.05.08 合并PR：[增加API访问审计;禁用.net自动模态验证,采用系统全局异常捕获机制](https://gitee.com/dotnetchina/OpenAuth.Net/pulls/12)；
 
 * 2021.05.07 swagger增加分组的功能；

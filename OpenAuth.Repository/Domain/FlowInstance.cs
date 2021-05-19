@@ -162,9 +162,9 @@ namespace OpenAuth.Repository.Domain
          [Description("实例备注")]
         public string Description { get; set; }
         /// <summary>
-	    /// 是否完成
+	    /// 是否完成，当前节点的状态也通过该值表示
 	    /// </summary>
-         [Description("是否完成")]
+         [Description("是否完成，当前节点的状态也通过该值表示")]
         public int IsFinish { get; set; }
         /// <summary>
 	    /// 执行人

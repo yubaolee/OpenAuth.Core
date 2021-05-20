@@ -146,6 +146,29 @@ namespace OpenAuth.App
             UnitWork.Save();
             return true;
         }
+        
+        /// <summary>
+        /// 更新流程
+        /// <para>更新时可以修改表单内容，可以修改流程基本信息，但不能更换表单模版</para>
+        /// </summary>
+        /// <param name="req"></param>
+        public void Update(UpdateFlowInstanceReq req)
+        {
+            var flowinstance = Get(req.FlowInstanceId);
+
+            if (flowinstance.IsFinish != FlowInstanceStatus.Draft &&
+                flowinstance.IsFinish != FlowInstanceStatus.Rejected)
+            {
+                throw new Exception("只能修改【草稿】和【驳回】状态的流程");
+            }
+
+            flowinstance.Description = req.Description;
+            flowinstance.Code = req.Code;
+            flowinstance.FrmData = req.FrmData;
+            flowinstance.DbName = req.FrmData;
+            flowinstance.CustomName = req.CustomName;
+            Repository.Update(flowinstance);
+        }
 
         /// <summary>
         /// 节点审核
@@ -549,11 +572,6 @@ namespace OpenAuth.App
             {
                 throw new Exception("下个节点需要选择执行人或执行角色");
             }
-        }
-
-        public void Update(FlowInstance flowScheme)
-        {
-            Repository.Update(flowScheme);
         }
 
         /// <summary>

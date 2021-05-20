@@ -121,10 +121,14 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
-
-        //添加或修改
+        
+       /// <summary>
+       /// 更新流程
+       /// </summary>
+       /// <para>更新时可以修改表单内容，可以修改流程基本信息，但不能更换表单模版</para>
+       /// <returns></returns>
        [HttpPost]
-        public Response Update(FlowInstance obj)
+        public Response Update(UpdateFlowInstanceReq obj)
         {
             var result = new Response();
             try

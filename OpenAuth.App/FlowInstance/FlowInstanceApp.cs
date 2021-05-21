@@ -154,7 +154,7 @@ namespace OpenAuth.App
         /// <param name="req"></param>
         public void Update(UpdateFlowInstanceReq req)
         {
-            var flowinstance = Get(req.FlowInstanceId);
+            var flowinstance = Get(req.Id);
 
             if (flowinstance.IsFinish != FlowInstanceStatus.Draft &&
                 flowinstance.IsFinish != FlowInstanceStatus.Rejected)
@@ -165,7 +165,7 @@ namespace OpenAuth.App
             flowinstance.Description = req.Description;
             flowinstance.Code = req.Code;
             flowinstance.FrmData = req.FrmData;
-            flowinstance.DbName = req.FrmData;
+            flowinstance.DbName = req.DbName;
             flowinstance.CustomName = req.CustomName;
             Repository.Update(flowinstance);
         }

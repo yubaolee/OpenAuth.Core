@@ -21,7 +21,7 @@ namespace OpenAuth.App.Request
 	    /// <summary>
 	    /// 待更改的流程实例ID
 	    /// </summary>
-	    public string FlowInstanceId { get; set; }
+	    public string Id { get; set; }
 
         /// <summary>
 	    /// 实例编号

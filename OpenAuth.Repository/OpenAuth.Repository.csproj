@@ -24,6 +24,9 @@
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.110" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="3.0.40" />
+
+    <PackageReference Include="MiniProfiler" Version="4.2.22" />
+    <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.2.22" />
   </ItemGroup>
 
   <ItemGroup>

@@ -67,6 +67,12 @@ namespace OpenAuth.WebApi
             {
                 // 设定访问分析结果URL的路由基地址
                 options.RouteBasePath = "/profiler";
+                
+                options.ColorScheme = StackExchange.Profiling.ColorScheme.Auto;
+                options.PopupRenderPosition = StackExchange.Profiling.RenderPosition.BottomLeft;
+                options.PopupShowTimeWithChildren = true;
+                options.PopupShowTrivial = true;
+                options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
             }).AddEntityFramework();//显示SQL语句及耗时
 
             //添加swagger

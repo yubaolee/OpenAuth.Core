@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac.Extensions.DependencyInjection;
 using Infrastructure;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -41,14 +42,7 @@ namespace OpenAuth.WebApi
                     new AutofacServiceProviderFactory()) //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    var configurationBuilder = new ConfigurationBuilder();
-                    configurationBuilder.SetBasePath(System.IO.Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}.json", 
-                            optional: true)
-                        .AddEnvironmentVariables();
-                    
-                   var configuration = configurationBuilder.Build();
+                    var configuration = ConfigHelper.GetConfigRoot();
                     var httpHost = configuration["AppSetting:HttpHost"];
                     
                     webBuilder.UseUrls(httpHost).UseStartup<Startup>();

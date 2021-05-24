@@ -62,6 +62,18 @@ namespace OpenAuth.WebApi
                         options.Audience = "openauthapi";
                     });
             }
+            // 添加MiniProfiler服务
+            services.AddMiniProfiler(options =>
+            {
+                // 设定访问分析结果URL的路由基地址
+                options.RouteBasePath = "/profiler";
+                
+                options.ColorScheme = StackExchange.Profiling.ColorScheme.Auto;
+                options.PopupRenderPosition = StackExchange.Profiling.RenderPosition.BottomLeft;
+                options.PopupShowTimeWithChildren = true;
+                options.PopupShowTrivial = true;
+                options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
+            }).AddEntityFramework();//显示SQL语句及耗时
 
             //添加swagger
             services.AddSwaggerGen(option =>
@@ -160,6 +172,8 @@ namespace OpenAuth.WebApi
 
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
 
+           
+
             //设置定时启动的任务
             services.AddHostedService<QuartzService>();
         }
@@ -217,13 +231,17 @@ namespace OpenAuth.WebApi
 
             //配置ServiceProvider
             AutofacContainerModule.ConfigServiceProvider(app.ApplicationServices);
+            
+            app.UseMiniProfiler();
 
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
-            {
+            { 
+                c.IndexStream = () => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("OpenAuth.WebApi.index.html");
+                
                 foreach (var controller in GetControllers())
                 {
                     c.SwaggerEndpoint($"/swagger/{controller.Name.Replace("Controller", "")}/swagger.json",

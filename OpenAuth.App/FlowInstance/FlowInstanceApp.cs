@@ -146,6 +146,29 @@ namespace OpenAuth.App
             UnitWork.Save();
             return true;
         }
+        
+        /// <summary>
+        /// 更新流程
+        /// <para>更新时可以修改表单内容，可以修改流程基本信息，但不能更换表单模版</para>
+        /// </summary>
+        /// <param name="req"></param>
+        public void Update(UpdateFlowInstanceReq req)
+        {
+            var flowinstance = Get(req.Id);
+
+            if (flowinstance.IsFinish != FlowInstanceStatus.Draft &&
+                flowinstance.IsFinish != FlowInstanceStatus.Rejected)
+            {
+                throw new Exception("只能修改【草稿】和【驳回】状态的流程");
+            }
+
+            flowinstance.Description = req.Description;
+            flowinstance.Code = req.Code;
+            flowinstance.FrmData = req.FrmData;
+            flowinstance.DbName = req.DbName;
+            flowinstance.CustomName = req.CustomName;
+            Repository.Update(flowinstance);
+        }
 
         /// <summary>
         /// 节点审核
@@ -551,11 +574,6 @@ namespace OpenAuth.App
             }
         }
 
-        public void Update(FlowInstance flowScheme)
-        {
-            Repository.Update(flowScheme);
-        }
-
         /// <summary>
         /// 返回用于处理流程节点
         /// </summary>
@@ -667,6 +685,11 @@ namespace OpenAuth.App
         {
             var user = _auth.GetCurrentUser().User;
             FlowInstance flowInstance = Get(request.FlowInstanceId);
+            if (flowInstance.IsFinish == FlowInstanceStatus.Draft 
+                || flowInstance.IsFinish == FlowInstanceStatus.Finished)
+            {
+                throw new Exception("当前流程状态不能召回");
+            }
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
@@ -702,6 +725,10 @@ namespace OpenAuth.App
         public void Start(StartFlowInstanceReq request)
         {
             FlowInstance flowInstance = Get(request.FlowInstanceId);
+            if (flowInstance.IsFinish != FlowInstanceStatus.Draft)
+            {
+                throw new Exception("当前流程不是草稿状态，不能启动");
+            }
             var wfruntime = new FlowRuntime(flowInstance);
             var user = _auth.GetCurrentUser();
 

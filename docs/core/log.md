@@ -78,4 +78,29 @@
   }
 ```
 
+## 在Swagger中输出日志
+
+框架集成mini profiler工具，在swagger中调用接口时，可以直接在swagger中显示日志信息。以登录接口为例，添加以下代码：
+
+```csharp
+[HttpPost]
+[AllowAnonymous]
+public LoginResult Login(PassportLoginRequest request)
+{
+    var result = new LoginResult();
+    using (MiniProfiler.Current.Step("Login"))
+    {
+        result = _authUtil.Login(request.AppKey, request.Account, request.Password);
+    }
+    return result;
+}
+```
+这时在swagger中执行一次`Try it out`即可看到该接口具体执行信息:
+
+![](/miniprofiler1.png)
+
+点击`sql`列的时间，查看详细的sql执行情况
+
+![](/miniprofiler2.png)
+
 正式发布环境下，如无特殊需求，建议在`appsettings.Production.json`配置中关闭该输出

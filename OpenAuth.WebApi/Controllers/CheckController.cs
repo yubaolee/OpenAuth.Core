@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.Helpers;
 using Microsoft.Extensions.Logging;
+using StackExchange.Profiling;
 
 namespace OpenAuth.WebApi.Controllers
 {
@@ -331,17 +332,21 @@ namespace OpenAuth.WebApi.Controllers
         
         /// <summary>
         /// 登录接口
+        /// <para>该接口可以在swagger中查看mini profiler效果</para>
         /// </summary>
         /// <param name="request">登录参数</param>
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public LoginResult Login([FromBody]PassportLoginRequest request)
+        public LoginResult Login(PassportLoginRequest request)
         {
             var result = new LoginResult();
             try
             {
-                result = _authUtil.Login(request.AppKey, request.Account, request.Password);
+                using (MiniProfiler.Current.Step("Login"))
+                {
+                    result = _authUtil.Login(request.AppKey, request.Account, request.Password);
+                }
             }
             catch (Exception ex)
             {

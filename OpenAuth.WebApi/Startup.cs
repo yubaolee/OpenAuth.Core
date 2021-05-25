@@ -202,6 +202,8 @@ namespace OpenAuth.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseMiniProfiler();
 
             //可以访问根目录下面的静态文件
             var staticfile = new StaticFileOptions
@@ -232,7 +234,6 @@ namespace OpenAuth.WebApi
             //配置ServiceProvider
             AutofacContainerModule.ConfigServiceProvider(app.ApplicationServices);
             
-            app.UseMiniProfiler();
 
             app.UseSwagger();
 

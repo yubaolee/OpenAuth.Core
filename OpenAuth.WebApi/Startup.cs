@@ -73,6 +73,7 @@ namespace OpenAuth.WebApi
                 options.PopupShowTimeWithChildren = true;
                 options.PopupShowTrivial = true;
                 options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
+                options.IgnoredPaths.Add("/swagger/");
             }).AddEntityFramework();//显示SQL语句及耗时
 
             //添加swagger

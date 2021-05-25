@@ -332,7 +332,6 @@ namespace OpenAuth.WebApi.Controllers
         
         /// <summary>
         /// 登录接口
-        /// <para>该接口可以在swagger中查看mini profiler效果</para>
         /// </summary>
         /// <param name="request">登录参数</param>
         /// <returns></returns>
@@ -342,11 +341,8 @@ namespace OpenAuth.WebApi.Controllers
         {
             var result = new LoginResult();
             try
-            {
-                using (MiniProfiler.Current.Step("Login"))
-                {
-                    result = _authUtil.Login(request.AppKey, request.Account, request.Password);
-                }
+            { 
+                result = _authUtil.Login(request.AppKey, request.Account, request.Password);
             }
             catch (Exception ex)
             {

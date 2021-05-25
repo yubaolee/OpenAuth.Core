@@ -78,24 +78,11 @@
   }
 ```
 
+正式发布环境下，如无特殊需求，建议在`appsettings.Production.json`配置中关闭该输出
+
 ## 在Swagger中输出日志
 
-框架集成mini profiler工具，在swagger中调用接口时，可以直接在swagger中显示日志信息。以登录接口为例，添加以下代码：
-
-```csharp
-[HttpPost]
-[AllowAnonymous]
-public LoginResult Login(PassportLoginRequest request)
-{
-    var result = new LoginResult();
-    using (MiniProfiler.Current.Step("Login"))
-    {
-        result = _authUtil.Login(request.AppKey, request.Account, request.Password);
-    }
-    return result;
-}
-```
-这时在swagger中执行一次`Try it out`即可看到该接口具体执行信息:
+框架集成mini profiler工具，在swagger中或其他客户端调用WebApi接口时，可以直接在swagger中显示日志信息（需要刷新）。如下图：
 
 ![](/miniprofiler1.png)
 
@@ -103,4 +90,31 @@ public LoginResult Login(PassportLoginRequest request)
 
 ![](/miniprofiler2.png)
 
-正式发布环境下，如无特殊需求，建议在`appsettings.Production.json`配置中关闭该输出
+如果需要订制日志信息，查看更详细的日志情况，可以自己调整代码实现。以登录接口为例，添加以下代码：
+
+```csharp
+[HttpPost]
+[AllowAnonymous]
+public LoginResult Login(PassportLoginRequest request)
+{
+    var result = new LoginResult();
+    using (MiniProfiler.Current.Step("步骤一"))
+    {
+        result = _authUtil.Login(request.AppKey, request.Account, request.Password);
+    }
+
+    using (MiniProfiler.Current.Step("步骤二"))
+    {
+        //代码略
+    }
+
+    using (MiniProfiler.Current.Step("步骤三"))
+    {
+        //代码略
+    }
+    return result;
+}
+```
+这时调用该API后即可看到具体步骤一、步骤二、步骤三的执行时间情况了
+
+

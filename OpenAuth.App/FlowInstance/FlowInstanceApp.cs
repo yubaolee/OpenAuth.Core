@@ -41,11 +41,13 @@ namespace OpenAuth.App
         private FormApp _formApp;
         private IHttpClientFactory _httpClientFactory;
         private IServiceProvider _serviceProvider;
+        private SysMessageApp _messageApp;
 
         public FlowInstanceApp(IUnitWork<OpenAuthDBContext> unitWork,
             IRepository<FlowInstance, OpenAuthDBContext> repository
             , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp,
-            IHttpClientFactory httpClientFactory, IAuth auth, IServiceProvider serviceProvider)
+            IHttpClientFactory httpClientFactory, IAuth auth, IServiceProvider serviceProvider, 
+            SysMessageApp messageApp)
             : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
@@ -53,6 +55,7 @@ namespace OpenAuth.App
             _formApp = formApp;
             _httpClientFactory = httpClientFactory;
             _serviceProvider = serviceProvider;
+            _messageApp = messageApp;
         }
 
         #region 流程处理API
@@ -295,6 +298,11 @@ namespace OpenAuth.App
 
             UnitWork.Update(flowInstance);
             UnitWork.Add(flowInstanceOperationHistory);
+
+            //给流程创建人发送通知信息
+                _messageApp.SendMsgTo(flowInstance.CreateUserId, 
+                    $"你的流程[{flowInstance.CustomName}]已被{user.Name}处理。处理情况如下:{flowInstanceOperationHistory.Content}");
+
             UnitWork.Save();
 
             wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), tag);
@@ -378,6 +386,10 @@ namespace OpenAuth.App
                           + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】驳回,备注："
                           + reqest.VerificationOpinion
             });
+            
+            //给流程创建人发送通知信息
+            _messageApp.SendMsgTo(flowInstance.CreateUserId, 
+                $"你的流程[{flowInstance.CustomName}]已被{user.Name}驳回。备注信息:{reqest.VerificationOpinion}");
 
             UnitWork.Save();
 

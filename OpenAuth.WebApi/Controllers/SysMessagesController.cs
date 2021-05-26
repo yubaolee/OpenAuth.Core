@@ -65,29 +65,6 @@ namespace OpenAuth.WebApi.Controllers
         }
         
         /// <summary>
-        /// 逻辑删除
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public Response Del(ReadMsgReq obj)
-        {
-            var result = new Response();
-            try
-            {
-                _app.Del(obj);
-
-            }
-            catch (Exception ex)
-            {
-                result.Code = 500;
-                result.Message = ex.InnerException?.Message ?? ex.Message;
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// 加载列表
         /// </summary>
         [HttpGet]
@@ -105,7 +82,7 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response();
             try
             {
-                _app.Delete(ids);
+                _app.Del(ids);
 
             }
             catch (Exception ex)

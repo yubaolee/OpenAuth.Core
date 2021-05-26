@@ -62,7 +62,19 @@ namespace OpenAuth.App
         /// <param name="message"></param>
         public void SendMsgTo(string userId, string message)
         {
-            var user = UnitWork.FirstOrDefault<User>(u => u.Id == userId);
+            User user = null;
+            if (userId == Guid.Empty.ToString())
+            {
+                user = new User
+                {
+                    Name = Define.SYSTEM_USERNAME,
+                    Id = userId
+                };
+            }
+            else
+            {
+                 user = UnitWork.FirstOrDefault<User>(u => u.Id == userId);
+            }
             if (user == null)
             {
                 _logger.LogError($"未能找到用户{userId},不能给该用户发送消息");
@@ -72,6 +84,8 @@ namespace OpenAuth.App
             {
                 ToId = user.Id,
                 ToName = user.Name,
+                TypeName = "系统消息",
+                TypeId ="SYS_MSG",
                 FromId = Guid.Empty.ToString(),
                 FromName = "系统管理员",
                 Content = message,
@@ -90,10 +104,13 @@ namespace OpenAuth.App
                 ToStatus = 1
             });
         }
-        
-        public void Del(ReadMsgReq obj)
+        /// <summary>
+        /// 消息采用逻辑删除
+        /// </summary>
+        /// <param name="ids"></param>
+        public void Del(string[] ids)
         {
-            UnitWork.Update<SysMessage>(u => u.Id == obj.Id, u => new SysMessage
+            UnitWork.Update<SysMessage>(u => ids.Contains(u.Id), u => new SysMessage
             {
                ToStatus = -1 //逻辑删除
             });

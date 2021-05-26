@@ -19,7 +19,11 @@ namespace OpenAuth.WebApi.Controllers
     {
         private readonly SysMessageApp _app;
         
-        //获取详情
+       /// <summary>
+       /// 获取消息详情
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
         [HttpGet]
         public Response<SysMessage> Get(string id)
         {
@@ -37,14 +41,18 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        //添加
+        /// <summary>
+        /// 阅读消息（即消息置为已读）
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
        [HttpPost]
-        public Response Add(SysMessage obj)
+        public Response Read(ReadMsgReq obj)
         {
             var result = new Response();
             try
             {
-                _app.Add(obj);
+                _app.Read(obj);
 
             }
             catch (Exception ex)
@@ -55,26 +63,7 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
-
-        //修改
-       [HttpPost]
-        public Response Update(SysMessage obj)
-        {
-            var result = new Response();
-            try
-            {
-                _app.Update(obj);
-
-            }
-            catch (Exception ex)
-            {
-                result.Code = 500;
-                result.Message = ex.InnerException?.Message ?? ex.Message;
-            }
-
-            return result;
-        }
-
+        
         /// <summary>
         /// 加载列表
         /// </summary>
@@ -93,7 +82,7 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response();
             try
             {
-                _app.Delete(ids);
+                _app.Del(ids);
 
             }
             catch (Exception ex)

@@ -1,5 +1,13 @@
 # 日常提交(针对dev分支)
 
+* 2021.05.26 流程处理增加消息通知；
+
+* 2021.05.24 集成miniprofiler，可以监控API运行情况。[查看使用说明](http://doc.openauth.me/core/log.html#%E5%9C%A8swagger%E4%B8%AD%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97 )；
+
+* 2021.05.23 [模块管理页面加载时默认显示第一条](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I3RUOR)；
+
+* 2021.05.21 新增编辑流程功能（草稿和驳回状态）；
+
 * 2021.05.17 [增加配置启动端口](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I3QUV1)；
 
 * 2021.05.14 调整样式，添加刷新页面，tag标签保留功能；

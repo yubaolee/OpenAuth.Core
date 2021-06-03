@@ -1,5 +1,7 @@
 # 日常提交(针对dev分支)
 
+* 2021.06.02 删除已过期文件，优化注释；
+
 * 2021.05.26 流程处理增加消息通知；
 
 * 2021.05.24 集成miniprofiler，可以监控API运行情况。[查看使用说明](http://doc.openauth.me/core/log.html#%E5%9C%A8swagger%E4%B8%AD%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97 )；

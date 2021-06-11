@@ -14,7 +14,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "BuilderTableColumns")]
+    [ApiExplorerSettings(GroupName = "代码生成器_字段_BuilderTableColumns")]
     public class BuilderTableColumnsController : ControllerBase
     {
         private readonly BuilderTableColumnApp _app;

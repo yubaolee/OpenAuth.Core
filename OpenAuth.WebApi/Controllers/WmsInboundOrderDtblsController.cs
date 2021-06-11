@@ -15,7 +15,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "WmsInboundOrderDtbls")]
+    [ApiExplorerSettings(GroupName = "订单明细_WmsInboundOrderDtbls")]
     public class WmsInboundOrderDtblsController : ControllerBase
     {
         private readonly WmsInboundOrderDtblApp _app;

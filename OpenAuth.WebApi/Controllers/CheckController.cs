@@ -33,7 +33,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "Check")]
+    [ApiExplorerSettings(GroupName = "登录验证_Check")]
     public class CheckController : ControllerBase
     {
         private readonly IAuth _authUtil;
@@ -341,7 +341,7 @@ namespace OpenAuth.WebApi.Controllers
         {
             var result = new LoginResult();
             try
-            {
+            { 
                 result = _authUtil.Login(request.AppKey, request.Account, request.Password);
             }
             catch (Exception ex)

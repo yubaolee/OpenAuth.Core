@@ -17,7 +17,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "Resources")]
+    [ApiExplorerSettings(GroupName = "资源管理_Resources")]
     public class ResourcesController : ControllerBase
     {
         private readonly ResourceApp _app;

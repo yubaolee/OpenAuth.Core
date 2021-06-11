@@ -62,7 +62,9 @@
 
 ## 演示直达
 
-* 企业版演示地址： http://demo.openauth.me:1803
+* 企业版/高级版演示地址： http://demo.openauth.me:1803
+
+* 企业版H5演示地址（请使用浏览器移动模式或直接用手机打开）： http://demo.openauth.me:1804 
 
 * 开源版演示地址： http://demo.openauth.me:1802
 

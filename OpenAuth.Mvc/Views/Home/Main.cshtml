@@ -1,7 +1,8 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/main.css" media="all" />
+    <link rel="stylesheet" href="/css/main.css" media="all"/>
 }
+
 <div class="panel_box row">
     <div class="panel col">
         <a href="javascript:;" data-url="/orgmanager/index">
@@ -79,7 +80,8 @@
     <p>
         <a href="https://gitee.com/yubaolee/OpenAuth.Core" target="_blank" class="layui-btn layui-btn-xs layui-btn-danger">项目地址</a>
         <a class="layui-btn layui-btn-xs" target="_blank" href="http://doc.openauth.me">在线文档</a>
-        <a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank" href="http://demo.openauth.me:1803">企业版入口</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank" href="http://demo.openauth.me:1803">企业版/高级版入口</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank" href="http://demo.openauth.me:1804">企业版H5入口（请使用移动模式或者直接手机查看）</a>
         <span style="color: #f00;">注：【本框架遵循LGPL开源协议，企业单位如商用请联系作者授权，谢谢】</span>
     </p>
     <p>技术交流QQ群：484498493【已满】 &nbsp; &nbsp; 626433139【已满】 &nbsp;&nbsp; 566344079</p>
@@ -87,14 +89,33 @@
 <div class="row">
     <div class="sysNotice col">
         <blockquote class="layui-elem-quote title">更新日志</blockquote>
-         <div class="layui-elem-quote layui-quote-nm">
+        <div class="layui-elem-quote layui-quote-nm">
+            <h3># 3.2</h3>
+            <p>* 【新增】增加在swagger界面查看接口调用时间及SQL执行时间</p>
+            <p>
+                * 【新增】支持同时配置多个类型数据库的连接字符串：
+                详见:<a href="http://doc.openauth.me/core/multidbs.html" target="_blank" class="layui-btn layui-btn-xs layui-btn-danger">http://doc.openauth.me/core/multidbs.html</a>
+            </p>
+            <p>* 【新增】增加swagger接口分组</p>
+            <p>* 【新增】增加流程召回功能</p>
+            <p>* 【新增】增加运行时选定执行人、执行角色功能</p>
+            <p>* 【新增】增加Redis缓存支持</p>
+            <p>* 【新增】新增int类型数据库主键，并支持雪花算法自动生成</p>
+            <p>* 【新增】新增附件管理，上传图片支持生成缩略图</p>
+        </div>
+        <div class="layui-elem-quote layui-quote-nm">
             <h3># 2.0</h3>
             <p>* 【新增】框架升级至.net core sdk 3.1.100</p>
-             <p>* 【新增】增加<a href="javascript:;" data-url="/usermanager/profile"><cite>个人中心</cite></a>页面，可修改个人信息及切换当前默认部门</p>
-             <p>* 【优化】升级layui至2.5.6</p>
+            <p>
+                * 【新增】增加
+                <a href="javascript:;" data-url="/usermanager/profile">
+                    <cite>个人中心</cite>
+                </a>页面，可修改个人信息及切换当前默认部门
+            </p>
+            <p>* 【优化】升级layui至2.5.6</p>
             <p>* 【优化】可以灵活配置用户可访问的机构数据权限</p>
-         </div>
-         <div class="layui-elem-quote layui-quote-nm">
+        </div>
+        <div class="layui-elem-quote layui-quote-nm">
             <h3># 1.6</h3>
             <p>* 【新增】日志及用户消息板块</p>
             <p>* 【新增】企业版代码生成器，可以快速生成带有头/明细结构的页面</p>
@@ -102,7 +123,7 @@
             <p>* 【新增】完整的字段权限控制，可以控制字段可见及API是否返回字段值</p>
             <p>* 【优化】启用数据字典功能</p>
             <p>* 【优化】优化导航排序、支持多级导航</p>
-         </div>
+        </div>
         <div class="layui-elem-quote layui-quote-nm">
             <h3># 1.5 - 2019.7</h3>
             <p>* 【优化】升级layui至2.5.4</p>
@@ -111,7 +132,7 @@
             <p>* 【新增】集成IdentityServer4，实现基于OAuth2的登录体系</p>
             <p>* 【新增】建立三方对接规范，已有系统可以无缝对接流程引擎，请参考官方<a href="http://doc.openauth.me/thirdparty" target="_top">对接说明</a></p>
         </div>
-        
+
         <div class="layui-elem-quote layui-quote-nm">
             <h3># 1.4 - 2019.3</h3>
             <p>* 【优化】升级layui至2.4.5</p>
@@ -133,34 +154,34 @@
                 <col>
             </colgroup>
             <tbody>
-                <tr>
-                    <td>当前版本</td>
-                    <td class="version"></td>
-                </tr>
-                <tr>
-                    <td>开发作者</td>
-                    <td class="author"></td>
-                </tr>
-                <tr>
-                    <td>网站首页</td>
-                    <td class="homePage"></td>
-                </tr>
-                <tr>
-                    <td>服务器环境</td>
-                    <td class="server"></td>
-                </tr>
-                <tr>
-                    <td>数据库版本</td>
-                    <td class="dataBase"></td>
-                </tr>
-                <tr>
-                    <td>最大上传限制</td>
-                    <td class="maxUpload"></td>
-                </tr>
-                <tr>
-                    <td>当前用户权限</td>
-                    <td class="userRights"></td>
-                </tr>
+            <tr>
+                <td>当前版本</td>
+                <td class="version"></td>
+            </tr>
+            <tr>
+                <td>开发作者</td>
+                <td class="author"></td>
+            </tr>
+            <tr>
+                <td>网站首页</td>
+                <td class="homePage"></td>
+            </tr>
+            <tr>
+                <td>服务器环境</td>
+                <td class="server"></td>
+            </tr>
+            <tr>
+                <td>数据库版本</td>
+                <td class="dataBase"></td>
+            </tr>
+            <tr>
+                <td>最大上传限制</td>
+                <td class="maxUpload"></td>
+            </tr>
+            <tr>
+                <td>当前用户权限</td>
+                <td class="userRights"></td>
+            </tr>
             </tbody>
         </table>
 
@@ -168,4 +189,4 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/main.js?v=2.0.0"></script>
+<script type="text/javascript" src="/userJs/main.js?v=3.2.0"></script>

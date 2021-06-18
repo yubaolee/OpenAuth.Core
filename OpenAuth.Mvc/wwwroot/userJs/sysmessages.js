@@ -43,6 +43,7 @@
         if (options != undefined) {
             $.extend(config, options);
         }
+        config.status = 999;  //全部消息
         table.reload('mainList',
             {
                 url: '/SysMessages/Load',

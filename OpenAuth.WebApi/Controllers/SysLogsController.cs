@@ -14,7 +14,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "SysLogs")]
+    [ApiExplorerSettings(GroupName = "系统日志_SysLogs")]
     public class SysLogsController : ControllerBase
     {
         private readonly SysLogApp _app;

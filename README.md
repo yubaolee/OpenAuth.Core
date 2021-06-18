@@ -36,13 +36,15 @@
 
 
 
-## 关于OpenAuth.Net企业版的说明：
+## 关于OpenAuth.Net企业版/高级版的说明：
 
-目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue + element UI 的单页面应用程序，即企业版OpenAuth.Pro
+目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue + element UI 的单页面应用程序，即企业版/高级版OpenAuth.Pro
 
-**该版本后端基于OpenAuth.Core的API接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发**
+**该版本是一套后端基于OpenAuth.WebAPI接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发的管理后台 [点击这里查看效果](http://demo.openauth.me:1803)**
 
-版本附赠VIP服务，提供VIP专属QQ群，企业报销凭据、专属内部文档、技术咨询服务等。[如何获取请查看这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
+**另外** 企业版包含一套基于有赞Vant+Vue3的移动端界面，[请使用浏览器移动模式查看效果](http://demo.openauth.me:1804)
+
+企业版/高级版附赠VIP服务，提供VIP专属QQ群，企业报销凭据、专属内部文档、技术咨询服务等。[如何获取请查看这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
 
 效果如下：
 ![API启动效果图](https://images.gitee.com/uploads/images/2021/0422/012037_ec51b7e6_362401.png "api启动.png")
@@ -62,7 +64,9 @@
 
 ## 演示直达
 
-* 企业版演示地址： http://demo.openauth.me:1803
+* 企业版/高级版演示地址： http://demo.openauth.me:1803
+
+* 企业版H5演示地址（请使用浏览器移动模式或直接用手机打开）： http://demo.openauth.me:1804 
 
 * 开源版演示地址： http://demo.openauth.me:1802
 

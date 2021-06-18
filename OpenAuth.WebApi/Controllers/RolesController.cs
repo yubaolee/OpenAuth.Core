@@ -14,7 +14,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "Roles")]
+    [ApiExplorerSettings(GroupName = "角色管理_Roles")]
     public class RolesController : ControllerBase
     {
         private readonly RoleApp _app;

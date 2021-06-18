@@ -13,7 +13,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController] 
-    [ApiExplorerSettings(GroupName = "Users")]
+    [ApiExplorerSettings(GroupName = "用户管理_Users")]
     public class UsersController : ControllerBase
     {
         private readonly UserManagerApp _app;

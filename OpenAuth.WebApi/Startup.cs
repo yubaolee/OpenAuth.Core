@@ -41,11 +41,8 @@ namespace OpenAuth.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           //在startup中需要强制创建log4net
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddLog4Net();                
-            });
+            //在startup中需要强制创建log4net
+            var loggerFactory = LoggerFactory.Create(builder => { builder.AddLog4Net(); });
             ILogger logger = loggerFactory.CreateLogger<Startup>();
 
             var identityServer =
@@ -62,29 +59,32 @@ namespace OpenAuth.WebApi
                         options.Audience = "openauthapi";
                     });
             }
+
             // 添加MiniProfiler服务
             services.AddMiniProfiler(options =>
             {
                 // 设定访问分析结果URL的路由基地址
                 options.RouteBasePath = "/profiler";
-                
+
                 options.ColorScheme = StackExchange.Profiling.ColorScheme.Auto;
                 options.PopupRenderPosition = StackExchange.Profiling.RenderPosition.BottomLeft;
                 options.PopupShowTimeWithChildren = true;
                 options.PopupShowTrivial = true;
                 options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
                 //  options.IgnoredPaths.Add("/swagger/");
-            }).AddEntityFramework();//显示SQL语句及耗时
+            }).AddEntityFramework(); //显示SQL语句及耗时
 
             //添加swagger
             services.AddSwaggerGen(option =>
             {
                 foreach (var controller in GetControllers())
                 {
-                    option.SwaggerDoc(controller.Name.Replace("Controller", ""), new OpenApiInfo
+                    var groupname = GetSwaggerGroupName(controller);
+
+                    option.SwaggerDoc(groupname, new OpenApiInfo
                     {
                         Version = "v1",
-                        Title = controller.Name.Replace("Controller", ""),
+                        Title = groupname,
                         Description = "by yubaolee"
                     });
                 }
@@ -173,20 +173,9 @@ namespace OpenAuth.WebApi
 
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
 
-           
 
             //设置定时启动的任务
             services.AddHostedService<QuartzService>();
-        }
-
-        private List<Type> GetControllers()
-        {
-            Assembly asm = Assembly.GetExecutingAssembly();
-
-            var controlleractionlist = asm.GetTypes()
-                .Where(type => typeof(ControllerBase).IsAssignableFrom(type))
-                .OrderBy(x => x.Name).ToList();
-            return controlleractionlist;
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -234,25 +223,56 @@ namespace OpenAuth.WebApi
 
             //配置ServiceProvider
             AutofacContainerModule.ConfigServiceProvider(app.ApplicationServices);
-            
+
+
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
-            { 
-                c.IndexStream = () => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("OpenAuth.WebApi.index.html");
-                
+            {
+                c.IndexStream = () =>
+                    GetType().GetTypeInfo().Assembly.GetManifestResourceStream("OpenAuth.WebApi.index.html");
+
                 foreach (var controller in GetControllers())
                 {
-                    c.SwaggerEndpoint($"/swagger/{controller.Name.Replace("Controller", "")}/swagger.json",
-                        controller.Name.Replace("Controller", ""));
+                    var groupname = GetSwaggerGroupName(controller);
+
+                    c.SwaggerEndpoint($"/swagger/{groupname}/swagger.json", groupname);
                 }
 
-                c.DocExpansion(DocExpansion.List);  //默认展开列表
+                c.DocExpansion(DocExpansion.List); //默认展开列表
                 c.OAuthClientId("OpenAuth.WebApi"); //oauth客户端名称
                 c.OAuthAppName("开源版webapi认证"); // 描述
             });
+        }
+
+        /// <summary>
+        /// 获取控制器对应的swagger分组值
+        /// </summary>
+        private string GetSwaggerGroupName(Type controller)
+        {
+            var groupname = controller.Name.Replace("Controller", "");
+            var apisetting = controller.GetCustomAttribute(typeof(ApiExplorerSettingsAttribute));
+            if (apisetting != null)
+            {
+                groupname = ((ApiExplorerSettingsAttribute) apisetting).GroupName;
+            }
+
+            return groupname;
+        }
+
+        /// <summary>
+        /// 获取所有的控制器
+        /// </summary>
+        private List<Type> GetControllers()
+        {
+            Assembly asm = Assembly.GetExecutingAssembly();
+
+            var controlleractionlist = asm.GetTypes()
+                .Where(type => typeof(ControllerBase).IsAssignableFrom(type))
+                .OrderBy(x => x.Name).ToList();
+            return controlleractionlist;
         }
     }
 }

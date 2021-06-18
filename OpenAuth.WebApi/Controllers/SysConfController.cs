@@ -11,7 +11,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "SysConf")]
+    [ApiExplorerSettings(GroupName = "系统配置_SysConf")]
     public class SysConfController :ControllerBase
     {
         private IOptions<AppSetting> _appConfiguration;

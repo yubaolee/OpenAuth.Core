@@ -27,12 +27,12 @@ namespace OpenAuth.App
         /// 按id批量删除
         /// </summary>
         /// <param name="ids"></param>
-        public void Delete(long[] ids)
+        public void Delete(decimal[] ids)
         {
             Repository.Delete(u => ids.Contains(u.Id));
         }
 
-        public T Get(long id)
+        public T Get(decimal id)
         {
             return Repository.FirstOrDefault(u => u.Id == id);
         }

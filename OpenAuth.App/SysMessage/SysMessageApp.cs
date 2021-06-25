@@ -43,7 +43,7 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.ToStatus == request.Status);
             }
 
-            result.data = objs.OrderBy(u => u.Id)
+            result.data = objs.OrderByDescending(u => u.CreateTime)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit);
             result.count = objs.Count();

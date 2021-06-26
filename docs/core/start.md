@@ -40,6 +40,17 @@
 v2.0及以后版本因使用.net core 3.1，必须使用visual Studio 2019及以上版本打开
 
 v2.0以前的版本可以使用visual Studio 2017
+
+如果开发使用的电脑安装有多个版本的SDK（如同时有.net core 3.1 和.net 5），可以在根目录新建一个`global.json`文件来指定.net版本，文件内容如下：
+
+```
+{
+  "sdk": {
+    "version": "3.1.100"
+  }
+}
+```
+
 :::
 
 
@@ -53,7 +64,9 @@ v2.0以前的版本可以使用visual Studio 2017
 
 ::: tip 提示
 
-很多用户部署后提示连接数据库失败，很大原因就是没有修改`appsettings.Production.json`里面连接字符串
+- 很多用户部署后提示连接数据库失败，很大原因就是没有修改`appsettings.Production.json`里面连接字符串
+
+- 有些用户找不到`appsettings.Production.json`在哪？visual studio中点击`appsettings.json`左边的三角标识即可看到
 
 :::
 

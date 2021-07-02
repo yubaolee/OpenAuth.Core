@@ -67,7 +67,7 @@ namespace OpenAuth.Repository
            }
            else
            {
-               optionsBuilder.UseOracle(connect);
+               optionsBuilder.UseOracle(connect,options =>options.UseOracleSQLCompatibility("11"));
            }
 
         }

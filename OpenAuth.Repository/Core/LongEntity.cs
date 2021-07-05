@@ -10,7 +10,7 @@ namespace OpenAuth.Repository.Core
     public class LongEntity :BaseEntity
     {
         [Browsable(false)]
-        public long Id { get; set; }
+        public decimal Id { get; set; }
         public override bool KeyIsNull()
         {
             return Id == 0;

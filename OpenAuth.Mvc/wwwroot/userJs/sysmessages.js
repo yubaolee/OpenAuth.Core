@@ -21,6 +21,9 @@
                 , size: 'sm' //小尺寸的表格
 			    ,page: true,
                 url: '/SysMessages/Load',
+                where:{
+                    status:999  //全部消息
+                },
                 cols: [[ //表头
                     { field: 'Title', title: '消息标题' }
                    , { field: 'Content', title: '内容' }
@@ -43,6 +46,7 @@
         if (options != undefined) {
             $.extend(config, options);
         }
+        config.status = 999;  //全部消息
         table.reload('mainList',
             {
                 url: '/SysMessages/Load',

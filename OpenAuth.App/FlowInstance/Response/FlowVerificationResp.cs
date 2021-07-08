@@ -17,5 +17,10 @@ namespace OpenAuth.App.Response
         /// 下个节点的执行权限方式
         /// </summary>
         public string NextNodeDesignateType { get; set; }
+        
+        /// <summary>
+        /// 当前节点的可写表单Id
+        /// </summary>
+        public string[] CanWriteFormItemIds { get; set; }
     }
 }

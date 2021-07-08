@@ -296,6 +296,11 @@ namespace OpenAuth.App
 
             flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
 
+            if (!string.IsNullOrEmpty(request.FrmData))
+            {
+                flowInstance.FrmData = request.FrmData;
+            }
+
             UnitWork.Update(flowInstance);
             UnitWork.Add(flowInstanceOperationHistory);
 
@@ -599,6 +604,7 @@ namespace OpenAuth.App
             if (runtime.nextNode != null && runtime.nextNode.setInfo !=null && runtime.nextNodeType != 4)
             {
                 resp.NextNodeDesignateType = runtime.nextNode.setInfo.NodeDesignate;
+                resp.CanWriteFormItemIds = runtime.currentNode.setInfo.CanWriteFormItemIds;
             }
             return resp;
         }

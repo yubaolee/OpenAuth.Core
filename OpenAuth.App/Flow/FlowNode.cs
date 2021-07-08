@@ -79,6 +79,11 @@
         /// 会签拒绝的个数
         /// </summary>
         public int? ConfluenceNo { get; set; }
+        
+        /// <summary>
+        /// 可写的表单项ID
+        /// </summary>
+        public string[] CanWriteFormItemIds { get; set; }
     }
 
     /// <summary>

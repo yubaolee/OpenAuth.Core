@@ -601,6 +601,11 @@ namespace OpenAuth.App
             var flowinstance = Get(id);
             var resp =flowinstance.MapTo<FlowVerificationResp>();
             var runtime = new FlowRuntime(flowinstance);
+            if (runtime.currentNode != null && runtime.currentNode.setInfo !=null)
+            {
+                resp.CanWriteFormItemIds = runtime.currentNode.setInfo.CanWriteFormItemIds;
+            }
+            
             if (runtime.nextNode != null && runtime.nextNode.setInfo !=null && runtime.nextNodeType != 4)
             {
                 resp.NextNodeDesignateType = runtime.nextNode.setInfo.NodeDesignate;

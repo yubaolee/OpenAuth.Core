@@ -7,7 +7,7 @@
 // Last Modified On : 07-04-2018
 // ***********************************************************************
 // <copyright file="UserSessionController.cs" company="OpenAuth.Mvc">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary>
 // 获取登录用户的全部信息

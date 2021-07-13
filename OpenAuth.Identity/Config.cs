@@ -43,7 +43,7 @@ namespace OpenAuth.IdentityServer
             var host = "http://localhost";
             if (isProduction)
             {
-                host = "http://demo.openauth.me";  //切换为自己的服务器信息
+                host = "http://demo.openauth.net.cn";  //切换为自己的服务器信息
             }
             return new[]
             {

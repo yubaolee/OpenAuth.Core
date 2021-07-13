@@ -10,7 +10,7 @@
 	    if (data.Result.FrmType == 0) {
 		    $("#content").html(data.Result.Html);
 	    } else {
-            $("#content").html("复杂表单暂时只能在<a href='http://demo.openauth.me:1803'>企业版</a>查看，开源版预计会在以后的开源版本中发布");
+            $("#content").html("复杂表单暂时只能在<a href='http://demo.openauth.net.cn:1803'>企业版</a>查看，开源版预计会在以后的开源版本中发布");
 	    }
     });
 

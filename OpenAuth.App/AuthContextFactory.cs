@@ -7,7 +7,7 @@
 // Last Modified On : 07-05-2018
 // ***********************************************************************
 // <copyright file="AuthContextFactory.cs" company="OpenAuth.App">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary>
 // 用户权限策略工厂

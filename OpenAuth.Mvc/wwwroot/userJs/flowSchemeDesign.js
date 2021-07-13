@@ -47,7 +47,7 @@
                     if (data.Result.FrmType == 0) {
                         _this.frmPreview = data.Result.Html
                     } else {
-                        _this.frmPreview = '复杂表单暂时只能在<a href="http://demo.openauth.me:1803">企业版</a>查看，开源版预计会在以后的开源版本中发布'
+                        _this.frmPreview = '复杂表单暂时只能在<a href="http://demo.openauth.net.cn:1803">企业版</a>查看，开源版预计会在以后的开源版本中发布'
                     }
                 });
             }

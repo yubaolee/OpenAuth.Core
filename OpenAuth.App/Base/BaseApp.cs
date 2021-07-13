@@ -18,7 +18,7 @@ namespace OpenAuth.App
 
         /// <summary>
         /// 用于事务操作
-        /// <para>使用详见：http://doc.openauth.me/core/unitwork.html</para>
+        /// <para>使用详见：http://doc.openauth.net.cn/core/unitwork.html</para>
         /// </summary>
         protected IUnitWork<TDbContext> UnitWork;
 

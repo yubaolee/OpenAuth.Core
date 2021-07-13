@@ -7,7 +7,7 @@
 // Last Modified On : 07-19-2018
 // ***********************************************************************
 // <copyright file="FlowInstanceApp.cs" company="OpenAuth.App">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************

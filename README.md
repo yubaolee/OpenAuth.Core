@@ -15,9 +15,9 @@
 
 **logo图标含义** OpenAuth中OA字母的结合体；整体像鱼，授人以渔；你非说像咸鱼，那也是积极向上的咸鱼；中心是个笑脸，微笑面对生活(✿◡‿◡)。
 
-**官方网站** http://www.openauth.me
+**官方网站** http://www.openauth.net.cn
 
-**官方文档**  http://doc.openauth.me 
+**官方文档**  http://doc.openauth.net.cn 
 
 ![](https://img.shields.io/badge/release-2.0-blue)
 ![](https://img.shields.io/badge/IdentityServer4-3.0.1-blue)
@@ -40,11 +40,11 @@
 
 目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue + element UI 的单页面应用程序，即企业版/高级版OpenAuth.Pro
 
-**该版本是一套后端基于OpenAuth.WebAPI接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发的管理后台 [点击这里查看效果](http://demo.openauth.me:1803)**
+**该版本是一套后端基于OpenAuth.WebAPI接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发的管理后台 [点击这里查看效果](http://demo.openauth.net.cn:1803)**
 
-**另外** 企业版包含一套基于有赞Vant+Vue3的移动端界面，[请使用浏览器移动模式查看效果](http://demo.openauth.me:1804)
+**另外** 企业版包含一套基于有赞Vant+Vue3的移动端界面，[请使用浏览器移动模式查看效果](http://demo.openauth.net.cn:1804)
 
-企业版/高级版附赠VIP服务，提供VIP专属QQ群，企业报销凭据、专属内部文档、技术咨询服务等。[如何获取请查看这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
+企业版/高级版附赠VIP服务，提供VIP专属QQ群，企业报销凭据、专属内部文档、技术咨询服务等。[如何获取请查看这里](http://openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
 
 效果如下：
 ![API启动效果图](https://images.gitee.com/uploads/images/2021/0422/012037_ec51b7e6_362401.png "api启动.png")
@@ -53,7 +53,7 @@
 
 ## 官方QQ交流群  
 
-1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、技术咨询服务等，[如何加入VIP请移步这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)**
+1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、技术咨询服务等，[如何加入VIP请移步这里](http://openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)**
 
 1. 484498493【已满】
 
@@ -64,11 +64,11 @@
 
 ## 演示直达
 
-* 企业版/高级版演示地址： http://demo.openauth.me:1803
+* 企业版/高级版演示地址： http://demo.openauth.net.cn:1803
 
-* 企业版H5演示地址（请使用浏览器移动模式或直接用手机打开）： http://demo.openauth.me:1804 
+* 企业版H5演示地址（请使用浏览器移动模式或直接用手机打开）： http://demo.openauth.net.cn:1804 
 
-* 开源版演示地址： http://demo.openauth.me:1802
+* 开源版演示地址： http://demo.openauth.net.cn:1802
 
 ## 核心看点
 

@@ -21,14 +21,16 @@ namespace OpenAuth.Repository
         private ILoggerFactory _LoggerFactory;
         private IHttpContextAccessor _httpContextAccessor;
         private IConfiguration _configuration;
+        private IOptions<AppSetting> _appConfiguration;
 
         public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options, ILoggerFactory loggerFactory, 
-            IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+            IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IOptions<AppSetting> appConfiguration)
             : base(options)
         {
             _LoggerFactory = loggerFactory;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
+            _appConfiguration = appConfiguration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -65,7 +67,7 @@ namespace OpenAuth.Repository
            }
            else
            {
-               optionsBuilder.UseOracle(connect);
+               optionsBuilder.UseOracle(connect,options =>options.UseOracleSQLCompatibility("11"));
            }
 
         }

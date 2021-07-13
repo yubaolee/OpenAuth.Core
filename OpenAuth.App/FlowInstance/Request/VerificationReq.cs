@@ -25,5 +25,11 @@ namespace OpenAuth.App.Request
         /// </summary>
         public string NodeRejectType { get; set; }
         
+        /// <summary>
+        /// 新的表单数据
+        /// 如果该节点有可以修改的表单项时，会提交表单数据信息
+        /// </summary>
+        public string FrmData { get; set; }
+        
     }
 }

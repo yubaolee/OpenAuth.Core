@@ -110,6 +110,16 @@ namespace OpenAuth.WebApi.Controllers
         {
             return await _app.Load(request);
         }
+        
+        /// <summary>
+        /// 获取所有的用户
+        /// 为了控制权限，通常只用于流程实例选择执行角色，其他地方请使用Load
+        /// </summary>
+        [HttpGet]
+        public async Task<TableResp<UserView>> LoadAll([FromQuery]QueryUserListReq request)
+        {
+            return await _app.LoadAll(request);
+        }
 
        [HttpPost]
         public Response Delete([FromBody]string[] ids)

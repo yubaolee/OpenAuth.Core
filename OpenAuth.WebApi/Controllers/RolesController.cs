@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OpenAuth.App;
@@ -86,9 +87,19 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        
+        /// <summary>
+        /// 获取所有的角色
+        /// 为了控制权限，通常只用于流程实例选择执行角色，其他地方请使用Load
+        /// </summary>
+        [HttpGet]
+        public async Task<TableResp<Role>> LoadAll([FromQuery]QueryRoleListReq request)
+        {
+            return await _app.LoadAll(request);
+        }
 
         /// <summary>
-        /// 加载列表
+        /// 获取登录用户可以访问的角色
         /// </summary>
         [HttpGet]
         public Response<List<Role>> Load([FromQuery]QueryRoleListReq request)

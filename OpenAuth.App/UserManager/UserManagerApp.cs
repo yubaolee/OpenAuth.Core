@@ -39,16 +39,15 @@ namespace OpenAuth.App
         public async Task<TableData> Load(QueryUserListReq request)
         {
             var loginUser = _auth.GetCurrentUser();
-         
-
+            
             IQueryable<User> query = UnitWork.Find<User>(null);
             if (!string.IsNullOrEmpty(request.key))
             {
                 query = UnitWork.Find<User>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
             }
-            
+
             var userOrgs = from user in query
-                join relevance in UnitWork.Find<Relevance>(u =>u.Key=="UserOrg")
+                join relevance in UnitWork.Find<Relevance>(u => u.Key == "UserOrg")
                     on user.Id equals relevance.FirstId into temp
                 from r in temp.DefaultIfEmpty()
                 join org in UnitWork.Find<Org>(null)
@@ -69,9 +68,9 @@ namespace OpenAuth.App
                     r.Key,
                     r.SecondId,
                     OrgId = o.Id,
-                    OrgName= o.Name
+                    OrgName = o.Name
                 };
-            
+
             //如果请求的orgId不为空
             if (!string.IsNullOrEmpty(request.orgId))
             {
@@ -115,7 +114,73 @@ namespace OpenAuth.App
                     .Take(request.limit),
             };
         }
+        
+        /// <summary>
+        /// 获取所有的用户
+        /// 为了控制权限，通常只用于流程实例选择执行角色，其他地方请使用Load
+        /// </summary>
+        public async Task<TableResp<UserView>> LoadAll(QueryUserListReq request)
+        {
+           IQueryable<User> query = UnitWork.Find<User>(null);
+           if (!string.IsNullOrEmpty(request.key))
+           {
+               query = UnitWork.Find<User>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
+           }
 
+           var userOrgs = from user in query
+               join relevance in UnitWork.Find<Relevance>(u => u.Key == "UserOrg")
+                   on user.Id equals relevance.FirstId into temp
+               from r in temp.DefaultIfEmpty()
+               join org in UnitWork.Find<Org>(null)
+                   on r.SecondId equals org.Id into orgtmp
+               from o in orgtmp.DefaultIfEmpty()
+               select new
+               {
+                   user.Account,
+                   user.Name,
+                   user.Id,
+                   user.Sex,
+                   user.Status,
+                   user.BizCode,
+                   user.CreateId,
+                   user.CreateTime,
+                   user.TypeId,
+                   user.TypeName,
+                   r.Key,
+                   r.SecondId,
+                   OrgId = o.Id,
+                   OrgName = o.Name
+               };
+
+            //如果请求的orgId不为空
+            if (!string.IsNullOrEmpty(request.orgId))
+            {
+                userOrgs = userOrgs.Where(u => u.Key == Define.USERORG && u.OrgId == request.orgId);
+            }
+
+            var userViews = userOrgs.ToList().GroupBy(b => b.Account).Select(u =>new UserView
+            {
+                Id = u.First().Id,
+                Account = u.Key,
+                Name = u.First().Name,
+                Sex = u.First().Sex,
+                Status = u.First().Status,
+                CreateTime = u.First().CreateTime,
+                CreateUser = u.First().CreateId,
+                OrganizationIds = string.Join(",", u.Select(x=>x.OrgId))
+                ,Organizations = string.Join(",", u.Select(x=>x.OrgName))
+                
+            });
+
+            return new TableResp<UserView>()
+            {
+                count = userViews.Count(),
+                data = userViews.OrderBy(u => u.Name)
+                    .Skip((request.page - 1) * request.limit)
+                    .Take(request.limit).ToList()
+            };
+        }
+        
         public void AddOrUpdate(UpdateUserReq request)
         {
             request.ValidationEntity(u => new {u.Account,u.Name, u.OrganizationIds});
@@ -201,6 +266,7 @@ namespace OpenAuth.App
             });
         }
         
+       
         /// <summary>
         /// 获取指定角色包含的用户列表
         /// </summary>
@@ -228,9 +294,9 @@ namespace OpenAuth.App
         /// <returns></returns>
         public async Task<TableData> LoadByOrg(QueryUserListByOrgReq request)
         {
-            var users = from userRole in UnitWork.Find<Relevance>(u =>
+            var users = from userOrg in UnitWork.Find<Relevance>(u =>
                     u.SecondId == request.orgId && u.Key == Define.USERORG)
-                join user in UnitWork.Find<User>(null) on userRole.FirstId equals user.Id into temp
+                join user in UnitWork.Find<User>(null) on userOrg.FirstId equals user.Id into temp
                 from c in temp.Where(u =>u.Id != null)
                 select c;
 

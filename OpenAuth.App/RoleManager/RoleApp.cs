@@ -5,6 +5,7 @@ using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 using System.Linq;
+using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Request;
 using OpenAuth.Repository;
@@ -28,6 +29,26 @@ namespace OpenAuth.App
             }
 
             return roles;
+        }
+        
+        /// <summary>
+        /// 获取所有的角色
+        /// 为了控制权限，通常只用于流程实例选择执行角色，其他地方请使用Load
+        /// </summary>
+        public async Task<TableResp<Role>> LoadAll(QueryRoleListReq request)
+        {
+            var result = new TableResp<Role>();
+            var objs = UnitWork.Find<Role>(null);
+            if (!string.IsNullOrEmpty(request.key))
+            {
+                objs = objs.Where(u => u.Name.Contains(request.key));
+            }
+
+            result.data = objs.OrderBy(u => u.Name)
+                .Skip((request.page - 1) * request.limit)
+                .Take(request.limit).ToList();
+            result.count = objs.Count();
+            return result;
         }
 
 
@@ -80,5 +101,7 @@ namespace OpenAuth.App
         {
             _revelanceApp = app;
         }
+
+        
     }
 }

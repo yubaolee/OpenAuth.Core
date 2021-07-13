@@ -88,7 +88,7 @@ namespace OpenAuth.IdentityServer
             else  //oracle
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseOracle(Configuration.GetConnectionString("OpenAuthDBContext")));
+                    options.UseOracle(Configuration.GetConnectionString("OpenAuthDBContext"), o=>o.UseOracleSQLCompatibility("11")));
             }
 
         }

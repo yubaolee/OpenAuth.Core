@@ -57,6 +57,6 @@
 
 ## 更多文档
 
-如需更多文档请点击[这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)
+如需更多文档请点击[这里](http://openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)
 
-![更多文档](http://demo.openauth.me:8887/upload_files/200415002234330.png "更多文档")
+![更多文档](http://demo.openauth.net.cn:8887/upload_files/200415002234330.png "更多文档")

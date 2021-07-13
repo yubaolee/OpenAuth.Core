@@ -48,7 +48,7 @@
 
  * 添加菜单
 
- ![](http://www.openauth.me/upload/180523111946327.png)
+ ![](http://www.openauth.net.cn/upload/180523111946327.png)
 
  默认的domId有`btnAdd`、`btnEdit`、`btnDel`可以参考`userJs\stocks.js`中的代码定义
 

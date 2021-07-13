@@ -4,9 +4,9 @@
 
 本项目基于.Net Core 3.1.100的跨平台版本，如果使用传统.Net Framework 4.5及最新 **.Net 5** 的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
 
-**官方网站** http://www.openauth.me
+**官方网站** http://www.openauth.net.cn
 
-**官方文档**  http://doc.openauth.me 
+**官方文档**  http://doc.openauth.net.cn 
 
 ![](https://img.shields.io/badge/release-2.0-blue)
 ![](https://img.shields.io/badge/.net%20core-3.1.100-blue)
@@ -32,7 +32,7 @@
 
 **该版本后端基于OpenAuth.Core的API接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发**
 
-版本附赠VIP服务，提供VIP专属QQ群，企业报销凭据、专属内部文档、技术咨询服务等。[如何获取请查看这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
+版本附赠VIP服务，提供VIP专属QQ群，企业报销凭据、专属内部文档、技术咨询服务等。[如何获取请查看这里](http://openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)，快加入VIP大家庭 **与有理想的.NET开发者一起成长**
 
 效果如下：
 ![](https://images.gitee.com/uploads/images/2021/0128/224913_6bda2388_362401.png "form.png")
@@ -40,7 +40,7 @@
 
 ## 官方QQ交流群  
 
-1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、技术咨询服务等，[如何加入VIP请移步这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)**
+1. ***618473076*** **社区VIP专属QQ群，第一时间提供开发进度、使用手册、技术咨询服务等，[如何加入VIP请移步这里](http://openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)**
 
 1. 484498493【已满】
 
@@ -51,11 +51,11 @@
 
 ## 演示直达
 
-* 企业版/高级版演示地址： http://demo.openauth.me:1803
+* 企业版/高级版演示地址： http://demo.openauth.net.cn:1803
 
-* 企业版H5演示地址（请使用浏览器移动模式或直接用手机打开）： http://demo.openauth.me:1804 
+* 企业版H5演示地址（请使用浏览器移动模式或直接用手机打开）： http://demo.openauth.net.cn:1804 
 
-* 开源版演示地址： http://demo.openauth.me:1802
+* 开源版演示地址： http://demo.openauth.net.cn:1802
 
 ## 核心看点
 

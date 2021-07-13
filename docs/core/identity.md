@@ -19,4 +19,4 @@ OpenAuth.core支持两种登录认证方式：自定义认证和基于IdentitySe
 
   ![](/identity.png)
 
-具体在OpenAuth.Mvc/WebAPI中如何控制登录访问并进行权限控制，请点击[这里](http://openauth.me/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)
+具体在OpenAuth.Mvc/WebAPI中如何控制登录访问并进行权限控制，请点击[这里](http://openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)

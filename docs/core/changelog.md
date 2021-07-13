@@ -2,7 +2,7 @@
 
 ### v3.2
 
-* 【新增】在swagger界面查看接口调用时间及SQL执行时间; [查看使用说明](http://doc.openauth.me/core/log.html#%E5%9C%A8swagger%E4%B8%AD%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97 )
+* 【新增】在swagger界面查看接口调用时间及SQL执行时间; [查看使用说明](http://doc.openauth.net.cn/core/log.html#%E5%9C%A8swagger%E4%B8%AD%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97 )
 
 * 【新增】swagger接口分组; 
 
@@ -24,7 +24,7 @@
 
 * 【新增】调整APP层文件结构，按功能划分
 
-* 【新增】支持同时配置多个类型数据库的连接字符串，详见:[这里](http://doc.openauth.me/core/multidbs.html)
+* 【新增】支持同时配置多个类型数据库的连接字符串，详见:[这里](http://doc.openauth.net.cn/core/multidbs.html)
 
 ### v3.0
 

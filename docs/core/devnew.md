@@ -4,7 +4,7 @@
 
 OpenAuth.Mvc添加新模块的方式非常简单，完全可以参考系统已有的`资源管理`模块编写相应的代码。参考的`资源管理`功能对应的代码如下：
 
-![](http://pj.openauth.me/zentao/file-read-55.png)
+![](http://pj.openauth.net.cn/zentao/file-read-55.png)
 
 如果我们想新加一个仓储管理的模块，模块标识为`Stock`。那么需要添加的文件如下：
 
@@ -39,11 +39,11 @@ CodeSmith Generator Studio 8.0或以上
 
 如下图，使用CodeSmith文件夹中的模板，右击【ApiGenerate.cst】--【Execute】，选择需要生成的表（本文以Stock为例）及相关的上下文命名空间，点击【Generate】
 
-![](http://pj.openauth.me/zentao/file-read-26.jpg)
+![](http://pj.openauth.net.cn/zentao/file-read-26.jpg)
 
 生成成功后，在CodeSmith/Csharp文件夹下面会有Stock实体相关文档，如下图：
 
-![](http://pj.openauth.me/zentao/file-read-53.png)
+![](http://pj.openauth.net.cn/zentao/file-read-53.png)
 
 把CSharp\OpenAuth.App覆盖到自己项目对应目录
 
@@ -57,11 +57,11 @@ CodeSmith Generator Studio 8.0或以上
 
 如下图，使用CodeSmith文件夹中的模板，右击【WebGenerate.cst】--【Execute】，选择需要生成的表（本文以Stock为例）及相关的上下文命名空间，点击【Generate】
 
-![](http://pj.openauth.me/zentao/file-read-47.png)
+![](http://pj.openauth.net.cn/zentao/file-read-47.png)
 
 生成成功后，在CodeSmith/Csharp文件夹下面会有相关的界面代码，如下图：
 
-![](http://pj.openauth.me/zentao/file-read-50.png)
+![](http://pj.openauth.net.cn/zentao/file-read-50.png)
 
 Controllers、Views直接覆盖到OpenAuth.Mvc项目中对应的文件夹即可
 
@@ -71,10 +71,10 @@ userJs直接覆盖到OpenAuth.Mvc/wwwroot中
 
 编写完上面代码后，运行系统，使用System账号登录系统，在【模块管理】中，添加`仓储管理`模块，并为它添加菜单，这里我只添加一个菜单【btnAdd】，如下图：
 
-![](http://pj.openauth.me/zentao/file-read-51.png)
+![](http://pj.openauth.net.cn/zentao/file-read-51.png)
 
 重新登录系统，即可看到新加的仓储管理模块。
 
-![](http://pj.openauth.me/zentao/file-read-52.png)
+![](http://pj.openauth.net.cn/zentao/file-read-52.png)
 
     

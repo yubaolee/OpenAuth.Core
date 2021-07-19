@@ -78,6 +78,11 @@ layui.config({
                             },
                             mounted(){
                                  form.render();
+                                var _this = this;
+                                layui.droptree("/Categories/AllTypes", "#TypeName", "#TypeId", false,function (ids, names) {
+                                    _this.tmp.TypeName = ids;
+                                    _this.tmp.TypeId = names;
+                                });
                             }
                         });
                        }else{

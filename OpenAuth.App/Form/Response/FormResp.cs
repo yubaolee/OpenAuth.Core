@@ -48,6 +48,11 @@ namespace OpenAuth.App.Response
 	    /// 表单原html模板未经处理的
 	    /// </summary>
         public string Content { get; set; }
+        
+        /// <summary>
+        /// 表单的数据
+        /// </summary>
+        public string FrmData { get; set; }
 
         /// <summary>
         /// 排序码

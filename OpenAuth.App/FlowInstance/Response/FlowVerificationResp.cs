@@ -13,7 +13,7 @@ namespace OpenAuth.App.Response
         }
 
         /// <summary>
-        /// 预览表单数据(可修改）
+        /// 预览表单数据表单项包含读写控制权限）
         /// </summary>
         public string FrmHtml
         {

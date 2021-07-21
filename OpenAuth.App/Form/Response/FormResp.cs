@@ -74,5 +74,15 @@ namespace OpenAuth.App.Response
             get { return FormUtil.GetHtml(this); }
         }
 
+        public string[] CanWriteFormItemIds { get; set; }
+        
+        /// <summary>
+        /// 用户显示（表单项包含读写控制权限）
+        /// </summary>
+        public string HtmlWithCanWriteIds
+        {
+	        get { return FormUtil.GetHtml(this.ContentData, this.ContentParse, this.FrmData,"",this.CanWriteFormItemIds); }
+        }
+
     }
 }

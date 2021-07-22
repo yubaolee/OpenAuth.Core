@@ -155,8 +155,8 @@ namespace OpenAuth.WebApi
 //            {
 //                origins = new []
 //                {
-//                    "http://demo.openauth.me:1803",
-//                    "http://demo.openauth.me:52789"
+//                    "http://demo.openauth.net.cn:1803",
+//                    "http://demo.openauth.net.cn:52789"
 //                };
 //            }
 //            services.AddCors(option=>option.AddPolicy("cors", policy =>

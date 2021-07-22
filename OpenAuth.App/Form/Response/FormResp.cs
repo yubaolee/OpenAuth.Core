@@ -48,6 +48,11 @@ namespace OpenAuth.App.Response
 	    /// 表单原html模板未经处理的
 	    /// </summary>
         public string Content { get; set; }
+        
+        /// <summary>
+        /// 表单的数据
+        /// </summary>
+        public string FrmData { get; set; }
 
         /// <summary>
         /// 排序码
@@ -67,6 +72,16 @@ namespace OpenAuth.App.Response
         public string Html
         {
             get { return FormUtil.GetHtml(this); }
+        }
+
+        public string[] CanWriteFormItemIds { get; set; }
+        
+        /// <summary>
+        /// 用户显示（表单项包含读写控制权限）
+        /// </summary>
+        public string HtmlWithCanWriteIds
+        {
+	        get { return FormUtil.GetHtml(this.ContentData, this.ContentParse, this.FrmData,"",this.CanWriteFormItemIds); }
         }
 
     }

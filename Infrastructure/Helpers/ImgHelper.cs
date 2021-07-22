@@ -1,5 +1,5 @@
-﻿// <copyright file="ImgHelper.cs" company="openauth.me">
-// Copyright (c) 2019 openauth.me. All rights reserved.
+﻿// <copyright file="ImgHelper.cs" company="openauth.net.cn">
+// Copyright (c) 2019 openauth.net.cn. All rights reserved.
 // </copyright>
 // <author>www.cnblogs.com/yubaolee</author>
 // <summary>生成缩略图</summary>

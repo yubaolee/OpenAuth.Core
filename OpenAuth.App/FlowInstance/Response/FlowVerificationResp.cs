@@ -7,10 +7,17 @@ namespace OpenAuth.App.Response
         /// <summary>
         /// 预览表单数据
         /// </summary>
-        /// <value>The FRM data HTML.</value>
         public string FrmPreviewHtml
         {
             get { return FormUtil.Preview(this); }
+        }
+
+        /// <summary>
+        /// 预览表单数据表单项包含读写控制权限）
+        /// </summary>
+        public string FrmHtml
+        {
+            get { return FormUtil.GetHtml(this.FrmContentData, this.FrmContentParse, this.FrmData, "",this.CanWriteFormItemIds); }
         }
         
         /// <summary>

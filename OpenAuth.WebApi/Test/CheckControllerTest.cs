@@ -1,5 +1,5 @@
 ﻿// <copyright file="UserSessionControllerTest.cs" company="OpenAuth.Mvc">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary>
 // 测试加载用户菜单

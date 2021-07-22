@@ -1,5 +1,5 @@
-﻿// <copyright file="FlowInstancesController.cs" company="openauth.me">
-// Copyright (c) 2019 openauth.me. All rights reserved.
+﻿// <copyright file="FlowInstancesController.cs" company="openauth.net.cn">
+// Copyright (c) 2019 openauth.net.cn. All rights reserved.
 // </copyright>
 // <author>www.cnblogs.com/yubaolee</author>
 // <date>2018-09-06</date>

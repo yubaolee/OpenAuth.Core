@@ -22,7 +22,7 @@ namespace OpenAuth.Repository.Interface
 {
     /// <summary>
     /// 工作单元接口
-    /// 使用详见：http://doc.openauth.me/core/unitwork.html
+    /// 使用详见：http://doc.openauth.net.cn/core/unitwork.html
     /// <para> 适合在一下情况使用:</para>
     /// <para>1 在同一事务中进行多表操作</para>
     /// <para>2 需要多表联合查询</para>
@@ -90,7 +90,7 @@ namespace OpenAuth.Repository.Interface
         void Save();
         
         /// <summary>
-        /// 该方法不支持EF自带的事务,需要ExecuteWithTransaction配合才能实现事务控制,详见：http://doc.openauth.me/core/unitwork.html
+        /// 该方法不支持EF自带的事务,需要ExecuteWithTransaction配合才能实现事务控制,详见：http://doc.openauth.net.cn/core/unitwork.html
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>

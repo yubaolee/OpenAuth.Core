@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 using Infrastructure;
 using Newtonsoft.Json.Linq;
@@ -6,9 +7,12 @@ using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App
 {
-    public class FormUtil {
+    public class FormUtil
+    {
+
+        private static string READONLY = "view";
 	
-        public static string GetHtml(string contentData, string contentParse,string frmData, string action)
+        public static string GetHtml(string contentData, string contentParse,string frmData, string action,params string[] canWriteFormItemIds)
         {
             if (string.IsNullOrEmpty(contentData))
             {
@@ -29,6 +33,11 @@ namespace OpenAuth.App
                     name = json.GetValue("parse_name").ToString();
                 else
                     name = json.GetValue("name").ToString();
+
+                if (canWriteFormItemIds != null && canWriteFormItemIds.Length > 0)
+                {
+                    action = canWriteFormItemIds.Contains(name) ? "":READONLY;
+                }
 
                 string tempHtml = "";
                 switch (leipiplugins)
@@ -79,7 +88,7 @@ namespace OpenAuth.App
                 return string.Empty;
             }
 		
-            return GetHtml(form.ContentData, form.ContentParse,null,  "");
+            return GetHtml(form.ContentData, form.ContentParse,form.FrmData,  "");
 
         }
 
@@ -98,7 +107,7 @@ namespace OpenAuth.App
             }
             
             return GetHtml(flowInstance.FrmContentData, flowInstance.FrmContentParse, 
-                flowInstance.FrmData, "view");
+                flowInstance.FrmData, READONLY);
         }
 
         //text
@@ -118,7 +127,7 @@ namespace OpenAuth.App
                 value = item.GetValue("value") == null ? "" : item.GetValue("value").ToString();
             string style =item.GetValue("style") == null ? "" : item.GetValue("style").ToString();
             string tempHtml =  string.Format(temp, value, name, style);
-            if("view"==action)
+            if(READONLY==action)
                 return string.Format("<label style=\"{0}\">{1}</label>",style,value);
             return tempHtml;
         }
@@ -147,7 +156,7 @@ namespace OpenAuth.App
         
             string temp_html = string.Format(temp, name, name, style, script, value);
         
-            if("view"==action)
+            if(READONLY==action)
                 return string.Format("<label style=\"{0}\">{1}</label>", style, value);
             return temp_html;
         }
@@ -186,7 +195,7 @@ namespace OpenAuth.App
                 temp_html += string.Format(temp, name, cvalue, Ischecked, cvalue);
             }
 		
-            return "view"==action ? string.Format("<label style=\"{0}\">{1}</label>", "", value) : temp_html;
+            return READONLY==action ? string.Format("<label style=\"{0}\">{1}</label>", "", value) : temp_html;
         }
 	
         //Checkboxs
@@ -229,7 +238,7 @@ namespace OpenAuth.App
 
             }
 
-            return "view" == action ? string.Format("<label style=\"{0}\">{1}</label>", "", view_value) : temp_html;
+            return READONLY == action ? string.Format("<label style=\"{0}\">{1}</label>", "", view_value) : temp_html;
         }
 	
         //Select(比较特殊)
@@ -254,7 +263,7 @@ namespace OpenAuth.App
                 content = content.Replace(option, selected);      //把选项替换成选中项
             }
 
-            return "view" == action ? string.Format("<label style=\"{0}\">{1}</label>", "", value) : content;
+            return READONLY == action ? string.Format("<label style=\"{0}\">{1}</label>", "", value) : content;
         }
 	
 	
@@ -295,7 +304,7 @@ namespace OpenAuth.App
                 temp = orgType + "二维码 <input type=\"text\" name=\"{0}\" value=\"{1}\"/>";
                 temp_html =  string.Format(temp, name, value);
             }
-            else if ("view"==action)
+            else if (READONLY==action)
             {
                 //可以采用  http://qrcode.leipi.org/ 
 
@@ -363,7 +372,7 @@ namespace OpenAuth.App
         //       {
         //           if (i == tdCount - 1)
         //               listTitle.set(i, "操作");
-        //           if ("view"==(action) && i == tdCount - 1) continue;//如果是查看最后一列不显示
+        //           if (ACTION==(action) && i == tdCount - 1) continue;//如果是查看最后一列不显示
         //           	trTitle += string.Format("<th>{0}</th>", listTitle.get(i));
         //       }
         //       trTitle = "<tr>" + trTitle + "</tr>";
@@ -419,7 +428,7 @@ namespace OpenAuth.App
 
         //               if (i == tdCount - 1)//最后一列不显示
         //               {
-        //                   if ("view"==(action)) continue;
+        //                   if (ACTION==(action)) continue;
         //                   //tr += "<td></td>";
         //                   else
         //                       tr += "<td><a href=\"javascript:void(0);\" class=\"delrow \">删除</a></td>";
@@ -427,7 +436,7 @@ namespace OpenAuth.App
         //               }
         //               else
         //               {
-        //                   if ("view"==(action))
+        //                   if (ACTION==(action))
         //                   {
         //                       tr +=  string.Format("<td>{0}</td>", tdValue);
         //                   }
@@ -449,7 +458,7 @@ namespace OpenAuth.App
         //                   //region
         //                   if (sum != "")
         //                   {
-        //                       if ("view"==(action))
+        //                       if (ACTION==(action))
         //                           tdSum +=  string.Format("<td>合计：value{0}{1}</td>", i, listUnit.get(i));
         //                       else
         //                           tdSum +=  string.Format("<td>合计：<input class=\"input-small\" type=\"text\" value=\"value{0}\" name=\"{1}[total]\" {2}\">{3}</td>", i, tdname, sum, listUnit.get(i));
@@ -476,7 +485,7 @@ namespace OpenAuth.App
         //               tdSum = string.Format("<tbody class=\"sum\"><tr>{0}</tr></tbody>", tdSum);
         //	}
         //       }
-        //       if ("view"==(action))
+        //       if (ACTION==(action))
         //           theader = string.Format(theader, tdCount, title, "", trTitle);
         //       else
         //           theader = string.Format(theader, tdCount, title, btnAdd, trTitle);

@@ -74,5 +74,16 @@ namespace OpenAuth.App.Request
         /// 分类名称
         /// </summary>
         public string TypeName { get; set; }
+        
+        /// <summary>
+        /// 是否动态加载表头信息
+        /// </summary>
+        public bool IsDynamicHeader { get; set; }
+        
+        
+        /// <summary>
+        /// 字表外键
+        /// </summary>
+        public string ForeignKey { get; set; }
     }
 }

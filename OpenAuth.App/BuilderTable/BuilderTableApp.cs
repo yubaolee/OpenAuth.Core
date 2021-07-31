@@ -181,6 +181,8 @@ namespace OpenAuth.App
                 Options = obj.Options,
                 TypeId = obj.TypeId,
                 TypeName = obj.TypeName,
+                IsDynamicHeader = obj.IsDynamicHeader,
+                ForeignKey = obj.ForeignKey,
                 UpdateTime = DateTime.Now,
                 UpdateUserId = user.Id,
                 UpdateUserName = user.Name

@@ -82,7 +82,7 @@ namespace OpenAuth.App.Request
         
         
         /// <summary>
-        /// 字表外键
+        /// 子表外键
         /// </summary>
         public string ForeignKey { get; set; }
     }

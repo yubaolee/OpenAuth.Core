@@ -117,6 +117,17 @@ namespace OpenAuth.App
                 throw new Exception("命名空间不能为空");
             }
             
+            var obj = AddTableAndColumns(req);
+
+            UnitWork.Save();
+            return obj.Id;
+        }
+
+        /// <summary>
+        /// 添加表结构及字段结构记录
+        /// </summary>
+        private BuilderTable AddTableAndColumns(AddOrUpdateBuilderTableReq req)
+        {
             var columns = _dbExtension.GetDbTableStructure(req.TableName);
             if (!columns.Any())
             {
@@ -126,7 +137,7 @@ namespace OpenAuth.App
             var obj = req.MapTo<BuilderTable>();
             if (string.IsNullOrEmpty(obj.ClassName)) obj.ClassName = obj.TableName;
             if (string.IsNullOrEmpty(obj.ModuleCode)) obj.ModuleCode = obj.TableName;
-            
+
             //todo:补充或调整自己需要的字段
             obj.CreateTime = DateTime.Now;
             var user = _auth.GetCurrentUser().User;
@@ -160,8 +171,7 @@ namespace OpenAuth.App
                 UnitWork.Add(builderColumn);
             }
 
-            UnitWork.Save();
-            return obj.Id;
+            return obj;
         }
 
         public void Update(AddOrUpdateBuilderTableReq obj)

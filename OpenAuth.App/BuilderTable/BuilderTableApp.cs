@@ -117,8 +117,23 @@ namespace OpenAuth.App
                 throw new Exception("命名空间不能为空");
             }
             
-            var obj = AddTableAndColumns(req);
+            var obj = AddTableAndColumns(req.MapTo<BuilderTable>());
 
+            //创建子表
+            if (!string.IsNullOrEmpty(req.DetailTableName))
+            {
+                AddTableAndColumns(new BuilderTable
+                {
+                    TableName = req.DetailTableName,
+                    ParentTableId = obj.Id,
+                    Namespace = "OpenAuth.Repository.Domain",
+                    ModuleName = req.DetailTableName,
+                    Folder = req.Folder,
+                    TypeId = req.TypeId,
+                    TypeName = req.TypeName
+                });
+            }
+            
             UnitWork.Save();
             return obj.Id;
         }
@@ -126,15 +141,8 @@ namespace OpenAuth.App
         /// <summary>
         /// 添加表结构及字段结构记录
         /// </summary>
-        private BuilderTable AddTableAndColumns(AddOrUpdateBuilderTableReq req)
+        private BuilderTable AddTableAndColumns(BuilderTable obj)
         {
-            var columns = _dbExtension.GetDbTableStructure(req.TableName);
-            if (!columns.Any())
-            {
-                throw new Exception($"未能找到{req.TableName}表结构定义");
-            }
-
-            var obj = req.MapTo<BuilderTable>();
             if (string.IsNullOrEmpty(obj.ClassName)) obj.ClassName = obj.TableName;
             if (string.IsNullOrEmpty(obj.ModuleCode)) obj.ModuleCode = obj.TableName;
 
@@ -145,6 +153,11 @@ namespace OpenAuth.App
             obj.CreateUserName = user.Name;
             UnitWork.Add(obj);
 
+            var columns = _dbExtension.GetDbTableStructure(obj.TableName);
+            if (!columns.Any())
+            {
+                throw new Exception($"未能找到{obj.TableName}表结构定义");
+            }
             foreach (var column in columns)
             {
                 var builderColumn = new BuilderTableColumn

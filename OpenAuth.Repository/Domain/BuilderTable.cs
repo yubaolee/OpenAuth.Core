@@ -151,5 +151,11 @@ namespace OpenAuth.Repository.Domain
         /// </summary>
         [Description("字表外键")]
         public string ForeignKey { get; set; }
+        
+        /// <summary>
+        /// 主表ID，如果为空表示为主表
+        /// </summary>
+        [Description("主表ID，如果为空表示为主表")]
+        public string ParentTableId { get; set; }
     }
 }

@@ -12,8 +12,10 @@
 // <summary>layui datatable数据返回</summary>
 // ***********************************************************************
 
+using System;
 using System.Collections.Generic;
 using Infrastructure;
+using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.Response
 {
@@ -37,9 +39,16 @@ namespace OpenAuth.App.Response
         public int count { get; set; }
 
         /// <summary>
-        ///  返回的列表头信息
+        ///  返回的列表头信息（已过时，请使用columnFields代替）
         /// </summary>
+        [Obsolete("请使用ColumnFields以获得更丰富的配置信息")]
         public List<KeyDescription> columnHeaders;
+        
+        /// <summary>
+        ///  返回的表格列定义
+        /// 该属性基于代码生成使用的列定义
+        /// </summary>
+        public List<BuilderTableColumn> columnFields;
 
         /// <summary>
         /// 数据内容
@@ -51,6 +60,7 @@ namespace OpenAuth.App.Response
             code = 200;
             msg = "加载成功";
             columnHeaders = new List<KeyDescription>();
+            columnFields = new List<BuilderTableColumn>();
         }
     }
 }

@@ -29,22 +29,28 @@ namespace OpenAuth.App
             }
 
             var properties = loginContext.GetProperties("WmsInboundOrderTbl");
-
             if (properties == null || properties.Count == 0)
             {
                 throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
             }
-
-
+            
+            var columns = loginContext.GetTableColumns("WmsInboundOrderTbl");
+            if (properties == null || properties.Count == 0)
+            {
+                throw new Exception("请在代码生成界面中获取WmsInboundOrderTbl表的列定义");
+            }
+            
             var result = new TableData();
+            
+            result.columnHeaders = properties;
+            result.columnFields = columns;
+            
             var objs = GetDataPrivilege("u");
             if (!string.IsNullOrEmpty(request.key))
             {
                 objs = objs.Where(u => u.Id.Contains(request.key));
             }
-
             var propertyStr = string.Join(',', properties.Select(u => u.Key));
-            result.columnHeaders = properties;
             result.data = objs.OrderBy(u => u.Id)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).Select($"new ({propertyStr})");

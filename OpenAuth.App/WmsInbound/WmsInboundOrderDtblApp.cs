@@ -29,9 +29,7 @@ namespace OpenAuth.App
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
             
-            //todo:普通账号如何分配明细的字段？？？？先写死😰
-
-            var properties = _dbExtension.GetProperties("WmsInboundOrderDtbl");
+            var properties = loginContext.GetTableColumns("WmsInboundOrderDtbl");
             
             var result = new TableData();
             var objs = UnitWork.Find<WmsInboundOrderDtbl>(null);
@@ -45,8 +43,8 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.GoodsId.Contains(request.key));
             }
 
-            var propertyStr = string.Join(',', properties.Select(u => u.Key));
-            result.columnHeaders = properties;
+            var propertyStr = string.Join(',', properties.Select(u => u.ColumnName));
+            result.columnFields = properties;
             result.data = objs.OrderBy(u => u.Id)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).Select($"new ({propertyStr})");

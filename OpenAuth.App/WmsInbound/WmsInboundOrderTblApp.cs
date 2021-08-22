@@ -35,9 +35,9 @@ namespace OpenAuth.App
             }
             
             var columns = loginContext.GetTableColumns("WmsInboundOrderTbl");
-            if (properties == null || properties.Count == 0)
+            if (columns == null || columns.Count == 0)
             {
-                throw new Exception("请在代码生成界面中获取WmsInboundOrderTbl表的列定义");
+                throw new Exception("请在代码生成界面配置WmsInboundOrderTbl表的字段属性");
             }
             
             var result = new TableData();

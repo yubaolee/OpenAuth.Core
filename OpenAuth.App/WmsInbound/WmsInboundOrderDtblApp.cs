@@ -30,7 +30,10 @@ namespace OpenAuth.App
             }
             
             var properties = loginContext.GetTableColumns("WmsInboundOrderDtbl");
-            
+            if (properties == null || properties.Count == 0)
+            {
+                throw new Exception("请在代码生成界面配置WmsInboundOrderDtbl表的字段属性");
+            }
             var result = new TableData();
             var objs = UnitWork.Find<WmsInboundOrderDtbl>(null);
             if (!string.IsNullOrEmpty(request.InboundOrderId))

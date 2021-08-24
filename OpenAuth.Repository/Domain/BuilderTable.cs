@@ -138,5 +138,24 @@ namespace OpenAuth.Repository.Domain
         /// </summary>
         [Description("创建人姓名")]
         public string CreateUserName { get; set; }
+        
+        /// <summary>
+        /// 是否动态加载表头信息
+        /// </summary>
+        [Description("是否动态加载表头信息")]
+        public bool IsDynamicHeader { get; set; }
+        
+        
+        /// <summary>
+        /// 字表外键
+        /// </summary>
+        [Description("字表外键")]
+        public string ForeignKey { get; set; }
+        
+        /// <summary>
+        /// 主表ID，如果为空表示为主表
+        /// </summary>
+        [Description("主表ID，如果为空表示为主表")]
+        public string ParentTableId { get; set; }
     }
 }

@@ -117,16 +117,35 @@ namespace OpenAuth.App
                 throw new Exception("命名空间不能为空");
             }
             
-            var columns = _dbExtension.GetDbTableStructure(req.TableName);
-            if (!columns.Any())
-            {
-                throw new Exception($"未能找到{req.TableName}表结构定义");
-            }
+            var obj = AddTableAndColumns(req.MapTo<BuilderTable>());
 
-            var obj = req.MapTo<BuilderTable>();
+            //创建子表
+            if (!string.IsNullOrEmpty(req.DetailTableName))
+            {
+                AddTableAndColumns(new BuilderTable
+                {
+                    TableName = req.DetailTableName,
+                    ParentTableId = obj.Id,
+                    Namespace = "OpenAuth.Repository.Domain",
+                    ModuleName = req.DetailTableName,
+                    Folder = req.Folder,
+                    TypeId = req.TypeId,
+                    TypeName = req.TypeName
+                });
+            }
+            
+            UnitWork.Save();
+            return obj.Id;
+        }
+
+        /// <summary>
+        /// 添加表结构及字段结构记录
+        /// </summary>
+        private BuilderTable AddTableAndColumns(BuilderTable obj)
+        {
             if (string.IsNullOrEmpty(obj.ClassName)) obj.ClassName = obj.TableName;
             if (string.IsNullOrEmpty(obj.ModuleCode)) obj.ModuleCode = obj.TableName;
-            
+
             //todo:补充或调整自己需要的字段
             obj.CreateTime = DateTime.Now;
             var user = _auth.GetCurrentUser().User;
@@ -134,6 +153,11 @@ namespace OpenAuth.App
             obj.CreateUserName = user.Name;
             UnitWork.Add(obj);
 
+            var columns = _dbExtension.GetDbTableStructure(obj.TableName);
+            if (!columns.Any())
+            {
+                throw new Exception($"未能找到{obj.TableName}表结构定义");
+            }
             foreach (var column in columns)
             {
                 var builderColumn = new BuilderTableColumn
@@ -160,8 +184,7 @@ namespace OpenAuth.App
                 UnitWork.Add(builderColumn);
             }
 
-            UnitWork.Save();
-            return obj.Id;
+            return obj;
         }
 
         public void Update(AddOrUpdateBuilderTableReq obj)
@@ -181,6 +204,8 @@ namespace OpenAuth.App
                 Options = obj.Options,
                 TypeId = obj.TypeId,
                 TypeName = obj.TypeName,
+                IsDynamicHeader = obj.IsDynamicHeader,
+                ForeignKey = obj.ForeignKey,
                 UpdateTime = DateTime.Now,
                 UpdateUserId = user.Id,
                 UpdateUserName = user.Name

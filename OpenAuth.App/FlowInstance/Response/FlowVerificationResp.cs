@@ -17,7 +17,15 @@ namespace OpenAuth.App.Response
         /// </summary>
         public string FrmHtml
         {
-            get { return FormUtil.GetHtml(this.FrmContentData, this.FrmContentParse, this.FrmData, "",this.CanWriteFormItemIds); }
+            get
+            {
+                if (this.FrmType != 0)  //只有开原版动态表单才需要转换
+                {
+                    return string.Empty;
+                }
+
+                return FormUtil.GetHtml(this.FrmContentData, this.FrmContentParse, this.FrmData, "",this.CanWriteFormItemIds);
+            }
         }
         
         /// <summary>

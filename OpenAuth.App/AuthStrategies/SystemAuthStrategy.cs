@@ -97,6 +97,11 @@ namespace OpenAuth.App
             return _dbExtension.GetProperties(moduleCode);
         }
 
+        public List<BuilderTableColumn> GetTableColumns(string moduleCode)
+        {
+            return UnitWork.Find<BuilderTableColumn>(u => u.TableName.ToLower() == moduleCode.ToLower()).ToList();
+        }
+
 
         public SystemAuthStrategy(IUnitWork<OpenAuthDBContext> unitWork, IRepository<User,OpenAuthDBContext> repository, DbExtension dbExtension) : base(unitWork, repository, null)
         {

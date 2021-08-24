@@ -15,6 +15,7 @@
 // ***********************************************************************
 
 
+using System;
 using System.Collections.Generic;
 using Infrastructure;
 using OpenAuth.App.Response;
@@ -44,7 +45,15 @@ namespace OpenAuth.App
         /// </summary>
         /// <param name="moduleCode"></param>
         /// <returns></returns>
+        [Obsolete("请使用GetTableColumns代替")]
         List<KeyDescription> GetProperties(string moduleCode);
+
+        /// <summary>
+        /// 获取角色可以访问的字段信息
+        /// </summary>
+        /// <param name="moduleCode"></param>
+        /// <returns></returns>
+        List<BuilderTableColumn> GetTableColumns(string moduleCode);
 
     }
 }

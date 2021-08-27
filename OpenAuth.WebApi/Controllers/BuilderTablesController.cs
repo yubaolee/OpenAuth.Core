@@ -73,6 +73,15 @@ namespace OpenAuth.WebApi.Controllers
         {
             return await _app.Load(request);
         }
+        
+        /// <summary>
+        /// 加载所有的主表（parentId为空的）
+        /// </summary>
+        [HttpGet]
+        public async Task<TableData> AllMain()
+        {
+            return await _app.AllMain();
+        }
 
         /// <summary>
         /// 批量删除代码生成模版和对应的字段信息

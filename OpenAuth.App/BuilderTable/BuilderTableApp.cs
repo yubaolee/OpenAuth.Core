@@ -740,6 +740,24 @@ namespace OpenAuth.App
             FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/api/"),$"{sysTableInfo.ClassName.ToCamelCase()}s.js", 
                 domainContent);
         }
+        
+        /// <summary>
+        /// 加载所有的主表（parentId为空的）
+        /// </summary>
+        /// <returns></returns>
+        public async Task<TableData> AllMain()
+        {
+            var result = new TableData();
+            var objs = UnitWork.Find<BuilderTable>(u =>string.IsNullOrEmpty(u.ParentTableId)).Select(u=>new
+            {
+                Id= u.Id,
+                Name = u.TableName
+            });
+
+            result.data = objs.OrderBy(u => u.Id).ToList();
+            result.count = objs.Count();
+            return result;
+        }
     }
 }
 

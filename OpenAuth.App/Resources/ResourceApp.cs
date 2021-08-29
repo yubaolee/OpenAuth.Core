@@ -66,11 +66,18 @@ namespace OpenAuth.App
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
 
-            var properties = loginContext.GetTableColumns("Resource");
+            //兼容以前功能，仅为开源版提供功能，后续可以只用GetTableColumns
+            var properties = loginContext.GetProperties("Resource");
             if (properties == null || properties.Count == 0)
             {
-                throw new Exception("请在代码生成界面配置Resource表的字段属性");
+                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
             }
+
+            var columnFields = loginContext.GetTableColumns("Resource");
+            //if (columnFields == null || columnFields.Count == 0)
+            //{
+            //    throw new Exception("请在代码生成界面配置Resource表的字段属性");
+            //}
 
 
             var result = new TableData();
@@ -85,8 +92,9 @@ namespace OpenAuth.App
                 resources = resources.Where(u => u.AppId == request.appId);
             }
 
-            var propertyStr = string.Join(',', properties.Select(u => u.ColumnName));
-            result.columnFields = properties;
+            var propertyStr = string.Join(',', columnFields.Select(u => u.ColumnName));
+            result.columnHeaders = properties;
+            result.columnFields = columnFields;
             result.data = resources.OrderBy(u => u.TypeId)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).Select($"new ({propertyStr})");

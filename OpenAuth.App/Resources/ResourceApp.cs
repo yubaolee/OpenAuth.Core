@@ -33,9 +33,18 @@ namespace OpenAuth.App
         public void Update(AddOrUpdateResReq obj)
         {
             var user = _auth.GetCurrentUser().User;
-            UnitWork.Update<Category>(u => u.Id == obj.Id, u => new Category
+            UnitWork.Update<Resource>(u => u.Id == obj.Id, u => new Resource
             {
+                Name = obj.Name,
+                Disable = obj.Disable,
+                CascadeId = obj.CascadeId,
+                AppId = obj.AppId,
+                AppName = obj.AppName,
+                ParentId = obj.ParentId,
+                ParentName = obj.ParentName,
                 TypeId = obj.TypeId,
+                TypeName = obj.TypeName,
+                Description = obj.Description,
                 UpdateTime = DateTime.Now,
                 UpdateUserId = user.Id,
                 UpdateUserName = user.Name
@@ -57,11 +66,10 @@ namespace OpenAuth.App
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
 
-            var properties = loginContext.GetProperties("Resource");
-
+            var properties = loginContext.GetTableColumns("Resource");
             if (properties == null || properties.Count == 0)
             {
-                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
+                throw new Exception("请在代码生成界面配置Resource表的字段属性");
             }
 
 
@@ -77,8 +85,8 @@ namespace OpenAuth.App
                 resources = resources.Where(u => u.AppId == request.appId);
             }
 
-            var propertyStr = string.Join(',', properties.Select(u => u.Key));
-            result.columnHeaders = properties;
+            var propertyStr = string.Join(',', properties.Select(u => u.ColumnName));
+            result.columnFields = properties;
             result.data = resources.OrderBy(u => u.TypeId)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).Select($"new ({propertyStr})");

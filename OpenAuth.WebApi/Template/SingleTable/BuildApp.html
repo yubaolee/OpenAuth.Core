@@ -1,0 +1,73 @@
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Infrastructure;
+using OpenAuth.App.Interface;
+using OpenAuth.App.Request;
+using OpenAuth.App.Response;
+using OpenAuth.Repository;
+using OpenAuth.Repository.Domain;
+using OpenAuth.Repository.Interface;
+
+
+namespace OpenAuth.App
+{
+    public class {ModuleCode} : {BaseAppName}<{ClassName},OpenAuthDBContext>
+    {
+
+        /// <summary>
+        /// 加载列表
+        /// </summary>
+        public async Task<TableData> Load(Query{ClassName}ListReq request)
+        {
+            var loginContext = _auth.GetCurrentUser();
+            if (loginContext == null)
+            {
+            throw new CommonException("登录已过期", Define.INVALID_TOKEN);
+            }
+        
+            var columnFields = loginContext.GetTableColumns("{ClassName}");
+            if (columnFields == null || columnFields.Count == 0)
+            {
+            throw new Exception("请在代码生成界面配置Resource表的字段属性");
+            }
+        
+            var result = new TableData();
+            var objs = GetDataPrivilege("u");
+            if (!string.IsNullOrEmpty(request.key))
+            {
+            //增加筛选条件,如：
+            //objs = objs.Where(u => u.Name.Contains(request.key));
+            }
+        
+            var propertyStr = string.Join(',', columnFields.Select(u => u.ColumnName));
+            result.columnFields = columnFields;
+            result.data = objs.OrderBy(u => u.Id)
+            .Skip((request.page - 1) * request.limit)
+            .Take(request.limit).Select($"new ({propertyStr})");
+            result.count = objs.Count();
+            return result;
+        }
+
+        public void Add(AddOrUpdate{ClassName}Req obj)
+        {
+            //程序类型取入口应用的名称，可以根据自己需要调整
+            var addObj = obj.MapTo<{ClassName}>();
+            //addObj.Time = DateTime.Now;
+            Repository.Add(addObj);
+        }
+        
+        public void Update(AddOrUpdate{ClassName}Req obj)
+        {
+            UnitWork.Update<{ClassName}>(u => u.Id == obj.Id, u => new {ClassName}
+            {
+               //todo:要修改的字段赋值
+            });
+
+        }
+
+        public {ModuleCode}(IUnitWork<OpenAuthDBContext> unitWork, IRepository<{ClassName},OpenAuthDBContext> repository, IAuth auth) : base(unitWork, repository, auth)
+        {
+        }
+    }
+}

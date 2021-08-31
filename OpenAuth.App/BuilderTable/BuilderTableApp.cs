@@ -254,20 +254,29 @@ namespace OpenAuth.App
         public void CreateBusiness(CreateBusiReq req)
         {
             var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
-            var tableColumns = _builderTableColumnApp.Find(req.Id);
+            var subTableInfo = Repository.FirstOrDefault(u => u.ParentTableId == req.Id);
+
+            var mainColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
-                || tableColumns == null
-                || tableColumns.Count == 0)
+                || mainColumns == null
+                || mainColumns.Count == 0)
                 throw new Exception("未能找到正确的模版信息");
 
-            //生成应用层
-            GenerateApp(sysTableInfo,tableColumns);
+            if (subTableInfo == null)  //没有子表
+            {
+                //生成应用层
+                GenerateApp(sysTableInfo, mainColumns);
+            }
+            else  //主从表结构
+            {
+
+            }
 
             //生成应用层的请求参数
-            GenerateAppReq(sysTableInfo, tableColumns);
+            GenerateAppReq(sysTableInfo, mainColumns);
             
             //生成WebApI接口
-            GenerateWebApi(sysTableInfo, tableColumns);
+            GenerateWebApi(sysTableInfo, mainColumns);
         }
 
         /// <summary>
@@ -286,7 +295,15 @@ namespace OpenAuth.App
 
             CheckExistsModule(sysTableInfo.ModuleCode);
 
-            string domainContent = FileHelper.ReadFile(@"Template\\BuildApp.html");
+            string domainContent = string.Empty;
+            if (sysTableInfo.IsDynamicHeader)   //使用动态头部的模版
+            {
+                domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildAppWithDynamicHeader.html");
+            }
+            else
+            {
+                domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildApp.html");
+            }
                 domainContent = domainContent
                 .Replace("{TableName}", sysTableInfo.TableName)
                 .Replace("{ModuleCode}", sysTableInfo.ModuleCode)

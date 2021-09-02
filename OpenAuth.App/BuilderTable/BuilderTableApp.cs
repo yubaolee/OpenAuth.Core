@@ -628,104 +628,36 @@ namespace OpenAuth.App
                 || tableColumns == null
                 || tableColumns.Count == 0)
                 throw new Exception("未能找到正确的模版信息");
-            
-            var domainContent = FileHelper.ReadFile(@"Template\\BuildVue.html");
 
-            StringBuilder dialogStrBuilder = new StringBuilder();   //编辑对话框
-            StringBuilder tempBuilder = new StringBuilder();   //临时类的默认值属性
+            string domainContent = string.Empty;
+            if (sysTableInfo.IsDynamicHeader)   //使用动态头部的模版
+            {
+                domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVueWithDynamicHeader.html");
+            }
+            else
+            {
+                domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVue.html");
+            }
+
+
+            StringBuilder headerListBuilder = new StringBuilder();   //临时类的默认值属性
             var syscolums = tableColumns.OrderByDescending(c => c.Sort).ToList();
             
-            string[] eidtTye = new string[] { "select", "selectList", "checkbox" };
-            if (syscolums.Exists(x => eidtTye.Contains(x.EditType) && string.IsNullOrEmpty(x.DataSource)))
-            {
-                throw new Exception($"编辑类型为[{string.Join(',', eidtTye)}]时必须选择数据源");
-            }
+            //string[] eidtTye = new string[] { "select", "selectList", "checkbox" };
+            //if (syscolums.Exists(x => eidtTye.Contains(x.EditType) && string.IsNullOrEmpty(x.DataSource)))
+            //{
+            //    throw new Exception($"编辑类型为[{string.Join(',', eidtTye)}]时必须选择数据源");
+            //}
             
             foreach (BuilderTableColumn column in syscolums)
             {
-                if (!column.IsEdit) continue;
-                tempBuilder.Append($"                    {column.ColumnName.ToCamelCase()}: ");
-                
-                dialogStrBuilder.Append($"                   <el-form-item size=\"small\" :label=\"'{column.Comment}'\" prop=\"{column.ColumnName.ToCamelCase()}\" v-if=\"Object.keys(temp).indexOf('{column.ColumnName.ToCamelCase()}')>=0\">\r\n");
-
-                if (column.EditType == "switch")
-                {
-                    dialogStrBuilder.Append($"                     <el-switch v-model=\"temp.{column.ColumnName.ToCamelCase()}\" ></el-switch>\r\n");
-                    tempBuilder.Append($"false, //{column.Comment} \r\n");
-                }
-                else  if (column.EditType == "date")
-                {
-                    dialogStrBuilder.Append($"                     <el-date-picker  v-model=\"temp.{column.ColumnName.ToCamelCase()}\" type=\"date\" placeholder=\"选择日期\"> </el-date-picker>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                }
-                else  if (column.EditType == "datetime")
-                {
-                    dialogStrBuilder.Append($"                     <el-date-picker  v-model=\"temp.{column.ColumnName.ToCamelCase()}\" type=\"datetime\" placeholder=\"选择日期时间\"> </el-date-picker>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                }
-                else  if (column.EditType == "decimal")  //小数
-                {
-                    dialogStrBuilder.Append($"                     <el-input-number v-model=\"temp.{column.ColumnName.ToCamelCase()}\" :min=\"1\" :max=\"100\" ></el-input-number>\r\n");
-                    tempBuilder.Append($"0, //{column.Comment} \r\n");
-                }
-                else  if (column.EditType =="number") //整数
-                {
-                    dialogStrBuilder.Append($"                     <el-input-number v-model=\"temp.{column.ColumnName.ToCamelCase()}\" :min=\"1\" :max=\"100\" ></el-input-number>\r\n");
-                    tempBuilder.Append($"0, //{column.Comment} \r\n");
-                }
-                else if (column.EditType =="textarea") 
-                {
-                    dialogStrBuilder.Append($"                     <el-input type=\"textarea\" :rows=\"3\"  v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                } 
-                else if (column.EditType =="select")
-                {
-                    var categories = _categoryApp.LoadByTypeId(column.DataSource);
-                    if (categories.IsNullOrEmpty())
-                    {
-                        throw new Exception($"未能找到{column.DataSource}对应的值，请在分类管理里面添加");
-                    }
-                    
-                    dialogStrBuilder.Append($"                     <el-select v-model=\"temp.{column.ColumnName.ToCamelCase()}\" placeholder=\"请选择\">\r\n");
-                    foreach (var category in categories)
-                    {
-                        dialogStrBuilder.Append($"                          <el-option label=\"{category.Name}\" value=\"{category.DtValue}\"> </el-option>\r\n");
-                    }
-                    dialogStrBuilder.Append("                     </el-select>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                } 
-                else if (column.EditType =="checkbox")
-                {
-                    var categories = _categoryApp.LoadByTypeId(column.DataSource);
-                    if (categories.IsNullOrEmpty())
-                    {
-                        throw new Exception($"未能找到{column.DataSource}对应的值，请在分类管理里面添加");
-                    }
-                    
-                    dialogStrBuilder.Append($"                     <el-checkbox-group v-model=\"temp.{column.ColumnName.ToCamelCase()}\">\r\n");
-                    foreach (var category in categories)
-                    {
-                        dialogStrBuilder.Append($"                         <el-checkbox label=\"{category.DtValue}\"></el-checkbox>\r\n");
-                    }
-                    dialogStrBuilder.Append("                     </el-checkbox-group>\r\n");
-                    tempBuilder.Append($"[], //{column.Comment} \r\n");
-                } 
-                else
-                {
-                    dialogStrBuilder.Append($"                     <el-input v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                } 
-                
-                dialogStrBuilder.Append("                   </el-form-item>\r\n");
-                dialogStrBuilder.Append("\r\n");
+                headerListBuilder.Append(
+                    $" new ColumnDefine('{column.ColumnName.ToCamelCase()}', '{column.Comment}', {column.IsEdit}, {column.IsList}, '{column.EditType}', '{column.DataSource}', '{column.EntityType}', '{column.ColumnType}', '{column.EntityName}'),");
             }
-
-            tempBuilder.Append("                    nothing:''  //代码生成时的占位符，看不顺眼可以删除 \r\n");
 
             domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{TableName}", sysTableInfo.ClassName.ToCamelCase())
-                .Replace("{Temp}", tempBuilder.ToString())
-                .Replace("{DialogFormItem}", dialogStrBuilder.ToString());
+                .Replace("{HeaderList}", headerListBuilder.ToString());
             
             FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/views/{sysTableInfo.ClassName.ToLower()}s/"), 
                 $"index.vue",

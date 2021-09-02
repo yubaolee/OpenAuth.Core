@@ -85,12 +85,7 @@ export default {
   },
   created() {
     this.headerList = [
-     {Temp}
-      new ColumnDefine('typeName', '分类', true, true, 'text', '', 'string', 'varchar', ''),
-
-      new ColumnDefine('result', '是否异常', true, true, 'select', 'COMMON_STATUS', 'int', 'tinyint', ''),
-      new ColumnDefine('application', '应用', true, true, 'text', '', 'string', 'varchar', ''),
-      new ColumnDefine('createTime', '时间', true, true, 'textarea', '', 'string', 'varchar', ''),
+     {HeaderList}
     ]
     this.getList()
   },

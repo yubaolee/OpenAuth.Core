@@ -14,6 +14,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "{ModuleName}接口_{ClassName}s")]
     public class {ClassName}sController : ControllerBase
     {
         private readonly {ModuleCode} _app;

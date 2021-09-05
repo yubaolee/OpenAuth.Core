@@ -34,7 +34,8 @@ namespace OpenAuth.App
             //增加筛选条件,如：
             //objs = objs.Where(u => u.Name.Contains(request.key));
             }
-        
+
+            {ForeignKeyTemplate}
           
             result.data = objs.OrderBy(u => u.Id)
             .Skip((request.page - 1) * request.limit)

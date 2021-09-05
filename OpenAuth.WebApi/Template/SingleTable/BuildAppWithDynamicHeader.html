@@ -39,6 +39,8 @@ namespace OpenAuth.App
             //增加筛选条件,如：
             //objs = objs.Where(u => u.Name.Contains(request.key));
             }
+
+            {ForeignKeyTemplate}
         
             var propertyStr = string.Join(',', columnFields.Select(u => u.ColumnName));
             result.columnFields = columnFields;

@@ -301,7 +301,13 @@ namespace OpenAuth.App
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
-                
+
+                if (!string.IsNullOrEmpty(sysTableInfo.ForeignKey))
+                {   //替换外键模版
+                    var foreignTemplate = $"objs = objs.Where(u => u.{sysTableInfo.ForeignKey} == request.{sysTableInfo.ForeignKey});";
+                    domainContent = domainContent
+                        .Replace("{ForeignKeyTemplate}", foreignTemplate);
+                }
                 
                 var primarykey = sysColumns.FirstOrDefault(u => u.IsKey);
                 if (primarykey == null)
@@ -346,6 +352,14 @@ namespace OpenAuth.App
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
+
+            if (!string.IsNullOrEmpty(sysTableInfo.ForeignKey))
+            {   //替换外键模版
+                var foreignTemplate = $" public string {sysTableInfo.ForeignKey} {{ get; set; }}";
+                domainContent = domainContent
+                    .Replace("{ForeignKeyTemplate}", foreignTemplate);
+            }
+
             FileHelper.WriteFile(Path.Combine(appRootPath, $"{sysTableInfo.ModuleCode}\\Request"), $"Query{sysTableInfo.ClassName}ListReq.cs",
                 domainContent);
 
@@ -614,6 +628,12 @@ namespace OpenAuth.App
                 throw new Exception("请提供vue项目的根目录,如：C:\\OpenAuth.Pro\\Client");
             }
             var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
+
+            if (!string.IsNullOrEmpty(sysTableInfo.ParentTableId))
+            {
+                throw new Exception("子表不能直接生成vue，请使用该表对应的父表生成vue或删除该表的父表");
+            }
+
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null

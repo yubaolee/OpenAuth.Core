@@ -254,23 +254,14 @@ namespace OpenAuth.App
         public void CreateBusiness(CreateBusiReq req)
         {
             var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
-            var subTableInfo = Repository.FirstOrDefault(u => u.ParentTableId == req.Id);
-
             var mainColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || mainColumns == null
                 || mainColumns.Count == 0)
                 throw new Exception("未能找到正确的模版信息");
 
-            if (subTableInfo == null)  //没有子表
-            {
                 //生成应用层
-                GenerateApp(sysTableInfo, mainColumns);
-            }
-            else  //主从表结构
-            {
-
-            }
+            GenerateApp(sysTableInfo, mainColumns);
 
             //生成应用层的请求参数
             GenerateAppReq(sysTableInfo, mainColumns);
@@ -664,7 +655,7 @@ namespace OpenAuth.App
                     domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVue.html");
                 }
 
-                domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
+                domainContent = domainContent.Replace("{ParentTableId}", subTable.ForeignKey.ToCamelCase())
                     .Replace("{FirstTableName}", sysTableInfo.ClassName.ToCamelCase())
                     .Replace("{SecondTableName}", subTable.ClassName.ToCamelCase())
                     .Replace("{FirstHeaderList}", BuilderHeader(tableColumns).ToString())

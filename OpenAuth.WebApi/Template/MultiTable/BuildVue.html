@@ -329,7 +329,7 @@ export default {
     querySecondList(id) {
       {SecondTableName}s
         .getList({
-          inboundorderid: id,
+          {ParentTableId}: id,
           page: this.secondQuery.page,
           limit: this.secondQuery.limit,
           key: this.secondQuery.customerKey
@@ -361,7 +361,7 @@ export default {
       this.secondHeaderList.forEach((header) => {
         obj[header.columnName] = defaultVal(header.entityType)
       })
-      obj.orderId = this.firstTemp.id
+      obj.{ParentTableId} = this.firstTemp.id
 
       this.secondList.push(Object.assign({}, obj))
     }

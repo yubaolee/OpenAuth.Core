@@ -630,40 +630,80 @@ namespace OpenAuth.App
                 throw new Exception("未能找到正确的模版信息");
 
             string domainContent = string.Empty;
-            if (sysTableInfo.IsDynamicHeader)   //使用动态头部的模版
-            {
-                domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVueWithDynamicHeader.html");
-            }
-            else
-            {
-                domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVue.html");
-            }
 
-
-            StringBuilder headerListBuilder = new StringBuilder();   //临时类的默认值属性
-            var syscolums = tableColumns.OrderByDescending(c => c.Sort).ToList();
+            //查找是否存在子表额情况
+            var subTable = Repository.FirstOrDefault(u => u.ParentTableId == req.Id);
             
+            if (subTable == null)  //如果子表不存在，则用单模版生成
+            {
+                if (sysTableInfo.IsDynamicHeader) 
+                {
+                    domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVueWithDynamicHeader.html");
+                }
+                else
+                {
+                    domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVue.html");
+                }
+
+               domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
+                    .Replace("{TableName}", sysTableInfo.ClassName.ToCamelCase())
+                    .Replace("{HeaderList}", BuilderHeader(tableColumns).ToString());
+            }
+            else //如果存在子表，则使用主从表生成
+            {
+                var subTableColumns = _builderTableColumnApp.Find(subTable.Id);
+                if (subTableColumns.Count == 0)
+                    throw new Exception($"未找到子表{subTable.ClassName}的字段定义");
+
+                if (sysTableInfo.IsDynamicHeader)
+                {
+                    domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVueWithDynamicHeader.html");
+                }
+                else
+                {
+                    domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVue.html");
+                }
+
+                domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
+                    .Replace("{FirstTableName}", sysTableInfo.ClassName.ToCamelCase())
+                    .Replace("{SecondTableName}", subTable.ClassName.ToCamelCase())
+                    .Replace("{FirstHeaderList}", BuilderHeader(tableColumns).ToString())
+                    .Replace("{SecondHeaderList}", BuilderHeader(subTableColumns).ToString());
+            }
+
+
+
+
+            
+            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/views/{sysTableInfo.ClassName.ToLower()}s/"), 
+                $"index.vue",
+                domainContent);
+        }
+
+        /// <summary>
+        /// 创建vue动态表头
+        /// </summary>
+        /// <returns></returns>
+        private StringBuilder BuilderHeader(List<BuilderTableColumn> tableColumns)
+        {
+            StringBuilder headerListBuilder = new StringBuilder(); //临时类的默认值属性
+            var syscolums = tableColumns.OrderByDescending(c => c.Sort).ToList();
+
             //string[] eidtTye = new string[] { "select", "selectList", "checkbox" };
             //if (syscolums.Exists(x => eidtTye.Contains(x.EditType) && string.IsNullOrEmpty(x.DataSource)))
             //{
             //    throw new Exception($"编辑类型为[{string.Join(',', eidtTye)}]时必须选择数据源");
             //}
-            
+
             foreach (BuilderTableColumn column in syscolums)
             {
                 headerListBuilder.Append(
                     $" new ColumnDefine('{column.ColumnName.ToCamelCase()}', '{column.Comment}', {column.IsEdit}, {column.IsList}, '{column.EditType}', '{column.DataSource}', '{column.EntityType}', '{column.ColumnType}', '{column.EntityName}'),");
             }
 
-            domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
-                .Replace("{TableName}", sysTableInfo.ClassName.ToCamelCase())
-                .Replace("{HeaderList}", headerListBuilder.ToString());
-            
-            FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/views/{sysTableInfo.ClassName.ToLower()}s/"), 
-                $"index.vue",
-                domainContent);
+            return headerListBuilder;
         }
-        
+
         /// <summary>
         /// 创建vue接口
         /// </summary>

@@ -28,11 +28,6 @@ namespace OpenAuth.App
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
 
-            var properties = loginContext.GetProperties("WmsInboundOrderTbl");
-            if (properties == null || properties.Count == 0)
-            {
-                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
-            }
             
             var columns = loginContext.GetTableColumns("WmsInboundOrderTbl");
             if (columns == null || columns.Count == 0)
@@ -42,7 +37,6 @@ namespace OpenAuth.App
             
             var result = new TableData();
             
-            result.columnHeaders = properties;
             result.columnFields = columns;
             
             var objs = GetDataPrivilege("u");
@@ -50,7 +44,7 @@ namespace OpenAuth.App
             {
                 objs = objs.Where(u => u.Id.Contains(request.key));
             }
-            var propertyStr = string.Join(',', properties.Select(u => u.Key));
+            var propertyStr = string.Join(',', columns.Select(u => u.ColumnName));
             result.data = objs.OrderBy(u => u.Id)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).Select($"new ({propertyStr})");

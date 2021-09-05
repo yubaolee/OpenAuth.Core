@@ -254,20 +254,20 @@ namespace OpenAuth.App
         public void CreateBusiness(CreateBusiReq req)
         {
             var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
-            var tableColumns = _builderTableColumnApp.Find(req.Id);
+            var mainColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
-                || tableColumns == null
-                || tableColumns.Count == 0)
+                || mainColumns == null
+                || mainColumns.Count == 0)
                 throw new Exception("未能找到正确的模版信息");
 
-            //生成应用层
-            GenerateApp(sysTableInfo,tableColumns);
+                //生成应用层
+            GenerateApp(sysTableInfo, mainColumns);
 
             //生成应用层的请求参数
-            GenerateAppReq(sysTableInfo, tableColumns);
+            GenerateAppReq(sysTableInfo, mainColumns);
             
             //生成WebApI接口
-            GenerateWebApi(sysTableInfo, tableColumns);
+            GenerateWebApi(sysTableInfo, mainColumns);
         }
 
         /// <summary>
@@ -286,14 +286,28 @@ namespace OpenAuth.App
 
             CheckExistsModule(sysTableInfo.ModuleCode);
 
-            string domainContent = FileHelper.ReadFile(@"Template\\BuildApp.html");
+            string domainContent = string.Empty;
+            if (sysTableInfo.IsDynamicHeader)   //使用动态头部的模版
+            {
+                domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildAppWithDynamicHeader.html");
+            }
+            else
+            {
+                domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildApp.html");
+            }
                 domainContent = domainContent
                 .Replace("{TableName}", sysTableInfo.TableName)
                 .Replace("{ModuleCode}", sysTableInfo.ModuleCode)
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
-                
+
+                if (!string.IsNullOrEmpty(sysTableInfo.ForeignKey))
+                {   //替换外键模版
+                    var foreignTemplate = $"objs = objs.Where(u => u.{sysTableInfo.ForeignKey} == request.{sysTableInfo.ForeignKey});";
+                    domainContent = domainContent
+                        .Replace("{ForeignKeyTemplate}", foreignTemplate);
+                }
                 
                 var primarykey = sysColumns.FirstOrDefault(u => u.IsKey);
                 if (primarykey == null)
@@ -338,6 +352,14 @@ namespace OpenAuth.App
                 .Replace("{ModuleName}", sysTableInfo.ModuleName)
                 .Replace("{ClassName}", sysTableInfo.ClassName)
                 .Replace("{StartName}", StratName);
+
+            if (!string.IsNullOrEmpty(sysTableInfo.ForeignKey))
+            {   //替换外键模版
+                var foreignTemplate = $" public string {sysTableInfo.ForeignKey} {{ get; set; }}";
+                domainContent = domainContent
+                    .Replace("{ForeignKeyTemplate}", foreignTemplate);
+            }
+
             FileHelper.WriteFile(Path.Combine(appRootPath, $"{sysTableInfo.ModuleCode}\\Request"), $"Query{sysTableInfo.ClassName}ListReq.cs",
                 domainContent);
 
@@ -606,115 +628,93 @@ namespace OpenAuth.App
                 throw new Exception("请提供vue项目的根目录,如：C:\\OpenAuth.Pro\\Client");
             }
             var sysTableInfo = Repository.FirstOrDefault(u => u.Id == req.Id);
+
+            if (!string.IsNullOrEmpty(sysTableInfo.ParentTableId))
+            {
+                throw new Exception("子表不能直接生成vue，请使用该表对应的父表生成vue或删除该表的父表");
+            }
+
             var tableColumns = _builderTableColumnApp.Find(req.Id);
             if (sysTableInfo == null
                 || tableColumns == null
                 || tableColumns.Count == 0)
                 throw new Exception("未能找到正确的模版信息");
-            
-            var domainContent = FileHelper.ReadFile(@"Template\\BuildVue.html");
 
-            StringBuilder dialogStrBuilder = new StringBuilder();   //编辑对话框
-            StringBuilder tempBuilder = new StringBuilder();   //临时类的默认值属性
-            var syscolums = tableColumns.OrderByDescending(c => c.Sort).ToList();
-            
-            string[] eidtTye = new string[] { "select", "selectList", "checkbox" };
-            if (syscolums.Exists(x => eidtTye.Contains(x.EditType) && string.IsNullOrEmpty(x.DataSource)))
-            {
-                throw new Exception($"编辑类型为[{string.Join(',', eidtTye)}]时必须选择数据源");
-            }
-            
-            foreach (BuilderTableColumn column in syscolums)
-            {
-                if (!column.IsEdit) continue;
-                tempBuilder.Append($"                    {column.ColumnName.ToCamelCase()}: ");
-                
-                dialogStrBuilder.Append($"                   <el-form-item size=\"small\" :label=\"'{column.Comment}'\" prop=\"{column.ColumnName.ToCamelCase()}\" v-if=\"Object.keys(temp).indexOf('{column.ColumnName.ToCamelCase()}')>=0\">\r\n");
+            string domainContent = string.Empty;
 
-                if (column.EditType == "switch")
+            //查找是否存在子表额情况
+            var subTable = Repository.FirstOrDefault(u => u.ParentTableId == req.Id);
+            
+            if (subTable == null)  //如果子表不存在，则用单模版生成
+            {
+                if (sysTableInfo.IsDynamicHeader) 
                 {
-                    dialogStrBuilder.Append($"                     <el-switch v-model=\"temp.{column.ColumnName.ToCamelCase()}\" ></el-switch>\r\n");
-                    tempBuilder.Append($"false, //{column.Comment} \r\n");
+                    domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVueWithDynamicHeader.html");
                 }
-                else  if (column.EditType == "date")
-                {
-                    dialogStrBuilder.Append($"                     <el-date-picker  v-model=\"temp.{column.ColumnName.ToCamelCase()}\" type=\"date\" placeholder=\"选择日期\"> </el-date-picker>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                }
-                else  if (column.EditType == "datetime")
-                {
-                    dialogStrBuilder.Append($"                     <el-date-picker  v-model=\"temp.{column.ColumnName.ToCamelCase()}\" type=\"datetime\" placeholder=\"选择日期时间\"> </el-date-picker>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                }
-                else  if (column.EditType == "decimal")  //小数
-                {
-                    dialogStrBuilder.Append($"                     <el-input-number v-model=\"temp.{column.ColumnName.ToCamelCase()}\" :min=\"1\" :max=\"100\" ></el-input-number>\r\n");
-                    tempBuilder.Append($"0, //{column.Comment} \r\n");
-                }
-                else  if (column.EditType =="number") //整数
-                {
-                    dialogStrBuilder.Append($"                     <el-input-number v-model=\"temp.{column.ColumnName.ToCamelCase()}\" :min=\"1\" :max=\"100\" ></el-input-number>\r\n");
-                    tempBuilder.Append($"0, //{column.Comment} \r\n");
-                }
-                else if (column.EditType =="textarea") 
-                {
-                    dialogStrBuilder.Append($"                     <el-input type=\"textarea\" :rows=\"3\"  v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                } 
-                else if (column.EditType =="select")
-                {
-                    var categories = _categoryApp.LoadByTypeId(column.DataSource);
-                    if (categories.IsNullOrEmpty())
-                    {
-                        throw new Exception($"未能找到{column.DataSource}对应的值，请在分类管理里面添加");
-                    }
-                    
-                    dialogStrBuilder.Append($"                     <el-select v-model=\"temp.{column.ColumnName.ToCamelCase()}\" placeholder=\"请选择\">\r\n");
-                    foreach (var category in categories)
-                    {
-                        dialogStrBuilder.Append($"                          <el-option label=\"{category.Name}\" value=\"{category.DtValue}\"> </el-option>\r\n");
-                    }
-                    dialogStrBuilder.Append("                     </el-select>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                } 
-                else if (column.EditType =="checkbox")
-                {
-                    var categories = _categoryApp.LoadByTypeId(column.DataSource);
-                    if (categories.IsNullOrEmpty())
-                    {
-                        throw new Exception($"未能找到{column.DataSource}对应的值，请在分类管理里面添加");
-                    }
-                    
-                    dialogStrBuilder.Append($"                     <el-checkbox-group v-model=\"temp.{column.ColumnName.ToCamelCase()}\">\r\n");
-                    foreach (var category in categories)
-                    {
-                        dialogStrBuilder.Append($"                         <el-checkbox label=\"{category.DtValue}\"></el-checkbox>\r\n");
-                    }
-                    dialogStrBuilder.Append("                     </el-checkbox-group>\r\n");
-                    tempBuilder.Append($"[], //{column.Comment} \r\n");
-                } 
                 else
                 {
-                    dialogStrBuilder.Append($"                     <el-input v-model=\"temp.{column.ColumnName.ToCamelCase()}\"></el-input>\r\n");
-                    tempBuilder.Append($"'', //{column.Comment} \r\n");
-                } 
-                
-                dialogStrBuilder.Append("                   </el-form-item>\r\n");
-                dialogStrBuilder.Append("\r\n");
+                    domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVue.html");
+                }
+
+               domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
+                    .Replace("{TableName}", sysTableInfo.ClassName.ToCamelCase())
+                    .Replace("{HeaderList}", BuilderHeader(tableColumns).ToString());
+            }
+            else //如果存在子表，则使用主从表生成
+            {
+                var subTableColumns = _builderTableColumnApp.Find(subTable.Id);
+                if (subTableColumns.Count == 0)
+                    throw new Exception($"未找到子表{subTable.ClassName}的字段定义");
+
+                if (sysTableInfo.IsDynamicHeader)
+                {
+                    domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVueWithDynamicHeader.html");
+                }
+                else
+                {
+                    domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVue.html");
+                }
+
+                domainContent = domainContent.Replace("{ParentTableId}", subTable.ForeignKey.ToCamelCase())
+                    .Replace("{FirstTableName}", sysTableInfo.ClassName.ToCamelCase())
+                    .Replace("{SecondTableName}", subTable.ClassName.ToCamelCase())
+                    .Replace("{FirstHeaderList}", BuilderHeader(tableColumns).ToString())
+                    .Replace("{SecondHeaderList}", BuilderHeader(subTableColumns).ToString());
             }
 
-            tempBuilder.Append("                    nothing:''  //代码生成时的占位符，看不顺眼可以删除 \r\n");
 
-            domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
-                .Replace("{TableName}", sysTableInfo.ClassName.ToCamelCase())
-                .Replace("{Temp}", tempBuilder.ToString())
-                .Replace("{DialogFormItem}", dialogStrBuilder.ToString());
+
+
             
             FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/views/{sysTableInfo.ClassName.ToLower()}s/"), 
                 $"index.vue",
                 domainContent);
         }
-        
+
+        /// <summary>
+        /// 创建vue动态表头
+        /// </summary>
+        /// <returns></returns>
+        private StringBuilder BuilderHeader(List<BuilderTableColumn> tableColumns)
+        {
+            StringBuilder headerListBuilder = new StringBuilder(); //临时类的默认值属性
+            var syscolums = tableColumns.OrderByDescending(c => c.Sort).ToList();
+
+            //string[] eidtTye = new string[] { "select", "selectList", "checkbox" };
+            //if (syscolums.Exists(x => eidtTye.Contains(x.EditType) && string.IsNullOrEmpty(x.DataSource)))
+            //{
+            //    throw new Exception($"编辑类型为[{string.Join(',', eidtTye)}]时必须选择数据源");
+            //}
+
+            foreach (BuilderTableColumn column in syscolums)
+            {
+                headerListBuilder.Append(
+                    $" new ColumnDefine('{column.ColumnName.ToCamelCase()}', '{column.Comment}', {column.IsEdit}, {column.IsList}, '{column.EditType}', '{column.DataSource}', '{column.EntityType}', '{column.ColumnType}', '{column.EntityName}'),");
+            }
+
+            return headerListBuilder;
+        }
+
         /// <summary>
         /// 创建vue接口
         /// </summary>
@@ -739,6 +739,24 @@ namespace OpenAuth.App
             
             FileHelper.WriteFile(Path.Combine(req.VueProjRootPath, $"src/api/"),$"{sysTableInfo.ClassName.ToCamelCase()}s.js", 
                 domainContent);
+        }
+        
+        /// <summary>
+        /// 加载所有的主表（parentId为空的）
+        /// </summary>
+        /// <returns></returns>
+        public async Task<TableData> AllMain()
+        {
+            var result = new TableData();
+            var objs = UnitWork.Find<BuilderTable>(u =>string.IsNullOrEmpty(u.ParentTableId)).Select(u=>new
+            {
+                Id= u.Id,
+                Name = u.TableName
+            });
+
+            result.data = objs.OrderBy(u => u.Id).ToList();
+            result.count = objs.Count();
+            return result;
         }
     }
 }

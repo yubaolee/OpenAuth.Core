@@ -80,6 +80,21 @@ namespace OpenAuth.App
         }
         
         /// <summary>
+        /// 删除角色时，需要删除角色对应的权限
+        /// </summary>
+        /// <param name="ids"></param>
+        public override void Delete(string[] ids)
+        {
+            UnitWork.ExecuteWithTransaction(() =>
+            {
+                UnitWork.Delete<Relevance>(u=>(u.Key == Define.ROLEMODULE || u.Key == Define.ROLEELEMENT) && ids.Contains(u.FirstId));
+                UnitWork.Delete<Relevance>(u=>u.Key == Define.USERROLE && ids.Contains(u.SecondId));
+                UnitWork.Delete<Role>(u =>ids.Contains(u.Id));
+                UnitWork.Save();
+            });
+        }
+        
+        /// <summary>
         /// 更新角色属性
         /// </summary>
         /// <param name="obj"></param>

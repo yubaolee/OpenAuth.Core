@@ -28,7 +28,7 @@
               <span v-if="radio == ''">头信息</span>
               <span v-else>{{ radio }}头信息</span>
             </div>
-            <auth-form ref="dataForm" :edit-model="editModel" :form-fields="firstHeaderList" :data="firstTemp" :col-num="3"></auth-form>
+            <auth-form ref="dataForm" :edit-model="editModel" :form-fields="firstHeaderList" v-model="firstTemp" :col-num="3"></auth-form>
           </el-card>
         </el-col>
 

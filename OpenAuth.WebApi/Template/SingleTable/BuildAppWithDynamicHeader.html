@@ -29,7 +29,7 @@ namespace OpenAuth.App
             var columnFields = loginContext.GetTableColumns("{ClassName}");
             if (columnFields == null || columnFields.Count == 0)
             {
-            throw new Exception("请在代码生成界面配置Resource表的字段属性");
+            throw new Exception("请在代码生成界面配置{ClassName}表的字段属性");
             }
         
             var result = new TableData();

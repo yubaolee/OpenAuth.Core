@@ -308,6 +308,11 @@ namespace OpenAuth.App
                     domainContent = domainContent
                         .Replace("{ForeignKeyTemplate}", foreignTemplate);
                 }
+                else
+                {
+                    domainContent = domainContent
+                        .Replace("{ForeignKeyTemplate}", "");
+                }
                 
                 var primarykey = sysColumns.FirstOrDefault(u => u.IsKey);
                 if (primarykey == null)
@@ -358,6 +363,11 @@ namespace OpenAuth.App
                 var foreignTemplate = $" public string {sysTableInfo.ForeignKey} {{ get; set; }}";
                 domainContent = domainContent
                     .Replace("{ForeignKeyTemplate}", foreignTemplate);
+            }
+            else
+            {
+                domainContent = domainContent
+                    .Replace("{ForeignKeyTemplate}", "");
             }
 
             FileHelper.WriteFile(Path.Combine(appRootPath, $"{sysTableInfo.ModuleCode}\\Request"), $"Query{sysTableInfo.ClassName}ListReq.cs",

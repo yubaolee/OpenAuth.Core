@@ -161,9 +161,11 @@ export default {
       row.disable = disable
     },
     resetTemp() {
-       this.headerList.forEach((item) => {
-        this.temp[item.columnName] = defaultVal(item.entityType)
+      let obj = {};
+      this.headerList.forEach((item) => {
+        obj[item.columnName] = defaultVal(item.entityType)
       })
+      this.temp =Object.assign({}, obj) // copy obj
     },
     handleCreate() {
       // 弹出添加框

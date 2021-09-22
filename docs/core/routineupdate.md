@@ -1,5 +1,19 @@
 # 日常提交(针对dev分支)
 
+* 2021.09.22 fix issue [OpenAuth.Pro前端，可编辑数量为单数时只显示单数减一的字段数](https://gitee.com/yubaolee/OpenAuth.Core/issues/I4BBIG)；
+
+* 2021.09.11 发布3.3版；
+
+* 2021.09.08 fix issue [删除角色后用户还有角色模块访问权限](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I494N1)；
+
+* 2021.09.05 完成主从表生成；
+
+* 2021.09.02 完成单个表格vue的生成；
+
+* 2021.08.31 使用全新的头部渲染；
+
+* 2021.08.23 可以动态控制复杂界面显示编辑权限，采用代码生成的表定义来控制；
+
 * 2021.07.09 流程审批时增加可编辑表单处理；
 
 * 2021.07.02 fix issue 兼容oracle 11g；

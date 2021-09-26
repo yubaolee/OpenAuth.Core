@@ -25,12 +25,11 @@ namespace OpenAuth.App
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
-
-            var properties = loginContext.GetProperties("Category");
-
-            if (properties == null || properties.Count == 0)
+            
+            var columnFields = loginContext.GetTableColumns("Category");
+            if (columnFields == null || columnFields.Count == 0)
             {
-                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
+                throw new Exception("请在代码生成界面配置Category表的字段属性");
             }
             
             var result = new TableData();
@@ -45,8 +44,8 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.Id.Contains(request.key) || u.Name.Contains(request.key));
             }
 
-            var propertyStr = string.Join(',', properties.Select(u =>u.Key));
-            result.columnHeaders = properties;
+            var propertyStr = string.Join(',', columnFields.Select(u =>u.ColumnName));
+            result.columnFields = columnFields;
             result.data = objs.OrderBy(u => u.DtCode)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).Select($"new ({propertyStr})");

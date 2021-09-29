@@ -91,11 +91,7 @@ namespace OpenAuth.App
                 throw new Exception("超级管理员，禁止设置用户");
             }  
         }
-
-        public List<KeyDescription> GetProperties(string moduleCode)
-        {
-            return _dbExtension.GetProperties(moduleCode);
-        }
+        
 
         public List<BuilderTableColumn> GetTableColumns(string moduleCode)
         {

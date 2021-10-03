@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <NoWarn>1701;1702;1591;1573;1572;1570</NoWarn>
+  </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="3.0.1" />

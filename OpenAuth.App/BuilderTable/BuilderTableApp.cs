@@ -29,8 +29,7 @@ namespace OpenAuth.App
         private BuilderTableColumnApp _builderTableColumnApp;
         private CategoryApp _categoryApp;
         private DbExtension _dbExtension;
-        private string _webProject = null;
-        private string _apiNameSpace = null;
+        private string _webProject = string.Empty;
         private string _startName = "";
         private IOptions<AppSetting> _appConfiguration;
 
@@ -61,12 +60,12 @@ namespace OpenAuth.App
         {
             get
             {
-                if (_webProject != null)
+                if (string.IsNullOrEmpty(_webProject))
                     return _webProject;
                 _webProject = ProjectPath.GetLastIndexOfDirectoryName(".WebApi") ??
                              ProjectPath.GetLastIndexOfDirectoryName("Api") ??
                              ProjectPath.GetLastIndexOfDirectoryName(".Mvc");
-                if (_webProject == null)
+                if (string.IsNullOrEmpty(_webProject))
                 {
                     throw new Exception("未获取到以.WebApi结尾的项目名称,无法创建页面");
                 }

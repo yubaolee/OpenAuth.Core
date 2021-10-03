@@ -126,18 +126,18 @@ namespace Yitter.IdGenerator
         {
             return;
 
-            if (GenAction == null)
-            {
-                return;
-            }
-
-            DoGenIdAction(new OverCostActionArg(
-                WorkerId,
-                useTimeTick,
-                1,
-                _OverCostCountInOneTerm,
-                _GenCountInOneTerm,
-                _TermIndex));
+            // if (GenAction == null)
+            // {
+            //     return;
+            // }
+            //
+            // DoGenIdAction(new OverCostActionArg(
+            //     WorkerId,
+            //     useTimeTick,
+            //     1,
+            //     _OverCostCountInOneTerm,
+            //     _GenCountInOneTerm,
+            //     _TermIndex));
         }
 
         private void EndOverCostAction(in long useTimeTick)
@@ -148,54 +148,54 @@ namespace Yitter.IdGenerator
             }
             return;
 
-            if (GenAction == null)
-            {
-                return;
-            }
-
-            DoGenIdAction(new OverCostActionArg(
-                WorkerId,
-                useTimeTick,
-                2,
-                _OverCostCountInOneTerm,
-                _GenCountInOneTerm,
-                _TermIndex));
+            // if (GenAction == null)
+            // {
+            //     return;
+            // }
+            //
+            // DoGenIdAction(new OverCostActionArg(
+            //     WorkerId,
+            //     useTimeTick,
+            //     2,
+            //     _OverCostCountInOneTerm,
+            //     _GenCountInOneTerm,
+            //     _TermIndex));
         }
 
         private void BeginTurnBackAction(in long useTimeTick)
         {
             return;
 
-            if (GenAction == null)
-            {
-                return;
-            }
-
-            DoGenIdAction(new OverCostActionArg(
-            WorkerId,
-            useTimeTick,
-            8,
-            0,
-            0,
-            _TurnBackIndex));
+            // if (GenAction == null)
+            // {
+            //     return;
+            // }
+            //
+            // DoGenIdAction(new OverCostActionArg(
+            // WorkerId,
+            // useTimeTick,
+            // 8,
+            // 0,
+            // 0,
+            // _TurnBackIndex));
         }
 
         private void EndTurnBackAction(in long useTimeTick)
         {
             return;
 
-            if (GenAction == null)
-            {
-                return;
-            }
-
-            DoGenIdAction(new OverCostActionArg(
-            WorkerId,
-            useTimeTick,
-            9,
-            0,
-            0,
-            _TurnBackIndex));
+            // if (GenAction == null)
+            // {
+            //     return;
+            // }
+            //
+            // DoGenIdAction(new OverCostActionArg(
+            // WorkerId,
+            // useTimeTick,
+            // 9,
+            // 0,
+            // 0,
+            // _TurnBackIndex));
         }
 
         private long NextOverCostId()

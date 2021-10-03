@@ -14,6 +14,7 @@ namespace OpenAuth.App
     /// 业务层基类，UnitWork用于事务操作，Repository用于普通的数据库操作
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TDbContext"></typeparam>
     public class BaseLongApp<T, TDbContext> :BaseApp<T,TDbContext> where T : LongEntity where TDbContext: DbContext
     {
 

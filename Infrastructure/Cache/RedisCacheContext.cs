@@ -14,7 +14,6 @@ namespace Infrastructure.Cache
         private ConnectionMultiplexer _conn { get; set; }
         private IDatabase iDatabase { get; set; }
 
-        private AppSetting _appSettings;
         public RedisCacheContext(IOptions<AppSetting> options)
         {
             _conn = ConnectionMultiplexer.Connect(options.Value.RedisConf);

@@ -91,7 +91,7 @@ namespace Infrastructure.Extensions
         /// <summary>
         /// list转换为json
         /// </summary>
-        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <param name="p"></param>
         /// <returns></returns>

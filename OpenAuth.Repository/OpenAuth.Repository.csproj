@@ -6,6 +6,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp3.1\OpenAuth.Repository.xml</DocumentationFile>
+	  <NoWarn>1701;1702;1591;1573;1572;1570</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

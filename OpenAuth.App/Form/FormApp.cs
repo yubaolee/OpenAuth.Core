@@ -17,7 +17,6 @@ namespace OpenAuth.App
 {
     public class FormApp : BaseStringApp<Form,OpenAuthDBContext>
     {
-        private IAuth _auth;
         private IOptions<AppSetting> _appConfiguration;
         private IHttpContextAccessor _httpContextAccessor;
         /// <summary>

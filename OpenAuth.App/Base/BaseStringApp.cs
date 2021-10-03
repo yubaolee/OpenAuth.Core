@@ -11,9 +11,10 @@ namespace OpenAuth.App
 {
     /// <summary>
     /// 业务层基类，UnitWork用于事务操作，Repository用于普通的数据库操作
-    /// <para>如用户管理：Class UserManagerApp:BaseApp<User></para>
+    /// <para>如用户管理：Class UserManagerApp:BaseApp&lt;User&gt;</para>
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TDbContext"></typeparam>
     public class BaseStringApp<T, TDbContext> :BaseApp<T,TDbContext> where T : StringEntity where TDbContext: DbContext
     {
 

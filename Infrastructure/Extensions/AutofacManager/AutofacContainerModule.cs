@@ -4,7 +4,7 @@ namespace Infrastructure.Extensions.AutofacManager
 {
     /// <summary>
     /// 提供全局静态获取服务的能力。
-    /// <para>例：AutofacContainerModule.GetService<IPathProvider>()</para>
+    /// <para>例：AutofacContainerModule.GetService&lt;IPathProvider&gt;()</para>
     /// </summary>
     public class AutofacContainerModule
     {

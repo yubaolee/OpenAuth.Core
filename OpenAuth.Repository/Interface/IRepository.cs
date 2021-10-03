@@ -72,6 +72,7 @@ namespace OpenAuth.Repository.Interface
         /// </summary>
         /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
         /// <returns></returns>
+        [Obsolete("最新版同FromSql，需要在DbContext中设置modelBuilder.Entity<XX>().HasNoKey();")]
         IQueryable<T> Query(string sql, params object[] parameters);
 
 

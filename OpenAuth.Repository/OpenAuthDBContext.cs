@@ -63,7 +63,7 @@ namespace OpenAuth.Repository
             }
             else if(dbType == Define.DBTYPE_MYSQL)  //mysql
            {
-               optionsBuilder.UseMySql(connect);
+               optionsBuilder.UseMySql(connect, new MySqlServerVersion(new Version(8, 0, 11)));
            }
            else
            {
@@ -76,6 +76,7 @@ namespace OpenAuth.Repository
         {
             modelBuilder.Entity<DataPrivilegeRule>()
                 .HasKey(c => new { c.Id });
+            modelBuilder.Entity<SysTableColumn>().HasNoKey();
         }
 
         public virtual DbSet<Application> Applications { get; set; }
@@ -109,7 +110,7 @@ namespace OpenAuth.Repository
         public virtual DbSet<BuilderTable> BuilderTables { get; set; }
         public virtual DbSet<BuilderTableColumn> BuilderTableColumns { get; set; }
         //非数据库表格
-        public virtual DbQuery<SysTableColumn> SysTableColumns { get; set; }
+        public virtual DbSet<SysTableColumn> SysTableColumns { get; set; }
 
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -49,7 +50,7 @@ namespace OpenAuth.App
             result.data = objs.OrderBy(u => u.DtCode)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).Select($"new ({propertyStr})");
-            result.count = objs.Count();
+            result.count = await objs.CountAsync();
             return result;
         }
 

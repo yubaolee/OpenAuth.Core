@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -59,10 +60,10 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.SchemeName.Contains(request.key) || u.Id.Contains(request.key));
             }
 
-            result.data = objs.OrderByDescending(u => u.CreateDate)
+            result.data = await objs.OrderByDescending(u => u.CreateDate)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit).ToList();
-            result.count = objs.Count();
+                .Take(request.limit).ToListAsync();
+            result.count = await objs.CountAsync();
             return result;
         }
 

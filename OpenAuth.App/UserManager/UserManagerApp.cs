@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Infrastructure;
 using Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -108,8 +109,8 @@ namespace OpenAuth.App
 
             return new TableData
             {
-                count = userViews.Count(),
-                data = userViews.OrderBy(u => u.Name)
+                count =userViews.Count(),
+                data =userViews.OrderBy(u => u.Name)
                     .Skip((request.page - 1) * request.limit)
                     .Take(request.limit),
             };
@@ -282,8 +283,8 @@ namespace OpenAuth.App
 
             return new TableData
             {
-                count = users.Count(),
-                data = users.Skip((request.page - 1) * request.limit).Take(request.limit)
+                count =await users.CountAsync(),
+                data =await users.Skip((request.page - 1) * request.limit).Take(request.limit).ToListAsync()
             };
         }
         
@@ -302,8 +303,8 @@ namespace OpenAuth.App
 
             return new TableData
             {
-                count = users.Count(),
-                data = users.Skip((request.page - 1) * request.limit).Take(request.limit)
+                count =await users.CountAsync(),
+                data =await users.Skip((request.page - 1) * request.limit).Take(request.limit).ToListAsync()
             };
         }
 

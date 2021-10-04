@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Helpers;
 using Infrastructure.Utilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
@@ -92,10 +93,10 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.Id.Contains(request.key));
             }
 
-            result.data = objs.OrderBy(u => u.Id)
+            result.data =await objs.OrderBy(u => u.Id)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit).ToList();
-            result.count = objs.Count();
+                .Take(request.limit).ToListAsync();
+            result.count =await objs.CountAsync();
             return result;
         }
 
@@ -763,8 +764,8 @@ namespace OpenAuth.App
                 Name = u.TableName
             });
 
-            result.data = objs.OrderBy(u => u.Id).ToList();
-            result.count = objs.Count();
+            result.data =await objs.OrderBy(u => u.Id).ToListAsync();
+            result.count =await objs.CountAsync();
             return result;
         }
     }

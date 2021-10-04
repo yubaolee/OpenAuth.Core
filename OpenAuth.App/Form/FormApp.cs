@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Infrastructure;
 using Infrastructure.Utilities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -34,7 +35,7 @@ namespace OpenAuth.App
             result.data = forms.OrderByDescending(u => u.CreateDate)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).ToList();
-            result.count = forms.Count();
+            result.count = await forms.CountAsync();
             return result;
         }
 

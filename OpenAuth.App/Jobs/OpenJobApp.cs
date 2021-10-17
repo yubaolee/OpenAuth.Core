@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure;
 using Infrastructure.Const;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OpenAuth.App.Extensions;
 using OpenAuth.App.Interface;
@@ -39,10 +40,10 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.Id.Contains(request.key));
             }
 
-            result.data = objs.OrderBy(u => u.Id)
+            result.data =await objs.OrderBy(u => u.Id)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit);
-            result.count = objs.Count();
+                .Take(request.limit).ToListAsync();
+            result.count =await objs.CountAsync();
             return result;
         }
 
@@ -53,13 +54,12 @@ namespace OpenAuth.App
         /// <returns></returns>
         public async Task StartAll()
         {
-            var jobs = Repository.Find(u => u.Status == (int) JobStatus.Running);
+            var jobs = await Repository.Find(u => u.Status == (int) JobStatus.Running).ToListAsync();
             foreach (var job in jobs)
             {
                 job.Start(_scheduler);
             }
             _logger.LogInformation("所有状态为正在运行的任务已启动");
-
         }
 
         public void Add(AddOrUpdateOpenJobReq req)

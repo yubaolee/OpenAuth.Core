@@ -1,7 +1,5 @@
 ﻿using System.Xml;
 
-/// 这个是用VS2010写的，如果用VS2005，请去掉System.Linq和System.Xml.Linq的引用
-/// 可以将此文件直接编译成dll，今后程序只需要引用该dll后开头添加using XmlLibrary;即可。
 namespace Infrastructure.Helpers
 {
 	/// <summary>
@@ -371,7 +369,7 @@ namespace Infrastructure.Helpers
 				else
 				{
 					XmlNode xn = GetNode(xns, nodeName);
-					if (xn != null) return xn;  /// V1.0.0.3添加节点判断
+					if (xn != null) return xn; 
 				}
 			}
 			return null;

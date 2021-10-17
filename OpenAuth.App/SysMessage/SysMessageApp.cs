@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
@@ -43,10 +44,10 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.ToStatus == request.Status);
             }
 
-            result.data = objs.OrderByDescending(u => u.CreateTime)
+            result.data =await objs.OrderByDescending(u => u.CreateTime)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit);
-            result.count = objs.Count();
+                .Take(request.limit).ToListAsync();
+            result.count = await objs.CountAsync();
             return result;
         }
 

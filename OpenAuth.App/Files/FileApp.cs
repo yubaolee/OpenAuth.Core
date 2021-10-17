@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
@@ -52,10 +53,10 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.FileName.Contains(request.key) || u.FilePath.Contains(request.key));
             }
 
-            result.data = objs.OrderByDescending(u => u.CreateTime)
+            result.data =await objs.OrderByDescending(u => u.CreateTime)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit);
-            result.count = objs.Count();
+                .Take(request.limit).ToListAsync();
+            result.count =await objs.CountAsync();
             return result;
         }
         

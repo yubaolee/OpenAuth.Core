@@ -40,7 +40,7 @@ namespace OpenAuth.App
             result.data = objs.OrderBy(u => u.Id)
             .Skip((request.page - 1) * request.limit)
             .Take(request.limit);
-            result.count = objs.Count();
+            result.count =await objs.CountAsync();
             return result;
         }
 

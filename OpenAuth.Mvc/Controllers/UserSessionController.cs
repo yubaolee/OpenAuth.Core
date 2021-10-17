@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using Infrastructure.Helpers;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
@@ -139,7 +140,7 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var list = _authStrategyContext.GetProperties(moduleCode);
+                var list = _authStrategyContext.GetTableColumns(moduleCode);
                 return JsonHelper.Instance.Serialize(new TableData
                 {
                     data = list,

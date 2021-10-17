@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -25,14 +26,12 @@ namespace OpenAuth.App
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
-
-            var properties = loginContext.GetProperties("DataPrivilegeRule");
-
-            if (properties == null || properties.Count == 0)
+            
+            var columnFields = loginContext.GetTableColumns("DataPrivilegeRule");
+            if (columnFields == null || columnFields.Count == 0)
             {
-                throw new Exception("当前登录用户没有访问该模块字段的权限，请联系管理员配置");
+                throw new Exception("请在代码生成界面配置DataPrivilegeRule表的字段属性");
             }
-
 
             var result = new TableData();
             var objs = UnitWork.Find<DataPrivilegeRule>(null);
@@ -41,13 +40,12 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.Id.Contains(request.key) || u.SourceCode.Contains(request.key) || u.Description.Contains(request.key));
             }
 
-
-            var propertyStr = string.Join(',', properties.Select(u => u.Key));
-            result.columnHeaders = properties;
+            var propertyStr = string.Join(',', columnFields.Select(u => u.ColumnName));
+            result.columnFields = columnFields;
             result.data = objs.OrderBy(u => u.Id)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).Select($"new ({propertyStr})");
-            result.count = objs.Count();
+            result.count = await objs.CountAsync();
             return result;
         }
 

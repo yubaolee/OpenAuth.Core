@@ -177,7 +177,6 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 使用SQL脚本查询
         /// </summary>
-        /// <typeparam name="T"> T为数据库实体</typeparam>
         /// <returns></returns>
         public IQueryable<T> FromSql(string sql, params object[] parameters)
         {
@@ -187,11 +186,11 @@ namespace OpenAuth.Repository
         /// <summary>
         /// 使用SQL脚本查询
         /// </summary>
-        /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
         /// <returns></returns>
+        [Obsolete("最新版同FromSql，需要在DbContext中设置modelBuilder.Entity<XX>().HasNoKey();")]
         public IQueryable<T> Query(string sql, params object[] parameters)
         {
-            return _context.Query<T>().FromSqlRaw(sql, parameters);
+            return _context.Set<T>().FromSqlRaw(sql, parameters);
         }
 
         #region 异步实现

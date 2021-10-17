@@ -100,7 +100,7 @@ layui.config({
                         //循环所有数据，找出对应关系，设置checkbox选中状态
                         for (var i = 0; i < res.data.length; i++) {
                             for (var j = 0; j < props.Result.length; j++) {
-                                if (res.data[i].Key != props.Result[j]) continue;
+                                if (res.data[i].ColumnName != props.Result[j]) continue;
 
                                 //这里才是真正的有效勾选
                                 res.data[i]["LAY_CHECKED"] = true;

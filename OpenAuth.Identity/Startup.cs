@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
 using System.Linq;
 using Autofac;
 using Infrastructure;
@@ -83,7 +84,7 @@ namespace OpenAuth.IdentityServer
             else if(dbType == Define.DBTYPE_MYSQL) //mysql
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext")));
+                    options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext"),new MySqlServerVersion(new Version(8, 0, 11))));
             }
             else  //oracle
             {

@@ -15,6 +15,7 @@ namespace OpenAuth.App
     /// 业务层基类，UnitWork用于事务操作，Repository用于普通的数据库操作
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TDbContext"></typeparam>
     public class BaseIntAutoGenApp<T, TDbContext> :BaseApp<T,TDbContext> where T : IntAutoGenEntity where TDbContext: DbContext
     {
         public BaseIntAutoGenApp(IUnitWork<TDbContext> unitWork, IRepository<T,TDbContext> repository, IAuth auth) : base(unitWork, repository, auth)

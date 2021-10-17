@@ -34,7 +34,7 @@ namespace OpenAuth.App
         /// <summary>
         ///  获取当前登录用户的数据访问权限
         /// </summary>
-        /// <param name=""parameterName>linq表达式参数的名称，如u=>u.name中的"u"</param>
+        /// <param name="parametername">linq表达式参数的名称，如u=>u.name中的"u"</param>
         /// <returns></returns>
         protected IQueryable<T> GetDataPrivilege(string parametername)
         {

@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Helpers;
 using Infrastructure.Utilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Options;
 using OpenAuth.App.Interface;
@@ -29,8 +30,7 @@ namespace OpenAuth.App
         private BuilderTableColumnApp _builderTableColumnApp;
         private CategoryApp _categoryApp;
         private DbExtension _dbExtension;
-        private string _webProject = null;
-        private string _apiNameSpace = null;
+        private string _webProject = string.Empty;
         private string _startName = "";
         private IOptions<AppSetting> _appConfiguration;
 
@@ -61,12 +61,12 @@ namespace OpenAuth.App
         {
             get
             {
-                if (_webProject != null)
+                if (string.IsNullOrEmpty(_webProject))
                     return _webProject;
                 _webProject = ProjectPath.GetLastIndexOfDirectoryName(".WebApi") ??
                              ProjectPath.GetLastIndexOfDirectoryName("Api") ??
                              ProjectPath.GetLastIndexOfDirectoryName(".Mvc");
-                if (_webProject == null)
+                if (string.IsNullOrEmpty(_webProject))
                 {
                     throw new Exception("未获取到以.WebApi结尾的项目名称,无法创建页面");
                 }
@@ -93,10 +93,10 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.Id.Contains(request.key));
             }
 
-            result.data = objs.OrderBy(u => u.Id)
+            result.data =await objs.OrderBy(u => u.Id)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit).ToList();
-            result.count = objs.Count();
+                .Take(request.limit).ToListAsync();
+            result.count =await objs.CountAsync();
             return result;
         }
 
@@ -764,8 +764,8 @@ namespace OpenAuth.App
                 Name = u.TableName
             });
 
-            result.data = objs.OrderBy(u => u.Id).ToList();
-            result.count = objs.Count();
+            result.data =await objs.OrderBy(u => u.Id).ToListAsync();
+            result.count =await objs.CountAsync();
             return result;
         }
     }

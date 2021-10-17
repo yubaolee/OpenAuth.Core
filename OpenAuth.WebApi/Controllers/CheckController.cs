@@ -127,12 +127,12 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="moduleCode">模块的Code，如Category</param>
         /// <returns></returns>
         [HttpGet]
-        public Response<List<KeyDescription>> GetProperties(string moduleCode)
+        public Response<List<BuilderTableColumn>> GetProperties(string moduleCode)
         {
-            var result = new Response<List<KeyDescription>>();
+            var result = new Response<List<BuilderTableColumn>>();
             try
             {
-                result.Result = _authStrategyContext.GetProperties(moduleCode);
+                result.Result = _authStrategyContext.GetTableColumns(moduleCode);
             }
             catch (Exception ex)
             {

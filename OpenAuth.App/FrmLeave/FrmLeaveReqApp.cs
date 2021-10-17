@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
@@ -21,8 +22,8 @@ namespace OpenAuth.App
         {
              return new TableData
             {
-                count = Repository.Count(null),
-                data = Repository.Find(request.page, request.limit, "Id desc")
+                count = await Repository.CountAsync(null),
+                data = await Repository.Find(request.page, request.limit, "Id desc").ToListAsync()
             };
         }
 

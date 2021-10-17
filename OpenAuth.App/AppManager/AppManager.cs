@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.Repository;
@@ -39,7 +40,7 @@ namespace OpenAuth.App
         {
             var applications = UnitWork.Find<Application>(null);
 
-            return applications.ToList();
+            return await applications.ToListAsync();
         }
 
 

@@ -27,6 +27,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Infrastructure.Const;
 using Infrastructure.Helpers;
+using Microsoft.EntityFrameworkCore;
 using OpenAuth.Repository;
 
 namespace OpenAuth.App
@@ -632,9 +633,9 @@ namespace OpenAuth.App
                     waitExp = waitExp.And(t => t.CustomName.Contains(request.key));
                 }
 
-                result.count = UnitWork.Find(waitExp).Count();
+                result.count = await UnitWork.Find(waitExp).CountAsync();
 
-                result.data = UnitWork.Find(request.page, request.limit, "CreateDate descending", waitExp).ToList();
+                result.data =await UnitWork.Find(request.page, request.limit, "CreateDate descending", waitExp).ToListAsync();
             }
             else if (request.type == "disposed") //已办事项（即我参与过的流程）
             {
@@ -650,10 +651,10 @@ namespace OpenAuth.App
                     query = query.Where(t => t.CustomName.Contains(request.key));
                 }
 
-                result.data = query.OrderByDescending(u => u.CreateDate)
+                result.data = await query.OrderByDescending(u => u.CreateDate)
                     .Skip((request.page - 1) * request.limit)
-                    .Take(request.limit).ToList();
-                result.count = instances.Count();
+                    .Take(request.limit).ToListAsync();
+                result.count =await instances.CountAsync();
             }
             else //我的流程
             {
@@ -665,9 +666,9 @@ namespace OpenAuth.App
                     myFlowExp = myFlowExp.And(t => t.CustomName.Contains(request.key));
                 }
 
-                result.count = UnitWork.Find(myFlowExp).Count();
-                result.data = UnitWork.Find(request.page, request.limit,
-                    "CreateDate descending", myFlowExp).ToList();
+                result.count =await UnitWork.Find(myFlowExp).CountAsync();
+                result.data = await UnitWork.Find(request.page, request.limit,
+                    "CreateDate descending", myFlowExp).ToListAsync();
             }
 
             return result;

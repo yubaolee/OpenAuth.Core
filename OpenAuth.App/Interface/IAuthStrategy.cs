@@ -39,15 +39,7 @@ namespace OpenAuth.App
         {
             get;set;
         }
-
-        /// <summary>
-        /// 根据模块id获取可访问的模块字段
-        /// </summary>
-        /// <param name="moduleCode"></param>
-        /// <returns></returns>
-        [Obsolete("请使用GetTableColumns代替")]
-        List<KeyDescription> GetProperties(string moduleCode);
-
+         
         /// <summary>
         /// 获取角色可以访问的字段信息
         /// </summary>

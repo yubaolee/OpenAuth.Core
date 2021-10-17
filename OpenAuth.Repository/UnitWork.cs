@@ -211,10 +211,11 @@ namespace OpenAuth.Repository
        {
            return _context.Set<T>().FromSqlRaw(sql, parameters);
        }
-        
+       
+       [Obsolete("最新版同FromSql，需要在DbContext中设置modelBuilder.Entity<XX>().HasNoKey();")]
        public IQueryable<T> Query<T>(string sql, params object[] parameters) where T : class
        {
-           return _context.Query<T>().FromSqlRaw(sql, parameters);
+           return _context.Set<T>().FromSqlRaw(sql, parameters);
        }
 
        /// <summary>

@@ -173,7 +173,7 @@ select utc.column_name as                           COLUMNNAME,
             
             foreach (var context in _contexts)
             {
-                var columns = context.Query<SysTableColumn>().FromSqlRaw(sql);
+                var columns = context.Set<SysTableColumn>().FromSqlRaw(sql);
                 var columnList = columns?.ToList();
                 if (columnList != null && columnList.Any())
                 {
@@ -238,7 +238,7 @@ select utc.column_name as                           COLUMNNAME,
 
             foreach (var context in _contexts)
             {
-                var columns = context.Query<SysTableColumn>().FromSqlRaw(sql);
+                var columns = context.Set<SysTableColumn>().FromSqlRaw(sql);
                 var columnList = columns?.ToList();
                 if (columnList != null && columnList.Any())
                 {
@@ -344,7 +344,7 @@ select utc.column_name as                           COLUMNNAME,
 
             foreach (var context in _contexts)
             {
-                var columns = context.Query<SysTableColumn>().FromSqlRaw(sql);
+                var columns = context.Set<SysTableColumn>().FromSqlRaw(sql);
                 var columnList = columns?.ToList();
                 if (columnList != null && columnList.Any())
                 {

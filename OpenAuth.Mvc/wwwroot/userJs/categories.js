@@ -13,11 +13,11 @@ layui.config({
     $.getJSON('/Categories/All',
 	    { page: 1, limit: 1 },
 	    function(data) {
-		    var columns = data.columnHeaders.filter(u =>u.Browsable ===true).map(function(e) {
-			    return {
-				    field: e.Key,
-				    title: e.Description
-			    };
+            var columns = data.columnFields.filter(u => u.IsList ===true).map(function (e) {
+                return {
+                    field: e.ColumnName,
+                    title: e.Comment
+                };
             });
 		    columns.unshift({
 			    type: 'checkbox',

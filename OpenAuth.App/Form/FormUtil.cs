@@ -567,7 +567,7 @@ namespace OpenAuth.App
                                                      + "` (   Id varchar(50) not null primary key,") ;  //主键
 
 
-                string sqlDefault = "";
+                // string sqlDefault = "";
 
                 foreach (var json in jsonArray)
                 {

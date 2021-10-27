@@ -176,10 +176,12 @@ namespace OpenAuth.App.SSO
                 _cacheContext.Remove(token);
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
+
+            
         }
     }
 }

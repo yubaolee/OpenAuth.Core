@@ -16,9 +16,12 @@ namespace OpenAuth.App
 {
     public class BuilderTableColumnApp : BaseStringApp<BuilderTableColumn,OpenAuthDBContext>
     {
+        
+        private DbExtension _dbExtension;
         public BuilderTableColumnApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<BuilderTableColumn,OpenAuthDBContext> repository,
-            IAuth auth) : base(unitWork, repository,auth)
+            IAuth auth, DbExtension dbExtension) : base(unitWork, repository,auth)
         {
+            _dbExtension = dbExtension;
         }
 
         /// <summary>
@@ -81,6 +84,48 @@ namespace OpenAuth.App
             });
 
         }
+        
+        /// <summary>
+        /// 同步数据结构
+        /// <para>读取数据库结构与当前结构的差异，如果数据库有新增的字段，则自动加入</para>
+        /// </summary>
+        public void Sync(SyncStructureReq req)
+        {
+            var columns = _dbExtension.GetDbTableStructure(req.TableName);
+            if (!columns.Any())
+            {
+                throw new Exception($"未能找到{req.TableName}表结构定义");
+            }
+
+            var exists = Find(req.Id).Select(u=>u.ColumnName);
+
+            foreach (var column in columns)
+            {
+                if(exists.Contains(column.ColumnName)) continue;
+                var builderColumn = new BuilderTableColumn
+                {
+                    ColumnName = column.ColumnName,
+                    Comment = column.Comment,
+                    ColumnType = column.ColumnType,
+                    EntityType = column.EntityType,
+                    EntityName = column.ColumnName,
+
+                    IsKey = column.IsKey == 1,
+                    IsRequired = column.IsNull != 1,
+                    IsEdit = true,
+                    IsInsert = true,
+                    IsList = true,
+                    MaxLength = column.MaxLength,
+                    TableName = req.TableName,
+                    TableId = req.Id,
+                    
+                    CreateTime = DateTime.Now
+                };
+                UnitWork.Add(builderColumn);
+            }
+            UnitWork.Save();
+        }
+
             
 
        

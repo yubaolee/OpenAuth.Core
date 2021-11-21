@@ -56,6 +56,28 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        
+        /// <summary>
+        /// 同步数据结构
+        /// <para>读取数据库结构与当前结构的差异，如果数据库有新增的字段，则自动加入</para>
+        /// </summary>
+        [HttpPost]
+        public Response Sync(SyncStructureReq obj)
+        {
+            var result = new Response();
+            try
+            {
+                _app.Sync(obj);
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// 加载列表

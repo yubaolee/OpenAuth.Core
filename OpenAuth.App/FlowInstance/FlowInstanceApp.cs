@@ -280,12 +280,15 @@ namespace OpenAuth.App
                     flowInstance.IsFinish = (wfruntime.nextNodeType == 4
                         ? FlowInstanceStatus.Finished
                         : FlowInstanceStatus.Running);
-                    AddTransHistory(wfruntime);
                 }
                 else
                 {
                     flowInstance.IsFinish = FlowInstanceStatus.Disagree; //表示该节点不同意
+                    wfruntime.nextNodeId = "-1";
+                    wfruntime.nextNodeType = 4;
                 }
+                
+                AddTransHistory(wfruntime);
 
                 flowInstanceOperationHistory.Content = "【" + wfruntime.currentNode.name
                                                            + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm")
@@ -689,7 +692,7 @@ namespace OpenAuth.App
                 FromNodeName = wfruntime.currentNode.name,
                 FromNodeType = wfruntime.currentNodeType,
                 ToNodeId = wfruntime.nextNodeId,
-                ToNodeName = wfruntime.nextNode.name,
+                ToNodeName = wfruntime.nextNode?.name,
                 ToNodeType = wfruntime.nextNodeType,
                 IsFinish = wfruntime.nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running,
                 TransitionSate = 0

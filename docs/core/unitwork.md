@@ -170,7 +170,10 @@ namespace OpenAuth.App
 框架提供两个SQL语句查询的接口:
 * FromSql: 返回数据库表对应的实体，必需在在DbContext中增加对应的DbSset；
 
-* Query: 返回数据库中不存在的表实体，必需在在DbContext中增加对应的DbQuery；
+::: tip 提示
+EF Core 3.x版本或以前，如果返回数据库中不存在的实体，必需在在DbContext中增加DbQuery<实体>，并且使用dbcontext.Query<XXX>("select * from xx")进行查询。EF Core 5.0以后已经全部统一为DbSet，并使用FromSql进行查询
+:::
+
 
 ### 返回数据库表
 
@@ -183,10 +186,16 @@ namespace OpenAuth.App
 
 ```csharp
   //OpenAuthDBContext中添加访问
-  public virtual DbQuery<UserResp> UserResps { get; set; }
+  public virtual DbSet<UserResp> UserResps { get; set; }
+
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+        ...
+        modelBuilder.Entity<UserResp>().HasNoKey();
+  }
 
   //使用
-   var users = UnitWork.Query<UserResp>("select * from user");
+   var users = UnitWork.FromSql<UserResp>("select * from user");
 ```
 
 ## 执行存储过程

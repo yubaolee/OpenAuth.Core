@@ -15,6 +15,7 @@
 // ***********************************************************************
 
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
@@ -122,7 +123,18 @@ namespace OpenAuth.App
         public List<BuilderTableColumn> GetTableColumns(string moduleCode)
         {
             var allprops = UnitWork.Find<BuilderTableColumn>(u => u.TableName.ToLower() == moduleCode.ToLower());
-            
+            //如果是子表，直接返回所有字段
+            var builderTable = UnitWork.FirstOrDefault<BuilderTable>(u => u.TableName.ToLower() == moduleCode.ToLower());
+            if (builderTable == null)
+            {
+                throw new Exception($"代码生成器中找不到{moduleCode.ToLower()}的定义");
+            }
+            //如果是子表，因为不能在模块界面分配，所以直接返回所有字段，后期可以优化。
+            if (builderTable.ParentTableId != null)
+            {
+                return allprops.ToList();
+            }
+
             //如果是系统模块，直接返回所有字段。防止开发者把模块配置成系统模块，还在外层调用loginContext.GetProperties("xxxx");
             bool? isSysModule = UnitWork.FirstOrDefault<Module>(u => u.Code == moduleCode)?.IsSys;
             if (isSysModule!= null && isSysModule.Value)

@@ -61,7 +61,7 @@ namespace OpenAuth.App
         {
             get
             {
-                if (string.IsNullOrEmpty(_webProject))
+                if (!string.IsNullOrEmpty(_webProject))
                     return _webProject;
                 _webProject = ProjectPath.GetLastIndexOfDirectoryName(".WebApi") ??
                              ProjectPath.GetLastIndexOfDirectoryName("Api") ??
@@ -563,6 +563,7 @@ namespace OpenAuth.App
             ,{"string", typeof(string)}
             ,{"bool", typeof(bool)}
             ,{"byte", typeof(byte)}
+            ,{"float", typeof(float)}
             ,{"char", typeof(char)}
             ,{"decimal", typeof(decimal)}
             ,{"double", typeof(double)}

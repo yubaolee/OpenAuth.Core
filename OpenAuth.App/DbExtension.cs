@@ -278,7 +278,7 @@ select utc.column_name as                           COLUMNNAME,
                      THEN 'DateTime'
                      WHEN ColumnType IN('smallmoney', 'DECIMAL', 'numeric',
                                           'money') THEN 'decimal'
-                     WHEN ColumnType = 'float' THEN 'float'
+                     WHEN ColumnType = 'float' THEN 'double'
                      ELSE 'string'
                 END as  EntityType,
                     ColumnType,

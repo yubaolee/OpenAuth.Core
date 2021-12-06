@@ -563,6 +563,7 @@ namespace OpenAuth.App
             ,{"string", typeof(string)}
             ,{"bool", typeof(bool)}
             ,{"byte", typeof(byte)}
+            ,{"float", typeof(float)}
             ,{"char", typeof(char)}
             ,{"decimal", typeof(decimal)}
             ,{"double", typeof(double)}

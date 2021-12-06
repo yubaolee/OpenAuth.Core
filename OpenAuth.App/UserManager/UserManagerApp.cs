@@ -93,7 +93,8 @@ namespace OpenAuth.App
 
            
             
-            var userViews = userOrgs.ToList().GroupBy(b => b.Account).Select(u =>new UserView
+            var userViews = (await userOrgs.ToListAsync()).GroupBy(b => b.Account)
+                .Select(u =>new UserView
             {
                 Id = u.First().Id,
                 Account = u.Key,
@@ -159,7 +160,7 @@ namespace OpenAuth.App
                 userOrgs = userOrgs.Where(u => u.Key == Define.USERORG && u.OrgId == request.orgId);
             }
 
-            var userViews = userOrgs.ToList().GroupBy(b => b.Account).Select(u =>new UserView
+            var userViews = (await userOrgs.ToListAsync()).GroupBy(b => b.Account).Select(u =>new UserView
             {
                 Id = u.First().Id,
                 Account = u.Key,

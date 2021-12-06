@@ -40,7 +40,7 @@ namespace OpenAuth.App.Test
         {
             Console.WriteLine($"开始异步测试");
             
-            AddOrUpdate();
+            var result =AddOrUpdate();
 
             Console.WriteLine("异步测试结束");
 

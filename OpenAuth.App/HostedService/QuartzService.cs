@@ -7,6 +7,9 @@ using Quartz;
 
 namespace OpenAuth.App.HostedService
 {
+    /// <summary>
+    /// 自启动服务，本服务用于启动所有状态为【正在运行】的定时任务
+    /// </summary>
     public class QuartzService : IHostedService, IDisposable
     {
         private readonly ILogger<QuartzService> _logger;
@@ -23,15 +26,15 @@ namespace OpenAuth.App.HostedService
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _scheduler.Start();
-            _openJobApp.StartAll();
-            return Task.CompletedTask;
+            var result = _openJobApp.StartAll();
+            return result;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _scheduler.Shutdown();
+            var result =_scheduler.Shutdown();
             _logger.LogInformation("关闭定时job");
-            return Task.CompletedTask;
+            return result;
         }
 
         public void Dispose()

@@ -34,14 +34,12 @@ namespace OpenAuth.App.Request
         /// 表描述、中文名称
         /// </summary>
         public string Comment { get; set; }
+        
         /// <summary>
-        /// 子表英文全称
+        /// 父表ID
         /// </summary>
-        public string DetailTableName { get; set; }
-        /// <summary>
-        /// 子表描述、中文名称
-        /// </summary>
-        public string DetailComment { get; set; }
+        public string ParentTableId { get; set; }
+       
         /// <summary>
         /// 实体类名称
         /// </summary>

@@ -118,21 +118,6 @@ namespace OpenAuth.App
             }
             
             var obj = AddTableAndColumns(req.MapTo<BuilderTable>());
-
-            //创建子表
-            if (!string.IsNullOrEmpty(req.DetailTableName))
-            {
-                AddTableAndColumns(new BuilderTable
-                {
-                    TableName = req.DetailTableName,
-                    ParentTableId = obj.Id,
-                    Namespace = "OpenAuth.Repository.Domain",
-                    ModuleName = req.DetailTableName,
-                    Folder = req.Folder,
-                    TypeId = req.TypeId,
-                    TypeName = req.TypeName
-                });
-            }
             
             UnitWork.Save();
             return obj.Id;
@@ -194,8 +179,6 @@ namespace OpenAuth.App
             {
                 TableName = obj.TableName,
                 Comment = obj.Comment,
-                DetailTableName = obj.DetailTableName,
-                DetailComment = obj.DetailComment,
                 ClassName = obj.ClassName,
                 Namespace = obj.Namespace,
                 ModuleCode = obj.ModuleCode,
@@ -206,10 +189,10 @@ namespace OpenAuth.App
                 TypeName = obj.TypeName,
                 IsDynamicHeader = obj.IsDynamicHeader,
                 ForeignKey = obj.ForeignKey,
+                ParentTableId = obj.ParentTableId,
                 UpdateTime = DateTime.Now,
                 UpdateUserId = user.Id,
                 UpdateUserName = user.Name
-                //todo:补充或调整自己需要的字段
             });
         }
 
@@ -642,7 +625,8 @@ namespace OpenAuth.App
 
             if (!string.IsNullOrEmpty(sysTableInfo.ParentTableId))
             {
-                throw new Exception("子表不能直接生成vue，请使用该表对应的父表生成vue或删除该表的父表");
+                return;
+               // throw new Exception("子表不能直接生成vue，请使用该表对应的父表生成vue或删除该表的父表");
             }
 
             var tableColumns = _builderTableColumnApp.Find(req.Id);

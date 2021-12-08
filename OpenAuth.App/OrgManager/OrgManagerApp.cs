@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -49,6 +50,10 @@ namespace OpenAuth.App
 
         public string Update(Org org)
         {
+            if (org.Id == org.ParentId)
+            {
+                throw new Exception("上级节点不能为自己");
+            }
             UpdateTreeObj(org);
 
             return org.Id;

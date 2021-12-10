@@ -90,6 +90,7 @@ module.exports = {
         '/pro/': [
           ['','项目介绍']
           ,"devnew"
+          ,"router"
         ],
   
         '/net/': [

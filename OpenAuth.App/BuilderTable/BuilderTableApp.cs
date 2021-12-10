@@ -704,7 +704,8 @@ namespace OpenAuth.App
             foreach (BuilderTableColumn column in syscolums)
             {
                 headerListBuilder.Append(
-                    $" new ColumnDefine('{column.ColumnName.ToCamelCase()}', '{column.Comment}', {column.IsEdit}, {column.IsList}, '{column.EditType}', '{column.DataSource}', '{column.EntityType}', '{column.ColumnType}', '{column.EntityName}'),");
+                    $" new ColumnDefine('{column.ColumnName.ToCamelCase()}', '{column.Comment}', {column.IsEdit.ToString().ToLower()}, {column.IsList.ToString().ToLower()}, '{column.EditType}', '{column.DataSource}', '{column.EntityType}', '{column.ColumnType}', '{column.EntityName}'),");
+                headerListBuilder.Append("\r\n     ");
             }
 
             return headerListBuilder;

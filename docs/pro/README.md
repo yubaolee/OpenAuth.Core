@@ -28,14 +28,14 @@ OpenAuth.Pro是一套全新的前端界面，基于vue-element-admin，采用VUE
 
 使用Vs Code（或个人喜欢的工具）打开OpenAuth.Pro/Client文件夹，如下图：
 
-![20211214232057](https://img.openauth.net.cn/20211214232057.png)
+![20211214232057](http://img.openauth.net.cn/20211214232057.png)
 
 
 安装程序运行所需的第三方包。使用npm install 命令经行安装，如下图：
-![20211214232207](https://img.openauth.net.cn/20211214232207.png)
+![20211214232207](http://img.openauth.net.cn/20211214232207.png)
 
 使用npm run dev 命令运行。如下图：
-![20211214232229](https://img.openauth.net.cn/20211214232229.png)
+![20211214232229](http://img.openauth.net.cn/20211214232229.png)
 
 启动成功后，使用浏览器访问[http://localhost:1803/](http://localhost:1803/) 即可打开企业版界面
 

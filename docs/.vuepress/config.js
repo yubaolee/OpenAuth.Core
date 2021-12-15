@@ -89,6 +89,7 @@ module.exports = {
 
         '/pro/': [
           ['','项目介绍']
+          ,"structure"
           ,"devnew"
           ,"deploy"
           ,"router"

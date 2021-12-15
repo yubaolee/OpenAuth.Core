@@ -92,6 +92,7 @@ module.exports = {
           ,"devnew"
           ,"deploy"
           ,"router"
+          ,"components"
         ],
   
         '/net/': [

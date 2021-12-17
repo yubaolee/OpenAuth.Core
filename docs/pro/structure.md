@@ -8,4 +8,4 @@ entry: {
    app: './src/main.js'
 }
 ```
-通过打包之后，编译后的代码全部会注入到index.html的<div id="app"></div>里面。
+通过打包之后，编译后的代码全部会注入到index.html的`<div id="app"></div>`里面。

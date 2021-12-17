@@ -4,6 +4,17 @@
 
 ![20211214232752](http://img.openauth.net.cn/20211214232752.png)
 
+::: warning 注意事项
+前端部署时使用的配置文件为`.env.prod`，打包构建前请调整为自己的接口地址：
+
+```javascript
+VUE_APP_BASE_API = http://demo.openauth.net.cn:52789/api
+
+VUE_APP_BASE_IMG_URL = demo.openauth.net.cn:52789
+```
+
+:::
+
 构建完成后会生成dist文件夹。如下：
 
 ![20211214232928](http://img.openauth.net.cn/20211214232928.png)

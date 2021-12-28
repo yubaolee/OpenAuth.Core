@@ -54,3 +54,5 @@ Vue.component('FrmLeaveReqDetail', FrmLeaveReqDetail)
 编写完上面代码后，运行企业版。使用【基础配置】--【表单设计】--【添加】功能添加刚刚的表单：
 
 ![20211228213154](http://img.openauth.net.cn/20211228213154.png)
+
+这样就可以在流程设计里面，选择使用刚刚添加的表单了。

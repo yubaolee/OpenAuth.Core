@@ -90,10 +90,11 @@ module.exports = {
 
         '/pro/': [
           ['','项目介绍']
+          ,"deploy"
           ,"structure"
           ,"devnew"
           ,"datapropertyrule"
-          ,"deploy"
+          ,"form"
           ,"router"
           ,"components"
         ],

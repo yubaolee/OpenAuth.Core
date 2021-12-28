@@ -91,6 +91,7 @@ module.exports = {
           ['','项目介绍']
           ,"structure"
           ,"devnew"
+          ,"datapropertyrule"
           ,"deploy"
           ,"router"
           ,"components"

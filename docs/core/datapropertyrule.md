@@ -19,13 +19,18 @@
 在做返回处理的时候，需要做以下特殊处理（本文以Resource表为例）
 
 ```csharp
-var properties = loginContext.GetProperties("Resource");
-var propertyStr = string.Join(',', properties.Select(u => u.Key));
-result.columnHeaders = properties;
-result.data = objs.OrderBy(u => u.Id)
-        .Skip((request.page - 1) * request.limit)
-        .Take(request.limit).Select($"new ({propertyStr})");
-result.count = objs.Count();
+var columnFields = loginContext.GetTableColumns("Resource");
+if (columnFields == null || columnFields.Count == 0)
+{
+	throw new Exception("请在代码生成界面配置Resource表的字段属性");
+}
+
+var propertyStr = string.Join(',', columnFields.Select(u => u.ColumnName));
+result.columnFields = columnFields;
+result.data = resources.OrderBy(u => u.TypeId)
+	.Skip((request.page - 1) * request.limit)
+	.Take(request.limit).Select($"new ({propertyStr})");
+result.count = await resources.CountAsync();
 return result;
 ```
 
@@ -47,10 +52,10 @@ return result;
     $.getJSON('/Resources/Load',
 	    { page: 1, limit: 1 },
 	    function (data) {
-		    var columns = data.columnHeaders.filter(u =>u.Browsable ===true).map(function (e) {
+		     var columns = data.columnFields.filter(u => u.IsList ===true).map(function (e) {
 			    return {
-				    field: e.Key,
-				    title: e.Description
+                    field: e.ColumnName,
+                    title: e.Comment
 			    };
 		    });
 		    columns.unshift({

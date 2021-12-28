@@ -56,6 +56,7 @@ module.exports = {
               
             ]
           }
+          ,"form" 
           ,{
             title: '工作流',   // 必要的
             sidebarDepth: 1,    // 可选的, 默认值是 1

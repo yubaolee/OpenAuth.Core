@@ -1,4 +1,9 @@
-# 字段权限
+# 权限控制
+
+## 数据权限
+
+关于数据权限控制，可以详细查看博文：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
+## 字段权限
 
 ::: warning 注意
 企业版后端逻辑同开源版一样，请参考：[/core/datapropertyrule](/core/datapropertyrule.html)本文只介绍企业版前端部分

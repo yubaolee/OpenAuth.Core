@@ -1,6 +1,8 @@
 # 内置组件
 
-OpenAuth.Pro封装了一些组件，方便开发使用，组件全部在`src\components`中定义。
+OpenAuth.Pro封装了一些组件，方便开发使用，组件全部在`src\components`中定义。目前提供的三大核心组件关系如下：
+
+![20211230063538](http://img.openauth.net.cn/20211230063538.png)
 
 ## 通用下拉选择 auth-select
 

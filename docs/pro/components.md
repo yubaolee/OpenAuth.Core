@@ -37,9 +37,12 @@ default-props: 数据源提供的数据类型。默认情况下为id/name的数�
 ## 表格组件 auth-table
 
 用于渲染给定列定义，给定数据的表格，简单用法如下：
+```html
 <auth-table ref="tableName" :table-fields="tableFields" :data="dataList" ></auth-table>
+```
 
 支持的事件：row-click selection-change
+
 支持的方法：exportExcel clearSelection
 
 ## 表单组件 auth-form

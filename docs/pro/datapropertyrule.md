@@ -6,7 +6,7 @@
 ## 字段权限
 
 ::: warning 注意
-企业版后端逻辑同开源版一样，请参考：[/core/datapropertyrule](/core/datapropertyrule.html)本文只介绍企业版前端部分
+企业版后端逻辑同开源版一样，请参考后端[字段权限](/core/datapropertyrule.html)，本章节只介绍企业版前端部分处理逻辑
 :::
 
 ### 前端代码处理

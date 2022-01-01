@@ -19,9 +19,13 @@ OpenAuth.Pro是一套全新的前端界面，基于vue-element-admin，采用VUE
 
 * 如果只使用开源的OpenAuth.Mvc。则新建一个空数据库：OpenAuthDB。然后在OpenAuth.Core项目文件夹【sql server 初始化脚本】中，运行`Sql Server脚本.sql`（或mysql初始化脚本）
 
-* 如果只使用企业版的OpenAuth.WebApi,则新建一个空数据库：OpenAuthPro。然后在OpenAuth.Pro项目文件夹【sql脚本】中，运行`Sql Server脚本.sql`（或mysql脚本）
+* 如果只使用企业版的OpenAuth.WebApi,则新建一个空数据库：OpenAuthPro。使用OpenAuth.Pro前端源码文件夹【sql脚本】中，运行`Sql Server脚本.sql`（或mysql脚本）
 
-## 启动
+## 启动后端
+
+启动后端请参考：[快速开始](/core/start.html)
+
+## 启动前端
 
 使用Vs Code（或个人喜欢的工具）打开OpenAuth.Pro/Client文件夹，如下图：
 

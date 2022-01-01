@@ -33,6 +33,10 @@
 
 使用数据库脚本`sql server 初始化脚本`或`mysql初始化脚本` 文件夹里面的结构脚本和数据脚本初始化数据库
 
+::: warning 注意
+如果使用企业版的OpenAuth.WebApi,则新建一个空数据库：OpenAuthPro。使用OpenAuth.Pro前端源码文件夹【sql脚本】中，运行`Sql Server脚本.sql`（或mysql脚本）
+:::
+
 ## 打开项目
 
 使用Visual Studio 2019或Rider打开 `OpenAuth.Core.sln`
@@ -98,7 +102,7 @@ v2.0以前的版本可以使用visual Studio 2017
        ,"OpenAuthDBContext3":"MySql"
     }, 
 ```
-## 编译运行
+## 编译运行MVC
 
 使用visualstudio生成解决方案。
 `注：首次启动时，visual studio会启动nuget还原第三方依赖包，请保持网络通畅，并等待一段时间`
@@ -110,5 +114,19 @@ v2.0以前的版本可以使用visual Studio 2017
 启动成功后使用浏览器打开[http://localhost:1802](http://localhost:1802) 即可访问，如下图所示：
 
 ![说明](/mvcmain.png "说明")
+
+
+## 编译运行WebApi
+
+使用visualstudio生成解决方案。
+`注：首次启动时，visual studio会启动nuget还原第三方依赖包，请保持网络通畅，并等待一段时间`
+
+启动openauth.webapi项目。
+
+![20220102000528](http://img.openauth.net.cn/20220102000528.png)
+
+启动成功后使用浏览器打开[http://localhost:52789/swagger/index.html](http://localhost:52789/swagger/index.html) 即可访问，如下图所示：
+
+![20220101233542](http://img.openauth.net.cn/20220101233542.png)
 
 

@@ -15,6 +15,17 @@
 ```shell
 export ASPNETCORE_ENVIRONMENT=Production
 ```
+
+或者修改/etc/profile配置，在结尾添加：
+```shell
+ASPNETCORE_ENVIRONMENT=Production
+export ASPNETCORE_ENVIRONMENT
+```
+然后刷新：
+```shell
+source /etc/profile
+```
+
 在Widows系统中增加对应环境变量即可
 
 :::

@@ -11,6 +11,16 @@
 ```shell
 export ASPNETCORE_ENVIRONMENT=Production
 ```
+
+或者修改/etc/profile配置，在结尾添加：
+```shell
+ASPNETCORE_ENVIRONMENT=Production
+export ASPNETCORE_ENVIRONMENT
+```
+然后刷新：
+```shell
+source /etc/profile
+```
 在Widows系统中增加对应环境变量即可
 
 :::
@@ -22,6 +32,10 @@ export ASPNETCORE_ENVIRONMENT=Production
 * 发布完成后可以在输出目录看到发布详情（红色框内即为发布的文件夹）：
 
 ![20220101233049](http://img.openauth.net.cn/20220101233049.png)
+
+* 将Debug目录中的OpenAuth.WebApi.xml拷贝到发布文件夹publish:
+
+![20220101235436](http://img.openauth.net.cn/20220101235436.png)
 
 ## 部署OpenAuth.WebApi
 

@@ -1,4 +1,4 @@
-# 部署
+# 部署MVC
 
 ::: tip 提示
 因.net core内部有自托管的Web服务器，推荐使用控制台方式部署。本内容基于控制台命令的方式。如果部署到IIS请自行百度:cold_sweat:
@@ -64,9 +64,5 @@ nohup dotnet /data/openauthmvc/OpenAuth.Mvc.dll &
 echo '============================end build======================================='
 ```
 
-
-## 接口OpenAuth.WebApi部署
-
-请查看[企业版](http://openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)内部文档
 
 

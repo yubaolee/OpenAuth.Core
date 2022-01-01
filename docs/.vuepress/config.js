@@ -31,6 +31,7 @@ module.exports = {
               "start"
               ,"specialist"
               ,"deploy" 
+              ,"deployapi" 
               ,"devnew"
               ,"multidbs"
               ,"multitenant"

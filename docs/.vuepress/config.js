@@ -2,6 +2,10 @@ module.exports = {
   title: 'OpenAuth.Net',
   description: '最好用的.net权限工作流框架,最好用的.net vue前后分离框架',
   head: [['link', { rel: 'icon', href: '/logo.png' }]],
+  extendMarkdown: md => {
+    md.set({ breaks: true })
+    md.use(require('markdown-it-plantuml'))
+  },
   themeConfig: {
     lastUpdated: '最后更新时间', // string | boolean
     nav: [

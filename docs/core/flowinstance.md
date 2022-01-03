@@ -12,6 +12,42 @@
 
 当最终用户在【待处理流程】中审批一个流程实例时，流程实例会经过下面步骤进行处理：
 
-![20220103220156](http://img.openauth.net.cn/20220103220156.png)
+@startuml
+skinparam handwritten true
+skinparam backgroundColor #EEEBDC
+
+start
+if (当前活动节点类型为会签) then (yes)
+  :标识当前节点状态;
+  :从所有的分支中找到一个用户可以审批的节点canCheckId;
+  if (没找到?) then (yes)
+    stop
+  endif
+  :标识canCheckId节点状态;
+  #HotPink:进行会签,结果为res;
+  if(res == TagState.No) then (yes)
+    :修改流程最终状态为不同意;
+  else if(res != string.Empty) then (yes)
+    stop
+  else (no)
+    :修改流程最终状态，修改活动节点，修改可执行人;
+    :添加扭转记录;
+  endif
+
+else (no)
+  :标识当前节点状态;
+  if (同意) then (yes)
+    :修改流程最终状态，修改活动节点，修改可执行人;
+    :添加扭转记录;
+  else
+    :修改流程最终状态为不同意;
+  endif
+  :操作记录;
+endif
+stop
+
+@enduml
+
+
 
 

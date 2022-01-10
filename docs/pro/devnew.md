@@ -38,6 +38,33 @@ initCfg() {
 
 ```
 
+## 准备工作
+
+* 数据库OpenAuthPro中添加仓储表【Stock】，本文以该数据表为例。参考表结构如下：
+```SQL
+-- mysql示例
+create table stock
+(
+    createtime     datetime       not null comment '操作时间',
+    status   int            not null comment '出库/入库',
+    price    decimal(10, 1) not null comment '产品单价',
+    number   int            not null comment '产品数量',
+    name     text           not null comment '产品名称',
+    orgid    varchar(50)    null comment '组织ID',
+    user     varchar(50)    not null comment '操作人',
+    viewable varchar(50)    not null comment '可见范围',
+    id       varchar(50)    not null comment '数据ID'
+        primary key
+)
+
+```
+
+* 使用Visual Studio 以开发模式启动后端。参考：[编译运行webapi](http://doc.openauth.net.cn/core/start.html#%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8Cwebapi)
+
+* 启动企业版前端。参考：[启动前端](http://doc.openauth.net.cn/pro/#%E5%90%AF%E5%8A%A8%E5%89%8D%E7%AB%AF)
+
+后续操作全部在系统中完成。
+
 ## 单表添加
 
 代码生成界面，点击`添加`按钮，输入想添加的模块信息。

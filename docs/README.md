@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /logo.png
-heroText: OpenAuth.Core
+heroText: OpenAuth.Net
 tagline: 最好用的.net权限工作流框架,最实用的.net/vue前后端分离方案
 actionText: 快速上手 →
 actionLink: /core/start/
@@ -13,12 +13,12 @@ features:
 - title: 超酷体验
   details: 可拖拽的表单设计，可视化流程设计。
 - title: 紧随潮流
-  details: 最新的.net core sdk，配合最炫的vue框架。
+  details: 最新的.net sdk，配合最炫的vue框架。
 - title: 功能强大
   details: 组织机构、角色用户、数据权限、拖拽表单、工作流引擎、定时任务。
 - title: 主流技术
   details: IdentityServer、EF core、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE、Element-ui。
-footer: Copyright © 2021- yubaolee
+footer: Copyright © 2022- yubaolee
 ---
 
 

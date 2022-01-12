@@ -16,13 +16,6 @@ public string Account { get; set; }
 
 * Description注解：是当前端表格需要动态表头时，返回的表头中文说明
 
-## vue运行的时候报错
-
-在启动企业版的时候，如果提示下面错误：
-
-![](/oidcerror.png)
-
-请使用`npm run dev`命令来启动项目
 
 ## 项目显示不可用
 

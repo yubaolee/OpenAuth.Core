@@ -66,7 +66,7 @@ module.exports = {
         'faq'
       ],
 
-      '/pro/': [['', '项目介绍'], 'deploy', 'structure', 'devnew', 'datapropertyrule', 'form', 'router', 'components'],
+      '/pro/': [['', '项目介绍'], 'deploy', 'structure', 'devnew', 'datapropertyrule', 'form', 'router', 'components','faq'],
 
       '/net/': [['', '项目介绍'], 'start', 'deploy', 'devnew']
     }

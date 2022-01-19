@@ -1,6 +1,11 @@
-﻿using System.Text;
+﻿using System;
+using System.Linq;
+using System.Text;
 using Infrastructure;
 using Newtonsoft.Json.Linq;
+using OpenAuth.Repository;
+using OpenAuth.Repository.Interface;
+using OpenAuth.Repository.QueryObj;
 
 namespace OpenAuth.App
 {
@@ -9,6 +14,13 @@ namespace OpenAuth.App
     /// </summary>
     public class DragForm: IForm
     {
+        private IUnitWork<OpenAuthDBContext> _unitWork;
+
+        public DragForm(IUnitWork<OpenAuthDBContext> unitWork)
+        {
+            _unitWork = unitWork;
+        }
+
         /**
 	     * 功能:  创建表单数据表格（基于sql server）
 	     */
@@ -21,14 +33,12 @@ namespace OpenAuth.App
 
                 // 数据库名称
                 string tableName = form.DbName;
-                // 创建数据表
-                StringBuilder sql = new StringBuilder("if exists ( select * from sysobjects where name = '"
-                                                      + tableName + "' and type = 'U') drop table "
-                                                      + tableName + ";");
 
-                sql.Append("CREATE TABLE "
-                           + tableName
-                           + " (   [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,"); //主键
+                var exist = _unitWork.FromSql<QueryStringObj>($"select '1' as value from sysobjects where name = '{tableName}' and type = 'U'").SingleOrDefault();
+                if (exist != null) return string.Empty;
+                
+                // 创建数据表
+                StringBuilder sql = new StringBuilder($"CREATE TABLE {tableName} (   [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,"); //主键
 
                 string sqlDefault = "";
 
@@ -63,10 +73,14 @@ namespace OpenAuth.App
             else
             {
                 // 获取字段并处理
-                var jsonArray = JArray.Parse(form.ContentData);
+                var jsonArray = JsonHelper.Instance.Deserialize<JObject>(form.ContentData)["list"];
 
                 // 数据库名称
                 string tableName = form.DbName;
+                
+                var exist = _unitWork.FromSql<QueryStringObj>($"select table_name as value from information_schema.tables where table_name ='{tableName}'").SingleOrDefault();
+                if (exist != null) return string.Empty;
+                
                 // 创建数据表
                 StringBuilder sql = new StringBuilder("create table if not exists `"
                                                       + tableName

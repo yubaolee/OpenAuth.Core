@@ -2,7 +2,13 @@
 
 ## 下载代码
 
-使用git工具下载代码，代码地址：https://gitee.com/yubaolee/OpenAuth.Core.git
+gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
+
+* [OpenAuth.Net](https://gitee.com/dotnetchina/OpenAuth.Net) 的SDK版本为5.0.100，推荐使用该版本
+
+* [OpenAuth.Core](https://gitee.com/yubaolee/OpenAuth.Core) 的SDK版本为.Net Core 3.1.100，历史原因暂且保留，未来的某天会关闭它
+
+.Net目前SDK升级特别方便，只需花费3分钟时间既可升级到.Net 6/7/8...等。请参考：[3分钟的时间把.net core 3.1的升级到.NET 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)，所以不要纠结SDK版本问题。
 
 ## 安装sdk
 

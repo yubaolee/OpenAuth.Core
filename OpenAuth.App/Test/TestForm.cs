@@ -56,5 +56,18 @@ namespace OpenAuth.App.Test
                 FrmType = 2
             });
         }
+        
+         [Test]
+        public void Add()
+        {
+            var app = _autofacServiceProvider.GetService<FormApp>();
+             app.Add(new Form()
+            {
+                ContentData =  "{\"list\":[{\"type\":\"input\",\"icon\":\"icon-input\",\"name\":\"单行文本\",\"options\":{\"width\":\"100%\",\"defaultValue\":\"\",\"required\":false,\"dataType\":\"string\",\"pattern\":\"\",\"placeholder\":\"\",\"disabled\":false,\"remoteFunc\":\"func_1642578757000_60891\"},\"key\":\"1642578757000_60891\",\"model\":\"input_1642578757000_60891\",\"rules\":[{\"type\":\"string\",\"message\":\"input_1642578757000_60891格式不正确\"}]}],\"config\":{\"labelWidth\":100,\"labelPosition\":\"right\",\"size\":\"small\"}}",
+                DbName = "stock2",
+                OrgId = "08f41bf6-4388-4b1e-bd3e-2ff538b44b1b",
+                FrmType = 2
+            });
+        }
     }
 }

@@ -2,6 +2,8 @@
 
 OpenAuth.Net是基于 **.Net Core/.Net 5** 的开源权限工作流快速开发框架。框架汲取Martin Fowler企业级应用开发思想及全新技术组合（IdentityServer、EF core、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE、Element-ui等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
 
+如果你想了解企业版的内容，请访问：[http://doc.openauth.net.cn/pro](http://doc.openauth.net.cn/pro/)
+
 ::: tip 提示
 
 gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
@@ -63,29 +65,6 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 * 后端采用 .net core +EF core+ autofac + quartz +IdentityServer4 + nunit + swagger
 
 * 设计工具 PowerDesigner + Enterprise Architect
-
-## 开源版和企业版关系
-
-企业版是一套全新的前端界面，基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发。它使用开源版OpenAuth.Core的API接口（即：OpenAuth.WebApi）提供数据服务。二者的关系如下：
-
-![](/architect.png)
-
-## 开源版和企业版不同点
-
-|    开源版    | 高级/企业版           |
-| ------------- |:-------------:| 
-| 单站点Asp.Net Core Mvc方式     | 前后端完全分离的Asp.Net Core WebAPI + vue方式 | 
-| 基于最新版LayUI界面     | 基于最新版ElementUI界面  | 
-| 基于Quartz的定时任务控制    | 基于Quartz的定时任务控制，`且支持可视化CRON表达式设计`      |   
-| 基于leipiformdesign的动态表单设计   | 在开源版的基础上，`实现可拖拽的表单设计且独立成vue组件`      |   
-| 基于gooflow的流程设计   | 基于当今世界最流行的jsplumb开发的流程设计      |   
-| 灵活的数据权限控制   | 在开源版的基础上，`实现可视化的权限控制配置`   |   
-| 提供基于CodeSmith的代码生成功能   | 在开源的基础上，`增加快速生成带有头/明细结构的页面`   |   
-| --   | 移动端源码  | 
-| --   | 多租户  |  
-| --   | 附件管理  |  
-| --   | 提供数据库结构PowerDesigner设计文件  |   
-
 
 
 

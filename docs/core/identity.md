@@ -1,7 +1,7 @@
 
-# OAuth集成
+# 登录认证及OAuth集成
 
-OpenAuth.core支持两种登录认证方式：自定义认证和基于IdentityServer的OAuth认证。
+OpenAuth.Net支持两种登录认证方式：自定义token认证和基于IdentityServer的OAuth认证。
 
 这两种方式通过配置webapi或mvc的appsettings.json可以自由切换:
 
@@ -14,19 +14,29 @@ OpenAuth.core支持两种登录认证方式：自定义认证和基于IdentitySe
 2. 当IdentityServerUrl配置了地址时，则采用Identity认证方式。
 
 
-## OpenAuth.Mvc
+## OpenAuth.Mvc OAuth认证
 
 当启用了Identity时，系统启动后界面如下：
 
-  ![MVC启用identity](/mvcidentity.png "mvcidentity")
+![MVC启用identity](/mvcidentity.png "mvcidentity")
 
-  这时点击登录超链接，会跳转到OpenAuth.Identity登录界面。效果如下：
+这时点击登录超链接，会跳转到OpenAuth.Identity登录界面。效果如下：
 
-  ![](/identity.png)
+![](/identity.png)
+
+#### OpenAuth.WebApi普通token认证
+
+当IdentityServerUrl配置为空时，采用普通的token认证，客户端在访问的接口时，先调用登录接口,得到授权token：
+
+![20220119182845](http://img.openauth.net.cn/20220119182845.png)
+
+然后把获取到的token值添加到http header的X-Token中,即可调用对应的API接口。
+
+![20220119182853](http://img.openauth.net.cn/20220119182853.png)
 
 ## OpenAuth.WebApi OAuth
 
-当启用了Identity时，客户端调用API需要先通过OpenAuth.IdentityServer服务器的OAuth验证，才能调用接口。对于OpenAuth.Net调用API的客户端有两种：
+当启用了Identity时，客户端调用API需要先通过OpenAuth.IdentityServer服务器的OAuth验证，才能调用接口。OpenAuth.Net调用API的客户端有两种：
 
 #### SwaggerUI
 
@@ -43,8 +53,6 @@ OpenAuth.core支持两种登录认证方式：自定义认证和基于IdentitySe
 这时所有的接口都可以直接访问，访问时会在http头上自动加认证信息：
 
 ![20220119180608](http://img.openauth.net.cn/20220119180608.png)
-
-![20220119180630](http://img.openauth.net.cn/20220119180630.png)
 
 #### OpenAuth.Pro
 
@@ -63,7 +71,4 @@ VUE_APP_OIDC_SILENTREDIRECTURI = http://localhost:1803/silent-renew-oidc.html
 
 ```
 
-#### OpenAuth.WebApi默认认证方式
-
-当IdentityServerUrl配置为空时，采用普通的token认证，客户端在访问的时候必须先调用登录接口,然后把获取到的token值添加到http header的X-Token中,才能调用对应的API接口。
 

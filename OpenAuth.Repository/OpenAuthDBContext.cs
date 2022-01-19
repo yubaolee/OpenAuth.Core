@@ -77,6 +77,7 @@ namespace OpenAuth.Repository
             modelBuilder.Entity<DataPrivilegeRule>()
                 .HasKey(c => new { c.Id });
             modelBuilder.Entity<SysTableColumn>().HasNoKey();
+            modelBuilder.Entity<QueryStringObj>().HasNoKey();
         }
 
         public virtual DbSet<Application> Applications { get; set; }
@@ -110,6 +111,7 @@ namespace OpenAuth.Repository
         public virtual DbSet<BuilderTable> BuilderTables { get; set; }
         public virtual DbSet<BuilderTableColumn> BuilderTableColumns { get; set; }
         //非数据库表格
+        public virtual DbSet<QueryStringObj> QueryStringObjs { get; set; }
         public virtual DbSet<SysTableColumn> SysTableColumns { get; set; }
 
     }

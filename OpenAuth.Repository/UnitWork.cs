@@ -204,6 +204,7 @@ namespace OpenAuth.Repository
 
        public int ExecuteSql(string sql)
        {
+           if (string.IsNullOrEmpty(sql)) return 0;
             return _context.Database.ExecuteSqlRaw(sql);
         }
 

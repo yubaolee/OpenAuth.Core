@@ -49,7 +49,7 @@ namespace OpenAuth.App
             {
                 var dbtype = _appConfiguration.Value.DbTypes[_httpContextAccessor.GetTenantId()];
                 
-                UnitWork.ExecuteSql(FormUtil.GetSql(obj, dbtype));
+                UnitWork.ExecuteSql(FormFactory.CreateForm(obj, this.UnitWork).GetSql(obj, dbtype));
             }
             UnitWork.Save();
         }
@@ -73,7 +73,7 @@ namespace OpenAuth.App
             if (!string.IsNullOrEmpty(obj.DbName))
             {
                 var dbtype = _appConfiguration.Value.DbTypes[_httpContextAccessor.GetTenantId()];
-                UnitWork.ExecuteSql(FormUtil.GetSql(obj, dbtype));
+                UnitWork.ExecuteSql(FormFactory.CreateForm(obj,this.UnitWork).GetSql(obj, dbtype));
             }
         }
 

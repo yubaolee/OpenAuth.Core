@@ -24,7 +24,7 @@ OpenAuth.Net支持两种登录认证方式：自定义token认证和基于Identi
 
 ![](/identity.png)
 
-#### OpenAuth.WebApi普通token认证
+## OpenAuth.WebApi普通token认证
 
 当IdentityServerUrl配置为空时，采用普通的token认证，客户端在访问的接口时，先调用登录接口,得到授权token：
 

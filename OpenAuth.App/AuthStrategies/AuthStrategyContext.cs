@@ -59,7 +59,7 @@ namespace OpenAuth.App
             get { return _strategy.Resources; }
         }
 
-        public List<Org> Orgs
+        public List<SysOrg> Orgs
         {
             get { return _strategy.Orgs; }
         }

@@ -18,9 +18,9 @@ namespace OpenAuth.Repository.Domain
 	/// 组织表
 	/// </summary>
       [Table("Org")]
-    public partial class Org : TreeEntity
+    public partial class SysOrg : TreeEntity
     {
-        public Org()
+        public SysOrg()
         {
           this.CascadeId= string.Empty;
           this.Name= string.Empty;

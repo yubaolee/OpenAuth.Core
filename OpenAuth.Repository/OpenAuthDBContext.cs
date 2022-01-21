@@ -90,7 +90,7 @@ namespace OpenAuth.Repository
         public virtual DbSet<Form> Forms { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<ModuleElement> ModuleElements { get; set; }
-        public virtual DbSet<Org> Orgs { get; set; }
+        public virtual DbSet<SysOrg> Orgs { get; set; }
         public virtual DbSet<Relevance> Relevances { get; set; }
         public virtual DbSet<Resource> Resources { get; set; }
         public virtual DbSet<Role> Roles { get; set; }

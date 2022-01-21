@@ -34,11 +34,11 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加组织提交
         [HttpPost]
-        public string Add(Org org)
+        public string Add(SysOrg sysOrg)
         {
             try
             {
-                _orgApp.Add(org);
+                _orgApp.Add(sysOrg);
             }
             catch (Exception ex)
             {
@@ -50,11 +50,11 @@ namespace OpenAuth.Mvc.Controllers
 
         //编辑
         [HttpPost]
-        public string Update(Org org)
+        public string Update(SysOrg sysOrg)
         {
             try
             {
-                _orgApp.Update(org);
+                _orgApp.Update(sysOrg);
             }
             catch (Exception ex)
             {

@@ -116,7 +116,7 @@ namespace OpenAuth.Repository.Test
                     });
                     
 
-                    unitWork.Update<Org>(u => u.Id == "08f41bf6-4388-4b1e-bd3e-2ff538b44b1b", u => new Org
+                    unitWork.Update<SysOrg>(u => u.Id == "08f41bf6-4388-4b1e-bd3e-2ff538b44b1b", u => new SysOrg
                     {
                        CreateTime = DateTime.Now
                     });

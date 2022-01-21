@@ -51,7 +51,7 @@ namespace OpenAuth.App
                 join relevance in UnitWork.Find<Relevance>(u => u.Key == "UserOrg")
                     on user.Id equals relevance.FirstId into temp
                 from r in temp.DefaultIfEmpty()
-                join org in UnitWork.Find<Org>(null)
+                join org in UnitWork.Find<SysOrg>(null)
                     on r.SecondId equals org.Id into orgtmp
                 from o in orgtmp.DefaultIfEmpty()
                 select new
@@ -133,7 +133,7 @@ namespace OpenAuth.App
                join relevance in UnitWork.Find<Relevance>(u => u.Key == "UserOrg")
                    on user.Id equals relevance.FirstId into temp
                from r in temp.DefaultIfEmpty()
-               join org in UnitWork.Find<Org>(null)
+               join org in UnitWork.Find<SysOrg>(null)
                    on r.SecondId equals org.Id into orgtmp
                from o in orgtmp.DefaultIfEmpty()
                select new

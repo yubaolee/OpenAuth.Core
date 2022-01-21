@@ -10,27 +10,27 @@ using OpenAuth.Repository.Interface;
 
 namespace OpenAuth.App
 {
-    public class OrgManagerApp : BaseTreeApp<Org,OpenAuthDBContext>
+    public class OrgManagerApp : BaseTreeApp<SysOrg,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         /// <summary>
         /// 添加部门
         /// </summary>
-        /// <param name="org">The org.</param>
+        /// <param name="sysOrg">The org.</param>
         /// <returns>System.Int32.</returns>
         /// <exception cref="System.Exception">未能找到该组织的父节点信息</exception>
-        public string Add(Org org)
+        public string Add(SysOrg sysOrg)
         {
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
-            CaculateCascade(org);
+            CaculateCascade(sysOrg);
 
             UnitWork.ExecuteWithTransaction(() =>
             {
-                UnitWork.Add(org);
+                UnitWork.Add(sysOrg);
                 UnitWork.Save();
 
                 //如果当前账号不是SYSTEM，则直接分配
@@ -40,23 +40,23 @@ namespace OpenAuth.App
                     {
                         type = Define.USERORG,
                         firstId = loginContext.User.Id,
-                        secIds = new[] { org.Id }
+                        secIds = new[] { sysOrg.Id }
                     });
                 }
             });
 
-            return org.Id;
+            return sysOrg.Id;
         }
 
-        public string Update(Org org)
+        public string Update(SysOrg sysOrg)
         {
-            if (org.Id == org.ParentId)
+            if (sysOrg.Id == sysOrg.ParentId)
             {
                 throw new Exception("上级节点不能为自己");
             }
-            UpdateTreeObj(org);
+            UpdateTreeObj(sysOrg);
 
-            return org.Id;
+            return sysOrg.Id;
         }
         
         /// <summary>
@@ -64,15 +64,15 @@ namespace OpenAuth.App
         /// </summary>
         public void DelOrgCascade(string[] ids)
         {
-            var delOrgCascadeIds = UnitWork.Find<Org>(u => ids.Contains(u.Id)).Select(u => u.CascadeId).ToArray();
+            var delOrgCascadeIds = UnitWork.Find<SysOrg>(u => ids.Contains(u.Id)).Select(u => u.CascadeId).ToArray();
             var delOrgIds = new List<string>();
             foreach (var cascadeId in delOrgCascadeIds)
             {
-                delOrgIds.AddRange(UnitWork.Find<Org>(u=>u.CascadeId.Contains(cascadeId)).Select(u =>u.Id).ToArray());
+                delOrgIds.AddRange(UnitWork.Find<SysOrg>(u=>u.CascadeId.Contains(cascadeId)).Select(u =>u.Id).ToArray());
             }
             
             UnitWork.Delete<Relevance>(u =>u.Key == Define.USERORG && delOrgIds.Contains(u.SecondId));
-            UnitWork.Delete<Org>(u => delOrgIds.Contains(u.Id));
+            UnitWork.Delete<SysOrg>(u => delOrgIds.Contains(u.Id));
             UnitWork.Save();
             
         }
@@ -81,16 +81,16 @@ namespace OpenAuth.App
         /// 加载特定用户的部门
         /// </summary>
         /// <param name="userId">The user unique identifier.</param>
-        public List<Org> LoadForUser(string userId)
+        public List<SysOrg> LoadForUser(string userId)
         {
             var result = from userorg in UnitWork.Find<Relevance>(null)
-                join org in UnitWork.Find<Org>(null) on userorg.SecondId equals org.Id
+                join org in UnitWork.Find<SysOrg>(null) on userorg.SecondId equals org.Id
                 where userorg.FirstId == userId && userorg.Key == Define.USERORG
                 select org;
             return result.ToList();
         }
 
-        public OrgManagerApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Org,OpenAuthDBContext> repository,IAuth auth, 
+        public OrgManagerApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<SysOrg,OpenAuthDBContext> repository,IAuth auth, 
             RevelanceManagerApp revelanceApp) : base(unitWork, repository, auth)
         {
             _revelanceApp = revelanceApp;

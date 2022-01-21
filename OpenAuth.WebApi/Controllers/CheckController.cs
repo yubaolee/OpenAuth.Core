@@ -146,9 +146,9 @@ namespace OpenAuth.WebApi.Controllers
         /// 获取登录用户的所有可访问的组织信息
         /// </summary>
         [HttpGet]
-        public Response<List<Org>> GetOrgs()
+        public Response<List<SysOrg>> GetOrgs()
         {
-            var result = new Response<List<Org>>();
+            var result = new Response<List<SysOrg>>();
             try
             {
                 result.Result = _authStrategyContext.Orgs;

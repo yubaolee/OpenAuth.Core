@@ -200,19 +200,51 @@ EF Core 3.x版本或以前，如果返回数据库中不存在的实体，必需
 
 ## 执行存储过程
 
+#### Sql Server
+
 UnitWork提供执行存储过程接口`ExecProcedure`，使用如下：
 
 ``` csharp
     var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
-    var users = unitWork.ExecProcedure<User>("sp_alluser");
+    var param = new SqlParameter("keyword", SqlDbType.NVarChar);
+    param.Value = "test%";
+    var users = unitWork.ExecProcedure<User>("sp_alluser", new []{param});
     Console.WriteLine(JsonHelper.Instance.Serialize(users));
 ```
 
 存储过程`sp_alluser`定义如下：
 ```sql
-    CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_alluser`()
-    BEGIN
-        SELECT * from `user`;
-    END
+   create procedure sp_alluser @keyword nvarchar(20) as
+    begin
+        select * from [user] where Account like @keyword;
+    end;
 ```
+
+#### MySql
+
+UnitWork提供执行存储过程接口`ExecProcedure`，使用如下：
+
+``` csharp
+     var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
+    var param = new MySqlParameter("keyword", SqlDbType.NVarChar); 
+    param.Value = "test%";
+    var users = unitWork.ExecProcedure<User>("sp_alluser", new []{param});
+    Console.WriteLine(JsonHelper.Instance.Serialize(users));
+```
+
+::: warning 特别注意
+这里的MySqlParameter命名空间使用的是：
+``` csharp
+using MySqlConnector;
+```
+:::
+
+存储过程`sp_alluser`定义如下：
+```sql
+   create procedure sp_alluser(in keyword nvarchar(20))
+    begin
+        select * from user where Account like keyword;
+    end;
+```
+
 

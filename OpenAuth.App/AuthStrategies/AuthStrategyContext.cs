@@ -73,6 +73,17 @@ namespace OpenAuth.App
         {
             return _strategy.GetTableColumns(moduleCode);
         }
+        
+        /// <summary>
+        /// 获取角色可访问的字段信息，因为MVC版本没有代码生成器，所以只能通过直接读取数据库表结构的方式
+        /// </summary>
+        /// <param name="moduleCode"></param>
+        /// <returns></returns>
+        [Obsolete("获取角色可访问的字段信息，因为MVC版本没有代码生成器，所以只能通过直接读取数据库表结构的方式")]
+        public List<BuilderTableColumn> GetTableColumnsFromDb(string moduleCode)
+        {
+            return _strategy.GetTableColumnsFromDb(moduleCode);
+        }
 
     }
 

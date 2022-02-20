@@ -149,6 +149,24 @@ namespace OpenAuth.App
             return allprops.Where(u => props.Contains(u.ColumnName)).ToList();
         }
 
+        public List<BuilderTableColumn> GetTableColumnsFromDb(string moduleCode)
+        {
+            var allprops = _dbExtension.GetTableColumnsFromDb(moduleCode);
+
+            //如果是系统模块，直接返回所有字段。防止开发者把模块配置成系统模块，还在外层调用loginContext.GetProperties("xxxx");
+            bool? isSysModule = UnitWork.FirstOrDefault<Module>(u => u.Code == moduleCode)?.IsSys;
+            if (isSysModule!= null && isSysModule.Value)
+            {
+                return allprops.ToList();
+            }
+            
+            var props =UnitWork.Find<Relevance>(u =>
+                    u.Key == Define.ROLEDATAPROPERTY && _userRoleIds.Contains(u.FirstId) && u.SecondId == moduleCode)
+                .Select(u => u.ThirdId);
+
+            return allprops.Where(u => props.Contains(u.ColumnName)).ToList();
+        }
+
         //用户角色
 
         public NormalAuthStrategy(IUnitWork<OpenAuthDBContext> unitWork, IRepository<User,OpenAuthDBContext> repository, DbExtension dbExtension) : base(unitWork, repository,null)

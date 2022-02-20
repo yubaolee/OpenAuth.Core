@@ -34,13 +34,14 @@ namespace OpenAuth.App
         }
 
         /// <summary>
-        /// 获取数据库一个表的所有属性值及属性描述
+        /// 通过实体获取字段定义，因为MVC版本没有代码生成界面，只能通过这种方式
         /// </summary>
         /// <param name="moduleName">模块名称/表名</param>
         /// <returns></returns>
-        public List<KeyDescription> GetProperties(string moduleName)
+        [Obsolete("因为MVC版本没有代码生成界面，只能通过这种方式")]
+        public List<BuilderTableColumn> GetTableColumnsFromDb(string moduleName)
         {
-            var result = new List<KeyDescription>();
+            var result = new List<BuilderTableColumn>();
             const string domain = "openauth.repository.domain.";
             IEntityType entity = null; 
             _contexts.ForEach(u =>
@@ -67,12 +68,12 @@ namespace OpenAuth.App
                 {
                     typeName = Nullable.GetUnderlyingType(property.PropertyType).Name;
                 }
-                result.Add(new KeyDescription
+                result.Add(new BuilderTableColumn
                 {
-                    Key = property.Name,
-                    Description = description,
-                    Browsable = browsable,
-                    Type = typeName
+                    ColumnName = property.Name,
+                    TableName = moduleName,
+                    Comment = description,
+                    ColumnType = typeName
                 });
             }
 

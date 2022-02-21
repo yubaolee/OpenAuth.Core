@@ -61,7 +61,7 @@ namespace OpenAuth.App
                 var jsonArray = JArray.Parse(form.ContentData);
                 // 数据库名称
                 string tableName = form.DbName;
-                var exist = _unitWork.FromSql<QueryStringObj>($"select table_name as value from information_schema.tables where table_name ='{tableName}'").SingleOrDefault();
+                var exist = _unitWork.FromSql<QueryStringObj>($"select distinct table_name as value from information_schema.tables where table_name ='{tableName}'").SingleOrDefault();
                 if (exist != null) return string.Empty;
                 // 创建数据表
                 StringBuilder sql = new StringBuilder($"create table if not exists `{tableName}` ( Id varchar(50) not null primary key,"); //主键

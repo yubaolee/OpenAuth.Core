@@ -77,3 +77,32 @@ lower_case_table_names=1
     }
 
 ```
+
+## 新添加数据，马上执行【删除】，不能删除数据库记录
+
+原因：新增记录时，没有返回新增数据的ID信息，导致删除不成功。
+
+#### 解决方法一
+
+重新加载列表，直接把 this.list.unshift(this.temp)换成this.getList()。如下：
+
+```javascript
+    createData() {
+      // 保存提交
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          categorys.add(this.temp).then(() => {
+            this.getList();
+            ...
+          })
+        }
+      })
+    },
+
+```
+
+#### 解决方法二
+
+执行添加后，把Id返回给前端界面。详情请参考网友博客：[OpenAuth.net入门【5】——解决添加完数据，在未刷新列表时执行删除，数据未被真正删除的问题](https://www.cnblogs.com/wjx-blog/p/15892811.html)
+
+

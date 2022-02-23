@@ -19,10 +19,10 @@
 针对场景1，在做返回处理的时候，需要过滤数据库查询字段，如下：（本文以Resource表为例）
 
 ```csharp
-var columnFields = loginContext.GetTableColumns("Resource");
+var columnFields = loginContext.GetTableColumnsFromDb("Resource");
 if (columnFields == null || columnFields.Count == 0)
 {
-	throw new Exception("请在代码生成界面配置Resource表的字段属性");
+	throw new Exception("未找到Resource表的字段属性");
 }
 
 var propertyStr = string.Join(',', columnFields.Select(u => u.ColumnName));
@@ -33,6 +33,10 @@ result.data = resources.OrderBy(u => u.TypeId)
 result.count = await resources.CountAsync();
 return result;
 ```
+
+::: warning 注意
+因为开源版没有代码生成器，所以需要直接从数据读取表的字段结构，使用的是loginContext.GetTableColumnsFromDb获取可访问的字段
+:::
 
 ### 前端代码处理
 

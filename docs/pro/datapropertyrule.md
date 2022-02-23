@@ -6,7 +6,41 @@
 ## 字段权限
 
 ::: warning 注意
-企业版后端逻辑同开源版一样，请参考后端[字段权限](/core/datapropertyrule.html)，本章节只介绍企业版前端部分处理逻辑
+字段权限只针对【非系统模块】有效，即在添加新模块的时候，需要设置模块属性“是否系统”为false。
+:::
+
+## 使用场景
+
+字段权限控制分为两种：
+
+1. 直接不返回字段的值。用于敏感数据不向客户端反馈。
+
+1. 返回字段的值，但界面不显示。常常用于数据需要和后端交互，但不想在界面显示，比如各种Id。这种直接在返回实体增加`[Browsable(false)]`注解即可。
+
+## 如何做？
+
+### 后端代码处理
+
+针对场景1，在做返回处理的时候，需要过滤数据库查询字段，如下：（本文以Resource表为例）
+
+```csharp
+var columnFields = loginContext.GetTableColumns("Resource");
+if (columnFields == null || columnFields.Count == 0)
+{
+	throw new Exception("请在代码生成界面配置Resource表的字段属性");
+}
+
+var propertyStr = string.Join(',', columnFields.Select(u => u.ColumnName));
+result.columnFields = columnFields;
+result.data = resources.OrderBy(u => u.TypeId)
+	.Skip((request.page - 1) * request.limit)
+	.Take(request.limit).Select($"new ({propertyStr})");
+result.count = await resources.CountAsync();
+return result;
+```
+
+::: warning 注意
+企业版表结构是通过【代码生成】功能获取获取表结构并存储在`buildertable`表中，因此需要先在【代码生成】功能添加要控制的表字段。然后使用loginContext.GetTableColumns获取可访问的字段。
 :::
 
 ### 前端代码处理

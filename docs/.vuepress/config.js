@@ -104,13 +104,13 @@ module.exports = {
           title: '表单设计', // 必要的
           sidebarDepth: 1, // 可选的, 默认值是 1
           collapsable: false,
-          children: ['dragform'],
+          children: ['startform','dragform'],
         },
         {
           title: '工作流', // 必要的
           sidebarDepth: 1, // 可选的, 默认值是 1
           collapsable: false,
-          children: ['form'],
+          children: ['startflow','form'],
         },
         'router',
         'components',

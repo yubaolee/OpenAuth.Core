@@ -46,4 +46,16 @@ _cacheContext.Set(currentSession.Token, currentSession, DateTime.Now.AddDays(10)
 ```
 :::
 
+## 企业版前端缓存
+
+企业版前端使用js-cookie存储登录token信息。默认为`session cookie`，也就是这个session在关闭浏览器后会被删除。如果想延长登录有效期限，可以调整`src\utils\auth.js`中写入cookie的时间：
+
+```javascript
+//设置登录有效期为7天
+export function setToken(token) {
+  return Cookies.set(TokenKey, token, { expires: 7 })
+}
+
+```
+
 

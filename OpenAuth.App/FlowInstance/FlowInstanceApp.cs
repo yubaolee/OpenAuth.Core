@@ -303,6 +303,13 @@ namespace OpenAuth.App
             if (!string.IsNullOrEmpty(request.FrmData))
             {
                 flowInstance.FrmData = request.FrmData;
+                
+                if (flowInstance.FrmType == 1) //如果是开发者自定义的表单,更新对应数据库表数据
+                {
+                    var t = Type.GetType("OpenAuth.App." + flowInstance.DbName + "App");
+                    ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
+                    icf.Update(flowInstance.Id,flowInstance.FrmData);
+                }
             }
 
             UnitWork.Update(flowInstance);

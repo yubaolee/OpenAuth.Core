@@ -32,15 +32,6 @@ namespace OpenAuth.App
             Repository.Add(obj);
         }
         
-        public void Update(FrmLeaveReq obj)
-        {
-            UnitWork.Update<FrmLeaveReq>(u => u.Id == obj.Id, u => new FrmLeaveReq
-            {
-               //todo:要修改的字段赋值
-            });
-
-        }
-
         public FrmLeaveReqApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<FrmLeaveReq,OpenAuthDBContext> repository,
             RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
         {
@@ -52,6 +43,18 @@ namespace OpenAuth.App
             var req = JsonHelper.Instance.Deserialize<FrmLeaveReq>(frmData);
             req.FlowInstanceId = flowInstanceId;
             Add(req);
+        }
+
+        public void Update(string flowInstanceId, string frmData)
+        {
+            var req = JsonHelper.Instance.Deserialize<FrmLeaveReq>(frmData);
+            UnitWork.Update<FrmLeaveReq>(u => u.FlowInstanceId == flowInstanceId, u => new FrmLeaveReq
+            {
+                UserName = req.UserName,
+                RequestComment = req.RequestComment,
+                RequestType = req.RequestType
+                //补充其他需要更新的字段
+            });
         }
     }
 }

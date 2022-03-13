@@ -576,7 +576,11 @@ namespace OpenAuth.App
         /// </summary>
         public void Verification(VerificationReq request)
         {
-            CheckNodeDesignate(request);
+            //如果是同意，需要判断是否为运行时选定下一步执行角色/执行人
+            if (request.VerificationFinally == "1")
+            {
+                CheckNodeDesignate(request);
+            }
             bool isReject = TagState.Reject.Equals((TagState) Int32.Parse(request.VerificationFinally));
             if (isReject) //驳回
             {

@@ -20,7 +20,6 @@ namespace OpenAuth.WebApi.Test
 
         void ConfigureTestServices(IServiceCollection services)
         {
-            services.AddSingleton("");
         }
 
         void ConfigureTestContainer(ContainerBuilder builder)
@@ -40,7 +39,9 @@ namespace OpenAuth.WebApi.Test
                 })
                 .CreateClient();
         }
-        
+        /// <summary>
+        /// 模拟一次登录
+        /// </summary>
         [Test]
         public void TestLogin()
         {
@@ -53,9 +54,9 @@ namespace OpenAuth.WebApi.Test
             // Act
             var request = new StringContent(JsonHelper.Instance.Serialize(loginreq));
             request.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            var response = _client.PostAsync("/api/Check/Login", request);
+            var response = _client.PostAsync("http://localhost:52789/api/Check/Login", request);
             
-            Console.WriteLine($"返回结果:{response.Result.Content}");
+            Console.WriteLine($"返回结果:{JsonHelper.Instance.Serialize(response.Result.Content.ReadAsStringAsync().Result)}");
         }
     }
 }

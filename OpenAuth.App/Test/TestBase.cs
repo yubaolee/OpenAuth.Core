@@ -28,7 +28,7 @@ namespace OpenAuth.App.Test
             //读取OpenAuth.WebApi的配置文件用于单元测试
             var path = AppContext.BaseDirectory;
             int pos = path.IndexOf("OpenAuth.App");
-            if (pos == -1) //如果测试入库是OpenAuth.WebApi
+            if (pos == -1) //如果测试入口是OpenAuth.WebApi
             {
                 pos = path.IndexOf("OpenAuth.WebApi");
             }

@@ -99,6 +99,12 @@ module.exports = {
         'deploy',
         'structure',
         'devnew',
+        {
+          title: '基础开发', // 必要的
+          sidebarDepth: 1, // 可选的, 默认值是 1
+          collapsable: false,
+          children: ['router','openurl'],
+        },
         'datapropertyrule',
         {
           title: '表单设计', // 必要的
@@ -112,7 +118,6 @@ module.exports = {
           collapsable: false,
           children: ['startflow','form'],
         },
-        'router',
         'components',
         'faq',
       ],

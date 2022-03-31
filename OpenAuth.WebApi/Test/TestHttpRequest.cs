@@ -13,6 +13,8 @@ namespace OpenAuth.WebApi.Test
 {
     /// <summary>
     /// 模拟HTTP请求测试
+    /// 用于测试模型绑定，看看一次客户端的请求是否能被正确解析，亦或者测试WebAPI入口的一些Filter AOP等是否被正确触发。
+    /// 详情参考：https://www.cnblogs.com/yubaolee/p/DotNetCoreUnitTest.html
     /// </summary>
     public class TestHttpRequest
     {
@@ -43,7 +45,7 @@ namespace OpenAuth.WebApi.Test
         /// 模拟一次登录
         /// </summary>
         [Test]
-        public void TestLogin()
+        public LoginResult TestLogin()
         {
             var loginreq = new PassportLoginRequest
             {
@@ -51,12 +53,28 @@ namespace OpenAuth.WebApi.Test
                 Password = "123456",
                 AppKey = "openauth"
             };
-            // Act
+
             var request = new StringContent(JsonHelper.Instance.Serialize(loginreq));
             request.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             var response = _client.PostAsync("http://localhost:52789/api/Check/Login", request);
+
+            string result = response.Result.Content.ReadAsStringAsync().Result;
+            var loginresult = JsonHelper.Instance.Deserialize<LoginResult>(result);
             
-            Console.WriteLine($"返回结果:{JsonHelper.Instance.Serialize(response.Result.Content.ReadAsStringAsync().Result)}");
+            Console.WriteLine($"登录结果:{result}");
+            return loginresult;
+        }
+        /// <summary>
+        /// 模拟加载字典列表
+        /// </summary>
+        [Test]
+        public void TestLoad()
+        {
+            _client.DefaultRequestHeaders.Add("X-Token", TestLogin().Token);
+            var response = _client.GetAsync("http://localhost:52789/api/categorys/load?page=1&limit=20");
+
+            string result = response.Result.Content.ReadAsStringAsync().Result;
+            Console.WriteLine($"获取分类列表:{result}");
         }
     }
 }

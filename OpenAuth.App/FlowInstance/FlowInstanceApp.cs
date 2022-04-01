@@ -770,6 +770,12 @@ namespace OpenAuth.App
             var wfruntime = new FlowRuntime(flowInstance);
             var user = _auth.GetCurrentUser();
 
+            if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER
+                || wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE)
+            {
+                throw new Exception("暂不支持【第二执行节点为运行时指定角色/账号执行】的流程恢复");
+            }
+
             #region 根据运行实例改变当前节点状态
             flowInstance.ActivityId = wfruntime.nextNodeId;
             flowInstance.ActivityType = wfruntime.GetNextNodeType();

@@ -15,11 +15,13 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 下载安装微软官方SDK，代码地址：https://dotnet.microsoft.com/download
 
 ## 项目结构
+
+OpenAuth.Net文件夹结构及功能说明如下：
+
 ```
-📦OpenAuth.Core
+📦OpenAuth.Net
  ┣ 📂CodeSmith
  ┃ ┗ 📂CSharp
- ┃ ┃ ┣ 📜ApiGenerate.cst  //生成api接口
  ┃ ┃ ┗ 📜WebGenerate.cst  //生成Web页面
  ┣ 📂Infrastructure       //基础工具类
  ┣ 📂mysql初始化脚本       
@@ -35,6 +37,41 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
  ┣ 📜OpenAuth.Core.sln    //解决方案
  ┗ 📜README.md
 ```
+
+其中调用关系为：
+
+@startuml
+hide footbox
+skinparam handwritten true
+
+
+actor 用户
+boundary index.cshtml
+control XXController
+entity OpenAuth.App
+entity OpenAuth.Repository
+database OpenAuthDB
+
+box "OpenAuth.Mvc" #LightBlue
+	participant index.cshtml
+	participant XXController
+end box
+participant OpenAuth.App
+participant OpenAuth.Repository
+participant OpenAuthDB 
+
+用户 -> index.cshtml : 用户浏览页面
+index.cshtml -> XXController : 前端通过ajax调用数据
+XXController -> OpenAuth.App : 调用逻辑层
+OpenAuth.App -> OpenAuth.Repository : 逻辑层调用仓储进行数据读写
+OpenAuth.Repository -> OpenAuthDB : 仓储层进行数据库操作
+
+@enduml
+
+我们以【资源管理】功能为例，该功能涉及的文件如下：
+
+![20220407153729](http://img.openauth.net.cn/20220407153729.png)
+
 ## 初始化数据库
 
 使用数据库脚本`sql server 初始化脚本`或`mysql初始化脚本` 文件夹里面的结构脚本和数据脚本初始化数据库

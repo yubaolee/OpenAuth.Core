@@ -1,3 +1,11 @@
+/*
+ * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
+ * @Date: 2020-07-21 23:45:00
+ * @LastEditTime: 2022-06-09 22:58:31
+ * @Description: 
+ * @
+ * @Copyright (c) 2022 by yubaolee | ahfu~ , All Rights Reserved. 
+*/
 module.exports = {
   title: 'OpenAuth.Net',
   description: '最好用的.net权限工作流框架,最好用的.net vue前后分离框架',
@@ -53,6 +61,16 @@ module.exports = {
             link: 'https://github.com/yubaolee/OpenAuth.Core',
             target: '_blank'
           },
+        ],
+      },
+      {
+        text: '战略合作',
+        ariaLabel: 'Proj Menu',
+        items: [{
+            text: 'Variant Form - 可视化低代码表单',
+            link: 'https://www.vform666.com/',
+            target: '_blank'
+          }
         ],
       },
     ],

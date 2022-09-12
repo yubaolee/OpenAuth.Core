@@ -642,14 +642,22 @@ namespace OpenAuth.App
             
             if (subTable == null)  //如果子表不存在，则用单模版生成
             {
-                if (sysTableInfo.IsDynamicHeader) 
+                if (req.Version == "vue3")
                 {
-                    domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVueWithDynamicHeader.html");
+                    
                 }
                 else
                 {
-                    domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVue.html");
+                    if (sysTableInfo.IsDynamicHeader) 
+                    {
+                        domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVueWithDynamicHeader.html");
+                    }
+                    else
+                    {
+                        domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVue.html");
+                    }
                 }
+                
 
                domainContent = domainContent.Replace("{ClassName}", sysTableInfo.ClassName)
                     .Replace("{TableName}", sysTableInfo.ClassName.ToCamelCase())
@@ -660,15 +668,24 @@ namespace OpenAuth.App
                 var subTableColumns = _builderTableColumnApp.Find(subTable.Id);
                 if (subTableColumns.Count == 0)
                     throw new Exception($"未找到子表{subTable.ClassName}的字段定义");
-
-                if (sysTableInfo.IsDynamicHeader)
+                
+                if (req.Version == "vue3")
                 {
-                    domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVueWithDynamicHeader.html");
+                    
                 }
                 else
                 {
-                    domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVue.html");
+                    if (sysTableInfo.IsDynamicHeader)
+                    {
+                        domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVueWithDynamicHeader.html");
+                    }
+                    else
+                    {
+                        domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVue.html");
+                    }
                 }
+
+                
 
                 domainContent = domainContent.Replace("{ParentTableId}", subTable.ForeignKey.ToCamelCase())
                     .Replace("{FirstTableName}", sysTableInfo.ClassName.ToCamelCase())

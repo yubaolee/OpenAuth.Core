@@ -644,7 +644,14 @@ namespace OpenAuth.App
             {
                 if (req.Version == "vue3")
                 {
-                    
+                    if (sysTableInfo.IsDynamicHeader) 
+                    {
+                        domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVue3WithDynamicHeader.html");
+                    }
+                    else
+                    {
+                        domainContent = FileHelper.ReadFile(@"Template\\SingleTable\\BuildVue3.html");
+                    }
                 }
                 else
                 {
@@ -671,7 +678,14 @@ namespace OpenAuth.App
                 
                 if (req.Version == "vue3")
                 {
-                    
+                    if (sysTableInfo.IsDynamicHeader)
+                    {
+                        domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVue3WithDynamicHeader.html");
+                    }
+                    else
+                    {
+                        domainContent = FileHelper.ReadFile(@"Template\\MultiTable\\BuildVue3.html");
+                    }
                 }
                 else
                 {

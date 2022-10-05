@@ -29,5 +29,11 @@ namespace OpenAuth.App.Request
         /// vue项目所在的根目录，如：D:\OpenAuth.Pro\Client
         /// </summary>
         public string VueProjRootPath { get; set; }
+        
+        /// <summary>
+        /// 版本信息
+        /// 值为vue2/vue3，默认为vue2
+        /// </summary>
+        public string Version { get; set; }
     }
 }

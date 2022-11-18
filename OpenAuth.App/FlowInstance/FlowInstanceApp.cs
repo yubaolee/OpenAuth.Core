@@ -28,7 +28,10 @@ using System.Threading.Tasks;
 using Infrastructure.Const;
 using Infrastructure.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using OpenAuth.Repository;
+using OpenAuth.Repository.QueryObj;
+using Yitter.IdGenerator;
 
 namespace OpenAuth.App
 {
@@ -43,12 +46,13 @@ namespace OpenAuth.App
         private IHttpClientFactory _httpClientFactory;
         private IServiceProvider _serviceProvider;
         private SysMessageApp _messageApp;
+        private DbExtension _dbExtension;
 
         public FlowInstanceApp(IUnitWork<OpenAuthDBContext> unitWork,
             IRepository<FlowInstance, OpenAuthDBContext> repository
             , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp,
             IHttpClientFactory httpClientFactory, IAuth auth, IServiceProvider serviceProvider, 
-            SysMessageApp messageApp)
+            SysMessageApp messageApp, DbExtension dbExtension)
             : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
@@ -57,6 +61,7 @@ namespace OpenAuth.App
             _httpClientFactory = httpClientFactory;
             _serviceProvider = serviceProvider;
             _messageApp = messageApp;
+            _dbExtension = dbExtension;
         }
 
         #region 流程处理API
@@ -124,6 +129,59 @@ namespace OpenAuth.App
                 var t = Type.GetType("OpenAuth.App." + flowInstance.DbName + "App");
                 ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
                 icf.Add(flowInstance.Id, flowInstance.FrmData);
+            }
+
+            //如果工作流配置的表单配置有对应的数据库
+            if (!string.IsNullOrEmpty(form.DbName))
+            {
+                var dbcolumns = _dbExtension.GetDbTableStructure(form.DbName);
+                var json = JsonHelper.Instance.Deserialize<JObject>(addFlowInstanceReq.FrmData);
+                var columnstr = string.Empty;  //字段
+                var valstr = string.Empty;     //值字符串
+                
+               
+                foreach (var column in dbcolumns)
+                {
+                    if (column.ColumnName == "Id" || column.ColumnName=="id")
+                    {
+                        var options = new IdGeneratorOptions()
+                        {
+                            Method = 1,
+                            WorkerId = 1
+                        };
+            
+                        YitIdHelper.SetIdGenerator(options);
+                        columnstr += "Id,";
+                        valstr += "'" + YitIdHelper.NextId().ToString() + "',";
+                        continue;
+                    }
+                    
+                    var val = json[column.ColumnName];
+                    if (val == null)
+                    {
+                        switch (column.EntityType)
+                        {
+                            case "int":
+                                val = 0;
+                                break;
+                            case "string":
+                                val = "";
+                                break;
+                            case "DateTime":
+                                val = DateTime.Now.ToString("yyyy-MM-dd");
+                                break;
+                        }
+                    }
+                    
+                    if(val == null) continue;
+                    columnstr += column.ColumnName + ",";
+                    valstr += "'" + val + "',";
+                }
+
+                columnstr = columnstr.TrimEnd(',');
+                valstr = valstr.TrimEnd(',');
+                var sql = $"insert into {form.DbName}({columnstr}) values ({valstr})";
+                UnitWork.ExecuteSql(sql);
             }
 
             #endregion 根据运行实例改变当前节点状态

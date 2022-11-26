@@ -1,5 +1,9 @@
 # 日常提交(针对dev分支)
 
+* 2022.11.26  修复[事务中使用异步方式后报错](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I63AOC);
+  
+* 2022.11.18  修复[拖拽表单不能关联数据库](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I61V1D);
+  
 * 2022.10.05  完成vue3多表代码生成器模版;
 
 * 2022.10.01  增加vue3多表代码生成器模版;

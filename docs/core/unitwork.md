@@ -121,6 +121,36 @@ namespace OpenAuth.App
         });
 ```
 
+或者异步方式：
+
+```csharp
+        public async Task AddUserAndLogAsync()
+        {
+            await UnitWork.ExecuteWithTransactionAsync(async () =>
+            {
+                var account = await AddUserAsync();
+                UnitWork.Add(new SysLog()
+                {
+                    Content = $"新增了用户{account}",
+                    Id = account
+                });
+                UnitWork.Save();
+            });
+        }
+        
+        private async Task<string> AddUserAsync()
+        {
+            var account = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
+            var user = new User
+            {
+                Account = account,
+                Name = account
+            };
+            await Repository.AddAsync(user);
+            return account;
+        }
+```
+
 发生这种情况，通常是因为在各个应用层逻辑内部已经调用了`UnitWrok.Save()`,比如：
 
 ```csharp

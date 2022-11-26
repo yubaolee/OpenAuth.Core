@@ -36,6 +36,10 @@ namespace OpenAuth.Repository.Interface
         /// </summary>
         void ExecuteWithTransaction(Action action);
         /// <summary>
+        /// ExecuteWithTransaction方法的异步方式
+        /// </summary>
+        Task ExecuteWithTransactionAsync(Func<Task> action);
+        /// <summary>
         /// 返回DbContext,用于多线程等极端情况
         /// </summary>
         /// <returns></returns>

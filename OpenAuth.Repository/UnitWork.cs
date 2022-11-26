@@ -45,6 +45,27 @@ namespace OpenAuth.Repository
                }
            }
        }
+       /// <summary>
+       /// ExecuteWithTransaction方法的异步方式
+       /// EF默认情况下，每调用一次SaveChanges()都会执行一个单独的事务
+       /// 本接口实现在一个事务中可以多次执行SaveChanges()方法
+       /// </summary>
+       public async Task ExecuteWithTransactionAsync(Func<Task> action)
+       {
+           using (IDbContextTransaction transaction = _context.Database.BeginTransaction())
+           {
+               try
+               { 
+                   await action();
+                   transaction.Commit();
+               }
+               catch (Exception ex)
+               {
+                   transaction.Rollback();
+                   throw ex;
+               }
+           }
+       }
 
        /// <summary>
        /// 返回DbContext,用于多线程等极端情况

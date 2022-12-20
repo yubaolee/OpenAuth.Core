@@ -1,7 +1,7 @@
 /*
  * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
  * @Date: 2020-07-21 23:45:00
- * @LastEditTime: 2022-06-09 22:58:31
+ * @LastEditTime: 2022-12-20 16:15:43
  * @Description: 
  * @
  * @Copyright (c) 2022 by yubaolee | ahfu~ , All Rights Reserved. 
@@ -128,7 +128,7 @@ module.exports = {
           title: '表单设计', // 必要的
           sidebarDepth: 1, // 可选的, 默认值是 1
           collapsable: false,
-          children: ['startform','dragform'],
+          children: ['startform','dragform','dragformdetail'],
         },
         {
           title: '工作流', // 必要的

@@ -1,5 +1,13 @@
 # 日常提交(针对dev分支)
 
+* 2022.12.22  退出登录时，清空tag标签;
+
+* 2022.12.20  修复多个模块名称相同时，只能打开一个的BUG;
+  
+* 2022.12.17  fix 流程发起页面，切换vform不能正常执行onCreated脚本;
+  
+* 2022.12.15  升级vform到2.3.6;
+  
 * 2022.11.26  修复[事务中使用异步方式后报错](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I63AOC);
   
 * 2022.11.18  修复[拖拽表单不能关联数据库](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I61V1D);

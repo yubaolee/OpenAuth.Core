@@ -33,6 +33,7 @@ namespace OpenAuth.App
                 if (exist != null) return string.Empty;
                 // 如果数据库没有指定的表，则创建表
                 StringBuilder sql = new StringBuilder($"CREATE TABLE {tableName} (   [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,"); //主键
+                sql.Append($"[{Define.DEFAULT_FORM_INSTANCE_ID_NAME}] varchar(50) COLLATE Chinese_PRC_CI_AS,");  //默认加上FlowinstanceId字段，记录关联的流程实例ID
                 string sqlDefault = "";
                 foreach (var json in jsonArray)
                 {
@@ -65,6 +66,7 @@ namespace OpenAuth.App
                 if (exist != null) return string.Empty;
                 // 如果数据库没有指定的表，则创建表
                 StringBuilder sql = new StringBuilder($"create table if not exists `{tableName}` ( Id varchar(50) not null primary key,"); //主键
+                sql.Append($"`{Define.DEFAULT_FORM_INSTANCE_ID_NAME}` varchar(50),");  //默认加上FlowinstanceId字段，记录关联的流程实例ID
                 foreach (var json in jsonArray)
                 {
                     string type = json["type"].ToString();

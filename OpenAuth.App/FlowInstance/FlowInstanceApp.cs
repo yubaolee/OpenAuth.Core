@@ -156,6 +156,14 @@ namespace OpenAuth.App
                         continue;
                     }
                     
+                    //讲流程实例ID赋值到表单数据表中，实现表单记录与流程实例关联
+                    if (column.ColumnName == Define.DEFAULT_FORM_INSTANCE_ID_NAME)
+                    {
+                        columnstr += $"{Define.DEFAULT_FORM_INSTANCE_ID_NAME},";
+                        valstr += "'" + flowInstance.Id + "',";
+                        continue;
+                    }
+                    
                     var val = json[column.ColumnName];
                     if (val == null)
                     {

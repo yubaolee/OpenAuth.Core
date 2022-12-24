@@ -26,18 +26,18 @@ namespace OpenAuth.App
             if (dbType == Define.DBTYPE_SQLSERVER) //Sql Server
             {
                 // 获取字段并处理
-                var jsonArray = JsonHelper.Instance.Deserialize<JObject>(form.ContentData)["list"];
-                // 数据库名称
+                var jsonArray = JsonHelper.Instance.Deserialize<JObject>(form.ContentData)["widgetList"];
                 string tableName = form.DbName;
+                //如果数据库已经存在该表，则不用创建
                 var exist = _unitWork.FromSql<QueryStringObj>($"select '1' as value from sysobjects where name = '{tableName}' and type = 'U'").SingleOrDefault();
                 if (exist != null) return string.Empty;
-                // 创建数据表
+                // 如果数据库没有指定的表，则创建表
                 StringBuilder sql = new StringBuilder($"CREATE TABLE {tableName} (   [Id] varchar(50) COLLATE Chinese_PRC_CI_AS NOT NULL,"); //主键
                 string sqlDefault = "";
                 foreach (var json in jsonArray)
                 {
                     string type = json["type"].ToString();
-                    string name = json["model"].ToString();
+                    string name = json["options"]["name"].ToString();
                     sql.Append("[" + name + "] " + field_type_sql(type)); //字段拼接
                     if ("checkboxs" == type)
                         sqlDefault += field_type_sql_default(tableName, name, "0");
@@ -58,17 +58,17 @@ namespace OpenAuth.App
             else
             {
                 // 获取字段并处理
-                var jsonArray = JsonHelper.Instance.Deserialize<JObject>(form.ContentData)["list"];
-                // 数据库名称
+                var jsonArray = JsonHelper.Instance.Deserialize<JObject>(form.ContentData)["widgetList"];
                 string tableName = form.DbName;
+                //如果数据库已经存在该表，则不用创建
                 var exist = _unitWork.FromSql<QueryStringObj>($"select distinct table_name as value from information_schema.tables where table_name ='{tableName}'").SingleOrDefault();
                 if (exist != null) return string.Empty;
-                // 创建数据表
+                // 如果数据库没有指定的表，则创建表
                 StringBuilder sql = new StringBuilder($"create table if not exists `{tableName}` ( Id varchar(50) not null primary key,"); //主键
                 foreach (var json in jsonArray)
                 {
                     string type = json["type"].ToString();
-                    string name = json["model"].ToString();
+                    string name = json["options"]["name"].ToString();
                     sql.Append("`" + name + "` " + field_type_mysql(type)); //字段拼接
                 }
 

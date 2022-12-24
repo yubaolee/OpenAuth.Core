@@ -28,5 +28,7 @@
         public const string DATAPRIVILEGE_LOGINORG = "{loginOrg}";  //数据权限配置中，当前登录用户部门的key
 
         public const string JOBMAPKEY = "OpenJob";
+
+        public const string DEFAULT_FORM_INSTANCE_ID_NAME = "InstanceId";
     }
 }

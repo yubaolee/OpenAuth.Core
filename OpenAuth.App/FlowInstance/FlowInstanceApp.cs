@@ -51,7 +51,7 @@ namespace OpenAuth.App
         public FlowInstanceApp(IUnitWork<OpenAuthDBContext> unitWork,
             IRepository<FlowInstance, OpenAuthDBContext> repository
             , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp,
-            IHttpClientFactory httpClientFactory, IAuth auth, IServiceProvider serviceProvider, 
+            IHttpClientFactory httpClientFactory, IAuth auth, IServiceProvider serviceProvider,
             SysMessageApp messageApp, DbExtension dbExtension)
             : base(unitWork, repository, auth)
         {
@@ -116,7 +116,8 @@ namespace OpenAuth.App
             flowInstance.PreviousId = wfruntime.currentNodeId;
             flowInstance.CreateUserId = user.User.Id;
             flowInstance.CreateUserName = user.User.Account;
-            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime, addFlowInstanceReq) : "");
+            flowInstance.MakerList =
+                (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime, addFlowInstanceReq) : "");
             flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4
                 ? FlowInstanceStatus.Finished
                 : FlowInstanceStatus.Running);
@@ -136,26 +137,26 @@ namespace OpenAuth.App
             {
                 var dbcolumns = _dbExtension.GetDbTableStructure(form.DbName);
                 var json = JsonHelper.Instance.Deserialize<JObject>(addFlowInstanceReq.FrmData);
-                var columnstr = string.Empty;  //字段
-                var valstr = string.Empty;     //值字符串
-                
-               
+                var columnstr = string.Empty; //字段
+                var valstr = string.Empty; //值字符串
+
+
                 foreach (var column in dbcolumns)
                 {
-                    if (column.ColumnName == "Id" || column.ColumnName=="id")
+                    if (column.ColumnName == "Id" || column.ColumnName == "id")
                     {
                         var options = new IdGeneratorOptions()
                         {
                             Method = 1,
                             WorkerId = 1
                         };
-            
+
                         YitIdHelper.SetIdGenerator(options);
                         columnstr += "Id,";
                         valstr += "'" + YitIdHelper.NextId().ToString() + "',";
                         continue;
                     }
-                    
+
                     //讲流程实例ID赋值到表单数据表中，实现表单记录与流程实例关联
                     if (column.ColumnName == Define.DEFAULT_FORM_INSTANCE_ID_NAME)
                     {
@@ -163,7 +164,7 @@ namespace OpenAuth.App
                         valstr += "'" + flowInstance.Id + "',";
                         continue;
                     }
-                    
+
                     var val = json[column.ColumnName];
                     if (val == null)
                     {
@@ -180,8 +181,8 @@ namespace OpenAuth.App
                                 break;
                         }
                     }
-                    
-                    if(val == null) continue;
+
+                    if (val == null) continue;
                     columnstr += column.ColumnName + ",";
                     valstr += "'" + val + "',";
                 }
@@ -216,7 +217,7 @@ namespace OpenAuth.App
             UnitWork.Save();
             return true;
         }
-        
+
         /// <summary>
         /// 更新流程
         /// <para>更新时可以修改表单内容，可以修改流程基本信息，但不能更换表单模版</para>
@@ -225,7 +226,6 @@ namespace OpenAuth.App
         public void Update(UpdateFlowInstanceReq req)
         {
             var flowinstance = Get(req.Id);
-            var form = _formApp.Get(flowinstance.FrmId);
 
             if (flowinstance.IsFinish != FlowInstanceStatus.Draft &&
                 flowinstance.IsFinish != FlowInstanceStatus.Rejected)
@@ -233,53 +233,63 @@ namespace OpenAuth.App
                 throw new Exception("只能修改【草稿】和【驳回】状态的流程");
             }
 
-             //如果工作流配置的表单配置有对应的数据库
-            if (form != null && !string.IsNullOrEmpty(form.DbName))
-            {
-                var dbcolumns = _dbExtension.GetDbTableStructure(form.DbName);
-                var json = JsonHelper.Instance.Deserialize<JObject>(req.FrmData);
-                var updatestr = string.Empty;  //字段
-                
-               
-                foreach (var column in dbcolumns)
-                {
-                    if (column.ColumnName == "Id" || column.ColumnName=="id")
-                    {
-                        continue;
-                    }
-                    
-                    //讲流程实例ID赋值到表单数据表中，实现表单记录与流程实例关联
-                    if (column.ColumnName == Define.DEFAULT_FORM_INSTANCE_ID_NAME)
-                    {
-                        continue;
-                    }
-                    
-                    var val = json[column.ColumnName];
-                    if (val == null)
-                    {
-                        switch (column.EntityType)
-                        {
-                            case "int":
-                                val = 0;
-                                break;
-                            case "string":
-                                val = "";
-                                break;
-                            case "DateTime":
-                                val = DateTime.Now.ToString("yyyy-MM-dd");
-                                break;
-                        }
-                    }
-                    
-                    if(val == null) continue;
-                    updatestr += $"{column.ColumnName} = '{val}',";
-                }
+            var form = _formApp.Get(flowinstance.FrmId);
 
-                updatestr = updatestr.TrimEnd(',');
-                var sql = $"update {form.DbName} set {updatestr} where {Define.DEFAULT_FORM_INSTANCE_ID_NAME}='{req.Id}'";
-                UnitWork.ExecuteSql(sql);
+            if (form != null)
+            {
+                if (form.FrmType == 1) //如果是开发者自定义的表单,更新对应数据库表数据
+                {
+                    var t = Type.GetType("OpenAuth.App." + req.DbName + "App");
+                    ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
+                    icf.Update(req.Id, req.FrmData);
+                }
+                else if (form.FrmType == 2 && !string.IsNullOrEmpty(form.DbName)) //拖拽表单定义了关联数据库
+                {
+                    var dbcolumns = _dbExtension.GetDbTableStructure(form.DbName);
+                    var json = JsonHelper.Instance.Deserialize<JObject>(req.FrmData);
+                    var updatestr = string.Empty; //字段
+
+                    foreach (var column in dbcolumns)
+                    {
+                        if (column.ColumnName == "Id" || column.ColumnName == "id")
+                        {
+                            continue;
+                        }
+
+                        //讲流程实例ID赋值到表单数据表中，实现表单记录与流程实例关联
+                        if (column.ColumnName == Define.DEFAULT_FORM_INSTANCE_ID_NAME)
+                        {
+                            continue;
+                        }
+
+                        var val = json[column.ColumnName];
+                        if (val == null)
+                        {
+                            switch (column.EntityType)
+                            {
+                                case "int":
+                                    val = 0;
+                                    break;
+                                case "string":
+                                    val = "";
+                                    break;
+                                case "DateTime":
+                                    val = DateTime.Now.ToString("yyyy-MM-dd");
+                                    break;
+                            }
+                        }
+
+                        if (val == null) continue;
+                        updatestr += $"{column.ColumnName} = '{val}',";
+                    }
+
+                    updatestr = updatestr.TrimEnd(',');
+                    var sql =
+                        $"update {form.DbName} set {updatestr} where {Define.DEFAULT_FORM_INSTANCE_ID_NAME}='{req.Id}'";
+                    UnitWork.ExecuteSql(sql);
+                }
             }
-            
+
             flowinstance.Description = req.Description;
             flowinstance.Code = req.Code;
             flowinstance.FrmData = req.FrmData;
@@ -298,7 +308,7 @@ namespace OpenAuth.App
         {
             var user = _auth.GetCurrentUser().User;
             var instanceId = request.FlowInstanceId;
-            
+
             var tag = new Tag
             {
                 UserName = user.Name,
@@ -306,14 +316,14 @@ namespace OpenAuth.App
                 Description = request.VerificationOpinion,
                 Taged = Int32.Parse(request.VerificationFinally)
             };
-            
+
             FlowInstance flowInstance = Get(instanceId);
-            
+
             if (flowInstance.MakerList != "1" && !flowInstance.MakerList.Contains(user.Id))
             {
                 throw new Exception("当前用户没有审批该节点权限");
             }
-            
+
             FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
             {
                 InstanceId = instanceId,
@@ -402,7 +412,7 @@ namespace OpenAuth.App
                     wfruntime.nextNodeId = "-1";
                     wfruntime.nextNodeType = 4;
                 }
-                
+
                 AddTransHistory(wfruntime);
 
                 flowInstanceOperationHistory.Content = "【" + wfruntime.currentNode.name
@@ -418,12 +428,12 @@ namespace OpenAuth.App
             if (!string.IsNullOrEmpty(request.FrmData))
             {
                 flowInstance.FrmData = request.FrmData;
-                
+
                 if (flowInstance.FrmType == 1) //如果是开发者自定义的表单,更新对应数据库表数据
                 {
                     var t = Type.GetType("OpenAuth.App." + flowInstance.DbName + "App");
                     ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
-                    icf.Update(flowInstance.Id,flowInstance.FrmData);
+                    icf.Update(flowInstance.Id, flowInstance.FrmData);
                 }
             }
 
@@ -431,8 +441,8 @@ namespace OpenAuth.App
             UnitWork.Add(flowInstanceOperationHistory);
 
             //给流程创建人发送通知信息
-                _messageApp.SendMsgTo(flowInstance.CreateUserId, 
-                    $"你的流程[{flowInstance.CustomName}]已被{user.Name}处理。处理情况如下:{flowInstanceOperationHistory.Content}");
+            _messageApp.SendMsgTo(flowInstance.CreateUserId,
+                $"你的流程[{flowInstance.CustomName}]已被{user.Name}处理。处理情况如下:{flowInstanceOperationHistory.Content}");
 
             UnitWork.Save();
 
@@ -517,9 +527,9 @@ namespace OpenAuth.App
                           + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】驳回,备注："
                           + reqest.VerificationOpinion
             });
-            
+
             //给流程创建人发送通知信息
-            _messageApp.SendMsgTo(flowInstance.CreateUserId, 
+            _messageApp.SendMsgTo(flowInstance.CreateUserId,
                 $"你的流程[{flowInstance.CustomName}]已被{user.Name}驳回。备注信息:{reqest.VerificationOpinion}");
 
             UnitWork.Save();
@@ -538,7 +548,7 @@ namespace OpenAuth.App
         /// 一般用于本节点审核完成后，修改流程实例的当前执行人，可以做到通知等功能
         /// </summary>
         /// <returns></returns>
-        private string GetNextMakers(FlowRuntime wfruntime, NodeDesignateReq request=null)
+        private string GetNextMakers(FlowRuntime wfruntime, NodeDesignateReq request = null)
         {
             string makerList = "";
             if (wfruntime.nextNodeId == "-1")
@@ -551,20 +561,24 @@ namespace OpenAuth.App
                 makerList = GetForkNodeMakers(wfruntime, wfruntime.nextNodeId);
             }
             else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE)
-            { //如果是运行时指定角色
+            {
+                //如果是运行时指定角色
                 if (wfruntime.nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
                 {
                     throw new Exception("前端提交的节点权限类型异常，请检查流程");
                 }
+
                 var users = _revelanceApp.Get(Define.USERROLE, false, request.NodeDesignates);
                 makerList = GenericHelpers.ArrayToString(users, makerList);
             }
             else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
-            {  //如果是运行时指定用户
+            {
+                //如果是运行时指定用户
                 if (wfruntime.nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
                 {
                     throw new Exception("前端提交的节点权限类型异常，请检查流程");
                 }
+
                 makerList = GenericHelpers.ArrayToString(request.NodeDesignates, makerList);
             }
             else
@@ -696,6 +710,7 @@ namespace OpenAuth.App
             {
                 CheckNodeDesignate(request);
             }
+
             bool isReject = TagState.Reject.Equals((TagState) Int32.Parse(request.VerificationFinally));
             if (isReject) //驳回
             {
@@ -729,18 +744,19 @@ namespace OpenAuth.App
         public FlowVerificationResp GetForVerification(string id)
         {
             var flowinstance = Get(id);
-            var resp =flowinstance.MapTo<FlowVerificationResp>();
+            var resp = flowinstance.MapTo<FlowVerificationResp>();
             var runtime = new FlowRuntime(flowinstance);
-            if (runtime.currentNode != null && runtime.currentNode.setInfo !=null)
+            if (runtime.currentNode != null && runtime.currentNode.setInfo != null)
             {
                 resp.CanWriteFormItemIds = runtime.currentNode.setInfo.CanWriteFormItemIds;
             }
-            
-            if (runtime.nextNode != null && runtime.nextNode.setInfo !=null && runtime.nextNodeType != 4)
+
+            if (runtime.nextNode != null && runtime.nextNode.setInfo != null && runtime.nextNodeType != 4)
             {
                 resp.NextNodeDesignateType = runtime.nextNode.setInfo.NodeDesignate;
                 resp.CanWriteFormItemIds = runtime.currentNode.setInfo.CanWriteFormItemIds;
             }
+
             return resp;
         }
 
@@ -764,7 +780,8 @@ namespace OpenAuth.App
 
                 result.count = await UnitWork.Find(waitExp).CountAsync();
 
-                result.data =await UnitWork.Find(request.page, request.limit, "CreateDate descending", waitExp).ToListAsync();
+                result.data = await UnitWork.Find(request.page, request.limit, "CreateDate descending", waitExp)
+                    .ToListAsync();
             }
             else if (request.type == "disposed") //已办事项（即我参与过的流程）
             {
@@ -783,7 +800,7 @@ namespace OpenAuth.App
                 result.data = await query.OrderByDescending(u => u.CreateDate)
                     .Skip((request.page - 1) * request.limit)
                     .Take(request.limit).ToListAsync();
-                result.count =await instances.CountAsync();
+                result.count = await instances.CountAsync();
             }
             else //我的流程
             {
@@ -795,7 +812,7 @@ namespace OpenAuth.App
                     myFlowExp = myFlowExp.And(t => t.CustomName.Contains(request.key));
                 }
 
-                result.count =await UnitWork.Find(myFlowExp).CountAsync();
+                result.count = await UnitWork.Find(myFlowExp).CountAsync();
                 result.data = await UnitWork.Find(request.page, request.limit,
                     "CreateDate descending", myFlowExp).ToListAsync();
             }
@@ -838,7 +855,7 @@ namespace OpenAuth.App
         {
             var user = _auth.GetCurrentUser().User;
             FlowInstance flowInstance = Get(request.FlowInstanceId);
-            if (flowInstance.IsFinish == FlowInstanceStatus.Draft 
+            if (flowInstance.IsFinish == FlowInstanceStatus.Draft
                 || flowInstance.IsFinish == FlowInstanceStatus.Finished)
             {
                 throw new Exception("当前流程状态不能召回");
@@ -867,7 +884,7 @@ namespace OpenAuth.App
                 CreateUserId = user.Id,
                 CreateUserName = user.Name,
                 CreateDate = DateTime.Now,
-                Content = $"【撤销】由{user.Name}撤销,备注：{request.Description}" 
+                Content = $"【撤销】由{user.Name}撤销,备注：{request.Description}"
             });
 
             UnitWork.Save();
@@ -882,6 +899,7 @@ namespace OpenAuth.App
             {
                 throw new Exception("当前流程不是草稿状态，不能启动");
             }
+
             var wfruntime = new FlowRuntime(flowInstance);
             var user = _auth.GetCurrentUser();
 
@@ -892,6 +910,7 @@ namespace OpenAuth.App
             }
 
             #region 根据运行实例改变当前节点状态
+
             flowInstance.ActivityId = wfruntime.nextNodeId;
             flowInstance.ActivityType = wfruntime.GetNextNodeType();
             flowInstance.ActivityName = wfruntime.nextNode.name;
@@ -904,6 +923,7 @@ namespace OpenAuth.App
                 : FlowInstanceStatus.Running);
 
             UnitWork.Update(flowInstance);
+
             #endregion 根据运行实例改变当前节点状态
 
             #region 流程操作记录

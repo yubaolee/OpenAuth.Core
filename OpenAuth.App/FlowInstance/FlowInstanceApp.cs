@@ -225,6 +225,7 @@ namespace OpenAuth.App
         public void Update(UpdateFlowInstanceReq req)
         {
             var flowinstance = Get(req.Id);
+            var form = _formApp.Get(flowinstance.FrmId);
 
             if (flowinstance.IsFinish != FlowInstanceStatus.Draft &&
                 flowinstance.IsFinish != FlowInstanceStatus.Rejected)
@@ -232,12 +233,60 @@ namespace OpenAuth.App
                 throw new Exception("只能修改【草稿】和【驳回】状态的流程");
             }
 
+             //如果工作流配置的表单配置有对应的数据库
+            if (form != null && !string.IsNullOrEmpty(form.DbName))
+            {
+                var dbcolumns = _dbExtension.GetDbTableStructure(form.DbName);
+                var json = JsonHelper.Instance.Deserialize<JObject>(req.FrmData);
+                var updatestr = string.Empty;  //字段
+                
+               
+                foreach (var column in dbcolumns)
+                {
+                    if (column.ColumnName == "Id" || column.ColumnName=="id")
+                    {
+                        continue;
+                    }
+                    
+                    //讲流程实例ID赋值到表单数据表中，实现表单记录与流程实例关联
+                    if (column.ColumnName == Define.DEFAULT_FORM_INSTANCE_ID_NAME)
+                    {
+                        continue;
+                    }
+                    
+                    var val = json[column.ColumnName];
+                    if (val == null)
+                    {
+                        switch (column.EntityType)
+                        {
+                            case "int":
+                                val = 0;
+                                break;
+                            case "string":
+                                val = "";
+                                break;
+                            case "DateTime":
+                                val = DateTime.Now.ToString("yyyy-MM-dd");
+                                break;
+                        }
+                    }
+                    
+                    if(val == null) continue;
+                    updatestr += $"{column.ColumnName} = '{val}',";
+                }
+
+                updatestr = updatestr.TrimEnd(',');
+                var sql = $"update {form.DbName} set {updatestr} where {Define.DEFAULT_FORM_INSTANCE_ID_NAME}='{req.Id}'";
+                UnitWork.ExecuteSql(sql);
+            }
+            
             flowinstance.Description = req.Description;
             flowinstance.Code = req.Code;
             flowinstance.FrmData = req.FrmData;
             flowinstance.DbName = req.DbName;
             flowinstance.CustomName = req.CustomName;
-            Repository.Update(flowinstance);
+            UnitWork.Update(flowinstance);
+            UnitWork.Save();
         }
 
         /// <summary>

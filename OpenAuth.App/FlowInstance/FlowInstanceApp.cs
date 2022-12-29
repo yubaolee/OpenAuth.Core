@@ -256,7 +256,7 @@ namespace OpenAuth.App
                             continue;
                         }
 
-                        //讲流程实例ID赋值到表单数据表中，实现表单记录与流程实例关联
+                        //流程实例ID不能修改
                         if (column.ColumnName == Define.DEFAULT_FORM_INSTANCE_ID_NAME)
                         {
                             continue;
@@ -265,28 +265,18 @@ namespace OpenAuth.App
                         var val = json[column.ColumnName];
                         if (val == null)
                         {
-                            switch (column.EntityType)
-                            {
-                                case "int":
-                                    val = 0;
-                                    break;
-                                case "string":
-                                    val = "";
-                                    break;
-                                case "DateTime":
-                                    val = DateTime.Now.ToString("yyyy-MM-dd");
-                                    break;
-                            }
+                            continue;
                         }
-
-                        if (val == null) continue;
                         updatestr += $"{column.ColumnName} = '{val}',";
                     }
 
                     updatestr = updatestr.TrimEnd(',');
-                    var sql =
-                        $"update {form.DbName} set {updatestr} where {Define.DEFAULT_FORM_INSTANCE_ID_NAME}='{req.Id}'";
-                    UnitWork.ExecuteSql(sql);
+                    if (!string.IsNullOrEmpty(updatestr))
+                    {
+                        var sql =
+                            $"update {form.DbName} set {updatestr} where {Define.DEFAULT_FORM_INSTANCE_ID_NAME}='{req.Id}'";
+                        UnitWork.ExecuteSql(sql);
+                    }
                 }
             }
 
@@ -670,7 +660,7 @@ namespace OpenAuth.App
             }
             else if (node.setInfo != null)
             {
-                if (node.setInfo.NodeDesignate == Setinfo.ALL_USER) //所有成员
+                if (string.IsNullOrEmpty(node.setInfo.NodeDesignate) ||node.setInfo.NodeDesignate == Setinfo.ALL_USER) //所有成员
                 {
                     makerList = "1";
                 }

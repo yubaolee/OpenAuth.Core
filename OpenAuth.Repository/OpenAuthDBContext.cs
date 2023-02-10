@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.QueryObj;
 
 namespace OpenAuth.Repository
 {
-    
+
     public partial class OpenAuthDBContext : DbContext
     {
 
@@ -23,7 +25,7 @@ namespace OpenAuth.Repository
         private IConfiguration _configuration;
         private IOptions<AppSetting> _appConfiguration;
 
-        public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options, ILoggerFactory loggerFactory, 
+        public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options, ILoggerFactory loggerFactory,
             IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IOptions<AppSetting> appConfiguration)
             : base(options)
         {
@@ -47,7 +49,7 @@ namespace OpenAuth.Repository
 
             var tenantId = _httpContextAccessor.GetTenantId();
             string connect = _configuration.GetConnectionString(tenantId);
-            if (string.IsNullOrEmpty(connect))
+            if(string.IsNullOrEmpty(connect))
             {
                 throw new Exception($"未能找到租户{tenantId}对应的连接字符串信息");
             }
@@ -55,20 +57,24 @@ namespace OpenAuth.Repository
             //这个地方如果用IOption，在单元测试的时候会获取不到AppSetting的值😅
             var dbtypes = _configuration.GetSection("AppSetting:DbTypes").GetChildren()
                 .ToDictionary(x => x.Key, x => x.Value);
-            
-           var dbType = dbtypes[tenantId];
-           if (dbType == Define.DBTYPE_SQLSERVER)
-           {
-               optionsBuilder.UseSqlServer(connect);
+
+            var dbType = dbtypes[tenantId];
+            if(dbType == Define.DBTYPE_SQLSERVER)
+            {
+                optionsBuilder.UseSqlServer(connect);
             }
             else if(dbType == Define.DBTYPE_MYSQL)  //mysql
-           {
-               optionsBuilder.UseMySql(connect, new MySqlServerVersion(new Version(8, 0, 11)));
-           }
-           else
-           {
-               optionsBuilder.UseOracle(connect,options =>options.UseOracleSQLCompatibility("11"));
-           }
+            {
+                optionsBuilder.UseMySql(connect, new MySqlServerVersion(new Version(8, 0, 11)));
+            }
+            else if(dbType == Define.DBTYPE_PostgreSQL)  //mysql
+            {
+                optionsBuilder.UseNpgsql(connect);
+            }
+            else
+            {
+                optionsBuilder.UseOracle(connect, options => options.UseOracleSQLCompatibility("11"));
+            }
 
         }
 
@@ -102,9 +108,9 @@ namespace OpenAuth.Repository
         public virtual DbSet<SysLog> SysLogs { get; set; }
 
         public virtual DbSet<SysMessage> SysMessages { get; set; }
-        
+
         public virtual DbSet<DataPrivilegeRule> DataPrivilegeRules { get; set; }
-        
+
         public virtual DbSet<WmsInboundOrderDtbl> WmsInboundOrderDtbls { get; set; }
         public virtual DbSet<WmsInboundOrderTbl> WmsInboundOrderTbls { get; set; }
         public virtual DbSet<OpenJob> OpenJobs { get; set; }

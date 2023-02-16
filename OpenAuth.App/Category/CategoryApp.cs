@@ -69,6 +69,7 @@ namespace OpenAuth.App
             var user = _auth.GetCurrentUser().User;
             UnitWork.Update<Category>(u => u.Id == obj.Id, u => new Category
             {
+                Name = obj.Name,
                 Enable = obj.Enable,
                 DtValue = obj.DtValue,
                 DtCode = obj.DtCode,

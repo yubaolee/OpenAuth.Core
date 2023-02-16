@@ -11,7 +11,7 @@
 
         public const string DBTYPE_SQLSERVER = "SqlServer";    //sql server
         public const string DBTYPE_MYSQL = "MySql";    //mysql
-        public const string DBTYPE_PostgreSQL = "PostgreSQL";    //mysql
+        public const string DBTYPE_PostgreSQL = "PostgreSQL";    //PostgreSQL
         public const string DBTYPE_ORACLE = "Oracle";    //oracle
 
 

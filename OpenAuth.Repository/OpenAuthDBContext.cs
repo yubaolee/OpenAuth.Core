@@ -67,7 +67,7 @@ namespace OpenAuth.Repository
             {
                 optionsBuilder.UseMySql(connect, new MySqlServerVersion(new Version(8, 0, 11)));
             }
-            else if(dbType == Define.DBTYPE_PostgreSQL)  //mysql
+            else if(dbType == Define.DBTYPE_PostgreSQL)  //PostgreSQL
             {
                 optionsBuilder.UseNpgsql(connect);
             }

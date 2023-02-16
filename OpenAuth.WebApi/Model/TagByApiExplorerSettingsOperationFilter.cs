@@ -19,7 +19,7 @@ namespace OpenAuth.WebApi.Model
                     .Cast<ApiExplorerSettingsAttribute>().FirstOrDefault();
                 if (apiExplorerSettings != null && !string.IsNullOrWhiteSpace(apiExplorerSettings.GroupName))
                 {
-                    operation.Tags = new List<OpenApiTag> {new OpenApiTag {Name = apiExplorerSettings.GroupName}};
+                    operation.Tags = new List<OpenApiTag> { new OpenApiTag { Name = apiExplorerSettings.GroupName } };
                 }
                 else
                 {
@@ -27,7 +27,6 @@ namespace OpenAuth.WebApi.Model
                         {new OpenApiTag {Name = controllerActionDescriptor.ControllerName}};
                 }
             }
-            
         }
     }
 }

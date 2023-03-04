@@ -140,6 +140,10 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(moduleCode))
+                {
+                    throw new Exception("模块标识为空，不能分配可见字段");
+                }
                 var list = _authStrategyContext.GetTableColumns(moduleCode);
                 return JsonHelper.Instance.Serialize(new TableData
                 {

@@ -243,9 +243,9 @@ layui.config({
         console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
         var ids=[];
         if(obj.type=="all"){
-            ids = layui.table.checkStatus('propList').data.map(function (m) { return m.Key; });
+            ids = layui.table.checkStatus('propList').data.map(function (m) { return m.ColumnName; });
         }else{
-            ids =[obj.data.Key]
+            ids =[obj.data.ColumnName]
         }
 
         var url = "/AccessObjs/AssignDataProperty";

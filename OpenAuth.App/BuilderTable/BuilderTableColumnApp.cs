@@ -40,7 +40,9 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.ColumnName.Contains(request.key));
             }
 
-            result.data =await objs.OrderBy(u => u.ColumnName)
+            result.data =await objs.OrderByDescending(u => u.IsList)
+                .ThenBy(u=>u.Sort)
+                .ThenBy(u =>u.ColumnName)
                 .Skip((request.page - 1) * request.limit)
                 .Take(request.limit).ToListAsync();
             result.count =await objs.CountAsync();

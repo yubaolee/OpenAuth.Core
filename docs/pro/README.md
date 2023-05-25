@@ -8,7 +8,13 @@ OpenAuth.Pro是一套全新的前端界面，基于vue-element-admin，采用VUE
 
 #### NodeJs
 
-使用NodeJS v16版本（OpenAuth.Pro v4.3或以前的版本需要使用NodeJs v14）。下载地址:[http://nodejs.cn/download/current/](http://nodejs.cn/download/current/)
+前端环境为NodeJs，下载地址：[http://nodejs.cn/download/current/](http://nodejs.cn/download/current/)。其中：
+
+OpenAuth.Pro v4.6.4及以后的版本使用Node 18
+
+OpenAuth.Pro v4.6.3-v4.3 使用Node 16
+
+OpenAuth.Pro v4.3及以前的版本使用Node 14
 
 #### visual studio code
 

@@ -503,6 +503,8 @@ namespace OpenAuth.App
 
                 AddTransHistory(wfruntime);
             }
+            
+            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
 
             UnitWork.Update(flowInstance);
 

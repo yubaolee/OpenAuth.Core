@@ -1,6 +1,6 @@
 ## ❤❤❤郑重声明❤❤❤
 
-主分支main运行环境为 **.Net SDK 5.0.100**
+主分支main运行环境为 **.Net SDK 5.0/6.0/7.0**
 
 需要.Net 4.0/4.5开发环境的同学请查看本项目4.0分支
 
@@ -48,7 +48,7 @@
 
 效果如下：
 ![API启动效果图](https://images.gitee.com/uploads/images/2021/0422/012037_ec51b7e6_362401.png "api启动.png")
-![](https://images.gitee.com/uploads/images/2021/0128/224913_6bda2388_362401.png "form.png")
+![表单设计](http://img.openauth.net.cn/20230617235222.png)
 ![](https://images.gitee.com/uploads/images/2021/0128/225024_57595ce9_362401.png "flow.png")
 
 ## 官方QQ交流群  

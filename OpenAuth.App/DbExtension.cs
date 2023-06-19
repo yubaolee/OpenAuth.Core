@@ -132,46 +132,51 @@ namespace OpenAuth.App
         private IList<SysTableColumn> GetOracleStructure(string tableName)
         {
             var sql = $@"
-select utc.column_name as                           COLUMNNAME,
-       utc.data_type                                COLUMNTYPE,
-       utc.data_length                              MaxLength,
-       CASE utc.nullable WHEN 'N' THEN 0 ELSE 1 END IsNull,
-       utc.data_default                             DEFAULTVAL,
-       ucc.comments                                 ""COMMENT"",
-            UTC.table_name                               TABLENAME,
-                CASE UTC.COLUMN_NAME
-                WHEN (select col.column_name
-                from user_constraints con,
-                user_cons_columns col
-                where con.constraint_name = col.constraint_name
-            and con.constraint_type = 'P'
-            and col.table_name = '{ tableName}') THEN 1
-            ELSE 0 END  AS                           IsKey,
-                CASE
-            WHEN data_type IN ('BIT', 'BOOL') THEN
-            'bool'
-            WHEN data_type in ('SMALLINT') THEN 'short'
-            WHEN data_type in ('TINYINT') THEN 'bool'
-            WHEN data_type IN ('NUMBER', 'CHAR', 'INT', 'Year') THEN
-            'int'
-            WHEN data_type in ('BIGINT') THEN
-            'bigint'
-            WHEN data_type IN ('FLOAT', 'DOUBLE', 'DECIMAL') THEN
-            'decimal'
-            WHEN data_type IN
-            ('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB',
-                'MEDIUMBLOB', 'LONGBLOB', 'Time') THEN
-            'string'
-            WHEN data_type IN ('Date', 'DateTime', 'TIMESTAMP(6)') THEN
-            'DateTime'
-            ELSE 'string'
-            END         AS                           EntityType
-                from user_tab_columns utc,
-                user_col_comments ucc
-                where utc.table_name = ucc.table_name
-            and utc.column_name = ucc.column_name
-            and utc.table_name = '{ tableName}'
-            order by column_id; ";
+select utc.column_name as columnname
+     , utc.data_type columntype
+     , utc.data_length maxlength
+     , case utc.nullable when 'N' then 0 else 1 end isnull
+     , utc.data_default defaultval
+     , ucc.comments ""COMMENT""
+     , utc.table_name tablename
+     , case utc.column_name
+           when (select col.column_name
+                 from user_constraints con
+                    , user_cons_columns col
+                 where con.constraint_name = col.constraint_name
+                   and con.constraint_type = 'P'
+                   and col.table_name = '{tableName}') then 1
+           else 0 end as iskey
+     , case
+           when utc.column_name in ('CreateUserId', 'UpdateUserId', 'Id')
+               then 0
+           else 1
+    end as isdisplay
+     , case
+           when data_type in ('BIT', 'BOOL') then
+               'bool'
+           when data_type in ('SMALLINT') then 'short'
+           when data_type in ('TINYINT') then 'bool'
+           when data_type in ('NUMBER', 'CHAR', 'INT', 'Year') then
+               'int'
+           when data_type in ('BIGINT') then
+               'bigint'
+           when data_type in ('FLOAT', 'DOUBLE', 'DECIMAL') then
+               'decimal'
+           when data_type in
+                ('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB',
+                 'MEDIUMBLOB', 'LONGBLOB', 'Time') then
+               'string'
+           when data_type in ('Date', 'DateTime', 'TIMESTAMP(6)') then
+               'DateTime'
+           else 'string'
+    end as entitytype
+from user_tab_columns utc
+   , user_col_comments ucc
+where utc.table_name = ucc.table_name
+  and utc.column_name = ucc.column_name
+  and utc.table_name = '{tableName}'
+order by column_id;  ";
             
             foreach (var context in _contexts)
             {

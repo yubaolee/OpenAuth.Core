@@ -445,7 +445,6 @@
     <None Include="wwwroot\layui\images\face\71.gif" />
     <None Include="wwwroot\layui\images\face\8.gif" />
     <None Include="wwwroot\layui\images\face\9.gif" />
-    <None Include="wwwroot\layui\layui.all.js" />
     <None Include="wwwroot\layui\layui.js" />
     <None Include="wwwroot\layui\lay\dest\layui.all.js" />
     <None Include="wwwroot\layui\lay\modules\carousel.js" />

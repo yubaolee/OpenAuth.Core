@@ -1,6 +1,6 @@
 ![LOGO](/logocore.png "1.png")
 
-OpenAuth.Net是基于 **.Net Core/.Net 5** 的开源权限工作流快速开发框架。框架汲取Martin Fowler企业级应用开发思想及全新技术组合（IdentityServer、EF core、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE、Element-ui等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
+OpenAuth.Net是基于 **.Net Core/.Net 5/6/7..** 的开源权限工作流快速开发框架。框架汲取Martin Fowler企业级应用开发思想及全新技术组合（IdentityServer、EF core、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE、Element-ui等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
 
 如果你想了解企业版的内容，请访问：[http://doc.openauth.net.cn/pro](http://doc.openauth.net.cn/pro/)
 
@@ -38,7 +38,7 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
 ## 核心看点
 
-* 支持.net core sdk 3.1.100 及.Net 5（[一分钟从.net core 3.1切换至.Net 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)）
+* 支持.net core sdk 3.1.100 及.Net 5/6/7..（[一分钟从.net core 3.1切换至.Net 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)）
 
 * 超强的自定义权限控制功能，请参考：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
 
@@ -52,7 +52,7 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
 * 基于CodeSmith的代码生成功能，可快速生成带有头/明细结构的页面
 
-* 支持sqlserver、mysql、Oracle(已集成驱动,但无Oracle脚本，可以利用工具把其他数据库的数据导过来），理论上支持所有数据库
+* 支持sqlserver、mysql、Oracle、PostgreSQL(已集成驱动,但无Oracle脚本，可以利用工具把其他数据库的数据导过来），理论上支持所有数据库
 
 * 支持同时访问多数据源
 
@@ -64,7 +64,7 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
 * 前端采用 vue + layui + elementUI + ztree + gooflow + leipiformdesign
 
-* 后端采用 .net core +EF core+ autofac + quartz +IdentityServer4 + nunit + swagger
+* 后端采用 .net core/.Net 5/6/7.. +EF core+ autofac + quartz +IdentityServer4 + nunit + swagger
 
 * 设计工具 PowerDesigner + Enterprise Architect
 

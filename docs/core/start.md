@@ -4,7 +4,7 @@
 
 gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
-* [OpenAuth.Net](https://gitee.com/dotnetchina/OpenAuth.Net) 的SDK版本为5.0.100，推荐使用该版本
+* [OpenAuth.Net](https://gitee.com/dotnetchina/OpenAuth.Net) 的SDK版本为.Net 5/6/7..，推荐使用该版本
 
 * [OpenAuth.Core](https://gitee.com/yubaolee/OpenAuth.Core) 的SDK版本为.Net Core 3.1.100，历史原因暂且保留，未来的某天会关闭它
 
@@ -88,7 +88,7 @@ v2.0及以后版本因使用.net core 3.1，必须使用visual Studio 2019及以
 
 v2.0以前的版本可以使用visual Studio 2017
 
-如果开发使用的电脑安装有多个版本的SDK（如同时有.net core 3.1 和.net 5），可以在根目录新建一个`global.json`文件来指定.net版本，文件内容如下：
+如果开发使用的电脑安装有多个版本的SDK（如同时有.net core 3.1 和.Net 5/6/7..），可以在根目录新建一个`global.json`文件来指定.net版本，文件内容如下：
 
 ```
 {

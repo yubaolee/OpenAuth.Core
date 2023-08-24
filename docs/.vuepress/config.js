@@ -1,11 +1,3 @@
-/*
- * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
- * @Date: 2020-07-21 23:45:00
- * @LastEditTime: 2022-12-20 16:15:43
- * @Description: 
- * @
- * @Copyright (c) 2022 by yubaolee | ahfu~ , All Rights Reserved. 
-*/
 module.exports = {
   title: 'OpenAuth.Net',
   description: '最好用的.net权限工作流框架,最好用的.net vue前后分离框架',
@@ -32,7 +24,7 @@ module.exports = {
         text: '在线文档',
         ariaLabel: 'Proj Menu',
         items: [{
-            text: 'OpenAuth.Net(.Net Core/.Net 5)',
+            text: 'OpenAuth.Net(.Net Core/.Net 5/6/7..)',
             link: '/core/',
             target: '_blank'
           },

@@ -22,8 +22,9 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="5.21.1" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.1" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.110" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.1" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.102" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="5.2.13" />
   </ItemGroup>
 

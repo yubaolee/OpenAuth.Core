@@ -3,6 +3,8 @@ using System.Linq;
 using Infrastructure;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
+using OpenAuth.Repository.Domain;
+using SqlSugar;
 
 namespace OpenAuth.Repository.Test
 {
@@ -11,7 +13,7 @@ namespace OpenAuth.Repository.Test
         [Test]
         public void GenerateFilter()
         {
-            var dbcontext = _autofacServiceProvider.GetService<OpenAuthDBContext>();
+            var sugarClient = _autofacServiceProvider.GetService<ISqlSugarClient>();
             var json = @"
                 {
 	                ""Operation"": ""and"",
@@ -50,8 +52,8 @@ namespace OpenAuth.Repository.Test
                 }
                 ";
 
-            var query = dbcontext.Users.GenerateFilter("c",json);
-            Console.WriteLine(query.Expression.ToString());
+            var query = sugarClient.Queryable<User>().GenerateFilter("c",json);
+            Console.WriteLine(query.ToSqlString());
 
             Console.WriteLine(JsonHelper.Instance.Serialize(query.ToList()));
         }
@@ -84,10 +86,10 @@ namespace OpenAuth.Repository.Test
                 sub
             };
 
-            var dbcontext = _autofacServiceProvider.GetService<OpenAuthDBContext>();
+            var sugarClient = _autofacServiceProvider.GetService<ISqlSugarClient>();
 
-            var query = dbcontext.Users.GenerateFilter("c",JsonHelper.Instance.Serialize(filterGroup));
-            Console.WriteLine(query.Expression.ToString());
+            var query = sugarClient.Queryable<User>().GenerateFilter("c",filterGroup);
+            Console.WriteLine(query.ToSqlString());
         }
     }
 }

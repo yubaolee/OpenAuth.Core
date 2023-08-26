@@ -181,6 +181,17 @@ namespace Infrastructure
 
             return query;
         }
+        
+        public static ISugarQueryable<T> GenerateFilter<T>(this ISugarQueryable<T> query, string parametername, string filterjson)
+        {
+            if (!string.IsNullOrEmpty(filterjson))
+            {
+                var filterGroup = JsonHelper.Instance.Deserialize<FilterGroup>(filterjson);
+                query = GenerateFilter(query, parametername, filterGroup);
+            }
+
+            return query;
+        }
 
         /// <summary>
         /// 转换FilterGroup为Lambda表达式

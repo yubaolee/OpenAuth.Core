@@ -22,6 +22,7 @@ using OpenAuth.App;
 using OpenAuth.App.HostedService;
 using OpenAuth.Repository;
 using OpenAuth.WebApi.Model;
+using SqlSugar;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace OpenAuth.WebApi
@@ -172,6 +173,50 @@ namespace OpenAuth.WebApi
             services.AddHttpClient();
 
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
+            
+            services.AddScoped<ISqlSugarClient>(s =>
+            {
+
+                SqlSugarClient sqlSugar;
+                if(dbtypes.ContainsValue(Define.DBTYPE_SQLSERVER))
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.SqlServer,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    });
+                }
+                else if(dbtypes.ContainsValue(Define.DBTYPE_MYSQL))  //mysql
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.MySql,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    });
+                }
+                else if(dbtypes.ContainsValue(Define.DBTYPE_PostgreSQL))  //PostgreSQL
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.PostgreSQL,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    });
+                }
+                else
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.Oracle,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    });
+                }
+                
+                return sqlSugar;
+            });
 
 
             //设置定时启动的任务
@@ -232,7 +277,7 @@ namespace OpenAuth.WebApi
             app.UseSwaggerUI(c =>
             {
                 c.IndexStream = () =>
-                    GetType().GetTypeInfo().Assembly.GetManifestResourceStream("OpenAuth.WebApi.index.html");
+                    IntrospectionExtensions.GetTypeInfo(GetType()).Assembly.GetManifestResourceStream("OpenAuth.WebApi.index.html");
 
                 foreach (var controller in GetControllers())
                 {

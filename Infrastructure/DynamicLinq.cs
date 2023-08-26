@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using SqlSugar;
 
 namespace Infrastructure
 {
@@ -190,6 +191,23 @@ namespace Infrastructure
         /// <param name="filterGroup"></param>
         /// <returns></returns>
         public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, string parametername,
+            FilterGroup filterGroup)
+        {
+            var param = CreateLambdaParam<T>(parametername);
+            Expression result = ConvertGroup<T>(filterGroup, param);
+            query = query.Where(param.GenerateTypeLambda<T>(result));
+            return query;
+        }
+        
+        /// <summary>
+        /// 转换FilterGroup为Lambda表达式
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="parametername"></param>
+        /// <param name="filterGroup"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static ISugarQueryable<T> GenerateFilter<T>(this ISugarQueryable<T> query, string parametername,
             FilterGroup filterGroup)
         {
             var param = CreateLambdaParam<T>(parametername);

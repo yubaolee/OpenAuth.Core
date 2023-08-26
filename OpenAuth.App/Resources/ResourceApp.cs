@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure;
-using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
-using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
-using OpenAuth.Repository.Interface;
+using SqlSugar;
 
 namespace OpenAuth.App
 {
     /// <summary>
     /// 分类管理
     /// </summary>
-    public class ResourceApp:BaseStringApp<Resource,OpenAuthDBContext>
+    public class ResourceApp:SqlSugarBaseApp<Resource>
     {
         private RevelanceManagerApp _revelanceApp;
 
@@ -28,13 +26,13 @@ namespace OpenAuth.App
             var user = _auth.GetCurrentUser().User;
             obj.CreateUserId = user.Id;
             obj.CreateUserName = user.Name;
-            Repository.Add(obj);
+            Repository.Insert(obj);
         }
 
         public void Update(AddOrUpdateResReq obj)
         {
             var user = _auth.GetCurrentUser().User;
-            UnitWork.Update<Resource>(u => u.Id == obj.Id, u => new Resource
+            Repository.Update(u => new Resource
             {
                 Name = obj.Name,
                 Disable = obj.Disable,
@@ -50,13 +48,13 @@ namespace OpenAuth.App
                 UpdateUserId = user.Id,
                 UpdateUserName = user.Name
                 //todo:要修改的字段赋值
-            });
+            },u => u.Id == obj.Id);
         }
 
         public IEnumerable<Resource> LoadForRole(string appId, string roleId)
         {
             var elementIds = _revelanceApp.Get(Define.ROLERESOURCE, true, roleId);
-            return UnitWork.Find<Resource>(u => elementIds.Contains(u.Id) && (appId == null || appId =="" || u.AppId == appId));
+            return SugarClient.Queryable<Resource>().Where(u => elementIds.Contains(u.Id) && (appId == null || appId =="" || u.AppId == appId)).ToArray();
         }
         
         public async Task<TableData> Load(QueryResourcesReq request)
@@ -90,15 +88,18 @@ namespace OpenAuth.App
             result.columnFields = columnFields;
             result.data = resources.OrderBy(u => u.TypeId)
                 .Skip((request.page - 1) * request.limit)
-                .Take(request.limit).Select($"new ({propertyStr})");
+                .Take(request.limit).Select($"{propertyStr}").ToList();
             result.count = await resources.CountAsync();
             return result;
         }
 
-        public ResourceApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Resource,OpenAuthDBContext> repository
-        ,RevelanceManagerApp app,IAuth auth) : base(unitWork, repository, auth)
+        public ResourceApp(ISqlSugarClient client, IAuth auth) : base(client, auth)
         {
-            _revelanceApp = app;
+        }
+
+        public void Delete(string[] ids)
+        {
+            Repository.DeleteByIds(ids);
         }
     }
 }

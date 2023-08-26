@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Linq;
 using Infrastructure;
-using Microsoft.EntityFrameworkCore;
 using OpenAuth.App.Interface;
+using OpenAuth.Repository;
 using OpenAuth.Repository.Core;
 using OpenAuth.Repository.Domain;
-using OpenAuth.Repository.Interface;
 using SqlSugar;
 
 namespace OpenAuth.App
 {
-    public abstract class SqlSugarBaseApp<T>
+    public abstract class SqlSugarBaseApp<T> where T : class, new()
     {
         protected ISqlSugarClient SugarClient;
+
+        protected SqlSugarRepository<T> Repository;
 
         protected IAuth _auth;
 
         public SqlSugarBaseApp(ISqlSugarClient client, IAuth auth)
         {
+            Repository = new SqlSugarRepository<T>(client); //这里用new而不用注入，可以保证client和repository用的是同一个client
             SugarClient = client;
             _auth = auth;
         }

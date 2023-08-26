@@ -8,45 +8,49 @@ using OpenAuth.App.Request;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
+using SqlSugar;
 
 namespace OpenAuth.App
 {
     /// <summary>
-    /// 分类管理
+    /// 应用管理
     /// </summary>
-    public class AppManager : BaseStringApp<Application, OpenAuthDBContext>
+    public class AppManager : SqlSugarBaseApp<Application>
     {
-        public AppManager(IUnitWork<OpenAuthDBContext> unitWork, IRepository<Application, OpenAuthDBContext> repository) : base(unitWork, repository, null)
+        public AppManager(ISqlSugarClient client) : base(client, null)
         {
         }
-
-        public void Add(Application Application)
+        public void Add(Application application)
         {
-            if (string.IsNullOrEmpty(Application.Id))
+            if (string.IsNullOrEmpty(application.Id))
             {
-                Application.Id = Guid.NewGuid().ToString();
+                application.Id = Guid.NewGuid().ToString();
             }
 
-            Repository.Add(Application);
+            Repository.Insert(application);
         }
 
-        public void Update(Application Application)
+        public void Update(Application application)
         {
-            Repository.Update(Application);
+            Repository.Update(application);
         }
-
-
+        
         public async Task<List<Application>> GetList(QueryAppListReq request)
         {
-            var applications = UnitWork.Find<Application>(null);
+            var applications = Repository.GetListAsync();
 
-            return await applications.ToListAsync();
+            return await applications;
         }
 
 
         public Application GetByAppKey(string modelAppKey)
         {
-            return Repository.FirstOrDefault(u => u.AppSecret == modelAppKey);
+            return Repository.GetFirst(u => u.AppSecret == modelAppKey);
+        }
+
+        public void Delete(string[] ids)
+        {
+            Repository.DeleteByIds(ids);
         }
     }
 }

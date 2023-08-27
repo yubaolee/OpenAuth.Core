@@ -1,6 +1,6 @@
 # 数据库读写及事务处理
 
-OpenAuth.Core使用Repository和Unitwork两种方式访问数据库。
+OpenAuth.Net使用Repository和Unitwork两种方式访问数据库。
 
 ## 使用场景
 

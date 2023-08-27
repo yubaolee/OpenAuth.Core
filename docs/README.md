@@ -17,7 +17,7 @@ features:
 - title: 功能强大
   details: 组织机构、角色用户、数据权限、拖拽表单、工作流引擎、定时任务。
 - title: 主流技术
-  details: IdentityServer、EF core、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE、Element-ui。
+  details: IdentityServer、EF、SqlSugar、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE2、VUE3、Element-ui、Element-plus。
 footer: Copyright © 2023- yubaolee
 ---
 

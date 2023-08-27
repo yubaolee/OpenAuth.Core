@@ -47,7 +47,7 @@ source /etc/profile
 
 ## jenkins部署OpenAuth.Mvc
 
-OpenAuth.Core采用的是gitee托管源码，只需使用Gitee WebHook构建触发器。配置如下：
+OpenAuth.Net采用的是gitee托管源码，只需使用Gitee WebHook构建触发器。配置如下：
 
 ![说明](/giteesource.png "说明")
 

@@ -43,7 +43,7 @@ b => b.UseRowNumberForPaging());
 即使用rownumber的分页方式。 当然最好的解决方式是升级SQL SERVER到2012或以上版本。
 
 ::: warning 注意
-OpenAuth.Core 2.0及以后版本因为使用了.net core 3.1，该SDK已经放弃了这种方式，因此只能通过升级Sql Server的方式解决该问题
+目前.Net的SDK已经放弃了这种方式，因此只能通过升级Sql Server的方式解决该问题
 :::
 
 

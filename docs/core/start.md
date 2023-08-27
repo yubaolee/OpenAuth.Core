@@ -82,12 +82,8 @@ OpenAuth.Repository -> OpenAuthDB : 仓储层进行数据库操作
 
 ## 打开项目
 
-使用Visual Studio 2019或Rider打开 `OpenAuth.Core.sln`
+使用Visual Studio或Rider打开 `OpenAuth.Net.sln`
 ::: tip 提示
-v2.0及以后版本因使用.net core 3.1，必须使用visual Studio 2019及以上版本打开
-
-v2.0以前的版本可以使用visual Studio 2017
-
 如果开发使用的电脑安装有多个版本的SDK（如同时有.net core 3.1 和.Net 5/6/7..），可以在根目录新建一个`global.json`文件来指定.net版本，文件内容如下：
 
 ```

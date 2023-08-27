@@ -1,3 +1,11 @@
+/*
+ * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
+ * @Date: 2023-08-12 10:48:24
+ * @LastEditTime: 2023-08-27 19:45:48
+ * @Description: 
+ * @
+ * @Copyright (c) 2023 by yubaolee | ahfu~ , All Rights Reserved. 
+*/
 module.exports = {
   title: 'OpenAuth.Net',
   description: '最好用的.net权限工作流框架,最好用的.net vue前后分离框架',
@@ -45,7 +53,7 @@ module.exports = {
         ariaLabel: 'Proj Menu',
         items: [{
             text: 'gitee',
-            link: 'https://gitee.com/yubaolee/OpenAuth.Core',
+            link: 'https://gitee.com/dotnetchina/OpenAuth.Net',
             target: '_blank'
           },
           {
@@ -74,7 +82,7 @@ module.exports = {
           path: 'start', // 可选的, 标题的跳转链接，应为绝对路径且必须存在
           sidebarDepth: 1, // 可选的, 默认值是 1
           collapsable: false,
-          children: ['start', 'specialist', 'deploy', 'deployapi', 'devnew', 'multidbs', 'multitenant', 'unitwork', 'entity', 'datavalidation', 'log', 'identity', 'job', 'cache', 'unittest'],
+          children: ['start', 'specialist', 'deploy', 'deployapi', 'devnew', 'multidbs', 'multitenant', 'unitwork','sqlsugar', 'entity', 'datavalidation', 'log', 'identity', 'job', 'cache', 'unittest'],
         },
         {
           title: '权限控制', // 必要的

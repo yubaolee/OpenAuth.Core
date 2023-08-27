@@ -185,6 +185,11 @@ namespace OpenAuth.WebApi
                         DbType = SqlSugar.DbType.SqlServer,
                         ConnectionString = connectionString,
                         IsAutoCloseConnection = true,
+                    },db=>{
+                        db.Aop.OnLogExecuting = (sql, pars) =>
+                        {
+                            logger.LogInformation(sql);
+                        };
                     });
                 }
                 else if(dbtypes.ContainsValue(Define.DBTYPE_MYSQL))  //mysql
@@ -194,6 +199,11 @@ namespace OpenAuth.WebApi
                         DbType = SqlSugar.DbType.MySql,
                         ConnectionString = connectionString,
                         IsAutoCloseConnection = true,
+                    },db=>{
+                        db.Aop.OnLogExecuting = (sql, pars) =>
+                        {
+                            logger.LogInformation(sql);
+                        };
                     });
                 }
                 else if(dbtypes.ContainsValue(Define.DBTYPE_PostgreSQL))  //PostgreSQL
@@ -203,6 +213,11 @@ namespace OpenAuth.WebApi
                         DbType = SqlSugar.DbType.PostgreSQL,
                         ConnectionString = connectionString,
                         IsAutoCloseConnection = true,
+                    },db=>{
+                        db.Aop.OnLogExecuting = (sql, pars) =>
+                        {
+                            logger.LogInformation(sql);
+                        };
                     });
                 }
                 else
@@ -212,6 +227,11 @@ namespace OpenAuth.WebApi
                         DbType = SqlSugar.DbType.Oracle,
                         ConnectionString = connectionString,
                         IsAutoCloseConnection = true,
+                    },db=>{
+                        db.Aop.OnLogExecuting = (sql, pars) =>
+                        {
+                            logger.LogInformation(sql);
+                        };
                     });
                 }
                 

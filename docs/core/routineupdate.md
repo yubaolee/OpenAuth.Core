@@ -1,5 +1,19 @@
 # 日常提交(针对dev分支)
 
+* 2023.08.27  fix issue #I7A7XF 全面支持SqlSugar Orm。详情：[sqlsugar访问数据库](http://doc.openauth.net.cn/core/sqlsugar.html)
+  
+* 2023.08.18  fix #I7U1BM 左侧展开图标丢失
+  
+* 2023.08.16  fix #I7U14K layui-icon图标大小不一致
+  
+* 2023.08.13  update layui to 2.8.11
+
+* 2023.08.01  默认.Net SDK版本升级为6.0
+  
+* 2023.06.01  fix #I7EKFG 关于使用oracle数据库时代码生成界面的问题
+  
+* 2023.05.01  fix #I5ZL3B 代码生成器，动态列排序，保存无效
+
 * 2022.12.22  退出登录时，清空tag标签;
 
 * 2022.12.20  修复多个模块名称相同时，只能打开一个的BUG;

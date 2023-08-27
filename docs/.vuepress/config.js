@@ -1,7 +1,7 @@
 /*
  * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
  * @Date: 2023-08-12 10:48:24
- * @LastEditTime: 2023-08-27 19:45:48
+ * @LastEditTime: 2023-08-27 22:21:32
  * @Description: 
  * @
  * @Copyright (c) 2023 by yubaolee | ahfu~ , All Rights Reserved. 
@@ -69,6 +69,11 @@ module.exports = {
         items: [{
             text: 'Variant Form - 可视化低代码表单',
             link: 'https://www.vform666.com/',
+            target: '_blank'
+          },
+          {
+            text: 'SqlSugar',
+            link: 'https://www.donet5.com/',
             target: '_blank'
           }
         ],

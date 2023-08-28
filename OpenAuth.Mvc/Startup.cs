@@ -16,6 +16,7 @@ using OpenAuth.App;
 using OpenAuth.App.HostedService;
 using OpenAuth.Mvc.Models;
 using OpenAuth.Repository;
+using SqlSugar;
 
 namespace OpenAuth.Mvc
 {
@@ -99,6 +100,70 @@ namespace OpenAuth.Mvc
             services.AddHttpClient();
             
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
+            
+             services.AddScoped<ISqlSugarClient>(s =>
+            {
+
+                SqlSugarClient sqlSugar;
+                if(dbtypes.ContainsValue(Define.DBTYPE_SQLSERVER))
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.SqlServer,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    },db=>{
+                        db.Aop.OnLogExecuting = (sql, pars) =>
+                        {
+                            logger.LogInformation(sql);
+                        };
+                    });
+                }
+                else if(dbtypes.ContainsValue(Define.DBTYPE_MYSQL))  //mysql
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.MySql,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    },db=>{
+                        db.Aop.OnLogExecuting = (sql, pars) =>
+                        {
+                            logger.LogInformation(sql);
+                        };
+                    });
+                }
+                else if(dbtypes.ContainsValue(Define.DBTYPE_PostgreSQL))  //PostgreSQL
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.PostgreSQL,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    },db=>{
+                        db.Aop.OnLogExecuting = (sql, pars) =>
+                        {
+                            logger.LogInformation(sql);
+                        };
+                    });
+                }
+                else
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.Oracle,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    },db=>{
+                        db.Aop.OnLogExecuting = (sql, pars) =>
+                        {
+                            logger.LogInformation(sql);
+                        };
+                    });
+                }
+                
+                return sqlSugar;
+            });
             
             //设置定时启动的任务
             services.AddHostedService<QuartzService>();

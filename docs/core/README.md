@@ -1,6 +1,6 @@
 ![LOGO](/logocore.png "1.png")
 
-OpenAuth.Net是基于 **.Net Core/.Net 5/6/7..** 的开源权限工作流快速开发框架。框架汲取Martin Fowler企业级应用开发思想及全新技术组合（IdentityServer、EF core、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE、Element-ui等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
+OpenAuth.Net是基于 **.Net Core/.Net 5/6/7..** 的开源权限工作流快速开发框架。框架汲取Martin Fowler企业级应用开发思想及全新技术组合（IdentityServer、EF、SqlSugar、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE2、VUE3、Element-ui、Element-plus等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
 
 如果你想了解企业版的内容，请访问：[http://doc.openauth.net.cn/pro](http://doc.openauth.net.cn/pro/)
 
@@ -18,23 +18,8 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
 ## 技术栈
 
-![](https://img.shields.io/badge/release-2.0-blue)
-![](https://img.shields.io/badge/.net%20core-3.1.100-blue)
-![](https://img.shields.io/badge/.Net-5.0-blue)
-![](https://img.shields.io/badge/IdentityServer4-3.0.1-blue)
-![](https://img.shields.io/badge/quartz-3.0.7-blue)
-![](https://img.shields.io/badge/Autofac-5.1.2-blue)
-![](https://img.shields.io/badge/NUnit-3.12-blue)
-![](https://img.shields.io/badge/SwaggerUI-OAS%203.0-blue)
-![](https://img.shields.io/badge/Moq-4.13-blue)
-![](https://img.shields.io/badge/log4net-2.0.8-blue)
-![](https://img.shields.io/badge/AutoMapper-9.0-blue)
-
-![](https://img.shields.io/badge/vue-2.6.10-brightgreen)
-![](https://img.shields.io/badge/element--ui-2.10.1-brightgreen)
-![](https://img.shields.io/badge/node-%3E%3D14.0-brightgreen)
-![](https://img.shields.io/badge/npm-6.14-brightgreen)
-![](https://img.shields.io/badge/layui-2.5.6-brightgreen)
+![](https://img.shields.io/badge/release-2.0-blue) ![](https://img.shields.io/badge/.net%20core-3.1.100-blue) ![](https://img.shields.io/badge/.Net-5.0-blue) ![](https://img.shields.io/badge/IdentityServer4-3.0.1-blue) ![](https://img.shields.io/badge/quartz-3.0.7-blue) ![](https://img.shields.io/badge/Autofac-5.1.2-blue) ![](https://img.shields.io/badge/NUnit-3.12-blue) ![](https://img.shields.io/badge/SwaggerUI-OAS%203.0-blue) ![](https://img.shields.io/badge/Moq-4.13-blue) ![](https://img.shields.io/badge/log4net-2.0.8-blue) ![](https://img.shields.io/badge/AutoMapper-9.0-blue)
+![](https://img.shields.io/badge/vue-2.6.10-brightgreen) ![](https://img.shields.io/badge/element--ui-2.10.1-brightgreen) ![](https://img.shields.io/badge/node-%3E%3D14.0-brightgreen) ![](https://img.shields.io/badge/npm-6.14-brightgreen) ![](https://img.shields.io/badge/layui-2.5.6-brightgreen)
 
 ## 核心看点
 

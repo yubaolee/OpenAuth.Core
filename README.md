@@ -64,7 +64,7 @@
 
 ## 演示直达
 
-* 企业版/高级版演示地址： http://demo.openauth.net.cn:1803
+* 企业版Vue2演示地址： http://demo.openauth.net.cn:1803
 
 * 企业版H5演示地址（请使用浏览器移动模式或直接用手机打开）： http://demo.openauth.net.cn:1804 
 
@@ -72,7 +72,9 @@
 
 ## 核心看点
 
-* 支持.Net 4.0/4.5(已停止维护)及最新的.Net 5.0
+* 支持.Net 4.0/4.5(已停止维护)及最新的.Net 5.0/6.0/7.0/...
+  
+* 同时支持EntityFramework、SqlSugar两款最流行的ORM框架
 
 * 超强的自定义权限控制功能，可灵活配置用户、角色可访问的数据权限。请参考：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
 

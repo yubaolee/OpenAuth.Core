@@ -18,12 +18,15 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
 ## 技术栈
 
-![](https://img.shields.io/badge/release-2.0-blue) ![](https://img.shields.io/badge/.net%20core-3.1.100-blue) ![](https://img.shields.io/badge/.Net-5.0-blue) ![](https://img.shields.io/badge/IdentityServer4-3.0.1-blue) ![](https://img.shields.io/badge/quartz-3.0.7-blue) ![](https://img.shields.io/badge/Autofac-5.1.2-blue) ![](https://img.shields.io/badge/NUnit-3.12-blue) ![](https://img.shields.io/badge/SwaggerUI-OAS%203.0-blue) ![](https://img.shields.io/badge/Moq-4.13-blue) ![](https://img.shields.io/badge/log4net-2.0.8-blue) ![](https://img.shields.io/badge/AutoMapper-9.0-blue)
-![](https://img.shields.io/badge/vue-2.6.10-brightgreen) ![](https://img.shields.io/badge/element--ui-2.10.1-brightgreen) ![](https://img.shields.io/badge/node-%3E%3D14.0-brightgreen) ![](https://img.shields.io/badge/npm-6.14-brightgreen) ![](https://img.shields.io/badge/layui-2.5.6-brightgreen)
+![](https://img.shields.io/badge/release-6.0-blue) ![](https://img.shields.io/badge/SqlSugar-5.1.4-blue) ![](https://img.shields.io/badge/IdentityServer4-3.0.1-blue) ![](https://img.shields.io/badge/quartz-3.0.7-blue) ![](https://img.shields.io/badge/Autofac-5.2-blue) ![](https://img.shields.io/badge/NUnit-3.13.1-blue) ![](https://img.shields.io/badge/SwaggerUI-OAS%203.0-blue) ![](https://img.shields.io/badge/Moq-4.13-blue) ![](https://img.shields.io/badge/log4net-2.0.12-blue)
+
+![](https://img.shields.io/badge/vue-2.6.10-brightgreen) ![](https://img.shields.io/badge/vue-3.3.4-brightgreen) ![](https://img.shields.io/badge/vite-4.4.9-brightgreen) ![](https://img.shields.io/badge/element--ui-2.10.1-brightgreen) ![](https://img.shields.io/badge/element--plus-2.3.9-brightgreen) ![](https://img.shields.io/badge/node-%3E%3D4.0-brightgreen) ![](https://img.shields.io/badge/npm-9.7.1-brightgreen) ![](https://img.shields.io/badge/layui-2.8.6-brightgreen)
 
 ## 核心看点
 
 * 支持.net core sdk 3.1.100 及.Net 5/6/7..（[一分钟从.net core 3.1切换至.Net 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)）
+  
+* 同时支持EntityFramework、SqlSugar两款最流行的ORM框架
 
 * 超强的自定义权限控制功能，请参考：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
 

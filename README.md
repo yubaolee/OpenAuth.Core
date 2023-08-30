@@ -19,20 +19,25 @@
 
 **官方文档**  http://doc.openauth.net.cn 
 
-![](https://img.shields.io/badge/release-2.0-blue)
+
+![](https://img.shields.io/badge/release-6.0-blue)
+![](https://img.shields.io/badge/SqlSugar-5.1.4-blue)
 ![](https://img.shields.io/badge/IdentityServer4-3.0.1-blue)
 ![](https://img.shields.io/badge/quartz-3.0.7-blue)
-![](https://img.shields.io/badge/Autofac-5.1.2-blue)
-![](https://img.shields.io/badge/NUnit-3.12-blue)
+![](https://img.shields.io/badge/Autofac-5.2-blue)
+![](https://img.shields.io/badge/NUnit-3.13.1-blue)
 ![](https://img.shields.io/badge/SwaggerUI-OAS%203.0-blue)
 ![](https://img.shields.io/badge/Moq-4.13-blue)
-![](https://img.shields.io/badge/log4net-2.0.8-blue)
+![](https://img.shields.io/badge/log4net-2.0.12-blue)
 
 ![](https://img.shields.io/badge/vue-2.6.10-brightgreen)
+![](https://img.shields.io/badge/vue-3.3.4-brightgreen)
+![](https://img.shields.io/badge/vite-4.4.9-brightgreen)
 ![](https://img.shields.io/badge/element--ui-2.10.1-brightgreen)
+![](https://img.shields.io/badge/element--plus-2.3.9-brightgreen)
 ![](https://img.shields.io/badge/node-%3E%3D4.0-brightgreen)
-![](https://img.shields.io/badge/npm-3.0.0-brightgreen)
-![](https://img.shields.io/badge/layui-2.5.6-brightgreen)
+![](https://img.shields.io/badge/npm-9.7.1-brightgreen)
+![](https://img.shields.io/badge/layui-2.8.6-brightgreen)
 
 
 

@@ -6,6 +6,8 @@
 // <summary>流程中的连线</summary>
 
 using System.Collections.Generic;
+using System.Linq;
+using Infrastructure;
 using Infrastructure.Extensions;
 using Newtonsoft.Json.Linq;
 
@@ -38,7 +40,16 @@ namespace OpenAuth.App.Flow
 
                 if (isDecimal)  //如果是数字或小数
                 {
-                    decimal frmvalue = decimal.Parse(fieldVal); //表单中填写的值
+                    decimal frmvalue = 0;
+                    if (fieldVal.Contains("["))//表单中的数据包含[]，为数组,一般是checkbox的值
+                    {
+                        var tempvals = JsonHelper.Instance.Deserialize<List<decimal>>(fieldVal);
+                        frmvalue = tempvals.Max();
+                    }
+                    else
+                    {
+                        frmvalue = decimal.Parse(fieldVal); //表单中填写的值
+                    }
 
                     switch (compare.Operation)
                     {
@@ -61,7 +72,16 @@ namespace OpenAuth.App.Flow
                 }
                 else //如果只是字符串，只判断相等
                 {
-                    result &= compare.Value == fieldVal;
+                    if (fieldVal.Contains("["))//表单中的数据包含[]，为数组,一般是checkbox的值
+                    {
+                        var tempvals = JsonHelper.Instance.Deserialize<List<string>>(fieldVal);
+                        result &= tempvals.Contains(compare.Value);
+                    }
+                    else
+                    {
+                        result &= compare.Value == fieldVal;
+                    }
+                    
                 }
 
                 

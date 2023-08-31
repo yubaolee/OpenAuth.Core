@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenAuth.App;
 using OpenAuth.Repository;
+using SqlSugar;
 
 namespace OpenAuth.IdentityServer
 {
@@ -76,21 +77,66 @@ namespace OpenAuth.IdentityServer
             var dbtypes = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbTypes")).GetChildren()
                 .ToDictionary(x => x.Key, x => x.Value);
             var dbType = dbtypes["OpenAuthDBContext"];
+            var connectionString = Configuration.GetConnectionString("OpenAuthDBContext");
             if (dbType == Define.DBTYPE_SQLSERVER)
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
+                    options.UseSqlServer(connectionString));
             }
             else if(dbType == Define.DBTYPE_MYSQL) //mysql
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext"),new MySqlServerVersion(new Version(8, 0, 11))));
+                    options.UseMySql(connectionString,new MySqlServerVersion(new Version(8, 0, 11))));
             }
             else  //oracle
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseOracle(Configuration.GetConnectionString("OpenAuthDBContext"), o=>o.UseOracleSQLCompatibility("11")));
+                    options.UseOracle(connectionString, o=>o.UseOracleSQLCompatibility("11")));
             }
+            
+             services.AddScoped<ISqlSugarClient>(s =>
+            {
+
+                SqlSugarClient sqlSugar;
+                if(dbtypes.ContainsValue(Define.DBTYPE_SQLSERVER))
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.SqlServer,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    });
+                }
+                else if(dbtypes.ContainsValue(Define.DBTYPE_MYSQL))  //mysql
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.MySql,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    });
+                }
+                else if(dbtypes.ContainsValue(Define.DBTYPE_PostgreSQL))  //PostgreSQL
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.PostgreSQL,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    });
+                }
+                else
+                {
+                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
+                    {
+                        DbType = SqlSugar.DbType.Oracle,
+                        ConnectionString = connectionString,
+                        IsAutoCloseConnection = true,
+                    });
+                }
+                
+                return sqlSugar;
+            });
 
         }
         

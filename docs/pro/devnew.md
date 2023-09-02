@@ -96,6 +96,24 @@ create table stock
 
 如果存在子表，也进行相同的操作。即选中刚刚添加的`StockDetail`表，依次点击【生成实体】【生成业务代码】【生成vue页面】;
 
+成功后生成的后端.Net代码位置如下：
+
+OpenAuth.Repository\Domain\Stock.cs
+OpenAuth.App\StockApp\StockApp.cs
+OpenAuth.App\StockApp\Request\AddOrUpdateStockReq.cs
+OpenAuth.App\StockApp\Request\QueryStockListReq.cs
+OpenAuth.WebApi\Controllers\StocksController.cs
+
+并且会在OpenAuth.Repository\OpenAuthDBContext.cs中自动添加：
+
+```
+ public virtual DbSet<Stock> Stocks { get; set; }
+```
+
+前端Vue代码：
+src\api\stocks.js
+src\views\stocks\index.vue
+
 ## 配置模块地址
 
 运行系统，使用System账号登录系统，在【模块管理】中，添加“仓储管理”模块，如下图：

@@ -68,7 +68,7 @@ dotnet build # 编译
 
 rm -rf /data/openauthmvc #最终站点路径
 mkdir /data/openauthmvc
-dotnet publish -c:Release -o /data/openauthmvc # 生成发布文件到/data/openauthmvc
+dotnet publish -c:Release -o /data/openauthmvc # 生成发布文件到/data/openauthmvc。如果服务器上有多个.NET版本，加上目标版本号，如：-f net6.0 
 
 nohup dotnet /data/openauthmvc/OpenAuth.Mvc.dll &
 

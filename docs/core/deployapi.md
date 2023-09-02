@@ -76,7 +76,7 @@ cp ./bin/Debug/netcoreapp3.1/OpenAuth.App.xml /data/openauthapi/
 
 cp ./bin/Debug/netcoreapp3.1/Infrastructure.xml /data/openauthapi/
 
-dotnet publish -c:Release -o /data/openauthapi # 如果针对给定运行时发布项目带上-r 如：-r centos.7-x64
+dotnet publish -c:Release -o /data/openauthapi # 如果服务器上有多个.NET版本，加上目标版本号，如：-f net6.0 
 
 nohup dotnet /data/openauthapi/OpenAuth.WebApi.dll &
 

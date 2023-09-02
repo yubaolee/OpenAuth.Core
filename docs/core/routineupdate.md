@@ -1,5 +1,7 @@
 # 日常提交(针对dev分支)
 
+* 2023.09.01  fix #I7XLQK checkbox控件值表单条件判断
+
 * 2023.08.27  fix issue #I7A7XF 全面支持SqlSugar Orm。详情：[sqlsugar访问数据库](http://doc.openauth.net.cn/core/sqlsugar.html)
   
 * 2023.08.18  fix #I7U1BM 左侧展开图标丢失

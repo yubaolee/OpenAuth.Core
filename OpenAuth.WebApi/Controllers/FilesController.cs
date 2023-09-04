@@ -65,9 +65,10 @@ namespace OpenAuth.WebApi.Controllers
         ///  批量上传文件接口
         /// <para>客户端文本框需设置name='files'</para>
         /// </summary>
-        /// <param name="files"></param>
+        /// <param name="files">不能读取文件以外的其他form-data参数</param>
         /// <returns>服务器存储的文件信息</returns>
         [HttpPost]
+        [AllowAnonymous]
         public Response<IList<UploadFile>> Upload(IFormFileCollection files)
         {
             var result = new Response<IList<UploadFile>>();
@@ -83,5 +84,31 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        
+        /// <summary>
+        ///  以form-data的形式上传文件
+        /// <para>通常用于类似vform上传等功能</para>
+        /// </summary>
+        /// <param name="formdata">客户端可以带其他参数</param>
+        /// <returns>服务器存储的文件信息</returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public Response<IList<UploadFile>> UploadWithFormData(IFormCollection formdata)
+        {
+            var result = new Response<IList<UploadFile>>();
+            try
+            {
+                var files = HttpContext.Request.Form.Files;
+                result.Result = _app.Add(files);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
+
     }
 }

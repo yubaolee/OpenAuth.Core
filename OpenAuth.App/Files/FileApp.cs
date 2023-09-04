@@ -67,11 +67,6 @@ namespace OpenAuth.App
         /// <returns></returns>
         public List<UploadFile> Add(IFormFileCollection files)
         {
-            if (!_auth.CheckLogin())
-            {
-                throw new Exception("必需登录才能上传附件");
-            }
-            
             var result = new List<UploadFile>();
             foreach (var file in files)
             {
@@ -92,6 +87,12 @@ namespace OpenAuth.App
             {
                 _logger.LogWarning("收到新文件为空");
             }
+            
+            string createUserName = "匿名";
+            if (_auth.CheckLogin())
+            {
+                createUserName = _auth.GetUserName();
+            }
 
             if (file != null && file.Length > 0 && file.Length < 10485760)
             {
@@ -107,7 +108,7 @@ namespace OpenAuth.App
                         Thumbnail = _dbThumbnail,
                         FileName = fileName,
                         FileSize = file.Length.ToInt(),
-                        CreateUserName = _auth.GetUserName(),
+                        CreateUserName = createUserName,
                         FileType = Path.GetExtension(fileName),
                         Extension = Path.GetExtension(fileName)
                     };

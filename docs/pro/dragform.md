@@ -34,13 +34,15 @@
 
 ![20230905112347](http://img.openauth.net.cn/20230905112347.png)
 
-1、调整上传地址，如：
+1、修改【图片】【文件】组件的上传地址为OpenAuth.WebApi的上传接口，即：
 
 ```
-http://localhost:52789/api/Files/UploadWithFormData
+http://xx.xxx.xx.xxx:52789/api/Files/UploadWithFormData
 ```
+当然也可以配置云服务器的上传接口，或其他自己开发的上传接口。具体参考：[https://www.yuque.com/visualdev/vform/urf1hz](https://www.yuque.com/visualdev/vform/urf1hz)
 
-2、修改回调:
+
+2、修改组件的onUploadSucess事件，添加以下代码将接口返回的数据转化为vform可识别的数据：
 
 ```javascript
 var imgServerIp ="http://localhost:52789";  //图片服务器IP

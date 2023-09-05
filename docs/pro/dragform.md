@@ -26,3 +26,29 @@
 如果表单不配置关联数据库表，流程使用的表单数据只能以json格式存放在`flowinstance`表的`FrmData`字段中，不利于后期数据分析和扩展。至于是否需要关联数据库表，可以根据自己需要进行选择
 
 :::
+
+
+## 上传组件
+
+在vform设计表单时，【图片】【文件】两个组件需要和后端上传交互，需要做些特殊的处理。
+
+![20230905112347](http://img.openauth.net.cn/20230905112347.png)
+
+1、调整上传地址，如：
+
+```
+http://localhost:52789/api/Files/UploadWithFormData
+```
+
+2、修改回调:
+
+```javascript
+var imgServerIp ="http://localhost:52789";  //图片服务器IP
+return {
+  name: result.result[0].fileName,
+  url:  new URL(result.result[0].filePath,imgServerIp).href
+}
+```
+配置完成后，在流程实例中即可正常使用上传功能。
+
+![20230905112824](http://img.openauth.net.cn/20230905112824.png)

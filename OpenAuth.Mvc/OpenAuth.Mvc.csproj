@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-      <TargetFrameworks>net5.0</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(MSBuildVersion)' &gt;= '17.0' ">$(TargetFrameworks);net6.0</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
     <UseRazorBuildServer>false</UseRazorBuildServer>
   </PropertyGroup>
 

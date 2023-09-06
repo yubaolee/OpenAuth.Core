@@ -106,3 +106,20 @@ lower_case_table_names=1
 执行添加后，把Id返回给前端界面。详情请参考网友博客：[OpenAuth.net入门【5】——解决添加完数据，在未刷新列表时执行删除，数据未被真正删除的问题](https://www.cnblogs.com/wjx-blog/p/15892811.html)
 
 
+## VS2019打开6.0及以后版本
+
+OpenAuth.Net 6.0默认使用.Net 6.0 SDK，VS2019不支持。如果打开项目需要调整csproj项目文件。如下：
+用记事本等工具，打开`Infrastructure.csproj``OpenAuth.Repository.csproj``OpenAuth.App.csproj``OpenAuth.Mvc.csproj``OpenAuth.WebApi.csproj``OpenAuth.IdentityServer.csproj`，将
+```csharp
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+```
+调整为
+```csharp
+  <PropertyGroup>
+      <TargetFrameworks>net5.0</TargetFrameworks>
+      <TargetFrameworks Condition=" '$(MSBuildVersion)' &gt;= '17.0' ">$(TargetFrameworks);net6.0</TargetFrameworks>
+  </PropertyGroup>
+```
+

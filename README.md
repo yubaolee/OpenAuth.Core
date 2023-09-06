@@ -1,8 +1,14 @@
+🔥.Net Core权限管理及快速开发框架、最好用的权限工作流系统。源于Martin Fowler企业级应用开发思想及最新技术组合（EF、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、Vue2/3、Element-ui/plus、IdentityServer等）。核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。架构易扩展，是中小企业的首选。
+
+❤❤❤郑重声明❤❤❤
+
+随着.Net SDK快速更新迭代，.Net Core也终将成为过去。作者后期精力会全部投入OpenAuth.Net项目中，请移步：https://gitee.com/dotnetchina/OpenAuth.Net 体验最新版.Net的魅力。当然因历史原因或坚持使用.Net Core，也可以为本项目添砖加瓦，一路走来感谢大家的支持！
+
 ![LOGO](https://images.gitee.com/uploads/images/2020/0420/002145_bdea42ff_362401.png "logo.png")
 
 **logo图标含义** OpenAuth中OA字母的结合体；整体像鱼，授人以渔；你非说像咸鱼，那也是积极向上的咸鱼；中心是个笑脸，微笑面对生活(✿◡‿◡)。
 
-本项目基于.Net Core 3.1.100的跨平台版本，如果使用传统.Net Framework 4.5及最新 **.Net 5** 的同学请移步：https://gitee.com/yubaolee/OpenAuth.Net
+本项目基于.Net Core 3.1.100的跨平台版本，如果使用传统.Net Framework 4.5及最新.Net SDK的同学请移步：https://gitee.com/dotnetchina/OpenAuth.Net
 
 **官方网站** http://www.openauth.net.cn
 

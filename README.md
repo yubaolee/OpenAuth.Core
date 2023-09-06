@@ -1,8 +1,10 @@
+🔥.Net权限管理及快速开发框架、最好用的权限工作流系统。源于Martin Fowler企业级应用开发思想及最新技术组合（SqlSugar、EF、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、Vue2/3、Element-ui/plus、IdentityServer等）。核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。架构易扩展，是中小企业的首选。
+
 ## ❤❤❤郑重声明❤❤❤
 
-主分支main运行环境为 **.Net SDK 5.0/6.0/7.0**
+主分支main运行环境为 **.Net SDK 6.0及以上。如果你使用vs2019作为开发工具，请注意查看：[VS2019打开6.0及以后版本](http://doc.openauth.net.cn/core/faq.html#vs2019%E6%89%93%E5%BC%806-0%E5%8F%8A%E4%BB%A5%E5%90%8E%E7%89%88%E6%9C%AC)
 
-需要.Net 4.0/4.5开发环境的同学请查看本项目4.0分支
+需要.Net SDK 4.0/4.5开发环境的同学请查看本项目4.0分支，已停止维护
 
 使用.Net Core 2.1--3.1的请看：
 
@@ -43,7 +45,7 @@
 
 ## 关于OpenAuth.Net企业版/高级版的说明：
 
-目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue + element UI 的单页面应用程序，即企业版/高级版OpenAuth.Pro
+目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue2 + element-ui /vue3 + element-plus的单页面应用程序，即企业版/高级版OpenAuth.Pro
 
 **该版本是一套后端基于OpenAuth.WebAPI接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发的管理后台 [点击这里查看效果](http://demo.openauth.net.cn:1803)**
 
@@ -99,7 +101,7 @@
 
 * 建立三方对接规范，已有系统可以无缝对接流程引擎
 
-* 前端采用 vue + layui + elementUI + ztree + gooflow + leipiformdesign
+* 前端采用 vue + layui + element-ui + ztree + gooflow + leipiformdesign
 
 * 后端采用 .net core +EF core+ autofac + quartz +IdentityServer4 + nunit + swagger
 

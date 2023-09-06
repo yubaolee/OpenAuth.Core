@@ -109,7 +109,7 @@ lower_case_table_names=1
 ## VS2019打开6.0及以后版本
 
 OpenAuth.Net 6.0默认使用.Net 6.0 SDK，VS2019不支持。如果打开项目需要调整csproj项目文件。如下：
-用记事本等工具，打开`Infrastructure.csproj``OpenAuth.Repository.csproj``OpenAuth.App.csproj``OpenAuth.Mvc.csproj``OpenAuth.WebApi.csproj``OpenAuth.IdentityServer.csproj`，将
+用记事本等工具，打开 `Infrastructure.csproj` `OpenAuth.Repository.csproj` `OpenAuth.App.csproj` `OpenAuth.Mvc.csproj` `OpenAuth.WebApi.csproj` `OpenAuth.IdentityServer.csproj`，将
 ```csharp
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>

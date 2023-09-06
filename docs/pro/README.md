@@ -1,4 +1,4 @@
-OpenAuth.Pro是一套全新的前端界面，基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发。它使用开源版OpenAuth.Core的API接口（即：OpenAuth.WebApi）提供数据服务。二者的关系如下：
+OpenAuth.Pro是一套全新的前端界面，基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发。它使用开源版OpenAuth.Net的API接口（即：OpenAuth.WebApi）提供数据服务。二者的关系如下：
 
 ![](/architect.png)
 
@@ -23,7 +23,7 @@ OpenAuth.Pro v4.3及以前的版本使用Node 14
 
 ## 创建数据库
 
-* 如果只使用开源的OpenAuth.Mvc。则新建一个空数据库：OpenAuthDB。然后在OpenAuth.Core项目文件夹【sql server 初始化脚本】中，运行`Sql Server脚本.sql`（或mysql初始化脚本）
+* 如果只使用开源的OpenAuth.Mvc。则新建一个空数据库：OpenAuthDB。然后在OpenAuth.Net项目文件夹【sql server 初始化脚本】中，运行`Sql Server脚本.sql`（或mysql初始化脚本）
 
 * 如果只使用企业版的OpenAuth.WebApi,则新建一个空数据库：OpenAuthPro。使用OpenAuth.Pro前端源码文件夹【sql脚本】中，运行`Sql Server脚本.sql`（或mysql脚本）
 

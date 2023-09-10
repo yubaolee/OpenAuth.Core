@@ -1,7 +1,7 @@
 /*
  * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
  * @Date: 2023-08-12 10:48:24
- * @LastEditTime: 2023-08-27 22:21:32
+ * @LastEditTime: 2023-09-10 19:10:40
  * @Description: 
  * @
  * @Copyright (c) 2023 by yubaolee | ahfu~ , All Rights Reserved. 
@@ -93,7 +93,7 @@ module.exports = {
           title: '权限控制', // 必要的
           sidebarDepth: 1, // 可选的, 默认值是 1
           collapsable: false,
-          children: ['apiauth', 'logininfo', 'dataprivilege', 'datapropertyrule'],
+          children: ['moduleauth','apiauth', 'logininfo', 'dataprivilege', 'datapropertyrule'],
         },
         'form',
         {

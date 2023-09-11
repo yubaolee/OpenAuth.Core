@@ -110,15 +110,10 @@ OpenAuth.WebApi\Controllers\StocksController.cs
  public virtual DbSet<Stock> Stocks { get; set; }
 ```
 
+
 前端Vue代码：
 src\api\stocks.js
 src\views\stocks\index.vue
-
-## 配置模块地址
-
-运行系统，使用System账号登录系统，在【模块管理】中，添加“仓储管理”模块，如下图：
-
-![20211207003212](http://img.openauth.net.cn/20211207003212.png)
 
 ::: warning 注意
 完成以上步骤后，请重启OpenAuth.WebApi，用来重新加载刚刚生成的后台代码
@@ -126,7 +121,13 @@ src\views\stocks\index.vue
 子表不需要添加模块
 :::
 
-成功后可以进入新加的仓储管理界面：
+## 配置模块地址
+
+经过以上步骤，重启系统后，使用System账号重新登录，在【模块管理】中，添加“仓储管理”模块，如下图：
+
+![20211207003212](http://img.openauth.net.cn/20211207003212.png)
+
+这样就可以访问刚刚新加的仓储管理功能，到此就完成了添加一个新模块功能：
 
 ![20211208011431](http://img.openauth.net.cn/20211208011431.png)
 

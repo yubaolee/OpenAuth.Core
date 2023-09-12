@@ -82,7 +82,7 @@ OpenAuth.Repository -> OpenAuthDB : 仓储层进行数据库操作
 
 ## 打开项目
 
-使用Visual Studio或Rider打开 `OpenAuth.Net.sln`
+使用Visual Studio 2022或Rider打开 `OpenAuth.Net.sln`
 ::: tip 提示
 如果开发使用的电脑安装有多个版本的SDK（如同时有.net core 3.1 和.Net 5/6/7..），可以在根目录新建一个`global.json`文件来指定.net版本，文件内容如下：
 

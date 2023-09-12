@@ -2,7 +2,7 @@
 
 ## ❤❤❤郑重声明❤❤❤
 
-主分支main运行环境为 **.Net SDK 6.0及以上。如果你使用vs2019作为开发工具，请注意查看：[VS2019打开6.0及以后版本](http://doc.openauth.net.cn/core/faq.html#vs2019%E6%89%93%E5%BC%806-0%E5%8F%8A%E4%BB%A5%E5%90%8E%E7%89%88%E6%9C%AC)
+主分支main运行环境默认为.Net SDK 6.0，如果你使用vs2019作为开发工具，请注意查看：[VS2019打开6.0及以后版本](http://doc.openauth.net.cn/core/faq.html#vs2019%E6%89%93%E5%BC%806-0%E5%8F%8A%E4%BB%A5%E5%90%8E%E7%89%88%E6%9C%AC)
 
 需要.Net SDK 4.0/4.5开发环境的同学请查看本项目4.0分支，已停止维护
 

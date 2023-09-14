@@ -41,6 +41,20 @@ OpenAuth.Pro v4.3及以前的版本使用Node 14
 安装程序运行所需的第三方包。使用npm install 命令经行安装，如下图：
 ![20211214232207](http://img.openauth.net.cn/20211214232207.png)
 
+::: warning 注意事项
+4.6.4及以后的版本默认Node 18进行编译，如果使用的是Node 18以前的版本，请尝试把package.json中scripts改为下面内容：
+
+```javascript
+"scripts": {
+    "serve": "vue-cli-service serve  --mode dev",
+    "dev": "vue-cli-service serve --mode dev",
+    "build": "vue-cli-service build --mode prod",
+    "lint": "vue-cli-service lint"
+  },
+```
+
+:::
+
 使用npm run dev 命令运行。如下图：
 ![20211214232229](http://img.openauth.net.cn/20211214232229.png)
 

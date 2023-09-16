@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using Infrastructure;
@@ -102,13 +102,10 @@ namespace OpenAuth.Repository
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UploadFile> UploadFiles { get; set; }
-
+        public virtual DbSet<SysPrinterPlan> SysPrinterPlans { get; set; }
         public virtual DbSet<FrmLeaveReq> FrmLeaveReqs { get; set; }
-
         public virtual DbSet<SysLog> SysLogs { get; set; }
-
         public virtual DbSet<SysMessage> SysMessages { get; set; }
-
         public virtual DbSet<DataPrivilegeRule> DataPrivilegeRules { get; set; }
 
         public virtual DbSet<WmsInboundOrderDtbl> WmsInboundOrderDtbls { get; set; }
@@ -120,5 +117,8 @@ namespace OpenAuth.Repository
         public virtual DbSet<QueryStringObj> QueryStringObjs { get; set; }
         public virtual DbSet<SysTableColumn> SysTableColumns { get; set; }
 
-    }
+    
+
 }
+}
+

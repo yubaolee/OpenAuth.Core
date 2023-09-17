@@ -73,51 +73,20 @@ namespace OpenAuth.Repository.Test
             var connectionString = config.GetSection("ConnectionStrings")["OpenAuthDBContext"];
             Console.WriteLine($"单元测试数据库信息:{dbtypes[httpContextAccessorMock.Object.GetTenantId()]}/{connectionString}");
             
+            var sqlsugarTypes = UtilMethods.EnumToDictionary<SqlSugar.DbType>();
+            var dbType = sqlsugarTypes.FirstOrDefault(it =>
+                dbtypes.ToDictionary(u => u.Key, v => v.Value.ToLower()).ContainsValue(it.Key));
+
             serviceCollection.AddScoped<ISqlSugarClient>(s =>
             {
-
-                SqlSugarClient sqlSugar;
-                if(dbtypes.ContainsValue(Define.DBTYPE_SQLSERVER))
+                var sqlSugar = new SqlSugarClient(new ConnectionConfig()
                 {
-                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
-                    {
-                        DbType = SqlSugar.DbType.SqlServer,
-                        ConnectionString = connectionString,
-                        IsAutoCloseConnection = true,
-                    });
-                }
-                else if(dbtypes.ContainsValue(Define.DBTYPE_MYSQL))  //mysql
-                {
-                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
-                    {
-                        DbType = SqlSugar.DbType.MySql,
-                        ConnectionString = connectionString,
-                        IsAutoCloseConnection = true,
-                    });
-                }
-                else if(dbtypes.ContainsValue(Define.DBTYPE_PostgreSQL))  //PostgreSQL
-                {
-                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
-                    {
-                        DbType = SqlSugar.DbType.PostgreSQL,
-                        ConnectionString = connectionString,
-                        IsAutoCloseConnection = true,
-                    });
-                }
-                else
-                {
-                    sqlSugar = new SqlSugarClient (new ConnectionConfig()
-                    {
-                        DbType = SqlSugar.DbType.Oracle,
-                        ConnectionString = connectionString,
-                        IsAutoCloseConnection = true,
-                    });
-                }
-                
+                    DbType = dbType.Value,
+                    ConnectionString = connectionString,
+                    IsAutoCloseConnection = true,
+                });
                 return sqlSugar;
             });
-            
-            
 
             var builder = new ContainerBuilder();
 

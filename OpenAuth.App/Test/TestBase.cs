@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using OpenAuth.Repository;
+using SqlSugar;
 
 namespace OpenAuth.App.Test
 {
@@ -66,8 +67,24 @@ namespace OpenAuth.App.Test
             var dbtypes = config.GetSection("AppSetting:DbTypes").GetChildren()
                 .ToDictionary(x => x.Key, x => x.Value);
             
-            Console.WriteLine($"单元测试数据库信息:{dbtypes[httpContextAccessorMock.Object.GetTenantId()]}/{config.GetSection("ConnectionStrings")["OpenAuthDBContext"]}");
+            var connectionString = config.GetSection("ConnectionStrings")["OpenAuthDBContext"];
+            
+            Console.WriteLine($"单元测试数据库信息:{dbtypes[httpContextAccessorMock.Object.GetTenantId()]}/{connectionString}");
 
+            var sqlsugarTypes = UtilMethods.EnumToDictionary<SqlSugar.DbType>();
+            var dbType = sqlsugarTypes.FirstOrDefault(it =>
+                dbtypes.ToDictionary(u => u.Key, v => v.Value.ToLower()).ContainsValue(it.Key));
+
+            serviceCollection.AddScoped<ISqlSugarClient>(s =>
+            {
+                var sqlSugar = new SqlSugarClient(new ConnectionConfig()
+                {
+                    DbType = dbType.Value,
+                    ConnectionString = connectionString,
+                    IsAutoCloseConnection = true,
+                });
+                return sqlSugar;
+            });
         }
 
         /// <summary>

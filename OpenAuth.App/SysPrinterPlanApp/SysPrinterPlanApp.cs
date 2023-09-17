@@ -74,5 +74,15 @@ namespace OpenAuth.App
         {
         }
 
+        public async Task<TableData> Query(QueryReq request)
+        {
+            var result = new TableData();
+            
+            var objs = await SugarClient.Ado.SqlQueryAsync<dynamic>(request.SourceSql);
+            result.data = objs.Skip((request.page - 1) * request.limit)
+                .Take(request.limit).ToList();
+
+            return result;
+        }
     }
 }

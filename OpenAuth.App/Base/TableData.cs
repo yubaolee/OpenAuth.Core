@@ -12,9 +12,7 @@
 // <summary>layui datatable数据返回</summary>
 // ***********************************************************************
 
-using System;
 using System.Collections.Generic;
-using Infrastructure;
 using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.App.Response

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using SqlSugar;
 
 namespace OpenAuth.Repository.Core
 {
@@ -9,6 +10,7 @@ namespace OpenAuth.Repository.Core
     public class StringEntity : BaseEntity
     {
         [Browsable(false)]
+        [SugarColumn(IsPrimaryKey = true)]
         public string Id { get; set; }
         
         /// <summary>

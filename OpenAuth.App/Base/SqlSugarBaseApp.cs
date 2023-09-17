@@ -9,6 +9,10 @@ using SqlSugar;
 
 namespace OpenAuth.App
 {
+    /// <summary>
+    /// SqlSugar基础类
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class SqlSugarBaseApp<T> where T : class, new()
     {
         protected ISqlSugarClient SugarClient;
@@ -22,6 +26,16 @@ namespace OpenAuth.App
             Repository = new SqlSugarRepository<T>(client); //这里用new而不用注入，可以保证client和repository用的是同一个client
             SugarClient = client;
             _auth = auth;
+        }
+        
+        public void Delete(string[] ids)
+        {
+            Repository.DeleteByIds(ids);
+        }
+        
+        public T Get(string id)
+        {
+            return SugarClient.Queryable<T>().Where("Id=@id", new {id = id}).First();
         }
 
         /// <summary>

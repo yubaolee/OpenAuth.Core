@@ -47,10 +47,6 @@ namespace OpenAuth.App
         {
             return Repository.GetFirst(u => u.AppSecret == modelAppKey);
         }
-
-        public void Delete(string[] ids)
-        {
-            Repository.DeleteByIds(ids);
-        }
+        
     }
 }

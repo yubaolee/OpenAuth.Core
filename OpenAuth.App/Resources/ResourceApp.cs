@@ -96,10 +96,6 @@ namespace OpenAuth.App
         public ResourceApp(ISqlSugarClient client, IAuth auth) : base(client, auth)
         {
         }
-
-        public void Delete(string[] ids)
-        {
-            Repository.DeleteByIds(ids);
-        }
+        
     }
 }

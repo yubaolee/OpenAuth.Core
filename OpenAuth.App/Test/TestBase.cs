@@ -60,10 +60,6 @@ namespace OpenAuth.App.Test
             
             serviceCollection.AddDbContext<OpenAuthDBContext>();
             
-            var container = AutofacExt.InitForTest(serviceCollection);
-            _autofacServiceProvider = new AutofacServiceProvider(container);
-            AutofacContainerModule.ConfigServiceProvider(_autofacServiceProvider);
-            
             var dbtypes = config.GetSection("AppSetting:DbTypes").GetChildren()
                 .ToDictionary(x => x.Key, x => x.Value);
             
@@ -85,6 +81,10 @@ namespace OpenAuth.App.Test
                 });
                 return sqlSugar;
             });
+            
+            var container = AutofacExt.InitForTest(serviceCollection);
+            _autofacServiceProvider = new AutofacServiceProvider(container);
+            AutofacContainerModule.ConfigServiceProvider(_autofacServiceProvider);
         }
 
         /// <summary>

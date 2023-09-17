@@ -37,19 +37,40 @@ namespace OpenAuth.App.Test
         }
 
         [Test]
-        public async Task Query()
+        public async Task QueryWithParam()
         {
             var app = _autofacServiceProvider.GetService<SysPrinterPlanApp>();
 
             var result = await app.Query(new QueryReq()
             {
-                SourceSql = "select * from user"
+                SourceSql = "select * from user where account like @account",
+                ParamJsonStr = "{\"account\":\"test%\"}",
+                page = 1,
+                limit = 2
             });
 
             Console.WriteLine(JsonHelper.Instance.Serialize(result));
 
-            //延长主线程，防止程序退出
-            Thread.Sleep(3000);
+            //异步测试，延长主线程，防止程序退出
+            Thread.Sleep(1000);
+        }
+        
+        [Test]
+        public async Task QueryNoParam()
+        {
+            var app = _autofacServiceProvider.GetService<SysPrinterPlanApp>();
+
+            var result = await app.Query(new QueryReq()
+            {
+                SourceSql = "select * from user ",
+                page = 1,
+                limit = 2
+            });
+
+            Console.WriteLine(JsonHelper.Instance.Serialize(result));
+
+            //异步测试，延长主线程，防止程序退出
+            Thread.Sleep(1000);
         }
         
     }

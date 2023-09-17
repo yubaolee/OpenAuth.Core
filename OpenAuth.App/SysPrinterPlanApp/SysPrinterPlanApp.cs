@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -46,6 +48,28 @@ namespace OpenAuth.App
             result.count = await objs.CountAsync();
             return result;
         }
+        
+        public async Task<TableData> Query(QueryReq request)
+        {
+            var result = new TableData();
+
+            var sugarParams = new List<SugarParameter>();
+            if (!string.IsNullOrEmpty(request.ParamJsonStr))
+            {
+                var param = JsonHelper.Instance.Deserialize<Dictionary<string, string>>(request.ParamJsonStr);
+                foreach (var p in param)
+                {
+                    sugarParams.Add(new SugarParameter($"@{p.Key}", p.Value));
+                }
+            }
+            
+            var objs = await SugarClient.Ado.SqlQueryAsync<dynamic>(request.SourceSql,sugarParams);
+            result.count = SugarClient.Ado.SqlQuery<dynamic>(request.SourceSql, sugarParams).Count;
+            result.data = objs.Skip((request.page - 1) * request.limit)
+                .Take(request.limit).ToList();
+
+            return result;
+        }
 
         public void Add(AddOrUpdateSysPrinterPlanReq obj)
         {
@@ -72,17 +96,6 @@ namespace OpenAuth.App
         
         public SysPrinterPlanApp(ISqlSugarClient client, IAuth auth) : base(client, auth)
         {
-        }
-
-        public async Task<TableData> Query(QueryReq request)
-        {
-            var result = new TableData();
-            
-            var objs = await SugarClient.Ado.SqlQueryAsync<dynamic>(request.SourceSql);
-            result.data = objs.Skip((request.page - 1) * request.limit)
-                .Take(request.limit).ToList();
-
-            return result;
         }
     }
 }

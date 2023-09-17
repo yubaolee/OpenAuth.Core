@@ -39,12 +39,12 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加
        [HttpPost]
-        public Response Add(AddOrUpdateSysPrinterPlanReq obj)
+        public Response<string> Add(AddOrUpdateSysPrinterPlanReq obj)
         {
-            var result = new Response();
+            var result = new Response<string>();
             try
             {
-                _app.Add(obj);
+                result.Result=_app.Add(obj);
 
             }
             catch (Exception ex)

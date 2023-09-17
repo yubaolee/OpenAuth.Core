@@ -71,7 +71,7 @@ namespace OpenAuth.App
             return result;
         }
 
-        public void Add(AddOrUpdateSysPrinterPlanReq obj)
+        public string Add(AddOrUpdateSysPrinterPlanReq obj)
         {
             //程序类型取入口应用的名称，可以根据自己需要调整
             var addObj = obj.MapTo<SysPrinterPlan>();
@@ -82,6 +82,7 @@ namespace OpenAuth.App
             addObj.CreateTime = DateTime.Now;
             addObj.CreateUser = _auth.GetUserName();
             Repository.Insert(addObj);
+            return addObj.Id;
         }
 
         public void Update(AddOrUpdateSysPrinterPlanReq obj)

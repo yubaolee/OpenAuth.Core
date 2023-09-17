@@ -51,6 +51,10 @@ namespace OpenAuth.App
         {
             //程序类型取入口应用的名称，可以根据自己需要调整
             var addObj = obj.MapTo<SysPrinterPlan>();
+            if (addObj.KeyIsNull())
+            {
+                addObj.GenerateDefaultKeyVal();
+            }
             addObj.CreateTime = DateTime.Now;
             addObj.CreateUser = _auth.GetUserName();
             Repository.Insert(addObj);

@@ -4,6 +4,11 @@ OpenAuth.Pro是一套全新的前端界面，基于vue-element-admin，采用VUE
 
 企业版代码获取方式：[http://www.openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c](http://www.openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)
 
+企业Vue2版本演示：[http://demo.openauth.net.cn:1803/](http://demo.openauth.net.cn:1803/)
+
+企业H5版本演示（请使用浏览器移动模式或直接用手机打开）：[http://demo.openauth.net.cn:1804/](http://demo.openauth.net.cn:1804/)
+
+
 ## 工具准备
 
 #### NodeJs

@@ -2,6 +2,8 @@
 
 OpenAuth.Net是基于 **.Net Core/.Net 5/6/7..** 的开源权限工作流快速开发框架。源于Martin Fowler企业级应用开发思想及最新技术组合（SqlSugar、EF、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、Vue2/3、Element-ui/plus、IdentityServer等）。核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
 
+开源版本演示：[http://demo.openauth.net.cn:1802/](http://demo.openauth.net.cn:1802/)
+
 如果你想了解企业版的内容，请访问：[http://doc.openauth.net.cn/pro](http://doc.openauth.net.cn/pro/)
 
 ::: tip 提示

@@ -58,6 +58,9 @@ namespace OpenAuth.App.Request
        /// </summary>
        public bool Disable { get; set; }
 
-       
+       /// <summary>
+       /// 分组字段，通常用于主从表结构打印时
+       /// </summary>
+       public string GroupBy { get; set; }
     }
 }

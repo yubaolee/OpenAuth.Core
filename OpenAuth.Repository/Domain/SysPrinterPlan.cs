@@ -26,6 +26,7 @@ namespace OpenAuth.Repository.Domain
             this.SourceSql = "";
             this.CloumnView = "";
             this.PlanContent = "";
+            this.GroupBy = "";
             this.CreateTime = DateTime.Now;
             this.Disable = false;
         }
@@ -53,6 +54,12 @@ namespace OpenAuth.Repository.Domain
         /// </summary>
         [Description("中文视图名;设计打印方案时，提供中文快捷按钮的视图来源")]
         public string CloumnView { get; set; }
+        
+        /// <summary>
+        ///分组字段，通常用于主从表结构打印时
+        /// </summary>
+        [Description("分组字段，通常用于主从表结构打印时")]
+        public string GroupBy { get; set; }
 
         /// <summary>
         ///打印方案内容;打印方案JSON对象

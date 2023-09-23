@@ -91,7 +91,8 @@ namespace OpenAuth.App
             {
                 Name = obj.Name,
                 SourceSql = obj.SourceSql,
-                PlanContent = obj.PlanContent
+                PlanContent = obj.PlanContent,
+                GroupBy = obj.GroupBy
             },u => u.Id == obj.Id);
         }
         

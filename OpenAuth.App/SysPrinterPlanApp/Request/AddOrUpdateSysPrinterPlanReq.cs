@@ -37,6 +37,11 @@ namespace OpenAuth.App.Request
        ///数据源;打印方案对应的数据来源SQL
        /// </summary>
        public string SourceSql { get; set; }
+       
+       /// <summary>
+       ///入口参数字段;入库参数字段数组，通过,分隔
+       /// </summary>
+       public string InParamColumn { get; set; }
 
        /// <summary>
        ///中文视图名;设计打印方案时，提供中文快捷按钮的视图来源

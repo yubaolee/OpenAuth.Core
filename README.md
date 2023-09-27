@@ -55,6 +55,7 @@
 
 效果如下：
 ![API启动效果图](https://images.gitee.com/uploads/images/2021/0422/012037_ec51b7e6_362401.png "api启动.png")
+![打印方案设计](snapshot/sysprinterplan.png)
 ![输入图片说明](snapshot/form.png)
 ![](https://images.gitee.com/uploads/images/2021/0128/225024_57595ce9_362401.png "flow.png")
 

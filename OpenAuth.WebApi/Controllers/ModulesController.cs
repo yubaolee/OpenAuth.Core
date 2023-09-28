@@ -67,7 +67,6 @@ namespace OpenAuth.WebApi.Controllers
             }
 
             return result;
-           
         }
 
         /// <summary>
@@ -89,6 +88,7 @@ namespace OpenAuth.WebApi.Controllers
                 result.Code = 500;
                 result.Message = ex.InnerException?.Message ?? ex.Message;
             }
+
             return result;
         }
 
@@ -114,6 +114,7 @@ namespace OpenAuth.WebApi.Controllers
                     {
                         throw new Exception("模块不存在");
                     }
+
                     result.Result = module.Elements;
                 }
             }
@@ -156,7 +157,6 @@ namespace OpenAuth.WebApi.Controllers
             try
             {
                 _app.Update(obj);
-
             }
             catch (Exception ex)
             {
@@ -169,13 +169,12 @@ namespace OpenAuth.WebApi.Controllers
 
 
         [HttpPost]
-        public Response Delete([FromBody]string[] ids)
+        public Response Delete([FromBody] string[] ids)
         {
             var result = new Response();
             try
             {
                 _app.Delete(ids);
-
             }
             catch (Exception ex)
             {
@@ -220,7 +219,6 @@ namespace OpenAuth.WebApi.Controllers
             try
             {
                 _app.UpdateMenu(obj);
-
             }
             catch (Exception ex)
             {
@@ -236,13 +234,12 @@ namespace OpenAuth.WebApi.Controllers
         /// 删除菜单
         /// </summary>
         [HttpPost]
-        public Response DeleteMenu([FromBody]string[] ids)
+        public Response DeleteMenu([FromBody] string[] ids)
         {
             var result = new Response();
             try
             {
                 _app.DelMenu(ids);
-
             }
             catch (Exception ex)
             {
@@ -253,5 +250,24 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 获取发起页面的打印方案
+        /// </summary>
+        [HttpGet]
+        public Response<List<SysPrinterPlan>> LoadPrinterPlans(string moduleId)
+        {
+            var result = new Response<List<SysPrinterPlan>>();
+            try
+            {
+                result.Result = _app.LoadPrinterPlans(moduleId).ToList();
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
     }
 }

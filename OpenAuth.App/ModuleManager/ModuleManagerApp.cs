@@ -87,13 +87,8 @@ namespace OpenAuth.App
         /// <returns></returns>
         public IEnumerable<SysPrinterPlan> LoadPrinterPlans(string moduleId)
         {
-            var elementIds = _revelanceApp.Get(Define.MODULEPRINTERPLAN, true, moduleId);
-            var query = UnitWork.Find<SysPrinterPlan>(u => elementIds.Contains(u.Id));
-            if (!string.IsNullOrEmpty(moduleId))
-            {
-                query = query.Where(u => u.Id == moduleId);
-            }
-
+            var planids = _revelanceApp.Get(Define.MODULEPRINTERPLAN, true, moduleId);
+            var query = UnitWork.Find<SysPrinterPlan>(u => planids.Contains(u.Id));
             return query;
         }
 

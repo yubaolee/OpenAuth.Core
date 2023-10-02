@@ -1,7 +1,7 @@
 /*
  * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
  * @Date: 2023-08-12 10:48:24
- * @LastEditTime: 2023-09-10 19:10:40
+ * @LastEditTime: 2023-10-02 11:14:18
  * @Description: 
  * @
  * @Copyright (c) 2023 by yubaolee | ahfu~ , All Rights Reserved. 
@@ -129,6 +129,7 @@ module.exports = {
           children: ['router','openurl'],
         },
         'datapropertyrule',
+        'printerplan',
         {
           title: '表单设计', // 必要的
           sidebarDepth: 1, // 可选的, 默认值是 1

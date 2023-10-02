@@ -15,7 +15,7 @@ features:
 - title: 紧随潮流
   details: 最新的.net sdk，配合最炫的vue框架。
 - title: 功能强大
-  details: 组织机构、角色用户、数据权限、拖拽表单、工作流引擎、定时任务。
+  details: 角色授权、代码生成、智能打印、数据权限、拖拽表单、工作流引擎、定时任务。
 - title: 主流技术
   details: IdentityServer、EF、SqlSugar、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE2、VUE3、Element-ui、Element-plus。
 footer: Copyright © 2023- yubaolee

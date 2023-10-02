@@ -1,4 +1,4 @@
-🔥.Net权限管理及快速开发框架、最好用的权限工作流系统。源于Martin Fowler企业级应用开发思想及最新技术组合（SqlSugar、EF、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、Vue2/3、Element-ui/plus、IdentityServer等）。核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。架构易扩展，是中小企业的首选。
+🔥.Net权限管理及快速开发框架、最好用的权限工作流系统。源于Martin Fowler企业级应用开发思想及最新技术组合（SqlSugar、EF、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、Vue2/3、Element-ui/plus、IdentityServer等）。核心模块包括：角色授权、代码生成、智能打印、表单设计、工作流、定时任务等。架构易扩展，是中小企业的首选。
 
 ## ❤❤❤郑重声明❤❤❤
 
@@ -56,7 +56,8 @@
 效果如下：
 ![API启动效果图](https://images.gitee.com/uploads/images/2021/0422/012037_ec51b7e6_362401.png "api启动.png")
 ![打印方案设计](snapshot/sysprinterplan.png)
-![输入图片说明](snapshot/form.png)
+![打印方案挂载业务系统](snapshot/sysprinterplan2.png)
+![拖拽表单](snapshot/form.png)
 ![](https://images.gitee.com/uploads/images/2021/0128/225024_57595ce9_362401.png "flow.png")
 
 ## 官方QQ交流群  

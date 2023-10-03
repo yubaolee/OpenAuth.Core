@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using OpenAuth.App;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using SqlSugar;
 
 namespace OpenAuth.WebApi.Controllers
 {
@@ -46,6 +48,49 @@ namespace OpenAuth.WebApi.Controllers
             {
                 result.Result=_app.Add(obj);
 
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+        
+        /// <summary>
+        /// 获取系统所有的表信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public Response<List<DbTableInfo>> GetTables()
+        {
+            var result = new Response<List<DbTableInfo>>();
+            try
+            {
+                result.Result = _app.GetTables();
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+        
+        /// <summary>
+        /// 按表名或视图名称获取列名
+        /// </summary>
+        /// <param name="tableViewName"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public Response<List<DbColumnInfo>> GetColumns(string tableViewName)
+        {
+            var result = new Response<List<DbColumnInfo>>();
+            try
+            {
+                result.Result = _app.GetColumns(tableViewName);
             }
             catch (Exception ex)
             {

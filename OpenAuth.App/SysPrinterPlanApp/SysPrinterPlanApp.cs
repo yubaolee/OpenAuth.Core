@@ -92,6 +92,7 @@ namespace OpenAuth.App
                 Name = obj.Name,
                 SourceSql = obj.SourceSql,
                 PlanContent = obj.PlanContent,
+                ColumnView = obj.ColumnView,
                 InParamColumn = obj.InParamColumn,
                 GroupBy = obj.GroupBy
             },u => u.Id == obj.Id);
@@ -99,6 +100,16 @@ namespace OpenAuth.App
         
         public SysPrinterPlanApp(ISqlSugarClient client, IAuth auth) : base(client, auth)
         {
+        }
+
+        public List<DbTableInfo> GetTables()
+        {
+            return SugarClient.DbMaintenance.GetTableInfoList();
+        }
+
+        public List<DbColumnInfo> GetColumns(string tableViewName)
+        {
+            return SugarClient.DbMaintenance.GetColumnInfosByTableName(tableViewName);
         }
     }
 }

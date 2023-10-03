@@ -59,6 +59,18 @@ namespace OpenAuth.Repository.Test
         }
 
         [Test]
+        public void TestGetColumns()
+        {
+            var sugarClient = _autofacServiceProvider.GetService<ISqlSugarClient>();
+
+            var tables = sugarClient.DbMaintenance.GetTableInfoList();
+            // Console.WriteLine(JsonHelper.Instance.Serialize(tables));
+
+            var query = sugarClient.DbMaintenance.GetColumnInfosByTableName("userv");
+            Console.WriteLine(JsonHelper.Instance.Serialize(query));
+        }
+
+        [Test]
         public void TestDynamic()
         {
             FilterGroup sub = new FilterGroup

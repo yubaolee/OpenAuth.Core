@@ -24,7 +24,7 @@ namespace OpenAuth.Repository.Domain
             this.Name = "";
             this.CreateUser = "";
             this.SourceSql = "";
-            this.CloumnView = "";
+            this.ColumnView = "";
             this.PlanContent = "";
             this.InParamColumn = "";
             this.GroupBy = "";
@@ -54,7 +54,7 @@ namespace OpenAuth.Repository.Domain
         ///中文视图名;设计打印方案时，提供中文快捷按钮的视图来源
         /// </summary>
         [Description("中文视图名;设计打印方案时，提供中文快捷按钮的视图来源")]
-        public string CloumnView { get; set; }
+        public string ColumnView { get; set; }
         
         /// <summary>
         ///入口参数字段;入库参数字段数组，通过,分隔

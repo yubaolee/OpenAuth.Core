@@ -46,7 +46,7 @@ namespace OpenAuth.App.Request
        /// <summary>
        ///中文视图名;设计打印方案时，提供中文快捷按钮的视图来源
        /// </summary>
-       public string CloumnView { get; set; }
+       public string ColumnView { get; set; }
 
        /// <summary>
        ///打印方案内容;打印方案JSON对象

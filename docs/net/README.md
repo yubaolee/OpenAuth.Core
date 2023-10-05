@@ -4,8 +4,6 @@
 
 :::
 
-![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
-
 OpenAuth.Net 4.0分支是基于 **.Net Framework 4.5** 的开源权限工作流快速开发框架（主分支已经更新为.Net 5/6/7..跨平台开发环境）。框架基于Martin Fowler企业级应用开发思想及全新技术组合（Asp.Net MVC、EF、AutoFac、WebAPI、Swagger、Json.Net等），核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。它的架构精良易于扩展，是中小企业的首选。
 
 ## 特性

@@ -1,7 +1,7 @@
 /*
  * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
  * @Date: 2023-08-12 10:48:24
- * @LastEditTime: 2023-10-02 11:14:18
+ * @LastEditTime: 2023-10-05 10:12:16
  * @Description: 
  * @
  * @Copyright (c) 2023 by yubaolee | ahfu~ , All Rights Reserved. 
@@ -32,20 +32,15 @@ module.exports = {
         text: '在线文档',
         ariaLabel: 'Proj Menu',
         items: [{
-            text: 'OpenAuth.Net(.Net Core/.Net 5/6/7..)',
+            text: 'OpenAuth.Net开源后端',
             link: '/core/',
             target: '_blank'
           },
           {
-            text: 'OpenAuth.Pro(企业版)',
+            text: 'OpenAuth.Pro(企业vue2/vue3)',
             link: '/pro/',
             target: '_blank'
-          },
-          {
-            text: '.Net 4.5版本文档',
-            link: '/net/',
-            target: '_blank'
-          },
+          }
         ],
       },
       {

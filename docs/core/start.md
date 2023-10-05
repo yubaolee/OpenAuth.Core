@@ -10,6 +10,11 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
 .Net目前SDK升级特别方便，只需花费3分钟时间既可升级到.Net 6/7/8...等。请参考：[3分钟的时间把.net core 3.1的升级到.NET 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)，所以不要纠结SDK版本问题。
 
+::: tip 提示
+如果你使用的是.Net 4.0/4.5,请点击[这里](https://gitee.com/dotnetchina/OpenAuth.Net/tree/4.0) 下载后端代码，该分支已停止维护。参考文档：[http://doc.openauth.net.cn/net/](http://doc.openauth.net.cn/net/)
+
+:::
+
 ## 安装sdk
 
 下载安装微软官方SDK，代码地址：https://dotnet.microsoft.com/download

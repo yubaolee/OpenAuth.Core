@@ -1,5 +1,11 @@
 # 版本发布
 
+### v6.1
+
+* 全网最好用的打印解决方案。详情：[智能打印](http://doc.openauth.net.cn/pro/printerplan.html)；
+  
+* 增加PDManer数据结构说明;
+
 ### v6.0
 
 * 全面支持SqlSugar Orm。详情：[sqlsugar访问数据库](http://doc.openauth.net.cn/core/sqlsugar.html)；
@@ -158,20 +164,6 @@
 * 前端采用 vue +  gooflow + leipiformdesign
 
 * 后端采用 asp.net mvc core 2.1 + EF core+ autofac + json.net
-
-* 代码生成工具 CodeSmith
-
-* 设计工具 PowerDesigner + Enterprise Architect
-
-### OpenAuth.Net 4.0 颠覆版(2018-)
-
-* 版本重构，最重要的一个版本；
-
-* 前后端完全分离，结构更加清晰。`我们不限制规则，只用主流的技术构建强大的框架`；
-
-* 前端采用 vue + layui + ztree + gooflow + leipiformdesign
-
-* 后端采用 asp.net mvc + Web API + EF + autofac + swagger + json.net
 
 * 代码生成工具 CodeSmith
 

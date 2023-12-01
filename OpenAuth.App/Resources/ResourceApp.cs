@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -93,8 +93,9 @@ namespace OpenAuth.App
             return result;
         }
 
-        public ResourceApp(ISqlSugarClient client, IAuth auth) : base(client, auth)
+        public ResourceApp(ISqlSugarClient client, IAuth auth, RevelanceManagerApp revelanceApp) : base(client, auth)
         {
+            _revelanceApp = revelanceApp;
         }
         
     }

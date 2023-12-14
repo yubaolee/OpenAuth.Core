@@ -47,6 +47,11 @@ namespace OpenAuth.App.Request
         /// </summary>
         /// <returns></returns>
         public int Status { get; set; }
+        
+        /// <summary>
+        /// 直接上级
+        /// </summary>
+        public string ParentId { get; set; }
 
 
         /// <summary>

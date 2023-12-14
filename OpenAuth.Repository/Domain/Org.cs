@@ -99,6 +99,12 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
          [Description("分类ID")]
         public string TypeId { get; set; }
+        
+        /// <summary>
+        /// 负责人ID
+        /// </summary>
+        [Description("负责人ID")]
+        public string ChairmanId { get; set; }
 
     }
 }

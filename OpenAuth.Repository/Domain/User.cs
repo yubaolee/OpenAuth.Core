@@ -84,6 +84,12 @@ namespace OpenAuth.Repository.Domain
 	    /// </summary>
          [Description("分类ID")]
         public string TypeId { get; set; }
+        
+        /// <summary>
+        /// 直接上级
+        /// </summary>
+        [Description("直接上级")]
+        public string ParentId { get; set; }
 
     }
 }

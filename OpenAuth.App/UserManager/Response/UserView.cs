@@ -44,6 +44,11 @@ namespace OpenAuth.App.Response
         /// </summary>
         /// <returns></returns>
         public int Type { get; set; }
+        
+        /// <summary>
+        /// 直接上级
+        /// </summary>
+        public string ParentId { get; set; }
 
 
 

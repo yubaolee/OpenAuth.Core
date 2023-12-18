@@ -47,12 +47,14 @@ namespace OpenAuth.App
         private IServiceProvider _serviceProvider;
         private SysMessageApp _messageApp;
         private DbExtension _dbExtension;
+        private UserManagerApp _userManagerApp;
+        private OrgManagerApp _orgManagerApp;
 
         public FlowInstanceApp(IUnitWork<OpenAuthDBContext> unitWork,
             IRepository<FlowInstance, OpenAuthDBContext> repository
             , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp,
             IHttpClientFactory httpClientFactory, IAuth auth, IServiceProvider serviceProvider,
-            SysMessageApp messageApp, DbExtension dbExtension)
+            SysMessageApp messageApp, DbExtension dbExtension, UserManagerApp userManagerApp, OrgManagerApp orgManagerApp)
             : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
@@ -62,6 +64,8 @@ namespace OpenAuth.App
             _serviceProvider = serviceProvider;
             _messageApp = messageApp;
             _dbExtension = dbExtension;
+            _userManagerApp = userManagerApp;
+            _orgManagerApp = orgManagerApp;
         }
 
         #region 流程处理API
@@ -115,7 +119,10 @@ namespace OpenAuth.App
             flowInstance.ActivityName = wfruntime.nextNode.name;
             flowInstance.PreviousId = wfruntime.currentNodeId;
             flowInstance.CreateUserId = user.User.Id;
+            addFlowInstanceReq.CreateUserId = user.User.Id;
             flowInstance.CreateUserName = user.User.Account;
+            addFlowInstanceReq.CreateUserName = user.User.Account;
+
             flowInstance.MakerList =
                 (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime, addFlowInstanceReq) : "");
             flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4
@@ -571,6 +578,41 @@ namespace OpenAuth.App
                 }
 
                 makerList = GenericHelpers.ArrayToString(request.NodeDesignates, makerList);
+            }
+            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_PARENT)
+            {
+                //如果是发起人直属上级
+                if (wfruntime.nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+
+                string createUserId = string.Empty;
+                if (wfruntime.currentNode.type == FlowNode.START) //如果是创建流程
+                {
+                    var user = _auth.GetCurrentUser().User;
+                    createUserId = user.Id;
+                }
+                else //如果是审批
+                {
+                    FlowInstance flowInstance = Get(wfruntime.flowInstanceId);
+                    createUserId = flowInstance.CreateUserId;
+                }
+                
+                var parentId = _userManagerApp.GetParent(createUserId);
+                makerList = GenericHelpers.ArrayToString(new[]{parentId}, makerList);
+            }
+            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_CHAIRMAN)
+            {
+                //如果是发起人的部门负责人
+                if (wfruntime.nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+
+                FlowInstance flowInstance = Get(wfruntime.flowInstanceId);
+                var chairmanIds = _orgManagerApp.GetChairmanId(wfruntime.nextNode.setInfo.NodeDesignateData.orgs);
+                makerList = GenericHelpers.ArrayToString(chairmanIds, makerList);
             }
             else
             {

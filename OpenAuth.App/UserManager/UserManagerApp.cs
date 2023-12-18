@@ -287,5 +287,19 @@ namespace OpenAuth.App
                             Sex = request.Sex
                         });
         }
+        
+        /// <summary>
+        /// 获取用户的直属上级ID
+        /// </summary>
+        /// <param name="userid">用户ID</param>
+        /// <returns></returns>
+        public string GetParent(string userid)
+        {
+            if (userid == Guid.Empty.ToString())
+            {
+                throw new Exception("超级管理员没有直属上级，请检查配置");
+            }
+            return Repository.FirstOrDefault(u => u.Id == userid).ParentId;
+        }
     }
 }

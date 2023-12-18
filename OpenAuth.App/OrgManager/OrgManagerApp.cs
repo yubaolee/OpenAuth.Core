@@ -95,5 +95,10 @@ namespace OpenAuth.App
         {
             _revelanceApp = revelanceApp;
         }
+
+        public string[] GetChairmanId(string[] orgIds)
+        {
+            return Repository.Find(u => orgIds.Contains(u.Id)&&u.ChairmanId!= null).Select(u => u.ChairmanId).ToArray();
+        }
     }
 }

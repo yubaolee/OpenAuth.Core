@@ -36,6 +36,19 @@
         public const string ALL_USER = "ALL_USER"; //所有用户
         public const string SPECIAL_ROLE = "SPECIAL_ROLE"; //指定角色
         public const string SPECIAL_USER = "SPECIAL_USER"; //指定用户
+        /// <summary>
+        /// 连续多级直属上级
+        /// <para>不同于钉钉的各上级部门负责人审批，OpenAuth以用户的各级直属上级审批模式</para>
+        /// </summary>
+        public const string RUNTIME_MANY_PARENTS = "RUNTIME_MANY_PARENTS"; 
+        /// <summary>
+        /// 部门负责人
+        /// </summary>
+        public const string RUNTIME_CHAIRMAN = "RUNTIME_CHAIRMAN"; 
+        /// <summary>
+        /// 发起人直属上级
+        /// </summary>
+        public const string RUNTIME_PARENT = "RUNTIME_PARENT"; 
 
         public const string RUNTIME_SPECIAL_ROLE = "RUNTIME_SPECIAL_ROLE"; //运行时指定角色
         public const string RUNTIME_SPECIAL_USER = "RUNTIME_SPECIAL_USER"; //运行时指定用户

@@ -351,11 +351,10 @@ namespace OpenAuth.App
                 {
                     throw (new Exception("审核异常,找不到审核节点"));
                 }
-
-                flowInstanceOperationHistory.Content = "【" + wfruntime.Nodes[canCheckId].name
-                                                           + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm")
-                                                           + "】" + (tag.Taged == 1 ? "同意" : "不同意") + ",备注："
-                                                           + tag.Description;
+                
+                flowInstanceOperationHistory.Content =
+                    $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.Nodes[canCheckId].name}】" +
+                    $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
 
                 wfruntime.MakeTagNode(canCheckId, tag); //标记审核节点状态
                 string res = wfruntime.NodeConfluence(canCheckId, tag);
@@ -386,7 +385,7 @@ namespace OpenAuth.App
             }
 
             #endregion 会签
-
+            
             #region 一般审核
 
             else
@@ -394,14 +393,30 @@ namespace OpenAuth.App
                 wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
                 if (tag.Taged == (int) TagState.Ok)
                 {
-                    flowInstance.PreviousId = flowInstance.ActivityId;
-                    flowInstance.ActivityId = wfruntime.nextNodeId;
-                    flowInstance.ActivityType = wfruntime.nextNodeType;
-                    flowInstance.ActivityName = wfruntime.nextNode.name;
-                    flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime, request);
-                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4
-                        ? FlowInstanceStatus.Finished
-                        : FlowInstanceStatus.Running);
+                    bool canNext = true;
+                    if (wfruntime.currentNode.setInfo.NodeDesignate == Setinfo.RUNTIME_MANY_PARENTS)
+                    {
+                        var roles = _auth.GetCurrentUser().Roles;
+                        //如果是连续多级直属上级且还没到指定的角色，只改变执行人，不到下一个节点
+                        if (!wfruntime.currentNode.setInfo.NodeDesignateData.roles.Intersect(roles.Select(u =>u.Id)).Any())
+                        {
+                            canNext = false;
+                            var parentId = _userManagerApp.GetParent(user.Id);
+                            flowInstance.MakerList = parentId;
+                        }
+                    }
+
+                    if (canNext)
+                    {
+                        flowInstance.PreviousId = flowInstance.ActivityId;
+                        flowInstance.ActivityId = wfruntime.nextNodeId;
+                        flowInstance.ActivityType = wfruntime.nextNodeType;
+                        flowInstance.ActivityName = wfruntime.nextNode.name;
+                        flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime, request);
+                        flowInstance.IsFinish = (wfruntime.nextNodeType == 4
+                            ? FlowInstanceStatus.Finished
+                            : FlowInstanceStatus.Running);
+                    }
                 }
                 else
                 {
@@ -412,10 +427,9 @@ namespace OpenAuth.App
 
                 AddTransHistory(wfruntime);
 
-                flowInstanceOperationHistory.Content = "【" + wfruntime.currentNode.name
-                                                           + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm")
-                                                           + "】" + (tag.Taged == 1 ? "同意" : "不同意") + ",备注："
-                                                           + tag.Description;
+                flowInstanceOperationHistory.Content =
+                    $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.currentNode.name}】" +
+                    $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
             }
 
             #endregion 一般审核
@@ -579,27 +593,20 @@ namespace OpenAuth.App
 
                 makerList = GenericHelpers.ArrayToString(request.NodeDesignates, makerList);
             }
-            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_PARENT)
+            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_PARENT 
+                     || wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_MANY_PARENTS)
             {
-                //如果是发起人直属上级
+                //如果是上一节点执行人的直属上级或连续多级直属上级
                 if (wfruntime.nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
                 {
                     throw new Exception("前端提交的节点权限类型异常，请检查流程");
                 }
 
-                string createUserId = string.Empty;
-                if (wfruntime.currentNode.type == FlowNode.START) //如果是创建流程
-                {
-                    var user = _auth.GetCurrentUser().User;
-                    createUserId = user.Id;
-                }
-                else //如果是审批
-                {
-                    FlowInstance flowInstance = Get(wfruntime.flowInstanceId);
-                    createUserId = flowInstance.CreateUserId;
-                }
+                //当创建流程时，肯定执行的开始节点，登录用户就是创建用户
+                //当审批流程时，能进到这里，表明当前登录用户已经有审批当前节点的权限，完全可以直接用登录用户的直接上级
+                var user = _auth.GetCurrentUser().User;
+                var parentId = _userManagerApp.GetParent(user.Id);
                 
-                var parentId = _userManagerApp.GetParent(createUserId);
                 makerList = GenericHelpers.ArrayToString(new[]{parentId}, makerList);
             }
             else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_CHAIRMAN)

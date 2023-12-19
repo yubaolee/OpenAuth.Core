@@ -46,7 +46,7 @@
         /// </summary>
         public const string RUNTIME_CHAIRMAN = "RUNTIME_CHAIRMAN"; 
         /// <summary>
-        /// 发起人直属上级
+        /// 上一节点执行人的直属上级
         /// </summary>
         public const string RUNTIME_PARENT = "RUNTIME_PARENT"; 
 

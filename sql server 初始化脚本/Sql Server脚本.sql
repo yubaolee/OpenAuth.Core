@@ -12,12 +12,12 @@ GO
 
 CREATE TABLE [dbo].[Application] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
-  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
+  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
   [AppSecret] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [Description] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [Icon] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Disable] bit DEFAULT ((0)) NOT NULL,
-  [CreateTime] date DEFAULT (getdate()) NOT NULL,
+  [Disable] bit DEFAULT 0 NOT NULL,
+  [CreateTime] date DEFAULT getdate() NOT NULL,
   [CreateUser] [dbo].[PrimaryKey]  NULL
 )
 GO
@@ -126,7 +126,7 @@ CREATE TABLE [dbo].[BuilderTable] (
   [UpdateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [ForeignKey] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [IsDynamicHeader] bit DEFAULT ((0)) NULL,
+  [IsDynamicHeader] bit DEFAULT 0 NULL,
   [ParentTableId] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )
 GO
@@ -326,13 +326,13 @@ CREATE TABLE [dbo].[BuilderTableColumn] (
   [ColumnType] nvarchar(100) COLLATE Chinese_PRC_CI_AS  NULL,
   [EntityType] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
   [EntityName] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [IsKey] bit DEFAULT ((0)) NOT NULL,
-  [IsIncrement] bit DEFAULT ((0)) NOT NULL,
-  [IsRequired] bit DEFAULT ((0)) NOT NULL,
-  [IsInsert] bit DEFAULT ((0)) NOT NULL,
-  [IsEdit] bit DEFAULT ((0)) NOT NULL,
-  [IsList] bit DEFAULT ((0)) NOT NULL,
-  [IsQuery] bit DEFAULT ((0)) NOT NULL,
+  [IsKey] bit DEFAULT 0 NOT NULL,
+  [IsIncrement] bit DEFAULT 0 NOT NULL,
+  [IsRequired] bit DEFAULT 0 NOT NULL,
+  [IsInsert] bit DEFAULT 0 NOT NULL,
+  [IsEdit] bit DEFAULT 0 NOT NULL,
+  [IsList] bit DEFAULT 0 NOT NULL,
+  [IsQuery] bit DEFAULT 0 NOT NULL,
   [QueryType] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
   [HtmlType] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
   [EditType] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
@@ -1075,8 +1075,8 @@ GO
 
 CREATE TABLE [dbo].[CategoryType] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
-  [Name] nvarchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [CreateTime] datetime DEFAULT (getdate()) NOT NULL
+  [Name] nvarchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [CreateTime] datetime DEFAULT getdate() NOT NULL
 )
 GO
 
@@ -1303,18 +1303,18 @@ CREATE TABLE [dbo].[FlowInstance] (
   [SchemeId] [dbo].[PrimaryKey]  NULL,
   [DbName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [FrmData] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [FrmType] int DEFAULT ((0)) NOT NULL,
+  [FrmType] int DEFAULT 0 NOT NULL,
   [FrmContentData] text COLLATE Chinese_PRC_CI_AS  NULL,
   [FrmContentParse] text COLLATE Chinese_PRC_CI_AS  NULL,
   [FrmId] [dbo].[PrimaryKey]  NULL,
   [SchemeType] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Disabled] int DEFAULT ((0)) NOT NULL,
-  [CreateDate] datetime DEFAULT (getdate()) NOT NULL,
+  [Disabled] int DEFAULT 0 NOT NULL,
+  [CreateDate] datetime DEFAULT getdate() NOT NULL,
   [CreateUserId] [dbo].[PrimaryKey]  NULL,
   [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [FlowLevel] int DEFAULT ((0)) NOT NULL,
+  [FlowLevel] int DEFAULT 0 NOT NULL,
   [Description] varchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [IsFinish] int DEFAULT ((0)) NOT NULL,
+  [IsFinish] int DEFAULT 0 NOT NULL,
   [MakerList] varchar(1000) COLLATE Chinese_PRC_CI_AS  NULL,
   [OrgId] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )
@@ -1566,7 +1566,7 @@ CREATE TABLE [dbo].[FlowInstanceOperationHistory] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
   [InstanceId] [dbo].[PrimaryKey]  NOT NULL,
   [Content] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [CreateDate] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateDate] datetime DEFAULT getdate() NOT NULL,
   [CreateUserId] [dbo].[PrimaryKey]  NULL,
   [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )
@@ -1713,9 +1713,9 @@ CREATE TABLE [dbo].[FlowInstanceTransitionHistory] (
   [ToNodeId] [dbo].[PrimaryKey]  NULL,
   [ToNodeType] int  NULL,
   [ToNodeName] varchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [TransitionSate] int DEFAULT ((0)) NOT NULL,
-  [IsFinish] int DEFAULT ((0)) NOT NULL,
-  [CreateDate] datetime DEFAULT (getdate()) NOT NULL,
+  [TransitionSate] int DEFAULT 0 NOT NULL,
+  [IsFinish] int DEFAULT 0 NOT NULL,
+  [CreateDate] datetime DEFAULT getdate() NOT NULL,
   [CreateUserId] [dbo].[PrimaryKey]  NULL,
   [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )
@@ -1905,13 +1905,13 @@ CREATE TABLE [dbo].[FlowScheme] (
   [SchemeCanUser] varchar(max) COLLATE Chinese_PRC_CI_AS  NULL,
   [SchemeContent] varchar(max) COLLATE Chinese_PRC_CI_AS  NULL,
   [FrmId] [dbo].[PrimaryKey]  NULL,
-  [FrmType] int DEFAULT ((0)) NOT NULL,
-  [AuthorizeType] int DEFAULT ((0)) NOT NULL,
-  [SortCode] int DEFAULT ((0)) NOT NULL,
-  [DeleteMark] int DEFAULT ((0)) NOT NULL,
-  [Disabled] int DEFAULT ((0)) NOT NULL,
+  [FrmType] int DEFAULT 0 NOT NULL,
+  [AuthorizeType] int DEFAULT 0 NOT NULL,
+  [SortCode] int DEFAULT 0 NOT NULL,
+  [DeleteMark] int DEFAULT 0 NOT NULL,
+  [Disabled] int DEFAULT 0 NOT NULL,
   [Description] varchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [CreateDate] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateDate] datetime DEFAULT getdate() NOT NULL,
   [CreateUserId] [dbo].[PrimaryKey]  NULL,
   [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [ModifyDate] datetime  NULL,
@@ -2119,18 +2119,18 @@ GO
 CREATE TABLE [dbo].[Form] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
   [Name] varchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [FrmType] int DEFAULT ((0)) NOT NULL,
+  [FrmType] int DEFAULT 0 NOT NULL,
   [WebId] varchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Fields] int DEFAULT ((0)) NOT NULL,
+  [Fields] int DEFAULT 0 NOT NULL,
   [ContentData] text COLLATE Chinese_PRC_CI_AS  NULL,
   [ContentParse] text COLLATE Chinese_PRC_CI_AS  NULL,
   [Content] text COLLATE Chinese_PRC_CI_AS  NULL,
-  [SortCode] int DEFAULT ((0)) NOT NULL,
-  [DeleteMark] int DEFAULT ((0)) NOT NULL,
+  [SortCode] int DEFAULT 0 NOT NULL,
+  [DeleteMark] int DEFAULT 0 NOT NULL,
   [DbName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Disabled] int DEFAULT ((0)) NOT NULL,
+  [Disabled] int DEFAULT 0 NOT NULL,
   [Description] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [CreateDate] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateDate] datetime DEFAULT getdate() NOT NULL,
   [CreateUserId] [dbo].[PrimaryKey]  NULL,
   [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [ModifyDate] datetime  NULL,
@@ -2329,7 +2329,7 @@ CREATE TABLE [dbo].[FrmLeaveReq] (
   [EndTime] datetime  NULL,
   [RequestComment] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
   [Attachment] varchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
-  [CreateDate] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateDate] datetime DEFAULT getdate() NOT NULL,
   [CreateUserId] [dbo].[PrimaryKey]  NULL,
   [CreateUserName] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [FlowInstanceId] [dbo].[PrimaryKey]  NULL
@@ -2456,20 +2456,20 @@ GO
 
 CREATE TABLE [dbo].[Module] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
-  [CascadeId] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Url] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [HotKey] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [IsLeaf] bit DEFAULT ((1)) NOT NULL,
-  [IsAutoExpand] bit DEFAULT ((0)) NOT NULL,
-  [IconName] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Status] int DEFAULT ((1)) NOT NULL,
-  [ParentName] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Vector] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [SortNo] int DEFAULT ((0)) NOT NULL,
+  [CascadeId] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Url] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [HotKey] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [IsLeaf] bit DEFAULT 1 NOT NULL,
+  [IsAutoExpand] bit DEFAULT 0 NOT NULL,
+  [IconName] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Status] int DEFAULT 1 NOT NULL,
+  [ParentName] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Vector] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [SortNo] int DEFAULT 0 NOT NULL,
   [ParentId] [dbo].[PrimaryKey]  NULL,
   [Code] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [IsSys] bit DEFAULT ((0)) NOT NULL
+  [IsSys] bit DEFAULT 0 NOT NULL
 )
 GO
 
@@ -2654,14 +2654,14 @@ GO
 
 CREATE TABLE [dbo].[ModuleElement] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
-  [DomId] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Attr] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Script] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Icon] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Class] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Remark] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Sort] int DEFAULT ((0)) NOT NULL,
+  [DomId] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Attr] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Script] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Icon] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Class] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Remark] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Sort] int DEFAULT 0 NOT NULL,
   [ModuleId] [dbo].[PrimaryKey]  NOT NULL,
   [TypeName] nvarchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
   [TypeId] [dbo].[PrimaryKey]  NULL
@@ -2947,18 +2947,18 @@ GO
 CREATE TABLE [dbo].[OpenJob] (
   [Id] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [JobName] varchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [RunCount] int DEFAULT ((0)) NOT NULL,
-  [ErrorCount] int DEFAULT ((0)) NOT NULL,
+  [RunCount] int DEFAULT 0 NOT NULL,
+  [ErrorCount] int DEFAULT 0 NOT NULL,
   [NextRunTime] datetime  NULL,
   [LastRunTime] datetime  NULL,
   [LastErrorTime] datetime  NULL,
-  [JobType] int DEFAULT ((0)) NOT NULL,
+  [JobType] int DEFAULT 0 NOT NULL,
   [JobCall] varchar(500) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [JobCallParams] varchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
   [Cron] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [Status] int DEFAULT ((0)) NOT NULL,
+  [Status] int DEFAULT 0 NOT NULL,
   [Remark] varchar(128) COLLATE Chinese_PRC_CI_AS  NULL,
-  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateTime] datetime DEFAULT getdate() NOT NULL,
   [CreateUserId] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [CreateUserName] varchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [UpdateTime] datetime  NULL,
@@ -3134,22 +3134,23 @@ GO
 
 CREATE TABLE [dbo].[Org] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
-  [CascadeId] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [HotKey] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [ParentName] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [IsLeaf] bit DEFAULT ((1)) NOT NULL,
-  [IsAutoExpand] bit DEFAULT ((0)) NOT NULL,
-  [IconName] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Status] int DEFAULT ((1)) NOT NULL,
-  [BizCode] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [CustomCode] varchar(4000) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
-  [CreateId] int DEFAULT ((0)) NOT NULL,
-  [SortNo] int DEFAULT ((0)) NOT NULL,
+  [CascadeId] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [HotKey] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [ParentName] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [IsLeaf] bit DEFAULT 1 NOT NULL,
+  [IsAutoExpand] bit DEFAULT 0 NOT NULL,
+  [IconName] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Status] int DEFAULT 1 NOT NULL,
+  [BizCode] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [CustomCode] varchar(4000) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [CreateTime] datetime DEFAULT getdate() NOT NULL,
+  [CreateId] int DEFAULT 0 NOT NULL,
+  [SortNo] int DEFAULT 0 NOT NULL,
   [ParentId] [dbo].[PrimaryKey]  NULL,
   [TypeName] nvarchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [TypeId] [dbo].[PrimaryKey]  NULL
+  [TypeId] [dbo].[PrimaryKey]  NULL,
+  [ChairmanId] [dbo].[PrimaryKey]  NULL
 )
 GO
 
@@ -3276,6 +3277,13 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
+'MS_Description', N'负责人ID',
+'SCHEMA', N'dbo',
+'TABLE', N'Org',
+'COLUMN', N'ChairmanId'
+GO
+
+EXEC sp_addextendedproperty
 'MS_Description', N'组织表',
 'SCHEMA', N'dbo',
 'TABLE', N'Org'
@@ -3285,61 +3293,61 @@ GO
 -- ----------------------------
 -- Records of Org
 -- ----------------------------
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'.0.1.4.1.', N'研发小组', N'', N'汇丰软件部', N'0', N'0', N'', N'0', N'0', N'', N'2016-10-14 11:40:31.000', N'0', N'1', N'86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL)
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', N'.0.8.11.1.', N'研发小组', N'', N'软件部', N'0', N'0', N'', N'0', N'0', N'', N'2016-10-14 11:40:31.000', N'0', N'1', N'86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL, N'6ba79766-faa0-4259-8139-a4a6d35784e0')
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'182dac38-64a0-414c-990c-7c9b7558a367', N'.0.4.', N'中部片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:52:38.000', N'0', N'0', NULL, N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'182dac38-64a0-414c-990c-7c9b7558a367', N'.0.4.', N'中部片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:52:38.000', N'0', N'0', NULL, N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'1b965fff-3dcd-42ff-9624-2c8eb4f9b1c6', N'.0.5.1.', N'广州营销中心', N'', N'华南片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:56:39.000', N'0', N'0', N'8e31553c-cab8-4eb3-90b5-5f8ff1d21801', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'1b965fff-3dcd-42ff-9624-2c8eb4f9b1c6', N'.0.5.1.', N'广州营销中心', N'', N'华南片区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:56:39.000', N'0', N'0', N'8e31553c-cab8-4eb3-90b5-5f8ff1d21801', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'2089637b-403d-4d4d-91ff-c8a554973f96', N'.0.4.1.', N'海外市场部', N'', N'中部片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:53:54.000', N'0', N'0', N'182dac38-64a0-414c-990c-7c9b7558a367', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'2089637b-403d-4d4d-91ff-c8a554973f96', N'.0.4.1.', N'海外市场部', N'', N'中部片区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:53:54.000', N'0', N'0', N'182dac38-64a0-414c-990c-7c9b7558a367', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'3d2ad14c-2c56-4a90-a2db-6bde26b0b8b3', N'.0.3.1.', N'成都营销中心', N'', N'西南片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:55:42.000', N'0', N'0', N'60620558-89a2-4b28-8637-52f514773725', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'3d2ad14c-2c56-4a90-a2db-6bde26b0b8b3', N'.0.9.1.', N'成都营销中心', N'', N'西南片区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:55:42.000', N'0', N'0', N'60620558-89a2-4b28-8637-52f514773725', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'4a3920f1-1470-477e-97ec-0996eb83b638', N'.0.1.6.', N'市场2部', N'', N'总部大区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:55:07.000', N'0', N'0', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'4a3920f1-1470-477e-97ec-0996eb83b638', N'.0.8.6.', N'市场2部', N'', N'总部大区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:55:07.000', N'0', N'0', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'543a9fcf-4770-4fd9-865f-030e562be238', N'.0.1.', N'总部大区', N'', N'根节点', N'0', N'0', N'', N'0', N'0', N'', N'2016-10-14 11:37:13.000', N'0', N'0', NULL, NULL, NULL)
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'543a9fcf-4770-4fd9-865f-030e562be238', N'.0.8.', N'总部大区', N'', N'根节点', N'0', N'0', N'', N'0', N'0', N'', N'2016-10-14 11:37:13.000', N'0', N'0', NULL, NULL, NULL, N'49df1602-f5f3-4d52-afb7-3802da619558')
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'60620558-89a2-4b28-8637-52f514773725', N'.0.3.', N'西南片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:52:30.000', N'0', N'0', NULL, N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'60620558-89a2-4b28-8637-52f514773725', N'.0.9.', N'西南片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:52:30.000', N'0', N'0', NULL, N'', N'', N'96f63f9d-e8c8-4258-963e-3327ed7d6f56')
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'66386671-0494-4e83-8346-fbcf73283f7b', N'.0.2.', N'华东片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:52:19.000', N'0', N'0', NULL, N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'66386671-0494-4e83-8346-fbcf73283f7b', N'.0.2.', N'华东片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:52:19.000', N'0', N'0', NULL, N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'8047e605-c54a-48bd-81da-daa9c1fc9091', N'.0.4.2.', N'郑州营销中心', N'', N'中部片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:54:50.000', N'0', N'0', N'182dac38-64a0-414c-990c-7c9b7558a367', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'8047e605-c54a-48bd-81da-daa9c1fc9091', N'.0.4.2.', N'郑州营销中心', N'', N'中部片区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:54:50.000', N'0', N'0', N'182dac38-64a0-414c-990c-7c9b7558a367', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'86449128-d5ac-44bf-b999-f7735b7458fd', N'.0.1.4.', N'软件部', N'', N'总部大区', N'0', N'0', N'', N'1', N'0', N'', N'2016-05-26 15:11:03.000', N'0', N'1', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'86449128-d5ac-44bf-b999-f7735b7458fd', N'.0.8.11.', N'软件部', N'', N'总部大区', N'0', N'0', N'', N'1', N'0', N'', N'2016-05-26 15:11:03.000', N'0', N'1', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL, N'6ba79766-faa0-4259-8139-a4a6d35784e0')
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'8e31553c-cab8-4eb3-90b5-5f8ff1d21801', N'.0.5.', N'华南片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:52:55.000', N'0', N'0', NULL, N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'8e31553c-cab8-4eb3-90b5-5f8ff1d21801', N'.0.5.', N'华南片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:52:55.000', N'0', N'0', NULL, N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'9cd918bf-28bc-44de-8e07-23cacbb67f42', N'.0.1.7.', N'总经办', N'', N'总部大区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:57:40.000', N'0', N'0', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'9cd918bf-28bc-44de-8e07-23cacbb67f42', N'.0.8.7.', N'总经办', N'', N'总部大区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:57:40.000', N'0', N'0', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'b2083488-64e5-44cc-b8f4-929ffa6f2f72', N'.0.2.1.', N'上海VIP中心', N'', N'华东片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:56:25.000', N'0', N'0', N'66386671-0494-4e83-8346-fbcf73283f7b', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'b2083488-64e5-44cc-b8f4-929ffa6f2f72', N'.0.2.1.', N'上海VIP中心', N'', N'华东片区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:56:25.000', N'0', N'0', N'66386671-0494-4e83-8346-fbcf73283f7b', N'', N'', N'758a34c7-5a31-438c-bdf7-02fdd846b901')
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'c36e43df-3a99-45da-80d9-3ac5d24f4014', N'.0.1.5.', N'市场1部', N'', N'总部大区', N'0', N'0', N'', N'0', N'0', N'', N'2016-05-26 15:10:40.000', N'0', N'1', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL)
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'c36e43df-3a99-45da-80d9-3ac5d24f4014', N'.0.8.10.', N'市场1部', N'', N'总部大区', N'0', N'0', N'', N'0', N'0', N'', N'2016-05-26 15:10:40.000', N'0', N'1', N'543a9fcf-4770-4fd9-865f-030e562be238', NULL, NULL, N'de8be521-f1ec-4483-b124-0be342890507')
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'c455d009-12d7-4c78-953f-264f0ca67a3d', N'.0.6.1.', N'天津营销中心', N'', N'华北片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:56:54.000', N'0', N'0', N'eed8756d-587b-46de-96c7-0a400e3d80fa', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'c455d009-12d7-4c78-953f-264f0ca67a3d', N'.0.6.1.', N'天津营销中心', N'', N'华北片区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:56:54.000', N'0', N'0', N'eed8756d-587b-46de-96c7-0a400e3d80fa', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'ced1b2f0-4b53-44b8-9c42-a5d607ccc9c9', N'.0.1.8.', N'上市办', N'', N'总部大区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:57:53.000', N'0', N'0', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'ced1b2f0-4b53-44b8-9c42-a5d607ccc9c9', N'.0.8.8.', N'上市办', N'', N'总部大区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:57:53.000', N'0', N'0', N'543a9fcf-4770-4fd9-865f-030e562be238', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'df442c27-68a0-428e-a309-cba23a994a9d', N'.0.3.2.', N'重庆营销中心', N'', N'西南片区', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:56:06.000', N'0', N'0', N'60620558-89a2-4b28-8637-52f514773725', N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'df442c27-68a0-428e-a309-cba23a994a9d', N'.0.9.2.', N'重庆营销中心', N'', N'西南片区', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:56:06.000', N'0', N'0', N'60620558-89a2-4b28-8637-52f514773725', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId]) VALUES (N'eed8756d-587b-46de-96c7-0a400e3d80fa', N'.0.6.', N'华北片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2019-10-31 21:53:04.000', N'0', N'0', NULL, N'', N'')
+INSERT INTO [dbo].[Org] ([Id], [CascadeId], [Name], [HotKey], [ParentName], [IsLeaf], [IsAutoExpand], [IconName], [Status], [BizCode], [CustomCode], [CreateTime], [CreateId], [SortNo], [ParentId], [TypeName], [TypeId], [ChairmanId]) VALUES (N'eed8756d-587b-46de-96c7-0a400e3d80fa', N'.0.6.', N'华北片区', N'', N'根节点', N'0', N'0', N'', N'0', N'', N'', N'2022-10-31 21:53:04.000', N'0', N'0', NULL, N'', N'', NULL)
 GO
 
 
@@ -3352,10 +3360,10 @@ GO
 
 CREATE TABLE [dbo].[Relevance] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
-  [Description] nvarchar(100) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Key] varchar(100) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Status] int DEFAULT ((0)) NOT NULL,
-  [OperateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [Description] nvarchar(100) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Key] varchar(100) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Status] int DEFAULT 0 NOT NULL,
+  [OperateTime] datetime DEFAULT getdate() NOT NULL,
   [OperatorId] [dbo].[PrimaryKey]  NULL,
   [FirstId] [dbo].[PrimaryKey]  NOT NULL,
   [SecondId] [dbo].[PrimaryKey]  NOT NULL,
@@ -4613,9 +4621,9 @@ GO
 
 CREATE TABLE [dbo].[Role] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
-  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Status] int DEFAULT ((1)) NOT NULL,
-  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Status] int DEFAULT 1 NOT NULL,
+  [CreateTime] datetime DEFAULT getdate() NOT NULL,
   [CreateId] [dbo].[PrimaryKey]  NULL,
   [TypeName] nvarchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
   [TypeId] [dbo].[PrimaryKey]  NULL
@@ -4706,13 +4714,13 @@ GO
 
 CREATE TABLE [dbo].[Stock] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
-  [Name] nvarchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Number] int DEFAULT ((0)) NOT NULL,
-  [Price] decimal(10,1) DEFAULT ((0)) NOT NULL,
-  [Status] int DEFAULT ((0)) NOT NULL,
-  [Viewable] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [User] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Time] datetime DEFAULT (getdate()) NOT NULL,
+  [Name] nvarchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Number] int DEFAULT 0 NOT NULL,
+  [Price] decimal(10,1) DEFAULT 0 NOT NULL,
+  [Status] int DEFAULT 0 NOT NULL,
+  [Viewable] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [User] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Time] datetime DEFAULT getdate() NOT NULL,
   [OrgId] [dbo].[PrimaryKey]  NULL
 )
 GO
@@ -4807,11 +4815,11 @@ CREATE TABLE [dbo].[SysLog] (
   [TypeName] nvarchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
   [TypeId] [dbo].[PrimaryKey]  NULL,
   [Href] varchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateTime] datetime DEFAULT getdate() NOT NULL,
   [CreateId] [dbo].[PrimaryKey]  NOT NULL,
   [CreateName] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
   [Ip] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Result] int DEFAULT ((0)) NOT NULL,
+  [Result] int DEFAULT 0 NOT NULL,
   [Application] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )
 GO
@@ -4922,12 +4930,12 @@ CREATE TABLE [dbo].[SysMessage] (
   [ToId] [dbo].[PrimaryKey]  NOT NULL,
   [FromName] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [ToName] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [FromStatus] int DEFAULT ((0)) NOT NULL,
-  [ToStatus] int DEFAULT ((0)) NOT NULL,
+  [FromStatus] int DEFAULT 0 NOT NULL,
+  [ToStatus] int DEFAULT 0 NOT NULL,
   [Href] varchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
   [Title] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
   [Content] nvarchar(1000) COLLATE Chinese_PRC_CI_AS  NULL,
-  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateTime] datetime DEFAULT getdate() NOT NULL,
   [CreateId] [dbo].[PrimaryKey]  NULL
 )
 GO
@@ -5045,6 +5053,111 @@ GO
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for SysPrinterPlan
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SysPrinterPlan]') AND type IN ('U'))
+	DROP TABLE [dbo].[SysPrinterPlan]
+GO
+
+CREATE TABLE [dbo].[SysPrinterPlan] (
+  [Id] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [Name] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [SourceSql] nvarchar(max) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ColumnView] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [GroupBy] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [PlanContent] nvarchar(max) COLLATE Chinese_PRC_CI_AS  NULL,
+  [Disable] bit DEFAULT 0 NOT NULL,
+  [CreateTime] date  NOT NULL,
+  [CreateUser] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [InParamColumn] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NULL
+)
+GO
+
+ALTER TABLE [dbo].[SysPrinterPlan] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'方案ID',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'Id'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'方案名称',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'Name'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'数据源;打印方案对应的数据来源SQL',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'SourceSql'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'中文视图名;设计打印方案时，提供中文快捷按钮的视图来源',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'ColumnView'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'分组字段',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'GroupBy'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'打印方案内容;打印方案JSON对象',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'PlanContent'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否可用',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'Disable'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建日期',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'CreateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建人',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'CreateUser'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'入口参数字段;入口参数字段数组，通过,分隔',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan',
+'COLUMN', N'InParamColumn'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'打印方案模板',
+'SCHEMA', N'dbo',
+'TABLE', N'SysPrinterPlan'
+GO
+
+
+-- ----------------------------
+-- Records of SysPrinterPlan
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for UploadFile
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[UploadFile]') AND type IN ('U'))
@@ -5059,12 +5172,12 @@ CREATE TABLE [dbo].[UploadFile] (
   [FileType] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
   [FileSize] int  NULL,
   [Extension] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Enable] bit DEFAULT ((1)) NOT NULL,
-  [SortCode] int DEFAULT ((0)) NOT NULL,
-  [DeleteMark] bit DEFAULT ((0)) NOT NULL,
+  [Enable] bit DEFAULT 1 NOT NULL,
+  [SortCode] int DEFAULT 0 NOT NULL,
+  [DeleteMark] bit DEFAULT 0 NOT NULL,
   [CreateUserId] uniqueidentifier  NULL,
   [CreateUserName] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [CreateTime] datetime DEFAULT getdate() NOT NULL,
   [Thumbnail] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
   [BelongApp] varchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
   [BelongAppId] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
@@ -5206,16 +5319,17 @@ GO
 
 CREATE TABLE [dbo].[User] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
-  [Account] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Password] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [Sex] int DEFAULT ((0)) NOT NULL,
-  [Status] int DEFAULT ((0)) NOT NULL,
-  [BizCode] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT (' ') NOT NULL,
-  [CreateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [Account] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Password] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Name] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [Sex] int DEFAULT 0 NOT NULL,
+  [Status] int DEFAULT 0 NOT NULL,
+  [BizCode] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [CreateTime] datetime DEFAULT getdate() NOT NULL,
   [CreateId] [dbo].[PrimaryKey]  NULL,
   [TypeName] nvarchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [TypeId] [dbo].[PrimaryKey]  NULL
+  [TypeId] [dbo].[PrimaryKey]  NULL,
+  [ParentId] [dbo].[PrimaryKey]  NULL
 )
 GO
 
@@ -5300,6 +5414,13 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
+'MS_Description', N'直属上级',
+'SCHEMA', N'dbo',
+'TABLE', N'User',
+'COLUMN', N'ParentId'
+GO
+
+EXEC sp_addextendedproperty
 'MS_Description', N'用户基本信息表',
 'SCHEMA', N'dbo',
 'TABLE', N'User'
@@ -5309,28 +5430,28 @@ GO
 -- ----------------------------
 -- Records of User
 -- ----------------------------
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId]) VALUES (N'0ceff0f8-f848-440c-bc26-d8605ac858cd', N'test5', N'test5', N'test5', N'1', N'1', N'', N'2018-03-15 09:19:05.000', N'', N'', N'')
+INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'0ceff0f8-f848-440c-bc26-d8605ac858cd', N'test5', N'test5', N'test5', N'1', N'1', N'', N'2022-03-15 09:19:05.000', N'', N'', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId]) VALUES (N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'test4', N'test4', N'test4', N'1', N'1', N'', N'2017-12-12 14:07:11.000', N'', N'', N'')
+INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'test4', N'test4', N'test4', N'1', N'1', N'', N'2022-12-12 14:07:11.000', N'', N'', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId]) VALUES (N'229f3a49-ab27-49ce-b383-9f10ca23a9d5', N'test3', N'test3', N'test3', N'1', N'1', N'', N'2017-12-12 14:07:05.000', N'', N'', N'')
+INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'229f3a49-ab27-49ce-b383-9f10ca23a9d5', N'test3', N'test3', N'test3', N'1', N'0', N'', N'2022-12-12 14:07:05.000', N'', N'', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId]) VALUES (N'49df1602-f5f3-4d52-afb7-3802da619558', N'admin', N'admin', N'admin', N'0', N'0', N'', N'2017-12-11 16:18:54.000', N'', N'', N'')
+INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'49df1602-f5f3-4d52-afb7-3802da619558', N'admin', N'admin', N'admin', N'1', N'0', N'', N'2022-12-11 16:18:54.000', N'', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId]) VALUES (N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'test', N'test', N'1', N'0', N'', N'2017-12-11 16:19:00.000', N'', N'', N'')
+INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'test', N'test', N'1', N'0', N'', N'2022-12-11 16:19:00.000', N'', N'', N'', N'49df1602-f5f3-4d52-afb7-3802da619558')
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId]) VALUES (N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'test77', N'test77', N'test77', N'0', N'0', N'', N'2019-10-31 21:59:08.000', N'00000000-0000-0000-0000-000000000000', N'', N'')
+INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'test77', N'test77', N'test77', N'0', N'0', N'', N'2022-10-31 21:59:08.000', N'00000000-0000-0000-0000-000000000000', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId]) VALUES (N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'test66', N'test66', N'test66', N'0', N'0', N'', N'2019-10-31 21:58:43.000', N'00000000-0000-0000-0000-000000000000', N'', N'')
+INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'test66', N'test66', N'test66', N'0', N'0', N'', N'2022-10-31 21:58:43.000', N'00000000-0000-0000-0000-000000000000', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId]) VALUES (N'de8be521-f1ec-4483-b124-0be342890507', N'test2', N'test2', N'test2', N'1', N'0', N'', N'2017-12-11 16:19:06.000', N'', N'', N'')
+INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'de8be521-f1ec-4483-b124-0be342890507', N'test2', N'test2', N'test2', N'1', N'0', N'', N'2022-12-11 16:19:06.000', N'', N'', N'', N'49df1602-f5f3-4d52-afb7-3802da619558')
 GO
 
 
@@ -5550,43 +5671,43 @@ GO
 -- ----------------------------
 -- Records of WmsInboundOrderDtbl
 -- ----------------------------
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'09a939ad-7e40-42f2-b0b3-fa9b74f94897', N'20190035RK0001', N'77.000000', N'73.210000', N'0', N'0', N'', N'10045', N'', N'32.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'09a939ad-7e40-42f2-b0b3-fa9b74f94897', N'20190035RK0001', N'77.000000', N'73.210000', N'0', N'0', N'', N'10045', N'', N'32.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'1e547556-9549-44d5-9da3-c07d98b5943e', N'2019102203RK0003', N'10.000000', N'6.000000', N'0', N'0', N'', N'', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-07 01:00:35.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:00.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'1e547556-9549-44d5-9da3-c07d98b5943e', N'2019102203RK0003', N'10.000000', N'6.000000', N'0', N'0', N'', N'', N'', N'0.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-07 01:00:35.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:00.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'2ae93007-1490-4e81-b410-957fc08e2371', N'2019102203RK0001', N'25.000000', N'22.500000', N'0', N'0', N'', N'100011', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:32:10.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:47.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'2ae93007-1490-4e81-b410-957fc08e2371', N'2019102203RK0001', N'25.000000', N'22.500000', N'0', N'0', N'', N'100011', N'', N'0.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-06 10:32:10.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:47.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'30eb475b-ed86-4106-88f0-47a5a32ec8aa', N'TEST_002', N'10.000000', N'10.000000', N'0', N'1', N'', N'CJ-334', N'', N'10.00', N'8.00', N'2.00', N'.00', N'2019-11-22', N'', N'.00', N'', N'', N'2019-11-23 01:26:54.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:26:54.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'30eb475b-ed86-4106-88f0-47a5a32ec8aa', N'TEST_002', N'10.000000', N'10.000000', N'0', N'1', N'', N'CJ-334', N'', N'10.00', N'8.00', N'2.00', N'0.00', N'2019-11-22', N'', N'0.00', N'', N'', N'2019-11-23 01:26:54.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:26:54.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'56b5612c-e048-4650-9710-4b235731d548', N'20190035RK0001', N'62.000000', N'60.230000', N'0', N'0', N'', N'133521', N'', N'10.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'56b5612c-e048-4650-9710-4b235731d548', N'20190035RK0001', N'62.000000', N'60.230000', N'0', N'0', N'', N'133521', N'', N'10.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'5e7d6ef8-351a-4600-849e-3958588161a7', N'20190035RK0001', N'55.000000', N'54.230000', N'0', N'0', N'', N'FK85122', N'', N'14.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'5e7d6ef8-351a-4600-849e-3958588161a7', N'20190035RK0001', N'55.000000', N'54.230000', N'0', N'0', N'', N'FK85122', N'', N'14.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'78c0a896-8341-47d4-b6d2-f241cec9fb58', N'TEST_001', N'998.500000', N'985.000000', N'0', N'1', N'', N'CJ-P-4446', N'', N'500.00', N'500.00', N'.00', N'.00', N'2019-11-22', N'2020-11-12', N'6.00', N'', N'', N'2019-11-23 01:27:49.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:29:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'78c0a896-8341-47d4-b6d2-f241cec9fb58', N'TEST_001', N'998.500000', N'985.000000', N'0', N'1', N'', N'CJ-P-4446', N'', N'500.00', N'500.00', N'0.00', N'0.00', N'2019-11-22', N'2020-11-12', N'6.00', N'', N'', N'2019-11-23 01:27:49.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:29:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'95d6d2a8-0e17-426b-97f3-3c8a82bca313', N'20190035RK0001', N'15.000000', N'13.220000', N'0', N'0', N'', N'10052', N'', N'52.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'95d6d2a8-0e17-426b-97f3-3c8a82bca313', N'20190035RK0001', N'15.000000', N'13.220000', N'0', N'0', N'', N'10052', N'', N'52.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-06 10:37:38.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:59.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'b195386a-4f09-4e31-9d72-8e94526f9419', N'2019102203RK0133', N'200.000000', N'199.000000', N'0', N'0', N'', N'', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-07 01:24:11.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-07 01:24:11.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'b195386a-4f09-4e31-9d72-8e94526f9419', N'2019102203RK0133', N'200.000000', N'199.000000', N'0', N'0', N'', N'', N'', N'0.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-07 01:24:11.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-07 01:24:11.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'ca470c60-9231-4c13-b51b-ad90c39633ae', N'2019102203RK0187', N'22.220000', N'20.000000', N'0', N'0', N'', N'', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-07 01:03:27.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:48.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'ca470c60-9231-4c13-b51b-ad90c39633ae', N'2019102203RK0187', N'22.220000', N'20.000000', N'0', N'0', N'', N'', N'', N'0.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-07 01:03:27.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:29:48.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'd19df810-5c47-4a32-a3a5-c908da60bf8b', N'TEST_002', N'6.670000', N'6.000000', N'0', N'1', N'', N'CJ-335', N'', N'54.00', N'54.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-23 01:26:54.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:26:54.0000000', N'', N'')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'd19df810-5c47-4a32-a3a5-c908da60bf8b', N'TEST_002', N'6.670000', N'6.000000', N'0', N'1', N'', N'CJ-335', N'', N'54.00', N'54.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-23 01:26:54.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 01:26:54.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'dc0f9da2-0e0e-4dc3-9e59-2b0d51e53211', N'2019102203RK0001', N'10.000000', N'8.000000', N'0', N'1', N'', N'100010', N'', N'.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:32:10.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:47.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'dc0f9da2-0e0e-4dc3-9e59-2b0d51e53211', N'2019102203RK0001', N'10.000000', N'8.000000', N'0', N'1', N'', N'100010', N'', N'0.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-06 10:32:10.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:47.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
-INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'fcf051d3-5c00-4617-895f-e45891d975df', N'2019102203RK0002', N'22.520000', N'18.990000', N'0', N'1', N'', N'100020', N'', N'10.00', N'.00', N'.00', N'.00', N'', N'', N'.00', N'', N'', N'2019-11-06 10:32:45.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:53.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
+INSERT INTO [dbo].[WmsInboundOrderDtbl] ([Id], [OrderId], [Price], [PriceNoTax], [InStockStatus], [AsnStatus], [GoodsId], [GoodsBatch], [QualityFlg], [OrderNum], [InNum], [LeaveNum], [HoldNum], [ProdDate], [ExpireDate], [TaxRate], [OwnerId], [Remark], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'fcf051d3-5c00-4617-895f-e45891d975df', N'2019102203RK0002', N'22.520000', N'18.990000', N'0', N'1', N'', N'100020', N'', N'10.00', N'0.00', N'0.00', N'0.00', N'', N'', N'0.00', N'', N'', N'2019-11-06 10:32:45.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 01:28:53.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员')
 GO
 
 

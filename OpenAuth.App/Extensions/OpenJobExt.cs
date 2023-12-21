@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Infrastructure;
+using OpenAuth.App.Jobs;
 using OpenAuth.Repository.Domain;
 using Quartz;
 
@@ -18,14 +19,21 @@ namespace OpenAuth.App.Extensions
         /// <param name="scheduler">一个Quartz Scheduler</param>
         public static void Start(this OpenJob job, IScheduler scheduler)
         {
-            var jobBuilderType = typeof(JobBuilder);
-            var method = jobBuilderType.GetMethods().FirstOrDefault(
-                    x => x.Name.Equals("Create", StringComparison.OrdinalIgnoreCase) &&
-                         x.IsGenericMethod && x.GetParameters().Length == 0)
-                ?.MakeGenericMethod(Type.GetType(job.JobCall));
-
-            var jobBuilder = (JobBuilder) method.Invoke(null, null);
-
+            JobBuilder jobBuilder = null;
+            if (job.JobType == 1)
+            {
+                jobBuilder = JobBuilder.Create<HttpPostJob>();
+            }
+            else
+            {
+                var jobBuilderType = typeof(JobBuilder);
+                var method = jobBuilderType.GetMethods().FirstOrDefault(
+                        x => x.Name.Equals("Create", StringComparison.OrdinalIgnoreCase) &&
+                             x.IsGenericMethod && x.GetParameters().Length == 0)
+                    ?.MakeGenericMethod(Type.GetType(job.JobCall));
+                jobBuilder = (JobBuilder) method.Invoke(null, null);
+            }
+            
             IJobDetail jobDetail = jobBuilder.WithIdentity(job.Id).Build();
             jobDetail.JobDataMap[Define.JOBMAPKEY] = job.Id; //传递job信息
             ITrigger trigger = TriggerBuilder.Create()

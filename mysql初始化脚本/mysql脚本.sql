@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 21/12/2023 19:41:40
+ Date: 21/12/2023 20:41:35
 */
 
 SET NAMES utf8mb4;
@@ -313,7 +313,7 @@ CREATE TABLE `dataprivilegerule`  (
   `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否可用',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
-  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `UpdateTime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
   `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
   `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
@@ -334,7 +334,7 @@ INSERT INTO `dataprivilegerule` VALUES ('e7c95fb1-91f7-422e-a11a-73cea0c404b9', 
 DROP TABLE IF EXISTS `flowinstance`;
 CREATE TABLE `flowinstance`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键Id',
-  `InstanceSchemeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流程实例模板Id',
+  `InstanceSchemeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程实例模板Id',
   `Code` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实例编号',
   `CustomName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '自定义名称',
   `ActivityId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前节点ID',
@@ -582,13 +582,13 @@ CREATE TABLE `module`  (
   `CascadeId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点语义ID',
   `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '功能模块名称',
   `Url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主页面URL',
-  `HotKey` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '热键',
+  `HotKey` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '热键',
   `IsLeaf` tinyint(4) NOT NULL COMMENT '是否叶子节点',
   `IsAutoExpand` tinyint(4) NOT NULL COMMENT '是否自动展开',
-  `IconName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点图标文件名称',
+  `IconName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节点图标文件名称',
   `Status` int(11) NOT NULL COMMENT '当前状态',
   `ParentName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '父节点名称',
-  `Vector` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '矢量图标',
+  `Vector` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '矢量图标',
   `SortNo` int(11) NOT NULL COMMENT '排序号',
   `ParentId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点流水号',
   `Code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -628,11 +628,11 @@ CREATE TABLE `moduleelement`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
   `DomId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'DOM ID',
   `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `Attr` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素附加属性',
-  `Script` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素调用脚本',
+  `Attr` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '元素附加属性',
+  `Script` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '元素调用脚本',
   `Icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素图标',
   `Class` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素样式',
-  `Remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '备注',
+  `Remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `Sort` int(11) NOT NULL COMMENT '排序字段',
   `ModuleId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '功能模块Id',
   `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
@@ -742,14 +742,14 @@ CREATE TABLE `org`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
   `CascadeId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点语义ID',
   `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '组织名称',
-  `HotKey` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '热键',
+  `HotKey` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '热键',
   `ParentName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '父节点名称',
   `IsLeaf` tinyint(4) NOT NULL COMMENT '是否叶子节点',
   `IsAutoExpand` tinyint(4) NOT NULL COMMENT '是否自动展开',
-  `IconName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点图标文件名称',
+  `IconName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节点图标文件名称',
   `Status` int(11) NOT NULL COMMENT '当前状态',
-  `BizCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '业务对照码',
-  `CustomCode` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '自定义扩展码',
+  `BizCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '业务对照码',
+  `CustomCode` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '自定义扩展码',
   `CreateTime` datetime NOT NULL COMMENT '创建时间',
   `CreateId` int(11) NOT NULL COMMENT '创建人ID',
   `SortNo` int(11) NOT NULL COMMENT '排序号',
@@ -758,7 +758,7 @@ CREATE TABLE `org`  (
   `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
   `ChairmanId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '负责人ID;',
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '组织表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '组织表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of org
@@ -789,7 +789,7 @@ INSERT INTO `org` VALUES ('eed8756d-587b-46de-96c7-0a400e3d80fa', '.0.6.', '华�
 DROP TABLE IF EXISTS `relevance`;
 CREATE TABLE `relevance`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
-  `Description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '描述',
+  `Description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
   `Key` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '映射标识',
   `Status` int(11) NOT NULL COMMENT '状态',
   `OperateTime` datetime NOT NULL COMMENT '授权时间',
@@ -1244,6 +1244,28 @@ INSERT INTO `sysmessage` VALUES ('2e34d7de-2203-42c8-80f7-7d60d7ad996b', '系统
 INSERT INTO `sysmessage` VALUES ('a0d898bd-ca62-46c8-90df-b73074e76500', '系统消息', 'SYS_MSG', '00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', '系统管理员', 'System', 0, 1, '', '', '你的流程[带有开发者自定义表单的流程2020-02-17 21:35:45]已被超级管理员处理。处理情况如下:【任意人可以审批】【2021-06-13 13:14】不同意,备注：不同意', '2021-06-13 13:14:39', '');
 
 -- ----------------------------
+-- Table structure for sysprinterplan
+-- ----------------------------
+DROP TABLE IF EXISTS `sysprinterplan`;
+CREATE TABLE `sysprinterplan`  (
+  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方案ID',
+  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方案名称',
+  `SourceSql` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '数据源;打印方案对应的数据来源SQL',
+  `ColumnView` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '中文视图名;设计打印方案时，提供中文快捷按钮的视图来源',
+  `groupby` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分组字段',
+  `PlanContent` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '打印方案内容;打印方案JSON对象',
+  `Disable` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否可用',
+  `CreateTime` date NOT NULL COMMENT '创建日期',
+  `CreateUser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `InParamColumn` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '入口参数字段;入口参数字段数组，通过,分隔',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '打印方案模板' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sysprinterplan
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for uploadfile
 -- ----------------------------
 DROP TABLE IF EXISTS `uploadfile`;
@@ -1282,14 +1304,14 @@ CREATE TABLE `user`  (
   `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户姓名',
   `Sex` int(11) NOT NULL COMMENT '性别',
   `Status` int(11) NOT NULL COMMENT '用户状态',
-  `BizCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '业务对照码',
+  `BizCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '业务对照码',
   `CreateTime` datetime NOT NULL COMMENT '经办时间',
   `CreateId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
   `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
   `ParentId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '直接上级;',
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户基本信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户基本信息表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of user
@@ -1312,23 +1334,23 @@ CREATE TABLE `wmsinboundorderdtbl`  (
   `OrderId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库通知单号',
   `Price` decimal(18, 6) NULL DEFAULT NULL COMMENT '含税单价',
   `PriceNoTax` decimal(18, 6) NULL DEFAULT NULL COMMENT '无税单价',
-  `InStockStatus` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否收货中(0:非收货中,1:收货中)',
-  `AsnStatus` int(11) NOT NULL DEFAULT 1 COMMENT '到货状况(SYS_GOODSARRIVESTATUS)',
-  `GoodsId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品编号',
-  `GoodsBatch` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品批号',
-  `QualityFlg` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '品质(SYS_QUALITYFLAG)',
-  `OrderNum` decimal(18, 2) NOT NULL DEFAULT 0.00 COMMENT '通知数量',
-  `InNum` decimal(18, 2) NOT NULL DEFAULT 0.00 COMMENT '到货数量',
-  `LeaveNum` decimal(18, 2) NOT NULL DEFAULT 0.00 COMMENT '剩余数量',
-  `HoldNum` decimal(18, 2) NOT NULL DEFAULT 0.00 COMMENT '占用数量',
+  `InStockStatus` tinyint(1) NULL DEFAULT 0 COMMENT '是否收货中(0:非收货中,1:收货中)',
+  `AsnStatus` int(11) NULL DEFAULT 1 COMMENT '到货状况(SYS_GOODSARRIVESTATUS)',
+  `GoodsId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品编号',
+  `GoodsBatch` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品批号',
+  `QualityFlg` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '品质(SYS_QUALITYFLAG)',
+  `OrderNum` decimal(18, 2) NULL DEFAULT 0.00 COMMENT '通知数量',
+  `InNum` decimal(18, 2) NULL DEFAULT 0.00 COMMENT '到货数量',
+  `LeaveNum` decimal(18, 2) NULL DEFAULT 0.00 COMMENT '剩余数量',
+  `HoldNum` decimal(18, 2) NULL DEFAULT 0.00 COMMENT '占用数量',
   `ProdDate` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '生产日期',
   `ExpireDate` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '失效日期',
   `TaxRate` decimal(10, 2) NULL DEFAULT NULL COMMENT '税率',
-  `OwnerId` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '货主编号',
+  `OwnerId` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '货主编号',
   `Remark` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
-  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `CreateTime` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
+  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `UpdateTime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
   `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
   `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
@@ -1364,7 +1386,7 @@ CREATE TABLE `wmsinboundordertbl`  (
   `OrderType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库类型(SYS_INSTCTYPE)',
   `GoodsType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品类别',
   `PurchaseNo` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '采购单号',
-  `StockId` varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '仓库编号',
+  `StockId` varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '仓库编号',
   `OwnerId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '货主编号(固定值CQM)',
   `ShipperId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '承运人编号',
   `SupplierId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '供应商编号',

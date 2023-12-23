@@ -22,6 +22,7 @@ using OpenAuth.App.Response;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
+using SqlSugar;
 
 namespace OpenAuth.App
 {
@@ -30,57 +31,43 @@ namespace OpenAuth.App
     /// <para>超级管理员权限</para>
     /// <para>超级管理员使用guid.empty为ID，可以根据需要修改</para>
     /// </summary>
-    public class SystemAuthStrategy : BaseStringApp<User,OpenAuthDBContext>, IAuthStrategy
+    public class SystemAuthStrategy : SqlSugarBaseApp<User>, IAuthStrategy
     {
         protected User _user;
         private DbExtension _dbExtension;
 
         public List<ModuleView> Modules
         {
-            get {
-                var modules = (from module in UnitWork.Find<Module>(null)
-                    select new ModuleView
-                    {
-                        SortNo = module.SortNo,
-                        Name = module.Name,
-                        Id = module.Id,
-                        CascadeId = module.CascadeId,
-                        Code = module.Code,
-                        IconName = module.IconName,
-                        Url = module.Url,
-                        ParentId = module.ParentId,
-                        ParentName = module.ParentName,
-                        IsSys = module.IsSys,
-                        Status = module.Status
-                    }).ToList();
-
-                foreach (var module in modules)
-                {
-                    module.Elements = UnitWork.Find<ModuleElement>(u => u.ModuleId == module.Id).ToList();
-                }
-
-                return modules;
+            get
+            {
+                return SugarClient.Queryable<ModuleView>().Includes(x=>x.Elements).ToList();
             }
         }
 
         public List<Role> Roles
         {
-            get { return UnitWork.Find<Role>(null).ToList(); }
+            get { return SugarClient.Queryable<Role>().ToList(); }
         }
 
         public List<ModuleElement> ModuleElements
         {
-            get { return UnitWork.Find<ModuleElement>(null).ToList(); }
+            get { return SugarClient.Queryable<ModuleElement>().ToList(); }
         }
 
         public List<Resource> Resources
         {
-            get { return UnitWork.Find<Resource>(null).ToList(); }
+            get { return SugarClient.Queryable<Resource>().ToList(); }
         }
 
-        public List<SysOrg> Orgs
+        public List<OrgView> Orgs
         {
-            get { return UnitWork.Find<SysOrg>(null).ToList(); }
+            get { return SugarClient.Queryable<SysOrg>()
+                .LeftJoin<User>((org, user) => org.ChairmanId ==user.Id)
+                .Select((org,user)=>new OrgView
+            {
+                Id = org.Id.SelectAll(),
+                ChairmanName = user.Name
+            }).ToList(); }
         }
 
         public User User
@@ -95,7 +82,7 @@ namespace OpenAuth.App
 
         public List<BuilderTableColumn> GetTableColumns(string moduleCode)
         {
-            return UnitWork.Find<BuilderTableColumn>(u => u.TableName.ToLower() == moduleCode.ToLower()).ToList();
+            return SugarClient.Queryable<BuilderTableColumn>().Where(u => u.TableName.ToLower() == moduleCode.ToLower()).ToList();
         }
 
         public List<BuilderTableColumn> GetTableColumnsFromDb(string moduleCode)
@@ -104,7 +91,7 @@ namespace OpenAuth.App
         }
 
 
-        public SystemAuthStrategy(IUnitWork<OpenAuthDBContext> unitWork, IRepository<User,OpenAuthDBContext> repository, DbExtension dbExtension) : base(unitWork, repository, null)
+        public SystemAuthStrategy(ISqlSugarClient client,DbExtension dbExtension) : base(client, null)
         {
             _dbExtension = dbExtension;
             _user = new User

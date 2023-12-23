@@ -40,7 +40,10 @@ namespace OpenAuth.App
             {
                 query = UnitWork.Find<User>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
             }
-            var userOrgs = from user in query
+            var userOrgs = from user in query 
+                join user2 in UnitWork.Find<User>(null)
+                    on user.ParentId equals user2.Id into tempuser
+                from u in tempuser.DefaultIfEmpty() 
                 join relevance in UnitWork.Find<Relevance>(u => u.Key == "UserOrg")
                     on user.Id equals relevance.FirstId into temp
                 from r in temp.DefaultIfEmpty()
@@ -60,6 +63,7 @@ namespace OpenAuth.App
                     user.TypeId,
                     user.TypeName,
                     user.ParentId,
+                    ParentName = u.Name, //直属上级
                     r.Key,
                     r.SecondId,
                     OrgId = o.Id,
@@ -86,6 +90,7 @@ namespace OpenAuth.App
                 Id = u.First().Id,
                 Account = u.Key,
                 Name = u.First().Name,
+                ParentName = u.First().ParentName,
                 Sex = u.First().Sex,
                 Status = u.First().Status,
                 ParentId = u.First().ParentId,
@@ -114,6 +119,9 @@ namespace OpenAuth.App
                query = UnitWork.Find<User>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
            }
            var userOrgs = from user in query
+               join user2 in UnitWork.Find<User>(null)
+                   on user.ParentId equals user2.Id into tempuser
+               from u in tempuser.DefaultIfEmpty() 
                join relevance in UnitWork.Find<Relevance>(u => u.Key == "UserOrg")
                    on user.Id equals relevance.FirstId into temp
                from r in temp.DefaultIfEmpty()
@@ -132,6 +140,8 @@ namespace OpenAuth.App
                    user.CreateTime,
                    user.TypeId,
                    user.TypeName,
+                   user.ParentId,
+                   ParentName = u.Name, //直属上级
                    r.Key,
                    r.SecondId,
                    OrgId = o.Id,
@@ -151,6 +161,8 @@ namespace OpenAuth.App
                 Status = u.First().Status,
                 CreateTime = u.First().CreateTime,
                 CreateUser = u.First().CreateId,
+                ParentName = u.First().ParentName,
+                ParentId = u.First().ParentId,
                 OrganizationIds = string.Join(",", u.Select(x=>x.OrgId))
                 ,Organizations = string.Join(",", u.Select(x=>x.OrgName))
             });

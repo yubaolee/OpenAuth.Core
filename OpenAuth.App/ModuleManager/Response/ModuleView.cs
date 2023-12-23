@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using Infrastructure;
 using OpenAuth.Repository.Domain;
+using SqlSugar;
 
 namespace OpenAuth.App.Response
 {
+    [SugarTable("Module")]
     public class ModuleView
     {
         /// <summary>
@@ -52,10 +54,7 @@ namespace OpenAuth.App.Response
         /// 当前状态，0：正常，-1：隐藏，不在导航列表中显示
         /// </summary>
         public int Status { get; set; }
-
-
-        public bool Checked { get; set; }
-
+        
         /// <summary>
         /// 排序号
         /// </summary>
@@ -68,6 +67,7 @@ namespace OpenAuth.App.Response
         /// <summary>
         /// 模块中的元素
         /// </summary>
+        [Navigate(NavigateType.OneToMany, nameof(ModuleElement.ModuleId),nameof(Id))] 
         public List<ModuleElement> Elements { get; set; }
 
         public static implicit operator ModuleView(Module module)

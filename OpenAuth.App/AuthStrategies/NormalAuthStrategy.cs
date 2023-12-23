@@ -23,13 +23,14 @@ using OpenAuth.App.Response;
 using OpenAuth.Repository;
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
+using SqlSugar;
 
 namespace OpenAuth.App
 {
     /// <summary>
     /// 普通用户授权策略
     /// </summary>
-    public class NormalAuthStrategy :BaseStringApp<User,OpenAuthDBContext>, IAuthStrategy
+    public class NormalAuthStrategy : SqlSugarBaseApp<User>, IAuthStrategy
     {
         
         protected User _user;
@@ -40,34 +41,12 @@ namespace OpenAuth.App
         public List<ModuleView> Modules
         {
             get {
-                var moduleIds = UnitWork.Find<Relevance>(
+                var moduleIds = SugarClient.Queryable<Relevance>().Where(
                     u =>
-                        (u.Key == Define.ROLEMODULE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-
-                var modules = (from module in UnitWork.Find<Module>(u =>moduleIds.Contains(u.Id))
-                    select new ModuleView
-                    {
-                        SortNo = module.SortNo,
-                        Name = module.Name,
-                        Code = module.Code,
-                        CascadeId = module.CascadeId,
-                        Id = module.Id,
-                        IconName = module.IconName,
-                        Url = module.Url,
-                        ParentId = module.ParentId,
-                        ParentName = module.ParentName,
-                        IsSys = module.IsSys,
-                        Status = module.Status
-                    }).ToList();
-
-                var usermoduleelements = ModuleElements;
-
-                foreach (var module in modules)
-                {
-                    module.Elements =usermoduleelements.Where(u => u.ModuleId == module.Id).ToList();
-                }
-
-                return modules;
+                        (u.Key == Define.ROLEMODULE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                
+                return SugarClient.Queryable<ModuleView>().Where(m =>moduleIds.Contains(m.Id)).Includes(x=>x.Elements).ToList();
+                
             }
         }
 
@@ -75,37 +54,43 @@ namespace OpenAuth.App
         {
             get
             {
-                var elementIds = UnitWork.Find<Relevance>(
+                var elementIds = SugarClient.Queryable<Relevance>().Where(
                     u =>
-                        (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-                var usermoduleelements = UnitWork.Find<ModuleElement>(u => elementIds.Contains(u.Id));
+                        (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                var usermoduleelements = SugarClient.Queryable<ModuleElement>().Where(u => elementIds.Contains(u.Id));
                 return usermoduleelements.ToList();
             }
         }
 
         public List<Role> Roles
         {
-            get { return UnitWork.Find<Role>(u => _userRoleIds.Contains(u.Id)).ToList(); }
+            get { return SugarClient.Queryable<Role>().Where(u => _userRoleIds.Contains(u.Id)).ToList(); }
         }
 
         public List<Resource> Resources
         {
             get
             {
-                var resourceIds = UnitWork.Find<Relevance>(
+                var resourceIds = SugarClient.Queryable<Relevance>().Where(
                     u =>
-                        (u.Key == Define.ROLERESOURCE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId);
-                return UnitWork.Find<Resource>(u => resourceIds.Contains(u.Id)).ToList();
+                        (u.Key == Define.ROLERESOURCE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                return SugarClient.Queryable<Resource>().Where(u => resourceIds.Contains(u.Id)).ToList();
             }
         }
 
-        public List<SysOrg> Orgs
+        public List<OrgView> Orgs
         {
             get
             {
-                var orgids = UnitWork.Find<Relevance>(
-                    u =>u.FirstId == _user.Id && u.Key == Define.USERORG).Select(u => u.SecondId);
-                return UnitWork.Find<SysOrg>(u => orgids.Contains(u.Id)).ToList();
+                var orgids = SugarClient.Queryable<Relevance>().Where(
+                    u =>u.FirstId == _user.Id && u.Key == Define.USERORG).Select(u => u.SecondId).ToList();
+                return SugarClient.Queryable<SysOrg>().Where(org =>orgids.Contains(org.Id))
+                    .LeftJoin<User>((org, user) => org.ChairmanId ==user.Id)
+                    .Select((org,user)=>new OrgView
+                    {
+                        Id = org.Id.SelectAll(),
+                        ChairmanName = user.Name
+                    }).ToList();
             }
         }
 
@@ -115,16 +100,18 @@ namespace OpenAuth.App
             set
             {
                 _user = value;
-                _userRoleIds = UnitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == Define.USERROLE).Select(u => u.SecondId).ToList();
+                _userRoleIds = SugarClient.Queryable<Relevance>().Where(u => u.FirstId == _user.Id && u.Key == Define.USERROLE)
+                    .Select(u => u.SecondId).ToList();
             }
         }
         
 
         public List<BuilderTableColumn> GetTableColumns(string moduleCode)
         {
-            var allprops = UnitWork.Find<BuilderTableColumn>(u => u.TableName.ToLower() == moduleCode.ToLower());
+            var allprops = SugarClient.Queryable<BuilderTableColumn>()
+                .Where(u => u.TableName.ToLower() == moduleCode.ToLower());
             //如果是子表，直接返回所有字段
-            var builderTable = UnitWork.FirstOrDefault<BuilderTable>(u => u.TableName.ToLower() == moduleCode.ToLower());
+            var builderTable = SugarClient.Queryable<BuilderTable>().First(u => u.TableName.ToLower() == moduleCode.ToLower());
             if (builderTable == null)
             {
                 throw new Exception($"代码生成器中找不到{moduleCode.ToLower()}的定义");
@@ -136,15 +123,15 @@ namespace OpenAuth.App
             }
 
             //如果是系统模块，直接返回所有字段。防止开发者把模块配置成系统模块，还在外层调用loginContext.GetProperties("xxxx");
-            bool? isSysModule = UnitWork.FirstOrDefault<Module>(u => u.Code == moduleCode)?.IsSys;
+            bool? isSysModule = SugarClient.Queryable<Module>().First(u => u.Code == moduleCode)?.IsSys;
             if (isSysModule!= null && isSysModule.Value)
             {
                 return allprops.ToList();
             }
             
-            var props =UnitWork.Find<Relevance>(u =>
+            var props =SugarClient.Queryable<Relevance>().Where(u =>
                     u.Key == Define.ROLEDATAPROPERTY && _userRoleIds.Contains(u.FirstId) && u.SecondId == moduleCode)
-                .Select(u => u.ThirdId);
+                .Select(u => u.ThirdId).ToList();
 
             return allprops.Where(u => props.Contains(u.ColumnName)).ToList();
         }
@@ -154,22 +141,22 @@ namespace OpenAuth.App
             var allprops = _dbExtension.GetTableColumnsFromDb(moduleCode);
 
             //如果是系统模块，直接返回所有字段。防止开发者把模块配置成系统模块，还在外层调用loginContext.GetProperties("xxxx");
-            bool? isSysModule = UnitWork.FirstOrDefault<Module>(u => u.Code == moduleCode)?.IsSys;
+            bool? isSysModule = SugarClient.Queryable<Module>().First(u => u.Code == moduleCode)?.IsSys;
             if (isSysModule!= null && isSysModule.Value)
             {
                 return allprops.ToList();
             }
             
-            var props =UnitWork.Find<Relevance>(u =>
+            var props =SugarClient.Queryable<Relevance>().Where(u =>
                     u.Key == Define.ROLEDATAPROPERTY && _userRoleIds.Contains(u.FirstId) && u.SecondId == moduleCode)
-                .Select(u => u.ThirdId);
+                .Select(u => u.ThirdId).ToList();
 
             return allprops.Where(u => props.Contains(u.ColumnName)).ToList();
         }
 
         //用户角色
 
-        public NormalAuthStrategy(IUnitWork<OpenAuthDBContext> unitWork, IRepository<User,OpenAuthDBContext> repository, DbExtension dbExtension) : base(unitWork, repository,null)
+        public NormalAuthStrategy(ISqlSugarClient client,DbExtension dbExtension) : base(client, null)
         {
             _dbExtension = dbExtension;
         }

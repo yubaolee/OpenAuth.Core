@@ -11,6 +11,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using OpenAuth.Repository.Core;
+using SqlSugar;
 
 namespace OpenAuth.Repository.Domain
 {
@@ -18,6 +19,7 @@ namespace OpenAuth.Repository.Domain
 	/// 组织表
 	/// </summary>
       [Table("Org")]
+      [SugarTable("Org")]
     public partial class SysOrg : TreeEntity
     {
         public SysOrg()

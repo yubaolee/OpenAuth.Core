@@ -50,7 +50,10 @@ namespace OpenAuth.App.Response
         /// </summary>
         public string ParentId { get; set; }
 
-
+        /// <summary>
+        /// 直接上级
+        /// </summary>
+        public string ParentName { get; set; }
 
         /// <summary>
         /// 创建时间

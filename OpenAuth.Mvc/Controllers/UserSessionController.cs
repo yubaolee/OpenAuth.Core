@@ -118,7 +118,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetOrgs()
         {
-             var resp = new Response<List<SysOrg>>();
+             var resp = new Response<List<OrgView>>();
             try
             {
                 resp.Result = _authStrategyContext.Orgs;

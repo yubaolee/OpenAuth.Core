@@ -33,7 +33,7 @@ namespace OpenAuth.App
 
          List<Resource> Resources { get; }
 
-         List<SysOrg> Orgs { get; }
+         List<OrgView> Orgs { get; }
 
          User User
         {

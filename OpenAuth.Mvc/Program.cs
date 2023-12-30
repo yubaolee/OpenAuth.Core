@@ -22,8 +22,7 @@ namespace OpenAuth.Mvc
                     |_|                                                        
             -------------------------------------------------------------------
             Author           :  yubaolee
-            .Net 5 Repository:  https://gitee.com/dotnetchina/OpenAuth.Net
-            .Net core 3.1 Rep:  https://gitee.com/yubaolee/OpenAuth.Core
+            Repository       :  https://gitee.com/dotnetchina/OpenAuth.Net
             -------------------------------------------------------------------
             ");
             CreateHostBuilder(args).Build().Run();

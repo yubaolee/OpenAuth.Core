@@ -24,8 +24,7 @@ namespace OpenAuth.WebApi
                     |_|                                                        
             -------------------------------------------------------------------
             Author           :  yubaolee
-            .Net 5 Repository:  https://gitee.com/dotnetchina/OpenAuth.Net
-            .Net core 3.1    :  https://gitee.com/yubaolee/OpenAuth.Core
+            Repository       :  https://gitee.com/dotnetchina/OpenAuth.Net
             -------------------------------------------------------------------
             Start Time:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
             CreateHostBuilder(args).Build().Run();

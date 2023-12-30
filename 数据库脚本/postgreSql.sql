@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 172.30.144.46
- Source Server Type    : PostgreSQL
- Source Server Version : 150003
- Source Host           : 172.30.144.46:5432
- Source Catalog        : openauthpro
- Source Schema         : public
-
- Target Server Type    : PostgreSQL
- Target Server Version : 150003
- File Encoding         : 65001
-
- Date: 21/12/2023 19:41:05
-*/
 
 
 -- ----------------------------
@@ -389,7 +373,7 @@ CREATE TABLE "public"."dataprivilegerule" (
   "Enable" int2 NOT NULL,
   "CreateTime" timestamp(6) NOT NULL,
   "CreateUserId" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "CreateUserName" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
+  "CreateUserName" varchar(200) COLLATE "pg_catalog"."default",
   "UpdateTime" timestamp(6),
   "UpdateUserId" varchar(50) COLLATE "pg_catalog"."default",
   "UpdateUserName" varchar(200) COLLATE "pg_catalog"."default"
@@ -424,7 +408,7 @@ INSERT INTO "public"."dataprivilegerule" VALUES ('e7c95fb1-91f7-422e-a11a-73cea0
 DROP TABLE IF EXISTS "public"."flowinstance";
 CREATE TABLE "public"."flowinstance" (
   "Id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "InstanceSchemeId" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
+  "InstanceSchemeId" varchar(50) COLLATE "pg_catalog"."default",
   "Code" varchar(200) COLLATE "pg_catalog"."default",
   "CustomName" varchar(200) COLLATE "pg_catalog"."default",
   "ActivityId" varchar(50) COLLATE "pg_catalog"."default",
@@ -777,17 +761,18 @@ CREATE TABLE "public"."module" (
   "CascadeId" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "Name" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "Url" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "HotKey" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "HotKey" varchar(255) COLLATE "pg_catalog"."default",
   "IsLeaf" int2 NOT NULL,
   "IsAutoExpand" int2 NOT NULL,
-  "IconName" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "IconName" varchar(255) COLLATE "pg_catalog"."default",
   "Status" int4 NOT NULL,
   "ParentName" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "Vector" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "Vector" varchar(255) COLLATE "pg_catalog"."default",
   "SortNo" int4 NOT NULL,
   "ParentId" varchar(50) COLLATE "pg_catalog"."default",
   "Code" varchar(50) COLLATE "pg_catalog"."default",
-  "IsSys" int2 NOT NULL
+  "IsSys" int2 NOT NULL,
+  "KeepAlive" int2
 )
 ;
 COMMENT ON COLUMN "public"."module"."Id" IS '功能模块流水号';
@@ -804,31 +789,32 @@ COMMENT ON COLUMN "public"."module"."Vector" IS '矢量图标';
 COMMENT ON COLUMN "public"."module"."SortNo" IS '排序号';
 COMMENT ON COLUMN "public"."module"."ParentId" IS '父节点流水号';
 COMMENT ON COLUMN "public"."module"."IsSys" IS '是否为系统模块';
+COMMENT ON COLUMN "public"."module"."KeepAlive" IS '前端是否缓存';
 COMMENT ON TABLE "public"."module" IS '功能模块表';
 
 -- ----------------------------
 -- Records of module
 -- ----------------------------
-INSERT INTO "public"."module" VALUES ('0031262c-689c-4b96-bae2-2c9d67076ade', '.0.1.9.', '流程设计', '/flowSchemes/index', '', 0, 0, 'layui-icon-engine', 0, '基础配置', '', 6, '7580672f-a390-4bb6-982d-9a4570cb5199', 'FlowScheme', 1);
-INSERT INTO "public"."module" VALUES ('069475e3-c997-487a-9f29-e6a864c5c1d4', '.0.2.', '流程中心', '/', '', 0, 0, 'layui-icon-senior', 0, '根节点', '', 3, NULL, NULL, 1);
-INSERT INTO "public"."module" VALUES ('15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', '.0.4.', '仓储中心', '/', '', 0, 0, '', 0, '根节点', '', 2, NULL, '', 0);
-INSERT INTO "public"."module" VALUES ('37bb9414-19a0-4223-9056-71f8c758a930', '.0.2.5.', '已处理流程', '/flowinstances/disposed', '', 0, 0, 'layui-icon-ok-circle', 0, '流程中心', '', 3, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstanceDisposed', 1);
-INSERT INTO "public"."module" VALUES ('4abafc83-c8f5-452f-9882-e113a86e7a3e', '.0.2.6.', '待处理流程', '/flowinstances/wait', '', 0, 0, 'layui-icon-help', 0, '流程中心', '', 1, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstanceWait', 1);
-INSERT INTO "public"."module" VALUES ('6a9e1346-0c01-44d2-8eb1-f929fdab542a', '.0.1.10.', '部门管理', '/OrgManager/Index', '', 0, 0, 'layui-icon-group', 0, '基础配置', '', 4, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Org', 1);
-INSERT INTO "public"."module" VALUES ('7580672f-a390-4bb6-982d-9a4570cb5199', '.0.1.', '基础配置', ' /', '', 0, 0, 'layui-icon-set-fill', 0, '根节点', '', 1, NULL, NULL, 1);
-INSERT INTO "public"."module" VALUES ('7bc7e527-478d-49fd-868d-5f31951586f5', '.0.3.1.', '系统日志', '/SysLogs/Index', '', 0, 0, 'layui-icon-theme', 0, '消息日志', '', 1, 'b19bce90-5508-43b6-93ed-cd9ff9e356a9', 'SysLog', 1);
-INSERT INTO "public"."module" VALUES ('7bc7e527-478d-49fd-868d-5f31951586f6', '.0.3.2.', '我的消息', '/SysMessages/Index', '', 0, 0, 'layui-icon-theme', 0, '消息日志', '', 2, 'b19bce90-5508-43b6-93ed-cd9ff9e356a9', 'SysMessage', 1);
-INSERT INTO "public"."module" VALUES ('907a24c6-3c95-4073-8f90-ea7ec42c63f7', '.0.1.19.', '定时任务', '/OpenJobs/Index', '', 0, 0, 'layui-icon-time', 0, '基础配置', '', 2, '7580672f-a390-4bb6-982d-9a4570cb5199', 'OpenJob', 1);
-INSERT INTO "public"."module" VALUES ('92b00259-2d15-43e7-9321-adffb29e8bf2', '.0.1.11.', '表单设计', '/forms/index', '', 0, 0, 'layui-icon-theme', 0, '基础配置', '', 5, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Form', 1);
-INSERT INTO "public"."module" VALUES ('9486ff22-b696-4d7f-8093-8a3e53c45453', '.0.2.7.', '我的流程', '/flowInstances/Index', '', 0, 0, 'layui-icon-share', 0, '流程中心', '', 2, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstance', 1);
-INSERT INTO "public"."module" VALUES ('98a949e8-8704-40a7-b9a1-c0e8801e4057', '.0.4.1.', '入库订单', '/wmsinboundordertbls/index', '', 0, 0, '', 0, '仓储中心', '', 1, '15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', 'WmsInboundOrderTbl', 0);
-INSERT INTO "public"."module" VALUES ('9a87c0fa-9172-42a1-9505-7492433dcb8e', '.0.1.16.', '数据权限', '/dataprivilegerules/index', '', 0, 0, 'layui-icon-auz', 0, '基础配置', '', 1, '7580672f-a390-4bb6-982d-9a4570cb5199', 'DataPrivilegeRule', 0);
-INSERT INTO "public"."module" VALUES ('a94d5648-c2a9-405e-ba6f-f1602ec9b807', '.0.1.17.', '字典分类', '/Categories/Index', '', 0, 0, '', 0, '基础配置', '', 7, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Category', 0);
-INSERT INTO "public"."module" VALUES ('b19bce90-5508-43b6-93ed-cd9ff9e356a9', '.0.3.', '消息日志', ' /', '', 0, 0, 'layui-icon-set-fill', 0, '根节点', '', 4, NULL, NULL, 1);
-INSERT INTO "public"."module" VALUES ('bc80478d-0547-4437-9cff-be4b40144bdf', '.0.1.13.', '模块管理', '/ModuleManager/Index', '', 0, 0, 'layui-icon-tabs', 0, '基础配置', '', 1, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Module', 1);
-INSERT INTO "public"."module" VALUES ('bedb41a2-f310-4775-af99-01be08adda93', '.0.1.14.', '角色管理', '/RoleManager/Index', '', 0, 0, 'layui-icon-user', 0, '基础配置', '', 2, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Role', 1);
-INSERT INTO "public"."module" VALUES ('e8dc5db6-4fc4-4795-a1cc-681cbcceec91', '.0.1.3.', '资源管理', '/Resources/Index', '', 0, 0, 'layui-icon-cellphone', 0, '基础配置', '', 8, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Resource', 0);
-INSERT INTO "public"."module" VALUES ('ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', '.0.1.15.', '用户管理', '/UserManager/Index', '', 0, 0, 'layui-icon-friends', 0, '基础配置', '', 3, '7580672f-a390-4bb6-982d-9a4570cb5199', 'User', 1);
+INSERT INTO "public"."module" VALUES ('0031262c-689c-4b96-bae2-2c9d67076ade', '.0.1.9.', '流程设计', '/flowSchemes/index', '', 0, 0, 'layui-icon-engine', 0, '基础配置', '', 6, '7580672f-a390-4bb6-982d-9a4570cb5199', 'FlowScheme', 1, NULL);
+INSERT INTO "public"."module" VALUES ('069475e3-c997-487a-9f29-e6a864c5c1d4', '.0.2.', '流程中心', '/', '', 0, 0, 'layui-icon-senior', 0, '根节点', '', 3, NULL, NULL, 1, NULL);
+INSERT INTO "public"."module" VALUES ('15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', '.0.4.', '仓储中心', '/', '', 0, 0, '', 0, '根节点', '', 2, NULL, '', 0, NULL);
+INSERT INTO "public"."module" VALUES ('37bb9414-19a0-4223-9056-71f8c758a930', '.0.2.5.', '已处理流程', '/flowinstances/disposed', '', 0, 0, 'layui-icon-ok-circle', 0, '流程中心', '', 3, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstanceDisposed', 1, NULL);
+INSERT INTO "public"."module" VALUES ('4abafc83-c8f5-452f-9882-e113a86e7a3e', '.0.2.6.', '待处理流程', '/flowinstances/wait', '', 0, 0, 'layui-icon-help', 0, '流程中心', '', 1, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstanceWait', 1, NULL);
+INSERT INTO "public"."module" VALUES ('6a9e1346-0c01-44d2-8eb1-f929fdab542a', '.0.1.10.', '部门管理', '/OrgManager/Index', '', 0, 0, 'layui-icon-group', 0, '基础配置', '', 4, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Org', 1, NULL);
+INSERT INTO "public"."module" VALUES ('7580672f-a390-4bb6-982d-9a4570cb5199', '.0.1.', '基础配置', ' /', '', 0, 0, 'layui-icon-set-fill', 0, '根节点', '', 1, NULL, NULL, 1, NULL);
+INSERT INTO "public"."module" VALUES ('7bc7e527-478d-49fd-868d-5f31951586f5', '.0.3.1.', '系统日志', '/SysLogs/Index', '', 0, 0, 'layui-icon-theme', 0, '消息日志', '', 1, 'b19bce90-5508-43b6-93ed-cd9ff9e356a9', 'SysLog', 1, NULL);
+INSERT INTO "public"."module" VALUES ('7bc7e527-478d-49fd-868d-5f31951586f6', '.0.3.2.', '我的消息', '/SysMessages/Index', '', 0, 0, 'layui-icon-theme', 0, '消息日志', '', 2, 'b19bce90-5508-43b6-93ed-cd9ff9e356a9', 'SysMessage', 1, NULL);
+INSERT INTO "public"."module" VALUES ('907a24c6-3c95-4073-8f90-ea7ec42c63f7', '.0.1.19.', '定时任务', '/OpenJobs/Index', '', 0, 0, 'layui-icon-time', 0, '基础配置', '', 2, '7580672f-a390-4bb6-982d-9a4570cb5199', 'OpenJob', 1, NULL);
+INSERT INTO "public"."module" VALUES ('92b00259-2d15-43e7-9321-adffb29e8bf2', '.0.1.11.', '表单设计', '/forms/index', '', 0, 0, 'layui-icon-theme', 0, '基础配置', '', 5, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Form', 1, NULL);
+INSERT INTO "public"."module" VALUES ('9486ff22-b696-4d7f-8093-8a3e53c45453', '.0.2.7.', '我的流程', '/flowInstances/Index', '', 0, 0, 'layui-icon-share', 0, '流程中心', '', 2, '069475e3-c997-487a-9f29-e6a864c5c1d4', 'FlowInstance', 1, NULL);
+INSERT INTO "public"."module" VALUES ('98a949e8-8704-40a7-b9a1-c0e8801e4057', '.0.4.1.', '入库订单', '/wmsinboundordertbls/index', '', 0, 0, '', 0, '仓储中心', '', 1, '15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', 'WmsInboundOrderTbl', 0, NULL);
+INSERT INTO "public"."module" VALUES ('9a87c0fa-9172-42a1-9505-7492433dcb8e', '.0.1.16.', '数据权限', '/dataprivilegerules/index', '', 0, 0, 'layui-icon-auz', 0, '基础配置', '', 1, '7580672f-a390-4bb6-982d-9a4570cb5199', 'DataPrivilegeRule', 0, NULL);
+INSERT INTO "public"."module" VALUES ('a94d5648-c2a9-405e-ba6f-f1602ec9b807', '.0.1.17.', '字典分类', '/Categories/Index', '', 0, 0, '', 0, '基础配置', '', 7, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Category', 0, NULL);
+INSERT INTO "public"."module" VALUES ('b19bce90-5508-43b6-93ed-cd9ff9e356a9', '.0.3.', '消息日志', ' /', '', 0, 0, 'layui-icon-set-fill', 0, '根节点', '', 4, NULL, NULL, 1, NULL);
+INSERT INTO "public"."module" VALUES ('bc80478d-0547-4437-9cff-be4b40144bdf', '.0.1.13.', '模块管理', '/ModuleManager/Index', '', 0, 0, 'layui-icon-tabs', 0, '基础配置', '', 1, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Module', 1, NULL);
+INSERT INTO "public"."module" VALUES ('bedb41a2-f310-4775-af99-01be08adda93', '.0.1.14.', '角色管理', '/RoleManager/Index', '', 0, 0, 'layui-icon-user', 0, '基础配置', '', 2, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Role', 1, NULL);
+INSERT INTO "public"."module" VALUES ('e8dc5db6-4fc4-4795-a1cc-681cbcceec91', '.0.1.3.', '资源管理', '/Resources/Index', '', 0, 0, 'layui-icon-cellphone', 0, '基础配置', '', 8, '7580672f-a390-4bb6-982d-9a4570cb5199', 'Resource', 0, NULL);
+INSERT INTO "public"."module" VALUES ('ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', '.0.1.15.', '用户管理', '/UserManager/Index', '', 0, 0, 'layui-icon-friends', 0, '基础配置', '', 3, '7580672f-a390-4bb6-982d-9a4570cb5199', 'User', 1, NULL);
 
 -- ----------------------------
 -- Table structure for moduleelement
@@ -838,11 +824,11 @@ CREATE TABLE "public"."moduleelement" (
   "Id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "DomId" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "Name" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "Attr" text COLLATE "pg_catalog"."default" NOT NULL,
-  "Script" text COLLATE "pg_catalog"."default" NOT NULL,
+  "Attr" text COLLATE "pg_catalog"."default",
+  "Script" text COLLATE "pg_catalog"."default",
   "Icon" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "Class" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "Remark" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
+  "Remark" varchar(200) COLLATE "pg_catalog"."default",
   "Sort" int4 NOT NULL,
   "ModuleId" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "TypeName" varchar(20) COLLATE "pg_catalog"."default",
@@ -986,14 +972,14 @@ CREATE TABLE "public"."org" (
   "Id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "CascadeId" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "Name" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "HotKey" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "HotKey" varchar(255) COLLATE "pg_catalog"."default",
   "ParentName" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "IsLeaf" int2 NOT NULL,
   "IsAutoExpand" int2 NOT NULL,
-  "IconName" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "IconName" varchar(255) COLLATE "pg_catalog"."default",
   "Status" int4 NOT NULL,
-  "BizCode" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "CustomCode" text COLLATE "pg_catalog"."default" NOT NULL,
+  "BizCode" varchar(255) COLLATE "pg_catalog"."default",
+  "CustomCode" text COLLATE "pg_catalog"."default",
   "CreateTime" timestamp(6) NOT NULL,
   "CreateId" int4 NOT NULL,
   "SortNo" int4 NOT NULL,
@@ -1052,7 +1038,7 @@ INSERT INTO "public"."org" VALUES ('eed8756d-587b-46de-96c7-0a400e3d80fa', '.0.6
 DROP TABLE IF EXISTS "public"."relevance";
 CREATE TABLE "public"."relevance" (
   "Id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "Description" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
+  "Description" varchar(100) COLLATE "pg_catalog"."default",
   "Key" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
   "Status" int4 NOT NULL,
   "OperateTime" timestamp(6) NOT NULL,
@@ -1570,6 +1556,39 @@ INSERT INTO "public"."sysmessage" VALUES ('2e34d7de-2203-42c8-80f7-7d60d7ad996b'
 INSERT INTO "public"."sysmessage" VALUES ('a0d898bd-ca62-46c8-90df-b73074e76500', '系统消息', 'SYS_MSG', '00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', '系统管理员', 'System', 0, 1, '', '', '你的流程[带有开发者自定义表单的流程2020-02-17 21:35:45]已被超级管理员处理。处理情况如下:【任意人可以审批】【2021-06-13 13:14】不同意,备注：不同意', '2021-06-13 13:14:39', '');
 
 -- ----------------------------
+-- Table structure for sysprinterplan
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."sysprinterplan";
+CREATE TABLE "public"."sysprinterplan" (
+  "Id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
+  "Name" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "SourceSql" text COLLATE "pg_catalog"."default",
+  "ColumnView" varchar(255) COLLATE "pg_catalog"."default",
+  "groupby" varchar(255) COLLATE "pg_catalog"."default",
+  "PlanContent" text COLLATE "pg_catalog"."default",
+  "Disable" int2 NOT NULL,
+  "CreateTime" date NOT NULL,
+  "CreateUser" varchar(50) COLLATE "pg_catalog"."default",
+  "InParamColumn" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+COMMENT ON COLUMN "public"."sysprinterplan"."Id" IS '方案ID';
+COMMENT ON COLUMN "public"."sysprinterplan"."Name" IS '方案名称';
+COMMENT ON COLUMN "public"."sysprinterplan"."SourceSql" IS '数据源;打印方案对应的数据来源SQL';
+COMMENT ON COLUMN "public"."sysprinterplan"."ColumnView" IS '中文视图名;设计打印方案时，提供中文快捷按钮的视图来源';
+COMMENT ON COLUMN "public"."sysprinterplan"."groupby" IS '分组字段';
+COMMENT ON COLUMN "public"."sysprinterplan"."PlanContent" IS '打印方案内容;打印方案JSON对象';
+COMMENT ON COLUMN "public"."sysprinterplan"."Disable" IS '是否可用';
+COMMENT ON COLUMN "public"."sysprinterplan"."CreateTime" IS '创建日期';
+COMMENT ON COLUMN "public"."sysprinterplan"."CreateUser" IS '创建人';
+COMMENT ON COLUMN "public"."sysprinterplan"."InParamColumn" IS '入口参数字段;入口参数字段数组，通过,分隔';
+COMMENT ON TABLE "public"."sysprinterplan" IS '打印方案模板';
+
+-- ----------------------------
+-- Records of sysprinterplan
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for uploadfile
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."uploadfile";
@@ -1625,7 +1644,7 @@ CREATE TABLE "public"."user" (
   "Name" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "Sex" int4 NOT NULL,
   "Status" int4 NOT NULL,
-  "BizCode" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "BizCode" varchar(255) COLLATE "pg_catalog"."default",
   "CreateTime" timestamp(6) NOT NULL,
   "CreateId" varchar(50) COLLATE "pg_catalog"."default",
   "TypeName" varchar(20) COLLATE "pg_catalog"."default",
@@ -1668,23 +1687,23 @@ CREATE TABLE "public"."wmsinboundorderdtbl" (
   "OrderId" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "Price" "pg_catalog"."numeric",
   "PriceNoTax" "pg_catalog"."numeric",
-  "InStockStatus" int2 NOT NULL,
-  "AsnStatus" int4 NOT NULL,
-  "GoodsId" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "GoodsBatch" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "QualityFlg" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "OrderNum" "pg_catalog"."numeric" NOT NULL,
-  "InNum" "pg_catalog"."numeric" NOT NULL,
-  "LeaveNum" "pg_catalog"."numeric" NOT NULL,
-  "HoldNum" "pg_catalog"."numeric" NOT NULL,
+  "InStockStatus" int2,
+  "AsnStatus" int4,
+  "GoodsId" varchar(50) COLLATE "pg_catalog"."default",
+  "GoodsBatch" varchar(50) COLLATE "pg_catalog"."default",
+  "QualityFlg" varchar(50) COLLATE "pg_catalog"."default",
+  "OrderNum" "pg_catalog"."numeric",
+  "InNum" "pg_catalog"."numeric",
+  "LeaveNum" "pg_catalog"."numeric",
+  "HoldNum" "pg_catalog"."numeric",
   "ProdDate" varchar(30) COLLATE "pg_catalog"."default",
   "ExpireDate" varchar(30) COLLATE "pg_catalog"."default",
   "TaxRate" "pg_catalog"."numeric",
-  "OwnerId" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
+  "OwnerId" varchar(32) COLLATE "pg_catalog"."default",
   "Remark" varchar(128) COLLATE "pg_catalog"."default",
-  "CreateTime" timestamp(6) NOT NULL,
-  "CreateUserId" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "CreateUserName" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
+  "CreateTime" timestamp(6),
+  "CreateUserId" varchar(50) COLLATE "pg_catalog"."default",
+  "CreateUserName" varchar(200) COLLATE "pg_catalog"."default",
   "UpdateTime" timestamp(6),
   "UpdateUserId" varchar(50) COLLATE "pg_catalog"."default",
   "UpdateUserName" varchar(200) COLLATE "pg_catalog"."default"
@@ -1745,7 +1764,7 @@ CREATE TABLE "public"."wmsinboundordertbl" (
   "OrderType" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "GoodsType" varchar(50) COLLATE "pg_catalog"."default",
   "PurchaseNo" varchar(30) COLLATE "pg_catalog"."default",
-  "StockId" varchar(12) COLLATE "pg_catalog"."default" NOT NULL,
+  "StockId" varchar(12) COLLATE "pg_catalog"."default",
   "OwnerId" varchar(50) COLLATE "pg_catalog"."default",
   "ShipperId" varchar(50) COLLATE "pg_catalog"."default",
   "SupplierId" varchar(50) COLLATE "pg_catalog"."default",
@@ -1912,6 +1931,11 @@ ALTER TABLE "public"."syslog" ADD CONSTRAINT "syslog_pkey" PRIMARY KEY ("Id");
 -- Primary Key structure for table sysmessage
 -- ----------------------------
 ALTER TABLE "public"."sysmessage" ADD CONSTRAINT "sysmessage_pkey" PRIMARY KEY ("Id");
+
+-- ----------------------------
+-- Primary Key structure for table sysprinterplan
+-- ----------------------------
+ALTER TABLE "public"."sysprinterplan" ADD CONSTRAINT "sysprinterplan_pkey" PRIMARY KEY ("Id");
 
 -- ----------------------------
 -- Primary Key structure for table uploadfile

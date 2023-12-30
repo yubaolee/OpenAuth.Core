@@ -3,6 +3,7 @@ use [OpenAuthDB]
 
 create type [dbo].[PrimaryKey] from varchar(50)
 go
+
 -- ----------------------------
 -- Table structure for Application
 -- ----------------------------
@@ -2469,7 +2470,8 @@ CREATE TABLE [dbo].[Module] (
   [SortNo] int DEFAULT 0 NOT NULL,
   [ParentId] [dbo].[PrimaryKey]  NULL,
   [Code] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [IsSys] bit DEFAULT 0 NOT NULL
+  [IsSys] bit DEFAULT 0 NOT NULL,
+  [KeepAlive] bit  NULL
 )
 GO
 
@@ -2575,6 +2577,13 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
+'MS_Description', N'前端是否缓存',
+'SCHEMA', N'dbo',
+'TABLE', N'Module',
+'COLUMN', N'KeepAlive'
+GO
+
+EXEC sp_addextendedproperty
 'MS_Description', N'功能模块表',
 'SCHEMA', N'dbo',
 'TABLE', N'Module'
@@ -2584,64 +2593,64 @@ GO
 -- ----------------------------
 -- Records of Module
 -- ----------------------------
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'0031262c-689c-4b96-bae2-2c9d67076ade', N'.0.1.9.', N'流程设计', N'/flowSchemes/index', N'', N'0', N'0', N'layui-icon-engine', N'0', N'基础配置', N'', N'6', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'FlowScheme', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'0031262c-689c-4b96-bae2-2c9d67076ade', N'.0.1.9.', N'流程设计', N'/flowSchemes/index', N'', N'0', N'0', N'layui-icon-engine', N'0', N'基础配置', N'', N'6', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'FlowScheme', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'.0.2.', N'流程中心', N'/', N'', N'0', N'0', N'layui-icon-senior', N'0', N'根节点', N'', N'3', NULL, NULL, N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'.0.2.', N'流程中心', N'/', N'', N'0', N'0', N'layui-icon-senior', N'0', N'根节点', N'', N'3', NULL, NULL, N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', N'.0.4.', N'仓储中心', N'/', N'', N'0', N'0', N'', N'0', N'根节点', N'', N'2', NULL, N'', N'0')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', N'.0.4.', N'仓储中心', N'/', N'', N'0', N'0', N'', N'0', N'根节点', N'', N'2', NULL, N'', N'0', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'37bb9414-19a0-4223-9056-71f8c758a930', N'.0.2.5.', N'已处理流程', N'/flowinstances/disposed', N'', N'0', N'0', N'layui-icon-ok-circle', N'0', N'流程中心', N'', N'3', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstanceDisposed', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'37bb9414-19a0-4223-9056-71f8c758a930', N'.0.2.5.', N'已处理流程', N'/flowinstances/disposed', N'', N'0', N'0', N'layui-icon-ok-circle', N'0', N'流程中心', N'', N'3', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstanceDisposed', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'4abafc83-c8f5-452f-9882-e113a86e7a3e', N'.0.2.6.', N'待处理流程', N'/flowinstances/wait', N'', N'0', N'0', N'layui-icon-help', N'0', N'流程中心', N'', N'1', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstanceWait', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'4abafc83-c8f5-452f-9882-e113a86e7a3e', N'.0.2.6.', N'待处理流程', N'/flowinstances/wait', N'', N'0', N'0', N'layui-icon-help', N'0', N'流程中心', N'', N'1', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstanceWait', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', N'.0.1.10.', N'部门管理', N'/OrgManager/Index', N'', N'0', N'0', N'layui-icon-group', N'0', N'基础配置', N'', N'4', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Org', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'6a9e1346-0c01-44d2-8eb1-f929fdab542a', N'.0.1.10.', N'部门管理', N'/OrgManager/Index', N'', N'0', N'0', N'layui-icon-group', N'0', N'基础配置', N'', N'4', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Org', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'7580672f-a390-4bb6-982d-9a4570cb5199', N'.0.1.', N'基础配置', N' /', N'', N'0', N'0', N'layui-icon-set-fill', N'0', N'根节点', N'', N'1', NULL, NULL, N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'7580672f-a390-4bb6-982d-9a4570cb5199', N'.0.1.', N'基础配置', N' /', N'', N'0', N'0', N'layui-icon-set-fill', N'0', N'根节点', N'', N'1', NULL, NULL, N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f5', N'.0.3.1.', N'系统日志', N'/SysLogs/Index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'消息日志', N'', N'1', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysLog', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f5', N'.0.3.1.', N'系统日志', N'/SysLogs/Index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'消息日志', N'', N'1', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysLog', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f6', N'.0.3.2.', N'我的消息', N'/SysMessages/Index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'消息日志', N'', N'2', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysMessage', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'7bc7e527-478d-49fd-868d-5f31951586f6', N'.0.3.2.', N'我的消息', N'/SysMessages/Index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'消息日志', N'', N'2', N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'SysMessage', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'907a24c6-3c95-4073-8f90-ea7ec42c63f7', N'.0.1.19.', N'定时任务', N'/OpenJobs/Index', N'', N'0', N'0', N'layui-icon-time', N'0', N'基础配置', N'', N'2', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'OpenJob', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'907a24c6-3c95-4073-8f90-ea7ec42c63f7', N'.0.1.19.', N'定时任务', N'/OpenJobs/Index', N'', N'0', N'0', N'layui-icon-time', N'0', N'基础配置', N'', N'2', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'OpenJob', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'92b00259-2d15-43e7-9321-adffb29e8bf2', N'.0.1.11.', N'表单设计', N'/forms/index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'基础配置', N'', N'5', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Form', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'92b00259-2d15-43e7-9321-adffb29e8bf2', N'.0.1.11.', N'表单设计', N'/forms/index', N'', N'0', N'0', N'layui-icon-theme', N'0', N'基础配置', N'', N'5', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Form', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'9486ff22-b696-4d7f-8093-8a3e53c45453', N'.0.2.7.', N'我的流程', N'/flowInstances/Index', N'', N'0', N'0', N'layui-icon-share', N'0', N'流程中心', N'', N'2', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstance', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'9486ff22-b696-4d7f-8093-8a3e53c45453', N'.0.2.7.', N'我的流程', N'/flowInstances/Index', N'', N'0', N'0', N'layui-icon-share', N'0', N'流程中心', N'', N'2', N'069475e3-c997-487a-9f29-e6a864c5c1d4', N'FlowInstance', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'.0.4.1.', N'入库订单', N'/wmsinboundordertbls/index', N'', N'0', N'0', N'', N'0', N'仓储中心', N'', N'1', N'15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', N'WmsInboundOrderTbl', N'0')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'98a949e8-8704-40a7-b9a1-c0e8801e4057', N'.0.4.1.', N'入库订单', N'/wmsinboundordertbls/index', N'', N'0', N'0', N'', N'0', N'仓储中心', N'', N'1', N'15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', N'WmsInboundOrderTbl', N'0', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'9a87c0fa-9172-42a1-9505-7492433dcb8e', N'.0.1.16.', N'数据权限', N'/dataprivilegerules/index', N'', N'0', N'0', N'layui-icon-auz', N'0', N'基础配置', N'', N'1', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'DataPrivilegeRule', N'0')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'9a87c0fa-9172-42a1-9505-7492433dcb8e', N'.0.1.16.', N'数据权限', N'/dataprivilegerules/index', N'', N'0', N'0', N'layui-icon-auz', N'0', N'基础配置', N'', N'1', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'DataPrivilegeRule', N'0', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'.0.1.17.', N'字典分类', N'/Categories/Index', N'', N'0', N'0', N'', N'0', N'基础配置', N'', N'7', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Category', N'0')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'a94d5648-c2a9-405e-ba6f-f1602ec9b807', N'.0.1.17.', N'字典分类', N'/Categories/Index', N'', N'0', N'0', N'', N'0', N'基础配置', N'', N'7', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Category', N'0', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'.0.3.', N'消息日志', N' /', N'', N'0', N'0', N'layui-icon-set-fill', N'0', N'根节点', N'', N'4', NULL, NULL, N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'b19bce90-5508-43b6-93ed-cd9ff9e356a9', N'.0.3.', N'消息日志', N' /', N'', N'0', N'0', N'layui-icon-set-fill', N'0', N'根节点', N'', N'4', NULL, NULL, N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'bc80478d-0547-4437-9cff-be4b40144bdf', N'.0.1.13.', N'模块管理', N'/ModuleManager/Index', N'', N'0', N'0', N'layui-icon-tabs', N'0', N'基础配置', N'', N'1', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Module', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'bc80478d-0547-4437-9cff-be4b40144bdf', N'.0.1.13.', N'模块管理', N'/ModuleManager/Index', N'', N'0', N'0', N'layui-icon-tabs', N'0', N'基础配置', N'', N'1', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Module', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'bedb41a2-f310-4775-af99-01be08adda93', N'.0.1.14.', N'角色管理', N'/RoleManager/Index', N'', N'0', N'0', N'layui-icon-user', N'0', N'基础配置', N'', N'2', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Role', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'bedb41a2-f310-4775-af99-01be08adda93', N'.0.1.14.', N'角色管理', N'/RoleManager/Index', N'', N'0', N'0', N'layui-icon-user', N'0', N'基础配置', N'', N'2', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Role', N'1', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', N'.0.1.3.', N'资源管理', N'/Resources/Index', N'', N'0', N'0', N'layui-icon-cellphone', N'0', N'基础配置', N'', N'8', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Resource', N'0')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', N'.0.1.3.', N'资源管理', N'/Resources/Index', N'', N'0', N'0', N'layui-icon-cellphone', N'0', N'基础配置', N'', N'8', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'Resource', N'0', NULL)
 GO
 
-INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys]) VALUES (N'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', N'.0.1.15.', N'用户管理', N'/UserManager/Index', N'', N'0', N'0', N'layui-icon-friends', N'0', N'基础配置', N'', N'3', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'User', N'1')
+INSERT INTO [dbo].[Module] ([Id], [CascadeId], [Name], [Url], [HotKey], [IsLeaf], [IsAutoExpand], [IconName], [Status], [ParentName], [Vector], [SortNo], [ParentId], [Code], [IsSys], [KeepAlive]) VALUES (N'ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', N'.0.1.15.', N'用户管理', N'/UserManager/Index', N'', N'0', N'0', N'layui-icon-friends', N'0', N'基础配置', N'', N'3', N'7580672f-a390-4bb6-982d-9a4570cb5199', N'User', N'1', NULL)
 GO
 
 

@@ -49,7 +49,7 @@ b => b.UseRowNumberForPaging());
 
 ## 使用mysql时，提示无法找到openauthdb.Org
 
-在linux下面，mysql是区分数据库大小写的，但OpenAuth.Core使用EF映射数据库表是按照首字母大写来处理的。在mysql配置中里面加上：
+在linux下面，mysql是区分数据库大小写的，但OpenAuth.Net使用EF映射数据库表是按照首字母大写来处理的。在mysql配置中里面加上：
 
 ```shell
 lower_case_table_names=1

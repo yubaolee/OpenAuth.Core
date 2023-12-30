@@ -92,7 +92,7 @@ namespace OpenAuth.App
 
 ```
 
-如果在一个事务里面有多次`SaveChanges()`的情况，需要使用OpenAuth.Core提供的`ExecuteWithTransaction`处理。如下：
+如果在一个事务里面有多次`SaveChanges()`的情况，需要使用OpenAuth.Net提供的`ExecuteWithTransaction`处理。如下：
 
 ```csharp
         //代码详见TestTransaction.cs/NormalSubmit()

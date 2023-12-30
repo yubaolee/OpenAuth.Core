@@ -89,6 +89,12 @@ namespace OpenAuth.Repository.Domain
         /// </summary>
         [Description("是否系统模块")]
         public bool IsSys { get; set; }
+        
+        /// <summary>
+        /// 前端界面是否缓存
+        /// </summary>
+        /// [Description("前端界面是否缓存")]
+        public bool Keepalive { get; set; }
 
     }
 }

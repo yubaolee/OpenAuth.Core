@@ -63,6 +63,11 @@ namespace OpenAuth.App.Response
         public string Code { get; set; }
 
         public bool IsSys { get; set; }
+        
+        /// <summary>
+        /// 前端界面是否缓存
+        /// </summary>
+        public bool Keepalive { get; set; }
 
         /// <summary>
         /// 模块中的元素

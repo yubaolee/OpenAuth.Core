@@ -102,7 +102,9 @@ namespace OpenAuth.App
                 .SelectMany(a => a.GetTypes().Where(t => t.GetInterfaces()
                     .Contains(typeof(IJob))))
                 .ToArray();
-            return types.Select(u => u.FullName).ToList();
+            //过滤掉httppost的定时任务
+            var noHttpPostType = types.Where(u =>u.UnderlyingSystemType!=typeof(OpenAuth.App.Jobs.HttpPostJob));
+            return noHttpPostType.Select(u => u.FullName).ToList();
         }
 
         public void ChangeJobStatus(ChangeJobStatusReq req)

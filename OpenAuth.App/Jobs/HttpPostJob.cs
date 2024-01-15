@@ -2,7 +2,6 @@
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using OpenAuth.Repository.Domain;
 using Quartz;
 

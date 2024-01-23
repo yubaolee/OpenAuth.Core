@@ -12,8 +12,47 @@ OpenAuth.Pro使用的动态表单可以满足日常普通的审批功能，但�
 
 ![20211228212800](http://img.openauth.net.cn/20211228212800.png)
 
+## 编写后端代码
 
-## 编写请假条表单代码
+自定义表单后台数据库读写需要继承`ICustomerForm`接口。并且名称需要和数据库表名+App的形式，如：`FrmLeaveReqApp`。参考代码如下：
+
+```csharp
+    public class FrmLeaveReqApp : BaseStringApp<FrmLeaveReq,OpenAuthDBContext>, ICustomerForm
+    {
+        //其他逻辑代码略
+        public void Add(FrmLeaveReq obj)
+        {
+            Repository.Add(obj);
+        }
+        
+        public FrmLeaveReqApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<FrmLeaveReq,OpenAuthDBContext> repository,
+            IAuth auth) : base(unitWork, repository, auth)
+        {
+        }
+
+        public void Add(string flowInstanceId, string frmData)
+        {
+            var req = JsonHelper.Instance.Deserialize<FrmLeaveReq>(frmData);
+            req.FlowInstanceId = flowInstanceId;
+            Add(req);
+        }
+
+        public void Update(string flowInstanceId, string frmData)
+        {
+            var req = JsonHelper.Instance.Deserialize<FrmLeaveReq>(frmData);
+            UnitWork.Update<FrmLeaveReq>(u => u.FlowInstanceId == flowInstanceId, u => new FrmLeaveReq
+            {
+                UserName = req.UserName,
+                RequestComment = req.RequestComment,
+                RequestType = req.RequestType
+                //补充其他需要更新的字段
+            });
+        }
+    }
+```
+
+
+## 编写请假条前端表单代码
 
 系统约定，所有开发人员自己开发的表单，全部放在views/forms文件夹下。并且以下图的文件结构进行放置。
 

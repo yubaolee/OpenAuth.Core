@@ -2,7 +2,7 @@
 
 ## 下载代码
 
-gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
+gitee上面两个版本。其中：
 
 * [OpenAuth.Net](https://gitee.com/dotnetchina/OpenAuth.Net) 默认SDK版本为.Net 6，推荐使用该版本。如果你使用vs2019作为开发工具，请注意查看：[VS2019打开6.0及以后版本](http://doc.openauth.net.cn/core/faq.html#vs2019%E6%89%93%E5%BC%806-0%E5%8F%8A%E4%BB%A5%E5%90%8E%E7%89%88%E6%9C%AC)
 

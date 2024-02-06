@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Infrastructure;
+using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using OpenAuth.Repository.Core;
@@ -32,6 +36,27 @@ namespace OpenAuth.Repository
                try
                {
                    action();
+                   transaction.Commit();
+               }
+               catch (Exception ex)
+               {
+                   transaction.Rollback();
+                   throw ex;
+               }
+           }
+       }
+       /// <summary>
+       /// ExecuteWithTransaction方法的异步方式
+       /// EF默认情况下，每调用一次SaveChanges()都会执行一个单独的事务
+       /// 本接口实现在一个事务中可以多次执行SaveChanges()方法
+       /// </summary>
+       public async Task ExecuteWithTransactionAsync(Func<Task> action)
+       {
+           using (IDbContextTransaction transaction = _context.Database.BeginTransaction())
+           {
+               try
+               { 
+                   await action();
                    transaction.Commit();
                }
                catch (Exception ex)
@@ -200,6 +225,7 @@ namespace OpenAuth.Repository
 
        public int ExecuteSql(string sql)
        {
+           if (string.IsNullOrEmpty(sql)) return 0;
             return _context.Database.ExecuteSqlRaw(sql);
         }
 
@@ -207,13 +233,35 @@ namespace OpenAuth.Repository
        {
            return _context.Set<T>().FromSqlRaw(sql, parameters);
        }
-        
+       
+       [Obsolete("最新版同FromSql，需要在DbContext中设置modelBuilder.Entity<XX>().HasNoKey();")]
        public IQueryable<T> Query<T>(string sql, params object[] parameters) where T : class
        {
-           return _context.Query<T>().FromSqlRaw(sql, parameters);
+           return _context.Set<T>().FromSqlRaw(sql, parameters);
        }
-       
-        #region 异步实现
+
+       /// <summary>
+       /// 执行存储过程
+       /// </summary>
+       /// <param name="procName">存储过程名称</param>
+       /// <param name="sqlParams">存储过程参数</param>
+       public List<T> ExecProcedure<T>(string procName, params DbParameter[] sqlParams) where T : class
+       {
+           var connection = _context.Database.GetDbConnection();
+           using (var cmd = connection.CreateCommand())
+           {
+               _context.Database.OpenConnection();
+               cmd.CommandText = procName;
+               cmd.CommandType = CommandType.StoredProcedure;
+               cmd.Parameters.AddRange(sqlParams);
+               DbDataReader dr =  cmd.ExecuteReader();                
+               var datatable = new DataTable();
+               datatable.Load(dr);
+               return datatable.ToList<T>();
+           }
+       }
+
+       #region 异步实现
         
         /// <summary>
         /// 异步执行sql

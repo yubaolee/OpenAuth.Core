@@ -1,4 +1,6 @@
-﻿namespace Infrastructure
+﻿using System.Collections.Generic;
+
+namespace Infrastructure
 {
     /// <summary>
     /// 配置项
@@ -12,7 +14,6 @@
             Version = "";
             UploadPath = "";
             IdentityServerUrl = "";
-            DbType = Define.DBTYPE_SQLSERVER;
         }
         /// <summary>
         /// SSO地址
@@ -28,13 +29,18 @@
         /// <summary>
         /// 数据库类型 SqlServer、MySql
         /// </summary>
-        public string DbType { get; set; }
+        public Dictionary<string, string> DbTypes { get; set; }
 
         /// <summary> 附件上传路径</summary>
         public string UploadPath { get; set; }
 
         //identity授权的地址
         public string IdentityServerUrl { get; set; }
+        
+        /// <summary>
+        /// Redis服务器配置
+        /// </summary>
+        public string RedisConf { get; set; }
 
         //是否是Identity授权方式
         public bool IsIdentityAuth => !string.IsNullOrEmpty(IdentityServerUrl);

@@ -40,22 +40,28 @@ namespace OpenAuth.Mvc.Controllers
             }
             return JsonHelper.Instance.Serialize(Result);
         }
-
-        //添加或修改
+        
+        /// <summary>
+        /// 阅读消息（即消息置为已读）
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
-        public string Update(SysMessage obj)
+        public string Read(ReadMsgReq obj)
         {
+            var result = new Response();
             try
             {
-                _app.Update(obj);
+                _app.Read(obj);
 
             }
             catch (Exception ex)
             {
-                Result.Code = 500;
-                Result.Message = ex.Message;
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
             }
-            return JsonHelper.Instance.Serialize(Result);
+
+            return JsonHelper.Instance.Serialize(result);
         }
 
         /// <summary>

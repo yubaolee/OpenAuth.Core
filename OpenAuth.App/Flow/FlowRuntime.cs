@@ -7,7 +7,7 @@
 // Last Modified On : 07-19-2018
 // ***********************************************************************
 // <copyright file="FlowRuntime.cs" company="OpenAuth.App">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary>
 // 一个正在运行中的流程实例
@@ -325,6 +325,17 @@ namespace OpenAuth.App.Flow
             return previousId;
         }
 
+        /// <summary>
+        /// 撤销流程，清空所有节点
+        /// </summary>
+        public void ReCall()
+        {
+            foreach (var item in Nodes)
+            {
+                item.Value.setInfo = null;
+            }
+        }
+
         ///<summary>
         /// 标记节点1通过，-1不通过，0驳回
         /// </summary>
@@ -438,7 +449,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 下一个节点对象
         /// </summary>
-        public FlowNode nextNode => Nodes[nextNodeId];
+        public FlowNode nextNode => nextNodeId != "-1"? Nodes[nextNodeId] : null;
 
         /// <summary>
         /// 上一个节点

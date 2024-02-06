@@ -58,17 +58,5 @@ namespace Infrastructure.Utilities
             String result = url.ToLower().Replace("&" + fragmentToRemove, string.Empty).Replace("?" + fragmentToRemove, string.Empty);
             return result;
         }
-
-        /// <summary>
-        /// 根据URL的相对地址获取决定路径
-        /// <para>eg: /Home/About ==>http://192.168.0.1/Home/About</para>
-        /// </summary>
-        /// <returns>System.String.</returns>
-        //public static string GetAbsolutePathForRelativePath(string relativePath)
-        //{
-        //    HttpRequest Request = HttpContext.Current.Request;
-        //    string returnUrl = string.Format("{0}{1}",Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, string.Empty) , VirtualPathUtility.ToAbsolute(relativePath));
-        //    return returnUrl;
-        //}
     }
 }

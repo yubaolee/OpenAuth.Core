@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Autofac;
 using Infrastructure;
 using Infrastructure.Extensions.AutofacManager;
@@ -29,12 +30,12 @@ namespace OpenAuth.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(provider =>
+            //在startup中需要强制创建log4net
+            var loggerFactory = LoggerFactory.Create(builder =>
             {
-                var service = provider.GetRequiredService<ILogger<StartupLogger>>();
-                return new StartupLogger(service);
+                builder.AddLog4Net();                
             });
-            var logger = services.BuildServiceProvider().GetRequiredService<StartupLogger>();
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
             var identityServer = ((ConfigurationSection)Configuration.GetSection("AppSetting:IdentityServerUrl")).Value;
             if (!string.IsNullOrEmpty(identityServer))
             {
@@ -88,9 +89,10 @@ namespace OpenAuth.Mvc
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
 
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
-            var dbType = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbType")).Value;
+            var dbtypes = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbTypes")).GetChildren()
+                .ToDictionary(x => x.Key, x => x.Value);
             var connectionString = Configuration.GetConnectionString("OpenAuthDBContext");
-            logger.LogInformation($"当前数据库类型：{dbType}，连接字符串：{connectionString}");
+            logger.LogInformation($"系统配置的数据库类型：{JsonHelper.Instance.Serialize(dbtypes)}，连接字符串：{connectionString}");
 
             services.AddDbContext<OpenAuthDBContext>();
 
@@ -109,8 +111,10 @@ namespace OpenAuth.Mvc
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddLog4Net();
+            
             app.UseAuthentication();
             if (env.IsDevelopment())
             {

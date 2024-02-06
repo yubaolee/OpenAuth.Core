@@ -11,6 +11,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "组织机构_Orgs")]
     public class OrgsController : ControllerBase
     {
         private readonly OrgManagerApp _app;
@@ -19,9 +20,9 @@ namespace OpenAuth.WebApi.Controllers
         /// 获取机构详情
         /// </summary>
         [HttpGet]
-        public Response<Org> Get(string id)
+        public Response<SysOrg> Get(string id)
         {
-            var result = new Response<Org>();
+            var result = new Response<SysOrg>();
             try
             {
                 result.Result = _app.Get(id);
@@ -42,9 +43,9 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost]
-        public Response<Org> Add(Org obj)
+        public Response<SysOrg> Add(SysOrg obj)
         {
-            var result = new Response<Org>();
+            var result = new Response<SysOrg>();
             try
             {
                 _app.Add(obj);
@@ -61,7 +62,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
         [HttpPost]
-        public Response Update(Org obj)
+        public Response Update(SysOrg obj)
         {
             var result = new Response();
             try

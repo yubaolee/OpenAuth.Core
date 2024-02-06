@@ -16,6 +16,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "定时任务_OpenJobs")]
     public class OpenJobsController : ControllerBase
     {
         private readonly OpenJobApp _app;

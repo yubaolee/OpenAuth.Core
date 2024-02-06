@@ -7,7 +7,7 @@
 // Last Modified On : 07-05-2018
 // ***********************************************************************
 // <copyright file="IAuthStrategy.cs" company="OpenAuth.App">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary>
 // 授权策略接口
@@ -15,6 +15,7 @@
 // ***********************************************************************
 
 
+using System;
 using System.Collections.Generic;
 using Infrastructure;
 using OpenAuth.App.Response;
@@ -32,19 +33,26 @@ namespace OpenAuth.App
 
          List<Resource> Resources { get; }
 
-         List<Org> Orgs { get; }
+         List<SysOrg> Orgs { get; }
 
          User User
         {
             get;set;
         }
-
+         
         /// <summary>
-        /// 根据模块id获取可访问的模块字段
+        /// 获取角色可以访问的字段信息
         /// </summary>
         /// <param name="moduleCode"></param>
         /// <returns></returns>
-        List<KeyDescription> GetProperties(string moduleCode);
+        List<BuilderTableColumn> GetTableColumns(string moduleCode);
+        /// <summary>
+        /// 获取角色可访问的字段信息，因为MVC版本没有代码生成器，所以只能通过直接读取数据库表结构的方式
+        /// </summary>
+        /// <param name="moduleCode"></param>
+        /// <returns></returns>
+        [Obsolete("获取角色可访问的字段信息，因为MVC版本没有代码生成器，所以只能通过直接读取数据库表结构的方式")]
+        List<BuilderTableColumn> GetTableColumnsFromDb(string moduleCode);
 
     }
 }

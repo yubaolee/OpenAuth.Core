@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.Helpers;
 using Microsoft.Extensions.Logging;
+using StackExchange.Profiling;
 
 namespace OpenAuth.WebApi.Controllers
 {
@@ -32,6 +33,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "登录验证_Check")]
     public class CheckController : ControllerBase
     {
         private readonly IAuth _authUtil;
@@ -125,12 +127,12 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="moduleCode">模块的Code，如Category</param>
         /// <returns></returns>
         [HttpGet]
-        public Response<List<KeyDescription>> GetProperties(string moduleCode)
+        public Response<List<BuilderTableColumn>> GetProperties(string moduleCode)
         {
-            var result = new Response<List<KeyDescription>>();
+            var result = new Response<List<BuilderTableColumn>>();
             try
             {
-                result.Result = _authStrategyContext.GetProperties(moduleCode);
+                result.Result = _authStrategyContext.GetTableColumns(moduleCode);
             }
             catch (Exception ex)
             {
@@ -144,9 +146,9 @@ namespace OpenAuth.WebApi.Controllers
         /// 获取登录用户的所有可访问的组织信息
         /// </summary>
         [HttpGet]
-        public Response<List<Org>> GetOrgs()
+        public Response<List<SysOrg>> GetOrgs()
         {
-            var result = new Response<List<Org>>();
+            var result = new Response<List<SysOrg>>();
             try
             {
                 result.Result = _authStrategyContext.Orgs;
@@ -335,11 +337,11 @@ namespace OpenAuth.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public LoginResult Login([FromBody]PassportLoginRequest request)
+        public LoginResult Login(PassportLoginRequest request)
         {
             var result = new LoginResult();
             try
-            {
+            { 
                 result = _authUtil.Login(request.AppKey, request.Account, request.Password);
             }
             catch (Exception ex)

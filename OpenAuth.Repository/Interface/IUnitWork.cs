@@ -10,6 +10,8 @@
 // ***********************************************************************
 
 using System;
+using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -20,7 +22,7 @@ namespace OpenAuth.Repository.Interface
 {
     /// <summary>
     /// 工作单元接口
-    /// 使用详见：http://doc.openauth.me/core/unitwork.html
+    /// 使用详见：http://doc.openauth.net.cn/core/unitwork.html
     /// <para> 适合在一下情况使用:</para>
     /// <para>1 在同一事务中进行多表操作</para>
     /// <para>2 需要多表联合查询</para>
@@ -33,6 +35,10 @@ namespace OpenAuth.Repository.Interface
         /// 本接口实现在一个事务中可以多次执行SaveChanges()方法
         /// </summary>
         void ExecuteWithTransaction(Action action);
+        /// <summary>
+        /// ExecuteWithTransaction方法的异步方式
+        /// </summary>
+        Task ExecuteWithTransactionAsync(Func<Task> action);
         /// <summary>
         /// 返回DbContext,用于多线程等极端情况
         /// </summary>
@@ -88,7 +94,7 @@ namespace OpenAuth.Repository.Interface
         void Save();
         
         /// <summary>
-        /// 该方法不支持EF自带的事务,需要ExecuteWithTransaction配合才能实现事务控制,详见：http://doc.openauth.me/core/unitwork.html
+        /// 该方法不支持EF自带的事务,需要ExecuteWithTransaction配合才能实现事务控制,详见：http://doc.openauth.net.cn/core/unitwork.html
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
@@ -106,6 +112,13 @@ namespace OpenAuth.Repository.Interface
         /// <typeparam name="T"> T为非数据库实体，需要在DbContext中增加对应的DbQuery</typeparam>
         /// <returns></returns>
         IQueryable<T> Query<T>(string sql, params object[] parameters) where T : class;
+        
+        /// <summary>
+        /// 执行存储过程
+        /// </summary>
+        /// <param name="procName">存储过程名称</param>
+        /// <param name="sqlParams">存储过程参数</param>
+        List<T> ExecProcedure<T>(string procName,params DbParameter[] sqlParams) where T : class;
         
         #region 异步接口
 

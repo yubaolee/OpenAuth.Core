@@ -13,6 +13,7 @@ using OpenAuth.App.Response;
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "字典所属分类_CategoryTypes")]
     public class CategoryTypesController : ControllerBase
     {
         private readonly CategoryTypeApp _app;

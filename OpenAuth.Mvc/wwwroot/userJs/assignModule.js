@@ -100,7 +100,7 @@ layui.config({
                         //循环所有数据，找出对应关系，设置checkbox选中状态
                         for (var i = 0; i < res.data.length; i++) {
                             for (var j = 0; j < props.Result.length; j++) {
-                                if (res.data[i].Key != props.Result[j]) continue;
+                                if (res.data[i].ColumnName != props.Result[j]) continue;
 
                                 //这里才是真正的有效勾选
                                 res.data[i]["LAY_CHECKED"] = true;
@@ -243,9 +243,9 @@ layui.config({
         console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
         var ids=[];
         if(obj.type=="all"){
-            ids = layui.table.checkStatus('propList').data.map(function (m) { return m.Key; });
+            ids = layui.table.checkStatus('propList').data.map(function (m) { return m.ColumnName; });
         }else{
-            ids =[obj.data.Key]
+            ids =[obj.data.ColumnName]
         }
 
         var url = "/AccessObjs/AssignDataProperty";

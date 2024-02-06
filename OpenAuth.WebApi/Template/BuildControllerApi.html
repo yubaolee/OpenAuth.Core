@@ -14,13 +14,14 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "{ModuleName}接口_{ClassName}s")]
     public class {ClassName}sController : ControllerBase
     {
         private readonly {ModuleCode} _app;
         
         //获取详情
         [HttpGet]
-        public Response<{ClassName}> Get(string id)
+        public Response<{ClassName}> Get({KeyTypeName} id)
         {
             var result = new Response<{ClassName}>();
             try
@@ -87,7 +88,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 批量删除
         /// </summary>
        [HttpPost]
-        public Response Delete([FromBody]string[] ids)
+        public Response Delete([FromBody]{KeyTypeName}[] ids)
         {
             var result = new Response();
             try

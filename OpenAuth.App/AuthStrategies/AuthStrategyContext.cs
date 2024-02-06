@@ -15,6 +15,7 @@
 // </summary>
 // ***********************************************************************
 
+using System;
 using System.Collections.Generic;
 using Infrastructure;
 using OpenAuth.App.Response;
@@ -58,14 +59,30 @@ namespace OpenAuth.App
             get { return _strategy.Resources; }
         }
 
-        public List<Org> Orgs
+        public List<SysOrg> Orgs
         {
             get { return _strategy.Orgs; }
         }
 
-        public List<KeyDescription> GetProperties(string moduleCode)
+        /// <summary>
+        /// 获取角色可以访问的字段信息
+        /// </summary>
+        /// <param name="moduleCode"></param>
+        /// <returns></returns>
+        public List<BuilderTableColumn> GetTableColumns(string moduleCode)
         {
-            return _strategy.GetProperties(moduleCode);
+            return _strategy.GetTableColumns(moduleCode);
+        }
+        
+        /// <summary>
+        /// 获取角色可访问的字段信息，因为MVC版本没有代码生成器，所以只能通过直接读取数据库表结构的方式
+        /// </summary>
+        /// <param name="moduleCode"></param>
+        /// <returns></returns>
+        [Obsolete("获取角色可访问的字段信息，因为MVC版本没有代码生成器，所以只能通过直接读取数据库表结构的方式")]
+        public List<BuilderTableColumn> GetTableColumnsFromDb(string moduleCode)
+        {
+            return _strategy.GetTableColumnsFromDb(moduleCode);
         }
 
     }

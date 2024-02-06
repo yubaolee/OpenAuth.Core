@@ -1,0 +1,236 @@
+﻿<!--
+ * @description: 代码生成器自动生成
+ * @author: liyubao | xufuxing
+ * @version: 1.0
+-->
+<template>
+  <div class="flex-column">
+    <sticky :className="'sub-navbar'">
+      <div class="filter-container">
+        <el-input @keyup.enter.native="handleFilter" size="mini" style="width: 200px;" class="filter-item" :placeholder="'名称'" v-model="listQuery.key"> </el-input>
+        <el-button class="filter-item" size="mini" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
+        <permission-btn size="mini" v-on:btn-event="onBtnClicked"></permission-btn>
+      </div>
+    </sticky>
+    <div class="app-container flex-item">
+      <div class="bg-white" style="height: 100%;">
+        <auth-table
+          style="height:calc(100% - 60px)"
+          ref="mainTable"
+          :select-type="'checkbox'"
+          :table-fields="headerList"
+          :data="list"
+          :v-loading="listLoading"
+          @row-click="rowClick"
+          @selection-change="handleSelectionChange"
+        ></auth-table>
+        <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="handleCurrentChange" />
+      </div>
+      <el-dialog v-el-drag-dialog class="dialog-mini" width="500px" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+        <auth-form ref="dataForm" :rules="rules" :edit-model="true" :form-fields="headerList" v-model="temp" :col-num="2"></auth-form>
+        <div slot="footer">
+          <el-button size="mini" @click="dialogFormVisible = false">取消</el-button>
+          <el-button size="mini" v-if="dialogStatus == 'create'" type="primary" @click="createData">确认</el-button>
+          <el-button size="mini" v-else type="primary" @click="updateData">确认</el-button>
+        </div>
+      </el-dialog>
+    </div>
+  </div>
+</template>
+<script>
+import * as {TableName}s from '@/api/{TableName}s'
+import waves from '@/directive/waves' // 水波纹指令
+import Sticky from '@/components/Sticky'
+import permissionBtn from '@/components/PermissionBtn'
+import Pagination from '@/components/Pagination'
+import elDragDialog from '@/directive/el-dragDialog'
+import { defaultVal } from '@/utils/index'
+import extend from '@/extensions/delRows.js'
+import AuthForm from '../../components/Base/AuthForm.vue'
+import AuthTable from '../../components/Base/AuthTable.vue'
+import ColumnDefine from '@/interface/columnDefine'
+export default {
+  name: '{TableName}',
+  components: { Sticky, permissionBtn, Pagination, AuthTable, AuthForm, },
+  directives: {
+    waves,
+    elDragDialog,
+  },
+  mixins: [extend],
+  data() {
+    return {
+      headerList: [], // 主列表列定义
+      multipleSelection: [], // 列表checkbox选中的值
+      tableKey: 0,
+      list: null,
+      total: 0,
+      listLoading: true,
+      listQuery: {
+        // 查询条件
+        page: 1,
+        limit: 20,
+        key: undefined,
+      },
+      temp: { },
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑',
+        create: '添加',
+      },
+      rules: {
+        name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+      },
+    }
+  },
+  created() {
+    this.headerList = [
+     {HeaderList}
+    ]
+    this.getList()
+  },
+  methods: {
+
+    rowClick(row) {
+      this.$refs.mainTable.clearSelection()
+      this.$refs.mainTable.toggleRowSelection(row)
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    onBtnClicked: function(domId,callback) {
+      console.log('you click:' + domId)
+      switch (domId) {
+        case 'btnAdd':
+          this.handleCreate()
+          break
+        case 'btnEdit':
+          if (this.multipleSelection.length !== 1) {
+            this.$message({
+              message: '只能选中一个进行编辑',
+              type: 'error',
+            })
+            return
+          }
+          this.handleUpdate(this.multipleSelection[0])
+          break
+        case 'btnDel':
+          if (this.multipleSelection.length < 1) {
+            this.$message({
+              message: '至少删除一个',
+              type: 'error',
+            })
+            return
+          }
+          this.handleDelete(this.multipleSelection)
+          break
+          case 'btnExport':
+            this.$refs.mainTable.exportExcel('资源文件',callback)
+            break
+        default:
+          break
+      }
+    },
+    getList() {
+      this.listLoading = true
+      {TableName}s.getList(this.listQuery).then((response) => {
+        this.list = response.data
+        this.total = response.count
+        this.listLoading = false
+      })
+    },
+    handleFilter() {
+      this.listQuery.page = 1
+      this.getList()
+    },
+    handleSizeChange(val) {
+      this.listQuery.limit = val
+      this.getList()
+    },
+    handleCurrentChange(val) {
+      this.listQuery.page = val.page
+      this.listQuery.limit = val.limit
+      this.getList()
+    },
+    handleModifyStatus(row, disable) {
+      // 模拟修改状态
+      this.$message({
+        message: '操作成功',
+        type: 'success',
+      })
+      row.disable = disable
+    },
+    resetTemp() {
+      let obj = {};
+      this.headerList.forEach((item) => {
+        obj[item.columnName] = defaultVal(item.entityType)
+      })
+      this.temp =Object.assign({}, obj) // copy obj
+    },
+    handleCreate() {
+      // 弹出添加框
+      this.resetTemp()
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    createData() {
+      // 保存提交
+      this.$refs['dataForm'].validate(() => {
+        {TableName}s.add(this.temp).then(() => {
+          this.list.unshift(this.temp)
+          this.dialogFormVisible = false
+          this.$notify({
+            title: '成功',
+            message: '创建成功',
+            type: 'success',
+            duration: 2000,
+          })
+        })
+      })
+    },
+    handleUpdate(row) {
+      // 弹出编辑框
+      this.temp = Object.assign({}, row) // copy obj
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    updateData() {
+      // 更新提交
+      this.$refs['dataForm'].validate(() => {
+        const tempData = Object.assign({}, this.temp)
+        {TableName}s.update(tempData).then(() => {
+          for (const v of this.list) {
+            if (v.id === this.temp.id) {
+              const index = this.list.indexOf(v)
+              this.list.splice(index, 1, this.temp)
+              break
+            }
+          }
+          this.dialogFormVisible = false
+          this.$notify({
+            title: '成功',
+            message: '更新成功',
+            type: 'success',
+            duration: 2000,
+          })
+        })
+      })
+    },
+    handleDelete(rows) {
+      // 多行删除
+      this.delrows({TableName}s, rows)
+    },
+  },
+}
+</script>
+<style>
+.dialog-mini .el-select {
+  width: 100%;
+}
+</style>

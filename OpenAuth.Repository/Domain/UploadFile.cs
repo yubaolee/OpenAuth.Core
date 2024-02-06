@@ -1,5 +1,5 @@
-﻿// <copyright file="UploadFile.cs" company="openauth.me">
-// Copyright (c) 2019 openauth.me. All rights reserved.
+﻿// <copyright file="UploadFile.cs" company="openauth.net.cn">
+// Copyright (c) 2019 openauth.net.cn. All rights reserved.
 // </copyright>
 // <author>www.cnblogs.com/yubaolee</author>
 // <date>2019-03-07</date>
@@ -15,7 +15,7 @@ namespace OpenAuth.Repository.Domain
 	/// 文件
 	/// </summary>
     [Table("UploadFile")]
-    public partial class UploadFile : Entity
+    public partial class UploadFile : StringEntity
     {
         public UploadFile()
         {

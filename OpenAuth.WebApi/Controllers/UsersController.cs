@@ -12,7 +12,8 @@ namespace OpenAuth.WebApi.Controllers
     /// 用户操作
     /// </summary>
     [Route("api/[controller]/[action]")]
-    [ApiController]
+    [ApiController] 
+    [ApiExplorerSettings(GroupName = "用户管理_Users")]
     public class UsersController : ControllerBase
     {
         private readonly UserManagerApp _app;
@@ -108,6 +109,16 @@ namespace OpenAuth.WebApi.Controllers
         public async Task<TableData> Load([FromQuery]QueryUserListReq request)
         {
             return await _app.Load(request);
+        }
+        
+        /// <summary>
+        /// 获取所有的用户
+        /// 为了控制权限，通常只用于流程实例选择执行角色，其他地方请使用Load
+        /// </summary>
+        [HttpGet]
+        public async Task<TableResp<UserView>> LoadAll([FromQuery]QueryUserListReq request)
+        {
+            return await _app.LoadAll(request);
         }
 
        [HttpPost]

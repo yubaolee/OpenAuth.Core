@@ -11,6 +11,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using Infrastructure.Const;
 using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
@@ -19,7 +20,7 @@ namespace OpenAuth.Repository.Domain
 	/// 工作流流程实例表
 	/// </summary>
       [Table("FlowInstance")]
-    public partial class FlowInstance : Entity
+    public partial class FlowInstance : StringEntity
     {
         public FlowInstance()
         {
@@ -44,7 +45,7 @@ namespace OpenAuth.Repository.Domain
           this.CreateUserName= string.Empty;
           this.FlowLevel= 0;
           this.Description= string.Empty;
-          this.IsFinish= 0;
+          this.IsFinish= FlowInstanceStatus.Running;
           this.MakerList= string.Empty;
         }
 
@@ -105,8 +106,10 @@ namespace OpenAuth.Repository.Domain
         public string FrmData { get; set; }
         /// <summary>
 	    /// 表单类型
+	    /// <para>0：动态表单；1：开发者自定义表单；2：拖动表单</para>
+	    /// <para>当类型为1时，流程实例必需有DbName，用于直接向对应数据库表中写入数据</para>
 	    /// </summary>
-         [Description("表单类型")]
+         [Description("表单类型：0：动态表单；1：开发者自定义表单；2：拖动表单")]
         public int FrmType { get; set; }
         /// <summary>
 	    /// 表单中的控件属性描述
@@ -159,9 +162,9 @@ namespace OpenAuth.Repository.Domain
          [Description("实例备注")]
         public string Description { get; set; }
         /// <summary>
-	    /// 是否完成
+	    /// 是否完成，当前节点的状态也通过该值表示
 	    /// </summary>
-         [Description("是否完成")]
+         [Description("是否完成，当前节点的状态也通过该值表示")]
         public int IsFinish { get; set; }
         /// <summary>
 	    /// 执行人

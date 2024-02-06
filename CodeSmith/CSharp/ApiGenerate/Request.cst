@@ -12,6 +12,6 @@ namespace OpenAuth.App.Request
 {
     public class Query<%=ModuleName%>ListReq : PageReq
     {
-        //todo:添加自己的请求字段
+        //todo:根据自己的业务场景添加需要的字段
     }
 }

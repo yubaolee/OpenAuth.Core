@@ -18,9 +18,9 @@ namespace OpenAuth.App.SSO
         //这个地方使用IRepository<User> 而不使用UserManagerApp是防止循环依赖
         public IRepository<User,OpenAuthDBContext> _app;
         private ICacheContext _cacheContext;
-        private AppInfoService _appInfoService;
+        private AppManager _appInfoService;
 
-        public LoginParse( AppInfoService infoService, ICacheContext cacheContext, IRepository<User,OpenAuthDBContext> userApp)
+        public LoginParse( AppManager infoService, ICacheContext cacheContext, IRepository<User,OpenAuthDBContext> userApp)
         {
             _appInfoService = infoService;
             _cacheContext = cacheContext;
@@ -33,12 +33,12 @@ namespace OpenAuth.App.SSO
             try
             {
                 model.Trim();
-                //获取应用信息
-                var appInfo = _appInfoService.Get(model.AppKey);
-                if (appInfo == null)
-                {
-                    throw  new Exception("应用不存在");
-                }
+                //todo:如果需要判定应用，可以取消该注释
+                // var appInfo = _appInfoService.GetByAppKey(model.AppKey);
+                // if (appInfo == null)
+                // {
+                //     throw  new Exception("应用不存在");
+                // }
                 //获取用户信息
                 User userInfo = null;
                 if (model.Account == Define.SYSTEM_USERNAME)
@@ -84,7 +84,6 @@ namespace OpenAuth.App.SSO
                 _cacheContext.Set(currentSession.Token, currentSession, DateTime.Now.AddDays(10));
 
                 result.Code = 200;
-                result.ReturnUrl = appInfo.ReturnUrl;
                 result.Token = currentSession.Token;
             }
             catch (Exception ex)

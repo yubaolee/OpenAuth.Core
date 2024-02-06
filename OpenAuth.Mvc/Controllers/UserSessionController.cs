@@ -7,7 +7,7 @@
 // Last Modified On : 07-04-2018
 // ***********************************************************************
 // <copyright file="UserSessionController.cs" company="OpenAuth.Mvc">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary>
 // 获取登录用户的全部信息
@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
 using Infrastructure.Helpers;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
@@ -117,7 +118,7 @@ namespace OpenAuth.Mvc.Controllers
         /// </summary>
         public string GetOrgs()
         {
-             var resp = new Response<List<Org>>();
+             var resp = new Response<List<SysOrg>>();
             try
             {
                 resp.Result = _authStrategyContext.Orgs;
@@ -139,7 +140,11 @@ namespace OpenAuth.Mvc.Controllers
         {
             try
             {
-                var list = _authStrategyContext.GetProperties(moduleCode);
+                if (string.IsNullOrEmpty(moduleCode))
+                {
+                    throw new Exception("模块标识为空，不能分配可见字段");
+                }
+                var list = _authStrategyContext.GetTableColumns(moduleCode);
                 return JsonHelper.Instance.Serialize(new TableData
                 {
                     data = list,

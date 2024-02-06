@@ -18,7 +18,7 @@ namespace OpenAuth.Repository.Domain
 	/// 模块元素表(需要权限控制的按钮)
 	/// </summary>
       [Table("ModuleElement")]
-    public partial class ModuleElement : Entity
+    public partial class ModuleElement : StringEntity
     {
         public ModuleElement()
         {

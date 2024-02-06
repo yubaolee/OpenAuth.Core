@@ -2,6 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
+using System.Linq;
 using Autofac;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -48,8 +50,8 @@ namespace OpenAuth.IdentityServer
 //            {
 //                origins = new []
 //                {
-//                    "http://demo.openauth.me:1803",
-//                    "http://demo.openauth.me:52789"
+//                    "http://demo.openauth.net.cn:1803",
+//                    "http://demo.openauth.net.cn:52789"
 //                };
 //            }
 //            services.AddCors(option=>option.AddPolicy("cors", policy =>
@@ -69,18 +71,25 @@ namespace OpenAuth.IdentityServer
             
             //映射配置文件
             services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
-
+            
             //在startup里面只能通过这种方式获取到appsettings里面的值，不能用IOptions😰
-            var dbType = ((ConfigurationSection) Configuration.GetSection("AppSetting:DbType")).Value;
+            var dbtypes = ((ConfigurationSection)Configuration.GetSection("AppSetting:DbTypes")).GetChildren()
+                .ToDictionary(x => x.Key, x => x.Value);
+            var dbType = dbtypes["OpenAuthDBContext"];
             if (dbType == Define.DBTYPE_SQLSERVER)
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OpenAuthDBContext")));
             }
-            else  //mysql
+            else if(dbType == Define.DBTYPE_MYSQL) //mysql
             {
                 services.AddDbContext<OpenAuthDBContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext")));
+                    options.UseMySql(Configuration.GetConnectionString("OpenAuthDBContext"),new MySqlServerVersion(new Version(8, 0, 11))));
+            }
+            else  //oracle
+            {
+                services.AddDbContext<OpenAuthDBContext>(options =>
+                    options.UseOracle(Configuration.GetConnectionString("OpenAuthDBContext"), o=>o.UseOracleSQLCompatibility("11")));
             }
 
         }

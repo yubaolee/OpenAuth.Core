@@ -27,6 +27,12 @@ namespace Infrastructure.Cache
             _memcachedClient = client;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public override T Get<T>(string key)
         {
             return _memcachedClient.Get<T>(key);

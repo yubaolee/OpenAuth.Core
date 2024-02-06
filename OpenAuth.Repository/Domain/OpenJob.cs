@@ -20,7 +20,7 @@ namespace OpenAuth.Repository.Domain
 	/// 定时任务
 	/// </summary>
     [Table("OpenJob")]
-    public partial class OpenJob : Entity
+    public partial class OpenJob : StringEntity
     {
         public OpenJob()
         {

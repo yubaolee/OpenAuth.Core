@@ -7,7 +7,7 @@
 // Last Modified On : 07-04-2018
 // ***********************************************************************
 // <copyright file="NormalAuthStrategy.cs" company="OpenAuth.App">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary>
 // 普通用户授权策略
@@ -15,6 +15,7 @@
 // ***********************************************************************
 
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
@@ -28,7 +29,7 @@ namespace OpenAuth.App
     /// <summary>
     /// 普通用户授权策略
     /// </summary>
-    public class NormalAuthStrategy :BaseApp<User,OpenAuthDBContext>, IAuthStrategy
+    public class NormalAuthStrategy :BaseStringApp<User,OpenAuthDBContext>, IAuthStrategy
     {
         
         protected User _user;
@@ -98,13 +99,13 @@ namespace OpenAuth.App
             }
         }
 
-        public List<Org> Orgs
+        public List<SysOrg> Orgs
         {
             get
             {
                 var orgids = UnitWork.Find<Relevance>(
                     u =>u.FirstId == _user.Id && u.Key == Define.USERORG).Select(u => u.SecondId);
-                return UnitWork.Find<Org>(u => orgids.Contains(u.Id)).ToList();
+                return UnitWork.Find<SysOrg>(u => orgids.Contains(u.Id)).ToList();
             }
         }
 
@@ -117,20 +118,53 @@ namespace OpenAuth.App
                 _userRoleIds = UnitWork.Find<Relevance>(u => u.FirstId == _user.Id && u.Key == Define.USERROLE).Select(u => u.SecondId).ToList();
             }
         }
+        
 
-        /// <summary>
-        /// 获取用户可访问的字段列表
-        /// </summary>
-        /// <param name="moduleCode">模块的code</param>
-        /// <returns></returns>
-        public List<KeyDescription> GetProperties(string moduleCode)
+        public List<BuilderTableColumn> GetTableColumns(string moduleCode)
         {
-            var allprops = _dbExtension.GetProperties(moduleCode);
+            var allprops = UnitWork.Find<BuilderTableColumn>(u => u.TableName.ToLower() == moduleCode.ToLower());
+            //如果是子表，直接返回所有字段
+            var builderTable = UnitWork.FirstOrDefault<BuilderTable>(u => u.TableName.ToLower() == moduleCode.ToLower());
+            if (builderTable == null)
+            {
+                throw new Exception($"代码生成器中找不到{moduleCode.ToLower()}的定义");
+            }
+            //如果是子表，因为不能在模块界面分配，所以直接返回所有字段，后期可以优化。
+            if (builderTable.ParentTableId != null)
+            {
+                return allprops.ToList();
+            }
+
+            //如果是系统模块，直接返回所有字段。防止开发者把模块配置成系统模块，还在外层调用loginContext.GetProperties("xxxx");
+            bool? isSysModule = UnitWork.FirstOrDefault<Module>(u => u.Code == moduleCode)?.IsSys;
+            if (isSysModule!= null && isSysModule.Value)
+            {
+                return allprops.ToList();
+            }
+            
             var props =UnitWork.Find<Relevance>(u =>
                     u.Key == Define.ROLEDATAPROPERTY && _userRoleIds.Contains(u.FirstId) && u.SecondId == moduleCode)
                 .Select(u => u.ThirdId);
 
-            return allprops.Where(u => props.Contains(u.Key)).ToList();
+            return allprops.Where(u => props.Contains(u.ColumnName)).ToList();
+        }
+
+        public List<BuilderTableColumn> GetTableColumnsFromDb(string moduleCode)
+        {
+            var allprops = _dbExtension.GetTableColumnsFromDb(moduleCode);
+
+            //如果是系统模块，直接返回所有字段。防止开发者把模块配置成系统模块，还在外层调用loginContext.GetProperties("xxxx");
+            bool? isSysModule = UnitWork.FirstOrDefault<Module>(u => u.Code == moduleCode)?.IsSys;
+            if (isSysModule!= null && isSysModule.Value)
+            {
+                return allprops.ToList();
+            }
+            
+            var props =UnitWork.Find<Relevance>(u =>
+                    u.Key == Define.ROLEDATAPROPERTY && _userRoleIds.Contains(u.FirstId) && u.SecondId == moduleCode)
+                .Select(u => u.ThirdId);
+
+            return allprops.Where(u => props.Contains(u.ColumnName)).ToList();
         }
 
         //用户角色

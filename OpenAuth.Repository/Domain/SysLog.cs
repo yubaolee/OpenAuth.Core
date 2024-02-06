@@ -18,7 +18,7 @@ namespace OpenAuth.Repository.Domain
 	/// 系统日志
 	/// </summary>
       [Table("SysLog")]
-    public partial class SysLog : Entity
+    public partial class SysLog : StringEntity
     {
         public SysLog()
         {

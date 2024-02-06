@@ -14,6 +14,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "代码生成器_表_BuilderTables")]
     public class BuilderTablesController : ControllerBase
     {
         private readonly BuilderTableApp _app;
@@ -71,6 +72,15 @@ namespace OpenAuth.WebApi.Controllers
         public async Task<TableResp<BuilderTable>> Load([FromQuery]QueryBuilderTableListReq request)
         {
             return await _app.Load(request);
+        }
+        
+        /// <summary>
+        /// 加载所有的主表（parentId为空的）
+        /// </summary>
+        [HttpGet]
+        public async Task<TableData> AllMain()
+        {
+            return await _app.AllMain();
         }
 
         /// <summary>

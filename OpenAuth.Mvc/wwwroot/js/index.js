@@ -9,7 +9,23 @@ layui.config({
 		tab = layui.bodyTab({
 			openTabNum : "50",  //最大可打开窗口数量
 			url: "/UserSession/GetModulesTree" //获取菜单json地址
-    });
+		});
+
+	$(".menu_three").on("click", function () {
+
+		$(this).next().toggle();
+		$.each($(this).parent().siblings(), function (i, e) {
+
+			$(e).find("ol").hide();;
+		});
+
+	})
+	$("ol").on("click", "li a", function () {
+		$.each($(this).parent().siblings(), function (i, e) {
+			$(e).find("a").removeClass('three_this')
+		});
+		$(this).addClass('three_this');                            // 添加当前元素的样式
+	})
 
     $.get('/UserSession/GetUserName',
         function(data) {
@@ -237,7 +253,7 @@ layui.config({
 	        btn: ['火速围观'],
 	        moveType: 1,
 	        content: '<div style="padding:15px 20px; text-align:justify; line-height: 22px; text-indent:2em;border-bottom:1px solid #e2e2e2;">' +
-                '<p>郑重提示：OpenAuth.Core 2.0新版上线，如以前访问过本站点请清空缓存后访问</p>' +
+                '<p>郑重提示：OpenAuth.Core 3.1新版上线，如以前访问过本站点请清空缓存后访问</p>' +
 	            '<p>喜欢的，快快star吧！</p></div>',
 	        success: function(layero){
 				var btn = layero.find('.layui-layer-btn');

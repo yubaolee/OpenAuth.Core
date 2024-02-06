@@ -20,5 +20,20 @@ namespace Util{
           return   SourceTable.Columns.Contains("ParentId") 
                 ||  SourceTable.Columns.Contains("CascadeId") ;
         }
+
+        
+        public static string CreateBlank(int level){
+            if(level == 1){
+                return "            ";
+            }
+            else{
+                var twoblanks = "    ";
+                for (int i = level-1; i > 1; i--)
+                {
+                    twoblanks +=twoblanks;
+                }
+                return CreateBlank(1) + twoblanks;
+            }
+        }
    } 
 }

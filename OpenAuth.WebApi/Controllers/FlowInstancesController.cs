@@ -1,5 +1,5 @@
-﻿// <copyright file="FlowInstancesController.cs" company="openauth.me">
-// Copyright (c) 2019 openauth.me. All rights reserved.
+﻿// <copyright file="FlowInstancesController.cs" company="openauth.net.cn">
+// Copyright (c) 2019 openauth.net.cn. All rights reserved.
 // </copyright>
 // <author>www.cnblogs.com/yubaolee</author>
 // <date>2018-09-06</date>
@@ -22,6 +22,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "流程实例_FlowInstances")]
     public class FlowInstancesController : ControllerBase
     {
         private readonly FlowInstanceApp _app;
@@ -32,8 +33,7 @@ namespace OpenAuth.WebApi.Controllers
             var result = new Response<FlowVerificationResp>();
             try
             {
-                var flowinstance = _app.Get(id);
-                result.Result = flowinstance.MapTo<FlowVerificationResp>();
+                result.Result = _app.GetForVerification(id);
             }
             catch (Exception ex)
             {
@@ -83,10 +83,52 @@ namespace OpenAuth.WebApi.Controllers
 
             return result;
         }
+        
+        /// <summary>召回流程</summary>
+        /// <remarks> 召回后流程状态为【草稿】状态，可以再次发起流程。所有的流程节点状态还原，但保留审批记录 </remarks>
+        [HttpPost]
+        public Response ReCall(RecallFlowInstanceReq obj)
+        {
+            var result = new Response();
+            try
+            {
+                _app.ReCall(obj);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
 
-        //添加或修改
+            return result;
+        }
+        
+        /// <summary>启动流程</summary>
+        /// <remarks> 通常是对状态为【草稿】的流程进行操作，进入运行状态 </remarks>
+        [HttpPost]
+        public Response Start(StartFlowInstanceReq obj)
+        {
+            var result = new Response();
+            try
+            {
+                _app.Start(obj);
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.InnerException?.Message ?? ex.Message;
+            }
+
+            return result;
+        }
+        
+       /// <summary>
+       /// 更新流程
+       /// </summary>
+       /// <para>更新时可以修改表单内容，可以修改流程基本信息，但不能更换表单模版</para>
+       /// <returns></returns>
        [HttpPost]
-        public Response Update(FlowInstance obj)
+        public Response Update(UpdateFlowInstanceReq obj)
         {
             var result = new Response();
             try

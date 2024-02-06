@@ -14,17 +14,29 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "表单_Forms")]
     public class FormsController : ControllerBase
     {
         private readonly FormApp _app;
 
+        /// <summary>
+        /// 获取表单
+        /// </summary>
+        /// <param name="id">表单ID</param>
+        /// <param name="canWriteFormItemIds">针对动态表单项读写控制</param>
+        /// <returns></returns>
         [HttpGet]
-        public Response<FormResp> Get(string id)
+        public Response<FormResp> Get(string id, string canWriteFormItemIds)
         {
             var result = new Response<FormResp>();
             try
             {
                 result.Result = _app.FindSingle(id);
+
+                if (!string.IsNullOrEmpty(canWriteFormItemIds))
+                {
+                    result.Result.CanWriteFormItemIds = JsonHelper.Instance.Deserialize<string[]>(canWriteFormItemIds);
+                }
             }
             catch (Exception ex)
             {

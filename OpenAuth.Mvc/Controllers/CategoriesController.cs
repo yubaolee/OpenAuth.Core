@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -87,8 +88,18 @@ namespace OpenAuth.Mvc.Controllers
         /// <returns></returns>
         public string AllTypes()
         {
-            var data = _categoryTypeApp.AllTypes();
-            return JsonHelper.Instance.Serialize(data);
+            var resp = new Response<List<CategoryTypeResp>>();
+            try
+            {
+                resp.Result = _categoryTypeApp.AllTypes().MapToList<CategoryTypeResp>();
+            }
+            catch (Exception e)
+            {
+                resp.Code = 500;
+                resp.Message = e.Message;
+            }
+            return JsonHelper.Instance.Serialize(resp);
+            
         }
 
     }

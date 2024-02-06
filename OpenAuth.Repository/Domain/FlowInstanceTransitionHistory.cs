@@ -10,6 +10,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using Infrastructure.Const;
 using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
@@ -18,7 +19,7 @@ namespace OpenAuth.Repository.Domain
 	/// 工作流实例流转历史记录
 	/// </summary>
       [Table("FlowInstanceTransitionHistory")]
-    public partial class FlowInstanceTransitionHistory : Entity
+    public partial class FlowInstanceTransitionHistory : StringEntity
     {
         public FlowInstanceTransitionHistory()
         {
@@ -28,7 +29,7 @@ namespace OpenAuth.Repository.Domain
           this.ToNodeId= string.Empty;
           this.ToNodeName= string.Empty;
           this.TransitionSate= 0;
-          this.IsFinish= 0;
+          this.IsFinish= FlowInstanceStatus.Running;
           this.CreateDate= DateTime.Now;
           this.CreateUserId= string.Empty;
           this.CreateUserName= string.Empty;

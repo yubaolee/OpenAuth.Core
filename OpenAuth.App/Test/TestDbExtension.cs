@@ -16,7 +16,7 @@ namespace OpenAuth.App.Test
            
             var app = _autofacServiceProvider.GetService<DbExtension>();
 
-            var result = app.GetProperties("Category");
+            var result = app.GetTableColumnsFromDb("Category");
             Console.WriteLine(JsonHelper.Instance.Serialize(result));
         }
 

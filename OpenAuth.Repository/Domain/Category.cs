@@ -18,7 +18,7 @@ namespace OpenAuth.Repository.Domain
 	/// 分类表，也可用作数据字典。表示一个全集，比如：男、女、未知。关联的分类类型表示按什么进行的分类，如：按照性别对人类对象集
 	/// </summary>
     [Table("Category")]
-    public partial class Category : Entity
+    public partial class Category : StringEntity
     {
         public Category()
         {

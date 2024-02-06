@@ -1,11 +1,12 @@
-﻿// <copyright file="FlowLine.cs" company="openauth.me">
-// Copyright (c) 2019 openauth.me. All rights reserved.
+﻿// <copyright file="FlowLine.cs" company="openauth.net.cn">
+// Copyright (c) 2019 openauth.net.cn. All rights reserved.
 // </copyright>
 // <author>www.cnblogs.com/yubaolee</author>
 // <date>2019-03-05</date>
 // <summary>流程中的连线</summary>
 
 using System.Collections.Generic;
+using Infrastructure.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace OpenAuth.App.Flow
@@ -31,27 +32,39 @@ namespace OpenAuth.App.Flow
             bool result = true;
             foreach (var compare in Compares)
             {
-                decimal value = decimal.Parse(compare.Value);  //参考值
-                decimal frmvalue = decimal.Parse(frmDataJson.GetValue(compare.FieldName.ToLower()).ToString()); //表单中填写的值
 
-                switch (compare.Operation)
+                bool isDecimal = decimal.TryParse(compare.Value, out decimal value);
+                var fieldVal = frmDataJson.GetValue(compare.FieldName.ToLower()).ToString();
+
+                if (isDecimal)  //如果是数字或小数
                 {
-                    case DataCompare.Equal:
-                        result &= compare.Value == frmDataJson.GetValue(compare.FieldName).ToString();
-                        break;
-                    case DataCompare.Larger:
-                        result &= frmvalue > value;
-                        break;
-                    case DataCompare.Less:
-                        result &= frmvalue < value;
-                        break;
-                    case DataCompare.LargerEqual:
-                        result &= frmvalue <= value;
-                        break;
-                    case DataCompare.LessEqual:
-                        result &= frmvalue <= value;
-                        break;
+                    decimal frmvalue = decimal.Parse(fieldVal); //表单中填写的值
+
+                    switch (compare.Operation)
+                    {
+                        case DataCompare.Equal:
+                            result &= compare.Value == fieldVal;
+                            break;
+                        case DataCompare.Larger:
+                            result &= frmvalue > value;
+                            break;
+                        case DataCompare.Less:
+                            result &= frmvalue < value;
+                            break;
+                        case DataCompare.LargerEqual:
+                            result &= frmvalue >= value;
+                            break;
+                        case DataCompare.LessEqual:
+                            result &= frmvalue <= value;
+                            break;
+                    }
                 }
+                else //如果只是字符串，只判断相等
+                {
+                    result &= compare.Value == fieldVal;
+                }
+
+                
             }
 
             return result;

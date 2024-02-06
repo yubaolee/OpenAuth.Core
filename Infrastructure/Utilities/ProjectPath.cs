@@ -45,7 +45,7 @@ namespace Infrastructure.Utilities
                 return null;
             }
             if (directoryInfo.Exists
-                && directoryInfo.GetDirectories().Where(x => x.Name.LastIndexOf(".Mvc") != -1).FirstOrDefault() != null)
+                && directoryInfo.GetDirectories().Where(x => x.Name.LastIndexOf(".App") != -1).FirstOrDefault() != null)
             {
                 return directoryInfo;
             }

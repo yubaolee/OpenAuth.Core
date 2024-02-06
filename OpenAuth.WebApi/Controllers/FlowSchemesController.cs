@@ -14,6 +14,7 @@ namespace OpenAuth.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "流程模版_FlowSchemes")]
     public class FlowSchemesController : ControllerBase
     {
         private readonly FlowSchemeApp _app;

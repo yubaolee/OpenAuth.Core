@@ -7,7 +7,7 @@
 // Last Modified On : 07-24-2018
 // ***********************************************************************
 // <copyright file="ErrorController.cs" company="OpenAuth.Mvc">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary>
 // 异常处理页面

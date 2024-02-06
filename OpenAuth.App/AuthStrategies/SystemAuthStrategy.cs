@@ -7,7 +7,7 @@
 // Last Modified On : 07-05-2018
 // ***********************************************************************
 // <copyright file="SystemAuthStrategy.cs" company="OpenAuth.App">
-//     Copyright (c) http://www.openauth.me. All rights reserved.
+//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
 // </copyright>
 // <summary>
 // 超级管理员授权策略
@@ -30,7 +30,7 @@ namespace OpenAuth.App
     /// <para>超级管理员权限</para>
     /// <para>超级管理员使用guid.empty为ID，可以根据需要修改</para>
     /// </summary>
-    public class SystemAuthStrategy : BaseApp<User,OpenAuthDBContext>, IAuthStrategy
+    public class SystemAuthStrategy : BaseStringApp<User,OpenAuthDBContext>, IAuthStrategy
     {
         protected User _user;
         private DbExtension _dbExtension;
@@ -78,9 +78,9 @@ namespace OpenAuth.App
             get { return UnitWork.Find<Resource>(null).ToList(); }
         }
 
-        public List<Org> Orgs
+        public List<SysOrg> Orgs
         {
-            get { return UnitWork.Find<Org>(null).ToList(); }
+            get { return UnitWork.Find<SysOrg>(null).ToList(); }
         }
 
         public User User
@@ -91,10 +91,16 @@ namespace OpenAuth.App
                 throw new Exception("超级管理员，禁止设置用户");
             }  
         }
+        
 
-        public List<KeyDescription> GetProperties(string moduleCode)
+        public List<BuilderTableColumn> GetTableColumns(string moduleCode)
         {
-            return _dbExtension.GetProperties(moduleCode);
+            return UnitWork.Find<BuilderTableColumn>(u => u.TableName.ToLower() == moduleCode.ToLower()).ToList();
+        }
+
+        public List<BuilderTableColumn> GetTableColumnsFromDb(string moduleCode)
+        {
+            return _dbExtension.GetTableColumnsFromDb(moduleCode);
         }
 
 

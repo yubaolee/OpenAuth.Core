@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Infrastructure.Extensions;
 
 namespace Infrastructure.Helpers
@@ -335,5 +337,71 @@ namespace Infrastructure.Helpers
             return str;
         }
 
+
+        /// <summary>
+        /// 括号匹配算法
+        /// </summary>
+        /// <param name="dataStr">原始字符串</param>
+        /// <param name="leftCode">左匹配符号</param>
+        /// <param name="rightCode">右匹配符号</param>
+        /// <returns></returns>
+        private static string parenthesisMatch(string dataStr, char leftCode, char rightCode)
+        {
+            Stack stack = new Stack();
+
+            string cut_text = "";
+
+            for (int i = 0; i < dataStr.Length; ++i)
+            {
+                char ch = dataStr[i];
+                if (stack.Count > 0)
+                {
+                    cut_text += ch;
+                }
+                if (ch == leftCode)
+                {
+                    stack.Push(ch);
+                }
+                if (ch == rightCode)
+                {
+                    stack.Pop();
+                    if (0 == stack.Count)
+                    {
+                        return cut_text.Substring(0, cut_text.Length - 1);
+                    }
+                }
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 替换内容（正则 + 括号匹配算法）
+        /// </summary>
+        /// <param name="path">文件路径</param>
+        /// <param name="addStr">追加内容</param>
+        public static void RegxAddContentByParenthesis(string path, string addStr)
+        {
+            path = StringExtension.ReplacePath(path);
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(fs);
+            string originStr = sr.ReadToEnd();
+
+            string pattern = @"DbContext\s*?({.*)";
+            if (Regex.IsMatch(originStr, pattern))
+            {
+                Match match = Regex.Match(originStr, pattern, RegexOptions.Singleline);
+                string cut_str = parenthesisMatch(match.Groups[1].Value, '{', '}'); // 剪切内容（原内容）
+                string new_str = cut_str + "\r\n        " + addStr + "\r\n"; // 实际更新内容
+                originStr = originStr.Replace(cut_str, new_str);
+            }
+
+            sr.Close();
+            fs.Close();
+            FileStream fs2 = new FileStream(path, FileMode.Open, FileAccess.Write);
+            StreamWriter sw = new StreamWriter(fs2);
+            sw.WriteLine(originStr);
+            sw.Close();
+            fs2.Close();
+        }
     }
 }

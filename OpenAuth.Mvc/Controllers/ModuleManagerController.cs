@@ -1,12 +1,15 @@
-﻿using Infrastructure;
-using OpenAuth.App;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+
+using Infrastructure;
+
 using Microsoft.AspNetCore.Mvc;
+
+using OpenAuth.App;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
-using System.Collections.Generic;
 
 namespace OpenAuth.Mvc.Controllers
 {
@@ -19,13 +22,13 @@ namespace OpenAuth.Mvc.Controllers
         }
 
         // GET: /ModuleManager/
-       
+
         public ActionResult Index()
         {
             return View();
         }
 
-       
+
         public ActionResult Assign()
         {
             return View();
@@ -41,7 +44,7 @@ namespace OpenAuth.Mvc.Controllers
             var modules = _app.LoadForRole(firstId);
             return JsonHelper.Instance.Serialize(modules);
         }
-                /// <summary>
+        /// <summary>
         /// 获取角色已经分配的字段
         /// </summary>
         /// <param name="roleId">角色id</param>
@@ -53,19 +56,19 @@ namespace OpenAuth.Mvc.Controllers
             try
             {
                 var props = _app.LoadPropertiesForRole(roleId, moduleCode);
-                 var data = new Response<IEnumerable<string>>
+                var data = new Response<IEnumerable<string>>
                 {
                     Result = props.ToList(),
                 };
                 return JsonHelper.Instance.Serialize(data);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return JsonHelper.Instance.Serialize(new Response
-                    {
-                        Message =ex.Message,
-                        Code = 500,
-                    });
+                {
+                    Message = ex.Message,
+                    Code = 500,
+                });
             }
         }
 
@@ -86,8 +89,8 @@ namespace OpenAuth.Mvc.Controllers
         public string LoadAuthorizedMenus(string modulecode)
         {
             var user = _authUtil.GetCurrentUser();
-            var module = user.Modules.First(u =>u.Code == modulecode);
-            if (module != null)
+            var module = user.Modules.First(u => u.Code == modulecode);
+            if(module != null)
             {
                 return JsonHelper.Instance.Serialize(module.Elements);
 
@@ -100,31 +103,31 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加模块
         [HttpPost]
-       
+
         public string Add(Module model)
         {
             try
             {
                 _app.Add(model);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Result.Code = 500;
-                Result.Message = ex.InnerException?.Message??ex.Message;
+                Result.Message = ex.InnerException?.Message ?? ex.Message;
             }
             return JsonHelper.Instance.Serialize(Result);
         }
 
         //修改模块
         [HttpPost]
-       
+
         public string Update(Module model)
         {
             try
             {
                 _app.Update(model);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Result.Code = 500;
                 Result.Message = ex.InnerException?.Message ?? ex.Message;
@@ -139,7 +142,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 _app.Delete(ids);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 Result.Code = 500;
                 Result.Message = e.InnerException?.Message ?? e.Message;
@@ -160,7 +163,7 @@ namespace OpenAuth.Mvc.Controllers
             var user = _authUtil.GetCurrentUser();
 
             var module = user.Modules.Single(u => u.Id == moduleId);
-             
+
             var data = new TableData
             {
                 data = module.Elements,
@@ -171,14 +174,14 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加菜单
         [HttpPost]
-       
+
         public string AddMenu(ModuleElement model)
         {
             try
             {
                 _app.AddMenu(model);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Result.Code = 500;
                 Result.Message = ex.InnerException?.Message ?? ex.Message;
@@ -188,14 +191,14 @@ namespace OpenAuth.Mvc.Controllers
 
         //添加菜单
         [HttpPost]
-       
+
         public string UpdateMenu(ModuleElement model)
         {
             try
             {
                 _app.UpdateMenu(model);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Result.Code = 500;
                 Result.Message = ex.InnerException?.Message ?? ex.Message;
@@ -214,7 +217,7 @@ namespace OpenAuth.Mvc.Controllers
             {
                 _app.DelMenu(ids);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 Result.Code = 500;
                 Result.Message = e.InnerException?.Message ?? e.Message;
@@ -223,6 +226,6 @@ namespace OpenAuth.Mvc.Controllers
             return JsonHelper.Instance.Serialize(Result);
         }
 
-        
+
     }
 }

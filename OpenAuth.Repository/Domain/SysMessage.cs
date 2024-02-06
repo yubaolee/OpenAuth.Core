@@ -18,7 +18,7 @@ namespace OpenAuth.Repository.Domain
 	/// 系统消息表
 	/// </summary>
       [Table("SysMessage")]
-    public partial class SysMessage : Entity
+    public partial class SysMessage : StringEntity
     {
         public SysMessage()
         {

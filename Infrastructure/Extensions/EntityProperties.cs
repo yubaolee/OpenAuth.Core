@@ -26,7 +26,7 @@ namespace Infrastructure.Extensions
         /// 获取对象里指定成员名称
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <param name="properties"> 格式 Expression<Func<entityt, object>> exp = x => new { x.字段1, x.字段2 };或x=>x.Name</param>
+        /// <param name="properties"> <![CDATA[格式 Expression<Func<entityt, object>> exp = x => new { x.字段1, x.字段2 };或x=>x.Name]]></param>
         /// <returns></returns>
         public static string[] GetExpressionProperty<TEntity>(this Expression<Func<TEntity, object>> properties)
         {
@@ -132,7 +132,7 @@ namespace Infrastructure.Extensions
                         colType += "(" + (asType ? ((DisplayFormatAttribute) objAtrr).DataFormatString : "18,5") + ")";
                     }
 
-                    ///如果是string,根据 varchar或nvarchar判断最大长度
+                    //如果是string,根据 varchar或nvarchar判断最大长度
                     if (property.PropertyType.ToString() == "System.String")
                     {
                         colType = colType.Split("(")[0];
@@ -198,7 +198,6 @@ namespace Infrastructure.Extensions
         /// </summary>
         /// <param name="array"></param>
         /// <param name="fieldType">指定生成的数组值的类型</param>
-        /// <param name="sql"></param>
         /// <returns></returns>
         public static string GetArraySql(this object[] array, FieldType fieldType, string sql)
         {
@@ -220,7 +219,6 @@ namespace Infrastructure.Extensions
         /// <summary>
         /// 根据实体获取key的类型，用于update或del操作
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static FieldType GetFieldType(this Type typeEntity)
         {
@@ -607,13 +605,9 @@ namespace Infrastructure.Extensions
 
 
         /// <summary>
-        /// 判断是否包含某个属性：
-        /// 如 [Editable(true)]
-        //  public string MO { get; set; }包含Editable
+        /// 判断是否包含某个属性
+        /// <para>public string MO {get; set; }包含Editable</para>
         /// </summary>
-        /// <param name="propertyInfo"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
         public static bool ContainsCustomAttributes(this PropertyInfo propertyInfo, Type type)
         {
             propertyInfo.GetTypeCustomAttributes(type, out bool contains);
@@ -795,7 +789,7 @@ namespace Infrastructure.Extensions
         /// 如果是小数float或Decimal必须对propertyInfo字段加DisplayFormatAttribute属性
         /// </param>
         /// <param name="value"></param>
-        /// <returns>IEnumerable<(bool, string, object)> bool成否校验成功,string校验失败信息,object,当前校验的值</returns>
+        /// <returns>IEnumerable&lt;(bool, string, object)&gt; bool成否校验成功,string校验失败信息,object,当前校验的值</returns>
         public static IEnumerable<(bool, string, object)> ValidationValueForDbType(this PropertyInfo propertyInfo,
             params object[] values)
         {
@@ -1036,7 +1030,7 @@ namespace Infrastructure.Extensions
         /// </summary>
         /// <param name="member">当前类</param>
         /// <param name="type">指定的类</param>
-        /// <param name="expression">指定属性的值 格式 Expression<Func<entityt, object>> exp = x => new { x.字段1, x.字段2 };</param>
+        /// <param name="expression">指定属性的值 格式 Expression&lt;Func&lt;entityt, object&gt;&gt; exp = x =&gt; new { x.字段1, x.字段2 };</param>
         /// <returns>返回的是字段+value</returns>
         public static Dictionary<string, string> GetTypeCustomValues<TEntity>(this MemberInfo member,
             Expression<Func<TEntity, object>> expression)
@@ -1066,7 +1060,7 @@ namespace Infrastructure.Extensions
         /// </summary>
         /// <param name="member">当前类</param>
         /// <param name="type">指定的类</param>
-        /// <param name="expression">指定属性的值 格式 Expression<Func<entityt, object>> exp = x => new { x.字段1, x.字段2 };</param>
+        /// <param name="expression">指定属性的值  格式 Expression&lt;Func&lt;entityt, object&gt;&gt; exp = x =&gt; new { x.字段1, x.字段2 };</param>
         /// <returns></returns>
         public static string GetTypeCustomValue<TEntity>(this MemberInfo member,
             Expression<Func<TEntity, object>> expression)
@@ -1259,7 +1253,7 @@ namespace Infrastructure.Extensions
         }
 
         /// <summary>
-        /// 将数据源映射到新的数据中,目前只支持List<TSource>映射到List<TResult>或TSource映射到TResult
+        /// 将数据源映射到新的数据中,目前只支持List&lt;TSource&gt;映射到List&lt;TResult&gt;或TSource映射到TResult
         /// 目前只支持Dictionary或实体类型
         /// </summary>
         /// <typeparam name="TSource"></typeparam>

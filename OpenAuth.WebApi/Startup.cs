@@ -24,6 +24,7 @@ using OpenAuth.Repository;
 using OpenAuth.WebApi.Model;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
+
 namespace OpenAuth.WebApi
 {
     public class Startup

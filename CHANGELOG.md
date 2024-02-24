@@ -1,11 +1,15 @@
-## v5.2 （未发布版本）
+## v6.1 
 
 - **新特性**
 
-  - [新增] 增加流程实例可以选择用户，而不是通过流程设计的方式[#I1W8AV](https://gitee.com/dotnetchina/OpenAuth.Net/issues/I1W8AV)
+  - [新增] 全网最好用的打印解决方案。详情：[智能打印](http://doc.openauth.net.cn/pro/printerplan.html)；
+  - [新增] 全面支持SqlSugar Orm。详情：[sqlsugar访问数据库](http://doc.openauth.net.cn/core/sqlsugar.html)；
+  - [新增] 全面更新mvc版本，升级layui版本至最新v2.8.11；
+  - [新增] 升级.Net版本6.0，所有三方组件全面更新；
 
 - **突破性变化**
 
+  - [新增] 流程可以选择直接上级和部门负责人；
 
 - **问题修复**
 
@@ -17,7 +21,7 @@
 
 ---
 
-## v5.1 （当前版本）
+## v5.1 
 
 - **新特性**
 
@@ -44,7 +48,7 @@
 
 ---
 
-## v5.0.1 （当前版本）
+## v5.0.1 
 
 - **新特性**
 

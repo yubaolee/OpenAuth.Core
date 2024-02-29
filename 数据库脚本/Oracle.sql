@@ -1,7 +1,7 @@
 -- ----------------------------
 -- Table structure for Application
 -- ----------------------------
-DROP TABLE "Application";
+
 CREATE TABLE "Application" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "Name" VARCHAR2(255 ) NOT NULL,
@@ -46,7 +46,7 @@ INSERT INTO "Application" VALUES ('119', 'XXX管理平台', 'manageryubaolee', '
 -- ----------------------------
 -- Table structure for BuilderTable
 -- ----------------------------
-DROP TABLE "BuilderTable";
+
 CREATE TABLE "BuilderTable" (
   "Id" NVARCHAR2(50) NOT NULL,
   "TableName" NVARCHAR2(200) NOT NULL,
@@ -122,7 +122,7 @@ INSERT INTO "BuilderTable" VALUES ('1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Cate
 -- ----------------------------
 -- Table structure for BuilderTableColumn
 -- ----------------------------
-DROP TABLE "BuilderTableColumn";
+
 CREATE TABLE "BuilderTableColumn" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "TableId" VARCHAR2(50 ) NOT NULL,
@@ -309,7 +309,7 @@ INSERT INTO "BuilderTableColumn" VALUES ('e075aeb7-82ba-4858-9551-d11ee7f61156',
 -- ----------------------------
 -- Table structure for Category
 -- ----------------------------
-DROP TABLE "Category";
+
 CREATE TABLE "Category" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "Name" VARCHAR2(255 ) NOT NULL,
@@ -388,7 +388,7 @@ INSERT INTO "Category" VALUES ('07d21d6d-3bce-4b73-8273-c9f948f468fe', '释放',
 -- ----------------------------
 -- Table structure for CategoryType
 -- ----------------------------
-DROP TABLE "CategoryType";
+
 CREATE TABLE "CategoryType" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "Name" NVARCHAR2(255) NOT NULL,
@@ -430,7 +430,7 @@ INSERT INTO "CategoryType" VALUES ('SYS_GOODSTYPE', '商品类别', TO_DATE('201
 -- ----------------------------
 -- Table structure for DataPrivilegeRule
 -- ----------------------------
-DROP TABLE "DataPrivilegeRule";
+
 CREATE TABLE "DataPrivilegeRule" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "SourceCode" VARCHAR2(50 ) NOT NULL,
@@ -487,7 +487,7 @@ INSERT INTO "DataPrivilegeRule" VALUES ('6a96c5d9-a226-459d-a4e1-aefcbefc6915', 
 -- ----------------------------
 -- Table structure for FlowInstance
 -- ----------------------------
-DROP TABLE "FlowInstance";
+
 CREATE TABLE "FlowInstance" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "InstanceSchemeId" VARCHAR2(50 ),
@@ -579,7 +579,7 @@ INSERT INTO "FlowInstance" VALUES ('7c8ffe55-13fd-4236-9816-63eb7e22aa68', NULL,
 -- ----------------------------
 -- Table structure for FlowInstanceOperationHistory
 -- ----------------------------
-DROP TABLE "FlowInstanceOperationHistory";
+
 CREATE TABLE "FlowInstanceOperationHistory" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "InstanceId" VARCHAR2(50 ) NOT NULL,
@@ -641,7 +641,7 @@ INSERT INTO "FlowInstanceOperationHistory" VALUES ('0b39f449-3369-41d7-b053-0048
 -- ----------------------------
 -- Table structure for FlowInstanceTransitionHistory
 -- ----------------------------
-DROP TABLE "FlowInstanceTransitionHistory";
+
 CREATE TABLE "FlowInstanceTransitionHistory" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "InstanceId" VARCHAR2(50 ) NOT NULL,
@@ -715,7 +715,7 @@ INSERT INTO "FlowInstanceTransitionHistory" VALUES ('f7f86afc-be9d-4521-b346-3e3
 -- ----------------------------
 -- Table structure for FlowScheme
 -- ----------------------------
-DROP TABLE "FlowScheme";
+
 CREATE TABLE "FlowScheme" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "SchemeCode" VARCHAR2(50 ),
@@ -793,7 +793,7 @@ INSERT INTO "FlowScheme" VALUES ('1648a05b-013c-4dd0-8ecb-5695d08fb8f4', '158463
 -- ----------------------------
 -- Table structure for Form
 -- ----------------------------
-DROP TABLE "Form";
+
 CREATE TABLE "Form" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "Name" VARCHAR2(200 ),
@@ -866,7 +866,7 @@ INSERT INTO "Form" VALUES ('318bb233-c9df-4374-9937-e55b71fbcf99', '【西南片
 -- ----------------------------
 -- Table structure for FrmLeaveReq
 -- ----------------------------
-DROP TABLE "FrmLeaveReq";
+
 CREATE TABLE "FrmLeaveReq" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "UserName" NVARCHAR2(10) NOT NULL,
@@ -921,7 +921,7 @@ INSERT INTO "FrmLeaveReq" VALUES ('59b5b72f-b8fb-44d4-bb24-319d02b2ab80', '李�
 -- ----------------------------
 -- Table structure for Module
 -- ----------------------------
-DROP TABLE "Module";
+
 CREATE TABLE "Module" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "CascadeId" VARCHAR2(255 ) NOT NULL,
@@ -999,7 +999,7 @@ INSERT INTO "Module" VALUES ('ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', '.0.1.15.',
 -- ----------------------------
 -- Table structure for ModuleElement
 -- ----------------------------
-DROP TABLE "ModuleElement";
+
 CREATE TABLE "ModuleElement" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "DomId" VARCHAR2(255 ) NOT NULL,
@@ -1107,7 +1107,7 @@ INSERT INTO "ModuleElement" VALUES ('f8dde22a-2a37-47c4-8e67-70fb3af5303e', 'btn
 -- ----------------------------
 -- Table structure for OpenJob
 -- ----------------------------
-DROP TABLE "OpenJob";
+
 CREATE TABLE "OpenJob" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "JobName" VARCHAR2(200 ) NOT NULL,
@@ -1175,7 +1175,7 @@ INSERT INTO "OpenJob" VALUES ('f40fe48d-71a4-4f47-b324-6178d97abfb9', '定时日
 -- ----------------------------
 -- Table structure for Org
 -- ----------------------------
-DROP TABLE "Org";
+
 CREATE TABLE "Org" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "CascadeId" VARCHAR2(255 ) NOT NULL,
@@ -1257,7 +1257,7 @@ INSERT INTO "Org" VALUES ('eed8756d-587b-46de-96c7-0a400e3d80fa', '.0.6.', '华�
 -- ----------------------------
 -- Table structure for Relevance
 -- ----------------------------
-DROP TABLE "Relevance";
+
 CREATE TABLE "Relevance" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "Description" NVARCHAR2(100),
@@ -1626,7 +1626,7 @@ INSERT INTO "Relevance" VALUES ('5a20d59c-6ee6-4fe2-98fe-7b35b11026ae', NULL, 'U
 -- ----------------------------
 -- Table structure for Resource
 -- ----------------------------
-DROP TABLE "Resource";
+
 CREATE TABLE "Resource" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "CascadeId" VARCHAR2(255 ) NOT NULL,
@@ -1696,7 +1696,7 @@ INSERT INTO "Resource" VALUES ('SYS_UPDATE_USER', '.0.1.', '更新用户信息',
 -- ----------------------------
 -- Table structure for Role
 -- ----------------------------
-DROP TABLE "Role";
+
 CREATE TABLE "Role" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "Name" VARCHAR2(255 ) NOT NULL,
@@ -1741,7 +1741,7 @@ INSERT INTO "Role" VALUES ('0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', '测试', '0'
 -- ----------------------------
 -- Table structure for Stock
 -- ----------------------------
-DROP TABLE "Stock";
+
 CREATE TABLE "Stock" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "Name" NVARCHAR2(500) NOT NULL,
@@ -1782,7 +1782,7 @@ COMMENT ON TABLE "Stock" IS '出入库信息表';
 -- ----------------------------
 -- Table structure for SysLog
 -- ----------------------------
-DROP TABLE "SysLog";
+
 CREATE TABLE "SysLog" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "Content" NVARCHAR2(1000),
@@ -1827,7 +1827,7 @@ COMMENT ON TABLE "SysLog" IS '系统日志';
 -- ----------------------------
 -- Table structure for SysMessage
 -- ----------------------------
-DROP TABLE "SysMessage";
+
 CREATE TABLE "SysMessage" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "TypeName" NVARCHAR2(20),
@@ -1882,7 +1882,7 @@ COMMENT ON TABLE "SysMessage" IS '系统消息表';
 -- ----------------------------
 -- Table structure for SysPrinterPlan
 -- ----------------------------
-DROP TABLE "SysPrinterPlan";
+
 CREATE TABLE "SysPrinterPlan" (
   "Id" NVARCHAR2(50) NOT NULL,
   "Name" NVARCHAR2(255) NOT NULL,
@@ -1929,7 +1929,7 @@ COMMENT ON TABLE "SysPrinterPlan" IS '打印方案模板';
 -- ----------------------------
 -- Table structure for UploadFile
 -- ----------------------------
-DROP TABLE "UploadFile";
+
 CREATE TABLE "UploadFile" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "FileName" NVARCHAR2(200) NOT NULL,
@@ -1984,7 +1984,7 @@ COMMENT ON TABLE "UploadFile" IS '文件';
 -- ----------------------------
 -- Table structure for User
 -- ----------------------------
-DROP TABLE "User";
+
 CREATE TABLE "User" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "Account" VARCHAR2(255 ) NOT NULL,
@@ -2043,7 +2043,7 @@ INSERT INTO "User" VALUES ('de8be521-f1ec-4483-b124-0be342890507', 'test2', 'tes
 -- ----------------------------
 -- Table structure for WmsInboundOrderDtbl
 -- ----------------------------
-DROP TABLE "WmsInboundOrderDtbl";
+
 CREATE TABLE "WmsInboundOrderDtbl" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "OrderId" VARCHAR2(50 ) NOT NULL,
@@ -2131,7 +2131,7 @@ INSERT INTO "WmsInboundOrderDtbl" VALUES ('fcf051d3-5c00-4617-895f-e45891d975df'
 -- ----------------------------
 -- Table structure for WmsInboundOrderTbl
 -- ----------------------------
-DROP TABLE "WmsInboundOrderTbl";
+
 CREATE TABLE "WmsInboundOrderTbl" (
   "Id" VARCHAR2(50 ) NOT NULL,
   "ExternalNo" VARCHAR2(50 ),

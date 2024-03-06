@@ -126,7 +126,7 @@ namespace OpenAuth.App.Flow
                 throw new Exception("无法寻找到下一个节点");
             }
 
-            if (FrmData == "") return lines[0].to;
+            if (FrmData == "" || FrmData == "{}") return lines[0].to;
 
             FrmData = FrmData.ToLower();//统一转小写
             var frmDataJson = FrmData.ToJObject();//获取数据内容

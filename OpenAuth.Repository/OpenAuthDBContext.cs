@@ -7,6 +7,7 @@ using Infrastructure.Utilities;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -84,6 +85,28 @@ namespace OpenAuth.Repository
                 .HasKey(c => new { c.Id });
             modelBuilder.Entity<SysTableColumn>().HasNoKey();
             modelBuilder.Entity<QueryStringObj>().HasNoKey();
+            
+            //converting between PostgreSQL smallint and .NET Boolean types
+            if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL")
+            {
+                var boolToSmallIntConverter = new ValueConverter<bool, short>(
+                    v => v ? (short)1 : (short)0,
+                    v => v != 0);
+                foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+                {
+                    foreach (var property in entityType.GetProperties())
+                    {
+                        if (property.ClrType == typeof(bool))
+                        {
+                            property.SetValueConverter(boolToSmallIntConverter);
+                        }
+                    }
+                }
+            }
+            
+            
+            
+
         }
 
         public virtual DbSet<Application> Applications { get; set; }

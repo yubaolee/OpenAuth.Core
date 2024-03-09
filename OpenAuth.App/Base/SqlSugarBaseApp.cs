@@ -35,6 +35,10 @@ namespace OpenAuth.App
         
         public T Get(string id)
         {
+            if (SugarClient.CurrentConnectionConfig.DbType == DbType.PostgreSQL)
+            {
+                return SugarClient.Queryable<T>().Where("\"Id\"=@id", new {id = id}).First();
+            }
             return SugarClient.Queryable<T>().Where("Id=@id", new {id = id}).First();
         }
 

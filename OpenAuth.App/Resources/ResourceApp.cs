@@ -84,7 +84,12 @@ namespace OpenAuth.App
                 resources = resources.Where(u => u.AppId == request.appId);
             }
 
-            var propertyStr = string.Join(',', columnFields.Select(u => u.ColumnName));
+            var columnnames = columnFields.Select(u => u.ColumnName);
+            if (SugarClient.CurrentConnectionConfig.DbType == DbType.PostgreSQL)
+            {
+                columnnames = columnFields.Select(u => "\"" + u.ColumnName +"\"");
+            }
+            var propertyStr = string.Join(',', columnnames);
             result.columnFields = columnFields;
             result.data = resources.OrderBy(u => u.TypeId)
                 .Skip((request.page - 1) * request.limit)

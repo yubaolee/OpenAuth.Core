@@ -40,7 +40,12 @@ namespace OpenAuth.App
                 objs = objs.Where(u => u.Name.Contains(request.key));
             }
 
-            var propertyStr = string.Join(',', columnFields.Select(u => u.ColumnName));
+            var columnnames = columnFields.Select(u => u.ColumnName);
+            if (SugarClient.CurrentConnectionConfig.DbType == DbType.PostgreSQL)
+            {
+                columnnames = columnFields.Select(u => "\"" + u.ColumnName +"\"");
+            }
+            var propertyStr = string.Join(',', columnnames);
             result.columnFields = columnFields;
             result.data = objs.OrderByDescending(u => u.CreateTime)
                 .Skip((request.page - 1) * request.limit)

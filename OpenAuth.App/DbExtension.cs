@@ -120,6 +120,10 @@ namespace OpenAuth.App
             {
                 return GetSqlServerStructure(tableName);
             }
+            else if (dbtype == Define.DBTYPE_PostgreSQL)
+            {
+                return GetPostgreStructure(tableName);
+            }
             else
             {
                 return GetOracleStructure(tableName);
@@ -257,6 +261,82 @@ order by column_id;  ";
             
         }
        
+        
+          /// <summary>
+        /// 获取Mysql表结构信息
+        /// </summary>
+        private IList<SysTableColumn> GetPostgreStructure(string tableName)
+        {
+            var sql =  $@"select attr.attrelid
+     , schema.nspname as schemaname
+     , class.relname as tablename --表名
+     , attr.attname as columnname --列名
+     , attr.atttypid --类型ID
+     , attr.atttypmod
+     , case when con.conname is not null then 1 else 0 end as iskey --是否主键
+     , case when attr.attnotnull is true then 0 else 1 end as isnull --可空
+     , t.typname columntype --类型名称
+     , case
+           when typname in ('BIT', 'BOOL', 'bit', 'bool') then
+               'bool'
+           when typname in ('smallint', 'SMALLINT') then 'short'
+           when typname in ('tinyint', 'TINYINT') then 'bool'
+           when typname in ('int4', 'int', 'INT') then
+               'int'
+           when typname in ('BIGINT', 'bigint') then
+               'bigint'
+           when typname in ('FLOAT', 'DOUBLE', 'DECIMAL', 'float', 'double', 'decimal') then
+               'decimal'
+           when typname in ('varchar', 'text') then
+               'string'
+           when typname in ('Date', 'DateTime', 'TimeStamp', 'date', 'datetime', 'timestamp') then
+               'DateTime'
+           else 'string'
+    end as entitytype
+     , comment.description as comment
+     , 1 as iscolumndata
+     , case
+           when t.typname = 'varchar' or t.typname = 'bpchar' then attr.atttypmod - 4
+           else 10
+    end as columnwidth
+     , 0 as orderno
+     , case
+           when t.typname = 'varchar' or t.typname = 'bpchar' then attr.atttypmod - 4
+           else 10
+    end as maxlength
+     , case
+           when attname in ('createid', 'modifyid', '')
+               or con.conname is null then 0
+           else 1
+    end as isdisplay --是否显示
+from pg_catalog.pg_class class
+         inner join pg_catalog.pg_attribute attr on attr.attrelid = class.oid
+         left join pg_catalog.pg_constraint con
+                   on con.conrelid = class.oid and attr.attnum = any (con.conkey) and con.contype = 'p'
+         left join pg_catalog.pg_type t on attr.atttypid = t.oid
+         inner join pg_catalog.pg_description comment
+                    on comment.objoid = attr.attrelid and comment.objsubid = attr.attnum
+         inner join pg_catalog.pg_namespace schema on schema.oid = class.relnamespace
+where attr.attnum > 0
+  and not attr.attisdropped
+  and schema.nspname = 'public' -- replace 'your_schema' with your schema name
+  and class.relname = '{tableName}'";
+
+            foreach (var context in _contexts)
+            {
+                var columns = context.Set<SysTableColumn>().FromSqlRaw(sql);
+                var columnList = columns?.ToList();
+                if (columnList != null && columnList.Any())
+                {
+                    return columnList;
+                }
+            }
+            
+            return new List<SysTableColumn>();
+            
+        }
+       
+        
         
          /// <summary>
         /// 获取SqlServer表结构信息

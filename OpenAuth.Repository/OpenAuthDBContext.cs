@@ -1,33 +1,29 @@
 using System;
 using System.Linq;
-
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
 using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.QueryObj;
 
 namespace OpenAuth.Repository
 {
-
     public partial class OpenAuthDBContext : DbContext
     {
-
         private ILoggerFactory _LoggerFactory;
         private IHttpContextAccessor _httpContextAccessor;
         private IConfiguration _configuration;
         private IOptions<AppSetting> _appConfiguration;
 
         public OpenAuthDBContext(DbContextOptions<OpenAuthDBContext> options, ILoggerFactory loggerFactory,
-            IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IOptions<AppSetting> appConfiguration)
+            IHttpContextAccessor httpContextAccessor, IConfiguration configuration,
+            IOptions<AppSetting> appConfiguration)
             : base(options)
         {
             _LoggerFactory = loggerFactory;
@@ -38,7 +34,7 @@ namespace OpenAuth.Repository
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.EnableSensitiveDataLogging(true);  //允许打印参数
+            optionsBuilder.EnableSensitiveDataLogging(true); //允许打印参数
             optionsBuilder.UseLoggerFactory(_LoggerFactory);
             InitTenant(optionsBuilder);
             base.OnConfiguring(optionsBuilder);
@@ -47,10 +43,9 @@ namespace OpenAuth.Repository
         //初始化多租户信息，根据租户id调整数据库
         private void InitTenant(DbContextOptionsBuilder optionsBuilder)
         {
-
             var tenantId = _httpContextAccessor.GetTenantId();
             string connect = _configuration.GetConnectionString(tenantId);
-            if(string.IsNullOrEmpty(connect))
+            if (string.IsNullOrEmpty(connect))
             {
                 throw new Exception($"未能找到租户{tenantId}对应的连接字符串信息");
             }
@@ -60,15 +55,15 @@ namespace OpenAuth.Repository
                 .ToDictionary(x => x.Key, x => x.Value);
 
             var dbType = dbtypes[tenantId];
-            if(dbType == Define.DBTYPE_SQLSERVER)
+            if (dbType == Define.DBTYPE_SQLSERVER)
             {
                 optionsBuilder.UseSqlServer(connect);
             }
-            else if(dbType == Define.DBTYPE_MYSQL)  //mysql
+            else if (dbType == Define.DBTYPE_MYSQL) //mysql
             {
                 optionsBuilder.UseMySql(connect, new MySqlServerVersion(new Version(8, 0, 11)));
             }
-            else if(dbType == Define.DBTYPE_PostgreSQL)  //PostgreSQL
+            else if (dbType == Define.DBTYPE_PostgreSQL) //PostgreSQL
             {
                 optionsBuilder.UseNpgsql(connect);
             }
@@ -76,21 +71,21 @@ namespace OpenAuth.Repository
             {
                 optionsBuilder.UseOracle(connect, options => options.UseOracleSQLCompatibility("11"));
             }
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DataPrivilegeRule>()
-                .HasKey(c => new { c.Id });
+                .HasKey(c => new {c.Id});
             modelBuilder.Entity<SysTableColumn>().HasNoKey();
             modelBuilder.Entity<QueryStringObj>().HasNoKey();
-            
+
             //converting between PostgreSQL smallint and .NET Boolean types
-            if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL")
+            if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL"
+                || Database.ProviderName == "Oracle.EntityFrameworkCore")
             {
                 var boolToSmallIntConverter = new ValueConverter<bool, short>(
-                    v => v ? (short)1 : (short)0,
+                    v => v ? (short) 1 : (short) 0,
                     v => v != 0);
                 foreach (var entityType in modelBuilder.Model.GetEntityTypes())
                 {
@@ -103,10 +98,6 @@ namespace OpenAuth.Repository
                     }
                 }
             }
-            
-            
-            
-
         }
 
         public virtual DbSet<Application> Applications { get; set; }
@@ -135,13 +126,11 @@ namespace OpenAuth.Repository
         public virtual DbSet<WmsInboundOrderTbl> WmsInboundOrderTbls { get; set; }
         public virtual DbSet<OpenJob> OpenJobs { get; set; }
         public virtual DbSet<BuilderTable> BuilderTables { get; set; }
+
         public virtual DbSet<BuilderTableColumn> BuilderTableColumns { get; set; }
+
         //非数据库表格
         public virtual DbSet<QueryStringObj> QueryStringObjs { get; set; }
         public virtual DbSet<SysTableColumn> SysTableColumns { get; set; }
-
-    
-
+    }
 }
-}
-

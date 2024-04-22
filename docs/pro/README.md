@@ -60,18 +60,23 @@ OpenAuth.Pro v4.3及以前的版本使用Node 14
 
 :::
 
-使用npm run dev 命令运行。如下图：
-![20211214232229](http://img.openauth.net.cn/20211214232229.png)
-
-启动成功后，使用浏览器访问[http://localhost:1803/](http://localhost:1803/) 即可打开企业版界面
-
-::: warning 注意事项
-开发环境配置文件为`.env.dev`，调试前请调整为自己的接口地址：
+修改配置文件`.env.dev`对应的后端接口地址，调整为自己的接口地址：
 
 ```javascript
 VUE_APP_BASE_API = http://localhost:52789/api
 VUE_APP_BASE_IMG_URL = http://localhost:52789
 ```
+
+::: warning 注意事项
+如果是发布打包，调整的文件为`.env.prod`
+:::
+
+使用npm run dev 命令运行。如下图：
+![20211214232229](http://img.openauth.net.cn/20211214232229.png)
+
+启动成功后，使用浏览器访问[http://localhost:1803/](http://localhost:1803/) 即可打开企业版界面
+
+
 
 
 

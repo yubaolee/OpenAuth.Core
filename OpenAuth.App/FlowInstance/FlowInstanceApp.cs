@@ -321,13 +321,6 @@ namespace OpenAuth.App
                 throw new Exception("当前用户没有审批该节点权限");
             }
 
-            FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
-            {
-                InstanceId = instanceId,
-                CreateUserId = tag.UserId,
-                CreateUserName = tag.UserName,
-                CreateDate = DateTime.Now
-            }; //操作记录
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
             #region 会签
@@ -352,9 +345,9 @@ namespace OpenAuth.App
                     throw (new Exception("审核异常,找不到审核节点"));
                 }
                 
-                flowInstanceOperationHistory.Content =
-                    $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.Nodes[canCheckId].name}】" +
-                    $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
+                var content = $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.Nodes[canCheckId].name}】" +
+                              $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
+                AddOperationHis(instanceId, tag, content);
 
                 wfruntime.MakeTagNode(canCheckId, tag); //标记审核节点状态
                 string res = wfruntime.NodeConfluence(canCheckId, tag);
@@ -390,46 +383,7 @@ namespace OpenAuth.App
 
             else
             {
-                wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
-                if (tag.Taged == (int) TagState.Ok)
-                {
-                    bool canNext = true;
-                    if (wfruntime.currentNode.setInfo.NodeDesignate == Setinfo.RUNTIME_MANY_PARENTS)
-                    {
-                        var roles = _auth.GetCurrentUser().Roles;
-                        //如果是连续多级直属上级且还没到指定的角色，只改变执行人，不到下一个节点
-                        if (!wfruntime.currentNode.setInfo.NodeDesignateData.roles.Intersect(roles.Select(u =>u.Id)).Any())
-                        {
-                            canNext = false;
-                            var parentId = _userManagerApp.GetParent(user.Id);
-                            flowInstance.MakerList = parentId;
-                        }
-                    }
-
-                    if (canNext)
-                    {
-                        flowInstance.PreviousId = flowInstance.ActivityId;
-                        flowInstance.ActivityId = wfruntime.nextNodeId;
-                        flowInstance.ActivityType = wfruntime.nextNodeType;
-                        flowInstance.ActivityName = wfruntime.nextNode.name;
-                        flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime, request);
-                        flowInstance.IsFinish = (wfruntime.nextNodeType == 4
-                            ? FlowInstanceStatus.Finished
-                            : FlowInstanceStatus.Running);
-                    }
-                }
-                else
-                {
-                    flowInstance.IsFinish = FlowInstanceStatus.Disagree; //表示该节点不同意
-                    wfruntime.nextNodeId = "-1";
-                    wfruntime.nextNodeType = 4;
-                }
-
-                AddTransHistory(wfruntime);
-
-                flowInstanceOperationHistory.Content =
-                    $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.currentNode.name}】" +
-                    $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
+                VerifyNode(request, tag, flowInstance);
             }
 
             #endregion 一般审核
@@ -449,16 +403,72 @@ namespace OpenAuth.App
             }
 
             UnitWork.Update(flowInstance);
-            UnitWork.Add(flowInstanceOperationHistory);
-
             //给流程创建人发送通知信息
             _messageApp.SendMsgTo(flowInstance.CreateUserId,
-                $"你的流程[{flowInstance.CustomName}]已被{user.Name}处理。处理情况如下:{flowInstanceOperationHistory.Content}");
+                $"你的流程[{flowInstance.CustomName}]已被{user.Name}处理。");
 
             UnitWork.Save();
 
             wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), tag);
             return true;
+        }
+
+        /// <summary>
+        /// 普通的节点审批
+        /// </summary>
+        private void VerifyNode(VerificationReq request, Tag tag, FlowInstance flowInstance)
+        {
+            var user = _auth.GetCurrentUser().User;
+            FlowRuntime wfruntime = new FlowRuntime(flowInstance);
+            wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
+            if (tag.Taged == (int)TagState.Ok)
+            {
+                bool canNext = true;
+                if (wfruntime.currentNode.setInfo.NodeDesignate == Setinfo.RUNTIME_MANY_PARENTS)
+                {
+                    var roles = _auth.GetCurrentUser().Roles;
+                    //如果是连续多级直属上级且还没到指定的角色，只改变执行人，不到下一个节点
+                    if (!wfruntime.currentNode.setInfo.NodeDesignateData.roles.Intersect(roles.Select(u => u.Id)).Any())
+                    {
+                        canNext = false;
+                        var parentId = _userManagerApp.GetParent(user.Id);
+                        flowInstance.MakerList = parentId;
+                    }
+                }
+
+                if (canNext)
+                {
+                    flowInstance.PreviousId = flowInstance.ActivityId;
+                    flowInstance.ActivityId = wfruntime.nextNodeId;
+                    flowInstance.ActivityType = wfruntime.nextNodeType;
+                    flowInstance.ActivityName = wfruntime.nextNode.name;
+                    flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime, request);
+                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4
+                        ? FlowInstanceStatus.Finished
+                        : FlowInstanceStatus.Running);
+                }
+            }
+            else //审批结果为不同意
+            {
+                flowInstance.IsFinish = FlowInstanceStatus.Disagree;
+                wfruntime.nextNodeId = "-1";
+                wfruntime.nextNodeType = 4;
+            }
+            
+           var content =  $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.currentNode.name}】" +
+                         $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
+           AddOperationHis(flowInstance.Id, tag, content);
+
+           //如果审批通过，且下一个审批人是自己，则自动审批
+           if (tag.Taged == (int)TagState.Ok)
+           {
+               if (flowInstance.MakerList != "1" && (!flowInstance.MakerList.Contains(user.Id)))
+               {
+                   return;
+               }
+               VerifyNode(request, tag, flowInstance);
+           }
+
         }
 
         //会签时，获取一条会签分支上面是否有用户可审核的节点
@@ -880,6 +890,20 @@ namespace OpenAuth.App
                 IsFinish = wfruntime.nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running,
                 TransitionSate = 0
             });
+        }
+        
+        private void AddOperationHis(string instanceId, Tag tag, string content)
+        {
+            FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
+            {
+                InstanceId = instanceId,
+                CreateUserId = tag.UserId,
+                CreateUserName = tag.UserName,
+                CreateDate = DateTime.Now,
+                Content = content
+            }; //操作记录
+
+            UnitWork.Add(flowInstanceOperationHistory);
         }
 
         public List<FlowInstanceOperationHistory> QueryHistories(QueryFlowInstanceHistoryReq request)

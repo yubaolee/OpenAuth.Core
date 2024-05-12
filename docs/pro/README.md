@@ -1,6 +1,6 @@
 OpenAuth.Pro是一套全新的前端界面，基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发。它使用开源版OpenAuth.Net的API接口（即：OpenAuth.WebApi）提供数据服务。二者的关系如下：
 
-![](/architect.png)
+![系统架构](http://img.openauth.net.cn/系统架构.png)
 
 企业版代码获取方式：[http://www.openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c](http://www.openauth.net.cn/question/detail.html?id=a2be2d61-7fcb-4df8-8be2-9f296c22a89c)
 

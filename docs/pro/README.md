@@ -8,6 +8,12 @@ OpenAuth.Pro是一套全新的前端界面，基于vue-element-admin，采用VUE
 
 企业H5版本演示（请使用浏览器移动模式或直接用手机打开）：[http://demo.openauth.net.cn:1804/](http://demo.openauth.net.cn:1804/)
 
+## OpenAuth.Net系列教学视频
+
+[OpenAuth.Net教学合集--系统结构及代码下载](https://www.bilibili.com/video/BV1Z1421q7xU/)
+
+[OpenAuth.Net教学合集--企业版代码启动](https://www.bilibili.com/video/BV1KSuQebEek/)
+
 
 ## 工具准备
 

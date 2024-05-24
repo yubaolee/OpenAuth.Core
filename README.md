@@ -2,16 +2,9 @@
 
 ## ❤❤❤郑重声明❤❤❤
 
-主分支main运行环境默认为.Net SDK 6.0，如果你使用vs2019作为开发工具，请注意查看：[VS2019打开6.0及以后版本](http://doc.openauth.net.cn/core/faq.html#vs2019%E6%89%93%E5%BC%806-0%E5%8F%8A%E4%BB%A5%E5%90%8E%E7%89%88%E6%9C%AC)
+主分支main运行环境默认为.Net SDK 6.0，支持.NET未来版本，需要.Net SDK 4.0/4.5开发环境的同学请查看本项目4.0分支，已停止维护
 
-需要.Net SDK 4.0/4.5开发环境的同学请查看本项目4.0分支，已停止维护
-
-使用.Net Core 2.1--3.1的请看：
-
-**GitHub** https://github.com/yubaolee/OpenAuth.Core
-
-**码云**  https://gitee.com/yubaolee/OpenAuth.Core
-
+使用.Net Core 2.1-3.1的请进：https://gitee.com/yubaolee/OpenAuth.Core ，已停止维护
 
 ![LOGO](https://gitee.com/uploads/images/2018/0425/163228_7077c3fd_362401.png "1.png")
 
@@ -20,6 +13,14 @@
 **官方网站** http://www.openauth.net.cn
 
 **官方文档**  http://doc.openauth.net.cn 
+
+## OpenAuth.Net系列视频火热更新中
+
+[OpenAuth.Net视频合集--系统结构及代码下载](https://www.bilibili.com/video/BV1Z1421q7xU/)
+
+[OpenAuth.Net视频合集--企业版代码启动](https://www.bilibili.com/video/BV1KSuQebEek/)
+
+[OpenAuth.Net视频合集--使用企业版代码生成器](https://www.bilibili.com/video/BV1JCuyeaEFp/)
 
 
 ![](https://img.shields.io/badge/release-6.0-blue)

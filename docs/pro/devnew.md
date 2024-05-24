@@ -1,5 +1,7 @@
 # 企业版代码生成器
 
+本章节视频讲解请参考：[OpenAuth.Net视频合集--使用企业版代码生成器](https://www.bilibili.com/video/BV1JCuyeaEFp/)
+
 ## 术语解释
 
 在添加新功能之前，需要先了解OpenAuth.Net生成代码时的两个概念：动态头部和固定头部

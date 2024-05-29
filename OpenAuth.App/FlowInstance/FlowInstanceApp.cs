@@ -26,6 +26,7 @@ using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Infrastructure.Const;
+using Infrastructure.Extensions;
 using Infrastructure.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -136,7 +137,15 @@ namespace OpenAuth.App
             {
                 var t = Type.GetType("OpenAuth.App." + flowInstance.DbName + "App");
                 ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
-                icf.Add(flowInstance.Id, flowInstance.FrmData);
+                try
+                {
+                    icf.Add(flowInstance.Id, flowInstance.FrmData);
+                }
+                catch (Exception e)
+                {
+                    throw new  Exception("流程表单数据解析失败,请检查表单是否填写完整");
+                }
+                
             }
 
             //如果工作流配置的表单配置有对应的数据库
@@ -616,7 +625,10 @@ namespace OpenAuth.App
                 //当审批流程时，能进到这里，表明当前登录用户已经有审批当前节点的权限，完全可以直接用登录用户的直接上级
                 var user = _auth.GetCurrentUser().User;
                 var parentId = _userManagerApp.GetParent(user.Id);
-                
+                if (StringExtension.IsNullOrEmpty(parentId))
+                {
+                    throw new Exception("无法找到当前用户的直属上级");
+                }
                 makerList = GenericHelpers.ArrayToString(new[]{parentId}, makerList);
             }
             else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_CHAIRMAN)
@@ -825,7 +837,7 @@ namespace OpenAuth.App
                 // 加入搜索自定义标题
                 if (!string.IsNullOrEmpty(request.key))
                 {
-                    waitExp = waitExp.And(t => t.CustomName.Contains(request.key));
+                    waitExp = PredicateBuilder.And(waitExp, t => t.CustomName.Contains(request.key));
                 }
 
                 result.count = await UnitWork.Find(waitExp).CountAsync();
@@ -859,7 +871,7 @@ namespace OpenAuth.App
                 // 加入搜索自定义标题
                 if (!string.IsNullOrEmpty(request.key))
                 {
-                    myFlowExp = myFlowExp.And(t => t.CustomName.Contains(request.key));
+                    myFlowExp = PredicateBuilder.And(myFlowExp, t => t.CustomName.Contains(request.key));
                 }
 
                 result.count = await UnitWork.Find(myFlowExp).CountAsync();

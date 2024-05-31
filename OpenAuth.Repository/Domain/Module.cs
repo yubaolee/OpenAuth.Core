@@ -94,7 +94,7 @@ namespace OpenAuth.Repository.Domain
         /// 前端界面是否缓存
         /// </summary>
         /// [Description("前端界面是否缓存")]
-        public bool KeepAlive { get; set; }
+        public bool? KeepAlive { get; set; }
 
     }
 }

@@ -16,6 +16,8 @@ OpenAuth.Pro是一套全新的前端界面，基于vue-element-admin，采用VUE
 
 [OpenAuth.Net视频合集--使用企业版代码生成器](https://www.bilibili.com/video/BV1JCuyeaEFp/)
 
+[OpenAuth.Net视频合集--权限管理介绍](https://www.bilibili.com/video/BV1M9KeejENf/)
+
 
 ## 工具准备
 

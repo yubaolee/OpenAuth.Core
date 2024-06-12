@@ -9,7 +9,7 @@ namespace Infrastructure.Test
         [Test]
         public void Convert()
         {
-            FilterGroup sub = new FilterGroup
+            QueryObject sub = new QueryObject
             {
                 Operation = "or"
             };
@@ -19,22 +19,22 @@ namespace Infrastructure.Test
                 new Filter {Key = "c3", Value = "10,20,30", Contrast = "in"}
             };
             
-            FilterGroup filterGroup = new FilterGroup
+            QueryObject queryObject = new QueryObject
             {
                 Operation = "and"
             };
-            filterGroup.Filters = new[]
+            queryObject.Filters = new[]
             {
                 new Filter {Key = "c1", Value = "name", Contrast = "contains"},
                 new Filter {Key = "10,20,30", Value = "40", Contrast = "intersect"}
             };
 
-            filterGroup.Children = new[]
+            queryObject.Children = new[]
             {
                 sub
             };
 
-            var expression = DynamicLinq.ConvertGroup<TestOjb>(filterGroup,
+            var expression = DynamicLinq.ConvertGroup<TestOjb>(queryObject,
                 Expression.Parameter(typeof(TestOjb), "c"));
             
             Console.WriteLine(expression.ToString());

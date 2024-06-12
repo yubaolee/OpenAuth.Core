@@ -73,7 +73,7 @@ namespace OpenAuth.Repository.Test
         [Test]
         public void TestDynamic()
         {
-            FilterGroup sub = new FilterGroup
+            QueryObject sub = new QueryObject
             {
                 Operation = "or"
             };
@@ -83,24 +83,24 @@ namespace OpenAuth.Repository.Test
                 new Filter {Key = "Sex", Value = "10", Contrast = "=="}
             };
 
-            FilterGroup filterGroup = new FilterGroup
+            QueryObject queryObject = new QueryObject
             {
                 Operation = "and"
             };
-            filterGroup.Filters = new[]
+            queryObject.Filters = new[]
             {
                 new Filter {Key = "Account", Value = "name", Contrast = "=="},
                 new Filter {Key = "Password", Value = "10", Contrast = "=="}
             };
 
-            filterGroup.Children = new[]
+            queryObject.Children = new[]
             {
                 sub
             };
 
             var sugarClient = _autofacServiceProvider.GetService<ISqlSugarClient>();
 
-            var query = sugarClient.Queryable<User>().GenerateFilter("c",filterGroup);
+            var query = sugarClient.Queryable<User>().GenerateFilter("c",queryObject);
             Console.WriteLine(query.ToSqlString());
         }
     }

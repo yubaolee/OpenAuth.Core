@@ -18,7 +18,7 @@ namespace OpenAuth.App.Test
             var services = new ServiceCollection();
 
             var cachemock = new Mock<ICacheContext>();
-            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "Systems" });
+            cachemock.Setup(x => x.Get<UserAuthSession>("tokentest")).Returns(new UserAuthSession { Account = "admin" });
             services.AddScoped(x => cachemock.Object);
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -37,7 +37,7 @@ namespace OpenAuth.App.Test
         {
             var app = _autofacServiceProvider.GetService<ResourceApp>();
             var result = app.Load(new QueryResourcesReq());
-            Console.WriteLine(JsonHelper.Instance.Serialize(result));
+            Console.WriteLine(JsonHelper.Instance.Serialize(result.Result));
         }
         
         [Test]
@@ -46,7 +46,7 @@ namespace OpenAuth.App.Test
             var auth = _autofacServiceProvider.GetService<IAuth>();
             var app = _autofacServiceProvider.GetService<DataPrivilegeRuleApp>();
             //该测试解析为：针对资源列表，【管理员】可以看到所有，角色为【神】或【测试】的只能看到自己创建的
-            var filterGroup = new FilterGroup
+            var filterGroup = new QueryObject
             {
                 Operation = "or"
             };
@@ -61,7 +61,7 @@ namespace OpenAuth.App.Test
             };
             filterGroup.Children = new[]
             {
-                new FilterGroup   //登录用户角色包含【测试】或包含【神】的，只能看到自己的
+                new QueryObject   //登录用户角色包含【测试】或包含【神】的，只能看到自己的
                 {
                     Operation = "and",
                     Filters = new Filter[]

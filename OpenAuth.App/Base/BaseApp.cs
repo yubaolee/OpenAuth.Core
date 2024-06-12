@@ -63,7 +63,7 @@ namespace OpenAuth.App
                     string.Join(',',orgs));
             }
             return UnitWork.Find<T>(null).GenerateFilter(parametername,
-                JsonHelper.Instance.Deserialize<FilterGroup>(rule.PrivilegeRules));
+                JsonHelper.Instance.Deserialize<QueryObject>(rule.PrivilegeRules));
         }
         
         /// <summary>

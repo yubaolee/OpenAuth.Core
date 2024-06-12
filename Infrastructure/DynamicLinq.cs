@@ -175,7 +175,7 @@ namespace Infrastructure
         {
             if (!string.IsNullOrEmpty(filterjson))
             {
-                var filterGroup = JsonHelper.Instance.Deserialize<FilterGroup>(filterjson);
+                var filterGroup = JsonHelper.Instance.Deserialize<QueryObject>(filterjson);
                 query = GenerateFilter(query, parametername, filterGroup);
             }
 
@@ -186,7 +186,7 @@ namespace Infrastructure
         {
             if (!string.IsNullOrEmpty(filterjson))
             {
-                var filterGroup = JsonHelper.Instance.Deserialize<FilterGroup>(filterjson);
+                var filterGroup = JsonHelper.Instance.Deserialize<QueryObject>(filterjson);
                 query = GenerateFilter(query, parametername, filterGroup);
             }
 
@@ -199,13 +199,13 @@ namespace Infrastructure
         /// <typeparam name="T"></typeparam>
         /// <param name="query"></param>
         /// <param name="parametername"></param>
-        /// <param name="filterGroup"></param>
+        /// <param name="queryObject"></param>
         /// <returns></returns>
         public static IQueryable<T> GenerateFilter<T>(this IQueryable<T> query, string parametername,
-            FilterGroup filterGroup)
+            QueryObject queryObject)
         {
             var param = CreateLambdaParam<T>(parametername);
-            Expression result = ConvertGroup<T>(filterGroup, param);
+            Expression result = ConvertGroup<T>(queryObject, param);
             query = query.Where(param.GenerateTypeLambda<T>(result));
             return query;
         }
@@ -215,14 +215,14 @@ namespace Infrastructure
         /// </summary>
         /// <param name="query"></param>
         /// <param name="parametername"></param>
-        /// <param name="filterGroup"></param>
+        /// <param name="queryObject"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static ISugarQueryable<T> GenerateFilter<T>(this ISugarQueryable<T> query, string parametername,
-            FilterGroup filterGroup)
+            QueryObject queryObject)
         {
             var param = CreateLambdaParam<T>(parametername);
-            Expression result = ConvertGroup<T>(filterGroup, param);
+            Expression result = ConvertGroup<T>(queryObject, param);
             query = query.Where(param.GenerateTypeLambda<T>(result));
             return query;
         }
@@ -230,25 +230,25 @@ namespace Infrastructure
         /// <summary>
         /// 转换filtergroup为表达式
         /// </summary>
-        /// <param name="filterGroup"></param>
+        /// <param name="queryObject"></param>
         /// <param name="param"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static Expression ConvertGroup<T>(FilterGroup filterGroup, ParameterExpression param)
+        public static Expression ConvertGroup<T>(QueryObject queryObject, ParameterExpression param)
         {
-            if (filterGroup == null) return null;
+            if (queryObject == null) return null;
 
-            if (filterGroup.Filters.Length == 1 &&(filterGroup.Children == null || !filterGroup.Children.Any())) //只有一个条件
+            if (queryObject.Filters.Length == 1 &&(queryObject.Children == null || !queryObject.Children.Any())) //只有一个条件
             {
-                return param.GenerateBody<T>(filterGroup.Filters[0]);
+                return param.GenerateBody<T>(queryObject.Filters[0]);
             }
 
-            Expression result = ConvertFilters<T>(filterGroup.Filters, param, filterGroup.Operation);
-            Expression gresult = ConvertGroup<T>(filterGroup.Children, param, filterGroup.Operation);
+            Expression result = ConvertFilters<T>(queryObject.Filters, param, queryObject.Operation);
+            Expression gresult = ConvertGroup<T>(queryObject.Children, param, queryObject.Operation);
             if (gresult == null) return result;
             if (result == null) return gresult;
 
-            if (filterGroup.Operation == "and")
+            if (queryObject.Operation == "and")
             {
                 return result.AndAlso(gresult);
             }
@@ -266,7 +266,7 @@ namespace Infrastructure
         /// <param name="operation"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private static Expression ConvertGroup<T>(FilterGroup[] groups, ParameterExpression param, string operation)
+        private static Expression ConvertGroup<T>(QueryObject[] groups, ParameterExpression param, string operation)
         {
             if (groups == null || !groups.Any()) return null;
 

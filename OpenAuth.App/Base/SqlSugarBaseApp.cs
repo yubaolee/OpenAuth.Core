@@ -75,7 +75,7 @@ namespace OpenAuth.App
                     string.Join(',',orgs));
             }
             return SugarClient.Queryable<T>().GenerateFilter(parametername,
-                JsonHelper.Instance.Deserialize<FilterGroup>(rule.PrivilegeRules));
+                JsonHelper.Instance.Deserialize<QueryObject>(rule.PrivilegeRules));
         }
         
         /// <summary>

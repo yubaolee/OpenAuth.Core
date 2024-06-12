@@ -11,7 +11,7 @@ public static class QueryObjExtension
     /// <summary>
     /// 根据过滤器组构建查询。
     /// </summary>
-    public static string BuildQuery(this FilterGroup query)
+    public static string BuildQuery(this QueryObject query)
     {
         StringBuilder sb = new StringBuilder();
         BuildQuery(query, sb);
@@ -21,7 +21,7 @@ public static class QueryObjExtension
     /// <summary>
     /// 递归构建查询字符串。
     /// </summary>
-    private static void BuildQuery(FilterGroup query, StringBuilder sb)
+    private static void BuildQuery(QueryObject query, StringBuilder sb)
     {
         // 构建当前过滤器组的过滤条件
         if (query.Filters != null && query.Filters.Length > 0)

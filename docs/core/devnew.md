@@ -39,11 +39,18 @@ CodeSmith Generator Studio 8.0或以上
 
 如下图，使用CodeSmith文件夹中的模板，右击【ApiGenerate.cst】--【Execute】，选择需要生成的表（本文以Stock为例）及相关的上下文命名空间，点击【Generate】
 
-![](http://pj.openauth.net.cn/zentao/file-read-26.jpg)
+![20240613220037](http://img.openauth.net.cn/20240613220037.png)
+
+注意，有两个配置项：
+
+* WholeDb: 如果选中，则按数据库中所有表生成实体及逻辑；否则，按选择的表生成
+  
+* HeaderModel：会生成主、从表结构，类似 WmsInboundOrderTbl / WmsInboundOrderDtbl
+
 
 生成成功后，在CodeSmith/Csharp文件夹下面会有Stock实体相关文档，如下图：
 
-![](http://pj.openauth.net.cn/zentao/file-read-53.png)
+![20240613220224](http://img.openauth.net.cn/20240613220224.png)
 
 把CSharp\OpenAuth.App覆盖到自己项目对应目录
 
@@ -51,7 +58,6 @@ CodeSmith Generator Studio 8.0或以上
 
 **把CSharp\OpenAuth.Repository\OpenAuthDBContext.cs中的内容添加到自己项目的文件中，千万不要直接覆盖文件！！！**
 
-**其他文件夹的内容为WebAPI项目使用，可以不管。**
 
 ## 添加界面
 
@@ -69,7 +75,15 @@ userJs直接覆盖到OpenAuth.Mvc/wwwroot中
 
 ## 添加模块
 
-编写完上面代码后，运行系统，使用System账号登录系统，在【模块管理】中，添加`仓储管理`模块，并为它添加菜单，这里我只添加一个菜单【btnAdd】，如下图：
+编写完上面代码后，运行系统，使用System账号登录系统，在【模块管理】中，添加`仓储管理`模块，
+
+![20240613220434](http://img.openauth.net.cn/20240613220434.png)
+
+::: warning 注意
+因为生成的Controller名称类似XXXsController，所以模块的Url地址应该是XXXs/Index 
+:::
+
+并为它添加菜单，这里我只添加一个菜单【btnAdd】，如下图：
 
 ![](http://pj.openauth.net.cn/zentao/file-read-51.png)
 

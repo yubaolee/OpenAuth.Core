@@ -254,38 +254,38 @@ namespace Infrastructure
             }
             else //or
             {
-                return result.Or(gresult);
+                return Expression.OrElse( result, gresult);
             }
         }
 
         /// <summary>
         /// 转换FilterGroup[]为表达式，不管FilterGroup里面的Filters
         /// </summary>
-        /// <param name="groups"></param>
+        /// <param name="queryObjs"></param>
         /// <param name="param"></param>
         /// <param name="operation"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private static Expression ConvertGroup<T>(QueryObject[] groups, ParameterExpression param, string operation)
+        private static Expression ConvertGroup<T>(QueryObject[] queryObjs, ParameterExpression param, string operation)
         {
-            if (groups == null || !groups.Any()) return null;
+            if (queryObjs == null || !queryObjs.Any()) return null;
 
-            Expression result = ConvertGroup<T>(groups[0], param);
+            Expression result = ConvertGroup<T>(queryObjs[0], param);
 
-            if (groups.Length == 1) return result;
+            if (queryObjs.Length == 1) return result;
 
             if (operation == "and")
             {
-                foreach (var filter in groups.Skip(1))
+                foreach (var filter in queryObjs.Skip(1))
                 {
                     result = result.AndAlso(ConvertGroup<T>(filter, param));
                 }
             }
             else
             {
-                foreach (var filter in groups.Skip(1))
+                foreach (var filter in queryObjs.Skip(1))
                 {
-                    result = result.Or(ConvertGroup<T>(filter, param));
+                    result = Expression.OrElse(result, ConvertGroup<T>(filter, param));
                 }
             }
 
@@ -325,7 +325,7 @@ namespace Infrastructure
             {
                 foreach (var filter in filters.Skip(1))
                 {
-                    result = result.Or(param.GenerateBody<T>(filter));
+                    result = Expression.OrElse(result, param.GenerateBody<T>(filter));
                 }
             }
 

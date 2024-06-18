@@ -43,6 +43,8 @@
 
 [OpenAuth.Net视频合集--使用企业版代码生成器](https://www.bilibili.com/video/BV1JCuyeaEFp/)
 
+[OpenAuth.Net视频合集--表单设计](https://www.bilibili.com/video/BV1dagEeFEVA/)
+
 
 ## 关于OpenAuth.Net企业版/高级版的说明：
 

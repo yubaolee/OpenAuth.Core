@@ -59,7 +59,7 @@ namespace OpenAuth.Repository.Test
         [Test]
         public void TestDynamic()
         {
-            FilterGroup sub = new FilterGroup
+            QueryObject sub = new QueryObject
             {
                 Operation = "or"
             };
@@ -69,24 +69,24 @@ namespace OpenAuth.Repository.Test
                 new Filter {Key = "Sex", Value = "10", Contrast = "=="}
             };
 
-            FilterGroup filterGroup = new FilterGroup
+            QueryObject queryObject = new QueryObject
             {
                 Operation = "and"
             };
-            filterGroup.Filters = new[]
+            queryObject.Filters = new[]
             {
                 new Filter {Key = "Account", Value = "name", Contrast = "=="},
                 new Filter {Key = "Password", Value = "10", Contrast = "=="}
             };
 
-            filterGroup.Children = new[]
+            queryObject.Children = new[]
             {
                 sub
             };
 
             var dbcontext = _autofacServiceProvider.GetService<OpenAuthDBContext>();
 
-            var query = dbcontext.Users.GenerateFilter("c",JsonHelper.Instance.Serialize(filterGroup));
+            var query = dbcontext.Users.GenerateFilter("c",JsonHelper.Instance.Serialize(queryObject));
             Console.WriteLine(query.Expression.ToString());
         }
     }

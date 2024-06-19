@@ -44,7 +44,7 @@ layui.config({
     var _hmt = _hmt || [];
     (function () {
         var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?0558502420ce5fee054b31425e77ffa6";
+        hm.src = "https://hm.baidu.com/hm.js?93a7b9a145222f9b7109d643a0c58f8d";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();

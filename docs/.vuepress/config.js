@@ -1,19 +1,11 @@
 /*
  * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
  * @Date: 2023-08-12 10:48:24
- * @LastEditTime: 2024-06-19 20:31:55
+ * @LastEditTime: 2024-06-19 20:42:17
  * @Description: 
  * @
  * @Copyright (c) 2023 by yubaolee | ahfu~ , All Rights Reserved. 
 */
-
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?93a7b9a145222f9b7109d643a0c58f8d";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
 
 module.exports = {
   title: 'OpenAuth.Net',

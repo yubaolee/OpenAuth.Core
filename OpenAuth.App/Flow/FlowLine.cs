@@ -68,6 +68,9 @@ namespace OpenAuth.App.Flow
                         case DataCompare.LessEqual:
                             result &= frmvalue <= value;
                             break;
+                        case  DataCompare.NotEqual:
+                            result &= frmvalue != value;
+                            break;
                     }
                 }
                 else //如果只是字符串，只判断相等
@@ -79,7 +82,28 @@ namespace OpenAuth.App.Flow
                     }
                     else
                     {
-                        result &= compare.Value == fieldVal;
+                        switch (compare.Operation)
+                        {
+                            case DataCompare.Equal:
+                                result &= compare.Value == fieldVal;
+                                break;
+                            case DataCompare.Larger:
+                                result &= string.Compare(compare.Value, fieldVal, false) > 0;
+                                break;
+                            case DataCompare.Less:
+                                result &= string.Compare(compare.Value, fieldVal, false) < 0;
+                                break;
+                            case DataCompare.LargerEqual:
+                                result &= string.Compare(compare.Value, fieldVal, false) >= 0;
+                                break;
+                            case DataCompare.LessEqual:
+                                result &= string.Compare(compare.Value, fieldVal, false) <= 0;
+                                break;
+                            case  DataCompare.NotEqual:
+                                result &= compare.Value != fieldVal;
+                                break;
+                        }
+                        
                     }
                     
                 }

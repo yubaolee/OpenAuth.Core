@@ -83,9 +83,6 @@ Category="1.Database" Description="可以选择一个或多个表（使用Ctrl�
 <%@ Register Name="ModifyReqGenerateClass"
              Template="ApiGenerate\ModifyReq.cst"
              MergeProperties="False" %>
-<%@ Register Name="ControllerGenerateClass"
-             Template="ApiGenerate\Controller.cst"
-             MergeProperties="False" %>
              
 开始创建OpenAuth.Core WebApi相关代码 ...
 <% Generate(); %>
@@ -105,7 +102,6 @@ Category="1.Database" Description="可以选择一个或多个表（使用Ctrl�
         }
 
         CreateEntityClasses();
-         CreateControllerClass();
          CreateApplicationClass();
          CreateReqClass();
          CreateContextClass();
@@ -153,24 +149,6 @@ Category="1.Database" Description="可以选择一个或多个表（使用Ctrl�
         Response.WriteLine(generatedClass.RenderToString());
     }
     
-
-    //创建控制器,如UserManagerController.cs
-    public void CreateControllerClass()
-    {
-        ControllerGenerateClass generatedClass = this.Create<ControllerGenerateClass>();
-        this.CopyPropertiesTo(generatedClass);
-
-
-         foreach(TableSchema table in tables)
-        {
-             string generatedFile = Path.GetFullPath(directory) + "OpenAuth.WebApi\\Controllers\\"+  table.Name + "sController.cs";
-
-            generatedClass.ModuleName = table.Name;
-
-            Response.WriteLine("已生成"+generatedFile);
-            generatedClass.RenderToFile(generatedFile, generatedFile, true);
-        }
-    }
 
     //创建APP层,如UserManagerApp.cs
     public void CreateApplicationClass()

@@ -384,6 +384,8 @@ namespace OpenAuth.App
                     flowInstance.MakerList = GetForkNodeMakers(wfruntime, wfruntime.currentNodeId);
                     AddTransHistory(wfruntime);
                 }
+                
+                flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
             }
 
             #endregion 会签
@@ -396,8 +398,6 @@ namespace OpenAuth.App
             }
 
             #endregion 一般审核
-
-            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
 
             if (!string.IsNullOrEmpty(request.FrmData))
             {
@@ -467,6 +467,7 @@ namespace OpenAuth.App
            var content =  $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.currentNode.name}】" +
                          $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
            AddOperationHis(flowInstance.Id, tag, content);
+           flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
 
            //如果审批通过，且下一个审批人是自己，则自动审批
            if (tag.Taged == (int)TagState.Ok)

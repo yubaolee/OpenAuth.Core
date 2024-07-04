@@ -55,7 +55,8 @@ namespace OpenAuth.App
             IRepository<FlowInstance, OpenAuthDBContext> repository
             , RevelanceManagerApp app, FlowSchemeApp flowSchemeApp, FormApp formApp,
             IHttpClientFactory httpClientFactory, IAuth auth, IServiceProvider serviceProvider,
-            SysMessageApp messageApp, DbExtension dbExtension, UserManagerApp userManagerApp, OrgManagerApp orgManagerApp)
+            SysMessageApp messageApp, DbExtension dbExtension, UserManagerApp userManagerApp,
+            OrgManagerApp orgManagerApp)
             : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
@@ -136,16 +137,15 @@ namespace OpenAuth.App
             if (flowInstance.FrmType == 1) //如果是开发者自定义的表单
             {
                 var t = Type.GetType("OpenAuth.App." + flowInstance.DbName + "App");
-                ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
+                ICustomerForm icf = (ICustomerForm)_serviceProvider.GetService(t);
                 try
                 {
                     icf.Add(flowInstance.Id, flowInstance.FrmData);
                 }
                 catch (Exception e)
                 {
-                    throw new  Exception("流程表单数据解析失败,请检查表单是否填写完整");
+                    throw new Exception("流程表单数据解析失败,请检查表单是否填写完整");
                 }
-                
             }
 
             //如果工作流配置的表单配置有对应的数据库
@@ -256,7 +256,7 @@ namespace OpenAuth.App
                 if (form.FrmType == 1) //如果是开发者自定义的表单,更新对应数据库表数据
                 {
                     var t = Type.GetType("OpenAuth.App." + req.DbName + "App");
-                    ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
+                    ICustomerForm icf = (ICustomerForm)_serviceProvider.GetService(t);
                     icf.Update(req.Id, req.FrmData);
                 }
                 else if (form.FrmType == 2 && !string.IsNullOrEmpty(form.DbName)) //拖拽表单定义了关联数据库
@@ -283,6 +283,7 @@ namespace OpenAuth.App
                         {
                             continue;
                         }
+
                         updatestr += $"{column.ColumnName} = '{val}',";
                     }
 
@@ -342,7 +343,7 @@ namespace OpenAuth.App
 
                 string canCheckId = ""; //寻找当前登录用户可审核的节点Id
                 foreach (string fromForkStartNodeId in wfruntime.FromNodeLines[wfruntime.currentNodeId]
-                    .Select(u => u.to))
+                             .Select(u => u.to))
                 {
                     var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId]; //与会前开始节点直接连接的节点
                     canCheckId = GetOneForkLineCanCheckNodeId(fromForkStartNode, wfruntime, tag);
@@ -353,9 +354,10 @@ namespace OpenAuth.App
                 {
                     throw (new Exception("审核异常,找不到审核节点"));
                 }
-                
-                var content = $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.Nodes[canCheckId].name}】" +
-                              $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
+
+                var content =
+                    $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.Nodes[canCheckId].name}】" +
+                    $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
                 AddOperationHis(instanceId, tag, content);
 
                 wfruntime.MakeTagNode(canCheckId, tag); //标记审核节点状态
@@ -384,12 +386,12 @@ namespace OpenAuth.App
                     flowInstance.MakerList = GetForkNodeMakers(wfruntime, wfruntime.currentNodeId);
                     AddTransHistory(wfruntime);
                 }
-                
+
                 flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
             }
 
             #endregion 会签
-            
+
             #region 一般审核
 
             else
@@ -399,16 +401,12 @@ namespace OpenAuth.App
 
             #endregion 一般审核
 
-            if (!string.IsNullOrEmpty(request.FrmData))
+            //自定义开发表单，需要更新对应的数据库
+            if (!string.IsNullOrEmpty(request.FrmData) && flowInstance.FrmType == 1)
             {
-                flowInstance.FrmData = request.FrmData;
-
-                if (flowInstance.FrmType == 1) //如果是开发者自定义的表单,更新对应数据库表数据
-                {
-                    var t = Type.GetType("OpenAuth.App." + flowInstance.DbName + "App");
-                    ICustomerForm icf = (ICustomerForm) _serviceProvider.GetService(t);
-                    icf.Update(flowInstance.Id, flowInstance.FrmData);
-                }
+                var t = Type.GetType("OpenAuth.App." + flowInstance.DbName + "App");
+                ICustomerForm icf = (ICustomerForm)_serviceProvider.GetService(t);
+                icf.Update(flowInstance.Id, flowInstance.FrmData);
             }
 
             UnitWork.Update(flowInstance);
@@ -428,6 +426,12 @@ namespace OpenAuth.App
         private void VerifyNode(VerificationReq request, Tag tag, FlowInstance flowInstance)
         {
             var user = _auth.GetCurrentUser().User;
+
+            if (!string.IsNullOrEmpty(request.FrmData))
+            {
+                flowInstance.FrmData = request.FrmData;
+            }
+
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
             wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
             if (tag.Taged == (int)TagState.Ok)
@@ -463,22 +467,23 @@ namespace OpenAuth.App
                 wfruntime.nextNodeId = "-1";
                 wfruntime.nextNodeType = 4;
             }
-            
-           var content =  $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.currentNode.name}】" +
-                         $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
-           AddOperationHis(flowInstance.Id, tag, content);
-           flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
 
-           //如果审批通过，且下一个审批人是自己，则自动审批
-           if (tag.Taged == (int)TagState.Ok)
-           {
-               if (flowInstance.MakerList != "1" && (!flowInstance.MakerList.Contains(user.Id)))
-               {
-                   return;
-               }
-               VerifyNode(request, tag, flowInstance);
-           }
+            var content =
+                $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.currentNode.name}】" +
+                $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
+            AddOperationHis(flowInstance.Id, tag, content);
+            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
 
+            //如果审批通过，且下一个审批人是自己，则自动审批
+            if (tag.Taged == (int)TagState.Ok)
+            {
+                if (flowInstance.MakerList != "1" && (!flowInstance.MakerList.Contains(user.Id)))
+                {
+                    return;
+                }
+
+                VerifyNode(request, tag, flowInstance);
+            }
         }
 
         //会签时，获取一条会签分支上面是否有用户可审核的节点
@@ -527,7 +532,7 @@ namespace OpenAuth.App
             var tag = new Tag
             {
                 Description = reqest.VerificationOpinion,
-                Taged = (int) TagState.Reject,
+                Taged = (int)TagState.Reject,
                 UserId = user.Id,
                 UserName = user.Name
             };
@@ -613,7 +618,7 @@ namespace OpenAuth.App
 
                 makerList = GenericHelpers.ArrayToString(request.NodeDesignates, makerList);
             }
-            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_PARENT 
+            else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_PARENT
                      || wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_MANY_PARENTS)
             {
                 //如果是上一节点执行人的直属上级或连续多级直属上级
@@ -630,7 +635,8 @@ namespace OpenAuth.App
                 {
                     throw new Exception("无法找到当前用户的直属上级");
                 }
-                makerList = GenericHelpers.ArrayToString(new[]{parentId}, makerList);
+
+                makerList = GenericHelpers.ArrayToString(new[] { parentId }, makerList);
             }
             else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_CHAIRMAN)
             {
@@ -687,7 +693,7 @@ namespace OpenAuth.App
             {
                 if (node.setInfo != null && node.setInfo.Taged != null)
                 {
-                    if (node.type != FlowNode.FORK && node.setInfo.Taged != (int) TagState.Ok) //如果节点是不同意或驳回，则不用再找了
+                    if (node.type != FlowNode.FORK && node.setInfo.Taged != (int)TagState.Ok) //如果节点是不同意或驳回，则不用再找了
                     {
                         break;
                     }
@@ -733,7 +739,8 @@ namespace OpenAuth.App
             }
             else if (node.setInfo != null)
             {
-                if (string.IsNullOrEmpty(node.setInfo.NodeDesignate) ||node.setInfo.NodeDesignate == Setinfo.ALL_USER) //所有成员
+                if (string.IsNullOrEmpty(node.setInfo.NodeDesignate) ||
+                    node.setInfo.NodeDesignate == Setinfo.ALL_USER) //所有成员
                 {
                     makerList = "1";
                 }
@@ -774,7 +781,7 @@ namespace OpenAuth.App
                 CheckNodeDesignate(request);
             }
 
-            bool isReject = TagState.Reject.Equals((TagState) Int32.Parse(request.VerificationFinally));
+            bool isReject = TagState.Reject.Equals((TagState)Int32.Parse(request.VerificationFinally));
             if (isReject) //驳回
             {
                 NodeReject(request);
@@ -904,7 +911,7 @@ namespace OpenAuth.App
                 TransitionSate = 0
             });
         }
-        
+
         private void AddOperationHis(string instanceId, Tag tag, string content)
         {
             FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory

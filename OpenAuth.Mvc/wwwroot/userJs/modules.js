@@ -133,6 +133,7 @@ layui.config({
                         form.val("formEdit", moduleInitVal);
                     } else {
                         form.val("formEdit", data);
+                        form.render();
                     }
                 },
                 end: mainList
@@ -180,6 +181,7 @@ layui.config({
                         form.val("mfromEdit", menuInital);
                     } else {
                         form.val("mfromEdit", data);
+                        form.render();
                     }
                 },
                 end: menuList

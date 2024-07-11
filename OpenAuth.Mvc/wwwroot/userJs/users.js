@@ -7,6 +7,16 @@ layui.config({
     var table = layui.table;
     var openauth = layui.openauth;
     var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
+    
+    var initVal = { //初始化数据
+        Id: '',
+        Account:'',
+        Name:'',
+        Organizations:'',
+        OrganizationIds:'',
+        Sex:'',
+        Status:0
+    };
    
     $("#menus").loadMenus("User");
 
@@ -68,9 +78,7 @@ layui.config({
 
     //添加（编辑）对话框
     var editDlg = function() {
-        var vm;
-        var update = false;  //是否为更新
-        var show = function (data) {
+        var show = function (update, data) {
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
@@ -78,34 +86,18 @@ layui.config({
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
-                     if(vm == undefined){
-                        vm = new Vue({
-                            el: "#formEdit",
-                            data(){
-                                return {
-                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
-                                }
-                            },
-                            watch:{
-                                tmp(val){
-                                    this.$nextTick(function () {
-                                        form.render();  //刷新select等
-                                        //layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds");
-                                   })
-                                }
-                            },
-                            mounted(){
-                                form.render();
-                                var _this = this;
-                                layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds", true,function (ids, names) {
-                                    _this.tmp.OrganizationIds = ids;
-                                    _this.tmp.Organizations = names;
-                                });
-                            }
+                    if (data == undefined) {
+                        form.val("formEdit", initVal);
+                    } else {
+                        layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds", true,function (ids, names) {
+                            form.val("formEdit", {
+                                Organizations: names,
+                                OrganizationIds: ids
+                            });
                         });
-                       }else{
-                        vm.tmp = Object.assign({}, vm.tmp,data)
-                       }
+                        form.val("formEdit", data);
+                       
+                    }
                 },
                 end: mainList
             });
@@ -127,22 +119,15 @@ layui.config({
 
             //重置
             $("#reset").click(function(){
-                vm.tmp = {
-                    OrganizationIds:'',
-                    Organizations:''
-                }
+               
             });
         }
         return {
             add: function() { //弹出添加
-                update = false;
-                show({
-                    Id: ''
-                });
+                show(false);
             },
             update: function(data) { //弹出编辑框
-                update = true;
-                show(data);
+                show(true,data);
             }
         };
     }();

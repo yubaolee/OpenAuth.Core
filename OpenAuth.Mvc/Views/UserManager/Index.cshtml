@@ -56,21 +56,21 @@
 
 <!--用户添加/编辑窗口-->
 <div id="divEdit" style="display: none">
-    <form class="layui-form layui-form-pane" action=""  id="formEdit">
+    <form class="layui-form layui-form-pane" action=""  id="formEdit" lay-filter="formEdit">
 
-        <input type="hidden" name="Id" v-model="tmp.Id" />
+        <input type="hidden" name="Id"  />
 
         <div class="layui-form-item">
             <label class="layui-form-label">账号</label>
             <div class="layui-input-block">
-                <input type="text" name="Account" v-model="tmp.Account" required lay-verify="required"
+                <input type="text" name="Account"  required lay-verify="required"
                        placeholder="请输入登录账号" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
-                <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
+                <input type="text" name="Name"  required lay-verify="required"
                        placeholder="请输入昵称或姓名" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -78,8 +78,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属部门</label>
             <div class="layui-input-block">
-                <input id="Organizations" name="Organizations" v-model="tmp.Organizations" required lay-verify="required" class="layui-input" />
-                <input id="OrganizationIds" name="OrganizationIds" v-model="tmp.OrganizationIds" required lay-verify="required" type="hidden" />
+                <input id="Organizations" name="Organizations"  required lay-verify="required" class="layui-input" />
+                <input id="OrganizationIds" name="OrganizationIds"  required lay-verify="required" type="hidden" />
                 
             </div>
         </div>
@@ -87,14 +87,14 @@
         <div class="layui-form-item" pane>
             <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
-                <input type="radio" name="Sex" value="1" title="男" v-model="tmp.Sex" >
-                <input type="radio" name="Sex" value="0" title="女" v-model="tmp.Sex" >
+                <input type="radio" name="Sex" value="1" title="男"  >
+                <input type="radio" name="Sex" value="0" title="女"  >
             </div>
         </div>
         <div class="layui-form-item" pane>
             <label class="layui-form-label">禁用</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="Status" v-model="tmp.Status" lay-skin="switch" value="1">
+                <input type="checkbox" name="Status"  lay-skin="switch" value="1">
             </div>
         </div>
         <div class="layui-form-item">
@@ -107,4 +107,4 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/users.js?v2.0"></script>
+<script type="text/javascript" src="/userJs/users.js?v3.0"></script>

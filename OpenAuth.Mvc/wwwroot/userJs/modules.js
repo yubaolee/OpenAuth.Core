@@ -1,30 +1,11 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'iconPicker', 'utils'], function () {
+}).use(['form', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'iconPicker', 'utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
     var iconPicker = layui.iconPicker;
     var btnIconPicker = layui.iconPicker;
-    var vmMenu = new Vue({
-        el: "#mfromEdit",
-        data() {
-            return {
-                tmp: {}
-            }
-        },
-        watch: {
-            tmp(val) {
-                this.$nextTick(function () {
-                    form.render();  //刷新select等
-                    btnIconPicker.checkIcon('btnIconPicker', this.tmp.Icon);
-                })
-            }
-        },
-        mounted() {
-            form.render();
-        }
-    });
     var moduleInitVal = {  //模块初始化的值
         Id: "",
         SortNo: 1,
@@ -37,6 +18,15 @@ layui.config({
         Remark: '',
         Code: ''
     };
+    var menuInital={ //菜单初始化的值
+        Id: "",
+        ModuleId: "",
+        Name:'',
+        DomeId:'',
+        Class:'',
+        Sort: 1,
+        Icon: 'layui-icon-app'
+    }
 
     iconPicker.render({
         // 选择器，推荐使用input
@@ -51,10 +41,6 @@ layui.config({
         type: 'fontClass',
         // 每个图标格子的宽度：'43px'或'20%'
         cellWidth: '43px',
-        // 点击回调
-        click: function (data) {
-            vmMenu.tmp.Icon = data.icon;
-        }
     });
 
     var table = layui.table;
@@ -182,8 +168,7 @@ layui.config({
 
     //添加菜单对话框
     var meditDlg = function () {
-        var update = false;  //是否为更新
-        var show = function (data) {
+        var show = function (update, data) {
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
@@ -191,12 +176,11 @@ layui.config({
                 type: 1,
                 content: $('#divMenuEdit'),
                 success: function () {
-                    if (data.Id == '') {
-                        for (var key in vmMenu.tmp) {
-                            delete vmMenu.tmp[key];
-                        }
+                    if (data == undefined) {
+                        form.val("mfromEdit", menuInital);
+                    } else {
+                        form.val("mfromEdit", data);
                     }
-                    vmMenu.tmp = Object.assign({}, vmMenu.tmp, data)
                 },
                 end: menuList
             });
@@ -218,17 +202,10 @@ layui.config({
         }
         return {
             add: function (moduleId) { //弹出添加
-                update = false;
-                show({
-                    Id: "",
-                    ModuleId: moduleId,
-                    Sort: 1,
-                    Icon: 'layui-icon-app'
-                });
+                show(false);
             },
             update: function (data) { //弹出编辑框
-                update = true;
-                show(data);
+                show(true,data);
             }
         };
     }();

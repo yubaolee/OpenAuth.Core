@@ -44,8 +44,10 @@ namespace OpenAuth.App
                 var moduleIds = SugarClient.Queryable<Relevance>().Where(
                     u =>
                         (u.Key == Define.ROLEMODULE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                var elementIds = GetElementIds();
                 
-                return SugarClient.Queryable<ModuleView>().Where(m =>moduleIds.Contains(m.Id)).Includes(x=>x.Elements).ToList();
+                return SugarClient.Queryable<ModuleView>().Where(m =>moduleIds.Contains(m.Id))
+                    .Includes(x=>x.Elements.Where(u=>elementIds.Contains(u.Id)).ToList()).ToList();
                 
             }
         }
@@ -54,12 +56,22 @@ namespace OpenAuth.App
         {
             get
             {
-                var elementIds = SugarClient.Queryable<Relevance>().Where(
-                    u =>
-                        (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                var elementIds = GetElementIds();
                 var usermoduleelements = SugarClient.Queryable<ModuleElement>().Where(u => elementIds.Contains(u.Id));
                 return usermoduleelements.ToList();
             }
+        }
+
+        /// <summary>
+        /// 获取角色可访问的菜单Id
+        /// </summary>
+        /// <returns></returns>
+        private List<string> GetElementIds()
+        {
+            var elementIds = SugarClient.Queryable<Relevance>().Where(
+                u =>
+                    (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+            return elementIds;
         }
 
         public List<Role> Roles

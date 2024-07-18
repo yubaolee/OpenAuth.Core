@@ -30,7 +30,13 @@ namespace OpenAuth.App
             var columnFields = loginContext.GetTableColumns("Category");
             if (columnFields == null || columnFields.Count == 0)
             {
-                throw new Exception("请在代码生成界面配置Category表的字段属性");
+                //因为分类字典值需要在别的地方使用，必需初始化有值
+                columnFields = new List<BuilderTableColumn>
+                {
+                    new() { ColumnName = "Name", ColumnType = "string" },
+                    new() { ColumnName = "DtCode", ColumnType = "string" },
+                    new() { ColumnName = "DtValue", ColumnType = "string" }
+                };
             }
             
             var result = new TableData();

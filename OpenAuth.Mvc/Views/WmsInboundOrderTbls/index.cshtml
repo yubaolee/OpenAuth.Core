@@ -1,7 +1,8 @@
 ﻿@section header
 {
-    <link rel="stylesheet" href="/css/treetable.css" />
+    <link rel="stylesheet" href="/css/treetable.css"/>
 }
+
 <blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
 
@@ -20,124 +21,124 @@
         {{# } }}
     </script>
 
-</div>  
+</div>
 
 <!--添加/编辑窗口-->
 <div id="divEdit" style="display: none">
-    <form class="layui-form" action=""  id="formEdit">
-    <input type="hidden" name="Id" v-model="tmp.Id" />
-    <div class="layui-form-item">
-        <label class="layui-form-label">相关单据号</label>
-        <div class="layui-input-block">
-            <input type="text" name="ExternalNo" v-model="tmp.ExternalNo"  
-                placeholder="相关单据号" autocomplete="off" class="layui-input">
+    <form class="layui-form" action="" id="formEdit" lay-filter="formEdit">
+        <input type="hidden" name="Id"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">单据号</label>
+            <div class="layui-input-block">
+                <input type="text" name="ExternalNo"
+                       placeholder="单据号" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">相关单据类型</label>
-        <div class="layui-input-block">
-            <input type="text" name="ExternalType" v-model="tmp.ExternalType"  
-                placeholder="相关单据类型" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">单据类型</label>
+            <div class="layui-input-block">
+                <input type="text" name="ExternalType"
+                       placeholder="单据类型" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">入库通知单状态 </label>
-        <div class="layui-input-block">
-            <input type="radio" name="Status" value="1" title="value1" checked>
-            <input type="radio" name="Status" value="0" title="value2">
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态 </label>
+            <div class="layui-input-block">
+                <input type="radio" name="Status" value="1" title="已完成" checked>
+                <input type="radio" name="Status" value="0" title="正常">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">入库类型 </label>
-        <div class="layui-input-block">
-            <input type="text" name="OrderType" v-model="tmp.OrderType"  
-                placeholder="入库类型 " autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">入库类型 </label>
+            <div class="layui-input-block">
+                <input type="text" name="OrderType"
+                       placeholder="入库类型 " autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">商品类别</label>
-        <div class="layui-input-block">
-            <input type="text" name="GoodsType" v-model="tmp.GoodsType"  
-                placeholder="商品类别" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品类别</label>
+            <div class="layui-input-block">
+                <input type="text" name="GoodsType"
+                       placeholder="商品类别" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">采购单号</label>
-        <div class="layui-input-block">
-            <input type="text" name="PurchaseNo" v-model="tmp.PurchaseNo"  
-                placeholder="采购单号" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">采购单号</label>
+            <div class="layui-input-block">
+                <input type="text" name="PurchaseNo"
+                       placeholder="采购单号" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">仓库编号</label>
-        <div class="layui-input-block">
-            <input type="text" name="StockId" v-model="tmp.StockId"  
-                placeholder="仓库编号" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">仓库编号</label>
+            <div class="layui-input-block">
+                <input type="text" name="StockId"
+                       placeholder="仓库编号" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">货主编号(固定值CQM)</label>
-        <div class="layui-input-block">
-            <input type="text" name="OwnerId" v-model="tmp.OwnerId"  
-                placeholder="货主编号(固定值CQM)" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">货主</label>
+            <div class="layui-input-block">
+                <input type="text" name="OwnerId"
+                       placeholder="货主编号(固定值CQM)" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">承运人编号</label>
-        <div class="layui-input-block">
-            <input type="text" name="ShipperId" v-model="tmp.ShipperId"  
-                placeholder="承运人编号" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">承运人</label>
+            <div class="layui-input-block">
+                <input type="text" name="ShipperId"
+                       placeholder="承运人编号" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">供应商编号</label>
-        <div class="layui-input-block">
-            <input type="text" name="SupplierId" v-model="tmp.SupplierId"  
-                placeholder="供应商编号" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">供应商</label>
+            <div class="layui-input-block">
+                <input type="text" name="SupplierId"
+                       placeholder="供应商编号" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">预定入库时间</label>
-        <div class="layui-input-block">
-            <input type="text" name="ScheduledInboundTime" v-model="tmp.ScheduledInboundTime"  
-                placeholder="预定入库时间" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">入库时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="ScheduledInboundTime"
+                       placeholder="预定入库时间" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-block">
-            <input type="text" name="Remark" v-model="tmp.Remark"  
-                placeholder="备注" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" name="Remark"
+                       placeholder="备注" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">有效标志</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="Enable" v-model="tmp.Enable" lay-skin="switch" value="1">
+        <div class="layui-form-item">
+            <label class="layui-form-label">有效标志</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="Enable" lay-skin="switch" value="1">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">承运方式</label>
-        <div class="layui-input-block">
-            <input type="text" name="TransferType" v-model="tmp.TransferType"  
-                placeholder="承运方式" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">承运方式</label>
+            <div class="layui-input-block">
+                <input type="text" name="TransferType"
+                       placeholder="承运方式" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">是否入保税库(0:否,1:是)</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="InBondedArea" v-model="tmp.InBondedArea" lay-skin="switch" value="1">
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否入保税库</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="InBondedArea" lay-skin="switch" value="1">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">销退箱数</label>
-        <div class="layui-input-block">
-            <input type="text" name="ReturnBoxNum" v-model="tmp.ReturnBoxNum"  
-                placeholder="销退箱数" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">销退箱数</label>
+            <div class="layui-input-block">
+                <input type="text" name="ReturnBoxNum"
+                       placeholder="销退箱数" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
 
-    <div class="layui-form-item">
+        <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -147,6 +148,4 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/wmsinboundordertbls.js?v3.2.1"></script>
-
-
+<script type="text/javascript" src="/userJs/wmsinboundordertbls.js?v4"></script>

@@ -1,14 +1,15 @@
 ﻿@section header
 {
-     <link rel="stylesheet" href="/css/treetable.css" />
-    <link rel="stylesheet" href="/js/dtree/dtree.css" />
-    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
+    <link rel="stylesheet" href="/css/treetable.css"/>
+    <link rel="stylesheet" href="/js/dtree/dtree.css"/>
+    <link rel="stylesheet" href="/js/dtree/font/dtreefont.css"/>
 }
-<blockquote class="layui-elem-quote news_search toolList" id ="menus">
+
+<blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
 
 <div class="layui-row">
-    <table class="layui-hide" id="mainList"  lay-filter="list" lay-size="sm"></table>
+    <table class="layui-hide" id="mainList" lay-filter="list" lay-size="sm"></table>
     <script type="text/html" id="Status">
         {{# if(d.Status == 0){ }}
         <span class="layui-badge layui-bg-blue">启用</span>
@@ -21,18 +22,16 @@
     </script>
 </div>
 
-
-
 <!--角色添加/编辑窗口-->
 <div id="divEdit" style="display: none">
-    <form class="layui-form layui-form-pane" action=""  id="formEdit">
+    <form class="layui-form layui-form-pane" action="" id="formEdit" lay-filter="formEdit">
 
-        <input type="hidden" name="Id" v-model="tmp.Id" />
+        <input type="hidden" name="Id"/>
 
         <div class="layui-form-item">
             <label class="layui-form-label">角色名称</label>
             <div class="layui-input-block">
-                <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
+                <input type="text" name="Name" required lay-verify="required"
                        placeholder="请输入角色名称" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -40,7 +39,7 @@
         <div class="layui-form-item" pane>
             <label class="layui-form-label">禁用</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="Status" v-model="tmp.Status" lay-skin="switch" value="1">
+                <input type="checkbox" name="Status" lay-skin="switch" value="1">
             </div>
         </div>
         <div class="layui-form-item">
@@ -53,4 +52,4 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/roles.js?v=1"></script>
+<script type="text/javascript" src="/userJs/roles.js?v2"></script>

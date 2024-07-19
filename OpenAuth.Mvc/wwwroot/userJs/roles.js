@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
+}).use(['form','ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
@@ -9,6 +9,11 @@ layui.config({
     var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
    
     $("#menus").loadMenus("Role");
+    var initVal={  //初始化的值
+        Id: "",
+        Name: '',
+        Status: 0, // Assuming 1 is true and 0 is false for radio buttons
+    }
 
     //主列表加载，角色后台没有分页，直接前端分页
     var config= {};  //table的参数，如搜索key，点击tree的id
@@ -40,9 +45,7 @@ layui.config({
 
     //添加（编辑）对话框
     var editDlg = function() {
-        var vm;
-        var update = false;  //是否为更新
-        var show = function (data) {
+        var show = function (update, data) {
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
@@ -50,29 +53,11 @@ layui.config({
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
-                     if(vm == undefined){
-                        vm = new Vue({
-                            el: "#formEdit",
-                            data(){
-                                return {
-                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
-                                }
-                            },
-                            watch:{
-                                tmp(val){
-                                    this.$nextTick(function () {
-                                        form.render();  //刷新select等
-                                    })
-                                }
-                            },
-                            mounted(){
-                                form.render();
-
-                            }
-                        });
-                       }else{
-                        vm.tmp = Object.assign({}, vm.tmp,data)
-                       }
+                    if (data == undefined) {
+                        form.val("formEdit", initVal);
+                    } else {
+                        form.val("formEdit", data);
+                    }
                 },
                 end: mainList
             });
@@ -94,14 +79,10 @@ layui.config({
         }
         return {
             add: function() { //弹出添加
-                update = false;
-                show({
-                    Id: ''
-                });
+                show(false);
             },
             update: function(data) { //弹出编辑框
-                update = true;
-                show(data);
+                show(true,data);
             }
         };
     }();

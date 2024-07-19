@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'cookie','table', 'droptree', 'openauth', 'utils'], function () {
+}).use(['form', 'ztree', 'layer', 'jquery', 'cookie','table', 'droptree', 'openauth', 'utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
@@ -10,6 +10,25 @@
 
     $("#menus").loadMenus("WmsInboundOrderTbl");
 
+    var initVal = {  //初始化的值
+        Id: "",
+        ExternalNo: '',
+        ExternalType: '',
+        Status: 0, // Assuming 1 is true and 0 is false for radio buttons
+        OrderType: '',
+        GoodsType: '',
+        PurchaseNo: '',
+        StockId: '',
+        OwnerId: '',
+        ShipperId: '',
+        SupplierId: '',
+        ScheduledInboundTime: '',
+        Remark: '',
+        Enable: 0,
+        TransferType: '',
+        InBondedArea: 0,
+        ReturnBoxNum: ''
+    }
 
     //加载表头
     $.getJSON('/WmsInboundOrderTbls/Load',
@@ -56,9 +75,7 @@
  
     //添加（编辑）对话框
     var editDlg = function () {
-        var vm;
-        var update = false;  //是否为更新
-        var show = function (data) {
+        var show = function (update, data) {
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
@@ -66,32 +83,11 @@
                 type: 1,
                 content: $('#divEdit'),
                 success: function () {
-                     if(vm == undefined){
-                        vm = new Vue({
-                            el: "#formEdit",
-                            data(){
-                                return {
-                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
-                                }
-                            },
-                            watch:{
-                                tmp(val){
-                                    this.$nextTick(function () {
-                                        form.render();  //刷新select等
-                                        layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
-
-                                   })
-                                }
-                            },
-                            mounted(){
-                                form.render();
-                                layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
-
-                            }
-                        });
-                       }else{
-                        vm.tmp = Object.assign({}, vm.tmp,data)
-                       }
+                    if (data == undefined) {
+                        form.val("formEdit", initVal);
+                    } else {
+                        form.val("formEdit", data);
+                    }
                 },
                 end: mainList
             });
@@ -113,15 +109,11 @@
                 });
         }
         return {
-            add: function () { //弹出添加
-                update = false;
-                show({
-                    Id: ''
-                });
+            add: function() { //弹出添加
+                show(false);
             },
-            update: function (data) { //弹出编辑框
-                update = true;
-                show(data);
+            update: function(data) { //弹出编辑框
+                show(true,data);
             }
         };
     }();

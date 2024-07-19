@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'utils'], function () {
+}).use(['form', 'ztree', 'layer', 'jquery', 'table', 'droptree', 'openauth', 'utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
@@ -10,36 +10,43 @@
 
     $("#menus").loadMenus("Resource");
 
+    var initVal = {  //初始化的值
+        Id: "",
+        Name: '',
+        Description: "",
+        AppName: "",
+        AppId: ""
+    }
 
     //加载表头
     $.getJSON('/Resources/Load',
-	    { page: 1, limit: 1 },
-	    function (data) {
-            var columns = data.columnFields.filter(u => u.IsList ===true).map(function (e) {
-			    return {
+        {page: 1, limit: 1},
+        function (data) {
+            var columns = data.columnFields.filter(u => u.IsList === true).map(function (e) {
+                return {
                     field: e.ColumnName,
                     title: e.Comment
-			    };
-		    });
-		    columns.unshift({
-			    type: 'checkbox',
-			    fixed: 'left'
-		    });
-		    table.render({
-			    elem: '#mainList',
-			    page: true,
+                };
+            });
+            columns.unshift({
+                type: 'checkbox',
+                fixed: 'left'
+            });
+            table.render({
+                elem: '#mainList',
+                page: true,
                 url: '/Resources/Load',
-			    cols: [columns]
-			    , response: {
-				    statusCode: 200 //规定成功的状态码，默认：0
-			    }
-		    });
+                cols: [columns]
+                , response: {
+                    statusCode: 200 //规定成功的状态码，默认：0
+                }
+            });
         });
 
 
     //主列表加载，可反复调用进行刷新
     var config = {};  //table的参数，如搜索key，点击tree的id
-    var mainList = function(options) {
+    var mainList = function (options) {
         if (options != undefined) {
             $.extend(config, options);
         }
@@ -49,16 +56,14 @@
                 where: config
                 , response: {
                     statusCode: 200 //规定成功的状态码，默认：0
-                } 
+                }
             });
     };
     mainList();
- 
+
     //添加（编辑）对话框
     var editDlg = function () {
-        var vm;
-        var update = false;  //是否为更新
-        var show = function (data) {
+        var show = function (update, data) {
             var title = update ? "编辑信息" : "添加";
             layer.open({
                 title: title,
@@ -66,32 +71,12 @@
                 type: 1,
                 content: $('#divEdit'),
                 success: function () {
-                     if(vm == undefined){
-                        vm = new Vue({
-                            el: "#formEdit",
-                            data(){
-                                return {
-                                    tmp:data  //使用一个tmp封装一下，后面可以直接用vm.tmp赋值
-                                }
-                            },
-                            watch:{
-                                tmp(val){
-                                    this.$nextTick(function () {
-                                        form.render();  //刷新select等
-                                        layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
-
-                                   })
-                                }
-                            },
-                            mounted(){
-                                form.render();
-                                layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
-
-                            }
-                        });
-                       }else{
-                        vm.tmp = Object.assign({}, vm.tmp,data)
-                       }
+                    layui.droptree("/Applications/GetList", "#AppName", "#AppId", false);
+                    if (data == undefined) {
+                        form.val("formEdit", initVal);
+                    } else {
+                        form.val("formEdit", data);
+                    }
                 },
                 end: mainList
             });
@@ -113,14 +98,10 @@
         }
         return {
             add: function () { //弹出添加
-                update = false;
-                show({
-                    Id: ''
-                });
+                show(false);
             },
             update: function (data) { //弹出编辑框
-                update = true;
-                show(data);
+                show(true, data);
             }
         };
     }();
@@ -140,7 +121,9 @@
             var checkStatus = table.checkStatus('mainList')
                 , data = checkStatus.data;
             openauth.del("/Resources/Delete",
-                data.map(function (e) { return e.Id; }),
+                data.map(function (e) {
+                    return e.Id;
+                }),
                 mainList);
         }
         , btnAdd: function () {  //添加
@@ -157,7 +140,7 @@
         }
 
         , search: function () {   //搜索
-            mainList({ key: $('#key').val() });
+            mainList({key: $('#key').val()});
         }
         , btnRefresh: function () {
             mainList();

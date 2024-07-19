@@ -86,17 +86,11 @@ layui.config({
                 type: 1,
                 content: $('#divEdit'),
                 success: function() {
+                    layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds", true);
                     if (data == undefined) {
                         form.val("formEdit", initVal);
                     } else {
-                        layui.droptree("/UserSession/GetOrgs", "#Organizations", "#OrganizationIds", true,function (ids, names) {
-                            form.val("formEdit", {
-                                Organizations: names,
-                                OrganizationIds: ids
-                            });
-                        });
                         form.val("formEdit", data);
-                       
                     }
                 },
                 end: mainList

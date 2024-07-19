@@ -25,11 +25,11 @@
 
 <!--添加/编辑窗口-->
 <div id="divEdit" style="display: none">
-    <form class="layui-form layui-form-pane" action="" id="formEdit">
+    <form class="layui-form layui-form-pane" action="" id="formEdit" lay-filter="formEdit">
         <div class="layui-form-item">
             <label class="layui-form-label">资源标识</label>
             <div class="layui-input-block">
-                <input type="text" name="Id" v-model="tmp.Id" required lay-verify="required"
+                <input type="text" name="Id"  required lay-verify="required"
                        placeholder="名称" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -37,7 +37,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">名称</label>
             <div class="layui-input-block">
-                <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
+                <input type="text" name="Name"  required lay-verify="required"
                        placeholder="名称" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -45,7 +45,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">
-                <input type="text" name="Description" v-model="tmp.Description" required lay-verify="required"
+                <input type="text" name="Description"  required lay-verify="required"
                        placeholder="描述" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -53,8 +53,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属应用</label>
             <div class="layui-input-block">
-                <input id="AppName" name="AppName" v-model="tmp.AppName" class="layui-input" />
-                <input id="AppId" name="AppId" v-model="tmp.AppId" type="hidden" />
+                <input id="AppName" name="AppName"  class="layui-input" />
+                <input id="AppId" name="AppId"  type="hidden" />
             </div>
         </div>
 
@@ -68,6 +68,6 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/resources.js?v=3.2.1"></script>
+<script type="text/javascript" src="/userJs/resources.js?v4"></script>
 
 

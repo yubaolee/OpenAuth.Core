@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils','cookie'], function () {
+}).use(['form','ztree', 'layer', 'jquery', 'table','droptree','openauth','utils','cookie'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
@@ -98,33 +98,11 @@ layui.config({
         }
     }();
 
-    var  vm = new Vue({
-        el: "#formEdit",
-        data() {
-            return {
-                tmp: {
-                    Account: '',
-                    Name: '',
-                    Sex: '',
-                }  
-            }
-        },
-        watch:{
-            tmp(val){
-                this.$nextTick(function () {
-                    form.render();  //刷新select等
-                })
-            }
-        },
-        mounted() {
-            var _this = this;
-            $.get('/UserSession/GetUserProfile',
-                function (data) {
-                    var obj = JSON.parse(data);
-                    _this.tmp = obj.Result;
-                });
-        }
-    });
+    $.get('/UserSession/GetUserProfile',
+        function (data) {
+            var obj = JSON.parse(data);
+            form.val("formEdit", obj.Result);
+        });
 
     var url = "/UserManager/ChangeProfile";
     //提交数据

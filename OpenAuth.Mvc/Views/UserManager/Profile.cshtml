@@ -4,12 +4,12 @@
     <link rel="stylesheet" href="/js/dtree/dtree.css" />
     <link rel="stylesheet" href="/js/dtree/font/dtreefont.css" />
 }
-<form class="layui-form layui-form-pane" action="" id="formEdit">
+<form class="layui-form layui-form-pane" action="" id="formEdit" lay-filter="formEdit">
 
     <div class="layui-form-item">
         <label class="layui-form-label">账号</label>
         <div class="layui-input-block">
-            <input type="text" name="Account" v-model="tmp.Account" required lay-verify="required"
+            <input type="text" name="Account"  required lay-verify="required"
                    readonly="readonly" class="layui-input">
         </div>
     </div>
@@ -17,15 +17,15 @@
     <div class="layui-form-item">
         <label class="layui-form-label">姓名</label>
         <div class="layui-input-block">
-            <input type="text" name="Name" v-model="tmp.Name" required lay-verify="required"
+            <input type="text" name="Name"  required lay-verify="required"
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">性别</label>
         <div class="layui-input-block">
-            <input type="radio" name="Sex" value="1" title="男" v-model="tmp.Sex" >
-            <input type="radio" name="Sex" value="0" title="女" v-model="tmp.Sex" >
+            <input type="radio" name="Sex" value="1" title="男"  >
+            <input type="radio" name="Sex" value="0" title="女"  >
         </div>
     </div>
 
@@ -64,4 +64,4 @@
 </div>
 
 <script type="text/javascript" src="/layui/layui.js"></script>
-<script type="text/javascript" src="/userJs/profile.js"></script>
+<script type="text/javascript" src="/userJs/profile.js?v3"></script>

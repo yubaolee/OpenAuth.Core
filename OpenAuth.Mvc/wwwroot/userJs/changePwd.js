@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
+}).use(['form','ztree', 'layer', 'jquery', 'table','droptree','openauth','utils'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;
@@ -8,26 +8,10 @@ layui.config({
     var openauth = layui.openauth;
     var toplayer = (top == undefined || top.layer === undefined) ? layer : top.layer;  //顶层的LAYER
 
-    var  vm = new Vue({
-        el: "#formEdit",
-        data() {
-            return {
-                tmp: {
-                    Account: '',
-                    Password: '',
-                    ConfirmPassword: '',
-                }  
-            }
-        },
-        mounted() {
-            var _this = this;
-            $.get('/UserSession/GetUserName',
-                function (data) {
-                    _this.tmp.Account = data;
-                });
-            form.render();
-        }
-    });
+    $.get('/UserSession/GetUserName',
+        function (data) {
+            form.val("formEdit", {Account:data});
+        });
 
     var url = "/UserManager/ChangePassword";
     //提交数据

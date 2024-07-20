@@ -20,6 +20,15 @@
             tips: 1  //1 上方  3下方
         });
     });
+    
+    var initVal ={
+        Id: '',
+        Name: '',
+        DbName: '',
+        SortCode: '',
+        Description: ''
+    }
+    
 
       //表单设计器
     var ue = UE.getEditor('myFormDesign', {
@@ -264,15 +273,8 @@
             function (data) {
                 var obj = data.Result;
                 url = "/Forms/Update";
-                new Vue({
-                    el: "#formEdit",
-                    data(){
-                        return{
-                            tmp:data.Result
-                        }
-                    }
-                });
-
+                form.val("formEdit", data.Result);
+                
                 //玄学：加个延迟ueditor才能正常
                 setTimeout(function () {
                     if (obj.FrmType === 0) { 
@@ -283,17 +285,7 @@
                 }, 500);
             });
     } else {
-        new Vue({
-            el: "#formEdit",
-            data(){
-                return{
-                    tmp:{
-                        Id: '',
-                        SortCode:1
-                    }
-                }
-            }
-        });
+        form.val("formEdit", initVal);
     }
 
 

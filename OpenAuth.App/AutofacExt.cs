@@ -80,7 +80,7 @@ namespace OpenAuth.App
             builder.RegisterGeneric(typeof(BaseRepository<,>)).As(typeof(IRepository<,>));
             builder.RegisterGeneric(typeof(UnitWork<>)).As(typeof(IUnitWork<>));
             //注入授权
-            builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth));
+            builder.RegisterType(typeof(LocalAuth)).As(typeof(IAuth)).InstancePerLifetimeScope();
             
             //注册app层
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());

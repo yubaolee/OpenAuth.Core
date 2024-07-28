@@ -58,6 +58,7 @@ namespace OpenAuth.App
         {
             Repository.Update(u => u.Id == obj.Id, u => new Form
             {
+                FrmType = obj.FrmType,
                 ContentData = obj.ContentData,
                 Content = obj.Content,
                 ContentParse = obj.ContentParse,

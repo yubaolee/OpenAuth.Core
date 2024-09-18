@@ -95,6 +95,14 @@ namespace OpenAuth.Repository
                         {
                             property.SetValueConverter(boolToSmallIntConverter);
                         }
+
+                        //解决PostgreSQL时间戳问题
+                        if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL" &&
+                            property.ClrType == typeof(DateTime))
+                        {
+                            property.SetValueConverter(new ValueConverter<DateTime, DateTime>(
+                                v => v.ToUniversalTime(), v => DateTime.SpecifyKind(v, DateTimeKind.Utc)));
+                        }
                     }
                 }
             }

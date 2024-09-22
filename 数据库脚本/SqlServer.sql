@@ -98,6 +98,50 @@ GO
 INSERT INTO [dbo].[Application] ([Id], [Name], [AppSecret], [Description], [Icon], [Disable], [CreateTime], [CreateUser]) VALUES (N'119', N'XXX管理平台', N'manageryubaolee', N'这是一个第三的平台', NULL, N'0', N'2018-04-14', NULL)
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FlowApprover]') AND type in (N'U')) DROP TABLE [dbo].[FlowApprover];
+CREATE TABLE [dbo].[FlowApprover](
+    Id VARCHAR(50) NOT NULL,
+    InstanceId VARCHAR(50) NOT NULL,
+    ActivityId VARCHAR(50) NOT NULL,
+    Reason VARCHAR(200),
+    CreateDate DATETIME,
+    CreateUserId VARCHAR(50),
+    CreateUserName VARCHAR(50),
+    Status INT NOT NULL,
+    ApproveType INT NOT NULL,
+    ApproverId VARCHAR(50) NOT NULL,
+    ApproverName VARCHAR(50),
+    OrderNo INT,
+    VerifyDate DATETIME,
+    VerifyComment VARCHAR(200),
+    CascadeId VARCHAR(100) NOT NULL,
+    ParentId VARCHAR(50),
+    ParentName VARCHAR(100),
+    Name VARCHAR(100),
+    PRIMARY KEY (Id)
+);
+
+EXEC sp_addextendedproperty 'MS_Description', '工作流加签', 'SCHEMA', dbo, 'table', FlowApprover, null, null;
+EXEC sp_addextendedproperty 'MS_Description', 'Id', 'SCHEMA', dbo, 'table', FlowApprover, 'column', Id;
+EXEC sp_addextendedproperty 'MS_Description', '工作流实例Id', 'SCHEMA', dbo, 'table', FlowApprover, 'column', InstanceId;
+EXEC sp_addextendedproperty 'MS_Description', '当前节点ID', 'SCHEMA', dbo, 'table', FlowApprover, 'column', ActivityId;
+EXEC sp_addextendedproperty 'MS_Description', '加签原因', 'SCHEMA', dbo, 'table', FlowApprover, 'column', Reason;
+EXEC sp_addextendedproperty 'MS_Description', '加签时间', 'SCHEMA', dbo, 'table', FlowApprover, 'column', CreateDate;
+EXEC sp_addextendedproperty 'MS_Description', '加签人Id', 'SCHEMA', dbo, 'table', FlowApprover, 'column', CreateUserId;
+EXEC sp_addextendedproperty 'MS_Description', '加签人', 'SCHEMA', dbo, 'table', FlowApprover, 'column', CreateUserName;
+EXEC sp_addextendedproperty 'MS_Description', '状态（0未处理，1通过，2未通过，3驳回）', 'SCHEMA', dbo, 'table', FlowApprover, 'column', Status;
+EXEC sp_addextendedproperty 'MS_Description', '类型（0顺序，1并行且，2并行或）', 'SCHEMA', dbo, 'table', FlowApprover, 'column', ApproveType;
+EXEC sp_addextendedproperty 'MS_Description', '审批人ID', 'SCHEMA', dbo, 'table', FlowApprover, 'column', ApproverId;
+EXEC sp_addextendedproperty 'MS_Description', '审批人', 'SCHEMA', dbo, 'table', FlowApprover, 'column', ApproverName;
+EXEC sp_addextendedproperty 'MS_Description', '顺序号（当类型为0时）', 'SCHEMA', dbo, 'table', FlowApprover, 'column', OrderNo;
+EXEC sp_addextendedproperty 'MS_Description', '审批日期', 'SCHEMA', dbo, 'table', FlowApprover, 'column', VerifyDate;
+EXEC sp_addextendedproperty 'MS_Description', '审批意见', 'SCHEMA', dbo, 'table', FlowApprover, 'column', VerifyComment;
+EXEC sp_addextendedproperty 'MS_Description', '层级ID，应对多次加签', 'SCHEMA', dbo, 'table', FlowApprover, 'column', CascadeId;
+EXEC sp_addextendedproperty 'MS_Description', '父节点ID，应对多次加签', 'SCHEMA', dbo, 'table', FlowApprover, 'column', ParentId;
+EXEC sp_addextendedproperty 'MS_Description', '父节点名称，应对多次加签结构', 'SCHEMA', dbo, 'table', FlowApprover, 'column', ParentName;
+EXEC sp_addextendedproperty 'MS_Description', '加签节点名称，应对多次加签结构', 'SCHEMA', dbo, 'table', FlowApprover, 'column', Name;
+
+
 
 -- ----------------------------
 -- Table structure for BuilderTable

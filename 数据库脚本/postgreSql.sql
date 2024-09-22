@@ -31,6 +31,50 @@ COMMENT ON TABLE "public"."Application" IS '应用';
 INSERT INTO "public"."Application" VALUES ('110', 'OpenAuth.Net', 'openauthdotnetyubaolee', '最好用的.NET权限工作流框架', NULL, 0, '2018-04-14', NULL);
 INSERT INTO "public"."Application" VALUES ('119', 'XXX管理平台', 'manageryubaolee', '这是一个第三的平台', NULL, 0, '2018-04-14', NULL);
 
+DROP TABLE IF EXISTS FlowApprover;
+CREATE TABLE FlowApprover(
+    Id VARCHAR(50) NOT NULL,
+    InstanceId VARCHAR(50) NOT NULL,
+    ActivityId VARCHAR(50) NOT NULL,
+    Reason VARCHAR(200),
+    CreateDate TIMESTAMP,
+    CreateUserId VARCHAR(50),
+    CreateUserName VARCHAR(50),
+    Status INTEGER NOT NULL,
+    ApproveType INTEGER NOT NULL,
+    ApproverId VARCHAR(50) NOT NULL,
+    ApproverName VARCHAR(50),
+    OrderNo INTEGER,
+    VerifyDate TIMESTAMP,
+    VerifyComment VARCHAR(200),
+    CascadeId VARCHAR(100) NOT NULL,
+    ParentId VARCHAR(50),
+    ParentName VARCHAR(100),
+    Name VARCHAR(100),
+    PRIMARY KEY (Id)
+);
+
+COMMENT ON TABLE FlowApprover IS '工作流加签';
+COMMENT ON COLUMN FlowApprover.Id IS 'Id';
+COMMENT ON COLUMN FlowApprover.InstanceId IS '工作流实例Id';
+COMMENT ON COLUMN FlowApprover.ActivityId IS '当前节点ID';
+COMMENT ON COLUMN FlowApprover.Reason IS '加签原因';
+COMMENT ON COLUMN FlowApprover.CreateDate IS '加签时间';
+COMMENT ON COLUMN FlowApprover.CreateUserId IS '加签人Id';
+COMMENT ON COLUMN FlowApprover.CreateUserName IS '加签人';
+COMMENT ON COLUMN FlowApprover.Status IS '状态（0未处理，1通过，2未通过，3驳回）';
+COMMENT ON COLUMN FlowApprover.ApproveType IS '类型（0顺序，1并行且，2并行或）';
+COMMENT ON COLUMN FlowApprover.ApproverId IS '审批人ID';
+COMMENT ON COLUMN FlowApprover.ApproverName IS '审批人';
+COMMENT ON COLUMN FlowApprover.OrderNo IS '顺序号（当类型为0时）';
+COMMENT ON COLUMN FlowApprover.VerifyDate IS '审批日期';
+COMMENT ON COLUMN FlowApprover.VerifyComment IS '审批意见';
+COMMENT ON COLUMN FlowApprover.CascadeId IS '层级ID，应对多次加签';
+COMMENT ON COLUMN FlowApprover.ParentId IS '父节点ID，应对多次加签';
+COMMENT ON COLUMN FlowApprover.ParentName IS '父节点名称，应对多次加签结构';
+COMMENT ON COLUMN FlowApprover.Name IS '加签节点名称，应对多次加签结构';
+
+
 -- ----------------------------
 -- Table structure for BuilderTable
 -- ----------------------------

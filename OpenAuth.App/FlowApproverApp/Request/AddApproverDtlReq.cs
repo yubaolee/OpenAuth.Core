@@ -6,42 +6,32 @@
 //     Author:Yubao Li
 //------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace OpenAuth.App.Request
 {
     /// <summary>
-    /// 创建或修改加签信息
+    /// 加签人具体信息
     /// </summary>
-    public class AddApproverReq
+    public class AddApproverDtlReq
     {
         /// <summary>
-        ///加签原因
+        ///Id
         /// </summary>
-        public string Reason { get; set; }
+        public string Id { get; set; }
+
+        /// <summary>
+        ///加签人姓名
+        /// </summary>
+        public string ApproverName { get; set; }
+
+        /// <summary>
+        ///加签人ID
+        /// </summary>
+        public string ApproverId { get; set; }
 
 
         /// <summary>
-        ///工作流实例Id
+        ///顺序号（当类型为0时）
         /// </summary>
-        public string InstanceId { get; set; }
-
-
-        /// <summary>
-        ///类型（0顺序，1并行且，2并行或）
-        /// </summary>
-        public int ApproveType { get; set; }
-
-        /// <summary>
-        ///父节点ID，应对多次加签
-        /// </summary>
-        public string ParentId { get; set; }
-
-        /// <summary>
-        ///当前节点ID
-        /// </summary>
-        public string ActivityId { get; set; }
-
-        public List<AddApproverDtlReq> Approvers { get; set; }
+        public int? OrderNo { get; set; }
     }
 }

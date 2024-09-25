@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -14,25 +15,29 @@ namespace OpenAuth.App
     {
         public void Add(AddApproverReq obj)
         {
-            if (string.IsNullOrEmpty(obj.Id))
-            {
-                obj.Id = Guid.NewGuid().ToString();
-            }
-
             var loginContext = _auth.GetCurrentUser();
             if (loginContext == null)
             {
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
 
-            var addObj = obj.MapTo<FlowApprover>();
-            CaculateCascade(addObj);
-            addObj.CreateDate = DateTime.Now;
-            addObj.CreateUserId = loginContext.User.Id;
-            addObj.CreateUserName = loginContext.User.Name;
-            addObj.Name = addObj.Id;
+            var objs =new  List<FlowApprover>();
+            foreach (var approver in obj.Approvers)
+            {
+                var addobj = approver.MapTo<FlowApprover>();
+                if (string.IsNullOrEmpty(addobj.Id))
+                {
+                    addobj.Id = Guid.NewGuid().ToString();
+                }
+                
+                CaculateCascade(addobj);
+                addobj.CreateDate = DateTime.Now;
+                addobj.CreateUserId = loginContext.User.Id;
+                addobj.CreateUserName = loginContext.User.Name;
+                addobj.Name = addobj.Id;
+            }
 
-            Repository.Insert(addObj);
+            Repository.InsertRange(objs);
         }
 
         public void Update(AddApproverReq application)

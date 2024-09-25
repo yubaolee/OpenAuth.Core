@@ -18,34 +18,15 @@ namespace OpenAuth.WebApi.Controllers
     public class FlowApproversController : ControllerBase
     {
         private readonly FlowApproverApp _app;
-        
-        //获取详情
-        [HttpGet]
-        public Response<FlowApprover> Get(string id)
-        {
-            var result = new Response<FlowApprover>();
-            try
-            {
-                result.Result = _app.Get(id);
-            }
-            catch (Exception ex)
-            {
-                result.Code = 500;
-                result.Message = ex.InnerException?.Message ?? ex.Message;
-            }
-
-            return result;
-        }
 
         //添加
-       [HttpPost]
-        public Response Add(AddOrUpdateFlowApproverReq obj)
+        [HttpPost]
+        public Response Add(AddApproverReq obj)
         {
             var result = new Response();
             try
             {
                 _app.Add(obj);
-
             }
             catch (Exception ex)
             {
@@ -57,14 +38,13 @@ namespace OpenAuth.WebApi.Controllers
         }
 
         //修改
-       [HttpPost]
-        public Response Update(AddOrUpdateFlowApproverReq obj)
+        [HttpPost]
+        public Response Update(AddApproverReq obj)
         {
             var result = new Response();
             try
             {
                 _app.Update(obj);
-
             }
             catch (Exception ex)
             {
@@ -79,7 +59,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 加载列表
         /// </summary>
         [HttpGet]
-        public async Task<TableData> Load([FromQuery]QueryFlowApproverListReq request)
+        public async Task<TableResp<FlowApprover>> Load([FromQuery] QueryApproverReq request)
         {
             return await _app.Load(request);
         }
@@ -87,14 +67,13 @@ namespace OpenAuth.WebApi.Controllers
         /// <summary>
         /// 批量删除
         /// </summary>
-       [HttpPost]
-        public Response Delete([FromBody]string[] ids)
+        [HttpPost]
+        public Response Delete([FromBody] string[] ids)
         {
             var result = new Response();
             try
             {
                 _app.Delete(ids);
-
             }
             catch (Exception ex)
             {
@@ -105,7 +84,7 @@ namespace OpenAuth.WebApi.Controllers
             return result;
         }
 
-        public FlowApproversController(FlowApproverApp app) 
+        public FlowApproversController(FlowApproverApp app)
         {
             _app = app;
         }

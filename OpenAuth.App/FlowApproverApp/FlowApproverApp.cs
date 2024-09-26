@@ -24,6 +24,9 @@ namespace OpenAuth.App
                 throw new CommonException("登录已过期", Define.INVALID_TOKEN);
             }
 
+            //先删除已有的加签记录
+            Repository.Delete(u => u.InstanceId == obj.InstanceId && u.ActivityId == obj.ActivityId);
+
             var objs =new  List<FlowApprover>();
             foreach (var approver in obj.Approvers)
             {
@@ -36,6 +39,7 @@ namespace OpenAuth.App
                 CaculateCascade(addobj);
                 addobj.InstanceId = obj.InstanceId;
                 addobj.ActivityId = obj.ActivityId;
+                addobj.ApproveType = obj.ApproveType;
                 addobj.Reason = obj.Reason;
                 addobj.CreateDate = DateTime.Now;
                 addobj.CreateUserId = loginContext.User.Id;

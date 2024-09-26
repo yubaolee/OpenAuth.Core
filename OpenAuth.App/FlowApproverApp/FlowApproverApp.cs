@@ -13,6 +13,9 @@ namespace OpenAuth.App
 {
     public class FlowApproverApp : SqlSugarBaseApp<FlowApprover>
     {
+        /// <summary>
+        /// 加签
+        /// </summary>
         public void Add(AddApproverReq obj)
         {
             var loginContext = _auth.GetCurrentUser();
@@ -31,10 +34,13 @@ namespace OpenAuth.App
                 }
                 
                 CaculateCascade(addobj);
+                addobj.InstanceId = obj.InstanceId;
+                addobj.ActivityId = obj.ActivityId;
+                addobj.Reason = obj.Reason;
                 addobj.CreateDate = DateTime.Now;
                 addobj.CreateUserId = loginContext.User.Id;
                 addobj.CreateUserName = loginContext.User.Name;
-                addobj.Name = addobj.Id;
+                objs.Add(addobj);
             }
 
             Repository.InsertRange(objs);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -67,6 +68,53 @@ namespace OpenAuth.App
             {
                 data = objs
             };
+        }
+
+        /// <summary>
+        /// 获取当前可以审批的加签人ID列表
+        /// <para>如果是顺序执行，取第一个人</para>
+        /// <para>否则并行且/并行或都是返回所有加签人</para>
+        /// </summary>
+        public string[] GetApproverIds(QueryApproverReq req)
+        {
+            var approvers = GetApprovers(req);
+            //否则并行且/并行或都是返回所有加签人
+            return approvers.Select(u => u.ApproverId).ToArray();
+        }
+        
+        public FlowApprover[] GetApprovers(QueryApproverReq req)
+        {
+            var query= Repository.AsQueryable()
+                .Where(u => u.InstanceId == req.FlowInstanceId 
+                            && u.ActivityId == req.ActivityId && u.Status == 0); //本节点待审批的加签人
+            if (query.Count() == 0)
+            {
+                return null;
+            }
+            
+            //如果是顺序执行，取第一个人
+            if (query.First().ApproveType == 0)
+            {
+                var result = query.OrderBy(u => u.OrderNo).First();
+                return new[] { result };
+            }
+            //否则并行且/并行或都是返回所有加签人
+            return query.ToArray();
+        }
+        
+        /// <summary>
+        /// 审批加签节点
+        /// </summary>
+        public void Verify(VerifyApproverReq verifyApproverReq)
+        {
+            Repository.Update(u => new FlowApprover()
+            {
+                Status = verifyApproverReq.Status,
+                VerifyComment = verifyApproverReq.VerifyComment,
+                VerifyDate = DateTime.Now
+            }, u => u.Id == verifyApproverReq.Id);
+            
+            //TODO:需要判断节点是否已经全部审批通过，如果通过则修改节点状态为通过
         }
         
         public FlowApproverApp(ISqlSugarClient client, IAuth auth) : base(client, auth)

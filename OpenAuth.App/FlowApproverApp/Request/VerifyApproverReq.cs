@@ -24,12 +24,7 @@ namespace OpenAuth.App.Request
         ///审批意见
         /// </summary>
         public string VerifyComment { get; set; }
-
-        /// <summary>
-        ///审批日期
-        /// </summary>
-        public DateTime? VerifyDate { get; set; }
-
+        
         /// <summary>
         ///状态（0未处理，1通过，2未通过，3驳回）
         /// </summary>

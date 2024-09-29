@@ -1,24 +1,19 @@
-
 using Infrastructure;
 using OpenAuth.App.Flow;
 using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
-using OpenAuth.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Infrastructure.Const;
 using Infrastructure.Extensions;
 using Infrastructure.Helpers;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
-using OpenAuth.Repository;
 using SqlSugar;
 using Yitter.IdGenerator;
 
@@ -39,6 +34,7 @@ namespace OpenAuth.App
         private UserManagerApp _userManagerApp;
         private OrgManagerApp _orgManagerApp;
         private FlowApproverApp _flowApproverApp;
+        private RevelanceManagerApp _revelanceManagerApp;
 
 
         #region 流程处理API
@@ -429,23 +425,41 @@ namespace OpenAuth.App
                     bool isfinish = _flowApproverApp.Verify(new VerifyApproverReq()
                     {
                         Id = approverInfo.Id,
-                        Status  = (int)TagState.Ok,
+                        Status = (int)TagState.Ok,
                         VerifyComment = tag.Description
                     });
                     if (!isfinish) //如果没有完成，不能到下一步
                     {
                         canNext = false;
                     }
+                    else if (approverInfo.ReturnToSignNode == null || !approverInfo.ReturnToSignNode.Value)
+                    {
+                        //加签完成后，不需要返回原节点,则直接审批加签的节点
+                        tag.UserId = approverInfo.CreateUserId;
+                        tag.UserName = approverInfo.CreateUserName;
+                        //把当前审批人变成加签人，从而可以自动审批
+                        wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
+                    }
                 }
-                
+
                 if (wfruntime.currentNode.setInfo.NodeDesignate == Setinfo.RUNTIME_MANY_PARENTS)
                 {
-                    var roles = _auth.GetCurrentUser().Roles;
+                    List<string> roles;
+                    if (user.Id != tag.UserId)
+                    {
+                        //最后一个执行加签的用户，tag.UserId就是加签人id，需要找他的角色
+                        roles = _revelanceManagerApp.Get(Define.USERROLE, true, tag.UserId);
+                    }
+                    else
+                    {
+                        roles = _auth.GetCurrentUser().Roles.Select(u => u.Id).ToList();
+                    }
+
                     //如果是连续多级直属上级且还没到指定的角色，只改变执行人，不到下一个节点
-                    if (!wfruntime.currentNode.setInfo.NodeDesignateData.roles.Intersect(roles.Select(u => u.Id)).Any())
+                    if (!wfruntime.currentNode.setInfo.NodeDesignateData.roles.Intersect(roles).Any())
                     {
                         canNext = false;
-                        var parentId = _userManagerApp.GetParent(user.Id);
+                        var parentId = _userManagerApp.GetParent(tag.UserId);
                         flowInstance.MakerList = parentId;
                     }
                 }
@@ -1036,7 +1050,8 @@ namespace OpenAuth.App
         public FlowInstanceApp(ISqlSugarClient client, IAuth auth, RevelanceManagerApp revelanceApp,
             FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,
             SysMessageApp messageApp, UserManagerApp userManagerApp, OrgManagerApp orgManagerApp,
-            IServiceProvider serviceProvider, FlowApproverApp flowApproverApp) : base(client, auth)
+            IServiceProvider serviceProvider, FlowApproverApp flowApproverApp,
+            RevelanceManagerApp revelanceManagerApp) : base(client, auth)
         {
             _revelanceApp = revelanceApp;
             _flowSchemeApp = flowSchemeApp;
@@ -1047,6 +1062,7 @@ namespace OpenAuth.App
             _orgManagerApp = orgManagerApp;
             _serviceProvider = serviceProvider;
             _flowApproverApp = flowApproverApp;
+            _revelanceManagerApp = revelanceManagerApp;
         }
     }
 }

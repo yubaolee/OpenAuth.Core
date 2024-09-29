@@ -116,5 +116,12 @@ namespace OpenAuth.Repository.Domain
         /// </summary>
         [Description("加签人Id")]
         public string CreateUserId { get; set; }
+        
+        /// <summary>
+        ///是否回到加签节点
+        /// <para>如果不需要，则加签完成后自动审批完成，否则还需要当前节点审批</para>
+        /// </summary>
+        [Description("是否回到加签节点")]
+        public bool? ReturnToSignNode { get; set; }
     }
 }

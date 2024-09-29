@@ -386,6 +386,7 @@ CREATE TABLE flowapprover(
     `ParentId` VARCHAR(50)    COMMENT '父节点ID，应对多次加签' ,
     `ParentName` VARCHAR(100)  CHARACTER SET utf8 COLLATE utf8_general_ci    COMMENT '父节点名称，应对多次加签结构' ,
     `Name` VARCHAR(100)   CHARACTER SET utf8 COLLATE utf8_general_ci   COMMENT '加签节点名称，应对多次加签结构' ,
+    `ReturnToSignNode` tinyint(4) COMMENT '是否回到加签节点',
     PRIMARY KEY (Id)
 )  COMMENT = '工作流加签';
 

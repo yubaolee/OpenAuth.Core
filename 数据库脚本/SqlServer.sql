@@ -117,6 +117,7 @@ CREATE TABLE [dbo].[FlowApprover](
     CascadeId VARCHAR(100) NOT NULL,
     ParentId VARCHAR(50),
     ParentName VARCHAR(100),
+    ReturnToSignNode bit DEFAULT 1 NOT NULL,
     Name VARCHAR(100),
     PRIMARY KEY (Id)
 );
@@ -140,6 +141,7 @@ EXEC sp_addextendedproperty 'MS_Description', '层级ID，应对多次加签', '
 EXEC sp_addextendedproperty 'MS_Description', '父节点ID，应对多次加签', 'SCHEMA', dbo, 'table', FlowApprover, 'column', ParentId;
 EXEC sp_addextendedproperty 'MS_Description', '父节点名称，应对多次加签结构', 'SCHEMA', dbo, 'table', FlowApprover, 'column', ParentName;
 EXEC sp_addextendedproperty 'MS_Description', '加签节点名称，应对多次加签结构', 'SCHEMA', dbo, 'table', FlowApprover, 'column', Name;
+EXEC sp_addextendedproperty 'MS_Description', '是否回到加签节点', 'SCHEMA', dbo, 'table', FlowApprover, 'column', ReturnToSignNode;
 
 
 

@@ -51,6 +51,7 @@ CREATE TABLE FlowApprover(
     ParentId VARCHAR(50),
     ParentName VARCHAR(100),
     Name VARCHAR(100),
+    ReturnToSignNode int2,
     PRIMARY KEY (Id)
 );
 
@@ -73,6 +74,7 @@ COMMENT ON COLUMN FlowApprover.CascadeId IS '层级ID，应对多次加签';
 COMMENT ON COLUMN FlowApprover.ParentId IS '父节点ID，应对多次加签';
 COMMENT ON COLUMN FlowApprover.ParentName IS '父节点名称，应对多次加签结构';
 COMMENT ON COLUMN FlowApprover.Name IS '加签节点名称，应对多次加签结构';
+COMMENT ON COLUMN FlowApprover.ReturnToSignNode IS '是否回到加签节点';
 
 
 -- ----------------------------

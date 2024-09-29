@@ -87,6 +87,11 @@ namespace OpenAuth.App
             return approvers.Select(u => u.ApproverId).ToArray();
         }
         
+        /// <summary>
+        /// 获取当前可以审批的加签人列表
+        /// <para>如果是顺序执行，取第一个人</para>
+        /// <para>否则并行且/并行或都是返回所有加签人</para>
+        /// </summary>
         public FlowApprover[] GetApprovers(QueryApproverReq req)
         {
             var query= Repository.AsQueryable()

@@ -422,7 +422,7 @@ namespace OpenAuth.App
                     ActivityId = flowInstance.ActivityId
                 });
 
-                var approverInfo = approvers.Find(u => u.ApproverId == user.Id);
+                var approverInfo = approvers?.Find(u => u.ApproverId == user.Id);
                 if (approverInfo != null)
                 {
                     //如果是加签，则调整加签状态

@@ -78,6 +78,10 @@ namespace OpenAuth.App
         public string[] GetApproverIds(QueryApproverReq req)
         {
             var approvers = GetApprovers(req);
+            if (approvers == null)
+            {
+                return Array.Empty<string>();
+            }
             //否则并行且/并行或都是返回所有加签人
             return approvers.Select(u => u.ApproverId).ToArray();
         }

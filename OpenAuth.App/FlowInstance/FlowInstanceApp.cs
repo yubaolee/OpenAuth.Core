@@ -426,12 +426,16 @@ namespace OpenAuth.App
                 if (approverInfo != null)
                 {
                     //如果是加签，则调整加签状态
-                    _flowApproverApp.Verify(new VerifyApproverReq()
+                    bool isfinish = _flowApproverApp.Verify(new VerifyApproverReq()
                     {
                         Id = approverInfo.Id,
                         Status  = (int)TagState.Ok,
                         VerifyComment = tag.Description
                     });
+                    if (!isfinish) //如果没有完成，不能到下一步
+                    {
+                        canNext = false;
+                    }
                 }
                 
                 if (wfruntime.currentNode.setInfo.NodeDesignate == Setinfo.RUNTIME_MANY_PARENTS)

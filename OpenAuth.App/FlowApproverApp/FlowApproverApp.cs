@@ -7,6 +7,7 @@ using OpenAuth.App.Interface;
 using OpenAuth.App.Request;
 using OpenAuth.App.Response;
 using OpenAuth.Repository.Domain;
+using Quartz.Listener;
 using SqlSugar;
 
 
@@ -109,16 +110,30 @@ namespace OpenAuth.App
         /// <summary>
         /// 审批加签节点
         /// </summary>
-        public void Verify(VerifyApproverReq verifyApproverReq)
+        public bool Verify(VerifyApproverReq verifyApproverReq)
         {
+            var approve = Get(verifyApproverReq.Id);
+            if (approve == null)
+            {
+                throw  new Exception("加签审批失败，没能找打对应的加签人信息");
+            }
             Repository.Update(u => new FlowApprover()
             {
                 Status = verifyApproverReq.Status,
                 VerifyComment = verifyApproverReq.VerifyComment,
                 VerifyDate = DateTime.Now
             }, u => u.Id == verifyApproverReq.Id);
-            
-            //TODO:需要判断节点是否已经全部审批通过，如果通过则修改节点状态为通过
+
+            if (approve.ApproveType == 2)
+            {
+                //如果是并行或，只需要一个审批通过即可
+                return Repository.IsAny(u => u.InstanceId == approve.InstanceId
+                                             && u.ActivityId == approve.ActivityId && u.Status == 1);
+            }
+
+            //没有未处理的加签信息
+            return !Repository.IsAny(u => u.InstanceId == approve.InstanceId
+                                          && u.ActivityId == approve.ActivityId && u.Status == 0);
         }
         
         public FlowApproverApp(ISqlSugarClient client, IAuth auth) : base(client, auth)

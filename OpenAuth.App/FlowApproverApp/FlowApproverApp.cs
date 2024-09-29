@@ -42,6 +42,7 @@ namespace OpenAuth.App
                 addobj.InstanceId = obj.InstanceId;
                 addobj.ActivityId = obj.ActivityId;
                 addobj.ApproveType = obj.ApproveType;
+                addobj.ReturnToSignNode = obj.ReturnToSignNode;
                 addobj.Reason = obj.Reason;
                 addobj.CreateDate = DateTime.Now;
                 addobj.CreateUserId = loginContext.User.Id;

@@ -41,6 +41,12 @@ namespace OpenAuth.App.Request
         ///当前节点ID
         /// </summary>
         public string ActivityId { get; set; }
+        
+        /// <summary>
+        ///是否回到加签节点
+        /// <para>如果不需要，则加签完成后自动审批完成，否则还需要当前节点审批</para>
+        /// </summary>
+        public bool? ReturnToSignNode { get; set; }
 
         public List<AddApproverDtlReq> Approvers { get; set; }
     }

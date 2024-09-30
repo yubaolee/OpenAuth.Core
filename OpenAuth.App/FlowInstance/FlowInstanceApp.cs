@@ -384,7 +384,7 @@ namespace OpenAuth.App
             }
 
 
-            SugarClient.Updateable(flowInstance);
+            SugarClient.Updateable(flowInstance).ExecuteCommand();
             //给流程创建人发送通知信息
             _messageApp.SendMsgTo(flowInstance.CreateUserId,
                 $"你的流程[{flowInstance.CustomName}]已被{user.Name}处理。");
@@ -566,7 +566,7 @@ namespace OpenAuth.App
             }
 
             flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
-            SugarClient.Updateable(flowInstance);
+            SugarClient.Updateable(flowInstance).ExecuteCommand();
 
             SugarClient.Insertable(new FlowInstanceOperationHistory
             {
@@ -578,7 +578,7 @@ namespace OpenAuth.App
                           + wfruntime.currentNode.name
                           + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】驳回,备注："
                           + reqest.VerificationOpinion
-            });
+            }).ExecuteCommand();
 
             //给流程创建人发送通知信息
             _messageApp.SendMsgTo(flowInstance.CreateUserId,
@@ -979,7 +979,7 @@ namespace OpenAuth.App
 
             AddTransHistory(wfruntime);
 
-            SugarClient.Updateable(flowInstance);
+            SugarClient.Updateable(flowInstance).ExecuteCommand();
 
             SugarClient.Insertable(new FlowInstanceOperationHistory
             {
@@ -988,7 +988,7 @@ namespace OpenAuth.App
                 CreateUserName = user.Name,
                 CreateDate = DateTime.Now,
                 Content = $"【撤销】由{user.Name}撤销,备注：{request.Description}"
-            });
+            }).ExecuteCommand();
 
             SugarClient.Ado.CommitTran();
         }
@@ -1025,7 +1025,7 @@ namespace OpenAuth.App
                 ? FlowInstanceStatus.Finished
                 : FlowInstanceStatus.Running);
 
-            SugarClient.Updateable(flowInstance);
+            SugarClient.Updateable(flowInstance).ExecuteCommand();
 
             #endregion 根据运行实例改变当前节点状态
 
@@ -1039,7 +1039,7 @@ namespace OpenAuth.App
                 CreateDate = DateTime.Now,
                 Content = $"【启动】由用户{user.User.Name}启动"
             };
-            SugarClient.Insertable(processOperationHistoryEntity);
+            SugarClient.Insertable(processOperationHistoryEntity).ExecuteCommand();
 
             #endregion 流程操作记录
 

@@ -852,6 +852,7 @@ namespace OpenAuth.App
 
             if (request.type == "wait") //待办事项
             {
+                //包括加签人包含当前用户，审批人包含当前用户且没有加签节点的
                 var query = SugarClient.SqlQueryable<FlowInstance>($@"
             SELECT fi.*
             FROM FlowInstance fi
@@ -859,6 +860,11 @@ namespace OpenAuth.App
                FROM FlowInstance fith
                WHERE (MakerList = '1' or MakerList LIKE '%{user.User.Id}%') 
                  and (fith.IsFinish = {FlowInstanceStatus.Running} or fith.IsFinish = {FlowInstanceStatus.Rejected}) 
+                  and not exists (select 1
+                                 from flowapprover
+                                 where fith.Id = InstanceId
+                                   and fith.ActivityId = ActivityId
+                                   and Status = 0)
                UNION
                SELECT fa.InstanceId
                FROM FlowApprover fa 
@@ -877,7 +883,7 @@ namespace OpenAuth.App
                     SELECT fi.*
                     FROM FlowInstance fi
                              JOIN (SELECT fith.InstanceId
-                                   FROM FlowInstanceTransitionHistory fith
+                                   FROM FlowInstanceOperationHistory fith
                                    WHERE fith.CreateUserId = '{user.User.Id}' 
                                    UNION
                                    SELECT fa.InstanceId

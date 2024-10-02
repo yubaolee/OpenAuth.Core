@@ -13,6 +13,7 @@ using Castle.Core.Internal;
 using Infrastructure.Const;
 using Infrastructure.Extensions;
 using Infrastructure.Helpers;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Newtonsoft.Json.Linq;
 using SqlSugar;
 using Yitter.IdGenerator;
@@ -439,6 +440,10 @@ namespace OpenAuth.App
                         tag.UserName = approverInfo.CreateUserName;
                         //把当前审批人变成加签人，从而可以自动审批
                         wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
+                    }
+                    else
+                    {
+                        canNext = false; //加签完成了，但还需要回到该节点审批
                     }
                 }
 

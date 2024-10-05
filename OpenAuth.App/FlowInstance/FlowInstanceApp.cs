@@ -104,6 +104,17 @@ namespace OpenAuth.App
             SugarClient.Insertable(flowInstance).ExecuteCommand();
             wfruntime.flowInstanceId = flowInstance.Id;
 
+            //知会
+            if (addFlowInstanceReq.NoticeType.IsNullOrEmpty() && addFlowInstanceReq.NoticeIds != null)
+            {
+                _revelanceApp.Assign(new AssignReq
+                {
+                    type = addFlowInstanceReq.NoticeType,
+                    firstId = flowInstance.Id,
+                    secIds = addFlowInstanceReq.NoticeIds.ToArray()
+                });
+            }
+
             if (flowInstance.FrmType == 1) //如果是开发者自定义的表单
             {
                 var t = Type.GetType("OpenAuth.App." + flowInstance.DbName + "App");
@@ -903,16 +914,43 @@ namespace OpenAuth.App
                     .ToPageListAsync(request.page, request.limit);
                 result.count = await finalQuery.CountAsync();
             }
-            else //我的流程
+            else //我的流程（包含知会我的）
             {
-                var query = SugarClient.Queryable<FlowInstance>().Where(u => u.CreateUserId == user.User.Id);
-                if (!string.IsNullOrEmpty(request.key))
+                var sql = $@"
+                    SELECT fi.*
+                    FROM FlowInstance fi
+                             JOIN (select Id as InstanceId
+                                from FlowInstance
+                                where CreateUserId = '{user.User.Id}'
+                                union
+                                select FirstId as InstanceId
+                                from Relevance
+                                where `Key` = '{Define.INSTANCE_NOTICE_USER}'
+                                  and SecondId = '{user.User.Id}'
+                                union
+                                select a.FirstId as InstanceId
+                                from Relevance a
+                                         inner join (select SecondId as RoleId
+                                                     from Relevance
+                                                     where `Key` = '{Define.USERROLE}'
+                                                       and FirstId = '{user.User.Id}') b on a.SecondId = b.RoleId
+                                where a.`Key` = '{Define.INSTANCE_NOTICE_ROLE}') AS UniqueInstanceIds
+                                  ON fi.Id = UniqueInstanceIds.InstanceId
+                    ";
+
+                if (SugarClient.CurrentConnectionConfig.DbType == DbType.SqlServer)
                 {
-                    query = query.Where(t => t.CustomName.Contains(request.key));
+                    sql = sql.Replace("`Key`", "[Key]");
+                }else if (SugarClient.CurrentConnectionConfig.DbType == DbType.Oracle)
+                {
+                    sql = sql.Replace("`Key`", "\"Key\"");
                 }
 
-                result.count = await query.CountAsync();
-                result.data = await query.OrderByDescending(u => u.CreateDate)
+                var finalQuery = SugarClient.SqlQueryable<FlowInstance>(sql)
+                    .WhereIF(!string.IsNullOrEmpty(request.key), t => t.CustomName.Contains(request.key));
+                
+                result.count = await finalQuery.CountAsync();
+                result.data = await finalQuery.OrderByDescending(u => u.CreateDate)
                     .ToPageListAsync(request.page, request.limit);
             }
 

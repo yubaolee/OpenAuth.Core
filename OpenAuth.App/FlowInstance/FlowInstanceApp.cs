@@ -105,7 +105,7 @@ namespace OpenAuth.App
             wfruntime.flowInstanceId = flowInstance.Id;
 
             //知会
-            if (addFlowInstanceReq.NoticeType.IsNullOrEmpty() && addFlowInstanceReq.NoticeIds != null)
+            if (!addFlowInstanceReq.NoticeType.IsNullOrEmpty() && addFlowInstanceReq.NoticeIds != null)
             {
                 _revelanceApp.Assign(new AssignReq
                 {

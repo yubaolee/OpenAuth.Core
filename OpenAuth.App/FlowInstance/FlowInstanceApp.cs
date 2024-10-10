@@ -37,7 +37,6 @@ namespace OpenAuth.App
         private FlowApproverApp _flowApproverApp;
         private RevelanceManagerApp _revelanceManagerApp;
 
-
         #region 流程处理API
 
         /// <summary>
@@ -503,6 +502,21 @@ namespace OpenAuth.App
                 $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.currentNode.name}】" +
                 $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
             AddOperationHis(flowInstance.Id, tag, content);
+
+            if (flowInstance.IsFinish == 1)
+            {
+                //给知会人员发送通知信息
+                var userids = _userManagerApp.GetNoticeUsers(flowInstance.Id);
+                if (userids.Count > 0)
+                {
+                    foreach (var userid in userids)
+                    {
+                        _messageApp.SendMsgTo(userid,
+                            $"[{flowInstance.CustomName}]已完成，您可以在我的流程中查看。");
+                    }
+                }
+            }
+            
             flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
 
             //如果审批通过，且下一个审批人是自己，则自动审批
@@ -920,35 +934,38 @@ namespace OpenAuth.App
                     SELECT fi.*
                     FROM FlowInstance fi
                              JOIN (select Id as InstanceId
-                                from FlowInstance
-                                where CreateUserId = '{user.User.Id}'
-                                union
-                                select FirstId as InstanceId
-                                from Relevance
-                                where `Key` = '{Define.INSTANCE_NOTICE_USER}'
-                                  and SecondId = '{user.User.Id}'
-                                union
-                                select a.FirstId as InstanceId
-                                from Relevance a
-                                         inner join (select SecondId as RoleId
-                                                     from Relevance
-                                                     where `Key` = '{Define.USERROLE}'
-                                                       and FirstId = '{user.User.Id}') b on a.SecondId = b.RoleId
-                                where a.`Key` = '{Define.INSTANCE_NOTICE_ROLE}') AS UniqueInstanceIds
+                            from FlowInstance
+                            where CreateUserId = '{user.User.Id}'
+                            union
+                            select distinct FirstId as InstanceId
+                            from Relevance rel
+                                     inner join FlowInstance flow on rel.FirstId = flow.Id and flow.IsFinish = 1
+                            where `Key` = '{Define.INSTANCE_NOTICE_USER}'
+                              and SecondId = '{user.User.Id}'
+                            union
+                            select distinct a.FirstId as InstanceId
+                            from Relevance a
+                                     inner join (select SecondId as RoleId
+                                                 from Relevance
+                                                 where `Key` = 'UserRole'
+                                                   and FirstId = '{user.User.Id}') b on a.SecondId = b.RoleId
+                                     inner join FlowInstance flow on a.FirstId = flow.Id and flow.IsFinish = 1
+                            where a.`Key` = '{Define.INSTANCE_NOTICE_ROLE}') AS UniqueInstanceIds
                                   ON fi.Id = UniqueInstanceIds.InstanceId
                     ";
 
                 if (SugarClient.CurrentConnectionConfig.DbType == DbType.SqlServer)
                 {
                     sql = sql.Replace("`Key`", "[Key]");
-                }else if (SugarClient.CurrentConnectionConfig.DbType == DbType.Oracle)
+                }
+                else if (SugarClient.CurrentConnectionConfig.DbType == DbType.Oracle)
                 {
                     sql = sql.Replace("`Key`", "\"Key\"");
                 }
 
                 var finalQuery = SugarClient.SqlQueryable<FlowInstance>(sql)
                     .WhereIF(!string.IsNullOrEmpty(request.key), t => t.CustomName.Contains(request.key));
-                
+
                 result.count = await finalQuery.CountAsync();
                 result.data = await finalQuery.OrderByDescending(u => u.CreateDate)
                     .ToPageListAsync(request.page, request.limit);

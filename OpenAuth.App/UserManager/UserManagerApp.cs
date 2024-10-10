@@ -313,5 +313,44 @@ namespace OpenAuth.App
             }
             return Repository.FirstOrDefault(u => u.Id == userid).ParentId;
         }
+
+
+        /// <summary>
+        /// 获取流程实例通知的用户
+        /// </summary>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        public List<string> GetNoticeUsers(string instanceId)
+        {
+            var sql = $@"
+            select u.*
+            from `USER` u
+                     join (select distinct SecondId as UserId
+                           from Relevance
+                           where `Key` = '{Define.INSTANCE_NOTICE_USER}'
+                             and FirstId = '{instanceId}'
+                           union
+                           select distinct FirstId as UserId
+                           from Relevance a
+                                    inner join (select SecondId as RoleId
+                                                from Relevance
+                                                where `Key` = '{Define.INSTANCE_NOTICE_ROLE}'
+                                                  and FirstId = '{instanceId}') b on a.SecondId = b.RoleId
+                           where `Key` = 'UserRole') userids on u.Id = userids.UserId";
+
+            if (UnitWork.GetDbContext().Database.GetDbConnection().GetType().Name == "SqlConnection")
+            {
+                sql = sql.Replace(" `USER` ", " [USER] ");
+                sql = sql.Replace("`Key`", "[Key]");
+            }
+            else if (UnitWork.GetDbContext().Database.GetDbConnection().GetType().Name == "OracleConnection")
+            {
+                sql = sql.Replace(" `USER` ", " \"USER\" ");
+                sql = sql.Replace("`Key`", "\"Key\"");
+            }
+            
+            var users = UnitWork.FromSql<User>(sql);
+            return users.Select(u=>u.Id).ToList();
+        }
     }
 }

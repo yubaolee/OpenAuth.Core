@@ -1117,7 +1117,7 @@ namespace OpenAuth.App
             FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,
             SysMessageApp messageApp, UserManagerApp userManagerApp, OrgManagerApp orgManagerApp,
             IServiceProvider serviceProvider, FlowApproverApp flowApproverApp,
-            RevelanceManagerApp revelanceManagerApp) : base(client, auth)
+            RevelanceManagerApp revelanceManagerApp, DbExtension dbExtension) : base(client, auth)
         {
             _revelanceApp = revelanceApp;
             _flowSchemeApp = flowSchemeApp;
@@ -1129,6 +1129,7 @@ namespace OpenAuth.App
             _serviceProvider = serviceProvider;
             _flowApproverApp = flowApproverApp;
             _revelanceManagerApp = revelanceManagerApp;
+            _dbExtension = dbExtension;
         }
     }
 }

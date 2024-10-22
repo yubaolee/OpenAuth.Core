@@ -46,11 +46,15 @@
 [OpenAuth.Net视频合集--表单设计](https://www.bilibili.com/video/BV1dagEeFEVA/)
 
 
-## 关于OpenAuth.Net企业版/高级版的说明：
+## 关于OpenAuth.Net vue2/vue3版本的说明：
 
-目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue2 + element-ui /vue3 + element-plus的单页面应用程序，即企业版/高级版OpenAuth.Pro
+目前OpenAuth.Net以全部开源的方式向大众开放,对于有经验的开发者，官方文档足以满足日常开发。为了能让项目走的更远，特推出基于vue2 + element-ui /vue3 + element-plus的单页面应用程序，即高级版/企业版
 
-**该版本是一套后端基于OpenAuth.WebAPI接口，前端基于vue-element-admin，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发的管理后台 [点击这里查看效果](http://demo.openauth.net.cn:1803)**
+**该版本是一套后端基于OpenAuth.WebAPI接口，前端基于elementUI/elementPlus，采用VUE全家桶（VUE+VUEX+VUE-ROUTER）单页面SPA开发的管理后台:
+
+* Vue2演示地址： http://demo.openauth.net.cn:1803
+
+* Vue3演示地址： http://demo.openauth.net.cn:1805
 
 **另外** 企业版包含一套基于有赞Vant+Vue3的移动端界面，[请使用浏览器移动模式查看效果](http://demo.openauth.net.cn:1804)
 
@@ -76,9 +80,11 @@
 
 ## 演示直达
 
-* 企业版Vue2演示地址： http://demo.openauth.net.cn:1803
+* Vue2演示地址： http://demo.openauth.net.cn:1803
 
-* 企业版H5演示地址（请使用浏览器移动模式或直接用手机打开）： http://demo.openauth.net.cn:1804 
+* Vue3演示地址： http://demo.openauth.net.cn:1805
+
+* 移动H5演示地址（请使用浏览器移动模式或直接用手机打开）： http://demo.openauth.net.cn:1804 
 
 * 开源版演示地址： http://demo.openauth.net.cn:1802
 
@@ -108,7 +114,7 @@
 
 * 前端采用 vue + layui + element-ui + ztree + gooflow + leipiformdesign
 
-* 后端采用 .net core +EF core+ autofac + quartz +IdentityServer4 + nunit + swagger
+* 后端采用 .net +EF + sqlsugar + autofac + quartz +IdentityServer4 + nunit + swagger
 
 * 设计工具 PowerDesigner + Enterprise Architect
 

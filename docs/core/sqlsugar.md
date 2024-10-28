@@ -1,6 +1,6 @@
 # SqlSugar访问数据库
 
-OpenAuth.Net 6.0及以后版本默认支持使用SqlSugar方式访问数据库。目前`资源管理`模块使用即使用SqlSugar完成。
+SqlSugar 是一款老牌.NET开源ORM框架，相对于EntityFramework复杂的Linq表达式，它拥有灵活的动态查询，如果你喜欢直接码Sql，那么它是你的不二之选。OpenAuth.Net 6.0及以后版本默认支持使用SqlSugar方式访问数据库。目前大多数模块都已使用SqlSugar的方式，这里以资源管理为例：
 
 ```csharp
 public class ResourceApp:SqlSugarBaseApp<Resource>

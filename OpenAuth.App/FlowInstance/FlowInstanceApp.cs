@@ -318,73 +318,14 @@ namespace OpenAuth.App
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
-            #region 会签
-
             if (flowInstance.ActivityType == 0) //当前节点是会签节点
             {
-                //会签时的【当前节点】一直是会签开始节点
-                //TODO: 标记会签节点的状态，这个地方感觉怪怪的
-                wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
-
-                string canCheckId = ""; //寻找当前登录用户可审核的节点Id
-                foreach (string fromForkStartNodeId in wfruntime.FromNodeLines[wfruntime.currentNodeId]
-                             .Select(u => u.to))
-                {
-                    var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId]; //与会前开始节点直接连接的节点
-                    canCheckId = GetOneForkLineCanCheckNodeId(fromForkStartNode, wfruntime, tag);
-                    if (!string.IsNullOrEmpty(canCheckId)) break;
-                }
-
-                if (canCheckId == "")
-                {
-                    throw (new Exception("审核异常,找不到审核节点"));
-                }
-
-                var content =
-                    $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.Nodes[canCheckId].name}】" +
-                    $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
-                AddOperationHis(instanceId, tag, content);
-
-                wfruntime.MakeTagNode(canCheckId, tag); //标记审核节点状态
-                string res = wfruntime.NodeConfluence(canCheckId, tag);
-                if (res == TagState.No.ToString("D"))
-                {
-                    flowInstance.IsFinish = FlowInstanceStatus.Disagree;
-                }
-                else if (!string.IsNullOrEmpty(res))
-                {
-                    flowInstance.PreviousId = flowInstance.ActivityId;
-                    flowInstance.ActivityId = wfruntime.nextNodeId;
-                    flowInstance.ActivityType = wfruntime.nextNodeType;
-                    flowInstance.ActivityName = wfruntime.nextNode.name;
-                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4
-                        ? FlowInstanceStatus.Finished
-                        : FlowInstanceStatus.Running);
-                    flowInstance.MakerList =
-                        (wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime));
-
-                    AddTransHistory(wfruntime);
-                }
-                else
-                {
-                    //会签过程中，需要更新用户
-                    flowInstance.MakerList = GetForkNodeMakers(wfruntime, wfruntime.currentNodeId);
-                    AddTransHistory(wfruntime);
-                }
-
-                flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
+                CounterSign(wfruntime, tag, flowInstance);
             }
-
-            #endregion 会签
-
-            #region 一般审核
-
             else
             {
                 VerifyNode(request, tag, flowInstance);
             }
-
-            #endregion 一般审核
 
             //自定义开发表单，需要更新对应的数据库
             if (!string.IsNullOrEmpty(request.FrmData) && flowInstance.FrmType == 1)
@@ -394,16 +335,75 @@ namespace OpenAuth.App
                 icf.Update(flowInstance.Id, flowInstance.FrmData);
             }
 
-
-            SugarClient.Updateable(flowInstance).ExecuteCommand();
             //给流程创建人发送通知信息
             _messageApp.SendMsgTo(flowInstance.CreateUserId,
                 $"你的流程[{flowInstance.CustomName}]已被{user.Name}处理。");
 
-            SugarClient.Ado.CommitTran();
-
-            wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), tag);
+            wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), wfruntime.currentNode, tag);
             return true;
+        }
+
+        /// <summary>
+        /// 会签
+        /// </summary>
+        private void CounterSign(FlowRuntime wfruntime, Tag tag, FlowInstance flowInstance)
+        {
+            var user = _auth.GetCurrentUser().User;
+            string instanceId = flowInstance.Id;
+            //会签时的【当前节点】一直是会签开始节点
+            //TODO: 标记会签节点的状态，这个地方感觉怪怪的
+            wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
+
+            string canCheckId = ""; //寻找当前登录用户可审核的节点Id
+            foreach (string fromForkStartNodeId in wfruntime.FromNodeLines[wfruntime.currentNodeId]
+                         .Select(u => u.to))
+            {
+                var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId]; //与会前开始节点直接连接的节点
+                canCheckId = GetOneForkLineCanCheckNodeId(fromForkStartNode, wfruntime, tag);
+                if (!string.IsNullOrEmpty(canCheckId)) break;
+            }
+
+            if (canCheckId == "")
+            {
+                throw (new Exception("审核异常,找不到审核节点"));
+            }
+
+            var content =
+                $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.Nodes[canCheckId].name}】" +
+                $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
+            AddOperationHis(instanceId, tag, content);
+
+            wfruntime.MakeTagNode(canCheckId, tag); //标记审核节点状态
+            string res = wfruntime.NodeConfluence(_httpClientFactory.CreateClient(), canCheckId, tag);
+            if (res == TagState.No.ToString("D"))
+            {
+                flowInstance.IsFinish = FlowInstanceStatus.Disagree;
+            }
+            else if (!string.IsNullOrEmpty(res)) //会签结束，当前活动节点变为会签结束节点的下一个节点
+            {
+                flowInstance.PreviousId = flowInstance.ActivityId;
+                flowInstance.ActivityId = wfruntime.nextNodeId;
+                flowInstance.ActivityType = wfruntime.nextNodeType;
+                flowInstance.ActivityName = wfruntime.nextNode.name;
+                flowInstance.IsFinish = (wfruntime.nextNodeType == 4
+                    ? FlowInstanceStatus.Finished
+                    : FlowInstanceStatus.Running);
+                flowInstance.MakerList =
+                    (wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime));
+
+                AddTransHistory(wfruntime);
+            }
+            else
+            {
+                //会签过程中，需要更新用户
+                flowInstance.MakerList = GetForkNodeMakers(wfruntime, wfruntime.currentNodeId);
+                AddTransHistory(wfruntime);
+            }
+
+            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
+
+            SugarClient.Updateable(flowInstance).ExecuteCommand();
+            SugarClient.Ado.CommitTran();
         }
 
         /// <summary>
@@ -516,8 +516,11 @@ namespace OpenAuth.App
                     }
                 }
             }
-            
+
             flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
+
+            SugarClient.Updateable(flowInstance).ExecuteCommand();
+            SugarClient.Ado.CommitTran();
 
             //如果审批通过，且下一个审批人是自己，则自动审批
             if (tag.Taged == (int)TagState.Ok)
@@ -527,7 +530,7 @@ namespace OpenAuth.App
                     return;
                 }
 
-                VerifyNode(request, tag, flowInstance);
+                NodeVerification(request);
             }
         }
 
@@ -616,7 +619,7 @@ namespace OpenAuth.App
 
             SugarClient.Ado.CommitTran();
 
-            wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), tag);
+            wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), wfruntime.currentNode, tag);
 
             return true;
         }

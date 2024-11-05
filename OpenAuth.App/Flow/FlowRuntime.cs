@@ -33,7 +33,7 @@ namespace OpenAuth.App.Flow
         /// </summary>
         public FlowRuntime(FlowInstance instance)
         {
-            dynamic schemeContentJson = instance.SchemeContent.ToJson();//获取工作流模板内容的json对象;
+            dynamic schemeContentJson = instance.SchemeContent.ToJson(); //获取工作流模板内容的json对象;
 
             InitLines(schemeContentJson);
             InitNodes(schemeContentJson);
@@ -42,7 +42,7 @@ namespace OpenAuth.App.Flow
             currentNodeType = GetNodeType(currentNodeId);
             FrmData = instance.FrmData;
             title = schemeContentJson.title;
-            initNum = schemeContentJson.initNum?? 0;
+            initNum = schemeContentJson.initNum ?? 0;
             previousId = instance.PreviousId;
             flowInstanceId = instance.Id;
 
@@ -54,7 +54,7 @@ namespace OpenAuth.App.Flow
             }
             else
             {
-                nextNodeId = GetNextNodeId();//下一个节点
+                nextNodeId = GetNextNodeId(); //下一个节点
                 nextNodeType = GetNodeType(nextNodeId);
             }
         }
@@ -76,6 +76,7 @@ namespace OpenAuth.App.Flow
                 {
                     Nodes.Add(node.id, node);
                 }
+
                 if (node.type == FlowNode.START)
                 {
                     this.startNodeId = node.id;
@@ -128,12 +129,12 @@ namespace OpenAuth.App.Flow
 
             if (FrmData == "" || FrmData == "{}") return lines[0].to;
 
-            FrmData = FrmData.ToLower();//统一转小写
-            var frmDataJson = FrmData.ToJObject();//获取数据内容
+            FrmData = FrmData.ToLower(); //统一转小写
+            var frmDataJson = FrmData.ToJObject(); //获取数据内容
 
             foreach (var l in lines)
             {
-                if (!(l.Compares.IsNullOrEmpty()) &&l.Compare(frmDataJson))
+                if (!(l.Compares.IsNullOrEmpty()) && l.Compare(frmDataJson))
                 {
                     return l.to;
                 }
@@ -162,6 +163,7 @@ namespace OpenAuth.App.Flow
             {
                 return GetNodeType(nextNodeId);
             }
+
             return -1;
         }
 
@@ -198,23 +200,23 @@ namespace OpenAuth.App.Flow
         /// <param name="nodeId">会签时，currentNodeId是会签开始节点。这个表示当前正在处理的节点</param>
         /// <param name="tag"></param>
         /// <returns>-1不通过,1等待,其它通过</returns>
-        public string NodeConfluence(string nodeId, Tag tag)
+        public string NodeConfluence(HttpClient httpClient, string nodeId, Tag tag)
         {
-            var forkNode = Nodes[currentNodeId];  //会签开始节点
+            var forkNode = Nodes[currentNodeId]; //会签开始节点
             FlowNode nextNode = GetNextNode(nodeId); //获取当前处理的下一个节点
 
-            int forkNumber = FromNodeLines[currentNodeId].Count;   //直接与会签节点连接的点，即会签分支数目
-            string res =string.Empty;  //记录会签的结果,默认正在会签
+            int forkNumber = FromNodeLines[currentNodeId].Count; //直接与会签节点连接的点，即会签分支数目
+            string res = string.Empty; //记录会签的结果,默认正在会签
             if (forkNode.setInfo.NodeConfluenceType == "one") //有一个步骤通过即可
             {
-                if (tag.Taged == (int) TagState.Ok)
+                if (tag.Taged == (int)TagState.Ok)
                 {
-                    if (nextNode.type == FlowNode.JOIN)  //下一个节点是会签结束，则该线路结束
+                    if (nextNode.type == FlowNode.JOIN) //下一个节点是会签结束，则该线路结束
                     {
                         res = GetNextNodeId(nextNode.id);
                     }
                 }
-                else if(tag.Taged ==(int) TagState.No)
+                else if (tag.Taged == (int)TagState.No)
                 {
                     if (forkNode.setInfo.ConfluenceNo == null)
                     {
@@ -226,11 +228,11 @@ namespace OpenAuth.App.Flow
                     }
                     else
                     {
-                        bool isFirst = true;  //是不是从会签开始到现在第一个
+                        bool isFirst = true; //是不是从会签开始到现在第一个
                         var preNode = GetPreNode(nodeId);
                         while (preNode.id != forkNode.id) //反向一直到会签开始节点
                         {
-                            if (preNode.setInfo != null && preNode.setInfo.Taged == (int) TagState.No)
+                            if (preNode.setInfo != null && preNode.setInfo.Taged == (int)TagState.No)
                             {
                                 isFirst = false;
                                 break;
@@ -246,19 +248,19 @@ namespace OpenAuth.App.Flow
             }
             else //默认所有步骤通过
             {
-                if (tag.Taged == (int) TagState.No)  //只要有一个不同意，那么流程就结束
+                if (tag.Taged == (int)TagState.No) //只要有一个不同意，那么流程就结束
                 {
                     res = TagState.No.ToString("D");
                 }
-                else if(tag.Taged == (int)TagState.Ok)
+                else if (tag.Taged == (int)TagState.Ok)
                 {
-                    if (nextNode.type == FlowNode.JOIN)  //这种模式下只有坚持到【会签结束】节点之前才有意义，是否需要判定这条线所有的节点都通过，不然直接执行这个节点？？
+                    if (nextNode.type == FlowNode.JOIN) //这种模式下只有坚持到【会签结束】节点之前才有意义，是否需要判定这条线所有的节点都通过，不然直接执行这个节点？？
                     {
                         if (forkNode.setInfo.ConfluenceOk == null)
                         {
                             forkNode.setInfo.ConfluenceOk = 1;
                         }
-                        else if (forkNode.setInfo.ConfluenceOk == (forkNumber - 1))  //会签成功
+                        else if (forkNode.setInfo.ConfluenceOk == (forkNumber - 1)) //会签成功
                         {
                             res = GetNextNodeId(nextNode.id);
                         }
@@ -272,12 +274,12 @@ namespace OpenAuth.App.Flow
 
             if (res == TagState.No.ToString("D"))
             {
-                tag.Taged = (int) TagState.No;
+                tag.Taged = (int)TagState.No;
                 MakeTagNode(nextNode.id, tag);
             }
             else if (!string.IsNullOrEmpty(res)) //会签结束，标记合流节点
             {
-                tag.Taged = (int) TagState.Ok;
+                tag.Taged = (int)TagState.Ok;
                 MakeTagNode(nextNode.id, tag);
                 nextNodeId = res;
                 nextNodeType = GetNodeType(res);
@@ -287,9 +289,15 @@ namespace OpenAuth.App.Flow
                 nextNodeId = nextNode.id;
                 nextNodeType = GetNodeType(nextNode.id);
             }
+
+            if (!string.IsNullOrEmpty(res)) //会签结束节点配置了回调，则发起通知
+            {
+                NotifyThirdParty(httpClient, nextNode, tag);
+            }
+
             return res;
         }
-        
+
         //获取上一个节点
         private FlowNode GetPreNode(string nodeId = null)
         {
@@ -298,6 +306,7 @@ namespace OpenAuth.App.Flow
             {
                 throw new Exception("无法找到上一个点");
             }
+
             return Nodes[lines[0].from];
         }
 
@@ -313,15 +322,17 @@ namespace OpenAuth.App.Flow
             {
                 rejectType = node.setInfo.NodeRejectType;
             }
-            
+
             if (rejectType == "0")
             {
                 return previousId;
             }
+
             if (rejectType == "1")
             {
                 return GetNextNodeId(startNodeId);
             }
+
             return previousId;
         }
 
@@ -348,8 +359,9 @@ namespace OpenAuth.App.Flow
                 {
                     if (item.Value.setInfo == null)
                     {
-                        item.Value.setInfo  = new Setinfo();
+                        item.Value.setInfo = new Setinfo();
                     }
+
                     item.Value.setInfo.Taged = tag.Taged;
                     item.Value.setInfo.UserId = tag.UserId;
                     item.Value.setInfo.UserName = tag.UserName;
@@ -375,9 +387,9 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 通知三方系统，节点执行情况
         /// </summary>
-        public void NotifyThirdParty(HttpClient client, Tag tag)
+        public void NotifyThirdParty(HttpClient client, FlowNode node, Tag tag)
         {
-            if (currentNode.setInfo == null || string.IsNullOrEmpty(currentNode.setInfo.ThirdPartyUrl))
+            if (node.setInfo == null || string.IsNullOrEmpty(node.setInfo.ThirdPartyUrl))
             {
                 return;
             }
@@ -385,20 +397,20 @@ namespace OpenAuth.App.Flow
             var postData = new
             {
                 flowInstanceId,
-                nodeName=currentNode.name,
-                nodeId = currentNodeId,
+                nodeName = node.name,
+                nodeId = node.id,
                 userId = tag.UserId,
                 userName = tag.UserName,
-                result=tag.Taged, //1：通过;2：不通过；3驳回
+                result = tag.Taged, //1：通过;2：不通过；3驳回
                 description = tag.Description,
                 execTime = tag.TagedTime,
-                isFinish = currentNodeType == 4
+                isFinish = node.type == FlowNode.END
             };
 
             using (HttpContent httpContent = new StringContent(JsonHelper.Instance.Serialize(postData), Encoding.UTF8))
             {
-                    httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-                   client.PostAsync(currentNode.setInfo.ThirdPartyUrl, httpContent);
+                httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                client.PostAsync(node.setInfo.ThirdPartyUrl, httpContent);
             }
         }
 
@@ -449,7 +461,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 下一个节点对象
         /// </summary>
-        public FlowNode nextNode => nextNodeId != "-1"? Nodes[nextNodeId] : null;
+        public FlowNode nextNode => nextNodeId != "-1" ? Nodes[nextNodeId] : null;
 
         /// <summary>
         /// 上一个节点

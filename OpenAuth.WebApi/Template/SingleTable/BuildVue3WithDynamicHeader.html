@@ -149,7 +149,7 @@ const onBtnClicked = function (domId, callback) {
         })
         return
       }
-      handleDelete(multipleSelection)
+      handleDelete(multipleSelection.value)
       break
     case 'btnExport':
       mainTable.value.exportExcel('资源文件', callback)

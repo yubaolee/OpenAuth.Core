@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28822.285
-MinimumVisualStudioVersion = 10.0.40219.1
+MinimumVisualStudioVersion = 16.0.28822.285
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenAuth.WebApi", "OpenAuth.WebApi\OpenAuth.WebApi.csproj", "{A44BD472-84E3-4D70-9DC5-06210617D6EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{8F9EAD1A-9407-41BA-844A-02282B4646F3}"

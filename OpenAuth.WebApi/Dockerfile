@@ -10,10 +10,11 @@ COPY ["OpenAuth.WebApi/", "./OpenAuth.WebApi/"]
 COPY ["Infrastructure/", "./Infrastructure/"]
 COPY ["OpenAuth.App/", "./OpenAuth.App/"]
 COPY ["OpenAuth.Repository/", "./OpenAuth.Repository/"]
-RUN dotnet restore 
+
 
 # 发布
 WORKDIR "/src/OpenAuth.WebApi"
+RUN dotnet restore 
 
 FROM build AS publish
 RUN dotnet publish -c Release -o /app/publish

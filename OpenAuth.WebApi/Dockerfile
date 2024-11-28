@@ -42,5 +42,5 @@ COPY --from=build /app/publish/mvc ./mvc
 COPY --from=build /app/publish/identity ./identity
 
 # 启动 WebApi, Mvc, 和 Identity,就算失败也保持运行，方便查询日志
-ENTRYPOINT ["sh", "-c", "dotnet ./webapi/OpenAuth.WebApi.dll & dotnet ./mvc/OpenAuth.Mvc.dll & dotnet ./identity/OpenAuth.IdentityServer.dll || tail -f /dev/null"]
+ENTRYPOINT ["sh", "-c", "cd webapi && dotnet OpenAuth.WebApi.dll & cd mvc && dotnet OpenAuth.Mvc.dll & cd identity && dotnet OpenAuth.IdentityServer.dll || tail -f /dev/null"]
 

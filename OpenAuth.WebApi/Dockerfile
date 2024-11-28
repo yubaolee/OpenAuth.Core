@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 # WebApi
 EXPOSE 52789
@@ -7,7 +7,7 @@ EXPOSE 1802
 # Identity
 EXPOSE 12796
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 # 将当前目录下的所有文件和文件夹复制到容器的当前工作目录中
 COPY *.sln ./

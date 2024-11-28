@@ -1,6 +1,11 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
+# WebApi
 EXPOSE 52789
+# Mvc
+EXPOSE 1802
+# Identity
+EXPOSE 12796
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
@@ -15,16 +20,27 @@ COPY ["OpenAuth.Repository/", "./OpenAuth.Repository/"]
 
 RUN dotnet restore OpenAuth.Net.sln
 
-# 发布
+# 发布 WebApi
 WORKDIR "/src/OpenAuth.WebApi"
+RUN dotnet publish -c Release -o /app/publish/webapi
 
-FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish
+# 发布 Mvc
+WORKDIR "/src/OpenAuth.Mvc"
+RUN dotnet publish -c Release -o /app/publish/mvc
+
+# 发布 Identity
+WORKDIR "/src/OpenAuth.Identity"
+RUN dotnet publish -c Release -o /app/publish/identity
 
 FROM base AS final
 WORKDIR /app
-# 将publish阶段生成的发布文件复制到当前工作目录 /app
-COPY --from=publish /app/publish .
-# 就算容器启动失败，也会保持运行。这样可以进入容器分析原因
-ENTRYPOINT ["sh", "-c", "dotnet OpenAuth.WebApi.dll || tail -f /dev/null"]
+# 复制 WebApi 发布文件
+COPY --from=build /app/publish/webapi ./webapi
+# 复制 Mvc 发布文件
+COPY --from=build /app/publish/mvc ./mvc
+# 复制 Identity 发布文件
+COPY --from=build /app/publish/identity ./identity
+
+# 启动 WebApi, Mvc, 和 Identity,就算失败也保持运行，方便查询日志
+ENTRYPOINT ["sh", "-c", "dotnet ./webapi/OpenAuth.WebApi.dll & dotnet ./mvc/OpenAuth.Mvc.dll & dotnet ./identity/OpenAuth.IdentityServer.dll || tail -f /dev/null"]
 

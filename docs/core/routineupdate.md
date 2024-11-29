@@ -1,6 +1,34 @@
 # 日常提交(针对dev分支)
 
-* 2024.02.26  fix #I940O7 vue3 前端是否缓存，配置界面未更新
+* 2024.11.28  升级到.Net 9
+
+* 2024.11.16  添加dockerfile,为.net 9做准备
+
+* 2024.10.10  增加知会功能。详情：[知会](http://doc.openauth.net.cn/core/flowinstance.html#%E7%9F%A5%E4%BC%9A)；
+
+* 2024.09.29  新增增加签逻辑。详情：[加签](http://doc.openauth.net.cn/core/flowinstance.html#%E5%8A%A0%E7%AD%BE)；
+
+* 2024.07.20  mvc项目去掉vue，采用原生layui；
+
+* 2024.07.11  fix #IABKQN；
+
+* 2024.06.27  删除CodeSmith生成WebApi；
+
+* 2024.06.20  fix IABKQN 输入框输入收清除其他下拉框或选择框的内容；
+
+* 2024.06.10  update layui to 2.9.13
+
+* 2024.05.31  fix #I9STI2 项目菜单新增和保存报错
+
+* 2024.04.24  fix #I9HQWU 已审核过的用户，后面不需要再次审核；
+
+* 2024.04.18  fix #I9G05U 流程设计时，选择角色时，没有显示角色名称
+
+* 2024.04.05  fix #I9E72C 不能获取pgSql数据库结构
+
+* 2024.03.08  修复Oracle脚本使用驼峰命名异常的问题
+
+* 2024.02.26  全面调整流程添加逻辑；
   
 * 2024.02.24  角色分配模块时，可以级联
   
@@ -252,23 +280,7 @@
 
 * 2020.11.03 修复layui icon选择BUG；
 
-* 2020.10.20 修复代码生成器mysql创建主键字段；
-
-* 2020.10.13 调整代码生成器生成vue views的路径调整为小写；
-
-* 2020.09.23 发布企业版代码生成器功能；
-
-* 2020.09.10 完成所有后端生成实体、生成业务功能、生成API；
-
-* 2020.08.12 完成代码生成器--自动创建WebApi Controller功能的开发；
-
-* 2020.08.10 完成代码生成器--自动创建实体功能的开发；
-
-* 2020.08.06 增加代码生成器创建接口，为在线代码生成器做准备；
-
-* 2020.08.04 修复企业版字典分类页面样式异常；增加获取数据库结构接口；
-
-* 2020.08.01 获取实体属性时，按小写判断实体是否存在。修复:[I1PN8N](https://gitee.com/yubaolee/OpenAuth.Core/issues/I1PN8N) [I1PN5O](https://gitee.com/yubaolee/OpenAuth.Core/issues/I1PN5O) [I1PMYX](https://gitee.com/yubaolee/OpenAuth.Core/issues/I1PMYX)
+* 很久很久以前的需求，麻烦看提交记录了😊😊😊
 
 
 

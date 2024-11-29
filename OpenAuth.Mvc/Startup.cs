@@ -6,7 +6,6 @@ using Infrastructure.Extensions.AutofacManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -70,7 +69,7 @@ namespace OpenAuth.Mvc
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 //关闭GDPR规范
-                options.CheckConsentNeeded = context => false;
+                options.CheckConsentNeeded = (HttpContext context) => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -100,7 +99,6 @@ namespace OpenAuth.Mvc
             services.AddHttpClient();
             
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
-            
             var sqlsugarTypes = UtilMethods.EnumToDictionary<SqlSugar.DbType>();
             var dbType = sqlsugarTypes.FirstOrDefault(it =>
                 dbtypes.ToDictionary(u => u.Key, v => v.Value.ToLower()).ContainsValue(it.Key));
@@ -123,7 +121,6 @@ namespace OpenAuth.Mvc
             
             //设置定时启动的任务
             services.AddHostedService<QuartzService>();
-          
         }
         
         public void ConfigureContainer(ContainerBuilder builder)

@@ -1,3 +1,24 @@
+## v6.5
+
+- **新特性**
+
+  - [新增] 增加知会功能。详情：[知会](http://doc.openauth.net.cn/core/flowinstance.html#%E7%9F%A5%E4%BC%9A)；
+  - [新增] 新增增加签逻辑。详情：[加签](http://doc.openauth.net.cn/core/flowinstance.html#%E5%8A%A0%E7%AD%BE)；
+  - [新增] 删除CodeSmith生成WebApi；
+
+- **突破性变化**
+
+  - [新增] 全面调整流程添加逻辑；
+
+- **问题修复**
+
+
+- **其他更改**
+
+
+- **不做实现**
+
+---
 ## v6.1 
 
 - **新特性**

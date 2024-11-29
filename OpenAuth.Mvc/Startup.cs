@@ -6,7 +6,6 @@ using Infrastructure.Extensions.AutofacManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -98,7 +97,7 @@ namespace OpenAuth.Mvc
             services.AddDbContext<OpenAuthDBContext>();
 
             services.AddHttpClient();
-            
+
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
             
             var sqlsugarTypes = UtilMethods.EnumToDictionary<SqlSugar.DbType>();
@@ -123,7 +122,6 @@ namespace OpenAuth.Mvc
             
             //设置定时启动的任务
             services.AddHostedService<QuartzService>();
-          
         }
         
         public void ConfigureContainer(ContainerBuilder builder)

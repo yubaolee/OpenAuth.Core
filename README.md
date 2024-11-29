@@ -29,9 +29,7 @@
 
 ## ❤❤❤郑重声明❤❤❤
 
-主分支main运行环境默认为.Net SDK 6.0，支持.NET未来版本，需要.Net SDK 4.0/4.5开发环境的同学请查看本项目4.0分支，已停止维护
-
-使用.Net Core 2.1-3.1的请进：https://gitee.com/yubaolee/OpenAuth.Core ，已停止维护
+主分支main运行环境默认为.Net SDK 9.0.100，如果需要降低sdk版本，请参考[切换sdk版本](https://doc.openauth.net.cn/core/changesdk.html)。使用.Net Core 2.1-3.1的请进：https://gitee.com/yubaolee/OpenAuth.Core ，已停止维护
 
 ## OpenAuth.Net系列视频火热更新中
 

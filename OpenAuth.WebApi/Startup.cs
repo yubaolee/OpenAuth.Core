@@ -130,7 +130,7 @@ namespace OpenAuth.WebApi
                     // options.SuppressModelStateInvalidFilter = true;
 
                     //启动WebAPI自动模态验证，处理返回值
-                    options.InvalidModelStateResponseFactory = context =>
+                    options.InvalidModelStateResponseFactory = (ActionContext context) =>
                     {
                         var problems = new CustomBadRequest(context);
 

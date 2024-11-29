@@ -97,8 +97,9 @@ namespace OpenAuth.Mvc
             services.AddDbContext<OpenAuthDBContext>();
 
             services.AddHttpClient();
-            
+
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
+            
             var sqlsugarTypes = UtilMethods.EnumToDictionary<SqlSugar.DbType>();
             var dbType = sqlsugarTypes.FirstOrDefault(it =>
                 dbtypes.ToDictionary(u => u.Key, v => v.Value.ToLower()).ContainsValue(it.Key));

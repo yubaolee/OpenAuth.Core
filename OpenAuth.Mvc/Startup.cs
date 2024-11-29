@@ -69,7 +69,7 @@ namespace OpenAuth.Mvc
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 //关闭GDPR规范
-                options.CheckConsentNeeded = context => false;
+                options.CheckConsentNeeded = (HttpContext context) => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 

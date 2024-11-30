@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Autofac;
 using Infrastructure;
@@ -69,7 +70,7 @@ namespace OpenAuth.Mvc
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 //关闭GDPR规范
-                options.CheckConsentNeeded = context => false;
+                options.CheckConsentNeeded = (HttpContext context) => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -97,8 +98,6 @@ namespace OpenAuth.Mvc
             services.AddDbContext<OpenAuthDBContext>();
 
             services.AddHttpClient();
-
-            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Configuration["DataProtection"]));
             
             var sqlsugarTypes = UtilMethods.EnumToDictionary<SqlSugar.DbType>();
             var dbType = sqlsugarTypes.FirstOrDefault(it =>
@@ -142,8 +141,8 @@ namespace OpenAuth.Mvc
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                // 生产环境开启HSTS
+                // app.UseHsts();
             }
 
             app.UseStaticFiles();

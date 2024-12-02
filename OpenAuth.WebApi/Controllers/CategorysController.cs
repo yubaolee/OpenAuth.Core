@@ -46,7 +46,7 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
        [HttpPost]
-        public Response Add(AddOrUpdateCategoryReq obj)
+        public Response Add([FromBody] AddOrUpdateCategoryReq obj)
         {
             var result = new Response();
             try
@@ -68,7 +68,7 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
        [HttpPost]
-        public Response Update(AddOrUpdateCategoryReq obj)
+        public Response Update([FromBody] AddOrUpdateCategoryReq obj)
         {
             var result = new Response();
             try

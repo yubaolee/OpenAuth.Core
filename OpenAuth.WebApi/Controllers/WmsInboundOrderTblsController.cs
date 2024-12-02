@@ -43,7 +43,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
        [HttpPost]
-        public Response Add(AddOrUpdateWmsInboundOrderTblReq obj)
+        public Response Add([FromBody] AddOrUpdateWmsInboundOrderTblReq obj)
         {
             var result = new Response();
             try
@@ -69,7 +69,7 @@ namespace OpenAuth.WebApi.Controllers
        /// <param name="obj"></param>
        /// <returns></returns>
        [HttpPost]
-        public Response Update(AddOrUpdateWmsInboundOrderTblReq obj)
+        public Response Update([FromBody] AddOrUpdateWmsInboundOrderTblReq obj)
         {
             var result = new Response();
             try

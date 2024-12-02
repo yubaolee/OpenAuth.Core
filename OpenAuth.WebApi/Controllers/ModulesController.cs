@@ -132,7 +132,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
         [HttpPost]
-        public Response<Module> Add(Module obj)
+        public Response<Module> Add([FromBody] Module obj)
         {
             var result = new Response<Module>();
             try
@@ -151,7 +151,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
         [HttpPost]
-        public Response Update(Module obj)
+        public Response Update([FromBody] Module obj)
         {
             var result = new Response();
             try
@@ -192,7 +192,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <para>当前登录用户的所有角色会自动分配菜单</para>
         /// </summary>
         [HttpPost]
-        public Response<ModuleElement> AddMenu(ModuleElement obj)
+        public Response<ModuleElement> AddMenu([FromBody] ModuleElement obj)
         {
             var result = new Response<ModuleElement>();
             try
@@ -213,7 +213,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 修改菜单属性
         /// </summary>
         [HttpPost]
-        public Response UpdateMenu(ModuleElement obj)
+        public Response UpdateMenu([FromBody] ModuleElement obj)
         {
             var result = new Response();
             try

@@ -30,7 +30,7 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Response Assign(AssignReq request)
+        public Response Assign([FromBody] AssignReq request)
         {
             var result = new Response();
             try
@@ -49,7 +49,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 取消关联
         /// </summary>
         [HttpPost]
-        public Response UnAssign(AssignReq request)
+        public Response UnAssign([FromBody] AssignReq request)
         {
             var result = new Response();
             try
@@ -70,7 +70,7 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Response AssignDataProperty(AssignDataReq request)
+        public Response AssignDataProperty([FromBody] AssignDataReq request)
         {
             var result = new Response();
             try
@@ -94,7 +94,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <returns></returns>
         private static string lockobj = "lock";
         [HttpPost]
-        public Response UnAssignDataProperty(AssignDataReq request)
+        public Response UnAssignDataProperty([FromBody] AssignDataReq request)
         {
             var result = new Response();
             try
@@ -118,7 +118,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 角色分配用户，整体提交，会覆盖之前的配置
         /// </summary>
         [HttpPost]
-        public Response AssignRoleUsers(AssignRoleUsers request)
+        public Response AssignRoleUsers([FromBody] AssignRoleUsers request)
         {
             var result = new Response();
             try
@@ -138,7 +138,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 部门分配用户，整体提交，会覆盖之前的配置
         /// </summary>
         [HttpPost]
-        public Response AssignOrgUsers(AssignOrgUsers request)
+        public Response AssignOrgUsers([FromBody] AssignOrgUsers request)
         {
             var result = new Response();
             try

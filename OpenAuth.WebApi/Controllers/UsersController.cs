@@ -41,7 +41,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public Response ChangeProfile(ChangeProfileReq request)
+        public Response ChangeProfile([FromBody] ChangeProfileReq request)
         {
             var result = new Response();
             
@@ -65,7 +65,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public Response ChangePassword(ChangePasswordReq request)
+        public Response ChangePassword([FromBody] ChangePasswordReq request)
         {
             var result = new Response();
             try
@@ -83,7 +83,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
        [HttpPost]
-        public Response<string> AddOrUpdate(UpdateUserReq obj)
+        public Response<string> AddOrUpdate([FromBody] UpdateUserReq obj)
         {
             var result = new Response<string>();
             try

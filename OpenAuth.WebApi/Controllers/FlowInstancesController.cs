@@ -87,7 +87,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <summary>召回流程</summary>
         /// <remarks> 召回后流程状态为【草稿】状态，可以再次发起流程。所有的流程节点状态还原，但保留审批记录 </remarks>
         [HttpPost]
-        public Response ReCall(RecallFlowInstanceReq obj)
+        public Response ReCall([FromBody] RecallFlowInstanceReq obj)
         {
             var result = new Response();
             try
@@ -106,7 +106,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <summary>启动流程</summary>
         /// <remarks> 通常是对状态为【草稿】的流程进行操作，进入运行状态 </remarks>
         [HttpPost]
-        public Response Start(StartFlowInstanceReq obj)
+        public Response Start([FromBody] StartFlowInstanceReq obj)
         {
             var result = new Response();
             try
@@ -128,7 +128,7 @@ namespace OpenAuth.WebApi.Controllers
        /// <para>更新时可以修改表单内容，可以修改流程基本信息，但不能更换表单模版</para>
        /// <returns></returns>
        [HttpPost]
-        public Response Update(UpdateFlowInstanceReq obj)
+        public Response Update([FromBody] UpdateFlowInstanceReq obj)
         {
             var result = new Response();
             try
@@ -150,7 +150,7 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Response Verification(VerificationReq request)
+        public Response Verification([FromBody] VerificationReq request)
         {
             var response = new Response();
             try

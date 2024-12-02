@@ -20,7 +20,7 @@ using OpenAuth.App.Response;
 
         //添加
        [HttpPost]
-        public Response Add(AddOrUpdateCategoryTypeReq obj)
+        public Response Add([FromBody] AddOrUpdateCategoryTypeReq obj)
         {
             var result = new Response();
             try
@@ -39,7 +39,7 @@ using OpenAuth.App.Response;
 
         //修改
        [HttpPost]
-        public Response Update(AddOrUpdateCategoryTypeReq obj)
+        public Response Update([FromBody] AddOrUpdateCategoryTypeReq obj)
         {
             var result = new Response();
             try

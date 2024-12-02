@@ -40,7 +40,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //修改
        [HttpPost]
-        public Response Update(AddOrUpdateBuilderTableColumnReq obj)
+        public Response Update([FromBody] AddOrUpdateBuilderTableColumnReq obj)
         {
             var result = new Response();
             try
@@ -62,7 +62,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <para>读取数据库结构与当前结构的差异，如果数据库有新增的字段，则自动加入</para>
         /// </summary>
         [HttpPost]
-        public Response Sync(SyncStructureReq obj)
+        public Response Sync([FromBody] SyncStructureReq obj)
         {
             var result = new Response();
             try

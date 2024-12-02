@@ -49,7 +49,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
        [HttpPost]
-        public Response Add(Form obj)
+        public Response Add([FromBody] Form obj)
         {
             var result = new Response();
             try
@@ -68,7 +68,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
        [HttpPost]
-        public Response Update(Form obj)
+        public Response Update([FromBody] Form obj)
         {
             var result = new Response();
             try

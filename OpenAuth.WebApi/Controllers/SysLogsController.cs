@@ -41,7 +41,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 添加
         /// </summary>
        [HttpPost]
-        public Response Add(SysLog obj)
+        public Response Add([FromBody] SysLog obj)
         {
             var result = new Response();
             try
@@ -62,7 +62,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 修改日志（建议废弃）
         /// </summary>
         [HttpPost]
-        public Response Update(SysLog obj)
+        public Response Update([FromBody] SysLog obj)
         {
             var result = new Response();
             try

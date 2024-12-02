@@ -49,7 +49,7 @@ namespace OpenAuth.WebApi.Controllers
         }
 
        [HttpPost]
-        public Response<string> Add(AddOrUpdateResReq obj)
+        public Response<string> Add([FromBody] AddOrUpdateResReq obj)
         {
             var resp = new Response<string>();
             try
@@ -66,7 +66,7 @@ namespace OpenAuth.WebApi.Controllers
         }
 
        [HttpPost]
-        public Response Update(AddOrUpdateResReq obj)
+        public Response Update([FromBody] AddOrUpdateResReq obj)
         {
             Response resp = new Response();
             try

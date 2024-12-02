@@ -45,7 +45,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
        [HttpPost]
-        public Response Add(AddOrUpdateOpenJobReq obj)
+        public Response Add([FromBody] AddOrUpdateOpenJobReq obj)
         {
             var result = new Response();
             try
@@ -139,7 +139,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 改变任务状态，启动/停止
         /// </summary>
         [HttpPost]
-        public Response ChangeStatus(ChangeJobStatusReq req)
+        public Response ChangeStatus([FromBody] ChangeJobStatusReq req)
         {
             var result = new Response();
             try

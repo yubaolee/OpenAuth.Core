@@ -21,7 +21,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加
         [HttpPost]
-        public Response Add(AddApproverReq obj)
+        public Response Add([FromBody] AddApproverReq obj)
         {
             var result = new Response();
             try
@@ -39,7 +39,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //修改
         [HttpPost]
-        public Response Update(AddApproverReq obj)
+        public Response Update([FromBody] AddApproverReq obj)
         {
             var result = new Response();
             try

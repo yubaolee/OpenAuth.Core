@@ -47,7 +47,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
        [HttpPost]
-        public Response Read(ReadMsgReq obj)
+        public Response Read([FromBody] ReadMsgReq obj)
         {
             var result = new Response();
             try

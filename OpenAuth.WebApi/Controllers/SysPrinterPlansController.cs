@@ -41,7 +41,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加
        [HttpPost]
-        public Response<string> Add(AddOrUpdateSysPrinterPlanReq obj)
+        public Response<string> Add([FromBody] AddOrUpdateSysPrinterPlanReq obj)
         {
             var result = new Response<string>();
             try
@@ -103,7 +103,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //修改
        [HttpPost]
-        public Response Update(AddOrUpdateSysPrinterPlanReq obj)
+        public Response Update([FromBody] AddOrUpdateSysPrinterPlanReq obj)
         {
             var result = new Response();
             try

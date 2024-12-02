@@ -43,7 +43,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost]
-        public Response<SysOrg> Add(SysOrg obj)
+        public Response<SysOrg> Add([FromBody] SysOrg obj)
         {
             var result = new Response<SysOrg>();
             try
@@ -62,7 +62,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
         [HttpPost]
-        public Response Update(SysOrg obj)
+        public Response Update([FromBody] SysOrg obj)
         {
             var result = new Response();
             try

@@ -38,7 +38,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
        [HttpPost]
-        public Response Add(FlowScheme obj)
+        public Response Add([FromBody] FlowScheme obj)
         {
             var result = new Response();
             try
@@ -57,7 +57,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加或修改
        [HttpPost]
-        public Response Update(FlowScheme obj)
+        public Response Update([FromBody] FlowScheme obj)
         {
             var result = new Response();
             try

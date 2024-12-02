@@ -337,7 +337,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public LoginResult Login(PassportLoginRequest request)
+        public LoginResult Login([FromBody] PassportLoginRequest request)
         {
             var result = new LoginResult();
             try

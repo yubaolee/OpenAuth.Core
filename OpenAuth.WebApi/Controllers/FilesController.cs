@@ -69,7 +69,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <returns>服务器存储的文件信息</returns>
         [HttpPost]
         [AllowAnonymous]
-        public Response<IList<UploadFile>> Upload(IFormFileCollection files)
+        public Response<IList<UploadFile>> Upload([FromForm] IFormFileCollection files)
         {
             var result = new Response<IList<UploadFile>>();
             try
@@ -93,7 +93,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <returns>服务器存储的文件信息</returns>
         [HttpPost]
         [AllowAnonymous]
-        public Response<IList<UploadFile>> UploadWithFormData(IFormCollection formdata)
+        public Response<IList<UploadFile>> UploadWithFormData([FromForm] IFormCollection formdata)
         {
             var result = new Response<IList<UploadFile>>();
             try

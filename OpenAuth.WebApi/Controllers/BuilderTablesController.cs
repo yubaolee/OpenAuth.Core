@@ -25,7 +25,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <returns>返回添加的模版ID</returns>
         /// </summary>
        [HttpPost]
-        public Response<string> Add(AddOrUpdateBuilderTableReq obj)
+        public Response<string> Add([FromBody] AddOrUpdateBuilderTableReq obj)
         {
             var result = new Response<string>();
             try
@@ -48,7 +48,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
        [HttpPost]
-        public Response Update(AddOrUpdateBuilderTableReq obj)
+        public Response Update([FromBody] AddOrUpdateBuilderTableReq obj)
         {
             var result = new Response();
             try
@@ -110,7 +110,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost]
-        public Response CreateEntity(CreateEntityReq obj)
+        public Response CreateEntity([FromBody] CreateEntityReq obj)
         {
             var result = new Response();
             try
@@ -133,7 +133,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost]
-        public Response CreateBusiness(CreateBusiReq obj)
+        public Response CreateBusiness([FromBody] CreateBusiReq obj)
         {
             var result = new Response();
             try
@@ -156,7 +156,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost]
-        public Response CreateVue(CreateVueReq obj)
+        public Response CreateVue([FromBody] CreateVueReq obj)
         {
             var result = new Response();
             try

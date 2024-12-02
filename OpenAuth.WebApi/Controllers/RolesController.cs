@@ -47,7 +47,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 添加角色，如果当前登录用户不是System，则直接把新角色分配给当前登录用户
         /// </summary>
         [HttpPost]
-        public Response<RoleView> Add(RoleView obj)
+        public Response<RoleView> Add([FromBody] RoleView obj)
         {
             var result = new Response<RoleView>();
             try
@@ -71,7 +71,7 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
        [HttpPost]
-        public Response Update(RoleView obj)
+        public Response Update([FromBody] RoleView obj)
         {
             var result = new Response();
             try

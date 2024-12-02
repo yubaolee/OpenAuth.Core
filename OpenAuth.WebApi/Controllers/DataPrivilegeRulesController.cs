@@ -45,7 +45,7 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
        [HttpPost]
-        public Response Add(AddOrUpdateDataPriviReq obj)
+        public Response Add([FromBody] AddOrUpdateDataPriviReq obj)
         {
             var result = new Response();
             try
@@ -67,7 +67,7 @@ namespace OpenAuth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
        [HttpPost]
-        public Response Update(AddOrUpdateDataPriviReq obj)
+        public Response Update([FromBody] AddOrUpdateDataPriviReq obj)
         {
             var result = new Response();
             try

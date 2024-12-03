@@ -1,3 +1,10 @@
+/*
+ * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
+ * @Date: 2023-12-25 14:43:53
+ * @LastEditTime: 2024-12-03 14:00:32
+ * @Description: 
+ * Copyright (c) 2024 by yubaolee | ahfu~ , All Rights Reserved.  
+ */
 layui.config({
 	base : "/js/"
 }).use(['form','element','layer','jquery'],function(){
@@ -59,7 +66,7 @@ layui.config({
 	})
 
 	//系统基本参数
-    $(".version").text("v3.2");      //当前版本
+    $(".version").text("v6.5");      //当前版本
     $(".author").text("yubaolee");        //开发作者
     $(".homePage").text("/Home/Index");    //网站首页
     $(".server").text("centos docker");        //服务器环境

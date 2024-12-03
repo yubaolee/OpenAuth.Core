@@ -11,6 +11,10 @@ using OpenAuth.Repository.Domain;
 
 namespace OpenAuth.Mvc.Models
 {
+    /// <summary>
+    /// 权限过滤器，用于检查用户是否登录，并进行相应的权限检查，
+    /// 如果未登录，则重定向到登录页面，如果未授权，则重定向到错误页面
+    /// </summary>
     public class OpenAuthFilter : IActionFilter
     {
         private readonly IAuth _authUtil;

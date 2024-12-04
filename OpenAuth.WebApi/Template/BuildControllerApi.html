@@ -39,7 +39,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //添加
        [HttpPost]
-        public Response Add(AddOrUpdate{ClassName}Req obj)
+        public Response Add([FromBody]AddOrUpdate{ClassName}Req obj)
         {
             var result = new Response();
             try
@@ -58,7 +58,7 @@ namespace OpenAuth.WebApi.Controllers
 
         //修改
        [HttpPost]
-        public Response Update(AddOrUpdate{ClassName}Req obj)
+        public Response Update([FromBody]AddOrUpdate{ClassName}Req obj)
         {
             var result = new Response();
             try

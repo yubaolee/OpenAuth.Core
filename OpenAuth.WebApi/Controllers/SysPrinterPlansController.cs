@@ -133,7 +133,7 @@ namespace OpenAuth.WebApi.Controllers
         /// 打印方案根据数据源获取打印数据
         /// </summary>
         [HttpPost]
-        public async Task<TableData> Query(QueryReq request)
+        public async Task<TableData> Query([FromBody] QueryReq request)
         {
             return await _app.Query(request);
         }

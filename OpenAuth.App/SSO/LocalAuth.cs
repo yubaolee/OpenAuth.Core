@@ -58,7 +58,7 @@ namespace OpenAuth.App.SSO
         {
             if (_appConfiguration.Value.IsIdentityAuth)
             {
-                return (!string.IsNullOrEmpty(_httpContextAccessor.HttpContext.User.Identity.Name));
+                return !string.IsNullOrEmpty(_httpContextAccessor.HttpContext.User.Identity.Name);
             }
 
             if (string.IsNullOrEmpty(token))

@@ -93,10 +93,10 @@ namespace OpenAuth.App
             addFlowInstanceReq.CreateUserName = user.User.Account;
 
             flowInstance.MakerList =
-                (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime, addFlowInstanceReq) : "");
-            flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4
+                wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime, addFlowInstanceReq) : "";
+            flowInstance.IsFinish = wfruntime.GetNextNodeType() == 4
                 ? FlowInstanceStatus.Finished
-                : FlowInstanceStatus.Running);
+                : FlowInstanceStatus.Running;
 
 
             SugarClient.Ado.BeginTran();
@@ -365,7 +365,7 @@ namespace OpenAuth.App
 
             if (canCheckId == "")
             {
-                throw (new Exception("审核异常,找不到审核节点"));
+                throw new Exception("审核异常,找不到审核节点");
             }
 
             var content =
@@ -385,11 +385,11 @@ namespace OpenAuth.App
                 flowInstance.ActivityId = wfruntime.nextNodeId;
                 flowInstance.ActivityType = wfruntime.nextNodeType;
                 flowInstance.ActivityName = wfruntime.nextNode.name;
-                flowInstance.IsFinish = (wfruntime.nextNodeType == 4
+                flowInstance.IsFinish = wfruntime.nextNodeType == 4
                     ? FlowInstanceStatus.Finished
-                    : FlowInstanceStatus.Running);
+                    : FlowInstanceStatus.Running;
                 flowInstance.MakerList =
-                    (wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime));
+                    wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime);
 
                 AddTransHistory(wfruntime);
             }
@@ -486,9 +486,9 @@ namespace OpenAuth.App
                     flowInstance.ActivityType = wfruntime.nextNodeType;
                     flowInstance.ActivityName = wfruntime.nextNode.name;
                     flowInstance.MakerList = wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime, request);
-                    flowInstance.IsFinish = (wfruntime.nextNodeType == 4
+                    flowInstance.IsFinish = wfruntime.nextNodeType == 4
                         ? FlowInstanceStatus.Finished
-                        : FlowInstanceStatus.Running);
+                        : FlowInstanceStatus.Running;
                 }
             }
             else //审批结果为不同意
@@ -638,7 +638,7 @@ namespace OpenAuth.App
             string makerList = "";
             if (wfruntime.nextNodeId == "-1")
             {
-                throw (new Exception("无法寻找到下一个节点"));
+                throw new Exception("无法寻找到下一个节点");
             }
 
             if (wfruntime.nextNodeType == 0) //如果是会签节点
@@ -703,7 +703,7 @@ namespace OpenAuth.App
                 makerList = GetNodeMarkers(wfruntime.nextNode);
                 if (string.IsNullOrEmpty(makerList))
                 {
-                    throw (new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!"));
+                    throw new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!");
                 }
             }
 
@@ -753,12 +753,12 @@ namespace OpenAuth.App
                 var marker = GetNodeMarkers(node);
                 if (marker == "")
                 {
-                    throw (new Exception($"节点{node.name}没有审核者,请检查!"));
+                    throw new Exception($"节点{node.name}没有审核者,请检查!");
                 }
 
                 if (marker == "1")
                 {
-                    throw (new Exception($"节点{node.name}是会签节点，不能用所有人,请检查!"));
+                    throw new Exception($"节点{node.name}是会签节点，不能用所有人,请检查!");
                 }
 
                 if (markers != "")
@@ -1089,10 +1089,10 @@ namespace OpenAuth.App
             flowInstance.PreviousId = wfruntime.currentNodeId;
             flowInstance.CreateUserId = user.User.Id;
             flowInstance.CreateUserName = user.User.Account;
-            flowInstance.MakerList = (wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime) : "");
-            flowInstance.IsFinish = (wfruntime.GetNextNodeType() == 4
+            flowInstance.MakerList = wfruntime.GetNextNodeType() != 4 ? GetNextMakers(wfruntime) : "";
+            flowInstance.IsFinish = wfruntime.GetNextNodeType() == 4
                 ? FlowInstanceStatus.Finished
-                : FlowInstanceStatus.Running);
+                : FlowInstanceStatus.Running;
 
             SugarClient.Updateable(flowInstance).ExecuteCommand();
 

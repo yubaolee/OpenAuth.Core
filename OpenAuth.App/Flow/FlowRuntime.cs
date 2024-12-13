@@ -38,7 +38,7 @@ namespace OpenAuth.App.Flow
             InitLines(schemeContentJson);
             InitNodes(schemeContentJson);
 
-            currentNodeId = (instance.ActivityId == "" ? startNodeId : instance.ActivityId);
+            currentNodeId = instance.ActivityId == "" ? startNodeId : instance.ActivityId;
             currentNodeType = GetNodeType(currentNodeId);
             FrmData = instance.FrmData;
             title = schemeContentJson.title;
@@ -134,7 +134,7 @@ namespace OpenAuth.App.Flow
 
             foreach (var l in lines)
             {
-                if (!(l.Compares.IsNullOrEmpty()) && l.Compare(frmDataJson))
+                if (!l.Compares.IsNullOrEmpty() && l.Compare(frmDataJson))
                 {
                     return l.to;
                 }

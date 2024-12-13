@@ -43,7 +43,7 @@ namespace OpenAuth.App
             get {
                 var moduleIds = SugarClient.Queryable<Relevance>().Where(
                     u =>
-                        (u.Key == Define.ROLEMODULE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                        u.Key == Define.ROLEMODULE && _userRoleIds.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
                 var elementIds = GetElementIds();
                 
                 return SugarClient.Queryable<ModuleView>().Where(m =>moduleIds.Contains(m.Id))
@@ -70,7 +70,7 @@ namespace OpenAuth.App
         {
             var elementIds = SugarClient.Queryable<Relevance>().Where(
                 u =>
-                    (u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                    u.Key == Define.ROLEELEMENT && _userRoleIds.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
             return elementIds;
         }
 
@@ -85,7 +85,7 @@ namespace OpenAuth.App
             {
                 var resourceIds = SugarClient.Queryable<Relevance>().Where(
                     u =>
-                        (u.Key == Define.ROLERESOURCE && _userRoleIds.Contains(u.FirstId))).Select(u => u.SecondId).ToList();
+                        u.Key == Define.ROLERESOURCE && _userRoleIds.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
                 return SugarClient.Queryable<Resource>().Where(u => resourceIds.Contains(u.Id)).ToList();
             }
         }

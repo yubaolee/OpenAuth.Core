@@ -1,6 +1,7 @@
+
 ![LOGO](/logocore.png "1.png")
 
-OpenAuth.Net是基于 **.Net Core/.Net 5/6/7..** 的开源权限工作流快速开发框架。源于Martin Fowler企业级应用开发思想及最新技术组合（SqlSugar、EF、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、Vue2/3、Element-ui/plus、IdentityServer等）。核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
+OpenAuth.Net是基于最新版.Net的开源权限工作流快速开发框架。源于Martin Fowler企业级应用开发思想及最新技术组合（SqlSugar、EF、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、Vue2/3、Element-ui/plus、IdentityServer等）。核心模块包括：组织机构、角色用户、权限授权、表单设计、工作流等。
 
 开源版本演示：[http://demo.openauth.net.cn:1802/](http://demo.openauth.net.cn:1802/)
 
@@ -8,13 +9,13 @@ OpenAuth.Net是基于 **.Net Core/.Net 5/6/7..** 的开源权限工作流快速�
 
 ::: tip 提示
 
-gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
+gitee上面两个版本。其中：
 
-* [OpenAuth.Net](https://gitee.com/dotnetchina/OpenAuth.Net) 默认SDK版本为.Net 6，推荐使用该版本
+* [OpenAuth.Net](https://gitee.com/dotnetchina/OpenAuth.Net) 默认SDK版本为.Net 9.0.100，如果需要切换到.Net其他版本请参考：[切换sdk版本](http://doc.openauth.net.cn/core/changesdk.html)
 
-* [OpenAuth.Core](https://gitee.com/yubaolee/OpenAuth.Core) 的SDK版本为.Net Core 3.1.100，历史原因暂且保留，未来的某天会关闭它
+* [OpenAuth.Core](https://gitee.com/yubaolee/OpenAuth.Core) 的SDK版本为.Net Core 3.1.100，已停止维护，不推荐使用。
 
-.Net目前SDK升级特别方便，只需花费3分钟时间既可升级到.Net 6/7/8...等。请参考：[3分钟的时间把.net core 3.1的升级到.NET 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)，所以不要纠结SDK版本问题。
+.Net目前SDK升级特别方便。请参考：[3分钟的时间把.net core 3.1的升级到.NET 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)，所以不要纠结SDK版本问题。
 :::
 
 
@@ -26,7 +27,7 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
 ## 核心看点
 
-* 支持.net core sdk 3.1.100 及.Net 5/6/7..（[一分钟从.net core 3.1切换至.Net 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)）
+* 支持最新版.Net 9.0.100
   
 * 同时支持EntityFramework、SqlSugar两款最流行的ORM框架
 
@@ -34,9 +35,9 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
 * 完整的字段权限控制，可以控制字段可见及API是否返回字段值
 
-* 可拖拽的表单设计  
+* 可拖拽的表单设计:[可拖拽表单](http://doc.openauth.net.cn/pro/dragform.html)
 
-* 可视化流程设计  
+* 可视化流程设计:[可视化流程设计](http://doc.openauth.net.cn/pro/startflow.html)
 
 * 基于Quartz.Net的定时任务控制,可随时启/停，可视化配置Cron表达式功能
 
@@ -54,9 +55,9 @@ gitee上面两个版本，仅SDK的版本不同，代码完全相同。其中：
 
 * 前端采用 vue + layui + elementUI + ztree + gooflow + leipiformdesign
 
-* 后端采用 .net core/.Net 5/6/7.. +EF core+ autofac + quartz +IdentityServer4 + nunit + swagger
+* 后端采用 .net +EF +SqlSugar + Autofac + quartz +IdentityServer4 + nunit + swagger
 
-* 设计工具 PowerDesigner + Enterprise Architect
+* 设计工具 PowerDesigner +PDManer + Enterprise Architect
 
 
 

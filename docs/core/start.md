@@ -4,11 +4,11 @@
 
 gitee上面两个版本。其中：
 
-* [OpenAuth.Net](https://gitee.com/dotnetchina/OpenAuth.Net) 默认SDK版本为.Net 6，推荐使用该版本。如果你使用vs2019作为开发工具，请注意查看：[VS2019打开6.0及以后版本](http://doc.openauth.net.cn/core/faq.html#vs2019%E6%89%93%E5%BC%806-0%E5%8F%8A%E4%BB%A5%E5%90%8E%E7%89%88%E6%9C%AC)
+* [OpenAuth.Net](https://gitee.com/dotnetchina/OpenAuth.Net) 默认SDK版本为.Net 9.0.100，如果需要切换到.Net其他版本请参考：[切换sdk版本](http://doc.openauth.net.cn/core/changesdk.html)
 
-* [OpenAuth.Core](https://gitee.com/yubaolee/OpenAuth.Core) 的SDK版本为.Net Core 3.1.100，历史原因暂且保留，未来的某天会关闭它
+* [OpenAuth.Core](https://gitee.com/yubaolee/OpenAuth.Core) 的SDK版本为.Net Core 3.1.100，已停止维护，不推荐使用。
 
-.Net目前SDK升级特别方便，只需花费3分钟时间既可升级到.Net 6/7/8...等。请参考：[3分钟的时间把.net core 3.1的升级到.NET 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)，所以不要纠结SDK版本问题。
+.Net目前SDK升级特别方便。请参考：[3分钟的时间把.net core 3.1的升级到.NET 5](https://www.cnblogs.com/yubaolee/p/Net3ToNet5.html)，所以不要纠结SDK版本问题。
 
 ::: tip 提示
 如果你使用的是.Net 4.0/4.5,请点击[这里](https://gitee.com/dotnetchina/OpenAuth.Net/tree/4.0) 下载后端代码，该分支已停止维护。参考文档：[http://doc.openauth.net.cn/net/](http://doc.openauth.net.cn/net/)
@@ -89,12 +89,12 @@ OpenAuth.Repository -> OpenAuthDB : 仓储层进行数据库操作
 
 使用Visual Studio 2022或Rider打开 `OpenAuth.Net.sln`
 ::: tip 提示
-如果开发使用的电脑安装有多个版本的SDK（如同时有.net core 3.1 和.Net 5/6/7..），可以在根目录新建一个`global.json`文件来指定.net版本，文件内容如下：
+如果开发使用的电脑安装有多个版本的SDK，可以在根目录新建一个`global.json`文件来指定.net版本，文件内容如下：
 
 ```
 {
   "sdk": {
-    "version": "3.1.100"
+    "version": "9.0.100"
   }
 }
 ```

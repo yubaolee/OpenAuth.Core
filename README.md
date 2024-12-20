@@ -8,7 +8,7 @@
 
 **官方文档**  http://doc.openauth.net.cn 
 
-![](https://img.shields.io/badge/release-6.0-blue)
+![](https://img.shields.io/badge/release-7.0-blue)
 ![](https://img.shields.io/badge/SqlSugar-5.1.4-blue)
 ![](https://img.shields.io/badge/IdentityServer4-3.0.1-blue)
 ![](https://img.shields.io/badge/quartz-3.0.7-blue)
@@ -27,9 +27,8 @@
 ![](https://img.shields.io/badge/npm-9.7.1-brightgreen)
 ![](https://img.shields.io/badge/layui-2.8.6-brightgreen)
 
-## ❤❤❤郑重声明❤❤❤
 
-主分支main运行环境默认为.Net SDK 9.0.100，如果需要降低sdk版本，请参考[切换sdk版本](http://doc.openauth.net.cn/core/changesdk.html)。使用.Net Core 2.1-3.1的请进：https://gitee.com/yubaolee/OpenAuth.Core ，已停止维护
+主分支main默认.Net SDK 9.0.100，如果需要降低sdk版本，请参考[切换sdk版本](http://doc.openauth.net.cn/core/changesdk.html)。使用.Net Core 2.1-3.1的请点[这里](https://gitee.com/yubaolee/OpenAuth.Core) ，已停止维护
 
 ## OpenAuth.Net系列视频火热更新中
 
@@ -87,16 +86,18 @@
 * 开源版演示地址： http://demo.openauth.net.cn:1802
 
 ## 核心看点
+
+* 支持最新版.Net 9.0.100
   
 * 同时支持EntityFramework、SqlSugar两款最流行的ORM框架
 
-* 符合国情的RBAC权限体系。超强的自定义权限控制功能，可灵活配置用户、角色可访问的数据权限。请参考：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
+* 超强的自定义权限控制功能，请参考：[通用权限设计与实现](https://www.cnblogs.com/yubaolee/p/DataPrivilege.html)
 
 * 完整的字段权限控制，可以控制字段可见及API是否返回字段值
 
 * 可拖拽的表单设计。详情：[可拖拽表单](http://doc.openauth.net.cn/pro/dragform.html)
 
-* 可视化流程设计  
+* 可视化流程设计。[可视化流程设计](http://doc.openauth.net.cn/pro/startflow.html)  
   
 * 全网最好用的打印解决方案。详情:[智能打印](http://doc.openauth.net.cn/pro/printerplan.html)
 
@@ -106,6 +107,10 @@
 
 * 支持sqlserver、mysql、Oracle、PostgreSql数据库，理论上支持所有数据库
 
+* 支持同时访问多数据源
+
+* 支持多租户
+
 * 集成IdentityServer4，实现基于OAuth2的登录体系
 
 * 建立三方对接规范，已有系统可以无缝对接流程引擎
@@ -114,7 +119,8 @@
 
 * 后端采用 .net +EF + sqlsugar + autofac + quartz +IdentityServer4 + nunit + swagger
 
-* 设计工具 PowerDesigner + Enterprise Architect
+* 设计工具 PowerDesigner +PDManer + Enterprise Architect
+
 
 ## 秀外
 
@@ -123,14 +129,7 @@
 
 ## 慧中
 
-教科书级的分层思想，哪怕苛刻的你阅读的是大神级精典大作（如：《企业应用架构模式》《重构与模式》《ASP.NET设计模式》等），你也可以参考本项目。不信？有图为证，Resharper自动生成的项目引用关系，毫无PS痕迹！
-
-![输入图片说明](https://gitee.com/uploads/images/2015/1113/233705_271ecb3a_362401.jpeg "在这里输入图片标题")
-
-## 使用
-管理员可直接在登录界面用System登录；
-
-普通应用账号使用用户列表的用户登录，初始密码与用户名相同；
+教科书级的分层思想，哪怕苛刻的你阅读的是大神级精典大作（如：《企业应用架构模式》《重构与模式》《ASP.NET设计模式》等），你也可以参考本项目。
 
 ## 后续
 生命不息，更新不止

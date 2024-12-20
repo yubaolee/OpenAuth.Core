@@ -35,15 +35,17 @@ gitee上面两个版本。其中：
 
 * 完整的字段权限控制，可以控制字段可见及API是否返回字段值
 
-* 可拖拽的表单设计:[可拖拽表单](http://doc.openauth.net.cn/pro/dragform.html)
+* 可拖拽的表单设计。详情：[可拖拽表单](http://doc.openauth.net.cn/pro/dragform.html)
 
-* 可视化流程设计:[可视化流程设计](http://doc.openauth.net.cn/pro/startflow.html)
+* 可视化流程设计。[可视化流程设计](http://doc.openauth.net.cn/pro/startflow.html)  
+  
+* 全网最好用的打印解决方案。详情:[智能打印](http://doc.openauth.net.cn/pro/printerplan.html)
 
 * 基于Quartz.Net的定时任务控制,可随时启/停，可视化配置Cron表达式功能
 
 * 基于CodeSmith的代码生成功能，可快速生成带有头/明细结构的页面
 
-* 支持sqlserver、mysql、Oracle、PostgreSQL，理论上支持所有数据库
+* 支持sqlserver、mysql、Oracle、PostgreSql数据库，理论上支持所有数据库
 
 * 支持同时访问多数据源
 
@@ -53,9 +55,9 @@ gitee上面两个版本。其中：
 
 * 建立三方对接规范，已有系统可以无缝对接流程引擎
 
-* 前端采用 vue + layui + elementUI + ztree + gooflow + leipiformdesign
+* 前端采用 vue + layui + element-ui + ztree + gooflow + leipiformdesign
 
-* 后端采用 .net +EF +SqlSugar + Autofac + quartz +IdentityServer4 + nunit + swagger
+* 后端采用 .net +EF + sqlsugar + autofac + quartz +IdentityServer4 + nunit + swagger
 
 * 设计工具 PowerDesigner +PDManer + Enterprise Architect
 

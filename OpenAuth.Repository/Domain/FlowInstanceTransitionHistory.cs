@@ -15,86 +15,87 @@ using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
-    /// <summary>
-	/// 工作流实例流转历史记录
-	/// </summary>
-      [Table("FlowInstanceTransitionHistory")]
-    public partial class FlowInstanceTransitionHistory : StringEntity
+  /// <summary>
+  /// 流程实例流转记录
+  /// <para>记录某个流程实例所有已审批的从一个活动节点到下一个活动节点的操作人、操作时间</para>
+  /// </summary>
+  [Table("FlowInstanceTransitionHistory")]
+  public partial class FlowInstanceTransitionHistory : StringEntity
+  {
+    public FlowInstanceTransitionHistory()
     {
-        public FlowInstanceTransitionHistory()
-        {
-          this.InstanceId= string.Empty;
-          this.FromNodeId= string.Empty;
-          this.FromNodeName= string.Empty;
-          this.ToNodeId= string.Empty;
-          this.ToNodeName= string.Empty;
-          this.TransitionSate= 0;
-          this.IsFinish= FlowInstanceStatus.Running;
-          this.CreateDate= DateTime.Now;
-          this.CreateUserId= string.Empty;
-          this.CreateUserName= string.Empty;
-        }
-
-        /// <summary>
-	    /// 实例Id
-	    /// </summary>
-         [Description("实例Id")]
-        public string InstanceId { get; set; }
-        /// <summary>
-	    /// 开始节点Id
-	    /// </summary>
-         [Description("开始节点Id")]
-        public string FromNodeId { get; set; }
-        /// <summary>
-	    /// 开始节点类型
-	    /// </summary>
-         [Description("开始节点类型")]
-        public int? FromNodeType { get; set; }
-        /// <summary>
-	    /// 开始节点名称
-	    /// </summary>
-         [Description("开始节点名称")]
-        public string FromNodeName { get; set; }
-        /// <summary>
-	    /// 结束节点Id
-	    /// </summary>
-         [Description("结束节点Id")]
-        public string ToNodeId { get; set; }
-        /// <summary>
-	    /// 结束节点类型
-	    /// </summary>
-         [Description("结束节点类型")]
-        public int? ToNodeType { get; set; }
-        /// <summary>
-	    /// 结束节点名称
-	    /// </summary>
-         [Description("结束节点名称")]
-        public string ToNodeName { get; set; }
-        /// <summary>
-	    /// 转化状态
-	    /// </summary>
-         [Description("转化状态")]
-        public int TransitionSate { get; set; }
-        /// <summary>
-	    /// 是否结束
-	    /// </summary>
-         [Description("是否结束")]
-        public int IsFinish { get; set; }
-        /// <summary>
-	    /// 转化时间
-	    /// </summary>
-         [Description("转化时间")]
-        public System.DateTime CreateDate { get; set; }
-        /// <summary>
-	    /// 操作人Id
-	    /// </summary>
-         [Description("操作人Id")]
-        public string CreateUserId { get; set; }
-        /// <summary>
-	    /// 操作人名称
-	    /// </summary>
-         [Description("操作人名称")]
-        public string CreateUserName { get; set; }
-
+      this.InstanceId = string.Empty;
+      this.FromNodeId = string.Empty;
+      this.FromNodeName = string.Empty;
+      this.ToNodeId = string.Empty;
+      this.ToNodeName = string.Empty;
+      this.TransitionSate = 0;
+      this.IsFinish = FlowInstanceStatus.Running;
+      this.CreateDate = DateTime.Now;
+      this.CreateUserId = string.Empty;
+      this.CreateUserName = string.Empty;
     }
+
+    /// <summary>
+    /// 实例Id
+    /// </summary>
+    [Description("实例Id")]
+    public string InstanceId { get; set; }
+    /// <summary>
+    /// 开始节点Id
+    /// </summary>
+    [Description("开始节点Id")]
+    public string FromNodeId { get; set; }
+    /// <summary>
+    /// 开始节点类型
+    /// </summary>
+    [Description("开始节点类型")]
+    public int? FromNodeType { get; set; }
+    /// <summary>
+    /// 开始节点名称
+    /// </summary>
+    [Description("开始节点名称")]
+    public string FromNodeName { get; set; }
+    /// <summary>
+    /// 结束节点Id
+    /// </summary>
+    [Description("结束节点Id")]
+    public string ToNodeId { get; set; }
+    /// <summary>
+    /// 结束节点类型
+    /// </summary>
+    [Description("结束节点类型")]
+    public int? ToNodeType { get; set; }
+    /// <summary>
+    /// 结束节点名称
+    /// </summary>
+    [Description("结束节点名称")]
+    public string ToNodeName { get; set; }
+    /// <summary>
+    /// 转化状态
+    /// </summary>
+    [Description("转化状态")]
+    public int TransitionSate { get; set; }
+    /// <summary>
+    /// 是否结束
+    /// </summary>
+    [Description("是否结束")]
+    public int IsFinish { get; set; }
+    /// <summary>
+    /// 转化时间
+    /// </summary>
+    [Description("转化时间")]
+    public System.DateTime CreateDate { get; set; }
+    /// <summary>
+    /// 操作人Id
+    /// </summary>
+    [Description("操作人Id")]
+    public string CreateUserId { get; set; }
+    /// <summary>
+    /// 操作人名称
+    /// </summary>
+    [Description("操作人名称")]
+    public string CreateUserName { get; set; }
+
+  }
 }

@@ -14,46 +14,47 @@ using OpenAuth.Repository.Core;
 
 namespace OpenAuth.Repository.Domain
 {
-    /// <summary>
-	/// 工作流实例操作记录
-	/// </summary>
-      [Table("FlowInstanceOperationHistory")]
-    public partial class FlowInstanceOperationHistory : StringEntity
+  /// <summary>
+  /// 工作流程操作历史
+  /// <para>记录某个流程实例所有的人员创建、审批记录</para>
+  /// </summary>
+  [Table("FlowInstanceOperationHistory")]
+  public partial class FlowInstanceOperationHistory : StringEntity
+  {
+    public FlowInstanceOperationHistory()
     {
-        public FlowInstanceOperationHistory()
-        {
-          this.InstanceId= string.Empty;
-          this.Content= string.Empty;
-          this.CreateDate= DateTime.Now;
-          this.CreateUserId= string.Empty;
-          this.CreateUserName= string.Empty;
-        }
-
-        /// <summary>
-	    /// 实例进程Id
-	    /// </summary>
-         [Description("实例进程Id")]
-        public string InstanceId { get; set; }
-        /// <summary>
-	    /// 操作内容
-	    /// </summary>
-         [Description("操作内容")]
-        public string Content { get; set; }
-        /// <summary>
-	    /// 创建时间
-	    /// </summary>
-         [Description("创建时间")]
-        public System.DateTime CreateDate { get; set; }
-        /// <summary>
-	    /// 创建用户主键
-	    /// </summary>
-         [Description("创建用户主键")]
-        public string CreateUserId { get; set; }
-        /// <summary>
-	    /// 创建用户
-	    /// </summary>
-         [Description("创建用户")]
-        public string CreateUserName { get; set; }
-
+      this.InstanceId = string.Empty;
+      this.Content = string.Empty;
+      this.CreateDate = DateTime.Now;
+      this.CreateUserId = string.Empty;
+      this.CreateUserName = string.Empty;
     }
+
+    /// <summary>
+    /// 实例进程Id
+    /// </summary>
+    [Description("实例进程Id")]
+    public string InstanceId { get; set; }
+    /// <summary>
+    /// 操作内容
+    /// </summary>
+    [Description("操作内容")]
+    public string Content { get; set; }
+    /// <summary>
+    /// 创建时间
+    /// </summary>
+    [Description("创建时间")]
+    public System.DateTime CreateDate { get; set; }
+    /// <summary>
+    /// 创建用户主键
+    /// </summary>
+    [Description("创建用户主键")]
+    public string CreateUserId { get; set; }
+    /// <summary>
+    /// 创建用户
+    /// </summary>
+    [Description("创建用户")]
+    public string CreateUserName { get; set; }
+
+  }
 }

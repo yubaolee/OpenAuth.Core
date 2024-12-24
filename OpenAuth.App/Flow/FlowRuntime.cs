@@ -1,20 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : OpenAuth.App
-// Author           : 李玉宝
-// Created          : 07-19-2018
-//
-// Last Modified By : 李玉宝
-// Last Modified On : 07-19-2018
-// ***********************************************************************
-// <copyright file="FlowRuntime.cs" company="OpenAuth.App">
-//     Copyright (c) http://www.openauth.net.cn. All rights reserved.
-// </copyright>
-// <summary>
-// 一个正在运行中的流程实例
-//</summary>
-// ***********************************************************************
-
-using Infrastructure;
+﻿using Infrastructure;
 using Newtonsoft.Json.Linq;
 using OpenAuth.Repository.Domain;
 using System;
@@ -23,14 +7,16 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using Castle.Core.Internal;
+using Infrastructure.Const;
 
 namespace OpenAuth.App.Flow
 {
+    /// <summary>
+    /// 一个正在运行中的流程实例
+    /// <para>该类只能通过new实例化，禁止通过容器获取</para>
+    /// </summary>
     public class FlowRuntime
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
         public FlowRuntime(FlowInstance instance)
         {
             dynamic schemeContentJson = instance.SchemeContent.ToJson(); //获取工作流模板内容的json对象;
@@ -385,6 +371,29 @@ namespace OpenAuth.App.Flow
         }
 
         /// <summary>
+        /// 生成一个扭转记录
+        /// </summary>
+        /// <param name="user">当前执行的用户</param>
+        /// <returns></returns>
+        public FlowInstanceTransitionHistory GenTransitionHistory(User user)
+        {
+            return new FlowInstanceTransitionHistory
+            {
+                InstanceId = flowInstanceId,
+                CreateUserId = user.Id,
+                CreateUserName = user.Name,
+                FromNodeId = currentNodeId,
+                FromNodeName = currentNode.name,
+                FromNodeType = currentNodeType,
+                ToNodeId = nextNodeId,
+                ToNodeName = nextNode?.name,
+                ToNodeType = nextNodeType,
+                IsFinish = nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running,
+                TransitionSate = 0
+            }; 
+        }
+
+        /// <summary>
         /// 通知三方系统，节点执行情况
         /// </summary>
         public void NotifyThirdParty(HttpClient client, FlowNode node, Tag tag)
@@ -418,14 +427,14 @@ namespace OpenAuth.App.Flow
 
         #region 属性
 
-        public string title { get; set; }
+        private string title { get; set; }
 
-        public int initNum { get; set; }
+        private int initNum { get; set; }
 
         /// <summary>
         /// 运行实例的Id
         /// </summary>
-        public string flowInstanceId { get; set; }
+        private string flowInstanceId { get; set; }
 
         /// <summary>
         /// 开始节点的ID
@@ -466,7 +475,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 上一个节点
         /// </summary>
-        public string previousId { get; set; }
+        private string previousId { get; set; }
 
         /// <summary>
         /// 实例节点集合
@@ -476,7 +485,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 流程实例中所有的线段
         /// </summary>
-        public List<FlowLine> Lines { get; set; }
+        private List<FlowLine> Lines { get; set; }
 
         /// <summary>
         /// 从节点发出的线段集合
@@ -486,7 +495,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 到达节点的线段集合
         /// </summary>
-        public Dictionary<string, List<FlowLine>> ToNodeLines { get; set; }
+        private Dictionary<string, List<FlowLine>> ToNodeLines { get; set; }
 
         /// <summary>
         /// 表单数据

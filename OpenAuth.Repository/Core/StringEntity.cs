@@ -24,6 +24,7 @@ namespace OpenAuth.Repository.Core
 
         /// <summary>
         /// 创建默认的主键值
+        /// <para>当构造函数执行时如果Id为空，则会自动执行该函数</para>
         /// </summary>
         public override void GenerateDefaultKeyVal()
         {

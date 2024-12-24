@@ -1,3 +1,11 @@
+/*
+ * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
+ * @Date: 2024-12-13 16:55:17
+ * @Description: 工作流实例表操作
+ * @LastEditTime: 2024-12-24 10:58:01
+ * Copyright (c) 2024 by yubaolee | ahfu~ , All Rights Reserved.  
+ */
+
 using Infrastructure;
 using OpenAuth.App.Flow;
 using OpenAuth.App.Interface;
@@ -13,7 +21,6 @@ using Castle.Core.Internal;
 using Infrastructure.Const;
 using Infrastructure.Extensions;
 using Infrastructure.Helpers;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Newtonsoft.Json.Linq;
 using SqlSugar;
 using Yitter.IdGenerator;
@@ -101,7 +108,6 @@ namespace OpenAuth.App
 
             SugarClient.Ado.BeginTran();
             SugarClient.Insertable(flowInstance).ExecuteCommand();
-            wfruntime.flowInstanceId = flowInstance.Id;
 
             //知会
             if (!addFlowInstanceReq.NoticeType.IsNullOrEmpty() && addFlowInstanceReq.NoticeIds != null)
@@ -122,7 +128,7 @@ namespace OpenAuth.App
                 {
                     icf.Add(flowInstance.Id, flowInstance.FrmData);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw new Exception("流程表单数据解析失败,请检查表单是否填写完整");
                 }
@@ -199,11 +205,7 @@ namespace OpenAuth.App
                 CreateUserId = user.User.Id,
                 CreateUserName = user.User.Name,
                 CreateDate = DateTime.Now,
-                Content = "【创建】"
-                          + user.User.Name
-                          + "创建了一个流程进程【"
-                          + addFlowInstanceReq.Code + "/"
-                          + addFlowInstanceReq.CustomName + "】"
+                Content = $"【创建】{user.User.Name}创建了流程实例【{addFlowInstanceReq.CustomName}】"
             };
             SugarClient.Insertable(processOperationHistoryEntity).ExecuteCommand();
 
@@ -369,7 +371,7 @@ namespace OpenAuth.App
             }
 
             var content =
-                $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.Nodes[canCheckId].name}】" +
+                $"{user.Account}-{DateTime.Now:yyyy-MM-dd HH:mm}审批了【{wfruntime.Nodes[canCheckId].name}】" +
                 $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
             AddOperationHis(instanceId, tag, content);
 
@@ -572,8 +574,8 @@ namespace OpenAuth.App
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
-            string rejectNode = ""; //驳回的节点
-            rejectNode = string.IsNullOrEmpty(reqest.NodeRejectStep)
+            //驳回的节点
+            string rejectNode = string.IsNullOrEmpty(reqest.NodeRejectStep)
                 ? wfruntime.RejectNode(reqest.NodeRejectType)
                 : reqest.NodeRejectStep;
 
@@ -607,10 +609,7 @@ namespace OpenAuth.App
                 CreateUserId = user.Id,
                 CreateUserName = user.Name,
                 CreateDate = DateTime.Now,
-                Content = "【"
-                          + wfruntime.currentNode.name
-                          + "】【" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "】驳回,备注："
-                          + reqest.VerificationOpinion
+                Content = $"【{wfruntime.currentNode.name}】【{DateTime.Now:yyyy-MM-dd HH:mm}】驳回,备注：{reqest.VerificationOpinion}"
             }).ExecuteCommand();
 
             //给流程创建人发送通知信息
@@ -694,7 +693,6 @@ namespace OpenAuth.App
                     throw new Exception("前端提交的节点权限类型异常，请检查流程");
                 }
 
-                FlowInstance flowInstance = Get(wfruntime.flowInstanceId);
                 var chairmanIds = _orgManagerApp.GetChairmanId(wfruntime.nextNode.setInfo.NodeDesignateData.orgs);
                 makerList = GenericHelpers.ArrayToString(chairmanIds, makerList);
             }
@@ -819,7 +817,6 @@ namespace OpenAuth.App
 
         /// <summary>
         /// 审核流程
-        /// <para>李玉宝于2017-01-20 15:44:45</para>
         /// </summary>
         public void Verification(VerificationReq request)
         {
@@ -982,21 +979,8 @@ namespace OpenAuth.App
         /// </summary>
         private void AddTransHistory(FlowRuntime wfruntime)
         {
-            var tag = _auth.GetCurrentUser().User;
-            SugarClient.Insertable(new FlowInstanceTransitionHistory
-            {
-                InstanceId = wfruntime.flowInstanceId,
-                CreateUserId = tag.Id,
-                CreateUserName = tag.Name,
-                FromNodeId = wfruntime.currentNodeId,
-                FromNodeName = wfruntime.currentNode.name,
-                FromNodeType = wfruntime.currentNodeType,
-                ToNodeId = wfruntime.nextNodeId,
-                ToNodeName = wfruntime.nextNode?.name,
-                ToNodeType = wfruntime.nextNodeType,
-                IsFinish = wfruntime.nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running,
-                TransitionSate = 0
-            }).ExecuteCommand();
+            var user = _auth.GetCurrentUser().User;
+            SugarClient.Insertable(wfruntime.GenTransitionHistory(user)).ExecuteCommand();
         }
 
         private void AddOperationHis(string instanceId, Tag tag, string content)

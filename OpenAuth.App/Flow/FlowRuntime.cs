@@ -8,6 +8,10 @@ using System.Net.Http;
 using System.Text;
 using Castle.Core.Internal;
 using Infrastructure.Const;
+using Infrastructure.Extensions.AutofacManager;
+using Infrastructure.Helpers;
+using OpenAuth.App.Interface;
+using SqlSugar;
 
 namespace OpenAuth.App.Flow
 {
@@ -295,7 +299,7 @@ namespace OpenAuth.App.Flow
 
             return Nodes[lines[0].from];
         }
-
+        
         /// <summary>
         /// 驳回
         /// </summary>
@@ -371,13 +375,14 @@ namespace OpenAuth.App.Flow
         }
 
         /// <summary>
-        /// 生成一个扭转记录
+        /// 保存本次扭转记录
         /// </summary>
-        /// <param name="user">当前执行的用户</param>
         /// <returns></returns>
-        public FlowInstanceTransitionHistory GenTransitionHistory(User user)
+        public void SaveTransitionHis()
         {
-            return new FlowInstanceTransitionHistory
+            var user = AutofacContainerModule.GetService<IAuth>().GetCurrentUser().User;
+            var SugarClient = AutofacContainerModule.GetService<ISqlSugarClient>();
+            var transitionHistory = new FlowInstanceTransitionHistory
             {
                 InstanceId = flowInstanceId,
                 CreateUserId = user.Id,
@@ -391,6 +396,8 @@ namespace OpenAuth.App.Flow
                 IsFinish = nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running,
                 TransitionSate = 0
             }; 
+            
+            SugarClient.Insertable(transitionHistory).ExecuteCommand();
         }
 
         /// <summary>
@@ -424,6 +431,144 @@ namespace OpenAuth.App.Flow
         }
 
         #endregion 共有方法
+
+        #region 获取节点审批人
+                /// <summary>
+        /// 计算节点执行人
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public string GetNodeMarkers(FlowNode node, string flowinstanceCreateUserId = "")
+        {
+            string makerList = "";
+            if (node.type == FlowNode.START && (!string.IsNullOrEmpty(flowinstanceCreateUserId))) //如果是开始节点，通常情况下是驳回到开始了
+            {
+                makerList = flowinstanceCreateUserId;
+            }
+            else if (node.setInfo != null)
+            {
+                if (string.IsNullOrEmpty(node.setInfo.NodeDesignate) ||
+                    node.setInfo.NodeDesignate == Setinfo.ALL_USER) //所有成员
+                {
+                    makerList = "1";
+                }
+                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_USER) //指定成员
+                {
+                    makerList = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.users, makerList);
+                }
+                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_ROLE) //指定角色
+                {
+                    var revelanceApp = AutofacContainerModule.GetService<RevelanceManagerApp>();
+                    var users = revelanceApp.Get(Define.USERROLE, false, node.setInfo.NodeDesignateData.roles);
+                    makerList = GenericHelpers.ArrayToString(users, makerList);
+                }
+                else if (node.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE
+                         || node.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
+                {
+                    //如果是运行时选定的用户，则暂不处理。由上个节点审批时选定
+                }
+            }
+            else //如果没有设置节点信息，默认所有人都可以审核
+            {
+                makerList = "1";
+            }
+
+            return makerList;
+        }
+        
+        /// <summary>
+        /// 会签时，获取一条会签分支上面是否有用户可审核的节点
+        /// </summary>
+        /// <param name="fromForkStartNode"></param>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public string GetOneForkLineCanCheckNodeId(FlowNode fromForkStartNode, Tag tag)
+        {
+            string canCheckId = "";
+            var node = fromForkStartNode;
+            do //沿一条分支线路执行，直到遇到会签结束节点
+            {
+                var makerList = GetNodeMarkers(node);
+
+                if (node.setInfo.Taged == null && !string.IsNullOrEmpty(makerList) &&
+                    makerList.Split(',').Any(one => tag.UserId == one))
+                {
+                    canCheckId = node.id;
+                    break;
+                }
+
+                node = GetNextNode(node.id);
+            } while (node.type != FlowNode.JOIN);
+
+            return canCheckId;
+        }
+        
+        /// <summary>
+        /// 获取会签开始节点的所有可执行者
+        /// </summary>
+        /// <param name="forkNodeId">会签开始节点</param>
+        /// <returns></returns>
+        public string GetForkNodeMakers(string forkNodeId)
+        {
+            string makerList = "";
+            foreach (string fromForkStartNodeId in FromNodeLines[forkNodeId].Select(u => u.to))
+            {
+                var fromForkStartNode = Nodes[fromForkStartNodeId]; //与会签开始节点直接连接的节点
+                if (makerList != "")
+                {
+                    makerList += ",";
+                }
+
+                makerList += GetOneForkLineMakers(fromForkStartNode);
+            }
+
+            return makerList;
+        }
+
+        /// <summary>
+        /// 获取会签一条线上的审核者,该审核者应该是已审核过的节点的下一个人
+        /// </summary>
+        /// <param name="fromForkStartNode">与会签开始节点直接连接的节点</param>
+        private string GetOneForkLineMakers(FlowNode fromForkStartNode)
+        {
+            string markers = "";
+            var node = fromForkStartNode;
+            do //沿一条分支线路执行，直到遇到第一个没有审核的节点
+            {
+                if (node.setInfo != null && node.setInfo.Taged != null)
+                {
+                    if (node.type != FlowNode.FORK && node.setInfo.Taged != (int)TagState.Ok) //如果节点是不同意或驳回，则不用再找了
+                    {
+                        break;
+                    }
+
+                    node = GetNextNode(node.id); //下一个节点
+                    continue;
+                }
+
+                var marker = GetNodeMarkers(node);
+                if (marker == "")
+                {
+                    throw new Exception($"节点{node.name}没有审核者,请检查!");
+                }
+
+                if (marker == "1")
+                {
+                    throw new Exception($"节点{node.name}是会签节点，不能用所有人,请检查!");
+                }
+
+                if (markers != "")
+                {
+                    markers += ",";
+                }
+
+                markers += marker;
+                break;
+            } while (node.type != FlowNode.JOIN);
+
+            return markers;
+        }
+        #endregion
 
         #region 属性
 

@@ -211,7 +211,7 @@ namespace OpenAuth.App
 
             #endregion 流程操作记录
 
-            AddTransHistory(wfruntime);
+            wfruntime.SaveTransitionHis();
             SugarClient.Ado.CommitTran();
             return true;
         }
@@ -361,7 +361,7 @@ namespace OpenAuth.App
                          .Select(u => u.to))
             {
                 var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId]; //与会前开始节点直接连接的节点
-                canCheckId = GetOneForkLineCanCheckNodeId(fromForkStartNode, wfruntime, tag);
+                canCheckId = wfruntime.GetOneForkLineCanCheckNodeId(fromForkStartNode, tag);
                 if (!string.IsNullOrEmpty(canCheckId)) break;
             }
 
@@ -393,13 +393,13 @@ namespace OpenAuth.App
                 flowInstance.MakerList =
                     wfruntime.nextNodeType == 4 ? "" : GetNextMakers(wfruntime);
 
-                AddTransHistory(wfruntime);
+                wfruntime.SaveTransitionHis();
             }
             else
             {
                 //会签过程中，需要更新用户
-                flowInstance.MakerList = GetForkNodeMakers(wfruntime, wfruntime.currentNodeId);
-                AddTransHistory(wfruntime);
+                flowInstance.MakerList = wfruntime.GetForkNodeMakers(wfruntime.currentNodeId);
+                wfruntime.SaveTransitionHis();
             }
 
             flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
@@ -536,28 +536,6 @@ namespace OpenAuth.App
             }
         }
 
-        //会签时，获取一条会签分支上面是否有用户可审核的节点
-        private string GetOneForkLineCanCheckNodeId(FlowNode fromForkStartNode, FlowRuntime wfruntime, Tag tag)
-        {
-            string canCheckId = "";
-            var node = fromForkStartNode;
-            do //沿一条分支线路执行，直到遇到会签结束节点
-            {
-                var makerList = GetNodeMarkers(node);
-
-                if (node.setInfo.Taged == null && !string.IsNullOrEmpty(makerList) &&
-                    makerList.Split(',').Any(one => tag.UserId == one))
-                {
-                    canCheckId = node.id;
-                    break;
-                }
-
-                node = wfruntime.GetNextNode(node.id);
-            } while (node.type != FlowNode.JOIN);
-
-            return canCheckId;
-        }
-
         /// <summary>
         /// 驳回
         /// 如果NodeRejectStep不为空，优先使用；否则按照NodeRejectType驳回
@@ -595,9 +573,9 @@ namespace OpenAuth.App
                 flowInstance.ActivityId = rejectNode;
                 flowInstance.ActivityType = wfruntime.GetNodeType(rejectNode);
                 flowInstance.ActivityName = wfruntime.Nodes[rejectNode].name;
-                flowInstance.MakerList = GetNodeMarkers(wfruntime.Nodes[rejectNode], flowInstance.CreateUserId);
-
-                AddTransHistory(wfruntime);
+                flowInstance.MakerList = wfruntime.GetNodeMarkers(wfruntime.Nodes[rejectNode], flowInstance.CreateUserId);
+                
+                wfruntime.SaveTransitionHis();
             }
 
             flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
@@ -642,7 +620,7 @@ namespace OpenAuth.App
 
             if (wfruntime.nextNodeType == 0) //如果是会签节点
             {
-                makerList = GetForkNodeMakers(wfruntime, wfruntime.nextNodeId);
+                makerList = wfruntime.GetForkNodeMakers(wfruntime.nextNodeId);
             }
             else if (wfruntime.nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE)
             {
@@ -698,7 +676,7 @@ namespace OpenAuth.App
             }
             else
             {
-                makerList = GetNodeMarkers(wfruntime.nextNode);
+                makerList = wfruntime.GetNodeMarkers(wfruntime.nextNode);
                 if (string.IsNullOrEmpty(makerList))
                 {
                     throw new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!");
@@ -708,110 +686,6 @@ namespace OpenAuth.App
             return makerList;
         }
 
-        /// <summary>
-        /// 获取会签开始节点的所有可执行者
-        /// </summary>
-        /// <param name="forkNodeId">会签开始节点</param>
-        /// <returns></returns>
-        private string GetForkNodeMakers(FlowRuntime wfruntime, string forkNodeId)
-        {
-            string makerList = "";
-            foreach (string fromForkStartNodeId in wfruntime.FromNodeLines[forkNodeId].Select(u => u.to))
-            {
-                var fromForkStartNode = wfruntime.Nodes[fromForkStartNodeId]; //与会前开始节点直接连接的节点
-                if (makerList != "")
-                {
-                    makerList += ",";
-                }
-
-                makerList += GetOneForkLineMakers(fromForkStartNode, wfruntime);
-            }
-
-            return makerList;
-        }
-
-        //获取会签一条线上的审核者,该审核者应该是已审核过的节点的下一个人
-        private string GetOneForkLineMakers(FlowNode fromForkStartNode, FlowRuntime wfruntime)
-        {
-            string markers = "";
-            var node = fromForkStartNode;
-            do //沿一条分支线路执行，直到遇到第一个没有审核的节点
-            {
-                if (node.setInfo != null && node.setInfo.Taged != null)
-                {
-                    if (node.type != FlowNode.FORK && node.setInfo.Taged != (int)TagState.Ok) //如果节点是不同意或驳回，则不用再找了
-                    {
-                        break;
-                    }
-
-                    node = wfruntime.GetNextNode(node.id); //下一个节点
-                    continue;
-                }
-
-                var marker = GetNodeMarkers(node);
-                if (marker == "")
-                {
-                    throw new Exception($"节点{node.name}没有审核者,请检查!");
-                }
-
-                if (marker == "1")
-                {
-                    throw new Exception($"节点{node.name}是会签节点，不能用所有人,请检查!");
-                }
-
-                if (markers != "")
-                {
-                    markers += ",";
-                }
-
-                markers += marker;
-                break;
-            } while (node.type != FlowNode.JOIN);
-
-            return markers;
-        }
-
-        /// <summary>
-        /// 寻找该节点执行人
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        private string GetNodeMarkers(FlowNode node, string flowinstanceCreateUserId = "")
-        {
-            string makerList = "";
-            if (node.type == FlowNode.START && (!string.IsNullOrEmpty(flowinstanceCreateUserId))) //如果是开始节点，通常情况下是驳回到开始了
-            {
-                makerList = flowinstanceCreateUserId;
-            }
-            else if (node.setInfo != null)
-            {
-                if (string.IsNullOrEmpty(node.setInfo.NodeDesignate) ||
-                    node.setInfo.NodeDesignate == Setinfo.ALL_USER) //所有成员
-                {
-                    makerList = "1";
-                }
-                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_USER) //指定成员
-                {
-                    makerList = GenericHelpers.ArrayToString(node.setInfo.NodeDesignateData.users, makerList);
-                }
-                else if (node.setInfo.NodeDesignate == Setinfo.SPECIAL_ROLE) //指定角色
-                {
-                    var users = _revelanceApp.Get(Define.USERROLE, false, node.setInfo.NodeDesignateData.roles);
-                    makerList = GenericHelpers.ArrayToString(users, makerList);
-                }
-                else if (node.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE
-                         || node.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
-                {
-                    //如果是运行时选定的用户，则暂不处理。由上个节点审批时选定
-                }
-            }
-            else //如果没有设置节点信息，默认所有人都可以审核
-            {
-                makerList = "1";
-            }
-
-            return makerList;
-        }
 
         #endregion
 
@@ -974,15 +848,6 @@ namespace OpenAuth.App
             return result;
         }
 
-        /// <summary>
-        /// 添加扭转记录
-        /// </summary>
-        private void AddTransHistory(FlowRuntime wfruntime)
-        {
-            var user = _auth.GetCurrentUser().User;
-            SugarClient.Insertable(wfruntime.GenTransitionHistory(user)).ExecuteCommand();
-        }
-
         private void AddOperationHis(string instanceId, Tag tag, string content)
         {
             FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
@@ -1028,9 +893,9 @@ namespace OpenAuth.App
             flowInstance.ActivityId = startNodeId;
             flowInstance.ActivityType = wfruntime.GetNodeType(startNodeId);
             flowInstance.ActivityName = wfruntime.Nodes[startNodeId].name;
-            flowInstance.MakerList = GetNodeMarkers(wfruntime.Nodes[startNodeId], flowInstance.CreateUserId);
+            flowInstance.MakerList = wfruntime.GetNodeMarkers(wfruntime.Nodes[startNodeId], flowInstance.CreateUserId);
 
-            AddTransHistory(wfruntime);
+            wfruntime.SaveTransitionHis();
 
             SugarClient.Updateable(flowInstance).ExecuteCommand();
 
@@ -1096,7 +961,7 @@ namespace OpenAuth.App
 
             #endregion 流程操作记录
 
-            AddTransHistory(wfruntime);
+            wfruntime.SaveTransitionHis();
             SugarClient.Ado.CommitTran();
         }
 

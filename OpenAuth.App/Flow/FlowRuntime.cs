@@ -8,9 +8,11 @@ using System.Net.Http;
 using System.Text;
 using Castle.Core.Internal;
 using Infrastructure.Const;
+using Infrastructure.Extensions;
 using Infrastructure.Extensions.AutofacManager;
 using Infrastructure.Helpers;
 using OpenAuth.App.Interface;
+using OpenAuth.App.Request;
 using SqlSugar;
 
 namespace OpenAuth.App.Flow
@@ -190,10 +192,36 @@ namespace OpenAuth.App.Flow
         /// <param name="nodeId">会签时，currentNodeId是会签开始节点。这个表示当前正在处理的节点</param>
         /// <param name="tag"></param>
         /// <returns>-1不通过,1等待,其它通过</returns>
-        public string NodeConfluence(HttpClient httpClient, string nodeId, Tag tag)
+        public string NodeConfluence(HttpClient httpClient, Tag tag)
         {
+            var user = AutofacContainerModule.GetService<IAuth>().GetCurrentUser().User;
+            //会签时的【当前节点】一直是会签开始节点
+            //TODO: 标记会签节点的状态，这个地方感觉怪怪的
+            MakeTagNode(currentNodeId, tag);
+
+            string canCheckId = ""; //寻找当前登录用户可审核的节点Id
+            foreach (string fromForkStartNodeId in FromNodeLines[currentNodeId]
+                         .Select(u => u.to))
+            {
+                var fromForkStartNode = Nodes[fromForkStartNodeId]; //与会前开始节点直接连接的节点
+                canCheckId = GetOneForkLineCanCheckNodeId(fromForkStartNode, tag);
+                if (!string.IsNullOrEmpty(canCheckId)) break;
+            }
+
+            if (canCheckId == "")
+            {
+                throw new Exception("审核异常,找不到审核节点");
+            }
+
+            var content =
+                $"{user.Account}-{DateTime.Now:yyyy-MM-dd HH:mm}审批了【{Nodes[canCheckId].name}】" +
+                $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
+            AddOperationHis(tag, content);
+
+            MakeTagNode(canCheckId, tag); //标记审核节点状态
+
             var forkNode = Nodes[currentNodeId]; //会签开始节点
-            FlowNode nextNode = GetNextNode(nodeId); //获取当前处理的下一个节点
+            FlowNode nextNode = GetNextNode(canCheckId); //获取当前处理的下一个节点
 
             int forkNumber = FromNodeLines[currentNodeId].Count; //直接与会签节点连接的点，即会签分支数目
             string res = string.Empty; //记录会签的结果,默认正在会签
@@ -219,7 +247,7 @@ namespace OpenAuth.App.Flow
                     else
                     {
                         bool isFirst = true; //是不是从会签开始到现在第一个
-                        var preNode = GetPreNode(nodeId);
+                        var preNode = GetPreNode(canCheckId);
                         while (preNode.id != forkNode.id) //反向一直到会签开始节点
                         {
                             if (preNode.setInfo != null && preNode.setInfo.Taged == (int)TagState.No)
@@ -299,7 +327,7 @@ namespace OpenAuth.App.Flow
 
             return Nodes[lines[0].from];
         }
-        
+
         /// <summary>
         /// 驳回
         /// </summary>
@@ -374,6 +402,21 @@ namespace OpenAuth.App.Flow
             };
         }
 
+        public void AddOperationHis(Tag tag, string content)
+        {
+            FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
+            {
+                InstanceId = flowInstanceId,
+                CreateUserId = tag.UserId,
+                CreateUserName = tag.UserName,
+                CreateDate = DateTime.Now,
+                Content = content
+            }; //操作记录
+
+            var SugarClient = AutofacContainerModule.GetService<ISqlSugarClient>();
+            SugarClient.Insertable(flowInstanceOperationHistory).ExecuteCommand();
+        }
+
         /// <summary>
         /// 保存本次扭转记录
         /// </summary>
@@ -395,8 +438,8 @@ namespace OpenAuth.App.Flow
                 ToNodeType = nextNodeType,
                 IsFinish = nextNodeType == 4 ? FlowInstanceStatus.Finished : FlowInstanceStatus.Running,
                 TransitionSate = 0
-            }; 
-            
+            };
+
             SugarClient.Insertable(transitionHistory).ExecuteCommand();
         }
 
@@ -433,7 +476,92 @@ namespace OpenAuth.App.Flow
         #endregion 共有方法
 
         #region 获取节点审批人
-                /// <summary>
+
+        /// <summary>
+        /// 寻找下一步的执行人
+        /// 一般用于本节点审核完成后，修改流程实例的当前执行人，可以做到通知等功能
+        /// </summary>
+        /// <returns></returns>
+        public string GetNextMakers(NodeDesignateReq request = null)
+        {
+            string makerList = "";
+            if (nextNodeId == "-1")
+            {
+                throw new Exception("无法寻找到下一个节点");
+            }
+
+            if (nextNodeType == 0) //如果是会签节点
+            {
+                makerList = GetForkNodeMakers(nextNodeId);
+            }
+            else if (nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_ROLE)
+            {
+                //如果是运行时指定角色
+                if (nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+
+                var revelanceApp = AutofacContainerModule.GetService<RevelanceManagerApp>();
+                var users = revelanceApp.Get(Define.USERROLE, false, request.NodeDesignates);
+                makerList = GenericHelpers.ArrayToString(users, makerList);
+            }
+            else if (nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_SPECIAL_USER)
+            {
+                //如果是运行时指定用户
+                if (nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+
+                makerList = GenericHelpers.ArrayToString(request.NodeDesignates, makerList);
+            }
+            else if (nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_PARENT
+                     || nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_MANY_PARENTS)
+            {
+                //如果是上一节点执行人的直属上级或连续多级直属上级
+                if (nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+
+                //当创建流程时，肯定执行的开始节点，登录用户就是创建用户
+                //当审批流程时，能进到这里，表明当前登录用户已经有审批当前节点的权限，完全可以直接用登录用户的直接上级
+                var userManagerApp = AutofacContainerModule.GetService<UserManagerApp>();
+                var user = AutofacContainerModule.GetService<IAuth>().GetCurrentUser().User;
+                var parentId = userManagerApp.GetParent(user.Id);
+                if (StringExtension.IsNullOrEmpty(parentId))
+                {
+                    throw new Exception("无法找到当前用户的直属上级");
+                }
+
+                makerList = GenericHelpers.ArrayToString(new[] { parentId }, makerList);
+            }
+            else if (nextNode.setInfo.NodeDesignate == Setinfo.RUNTIME_CHAIRMAN)
+            {
+                //如果是发起人的部门负责人
+                if (nextNode.setInfo.NodeDesignate != request.NodeDesignateType)
+                {
+                    throw new Exception("前端提交的节点权限类型异常，请检查流程");
+                }
+
+                var orgManagerApp = AutofacContainerModule.GetService<OrgManagerApp>();
+                var chairmanIds = orgManagerApp.GetChairmanId(nextNode.setInfo.NodeDesignateData.orgs);
+                makerList = GenericHelpers.ArrayToString(chairmanIds, makerList);
+            }
+            else
+            {
+                makerList = GetNodeMarkers(nextNode);
+                if (string.IsNullOrEmpty(makerList))
+                {
+                    throw new Exception("无法寻找到节点的审核者,请查看流程设计是否有问题!");
+                }
+            }
+
+            return makerList;
+        }
+
+        /// <summary>
         /// 计算节点执行人
         /// </summary>
         /// <param name="node"></param>
@@ -475,7 +603,7 @@ namespace OpenAuth.App.Flow
 
             return makerList;
         }
-        
+
         /// <summary>
         /// 会签时，获取一条会签分支上面是否有用户可审核的节点
         /// </summary>
@@ -502,7 +630,7 @@ namespace OpenAuth.App.Flow
 
             return canCheckId;
         }
-        
+
         /// <summary>
         /// 获取会签开始节点的所有可执行者
         /// </summary>
@@ -568,6 +696,7 @@ namespace OpenAuth.App.Flow
 
             return markers;
         }
+
         #endregion
 
         #region 属性
@@ -580,6 +709,36 @@ namespace OpenAuth.App.Flow
         /// 运行实例的Id
         /// </summary>
         private string flowInstanceId { get; set; }
+        
+        /// <summary>
+        /// 上一个节点
+        /// </summary>
+        private string previousId { get; set; }
+        
+        /// <summary>
+        /// 流程实例中所有的线段
+        /// </summary>
+        private List<FlowLine> Lines { get; set; }
+
+        /// <summary>
+        /// 从节点发出的线段集合
+        /// </summary>
+        private Dictionary<string, List<FlowLine>> FromNodeLines { get; set; }
+
+        /// <summary>
+        /// 到达节点的线段集合
+        /// </summary>
+        private Dictionary<string, List<FlowLine>> ToNodeLines { get; set; }
+        
+        /// <summary>
+        /// 当前节点类型 0会签开始,1会签结束,2一般节点,开始节点,4流程运行结束
+        /// </summary>
+        private int currentNodeType { get; set; }
+        
+        /// <summary>
+        /// 表单数据
+        /// </summary>
+        private string FrmData { get; set; }
 
         /// <summary>
         /// 开始节点的ID
@@ -590,11 +749,6 @@ namespace OpenAuth.App.Flow
         /// 当前节点的ID
         /// </summary>
         public string currentNodeId { get; set; }
-
-        /// <summary>
-        /// 当前节点类型 0会签开始,1会签结束,2一般节点,开始节点,4流程运行结束
-        /// </summary>
-        public int currentNodeType { get; set; }
 
         /// <summary>
         /// 当前节点的对象
@@ -618,34 +772,9 @@ namespace OpenAuth.App.Flow
         public FlowNode nextNode => nextNodeId != "-1" ? Nodes[nextNodeId] : null;
 
         /// <summary>
-        /// 上一个节点
-        /// </summary>
-        private string previousId { get; set; }
-
-        /// <summary>
         /// 实例节点集合
         /// </summary>
         public Dictionary<string, FlowNode> Nodes { get; set; }
-
-        /// <summary>
-        /// 流程实例中所有的线段
-        /// </summary>
-        private List<FlowLine> Lines { get; set; }
-
-        /// <summary>
-        /// 从节点发出的线段集合
-        /// </summary>
-        public Dictionary<string, List<FlowLine>> FromNodeLines { get; set; }
-
-        /// <summary>
-        /// 到达节点的线段集合
-        /// </summary>
-        private Dictionary<string, List<FlowLine>> ToNodeLines { get; set; }
-
-        /// <summary>
-        /// 表单数据
-        /// </summary>
-        public string FrmData { get; set; }
 
         #endregion 属性
     }

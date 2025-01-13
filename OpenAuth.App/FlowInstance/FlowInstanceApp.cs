@@ -197,19 +197,7 @@ namespace OpenAuth.App
 
             #endregion 根据运行实例改变当前节点状态
 
-            #region 流程操作记录
-
-            FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory
-            {
-                InstanceId = flowInstance.Id,
-                CreateUserId = user.User.Id,
-                CreateUserName = user.User.Name,
-                CreateDate = DateTime.Now,
-                Content = $"【创建】{user.User.Name}创建了流程实例【{addFlowInstanceReq.CustomName}】"
-            };
-            SugarClient.Insertable(processOperationHistoryEntity).ExecuteCommand();
-
-            #endregion 流程操作记录
+            wfruntime.SaveOperationHis($"【创建】{user.User.Name}创建了流程实例【{addFlowInstanceReq.CustomName}】");
 
             wfruntime.SaveTransitionHis();
             SugarClient.Ado.CommitTran();
@@ -351,7 +339,7 @@ namespace OpenAuth.App
         private void CounterSign(FlowRuntime wfruntime, Tag tag, FlowInstance flowInstance)
         {
             string res = wfruntime.NodeConfluence(_httpClientFactory.CreateClient(), tag);
-            
+
             if (res == TagState.No.ToString("D"))
             {
                 flowInstance.IsFinish = FlowInstanceStatus.Disagree;
@@ -478,7 +466,7 @@ namespace OpenAuth.App
             var content =
                 $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}审批了【{wfruntime.currentNode.name}】" +
                 $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
-            wfruntime.AddOperationHis(tag, content);
+            wfruntime.SaveOperationHis(tag.UserId, tag.UserName, content);
 
             if (flowInstance.IsFinish == 1)
             {
@@ -557,15 +545,8 @@ namespace OpenAuth.App
             flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
             SugarClient.Updateable(flowInstance).ExecuteCommand();
 
-            SugarClient.Insertable(new FlowInstanceOperationHistory
-            {
-                InstanceId = reqest.FlowInstanceId,
-                CreateUserId = user.Id,
-                CreateUserName = user.Name,
-                CreateDate = DateTime.Now,
-                Content =
-                    $"【{wfruntime.currentNode.name}】【{DateTime.Now:yyyy-MM-dd HH:mm}】驳回,备注：{reqest.VerificationOpinion}"
-            }).ExecuteCommand();
+            wfruntime.SaveOperationHis(
+                $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}驳回了【{wfruntime.currentNode.name}】");
 
             //给流程创建人发送通知信息
             _messageApp.SendMsgTo(flowInstance.CreateUserId,
@@ -776,14 +757,7 @@ namespace OpenAuth.App
 
             SugarClient.Updateable(flowInstance).ExecuteCommand();
 
-            SugarClient.Insertable(new FlowInstanceOperationHistory
-            {
-                InstanceId = request.FlowInstanceId,
-                CreateUserId = user.Id,
-                CreateUserName = user.Name,
-                CreateDate = DateTime.Now,
-                Content = $"【撤销】由{user.Name}撤销,备注：{request.Description}"
-            }).ExecuteCommand();
+            wfruntime.SaveOperationHis($"【撤回】由{user.Name}撤回,备注：{request.Description}");
 
             SugarClient.Ado.CommitTran();
         }
@@ -824,20 +798,7 @@ namespace OpenAuth.App
 
             #endregion 根据运行实例改变当前节点状态
 
-            #region 流程操作记录
-
-            FlowInstanceOperationHistory processOperationHistoryEntity = new FlowInstanceOperationHistory
-            {
-                InstanceId = flowInstance.Id,
-                CreateUserId = user.User.Id,
-                CreateUserName = user.User.Name,
-                CreateDate = DateTime.Now,
-                Content = $"【启动】由用户{user.User.Name}启动"
-            };
-            SugarClient.Insertable(processOperationHistoryEntity).ExecuteCommand();
-
-            #endregion 流程操作记录
-
+            wfruntime.SaveOperationHis($"【启动】由用户{user.User.Name}启动");
             wfruntime.SaveTransitionHis();
             SugarClient.Ado.CommitTran();
         }

@@ -216,7 +216,7 @@ namespace OpenAuth.App.Flow
             var content =
                 $"{user.Account}-{DateTime.Now:yyyy-MM-dd HH:mm}审批了【{Nodes[canCheckId].name}】" +
                 $"结果：{(tag.Taged == 1 ? "同意" : "不同意")}，备注：{tag.Description}";
-            AddOperationHis(tag, content);
+            SaveOperationHis(content);
 
             MakeTagNode(canCheckId, tag); //标记审核节点状态
 
@@ -402,19 +402,30 @@ namespace OpenAuth.App.Flow
             };
         }
 
-        public void AddOperationHis(Tag tag, string content)
+        public void SaveOperationHis(string userId, string userName, string opHis)
         {
             FlowInstanceOperationHistory flowInstanceOperationHistory = new FlowInstanceOperationHistory
             {
                 InstanceId = flowInstanceId,
-                CreateUserId = tag.UserId,
-                CreateUserName = tag.UserName,
+                CreateUserId = userId,
+                CreateUserName = userName,
                 CreateDate = DateTime.Now,
-                Content = content
+                Content = opHis
             }; //操作记录
 
             var SugarClient = AutofacContainerModule.GetService<ISqlSugarClient>();
             SugarClient.Insertable(flowInstanceOperationHistory).ExecuteCommand();
+        }
+
+        /// <summary>
+        /// 添加工作流实例操作记录
+        /// <para>操作人为当前的登录用户</para>
+        /// </summary>
+        /// <param name="opHis"></param>
+        public void SaveOperationHis(string opHis)
+        {
+            var user = AutofacContainerModule.GetService<IAuth>().GetCurrentUser().User;
+            SaveOperationHis(user.Id, user.Name, opHis);
         }
 
         /// <summary>
@@ -709,12 +720,12 @@ namespace OpenAuth.App.Flow
         /// 运行实例的Id
         /// </summary>
         private string flowInstanceId { get; set; }
-        
+
         /// <summary>
         /// 上一个节点
         /// </summary>
         private string previousId { get; set; }
-        
+
         /// <summary>
         /// 流程实例中所有的线段
         /// </summary>
@@ -729,12 +740,12 @@ namespace OpenAuth.App.Flow
         /// 到达节点的线段集合
         /// </summary>
         private Dictionary<string, List<FlowLine>> ToNodeLines { get; set; }
-        
+
         /// <summary>
         /// 当前节点类型 0会签开始,1会签结束,2一般节点,开始节点,4流程运行结束
         /// </summary>
         private int currentNodeType { get; set; }
-        
+
         /// <summary>
         /// 表单数据
         /// </summary>

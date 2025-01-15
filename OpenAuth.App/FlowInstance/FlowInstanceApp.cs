@@ -40,7 +40,6 @@ namespace OpenAuth.App
         private SysMessageApp _messageApp;
         private DbExtension _dbExtension;
         private UserManagerApp _userManagerApp;
-        private OrgManagerApp _orgManagerApp;
         private FlowApproverApp _flowApproverApp;
         private RevelanceManagerApp _revelanceManagerApp;
 
@@ -504,7 +503,7 @@ namespace OpenAuth.App
         /// 如果NodeRejectStep不为空，优先使用；否则按照NodeRejectType驳回
         /// </summary>
         /// <returns></returns>
-        public bool NodeReject(VerificationReq reqest)
+        public bool RejectNode(VerificationReq reqest)
         {
             var user = _auth.GetCurrentUser().User;
             FlowInstance flowInstance = Get(reqest.FlowInstanceId);
@@ -514,47 +513,13 @@ namespace OpenAuth.App
             }
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
-
-            //驳回的节点
-            string rejectNode = string.IsNullOrEmpty(reqest.NodeRejectStep)
-                ? wfruntime.RejectNode(reqest.NodeRejectType)
-                : reqest.NodeRejectStep;
-
-            var tag = new Tag
-            {
-                Description = reqest.VerificationOpinion,
-                Taged = (int)TagState.Reject,
-                UserId = user.Id,
-                UserName = user.Name
-            };
-
-            wfruntime.MakeTagNode(wfruntime.currentNodeId, tag);
-            flowInstance.IsFinish = FlowInstanceStatus.Rejected; //4表示驳回（需要申请者重新提交表单）
-            if (rejectNode != "")
-            {
-                flowInstance.PreviousId = flowInstance.ActivityId;
-                flowInstance.ActivityId = rejectNode;
-                flowInstance.ActivityType = wfruntime.GetNodeType(rejectNode);
-                flowInstance.ActivityName = wfruntime.Nodes[rejectNode].name;
-                flowInstance.MakerList =
-                    wfruntime.GetNodeMarkers(wfruntime.Nodes[rejectNode], flowInstance.CreateUserId);
-
-                wfruntime.SaveTransitionHis();
-            }
-
-            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(wfruntime.ToSchemeObj());
-            SugarClient.Updateable(flowInstance).ExecuteCommand();
-
-            wfruntime.SaveOperationHis(
-                $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}驳回了【{wfruntime.currentNode.name}】");
+            wfruntime.RejectNode(_httpClientFactory.CreateClient(),reqest);
 
             //给流程创建人发送通知信息
             _messageApp.SendMsgTo(flowInstance.CreateUserId,
                 $"你的流程[{flowInstance.CustomName}]已被{user.Name}驳回。备注信息:{reqest.VerificationOpinion}");
 
             SugarClient.Ado.CommitTran();
-
-            wfruntime.NotifyThirdParty(_httpClientFactory.CreateClient(), wfruntime.currentNode, tag);
 
             return true;
         }
@@ -575,7 +540,7 @@ namespace OpenAuth.App
             bool isReject = TagState.Reject.Equals((TagState)Int32.Parse(request.VerificationFinally));
             if (isReject) //驳回
             {
-                NodeReject(request);
+                RejectNode(request);
             }
             else
             {
@@ -732,7 +697,6 @@ namespace OpenAuth.App
         /// </summary>
         public void ReCall(RecallFlowInstanceReq request)
         {
-            var user = _auth.GetCurrentUser().User;
             FlowInstance flowInstance = Get(request.FlowInstanceId);
             if (flowInstance.IsFinish == FlowInstanceStatus.Draft
                 || flowInstance.IsFinish == FlowInstanceStatus.Finished)
@@ -741,25 +705,7 @@ namespace OpenAuth.App
             }
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
-
-            string startNodeId = wfruntime.startNodeId; //起始节点
-
-            wfruntime.ReCall();
-
-            flowInstance.IsFinish = FlowInstanceStatus.Draft;
-            flowInstance.PreviousId = flowInstance.ActivityId;
-            flowInstance.ActivityId = startNodeId;
-            flowInstance.ActivityType = wfruntime.GetNodeType(startNodeId);
-            flowInstance.ActivityName = wfruntime.Nodes[startNodeId].name;
-            flowInstance.MakerList = wfruntime.GetNodeMarkers(wfruntime.Nodes[startNodeId], flowInstance.CreateUserId);
-
-            wfruntime.SaveTransitionHis();
-
-            SugarClient.Updateable(flowInstance).ExecuteCommand();
-
-            wfruntime.SaveOperationHis($"【撤回】由{user.Name}撤回,备注：{request.Description}");
-
-            SugarClient.Ado.CommitTran();
+            wfruntime.ReCall(request);
         }
 
         /// <summary>启动流程</summary>
@@ -805,7 +751,7 @@ namespace OpenAuth.App
 
         public FlowInstanceApp(ISqlSugarClient client, IAuth auth, RevelanceManagerApp revelanceApp,
             FlowSchemeApp flowSchemeApp, FormApp formApp, IHttpClientFactory httpClientFactory,
-            SysMessageApp messageApp, UserManagerApp userManagerApp, OrgManagerApp orgManagerApp,
+            SysMessageApp messageApp, UserManagerApp userManagerApp,
             IServiceProvider serviceProvider, FlowApproverApp flowApproverApp,
             RevelanceManagerApp revelanceManagerApp, DbExtension dbExtension) : base(client, auth)
         {
@@ -815,7 +761,6 @@ namespace OpenAuth.App
             _httpClientFactory = httpClientFactory;
             _messageApp = messageApp;
             _userManagerApp = userManagerApp;
-            _orgManagerApp = orgManagerApp;
             _serviceProvider = serviceProvider;
             _flowApproverApp = flowApproverApp;
             _revelanceManagerApp = revelanceManagerApp;

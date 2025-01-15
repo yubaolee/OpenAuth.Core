@@ -25,6 +25,7 @@ namespace OpenAuth.App.Flow
     {
         public FlowRuntime(FlowInstance instance)
         {
+            flowInstance = instance;
             dynamic schemeContentJson = instance.SchemeContent.ToJson(); //获取工作流模板内容的json对象;
 
             InitLines(schemeContentJson);
@@ -331,38 +332,91 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 驳回
         /// </summary>
-        /// <param name="rejectType">驳回类型。null:使用节点配置的驳回类型/0:前一步/1:第一步/2：指定节点，使用NodeRejectStep</param>
         /// <returns></returns>
-        public string RejectNode(string rejectType)
+        public void RejectNode(HttpClient client, VerificationReq reqest)
         {
-            dynamic node = Nodes[currentNodeId];
-            if (node.setInfo != null && string.IsNullOrEmpty(rejectType))
+            //默认驳回到指定节点
+            string rejectNode = reqest.NodeRejectStep;
+
+            //如果不是指定到节点
+            if (string.IsNullOrEmpty(rejectNode))
             {
-                rejectType = node.setInfo.NodeRejectType;
+                string rejectType = reqest.NodeRejectType;
+                dynamic node = Nodes[currentNodeId];
+                if (node.setInfo != null && string.IsNullOrEmpty(reqest.NodeRejectType))
+                {
+                    rejectType = node.setInfo.NodeRejectType;
+                }
+
+                if (rejectType == "0") //前一步
+                {
+                    rejectNode = previousId;
+                }
+
+                if (rejectType == "1") //第一步
+                {
+                    rejectNode = GetNextNodeId(startNodeId);
+                }
             }
 
-            if (rejectType == "0")
+            var user = AutofacContainerModule.GetService<IAuth>().GetCurrentUser().User;
+            var tag = new Tag
             {
-                return previousId;
+                Description = reqest.VerificationOpinion,
+                Taged = (int)TagState.Reject,
+                UserId = user.Id,
+                UserName = user.Name
+            };
+
+            MakeTagNode(currentNodeId, tag);
+            flowInstance.IsFinish = FlowInstanceStatus.Rejected; //4表示驳回（需要申请者重新提交表单）
+            if (rejectNode != "")
+            {
+                flowInstance.PreviousId = flowInstance.ActivityId;
+                flowInstance.ActivityId = rejectNode;
+                flowInstance.ActivityType = GetNodeType(rejectNode);
+                flowInstance.ActivityName = Nodes[rejectNode].name;
+                flowInstance.MakerList =
+                    GetNodeMarkers(Nodes[rejectNode], flowInstance.CreateUserId);
+                SaveTransitionHis();
             }
 
-            if (rejectType == "1")
-            {
-                return GetNextNodeId(startNodeId);
-            }
+            flowInstance.SchemeContent = JsonHelper.Instance.Serialize(ToSchemeObj());
+            
+            var sugarClient = AutofacContainerModule.GetService<ISqlSugarClient>();
+            sugarClient.Updateable(flowInstance).ExecuteCommand();
 
-            return previousId;
+            SaveOperationHis(
+                $"{user.Account}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}驳回了【{currentNode.name}】");
+
+            NotifyThirdParty(client, currentNode, tag);
         }
 
         /// <summary>
         /// 撤销流程，清空所有节点
         /// </summary>
-        public void ReCall()
+        public void ReCall(RecallFlowInstanceReq request)
         {
             foreach (var item in Nodes)
             {
                 item.Value.setInfo = null;
             }
+            
+            flowInstance.IsFinish = FlowInstanceStatus.Draft;
+            flowInstance.PreviousId = flowInstance.ActivityId;
+            flowInstance.ActivityId = startNodeId;
+            flowInstance.ActivityType = GetNodeType(startNodeId);
+            flowInstance.ActivityName = Nodes[startNodeId].name;
+            flowInstance.MakerList = GetNodeMarkers(Nodes[startNodeId], flowInstance.CreateUserId);
+
+            SaveTransitionHis();
+
+            var sugarClient = AutofacContainerModule.GetService<ISqlSugarClient>();
+            sugarClient.Updateable(flowInstance).ExecuteCommand();
+            
+            SaveOperationHis($"【撤回】备注：{request.Description}");
+            
+            sugarClient.Ado.CommitTran();
         }
 
         ///<summary>
@@ -712,6 +766,8 @@ namespace OpenAuth.App.Flow
 
         #region 属性
 
+        private FlowInstance flowInstance { get; set; }
+
         private string title { get; set; }
 
         private int initNum { get; set; }
@@ -725,6 +781,11 @@ namespace OpenAuth.App.Flow
         /// 上一个节点
         /// </summary>
         private string previousId { get; set; }
+        
+        /// <summary>
+        /// 实例节点集合
+        /// </summary>
+        private Dictionary<string, FlowNode> Nodes { get; set; }
 
         /// <summary>
         /// 流程实例中所有的线段
@@ -754,7 +815,7 @@ namespace OpenAuth.App.Flow
         /// <summary>
         /// 开始节点的ID
         /// </summary>
-        public string startNodeId { get; set; }
+        private string startNodeId { get; set; }
 
         /// <summary>
         /// 当前节点的ID
@@ -781,11 +842,6 @@ namespace OpenAuth.App.Flow
         /// 下一个节点对象
         /// </summary>
         public FlowNode nextNode => nextNodeId != "-1" ? Nodes[nextNodeId] : null;
-
-        /// <summary>
-        /// 实例节点集合
-        /// </summary>
-        public Dictionary<string, FlowNode> Nodes { get; set; }
 
         #endregion 属性
     }

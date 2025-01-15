@@ -2,7 +2,7 @@
  * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
  * @Date: 2024-12-13 16:55:17
  * @Description: 工作流实例表操作
- * @LastEditTime: 2024-12-24 10:58:01
+ * @LastEditTime: 2025-01-15 16:19:31
  * Copyright (c) 2024 by yubaolee | ahfu~ , All Rights Reserved.
  */
 
@@ -595,7 +595,22 @@ namespace OpenAuth.App
             {
                 //包括加签人包含当前用户，审批人包含当前用户且没有加签节点的
                 var query = SugarClient.SqlQueryable<FlowInstance>($@"
-            SELECT fi.*
+            SELECT fi.Id,
+                fi.CreateUserName,
+                fi.ActivityName,
+                fi.CreateDate,
+                fi.CustomName,
+                fi.Code,
+                fi.Description,
+                fi.IsFinish,
+                (SELECT Account As Account FROM `User`
+                    where Id in (fi.MakerList)
+                    UNION ALL
+                    SELECT '所有人' AS Account from dual
+                    WHERE fi.MakerList = '1'
+                    UNION ALL
+                    SELECT 'System' AS Account from dual
+                    WHERE fi.MakerList = '00000000-0000-0000-0000-000000000000') as MakerList 
             FROM FlowInstance fi
             JOIN (SELECT fith.Id
                FROM FlowInstance fith
@@ -621,7 +636,22 @@ namespace OpenAuth.App
             else if (request.type == "disposed") //已办事项（即我参与过的流程）
             {
                 var finalQuery = SugarClient.SqlQueryable<FlowInstance>($@"
-                    SELECT fi.*
+                    SELECT fi.Id,
+                fi.CreateUserName,
+                fi.ActivityName,
+                fi.CreateDate,
+                fi.CustomName,
+                fi.Code,
+                fi.Description,
+                fi.IsFinish,
+                (SELECT Account As Account FROM `User`
+                    where Id in (fi.MakerList)
+                    UNION ALL
+                    SELECT '所有人' AS Account from dual
+                    WHERE fi.MakerList = '1'
+                    UNION ALL
+                    SELECT 'System' AS Account from dual
+                    WHERE fi.MakerList = '00000000-0000-0000-0000-000000000000') as MakerList 
                     FROM FlowInstance fi
                              JOIN (SELECT fith.InstanceId
                                    FROM FlowInstanceOperationHistory fith
@@ -642,7 +672,22 @@ namespace OpenAuth.App
             else //我的流程（包含知会我的）
             {
                 var sql = $@"
-                    SELECT fi.*
+                    SELECT fi.Id,
+                fi.CreateUserName,
+                fi.ActivityName,
+                fi.CreateDate,
+                fi.CustomName,
+                fi.Code,
+                fi.Description,
+                fi.IsFinish,
+                (SELECT Account As Account FROM `User`
+                    where Id in (fi.MakerList)
+                    UNION ALL
+                    SELECT '所有人' AS Account from dual
+                    WHERE fi.MakerList = '1'
+                    UNION ALL
+                    SELECT 'System' AS Account from dual
+                    WHERE fi.MakerList = '00000000-0000-0000-0000-000000000000') as MakerList 
                     FROM FlowInstance fi
                              JOIN (select Id as InstanceId
                             from FlowInstance
@@ -668,6 +713,7 @@ namespace OpenAuth.App
                 if (SugarClient.CurrentConnectionConfig.DbType == DbType.SqlServer)
                 {
                     sql = sql.Replace("`Key`", "[Key]");
+                    sql = sql.Replace("from dual", "");
                 }
                 else if (SugarClient.CurrentConnectionConfig.DbType == DbType.Oracle)
                 {

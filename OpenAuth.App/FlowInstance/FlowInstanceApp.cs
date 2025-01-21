@@ -513,7 +513,7 @@ namespace OpenAuth.App
             }
 
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
-            wfruntime.RejectNode(_httpClientFactory.CreateClient(),reqest);
+            wfruntime.RejectNode(_httpClientFactory.CreateClient(), reqest);
 
             //给流程创建人发送通知信息
             _messageApp.SendMsgTo(flowInstance.CreateUserId,
@@ -591,51 +591,47 @@ namespace OpenAuth.App
             var result = new TableData();
             var user = _auth.GetCurrentUser();
 
-            if (request.type == "wait") //待办事项
-            {
-                //包括加签人包含当前用户，审批人包含当前用户且没有加签节点的
-                var query = SugarClient.SqlQueryable<FlowInstance>($@"
-            SELECT fi.Id,
-                fi.CreateUserName,
-                fi.ActivityName,
-                fi.CreateDate,
-                fi.CustomName,
-                fi.Code,
-                fi.Description,
-                fi.IsFinish,
-                (SELECT Account As Account FROM `User`
-                    where Id in (fi.MakerList)
-                    UNION ALL
-                    SELECT '所有人' AS Account from dual
-                    WHERE fi.MakerList = '1'
-                    UNION ALL
-                    SELECT 'System' AS Account from dual
-                    WHERE fi.MakerList = '00000000-0000-0000-0000-000000000000') as MakerList 
-            FROM FlowInstance fi
-            JOIN (SELECT fith.Id
-               FROM FlowInstance fith
-               WHERE (MakerList = '1' or MakerList LIKE '%{user.User.Id}%') 
-                 and (fith.IsFinish = {FlowInstanceStatus.Running} or fith.IsFinish = {FlowInstanceStatus.Rejected}) 
-                  and not exists (select 1
-                                 from flowapprover
-                                 where fith.Id = InstanceId
-                                   and fith.ActivityId = ActivityId
-                                   and Status = 0)
-               UNION
-               SELECT fa.InstanceId
-               FROM FlowApprover fa 
-               WHERE fa.Status = 0 
-                 AND fa.ApproverId = '{user.User.Id}') AS UniqueInstanceIds
-              ON fi.Id = UniqueInstanceIds.Id")
-                    .WhereIF(!string.IsNullOrEmpty(request.key), t => t.CustomName.Contains(request.key));
+            string sql = String.Empty;
 
-                result.count = await query.CountAsync();
-                result.data = await query.OrderByDescending(u => u.CreateDate)
-                    .ToPageListAsync(request.page, request.limit);
+            if (request.type == "wait") //待办事项（即我待办过的流程）
+            {
+                sql = $@"
+                SELECT fi.Id,
+                    fi.CreateUserName,
+                    fi.ActivityName,
+                    fi.CreateDate,
+                    fi.CustomName,
+                    fi.Code,
+                    fi.Description,
+                    fi.IsFinish,
+                    (SELECT Account As Account FROM `User`
+                        where Id in (fi.MakerList)
+                        UNION ALL
+                        SELECT '所有人' AS Account from dual
+                        WHERE fi.MakerList = '1'
+                        UNION ALL
+                        SELECT 'System' AS Account from dual
+                        WHERE fi.MakerList = '00000000-0000-0000-0000-000000000000') as MakerList 
+                FROM FlowInstance fi
+                JOIN (SELECT fith.Id
+                   FROM FlowInstance fith
+                   WHERE (MakerList = '1' or MakerList LIKE '%{user.User.Id}%') 
+                     and (fith.IsFinish = {FlowInstanceStatus.Running} or fith.IsFinish = {FlowInstanceStatus.Rejected}) 
+                      and not exists (select 1
+                                     from flowapprover
+                                     where fith.Id = InstanceId
+                                       and fith.ActivityId = ActivityId
+                                       and Status = 0)
+                   UNION
+                   SELECT fa.InstanceId
+                   FROM FlowApprover fa 
+                   WHERE fa.Status = 0 
+                     AND fa.ApproverId = '{user.User.Id}') AS UniqueInstanceIds
+                  ON fi.Id = UniqueInstanceIds.Id";
             }
             else if (request.type == "disposed") //已办事项（即我参与过的流程）
             {
-                var finalQuery = SugarClient.SqlQueryable<FlowInstance>($@"
+                sql = $@"
                     SELECT fi.Id,
                 fi.CreateUserName,
                 fi.ActivityName,
@@ -662,16 +658,11 @@ namespace OpenAuth.App
                                    WHERE fa.Status <> 0 
                                      AND fa.ApproverId = '{user.User.Id}') AS UniqueInstanceIds
                                   ON fi.Id = UniqueInstanceIds.InstanceId
-                    ")
-                    .WhereIF(!string.IsNullOrEmpty(request.key), t => t.CustomName.Contains(request.key));
-
-                result.data = await finalQuery.OrderByDescending(i => i.CreateDate)
-                    .ToPageListAsync(request.page, request.limit);
-                result.count = await finalQuery.CountAsync();
+                    ";
             }
             else //我的流程（包含知会我的）
             {
-                var sql = $@"
+                sql = $@"
                     SELECT fi.Id,
                 fi.CreateUserName,
                 fi.ActivityName,
@@ -709,24 +700,27 @@ namespace OpenAuth.App
                             where a.`Key` = '{Define.INSTANCE_NOTICE_ROLE}') AS UniqueInstanceIds
                                   ON fi.Id = UniqueInstanceIds.InstanceId
                     ";
-
-                if (SugarClient.CurrentConnectionConfig.DbType == DbType.SqlServer)
-                {
-                    sql = sql.Replace("`Key`", "[Key]");
-                    sql = sql.Replace("from dual", "");
-                }
-                else if (SugarClient.CurrentConnectionConfig.DbType == DbType.Oracle)
-                {
-                    sql = sql.Replace("`Key`", "\"Key\"");
-                }
-
-                var finalQuery = SugarClient.SqlQueryable<FlowInstance>(sql)
-                    .WhereIF(!string.IsNullOrEmpty(request.key), t => t.CustomName.Contains(request.key));
-
-                result.count = await finalQuery.CountAsync();
-                result.data = await finalQuery.OrderByDescending(u => u.CreateDate)
-                    .ToPageListAsync(request.page, request.limit);
             }
+
+            switch (SugarClient.CurrentConnectionConfig.DbType)
+            {
+                case DbType.SqlServer:
+                    sql = sql.Replace("`Key`", "[Key]");
+                    sql = sql.Replace("`User`", "[User]");
+                    sql = sql.Replace("from dual", "");
+                    break;
+                case DbType.Oracle:
+                    sql = sql.Replace("`Key`", "\"Key\"");
+                    sql = sql.Replace("`User`", "\"User\"");
+                    break;
+            }
+
+            var finalQuery = SugarClient.SqlQueryable<FlowInstance>(sql)
+                .WhereIF(!string.IsNullOrEmpty(request.key), t => t.CustomName.Contains(request.key));
+
+            result.count = await finalQuery.CountAsync();
+            result.data = await finalQuery.OrderByDescending(u => u.CreateDate)
+                .ToPageListAsync(request.page, request.limit);
 
             return result;
         }

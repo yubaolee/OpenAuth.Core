@@ -2,7 +2,7 @@
  * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
  * @Date: 2024-12-13 16:55:17
  * @Description: 工作流实例表操作
- * @LastEditTime: 2025-01-15 16:19:31
+ * @LastEditTime: 2025-02-12 14:48:53
  * Copyright (c) 2024 by yubaolee | ahfu~ , All Rights Reserved.
  */
 
@@ -590,10 +590,23 @@ namespace OpenAuth.App
         {
             var result = new TableData();
             var user = _auth.GetCurrentUser();
+            //行转列专用SQL
+            string groupConcatSql = $@" ( SELECT GROUP_CONCAT(Account SEPARATOR ',')
+                        FROM `User`
+                        WHERE fi.MakerList like concat('%', Id, '%') ) ";
+            //sqlserver的行转列需要特殊处理
+            if(SugarClient.CurrentConnectionConfig.DbType == DbType.SqlServer)
+            {
+                groupConcatSql = $@" STUFF((
+                    SELECT ',' + Account
+                    FROM [User]
+                    WHERE fi.MakerList LIKE '%' + Id + '%'
+                    FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, '') ";
+            }
 
             string sql = String.Empty;
 
-            if (request.type == "wait") //待办事项（即我待办过的流程）
+            if (request.type == "wait") //待办事项（即需要我处理的流程）
             {
                 sql = $@"
                 SELECT fi.Id,
@@ -604,14 +617,11 @@ namespace OpenAuth.App
                     fi.Code,
                     fi.Description,
                     fi.IsFinish,
-                    (SELECT Account As Account FROM `User`
-                        where Id in (fi.MakerList)
-                        UNION ALL
-                        SELECT '所有人' AS Account from dual
-                        WHERE fi.MakerList = '1'
-                        UNION ALL
-                        SELECT 'System' AS Account from dual
-                        WHERE fi.MakerList = '00000000-0000-0000-0000-000000000000') as MakerList 
+                    CASE
+                        WHEN fi.MakerList = '1' THEN '所有人'
+                        WHEN fi.MakerList = '00000000-0000-0000-0000-000000000000' THEN 'System'
+                        ELSE   {groupConcatSql}    
+                        END AS MakerList 
                 FROM FlowInstance fi
                 JOIN (SELECT fith.Id
                    FROM FlowInstance fith
@@ -640,14 +650,11 @@ namespace OpenAuth.App
                 fi.Code,
                 fi.Description,
                 fi.IsFinish,
-                (SELECT Account As Account FROM `User`
-                    where Id in (fi.MakerList)
-                    UNION ALL
-                    SELECT '所有人' AS Account from dual
-                    WHERE fi.MakerList = '1'
-                    UNION ALL
-                    SELECT 'System' AS Account from dual
-                    WHERE fi.MakerList = '00000000-0000-0000-0000-000000000000') as MakerList 
+                CASE
+                WHEN fi.MakerList = '1' THEN '所有人'
+                WHEN fi.MakerList = '00000000-0000-0000-0000-000000000000' THEN 'System'
+                ELSE   {groupConcatSql} 
+                END AS MakerList
                     FROM FlowInstance fi
                              JOIN (SELECT fith.InstanceId
                                    FROM FlowInstanceOperationHistory fith
@@ -660,7 +667,7 @@ namespace OpenAuth.App
                                   ON fi.Id = UniqueInstanceIds.InstanceId
                     ";
             }
-            else //我的流程（包含知会我的）
+            else //我的流程（我创建的及知会我的）
             {
                 sql = $@"
                     SELECT fi.Id,
@@ -671,14 +678,11 @@ namespace OpenAuth.App
                 fi.Code,
                 fi.Description,
                 fi.IsFinish,
-                (SELECT Account As Account FROM `User`
-                    where Id in (fi.MakerList)
-                    UNION ALL
-                    SELECT '所有人' AS Account from dual
-                    WHERE fi.MakerList = '1'
-                    UNION ALL
-                    SELECT 'System' AS Account from dual
-                    WHERE fi.MakerList = '00000000-0000-0000-0000-000000000000') as MakerList 
+                CASE
+                    WHEN fi.MakerList = '1' THEN '所有人'
+                    WHEN fi.MakerList = '00000000-0000-0000-0000-000000000000' THEN 'System'
+                    ELSE   {groupConcatSql} 
+                    END AS MakerList 
                     FROM FlowInstance fi
                              JOIN (select Id as InstanceId
                             from FlowInstance

@@ -20,6 +20,8 @@ Vue3演示地址： [http://demo.openauth.net.cn:1805/](http://demo.openauth.net
 
 [OpenAuth.Net视频合集--权限管理介绍](https://www.bilibili.com/video/BV1M9KeejENf/)
 
+[OpenAuth.Net视频合集--表单设计](https://www.bilibili.com/video/BV1dagEeFEVA/)
+
 
 ## 工具准备
 

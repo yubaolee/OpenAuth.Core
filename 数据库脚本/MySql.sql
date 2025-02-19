@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `buildertable`;
 CREATE TABLE `buildertable`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
   `TableName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表英文全称',
-  `Comment` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表描述、中文名称',
+  `Remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表描述、中文名称',
   `DetailTableName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子表英文全称',
   `DetailComment` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子表描述、中文名称',
   `ClassName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '实体类名称',
@@ -73,7 +73,7 @@ CREATE TABLE `buildertablecolumn`  (
   `TableId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '归属表编号',
   `TableName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表名称',
   `ColumnName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列名称',
-  `Comment` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列描述',
+  `Remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列描述',
   `ColumnType` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列类型',
   `EntityType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实体类型',
   `EntityName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实体名称',
@@ -1128,8 +1128,8 @@ INSERT INTO `relevance` VALUES ('fef68b50-ef7f-45a4-8f0e-38e8d8ecaaea', '', 'Rol
 -- ----------------------------
 -- Table structure for resource
 -- ----------------------------
-DROP TABLE IF EXISTS `resource`;
-CREATE TABLE `resource`  (
+DROP TABLE IF EXISTS `sysresource`;
+CREATE TABLE `sysresource`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源标识',
   `CascadeId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '节点语义ID',
   `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '名称',
@@ -1154,13 +1154,13 @@ CREATE TABLE `resource`  (
 -- ----------------------------
 -- Records of resource
 -- ----------------------------
-INSERT INTO `resource` VALUES ('SYS_DEL_USER', '.0.2.', '删除用户', 0, '拥有删除OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:58', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:58', '', '');
-INSERT INTO `resource` VALUES ('SYS_UPDATE_USER', '.0.1.', '更新用户信息', 0, '拥有更新OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:17', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:12', '', '');
-INSERT INTO `resource` VALUES ('SYS_VIEW_USER', '.0.3.', '查看用户列表', 0, '查看OpenAuth.Net用户列表', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:44:39', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:44:39', '', '');
-INSERT INTO `resource` VALUES ('XXX_ADDORDER', '.0.6.', '创建订单', 0, '在XXX平台创建订单', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:24', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:24', '', '');
-INSERT INTO `resource` VALUES ('XXX_DEL_LOG', '.0.4.', '删除XXX平台日志', 0, '删除XXX平台日志', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:45:02', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:45:02', '', '');
-INSERT INTO `resource` VALUES ('XXX_LOGIN', '.0.7.', '登录', 0, '登录XXX平台', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:55:20', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:55:20', '', '');
-INSERT INTO `resource` VALUES ('XXX_VIEW_USER', '.0.5.', '查看用户', 0, '查看XXX平台用户列表', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:01', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:01', '', '');
+INSERT INTO `sysresource` VALUES ('SYS_DEL_USER', '.0.2.', '删除用户', 0, '拥有删除OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:58', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:58', '', '');
+INSERT INTO `sysresource` VALUES ('SYS_UPDATE_USER', '.0.1.', '更新用户信息', 0, '拥有更新OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:17', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:12', '', '');
+INSERT INTO `sysresource` VALUES ('SYS_VIEW_USER', '.0.3.', '查看用户列表', 0, '查看OpenAuth.Net用户列表', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:44:39', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:44:39', '', '');
+INSERT INTO `sysresource` VALUES ('XXX_ADDORDER', '.0.6.', '创建订单', 0, '在XXX平台创建订单', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:24', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:24', '', '');
+INSERT INTO `sysresource` VALUES ('XXX_DEL_LOG', '.0.4.', '删除XXX平台日志', 0, '删除XXX平台日志', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:45:02', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:45:02', '', '');
+INSERT INTO `sysresource` VALUES ('XXX_LOGIN', '.0.7.', '登录', 0, '登录XXX平台', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:55:20', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:55:20', '', '');
+INSERT INTO `sysresource` VALUES ('XXX_VIEW_USER', '.0.5.', '查看用户', 0, '查看XXX平台用户列表', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:01', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:01', '', '');
 
 -- ----------------------------
 -- Table structure for role
@@ -1192,11 +1192,11 @@ DROP TABLE IF EXISTS `stock`;
 CREATE TABLE `stock`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据ID',
   `Name` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '产品名称',
-  `Number` int(11) NOT NULL COMMENT '产品数量',
+  `ProdCnt` int(11) NOT NULL COMMENT '产品数量',
   `Price` decimal(10, 1) NOT NULL COMMENT '产品单价',
   `Status` int(11) NOT NULL COMMENT '出库/入库',
   `Viewable` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '可见范围',
-  `User` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '操作人',
+  `CreateUser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '操作人',
   `Time` datetime NOT NULL COMMENT '操作时间',
   `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组织ID',
   PRIMARY KEY (`Id`) USING BTREE
@@ -1310,8 +1310,8 @@ CREATE TABLE `uploadfile`  (
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`  (
+DROP TABLE IF EXISTS `sysuser`;
+CREATE TABLE `sysuser`  (
   `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
   `Account` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户登录帐号',
   `Password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
@@ -1330,14 +1330,14 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('0ceff0f8-f848-440c-bc26-d8605ac858cd', 'test5', 'test5', 'test5', 1, 1, '', '2022-03-15 09:19:05', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
-INSERT INTO `user` VALUES ('1df68dfd-3b6d-4491-872f-00a0fc6c5a64', 'test4', 'test4', 'test4', 1, 1, '', '2022-12-12 14:07:11', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
-INSERT INTO `user` VALUES ('229f3a49-ab27-49ce-b383-9f10ca23a9d5', 'test3', 'test3', 'test3', 1, 0, '', '2022-12-12 14:07:05', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
-INSERT INTO `user` VALUES ('49df1602-f5f3-4d52-afb7-3802da619558', 'admin', 'admin', 'admin', 1, 0, '', '2022-12-11 16:18:54', '', '', '', NULL);
-INSERT INTO `user` VALUES ('6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', 'test', 'test', 1, 0, '', '2022-12-11 16:19:00', '', '', '', '49df1602-f5f3-4d52-afb7-3802da619558');
-INSERT INTO `user` VALUES ('758a34c7-5a31-438c-bdf7-02fdd846b901', 'test77', 'test77', 'test77', 0, 0, '', '2022-10-31 21:59:08', '00000000-0000-0000-0000-000000000000', '', '', NULL);
-INSERT INTO `user` VALUES ('96f63f9d-e8c8-4258-963e-3327ed7d6f56', 'test66', 'test66', 'test66', 0, 0, '', '2022-10-31 21:58:43', '00000000-0000-0000-0000-000000000000', '', '', NULL);
-INSERT INTO `user` VALUES ('de8be521-f1ec-4483-b124-0be342890507', 'test2', 'test2', 'test2', 1, 0, '', '2022-12-11 16:19:06', '', '', '', '49df1602-f5f3-4d52-afb7-3802da619558');
+INSERT INTO `sysuser` VALUES ('0ceff0f8-f848-440c-bc26-d8605ac858cd', 'test5', 'test5', 'test5', 1, 1, '', '2022-03-15 09:19:05', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
+INSERT INTO `sysuser` VALUES ('1df68dfd-3b6d-4491-872f-00a0fc6c5a64', 'test4', 'test4', 'test4', 1, 1, '', '2022-12-12 14:07:11', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
+INSERT INTO `sysuser` VALUES ('229f3a49-ab27-49ce-b383-9f10ca23a9d5', 'test3', 'test3', 'test3', 1, 0, '', '2022-12-12 14:07:05', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
+INSERT INTO `sysuser` VALUES ('49df1602-f5f3-4d52-afb7-3802da619558', 'admin', 'admin', 'admin', 1, 0, '', '2022-12-11 16:18:54', '', '', '', NULL);
+INSERT INTO `sysuser` VALUES ('6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', 'test', 'test', 1, 0, '', '2022-12-11 16:19:00', '', '', '', '49df1602-f5f3-4d52-afb7-3802da619558');
+INSERT INTO `sysuser` VALUES ('758a34c7-5a31-438c-bdf7-02fdd846b901', 'test77', 'test77', 'test77', 0, 0, '', '2022-10-31 21:59:08', '00000000-0000-0000-0000-000000000000', '', '', NULL);
+INSERT INTO `sysuser` VALUES ('96f63f9d-e8c8-4258-963e-3327ed7d6f56', 'test66', 'test66', 'test66', 0, 0, '', '2022-10-31 21:58:43', '00000000-0000-0000-0000-000000000000', '', '', NULL);
+INSERT INTO `sysuser` VALUES ('de8be521-f1ec-4483-b124-0be342890507', 'test2', 'test2', 'test2', 1, 0, '', '2022-12-11 16:19:06', '', '', '', '49df1602-f5f3-4d52-afb7-3802da619558');
 
 -- ----------------------------
 -- Table structure for wmsinboundorderdtbl

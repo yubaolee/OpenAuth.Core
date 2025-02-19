@@ -155,7 +155,7 @@ GO
 CREATE TABLE [dbo].[BuilderTable] (
   [Id] nvarchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [TableName] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [Comment] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
+  [Remark] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
   [DetailTableName] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [DetailComment] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
   [ClassName] nvarchar(100) COLLATE Chinese_PRC_CI_AS  NOT NULL,
@@ -199,7 +199,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'表描述、中文名称',
 'SCHEMA', N'dbo',
 'TABLE', N'BuilderTable',
-'COLUMN', N'Comment'
+'COLUMN', N'Remark'
 GO
 
 EXEC sp_addextendedproperty
@@ -369,7 +369,7 @@ CREATE TABLE [dbo].[BuilderTableColumn] (
   [TableId] [dbo].[PrimaryKey]  NOT NULL,
   [TableName] nvarchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [ColumnName] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Comment] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
+  [Remark] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
   [ColumnType] nvarchar(100) COLLATE Chinese_PRC_CI_AS  NULL,
   [EntityType] nvarchar(500) COLLATE Chinese_PRC_CI_AS  NULL,
   [EntityName] nvarchar(200) COLLATE Chinese_PRC_CI_AS  NULL,
@@ -432,7 +432,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'列描述',
 'SCHEMA', N'dbo',
 'TABLE', N'BuilderTableColumn',
-'COLUMN', N'Comment'
+'COLUMN', N'Remark'
 GO
 
 EXEC sp_addextendedproperty
@@ -4478,13 +4478,13 @@ GO
 
 
 -- ----------------------------
--- Table structure for Resource
+-- Table structure for SysResource
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Resource]') AND type IN ('U'))
-	DROP TABLE [dbo].[Resource]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SysResource]') AND type IN ('U'))
+	DROP TABLE [dbo].[SysResource]
 GO
 
-CREATE TABLE [dbo].[Resource] (
+CREATE TABLE [dbo].[SysResource] (
   [Id] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [CascadeId] varchar(255) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [Name] varchar(255) COLLATE Chinese_PRC_CI_AS  NOT NULL,
@@ -4506,164 +4506,164 @@ CREATE TABLE [dbo].[Resource] (
 )
 GO
 
-ALTER TABLE [dbo].[Resource] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[SysResource] SET (LOCK_ESCALATION = TABLE)
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'资源标识',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'Id'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'节点语义ID',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'CascadeId'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'名称',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'Name'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'排序号',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'SortNo'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'描述',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'Description'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'父节点名称',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'ParentName'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'父节点流ID',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'ParentId'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'资源所属应用ID',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'AppId'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'所属应用名称',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'AppName'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'分类名称',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'TypeName'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'分类ID',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'TypeId'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'是否可用',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'Disable'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'创建时间',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'CreateTime'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'创建人ID',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'CreateUserId'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'创建人',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'CreateUserName'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'最后更新时间',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'UpdateTime'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'最后更新人ID',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'UpdateUserId'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'最后更新人',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource',
+'TABLE', N'SysResource',
 'COLUMN', N'UpdateUserName'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'资源表',
 'SCHEMA', N'dbo',
-'TABLE', N'Resource'
+'TABLE', N'SysResource'
 GO
 
 
 -- ----------------------------
--- Records of Resource
+-- Records of SysResource
 -- ----------------------------
-INSERT INTO [dbo].[Resource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'SYS_DEL_USER', N'.0.2.', N'删除用户', N'0', N'拥有删除OpenAuth.Net系统用户信息的权限', N'根节点', NULL, N'110', N'OpenAuth.Net', NULL, NULL, N'0', N'2019-11-23 00:27:58.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 00:27:58.0000000', N'', N'')
+INSERT INTO [dbo].[SysResource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'SYS_DEL_USER', N'.0.2.', N'删除用户', N'0', N'拥有删除OpenAuth.Net系统用户信息的权限', N'根节点', NULL, N'110', N'OpenAuth.Net', NULL, NULL, N'0', N'2019-11-23 00:27:58.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 00:27:58.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[Resource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'SYS_UPDATE_USER', N'.0.1.', N'更新用户信息', N'0', N'拥有更新OpenAuth.Net系统用户信息的权限', N'根节点', NULL, N'110', N'OpenAuth.Net', NULL, NULL, N'0', N'2019-11-23 00:27:17.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 00:27:12.0000000', N'', N'')
+INSERT INTO [dbo].[SysResource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'SYS_UPDATE_USER', N'.0.1.', N'更新用户信息', N'0', N'拥有更新OpenAuth.Net系统用户信息的权限', N'根节点', NULL, N'110', N'OpenAuth.Net', NULL, NULL, N'0', N'2019-11-23 00:27:17.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 00:27:12.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[Resource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'SYS_VIEW_USER', N'.0.3.', N'查看用户列表', N'0', N'查看OpenAuth.Net用户列表', N'根节点', NULL, N'110', N'OpenAuth.Net', NULL, NULL, N'0', N'2019-11-23 00:44:39.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:44:39.0000000', N'', N'')
+INSERT INTO [dbo].[SysResource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'SYS_VIEW_USER', N'.0.3.', N'查看用户列表', N'0', N'查看OpenAuth.Net用户列表', N'根节点', NULL, N'110', N'OpenAuth.Net', NULL, NULL, N'0', N'2019-11-23 00:44:39.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:44:39.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[Resource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'XXX_ADDORDER', N'.0.6.', N'创建订单', N'0', N'在XXX平台创建订单', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:53:24.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:53:24.0000000', N'', N'')
+INSERT INTO [dbo].[SysResource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'XXX_ADDORDER', N'.0.6.', N'创建订单', N'0', N'在XXX平台创建订单', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:53:24.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:53:24.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[Resource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'XXX_DEL_LOG', N'.0.4.', N'删除XXX平台日志', N'0', N'删除XXX平台日志', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:45:02.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:45:02.0000000', N'', N'')
+INSERT INTO [dbo].[SysResource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'XXX_DEL_LOG', N'.0.4.', N'删除XXX平台日志', N'0', N'删除XXX平台日志', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:45:02.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:45:02.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[Resource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'XXX_LOGIN', N'.0.7.', N'登录', N'0', N'登录XXX平台', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:55:20.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 00:55:20.0000000', N'', N'')
+INSERT INTO [dbo].[SysResource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'XXX_LOGIN', N'.0.7.', N'登录', N'0', N'登录XXX平台', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:55:20.0000000', N'00000000-0000-0000-0000-000000000000', N'超级管理员', N'2019-11-23 00:55:20.0000000', N'', N'')
 GO
 
-INSERT INTO [dbo].[Resource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'XXX_VIEW_USER', N'.0.5.', N'查看用户', N'0', N'查看XXX平台用户列表', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:53:01.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:53:01.0000000', N'', N'')
+INSERT INTO [dbo].[SysResource] ([Id], [CascadeId], [Name], [SortNo], [Description], [ParentName], [ParentId], [AppId], [AppName], [TypeName], [TypeId], [Disable], [CreateTime], [CreateUserId], [CreateUserName], [UpdateTime], [UpdateUserId], [UpdateUserName]) VALUES (N'XXX_VIEW_USER', N'.0.5.', N'查看用户', N'0', N'查看XXX平台用户列表', N'根节点', NULL, N'119', N'XXX管理平台', NULL, NULL, N'0', N'2019-11-23 00:53:01.0000000', N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'2019-11-23 00:53:01.0000000', N'', N'')
 GO
 
 
@@ -4770,11 +4770,11 @@ GO
 CREATE TABLE [dbo].[Stock] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
   [Name] nvarchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
-  [Number] int DEFAULT 0 NOT NULL,
+  [ProdCnt] int DEFAULT 0 NOT NULL,
   [Price] decimal(10,1) DEFAULT 0 NOT NULL,
   [Status] int DEFAULT 0 NOT NULL,
   [Viewable] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
-  [User] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
+  [CreateUser] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
   [Time] datetime DEFAULT getdate() NOT NULL,
   [OrgId] [dbo].[PrimaryKey]  NULL
 )
@@ -4801,7 +4801,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'产品数量',
 'SCHEMA', N'dbo',
 'TABLE', N'Stock',
-'COLUMN', N'Number'
+'COLUMN', N'ProdCnt'
 GO
 
 EXEC sp_addextendedproperty
@@ -4829,7 +4829,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'操作人',
 'SCHEMA', N'dbo',
 'TABLE', N'Stock',
-'COLUMN', N'User'
+'COLUMN', N'CreateUser'
 GO
 
 EXEC sp_addextendedproperty
@@ -5368,11 +5368,11 @@ GO
 -- ----------------------------
 -- Table structure for User
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[User]') AND type IN ('U'))
-	DROP TABLE [dbo].[User]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SysUser]') AND type IN ('U'))
+	DROP TABLE [dbo].[SysUser]
 GO
 
-CREATE TABLE [dbo].[User] (
+CREATE TABLE [dbo].[SysUser] (
   [Id] [dbo].[PrimaryKey]  NOT NULL,
   [Account] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
   [Password] varchar(255) COLLATE Chinese_PRC_CI_AS DEFAULT ' ' NOT NULL,
@@ -5388,125 +5388,125 @@ CREATE TABLE [dbo].[User] (
 )
 GO
 
-ALTER TABLE [dbo].[User] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[SysUser] SET (LOCK_ESCALATION = TABLE)
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'流水号',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+'TABLE', N'SysUser',
 'COLUMN', N'Id'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'用户登录帐号',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+'TABLE', N'SysUser',
 'COLUMN', N'Account'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'密码',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+'TABLE', N'SysUser',
 'COLUMN', N'Password'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'用户姓名',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+  'TABLE', N'SysUser',
 'COLUMN', N'Name'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'性别',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+'TABLE', N'SysUser',
 'COLUMN', N'Sex'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'用户状态',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+  'TABLE', N'SysUser',
 'COLUMN', N'Status'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'业务对照码',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+  'TABLE', N'SysUser',
 'COLUMN', N'BizCode'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'经办时间',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+  'TABLE', N'SysUser',
 'COLUMN', N'CreateTime'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'创建人',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+  'TABLE', N'SysUser',
 'COLUMN', N'CreateId'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'分类名称',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+  'TABLE', N'SysUser',
 'COLUMN', N'TypeName'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'分类ID',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+  'TABLE', N'SysUser',
 'COLUMN', N'TypeId'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'直属上级',
 'SCHEMA', N'dbo',
-'TABLE', N'User',
+  'TABLE', N'SysUser',
 'COLUMN', N'ParentId'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'用户基本信息表',
 'SCHEMA', N'dbo',
-'TABLE', N'User'
+  'TABLE', N'SysUser'
 GO
 
 
 -- ----------------------------
--- Records of User
+  -- Records of SysUser
 -- ----------------------------
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'0ceff0f8-f848-440c-bc26-d8605ac858cd', N'test5', N'test5', N'test5', N'1', N'1', N'', N'2022-03-15 09:19:05.000', N'', N'', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
+INSERT INTO [dbo].[SysUser] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'0ceff0f8-f848-440c-bc26-d8605ac858cd', N'test5', N'test5', N'test5', N'1', N'1', N'', N'2022-03-15 09:19:05.000', N'', N'', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'test4', N'test4', N'test4', N'1', N'1', N'', N'2022-12-12 14:07:11.000', N'', N'', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
+INSERT INTO [dbo].[SysUser] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'1df68dfd-3b6d-4491-872f-00a0fc6c5a64', N'test4', N'test4', N'test4', N'1', N'1', N'', N'2022-12-12 14:07:11.000', N'', N'', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'229f3a49-ab27-49ce-b383-9f10ca23a9d5', N'test3', N'test3', N'test3', N'1', N'0', N'', N'2022-12-12 14:07:05.000', N'', N'', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
+INSERT INTO [dbo].[SysUser] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'229f3a49-ab27-49ce-b383-9f10ca23a9d5', N'test3', N'test3', N'test3', N'1', N'0', N'', N'2022-12-12 14:07:05.000', N'', N'', N'', N'6ba79766-faa0-4259-8139-a4a6d35784e0')
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'49df1602-f5f3-4d52-afb7-3802da619558', N'admin', N'admin', N'admin', N'1', N'0', N'', N'2022-12-11 16:18:54.000', N'', N'', N'', NULL)
+INSERT INTO [dbo].[SysUser] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'49df1602-f5f3-4d52-afb7-3802da619558', N'admin', N'admin', N'admin', N'1', N'0', N'', N'2022-12-11 16:18:54.000', N'', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'test', N'test', N'1', N'0', N'', N'2022-12-11 16:19:00.000', N'', N'', N'', N'49df1602-f5f3-4d52-afb7-3802da619558')
+INSERT INTO [dbo].[SysUser] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'6ba79766-faa0-4259-8139-a4a6d35784e0', N'test', N'test', N'test', N'1', N'0', N'', N'2022-12-11 16:19:00.000', N'', N'', N'', N'49df1602-f5f3-4d52-afb7-3802da619558')
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'test77', N'test77', N'test77', N'0', N'0', N'', N'2022-10-31 21:59:08.000', N'00000000-0000-0000-0000-000000000000', N'', N'', NULL)
+INSERT INTO [dbo].[SysUser] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'758a34c7-5a31-438c-bdf7-02fdd846b901', N'test77', N'test77', N'test77', N'0', N'0', N'', N'2022-10-31 21:59:08.000', N'00000000-0000-0000-0000-000000000000', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'test66', N'test66', N'test66', N'0', N'0', N'', N'2022-10-31 21:58:43.000', N'00000000-0000-0000-0000-000000000000', N'', N'', NULL)
+INSERT INTO [dbo].[SysUser] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'96f63f9d-e8c8-4258-963e-3327ed7d6f56', N'test66', N'test66', N'test66', N'0', N'0', N'', N'2022-10-31 21:58:43.000', N'00000000-0000-0000-0000-000000000000', N'', N'', NULL)
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'de8be521-f1ec-4483-b124-0be342890507', N'test2', N'test2', N'test2', N'1', N'0', N'', N'2022-12-11 16:19:06.000', N'', N'', N'', N'49df1602-f5f3-4d52-afb7-3802da619558')
+INSERT INTO [dbo].[SysUser] ([Id], [Account], [Password], [Name], [Sex], [Status], [BizCode], [CreateTime], [CreateId], [TypeName], [TypeId], [ParentId]) VALUES (N'de8be521-f1ec-4483-b124-0be342890507', N'test2', N'test2', N'test2', N'1', N'0', N'', N'2022-12-11 16:19:06.000', N'', N'', N'', N'49df1602-f5f3-4d52-afb7-3802da619558')
 GO
 
 
@@ -6164,9 +6164,9 @@ GO
 
 
 -- ----------------------------
--- Primary Key structure for table Resource
+-- Primary Key structure for table SysResource
 -- ----------------------------
-ALTER TABLE [dbo].[Resource] ADD CONSTRAINT [PK__Resource__3214EC07A3FEAC15] PRIMARY KEY CLUSTERED ([Id])
+ALTER TABLE [dbo].[SysResource] ADD CONSTRAINT [PK__Resource__3214EC07A3FEAC15] PRIMARY KEY CLUSTERED ([Id])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = OFF, ALLOW_PAGE_LOCKS = OFF)  
 ON [PRIMARY]
 GO
@@ -6220,7 +6220,7 @@ GO
 -- ----------------------------
 -- Primary Key structure for table User
 -- ----------------------------
-ALTER TABLE [dbo].[User] ADD CONSTRAINT [PK_USER] PRIMARY KEY CLUSTERED ([Id])
+ALTER TABLE [dbo].[SysUser] ADD CONSTRAINT [PK_USER] PRIMARY KEY CLUSTERED ([Id])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO

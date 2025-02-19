@@ -34,7 +34,7 @@ namespace OpenAuth.App
             this._strategy = strategy;
         }
 
-        public User User
+        public SysUser User
         {
             get { return _strategy.User; }
         }
@@ -54,7 +54,7 @@ namespace OpenAuth.App
             get { return _strategy.Roles; }
         }
 
-        public List<Resource> Resources
+        public List<SysResource> Resources
         {
             get { return _strategy.Resources; }
         }

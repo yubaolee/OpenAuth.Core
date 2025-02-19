@@ -30,10 +30,10 @@ namespace OpenAuth.App
     /// <summary>
     /// 普通用户授权策略
     /// </summary>
-    public class NormalAuthStrategy : SqlSugarBaseApp<User>, IAuthStrategy
+    public class NormalAuthStrategy : SqlSugarBaseApp<SysUser>, IAuthStrategy
     {
         
-        protected User _user;
+        protected SysUser _user;
 
         private List<string> _userRoleIds;    //用户角色GUID
         private DbExtension _dbExtension;
@@ -79,14 +79,14 @@ namespace OpenAuth.App
             get { return SugarClient.Queryable<Role>().Where(u => _userRoleIds.Contains(u.Id)).ToList(); }
         }
 
-        public List<Resource> Resources
+        public List<SysResource> Resources
         {
             get
             {
                 var resourceIds = SugarClient.Queryable<Relevance>().Where(
                     u =>
                         u.Key == Define.ROLERESOURCE && _userRoleIds.Contains(u.FirstId)).Select(u => u.SecondId).ToList();
-                return SugarClient.Queryable<Resource>().Where(u => resourceIds.Contains(u.Id)).ToList();
+                return SugarClient.Queryable<SysResource>().Where(u => resourceIds.Contains(u.Id)).ToList();
             }
         }
 
@@ -97,7 +97,7 @@ namespace OpenAuth.App
                 var orgids = SugarClient.Queryable<Relevance>().Where(
                     u =>u.FirstId == _user.Id && u.Key == Define.USERORG).Select(u => u.SecondId).ToList();
                 return SugarClient.Queryable<SysOrg>().Where(org =>orgids.Contains(org.Id))
-                    .LeftJoin<User>((org, user) => org.ChairmanId ==user.Id)
+                    .LeftJoin<SysUser>((org, user) => org.ChairmanId ==user.Id)
                     .Select((org,user)=>new OrgView
                     {
                         Id = org.Id.SelectAll(),
@@ -106,7 +106,7 @@ namespace OpenAuth.App
             }
         }
 
-        public User User
+        public SysUser User
         {
             get { return _user; }
             set

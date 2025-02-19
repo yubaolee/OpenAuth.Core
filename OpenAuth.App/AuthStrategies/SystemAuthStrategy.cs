@@ -31,9 +31,9 @@ namespace OpenAuth.App
     /// <para>超级管理员权限</para>
     /// <para>超级管理员使用guid.empty为ID，可以根据需要修改</para>
     /// </summary>
-    public class SystemAuthStrategy : SqlSugarBaseApp<User>, IAuthStrategy
+    public class SystemAuthStrategy : SqlSugarBaseApp<SysUser>, IAuthStrategy
     {
-        protected User _user;
+        protected SysUser _user;
         private DbExtension _dbExtension;
 
         public List<ModuleView> Modules
@@ -54,15 +54,15 @@ namespace OpenAuth.App
             get { return SugarClient.Queryable<ModuleElement>().ToList(); }
         }
 
-        public List<Resource> Resources
+        public List<SysResource> Resources
         {
-            get { return SugarClient.Queryable<Resource>().ToList(); }
+            get { return SugarClient.Queryable<SysResource>().ToList(); }
         }
 
         public List<OrgView> Orgs
         {
             get { return SugarClient.Queryable<SysOrg>()
-                .LeftJoin<User>((org, user) => org.ChairmanId ==user.Id)
+                .LeftJoin<SysUser>((org, user) => org.ChairmanId ==user.Id)
                 .Select((org,user)=>new OrgView
             {
                 Id = org.Id.SelectAll(),
@@ -70,7 +70,7 @@ namespace OpenAuth.App
             }).ToList(); }
         }
 
-        public User User
+        public SysUser User
         {
             get { return _user; }
             set   //禁止外部设置
@@ -94,7 +94,7 @@ namespace OpenAuth.App
         public SystemAuthStrategy(ISqlSugarClient client,DbExtension dbExtension) : base(client, null)
         {
             _dbExtension = dbExtension;
-            _user = new User
+            _user = new SysUser
             {
                 Account = Define.SYSTEM_USERNAME,
                 Name = "超级管理员",

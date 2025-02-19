@@ -61,14 +61,14 @@ namespace OpenAuth.App.Request
         [Required(ErrorMessage = "请为用户分配机构")]
         public string OrganizationIds { get; set; }
 
-        public static implicit operator UpdateUserReq(User user)
+        public static implicit operator UpdateUserReq(SysUser sysUser)
         {
-            return user.MapTo<UpdateUserReq>();
+            return sysUser.MapTo<UpdateUserReq>();
         }
 
-        public static implicit operator User(UpdateUserReq view)
+        public static implicit operator SysUser(UpdateUserReq view)
         {
-            return view.MapTo<User>();
+            return view.MapTo<SysUser>();
         }
 
         public UpdateUserReq()

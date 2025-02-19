@@ -23,7 +23,7 @@ namespace OpenAuth.Repository.Test
         public void ExecProcedure()
         {
             var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
-            var users = unitWork.ExecProcedure<User>("sp_alluser");
+            var users = unitWork.ExecProcedure<SysUser>("sp_alluser");
             Console.WriteLine(JsonHelper.Instance.Serialize(users));
         }
         
@@ -37,7 +37,7 @@ namespace OpenAuth.Repository.Test
             var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
             var param = new MySqlParameter("keyword", SqlDbType.NVarChar);
             param.Value = "test%";
-            var users = unitWork.ExecProcedure<User>("sp_alluser", new []{param});
+            var users = unitWork.ExecProcedure<SysUser>("sp_alluser", new []{param});
             Console.WriteLine(JsonHelper.Instance.Serialize(users));
         }
         

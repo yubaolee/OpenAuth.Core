@@ -21,7 +21,7 @@ namespace OpenAuth.Repository.Test
             var account = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
             Console.WriteLine(account);
 
-            dbcontext.Users.Add(new User
+            dbcontext.Users.Add(new SysUser
             {
                 Account = account,
                 Name = account,
@@ -83,10 +83,10 @@ namespace OpenAuth.Repository.Test
 
             Console.WriteLine(account);
 
-            var repository = _autofacServiceProvider.GetService<IRepository<User,OpenAuthDBContext>>();
+            var repository = _autofacServiceProvider.GetService<IRepository<SysUser,OpenAuthDBContext>>();
 
             //新增
-            repository.Add(new User
+            repository.Add(new SysUser
             {
                 Account = account,
                 Name = account,
@@ -105,7 +105,7 @@ namespace OpenAuth.Repository.Test
             Assert.NotNull(newuser);
 
             //批量修改
-            repository.Update(u => u.Id == id, u =>new User{ Name = account});
+            repository.Update(u => u.Id == id, u =>new SysUser{ Name = account});
             newuser = repository.FirstOrDefault(u => u.Name == account);
             Assert.NotNull(newuser);
 

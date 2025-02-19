@@ -7,9 +7,9 @@ namespace OpenAuth.Repository.Domain
 	/// </summary>
 	public static class UserExt
 	{
-	    public static void  CheckPassword(this User user, string password)
+	    public static void  CheckPassword(this SysUser sysUser, string password)
 	    {
-	        if (user.Password != password)
+	        if (sysUser.Password != password)
 	        {
 	            throw  new Exception("密码错误");
 	        }

@@ -2,7 +2,7 @@
  * @Author: yubaolee <yubaolee@163.com> | ahfu~ <954478625@qq.com>
  * @Date: 2024-12-13 16:55:17
  * @Description: 工作流实例表操作
- * @LastEditTime: 2025-02-13 17:26:19
+ * @LastEditTime: 2025-02-19 11:43:24
  * Copyright (c) 2024 by yubaolee | ahfu~ , All Rights Reserved.
  */
 
@@ -592,140 +592,134 @@ namespace OpenAuth.App
             var user = _auth.GetCurrentUser();
             //行转列专用SQL
             string groupConcatSql = $@" ( SELECT GROUP_CONCAT(Account SEPARATOR ',')
-                        FROM `User`
+                        FROM `SysUser`
                         WHERE fi.MakerList like concat('%', Id, '%') ) ";
             //sqlserver的行转列需要特殊处理
-            if (SugarClient.CurrentConnectionConfig.DbType == DbType.SqlServer)
+            if(SugarClient.CurrentConnectionConfig.DbType == DbType.SqlServer)
             {
                 groupConcatSql = $@" STUFF((
                     SELECT ',' + Account
-                    FROM [User]
+                    FROM [SysUser]
                     WHERE fi.MakerList LIKE '%' + Id + '%'
                     FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, '') ";
             }
             else if (SugarClient.CurrentConnectionConfig.DbType == DbType.Oracle)
             {
-                groupConcatSql = $@" (select listagg(""Account"", ',') within group (order by ""Account"")
-                          from ""User""
-                          where fi.""MakerList"" like '%' || ""Id"" || '%') ";
+                groupConcatSql = $@" (select listagg(Account, ',') within group (order by Account)
+                          from SysUser
+                          where fi.MakerList like '%' || Id || '%') ";
             }
 
             string sql = String.Empty;
+
             if (request.type == "wait") //待办事项（即需要我处理的流程）
             {
                 sql = $@"
-                SELECT {"fi." + Quote("Id")},
-                    {"fi." + Quote("CreateUserName")},
-                    {"fi." + Quote("ActivityName")},
-                    {"fi." + Quote("CreateDate")},
-                    {"fi." + Quote("CustomName")},
-                    {"fi." + Quote("Code")},
-                    {"fi." + Quote("Description")},
-                    {"fi." + Quote("IsFinish")},
+                SELECT fi.Id,
+                    fi.CreateUserName,
+                    fi.ActivityName,
+                    fi.CreateDate,
+                    fi.CustomName,
+                    fi.Code,
+                    fi.Description,
+                    fi.IsFinish,
                     CASE
-                            WHEN {"fi." + Quote("MakerList")} = '1' THEN '所有人'
-                            WHEN {"fi." + Quote("MakerList")} = '00000000-0000-0000-0000-000000000000' THEN 'System'
-                            ELSE   {groupConcatSql}    
-                    END AS {Quote("MakerList")}
-                FROM {Quote("FlowInstance")} fi
-                JOIN (
-                    SELECT {"fith." + Quote("Id")}
-                    FROM {Quote("FlowInstance")} fith
-                    WHERE ({"fith." + Quote("MakerList")} = '1' or {"fith." + Quote("MakerList")} LIKE '%{user.User.Id}%')
-                        and ({"fith." + Quote("IsFinish")} = {FlowInstanceStatus.Running} or {"fith." + Quote("IsFinish")} = {FlowInstanceStatus.Rejected})
-                        and not exists (
-                            SELECT 1
-                            FROM {Quote("FlowApprover")}
-                            WHERE {"fith." + Quote("Id")} = {Quote("InstanceId")}
-                                and {"fith." + Quote("ActivityId")} = {Quote("ActivityId")}
-                                and {Quote("Status")} = 0
-                        )
-                    UNION
-                    SELECT {"fa." + Quote("InstanceId")}
-                    FROM {Quote("FlowApprover")} fa
-                    WHERE {"fa." + Quote("Status")} = 0
-                        AND {"fa." + Quote("ApproverId")} = '{user.User.Id}'
-                    ) UniqueInstanceIds
-                    ON {"fi." + Quote("Id")} = {"UniqueInstanceIds." + Quote("Id")}
-                ";
+                        WHEN fi.MakerList = '1' THEN '所有人'
+                        WHEN fi.MakerList = '00000000-0000-0000-0000-000000000000' THEN 'System'
+                        ELSE   {groupConcatSql}    
+                        END AS MakerList 
+                FROM FlowInstance fi
+                JOIN (SELECT fith.Id
+                   FROM FlowInstance fith
+                   WHERE (MakerList = '1' or MakerList LIKE '%{user.User.Id}%') 
+                     and (fith.IsFinish = {FlowInstanceStatus.Running} or fith.IsFinish = {FlowInstanceStatus.Rejected}) 
+                      and not exists (select 1
+                                     from flowapprover
+                                     where fith.Id = InstanceId
+                                       and fith.ActivityId = ActivityId
+                                       and Status = 0)
+                   UNION
+                   SELECT fa.InstanceId
+                   FROM FlowApprover fa 
+                   WHERE fa.Status = 0 
+                     AND fa.ApproverId = '{user.User.Id}') UniqueInstanceIds
+                  ON fi.Id = UniqueInstanceIds.Id";
             }
             else if (request.type == "disposed") //已办事项（即我参与过的流程）
             {
                 sql = $@"
-                SELECT {"fi." + Quote("Id")},
-                    {"fi." + Quote("CreateUserName")},
-                    {"fi." + Quote("ActivityName")},
-                    {"fi." + Quote("CreateDate")},
-                    {"fi." + Quote("CustomName")},
-                    {"fi." + Quote("Code")},
-                    {"fi." + Quote("Description")},
-                    {"fi." + Quote("IsFinish")},
-                    CASE
-                            WHEN {"fi." + Quote("MakerList")} = '1' THEN '所有人'
-                            WHEN {"fi." + Quote("MakerList")} = '00000000-0000-0000-0000-000000000000' THEN 'System'
-                            ELSE   {groupConcatSql} 
-                    END AS {Quote("MakerList")}
-                FROM {Quote("FlowInstance")} fi
-                JOIN (
-                    SELECT {"fith." + Quote("InstanceId")}
-                    FROM {Quote("FlowInstanceOperationHistory")} fith
-                    WHERE {"fith." + Quote("CreateUserId")} = '{user.User.Id}' 
-                    UNION
-                    SELECT {"fa." + Quote("InstanceId")}
-                    FROM {Quote("FlowApprover")} fa
-                    WHERE {"fa." + Quote("Status")} <> 0 
-                        AND {"fa." + Quote("ApproverId")} = '{user.User.Id}'
-                    ) UniqueInstanceIds
-                    ON {"fi." + Quote("Id")} = {"UniqueInstanceIds." + Quote("InstanceId")}
-                ";
+                    SELECT fi.Id,
+                fi.CreateUserName,
+                fi.ActivityName,
+                fi.CreateDate,
+                fi.CustomName,
+                fi.Code,
+                fi.Description,
+                fi.IsFinish,
+                CASE
+                WHEN fi.MakerList = '1' THEN '所有人'
+                WHEN fi.MakerList = '00000000-0000-0000-0000-000000000000' THEN 'System'
+                ELSE   {groupConcatSql} 
+                END AS MakerList
+                    FROM FlowInstance fi
+                             JOIN (SELECT fith.InstanceId
+                                   FROM FlowInstanceOperationHistory fith
+                                   WHERE fith.CreateUserId = '{user.User.Id}' 
+                                   UNION
+                                   SELECT fa.InstanceId
+                                   FROM FlowApprover fa 
+                                   WHERE fa.Status <> 0 
+                                     AND fa.ApproverId = '{user.User.Id}') UniqueInstanceIds
+                                  ON fi.Id = UniqueInstanceIds.InstanceId
+                    ";
             }
             else //我的流程（我创建的及知会我的）
             {
                 sql = $@"
-                SELECT {"fi." + Quote("Id")},
-                    {"fi." + Quote("CreateUserName")},
-                    {"fi." + Quote("ActivityName")},
-                    {"fi." + Quote("CreateDate")},
-                    {"fi." + Quote("CustomName")},
-                    {"fi." + Quote("Code")},
-                    {"fi." + Quote("Description")},
-                    {"fi." + Quote("IsFinish")},
-                    CASE
-                            WHEN {"fi." + Quote("MakerList")} = '1' THEN '所有人'
-                            WHEN {"fi." + Quote("MakerList")} = '00000000-0000-0000-0000-000000000000' THEN 'System'
-                            ELSE   {groupConcatSql} 
-                    END AS {Quote("MakerList")}
-                FROM {Quote("FlowInstance")} fi
-                JOIN (
-                    SELECT {Quote("Id")} as {Quote("InstanceId")}
-                    FROM {Quote("FlowInstance")}
-                    WHERE {Quote("CreateUserId")} = '{user.User.Id}'
-                    UNION
-                    SELECT DISTINCT {Quote("FirstId")} as {Quote("InstanceId")}
-                    FROM {Quote("Relevance")} rel
-                    INNER JOIN {Quote("FlowInstance")} flow ON {"rel." + Quote("FirstId")} = {"flow." + Quote("Id")} and {"flow." + Quote("IsFinish")} = 1
-                    WHERE {Quote("Key")} = '{Define.INSTANCE_NOTICE_USER}'
-                        AND {Quote("SecondId")} = '{user.User.Id}'
-                    UNION
-                    SELECT DISTINCT {"a." + Quote("FirstId")} as {Quote("InstanceId")}
-                    FROM {Quote("Relevance")} a
-                    INNER JOIN (
-                        SELECT {Quote("SecondId")} as {Quote("RoleId")}
-                        FROM {Quote("Relevance")}
-                        WHERE {Quote("Key")} = 'UserRole'
-                            AND {Quote("FirstId")} = '{user.User.Id}'
-                    ) b ON {"a." + Quote("SecondId")} = {"b." + Quote("RoleId")}
-                    INNER JOIN {Quote("FlowInstance")} flow ON {"a." + Quote("FirstId")} = {"flow." + Quote("Id")} and {"flow." + Quote("IsFinish")} = 1
-                    WHERE {"a." + Quote("Key")} = '{Define.INSTANCE_NOTICE_ROLE}'
-                    ) UniqueInstanceIds
-                    ON {"fi." + Quote("Id")} = {"UniqueInstanceIds." + Quote("InstanceId")}
-                ";
+                    SELECT fi.Id,
+                fi.CreateUserName,
+                fi.ActivityName,
+                fi.CreateDate,
+                fi.CustomName,
+                fi.Code,
+                fi.Description,
+                fi.IsFinish,
+                CASE
+                    WHEN fi.MakerList = '1' THEN '所有人'
+                    WHEN fi.MakerList = '00000000-0000-0000-0000-000000000000' THEN 'System'
+                    ELSE   {groupConcatSql} 
+                    END AS MakerList 
+                    FROM FlowInstance fi
+                             JOIN (select Id as InstanceId
+                            from FlowInstance
+                            where CreateUserId = '{user.User.Id}'
+                            union
+                            select distinct FirstId as InstanceId
+                            from Relevance rel
+                                     inner join FlowInstance flow on rel.FirstId = flow.Id and flow.IsFinish = 1
+                            where `Key` = '{Define.INSTANCE_NOTICE_USER}'
+                              and SecondId = '{user.User.Id}'
+                            union
+                            select distinct a.FirstId as InstanceId
+                            from Relevance a
+                                     inner join (select SecondId as RoleId
+                                                 from Relevance
+                                                 where `Key` = 'UserRole'
+                                                   and FirstId = '{user.User.Id}') b on a.SecondId = b.RoleId
+                                     inner join FlowInstance flow on a.FirstId = flow.Id and flow.IsFinish = 1
+                            where a.`Key` = '{Define.INSTANCE_NOTICE_ROLE}') UniqueInstanceIds
+                                  ON fi.Id = UniqueInstanceIds.InstanceId
+                    ";
             }
 
             switch (SugarClient.CurrentConnectionConfig.DbType)
             {
                 case DbType.SqlServer:
+                    sql = sql.Replace("`Key`", "[Key]");
                     sql = sql.Replace("from dual", "");
+                    break;
+                case DbType.Oracle:
+                    sql = sql.Replace("`Key`", "\"KEY\"");
                     break;
             }
 
@@ -737,18 +731,6 @@ namespace OpenAuth.App
                 .ToPageListAsync(request.page, request.limit);
 
             return result;
-        }
-        string Quote(string name)
-        {
-            switch (SugarClient.CurrentConnectionConfig.DbType)
-            {
-                case DbType.SqlServer:
-                    return $"[{name}]";
-                case DbType.Oracle:
-                    return $"\"{name}\"";
-                default:
-                    return $"`{name}`";
-            }
         }
 
         public List<FlowInstanceOperationHistory> QueryHistories(QueryFlowInstanceHistoryReq request)

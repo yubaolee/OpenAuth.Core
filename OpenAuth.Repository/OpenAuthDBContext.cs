@@ -5,6 +5,7 @@ using Infrastructure.Extensions;
 using Infrastructure.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -106,6 +107,24 @@ namespace OpenAuth.Repository
                     }
                 }
             }
+
+            //如果数据库是Oracle，则将所有表名和字段名转换为大写
+            if (Database.ProviderName == "Oracle.EntityFrameworkCore")
+            {
+                foreach (var entity in modelBuilder.Model.GetEntityTypes())
+                {
+                    entity.SetTableName(entity.GetTableName().ToUpper());
+                    // 将所有属性映射到大写列名
+                    foreach (var property in entity.GetProperties())
+                    {
+                        var storeObject = StoreObjectIdentifier.Create(entity, StoreObjectType.Table);
+                        if (storeObject.HasValue)
+                        {
+                            property.SetColumnName(property.GetColumnName(storeObject.Value).ToUpper());
+                        }
+                    }
+                }
+            }
         }
 
         public virtual DbSet<Application> Applications { get; set; }
@@ -120,9 +139,9 @@ namespace OpenAuth.Repository
         public virtual DbSet<ModuleElement> ModuleElements { get; set; }
         public virtual DbSet<SysOrg> Orgs { get; set; }
         public virtual DbSet<Relevance> Relevances { get; set; }
-        public virtual DbSet<Resource> Resources { get; set; }
+        public virtual DbSet<SysResource> Resources { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<SysUser> Users { get; set; }
         public virtual DbSet<UploadFile> UploadFiles { get; set; }
         public virtual DbSet<SysPrinterPlan> SysPrinterPlans { get; set; }
         public virtual DbSet<FrmLeaveReq> FrmLeaveReqs { get; set; }

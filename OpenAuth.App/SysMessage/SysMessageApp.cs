@@ -63,10 +63,10 @@ namespace OpenAuth.App
         /// <param name="message"></param>
         public void SendMsgTo(string userId, string message)
         {
-            User user = null;
+            SysUser sysUser = null;
             if (userId == Guid.Empty.ToString())
             {
-                user = new User
+                sysUser = new SysUser
                 {
                     Name = Define.SYSTEM_USERNAME,
                     Id = userId
@@ -74,17 +74,17 @@ namespace OpenAuth.App
             }
             else
             {
-                 user = UnitWork.FirstOrDefault<User>(u => u.Id == userId);
+                 sysUser = UnitWork.FirstOrDefault<SysUser>(u => u.Id == userId);
             }
-            if (user == null)
+            if (sysUser == null)
             {
                 _logger.LogError($"未能找到用户{userId},不能给该用户发送消息");
                 return;
             }
             Repository.Add(new SysMessage
             {
-                ToId = user.Id,
-                ToName = user.Name,
+                ToId = sysUser.Id,
+                ToName = sysUser.Name,
                 TypeName = "系统消息",
                 TypeId ="SYS_MSG",
                 FromId = Guid.Empty.ToString(),

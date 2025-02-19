@@ -52,7 +52,7 @@ namespace OpenAuth.App
             else
             {
                 service = _normalAuthStrategy;
-                service.User = _unitWork.FirstOrDefault<User>(u => u.Account == username);
+                service.User = _unitWork.FirstOrDefault<SysUser>(u => u.Account == username);
             }
 
          return new AuthStrategyContext(service);

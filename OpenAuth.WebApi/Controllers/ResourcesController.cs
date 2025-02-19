@@ -87,9 +87,9 @@ namespace OpenAuth.WebApi.Controllers
         /// <param name="appId">应用ID</param>
         /// <param name="firstId">角色ID</param>
         [HttpGet]
-        public Response<List<Resource>> LoadForRole(string appId, string firstId)
+        public Response<List<SysResource>> LoadForRole(string appId, string firstId)
         {
-            var result = new Response<List<Resource>>();
+            var result = new Response<List<SysResource>>();
             try
             {
                 result.Result = _app.LoadForRole(appId, firstId).ToList();

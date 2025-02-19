@@ -107,10 +107,10 @@ namespace OpenAuth.IdentityServer.Quickstart.Account
 
             if (ModelState.IsValid)
             {
-                User user;
+                SysUser sysUser;
                 if (model.Username == Define.SYSTEM_USERNAME && model.Password == Define.SYSTEM_USERPWD)
                 {
-                    user = new User
+                    sysUser = new SysUser
                     {
                         Account = Define.SYSTEM_USERNAME,
                         Password = Define.SYSTEM_USERPWD,
@@ -119,12 +119,12 @@ namespace OpenAuth.IdentityServer.Quickstart.Account
                 }
                 else
                 {
-                    user = _userManager.GetByAccount(model.Username);
+                    sysUser = _userManager.GetByAccount(model.Username);
                 }
 
-                if (user != null &&(user.Password ==model.Password))
+                if (sysUser != null &&(sysUser.Password ==model.Password))
                 {
-                    if (user.Status != 0)   //判断用户状态
+                    if (sysUser.Status != 0)   //判断用户状态
                     {
                         await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid user status"));
                         ModelState.AddModelError(string.Empty, "user.status must be 0");
@@ -132,7 +132,7 @@ namespace OpenAuth.IdentityServer.Quickstart.Account
                         return View(err);
                     }
 
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.Account, user.Id, user.Account));
+                    await _events.RaiseAsync(new UserLoginSuccessEvent(sysUser.Account, sysUser.Id, sysUser.Account));
 
                     // only set explicit expiration here if user chooses "remember me". 
                     // otherwise we rely upon expiration configured in cookie middleware.
@@ -147,7 +147,7 @@ namespace OpenAuth.IdentityServer.Quickstart.Account
                     };
 
                     // issue authentication cookie with subject ID and username
-                    await HttpContext.SignInAsync(user.Id, user.Account, props);
+                    await HttpContext.SignInAsync(sysUser.Id, sysUser.Account, props);
 
                     if (context != null)
                     {

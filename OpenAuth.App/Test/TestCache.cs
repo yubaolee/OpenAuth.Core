@@ -49,14 +49,14 @@ namespace OpenAuth.App.Test
         public void SetObj()
         {
             var app = _autofacServiceProvider.GetService<ICacheContext>();
-            app.Set("user:info", new User
+            app.Set("user:info", new SysUser
             {
                 Name = "测试",
                 Account ="Test",
                 BizCode = "0.1.1"
             }, DateTime.Now.AddDays(1));
 
-            var result = app.Get<User>("user:info");
+            var result = app.Get<SysUser>("user:info");
             Console.WriteLine($"redis结果:{JsonHelper.Instance.Serialize(result)}");
         }
         
@@ -68,7 +68,7 @@ namespace OpenAuth.App.Test
         {
             var app = _autofacServiceProvider.GetService<ICacheContext>();
            
-            var result = app.Get<User>("noexistkey");
+            var result = app.Get<SysUser>("noexistkey");
             Console.WriteLine($"redis结果:{JsonHelper.Instance.Serialize(result)}");
         }
 

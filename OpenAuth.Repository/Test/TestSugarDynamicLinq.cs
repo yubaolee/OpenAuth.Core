@@ -52,7 +52,7 @@ namespace OpenAuth.Repository.Test
                 }
                 ";
 
-            var query = sugarClient.Queryable<User>().GenerateFilter("c",json);
+            var query = sugarClient.Queryable<SysUser>().GenerateFilter("c",json);
             Console.WriteLine(query.ToSqlString());
 
             Console.WriteLine(JsonHelper.Instance.Serialize(query.ToList()));
@@ -100,7 +100,7 @@ namespace OpenAuth.Repository.Test
 
             var sugarClient = _autofacServiceProvider.GetService<ISqlSugarClient>();
 
-            var query = sugarClient.Queryable<User>().GenerateFilter("c",queryObject);
+            var query = sugarClient.Queryable<SysUser>().GenerateFilter("c",queryObject);
             Console.WriteLine(query.ToSqlString());
         }
     }

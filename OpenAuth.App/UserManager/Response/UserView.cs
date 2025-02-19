@@ -76,14 +76,14 @@ namespace OpenAuth.App.Response
 
         public string OrganizationIds { get; set; }
 
-        public static implicit operator UserView(User user)
+        public static implicit operator UserView(SysUser sysUser)
         {
-            return user.MapTo<UserView>();
+            return sysUser.MapTo<UserView>();
         }
 
-        public static implicit operator User(UserView view)
+        public static implicit operator SysUser(UserView view)
         {
-            return view.MapTo<User>();
+            return view.MapTo<SysUser>();
         }
 
         public UserView()

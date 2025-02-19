@@ -50,11 +50,11 @@ namespace OpenAuth.App.Test
 
         private async Task AddOrUpdate()
         {
-            var repository = _autofacServiceProvider.GetService<IRepository<User,OpenAuthDBContext>>();
+            var repository = _autofacServiceProvider.GetService<IRepository<SysUser,OpenAuthDBContext>>();
 
             var account = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
 
-            var user = new User
+            var user = new SysUser
             {
                 Account = account,
                 Name = account

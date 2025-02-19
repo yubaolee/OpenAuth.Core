@@ -112,8 +112,7 @@ namespace OpenAuth.Mvc
                     IsAutoCloseConnection = true,
                     MoreSettings=new ConnMoreSettings() { 
                         PgSqlIsAutoToLower = false,//增删查改支持驼峰表
-                        PgSqlIsAutoToLowerCodeFirst = false, // 建表建驼峰表。5.1.3.30 
-                        IsAutoToUpper=false //禁用自动转成大写表
+                        PgSqlIsAutoToLowerCodeFirst = false // 建表建驼峰表。5.1.3.30 
                     }
                 }, db => { db.Aop.OnLogExecuting = (sql, pars) => { logger.LogInformation(sql); }; });
                 return sqlSugar;

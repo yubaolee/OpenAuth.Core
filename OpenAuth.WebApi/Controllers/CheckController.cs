@@ -273,9 +273,9 @@ namespace OpenAuth.WebApi.Controllers
         /// 获取登录用户的所有可访问的资源
         /// </summary>
         [HttpGet]
-        public Response<List<Resource>> GetResources()
+        public Response<List<SysResource>> GetResources()
         {
-            var result = new Response<List<Resource>>();
+            var result = new Response<List<SysResource>>();
             try
             {
                 result.Result = _authStrategyContext.Resources;

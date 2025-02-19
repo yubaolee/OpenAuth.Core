@@ -14,17 +14,17 @@ using OpenAuth.Repository.Domain;
 using OpenAuth.Repository.Interface;
 namespace OpenAuth.App
 {
-    public class UserManagerApp : BaseStringApp<User,OpenAuthDBContext>
+    public class UserManagerApp : BaseStringApp<SysUser,OpenAuthDBContext>
     {
         private RevelanceManagerApp _revelanceApp;
         private OrgManagerApp _orgManagerApp;
-        public UserManagerApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<User,OpenAuthDBContext> repository,
+        public UserManagerApp(IUnitWork<OpenAuthDBContext> unitWork, IRepository<SysUser,OpenAuthDBContext> repository,
             RevelanceManagerApp app,IAuth auth, OrgManagerApp orgManagerApp) : base(unitWork, repository, auth)
         {
             _revelanceApp = app;
             _orgManagerApp = orgManagerApp;
         }
-        public User GetByAccount(string account)
+        public SysUser GetByAccount(string account)
         {
             return Repository.FirstOrDefault(u => u.Account == account);
         }
@@ -35,13 +35,13 @@ namespace OpenAuth.App
         public async Task<TableData> Load(QueryUserListReq request)
         {
             var loginUser = _auth.GetCurrentUser();
-            IQueryable<User> query = UnitWork.Find<User>(null);
+            IQueryable<SysUser> query = UnitWork.Find<SysUser>(null);
             if (!string.IsNullOrEmpty(request.key))
             {
-                query = UnitWork.Find<User>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
+                query = UnitWork.Find<SysUser>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
             }
             var userOrgs = from user in query 
-                join user2 in UnitWork.Find<User>(null)
+                join user2 in UnitWork.Find<SysUser>(null)
                     on user.ParentId equals user2.Id into tempuser
                 from u in tempuser.DefaultIfEmpty() 
                 join relevance in UnitWork.Find<Relevance>(u => u.Key == "UserOrg")
@@ -113,13 +113,13 @@ namespace OpenAuth.App
         /// </summary>
         public async Task<TableResp<UserView>> LoadAll(QueryUserListReq request)
         {
-           IQueryable<User> query = UnitWork.Find<User>(null);
+           IQueryable<SysUser> query = UnitWork.Find<SysUser>(null);
            if (!string.IsNullOrEmpty(request.key))
            {
-               query = UnitWork.Find<User>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
+               query = UnitWork.Find<SysUser>(u => u.Name.Contains(request.key) || u.Account.Contains(request.key));
            }
            var userOrgs = from user in query
-               join user2 in UnitWork.Find<User>(null)
+               join user2 in UnitWork.Find<SysUser>(null)
                    on user.ParentId equals user2.Id into tempuser
                from u in tempuser.DefaultIfEmpty() 
                join relevance in UnitWork.Find<Relevance>(u => u.Key == "UserOrg")
@@ -179,13 +179,13 @@ namespace OpenAuth.App
             request.ValidationEntity(u => new {u.Account,u.Name, u.OrganizationIds});
             if (string.IsNullOrEmpty(request.OrganizationIds))
                 throw new Exception("请为用户分配机构");
-            User requser = request;
+            SysUser requser = request;
             requser.CreateId = _auth.GetCurrentUser().User.Id;
             UnitWork.ExecuteWithTransaction(() =>
             {
                 if (string.IsNullOrEmpty(request.Id))
                 {
-                    if (UnitWork.Any<User>(u => u.Account == request.Account))
+                    if (UnitWork.Any<SysUser>(u => u.Account == request.Account))
                     {
                         throw new Exception("用户账号已存在");
                     }
@@ -199,7 +199,7 @@ namespace OpenAuth.App
                 }
                 else
                 {
-                    UnitWork.Update<User>(u => u.Id == request.Id, u => new User
+                    UnitWork.Update<SysUser>(u => u.Id == request.Id, u => new SysUser
                     {
                         Account = requser.Account,
                         BizCode = requser.BizCode,
@@ -210,7 +210,7 @@ namespace OpenAuth.App
                     });
                     if (!string.IsNullOrEmpty(requser.Password))  //密码为空的时候，不做修改
                     {
-                        UnitWork.Update<User>(u => u.Id == request.Id, u => new User
+                        UnitWork.Update<SysUser>(u => u.Id == request.Id, u => new SysUser
                         {
                             Password = requser.Password
                         });
@@ -232,7 +232,7 @@ namespace OpenAuth.App
             {
                 UnitWork.Delete<Relevance>(u =>(u.Key == Define.USERROLE || u.Key == Define.USERORG) 
                                                && ids.Contains(u.FirstId));
-                UnitWork.Delete<User>(u => ids.Contains(u.Id));
+                UnitWork.Delete<SysUser>(u => ids.Contains(u.Id));
                 UnitWork.Save();
             });
         }
@@ -242,7 +242,7 @@ namespace OpenAuth.App
         /// <param name="request"></param>
         public void ChangePassword(ChangePasswordReq request)
         {
-            Repository.Update(u => u.Account == request.Account, user => new User
+            Repository.Update(u => u.Account == request.Account, user => new SysUser
             {
                 Password = request.Password
             });
@@ -256,7 +256,7 @@ namespace OpenAuth.App
         {
             var users = from userRole in UnitWork.Find<Relevance>(u =>
                     u.SecondId == request.roleId && u.Key == Define.USERROLE)
-                join user in UnitWork.Find<User>(null) on userRole.FirstId equals user.Id into temp
+                join user in UnitWork.Find<SysUser>(null) on userRole.FirstId equals user.Id into temp
                 from c in temp.Where(u =>u.Id != null)
                 select c;
             return new TableData
@@ -274,7 +274,7 @@ namespace OpenAuth.App
         {
             var users = from userOrg in UnitWork.Find<Relevance>(u =>
                     u.SecondId == request.orgId && u.Key == Define.USERORG)
-                join user in UnitWork.Find<User>(null) on userOrg.FirstId equals user.Id into temp
+                join user in UnitWork.Find<SysUser>(null) on userOrg.FirstId equals user.Id into temp
                 from c in temp.Where(u =>u.Id != null)
                 select c;
             return new TableData
@@ -293,7 +293,7 @@ namespace OpenAuth.App
             {
                 throw new Exception("不能修改超级管理员信息");
             }
-            Repository.Update(u => u.Account == request.Account, user => new User
+            Repository.Update(u => u.Account == request.Account, user => new SysUser
                         {
                             Name = request.Name,
                             Sex = request.Sex
@@ -349,7 +349,7 @@ namespace OpenAuth.App
                 sql = sql.Replace("`Key`", "\"Key\"");
             }
             
-            var users = UnitWork.FromSql<User>(sql);
+            var users = UnitWork.FromSql<SysUser>(sql);
             return users.Select(u=>u.Id).ToList();
         }
     }

@@ -16,11 +16,11 @@ namespace OpenAuth.App.SSO
     {
 
         //这个地方使用IRepository<User> 而不使用UserManagerApp是防止循环依赖
-        public IRepository<User,OpenAuthDBContext> _app;
+        public IRepository<SysUser,OpenAuthDBContext> _app;
         private ICacheContext _cacheContext;
         private AppManager _appInfoService;
 
-        public LoginParse( AppManager infoService, ICacheContext cacheContext, IRepository<User,OpenAuthDBContext> userApp)
+        public LoginParse( AppManager infoService, ICacheContext cacheContext, IRepository<SysUser,OpenAuthDBContext> userApp)
         {
             _appInfoService = infoService;
             _cacheContext = cacheContext;
@@ -40,10 +40,10 @@ namespace OpenAuth.App.SSO
                 //     throw  new Exception("应用不存在");
                 // }
                 //获取用户信息
-                User userInfo = null;
+                SysUser sysUserInfo = null;
                 if (model.Account == Define.SYSTEM_USERNAME)
                 {
-                    userInfo = new User
+                    sysUserInfo = new SysUser
                     {
                         Id = Guid.Empty.ToString(), 
                         Account = Define.SYSTEM_USERNAME,
@@ -53,19 +53,19 @@ namespace OpenAuth.App.SSO
                 }
                 else
                 {
-                    userInfo = _app.FirstOrDefault(u =>u.Account == model.Account);
+                    sysUserInfo = _app.FirstOrDefault(u =>u.Account == model.Account);
                 }
                
-                if (userInfo == null)
+                if (sysUserInfo == null)
                 {
                     throw new Exception("用户不存在");
                 }
-                if (userInfo.Password != model.Password)
+                if (sysUserInfo.Password != model.Password)
                 {
                     throw new Exception("密码错误");
                 }
 
-                if (userInfo.Status != 0)
+                if (sysUserInfo.Status != 0)
                 {
                     throw new Exception("账号状态异常，可能已停用");
                 }
@@ -73,7 +73,7 @@ namespace OpenAuth.App.SSO
                 var currentSession = new UserAuthSession
                 {
                     Account = model.Account,
-                    Name = userInfo.Name,
+                    Name = sysUserInfo.Name,
                     Token = Guid.NewGuid().ToString().GetHashCode().ToString("x"),
                     AppKey = model.AppKey,
                     CreateTime = DateTime.Now

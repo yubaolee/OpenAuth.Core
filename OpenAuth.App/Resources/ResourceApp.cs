@@ -14,13 +14,13 @@ namespace OpenAuth.App
     /// <summary>
     /// 分类管理
     /// </summary>
-    public class ResourceApp:SqlSugarBaseApp<Resource>
+    public class ResourceApp:SqlSugarBaseApp<SysResource>
     {
         private RevelanceManagerApp _revelanceApp;
 
         public void Add(AddOrUpdateResReq resource)
         {
-            var obj = resource.MapTo<Resource>();
+            var obj = resource.MapTo<SysResource>();
             CaculateCascade(obj);
             obj.CreateTime = DateTime.Now;
             var user = _auth.GetCurrentUser().User;
@@ -32,7 +32,7 @@ namespace OpenAuth.App
         public void Update(AddOrUpdateResReq obj)
         {
             var user = _auth.GetCurrentUser().User;
-            Repository.Update(u => new Resource
+            Repository.Update(u => new SysResource
             {
                 Name = obj.Name,
                 Disable = obj.Disable,
@@ -51,10 +51,10 @@ namespace OpenAuth.App
             },u => u.Id == obj.Id);
         }
 
-        public IEnumerable<Resource> LoadForRole(string appId, string roleId)
+        public IEnumerable<SysResource> LoadForRole(string appId, string roleId)
         {
             var elementIds = _revelanceApp.Get(Define.ROLERESOURCE, true, roleId);
-            return SugarClient.Queryable<Resource>().Where(u => elementIds.Contains(u.Id) && (appId == null || appId =="" || u.AppId == appId)).ToArray();
+            return SugarClient.Queryable<SysResource>().Where(u => elementIds.Contains(u.Id) && (appId == null || appId =="" || u.AppId == appId)).ToArray();
         }
         
         public async Task<TableData> Load(QueryResourcesReq request)

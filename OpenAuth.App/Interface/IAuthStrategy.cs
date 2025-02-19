@@ -31,11 +31,11 @@ namespace OpenAuth.App
 
         List<Role> Roles { get; }
 
-         List<Resource> Resources { get; }
+         List<SysResource> Resources { get; }
 
          List<OrgView> Orgs { get; }
 
-         User User
+         SysUser User
         {
             get;set;
         }

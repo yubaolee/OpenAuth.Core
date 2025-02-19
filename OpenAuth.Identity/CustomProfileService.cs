@@ -78,12 +78,12 @@ namespace OpenAuth.IdentityServer
             return Task.CompletedTask;
         }
 
-        private User GetUserById(string id)
+        private SysUser GetUserById(string id)
         {
-            User user;
+            SysUser sysUser;
             if (id == Define.SYSTEM_USERNAME)
             {
-                user = new User
+                sysUser = new SysUser
                 {
                     Account = Define.SYSTEM_USERNAME,
                     Id = Define.SYSTEM_USERNAME,
@@ -92,10 +92,10 @@ namespace OpenAuth.IdentityServer
             }
             else
             {
-                user = UserManager.Get(id);
+                sysUser = UserManager.Get(id);
             }
 
-            return user;
+            return sysUser;
         }
     }
 }

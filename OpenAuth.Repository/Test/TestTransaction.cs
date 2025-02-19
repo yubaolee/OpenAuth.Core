@@ -51,7 +51,7 @@ namespace OpenAuth.Repository.Test
             }
             
             //如果没有插入成功，表示事务发生了回滚
-            Assert.IsFalse(unitWork.Any<User>( u=>u.Id == account));
+            Assert.IsFalse(unitWork.Any<SysUser>( u=>u.Id == account));
 
         }
 
@@ -60,7 +60,7 @@ namespace OpenAuth.Repository.Test
         /// </summary>
         private void AddAndUpdate(string account, IUnitWork<OpenAuthDBContext> unitWork)
         {
-            var user = new User
+            var user = new SysUser
             {
                 Id = account,
                 Account = account,
@@ -78,7 +78,7 @@ namespace OpenAuth.Repository.Test
 
             unitWork.Save();
 
-            unitWork.Update<User>(u => u.Id == account, u => new User
+            unitWork.Update<SysUser>(u => u.Id == account, u => new SysUser
             {
                 Account = "Trans2_" + user.Account
             });
@@ -90,7 +90,7 @@ namespace OpenAuth.Repository.Test
         {
             var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
 
-            var users = unitWork.Find<User>(u => u.Account.Contains("test"));
+            var users = unitWork.Find<SysUser>(u => u.Account.Contains("test"));
             foreach (var user in users)
             {
                 user.Name  = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss");
@@ -105,12 +105,12 @@ namespace OpenAuth.Repository.Test
         public void MultiUpdate2()
         {
             var unitWork = _autofacServiceProvider.GetService<IUnitWork<OpenAuthDBContext>>();
-            var users = unitWork.Find<User>(null).ToList();
+            var users = unitWork.Find<SysUser>(null).ToList();
             unitWork.ExecuteWithTransaction(()=>
             {
                 foreach (var req in users)
                 {
-                    unitWork.Update<User>(u =>u.Id == req.Id, user => new User
+                    unitWork.Update<SysUser>(u =>u.Id == req.Id, user => new SysUser
                     {
                         Name  = "user_" + DateTime.Now.ToString("yyyy_MM_dd HH:mm:ss")
                     });

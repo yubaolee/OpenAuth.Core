@@ -25,7 +25,7 @@ namespace OpenAuth.Repository.Domain
         public BuilderTable()
         {
           this.TableName= string.Empty;
-          this.Comment= string.Empty;
+          this.Remark= string.Empty;
           this.DetailTableName= string.Empty;
           this.DetailComment= string.Empty;
           this.ClassName= string.Empty;
@@ -54,7 +54,7 @@ namespace OpenAuth.Repository.Domain
         /// 表描述、中文名称
         /// </summary>
         [Description("表描述、中文名称")]
-        public string Comment { get; set; }
+        public string Remark { get; set; }
         /// <summary>
         /// 子表英文全称
         /// </summary>

@@ -57,7 +57,7 @@ namespace OpenAuth.App
                 TableId = obj.TableId,
                 TableName = obj.TableName,
                 ColumnName = obj.ColumnName,
-                Comment = obj.Comment,
+                Remark = obj.Remark,
                 ColumnType = obj.ColumnType,
                 EntityType = obj.EntityType,
                 EntityName = obj.EntityName,
@@ -107,7 +107,7 @@ namespace OpenAuth.App
                 var builderColumn = new BuilderTableColumn
                 {
                     ColumnName = column.ColumnName,
-                    Comment = column.Comment,
+                    Remark = column.Comment,
                     ColumnType = column.ColumnType,
                     EntityType = column.EntityType,
                     EntityName = column.ColumnName,

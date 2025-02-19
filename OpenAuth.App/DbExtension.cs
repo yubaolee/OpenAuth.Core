@@ -72,7 +72,7 @@ namespace OpenAuth.App
                 {
                     ColumnName = property.Name,
                     TableName = moduleName,
-                    Comment = description,
+                    Remark = description,
                     IsList = browsable,
                     ColumnType = typeName
                 });

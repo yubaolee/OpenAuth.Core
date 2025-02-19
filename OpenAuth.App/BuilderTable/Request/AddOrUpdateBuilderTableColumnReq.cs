@@ -42,7 +42,7 @@ namespace OpenAuth.App.Request
         /// <summary>
         /// 列描述
         /// </summary>
-        public string Comment { get; set; }
+        public string Remark { get; set; }
         /// <summary>
         /// 列类型
         /// </summary>

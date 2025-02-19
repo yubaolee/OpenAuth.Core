@@ -33,7 +33,7 @@ namespace OpenAuth.App.Request
         /// <summary>
         /// 表描述、中文名称
         /// </summary>
-        public string Comment { get; set; }
+        public string Remark { get; set; }
         
         /// <summary>
         /// 父表ID

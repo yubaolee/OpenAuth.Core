@@ -148,7 +148,7 @@ namespace OpenAuth.App
                 var builderColumn = new BuilderTableColumn
                 {
                     ColumnName = column.ColumnName,
-                    Comment = column.Comment,
+                    Remark = column.Comment,
                     ColumnType = column.ColumnType,
                     EntityType = column.EntityType,
                     EntityName = column.ColumnName,
@@ -178,7 +178,7 @@ namespace OpenAuth.App
             UnitWork.Update<BuilderTable>(u => u.Id == obj.Id, u => new BuilderTable
             {
                 TableName = obj.TableName,
-                Comment = obj.Comment,
+                Remark = obj.Remark,
                 ClassName = obj.ClassName,
                 Namespace = obj.Namespace,
                 ModuleCode = obj.ModuleCode,
@@ -365,7 +365,7 @@ namespace OpenAuth.App
             {
                 attributeBuilder.Append("/// <summary>");
                 attributeBuilder.Append("\r\n");
-                attributeBuilder.Append("       ///" + column.Comment + "");
+                attributeBuilder.Append("       ///" + column.Remark + "");
                 attributeBuilder.Append("\r\n");
                 attributeBuilder.Append("       /// </summary>");
                 attributeBuilder.Append("\r\n");
@@ -386,7 +386,7 @@ namespace OpenAuth.App
             var tableAttr = new StringBuilder();
             tableAttr.Append("/// <summary>");
             tableAttr.Append("\r\n");
-            tableAttr.Append("       ///" + sysTableInfo.Comment + "");
+            tableAttr.Append("       ///" + sysTableInfo.Remark + "");
             tableAttr.Append("\r\n");
             tableAttr.Append("       /// </summary>");
             tableAttr.Append("\r\n");
@@ -463,12 +463,12 @@ namespace OpenAuth.App
 
                 attributeBuilder.Append("/// <summary>");
                 attributeBuilder.Append("\r\n");
-                attributeBuilder.Append("       ///" + column.Comment + "");
+                attributeBuilder.Append("       ///" + column.Remark + "");
                 attributeBuilder.Append("\r\n");
                 attributeBuilder.Append("       /// </summary>");
                 attributeBuilder.Append("\r\n");
                 
-                attributeBuilder.Append("       [Description(\""+ column.Comment +"\")]");
+                attributeBuilder.Append("       [Description(\""+ column.Remark +"\")]");
                 attributeBuilder.Append("\r\n");
 
                 string entityType = column.EntityType;
@@ -523,7 +523,7 @@ namespace OpenAuth.App
 
             tableAttr.Append("/// <summary>");
             tableAttr.Append("\r\n");
-            tableAttr.Append("       ///" + tableInfo.Comment + "");
+            tableAttr.Append("       ///" + tableInfo.Remark + "");
             tableAttr.Append("\r\n");
             tableAttr.Append("       /// </summary>");
             tableAttr.Append("\r\n");
@@ -735,7 +735,7 @@ namespace OpenAuth.App
             foreach (BuilderTableColumn column in syscolums)
             {
                 headerListBuilder.Append(
-                    $" new ColumnDefine('{column.ColumnName.ToCamelCase()}', '{column.Comment}', {column.IsEdit.ToString().ToLower()}, {column.IsList.ToString().ToLower()}, '{column.EditType}', '{column.DataSource}', '{column.EntityType}', '{column.ColumnType}', '{column.EntityName}'),");
+                    $" new ColumnDefine('{column.ColumnName.ToCamelCase()}', '{column.Remark}', {column.IsEdit.ToString().ToLower()}, {column.IsList.ToString().ToLower()}, '{column.EditType}', '{column.DataSource}', '{column.EntityType}', '{column.ColumnType}', '{column.EntityName}'),");
                 headerListBuilder.Append("\r\n     ");
             }
 

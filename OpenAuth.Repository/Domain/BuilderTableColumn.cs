@@ -27,7 +27,7 @@ namespace OpenAuth.Repository.Domain
           this.TableId= string.Empty;
           this.TableName= string.Empty;
           this.ColumnName= string.Empty;
-          this.Comment= string.Empty;
+          this.Remark= string.Empty;
           this.ColumnType= string.Empty;
           this.EntityType= string.Empty;
           this.EntityName= string.Empty;
@@ -64,7 +64,7 @@ namespace OpenAuth.Repository.Domain
         /// 列描述
         /// </summary>
         [Description("列描述")]
-        public string Comment { get; set; }
+        public string Remark { get; set; }
         /// <summary>
         /// 列类型
         /// </summary>

@@ -57,7 +57,7 @@ namespace OpenAuth.App.Test
             app.Add(new AddOrUpdateBuilderTableReq()
             {
                TableName = "Stock",
-               Comment = "这是一个普通的应用管理生成模版",
+               Remark = "这是一个普通的应用管理生成模版",
                ClassName = "Stock",
                Namespace = "OpenAuth.Repository.Domain",
                ModuleCode = "StockApp",

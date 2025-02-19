@@ -41,8 +41,7 @@ namespace OpenAuth.App
             }
 
             var columnnames = columnFields.Select(u => u.ColumnName);
-            if (SugarClient.CurrentConnectionConfig.DbType == DbType.PostgreSQL 
-                || SugarClient.CurrentConnectionConfig.DbType == DbType.Oracle)
+            if (SugarClient.CurrentConnectionConfig.DbType == DbType.PostgreSQL)
             {
                 columnnames = columnFields.Select(u => "\"" + u.ColumnName +"\"");
             }

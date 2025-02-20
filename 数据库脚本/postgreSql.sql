@@ -84,7 +84,7 @@ DROP TABLE IF EXISTS "public"."BuilderTable";
 CREATE TABLE "public"."BuilderTable" (
   "Id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "TableName" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
-  "Comment" varchar(200) COLLATE "pg_catalog"."default",
+  "Remark" varchar(200) COLLATE "pg_catalog"."default",
   "DetailTableName" varchar(200) COLLATE "pg_catalog"."default",
   "DetailComment" varchar(200) COLLATE "pg_catalog"."default",
   "ClassName" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE "public"."BuilderTable" (
 ;
 COMMENT ON COLUMN "public"."BuilderTable"."Id" IS '编号';
 COMMENT ON COLUMN "public"."BuilderTable"."TableName" IS '表英文全称';
-COMMENT ON COLUMN "public"."BuilderTable"."Comment" IS '表描述、中文名称';
+COMMENT ON COLUMN "public"."BuilderTable"."Remark" IS '表描述、中文名称';
 COMMENT ON COLUMN "public"."BuilderTable"."DetailTableName" IS '子表英文全称';
 COMMENT ON COLUMN "public"."BuilderTable"."DetailComment" IS '子表描述、中文名称';
 COMMENT ON COLUMN "public"."BuilderTable"."ClassName" IS '实体类名称';
@@ -149,7 +149,7 @@ CREATE TABLE "public"."BuilderTableColumn" (
   "TableId" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "TableName" varchar(255) COLLATE "pg_catalog"."default",
   "ColumnName" varchar(200) COLLATE "pg_catalog"."default",
-  "Comment" varchar(200) COLLATE "pg_catalog"."default",
+  "Remark" varchar(200) COLLATE "pg_catalog"."default",
   "ColumnType" varchar(100) COLLATE "pg_catalog"."default",
   "EntityType" varchar(50) COLLATE "pg_catalog"."default",
   "EntityName" varchar(200) COLLATE "pg_catalog"."default",
@@ -180,7 +180,7 @@ COMMENT ON COLUMN "public"."BuilderTableColumn"."Id" IS '编号';
 COMMENT ON COLUMN "public"."BuilderTableColumn"."TableId" IS '归属表编号';
 COMMENT ON COLUMN "public"."BuilderTableColumn"."TableName" IS '表名称';
 COMMENT ON COLUMN "public"."BuilderTableColumn"."ColumnName" IS '列名称';
-COMMENT ON COLUMN "public"."BuilderTableColumn"."Comment" IS '列描述';
+COMMENT ON COLUMN "public"."BuilderTableColumn"."Remark" IS '列描述';
 COMMENT ON COLUMN "public"."BuilderTableColumn"."ColumnType" IS '列类型';
 COMMENT ON COLUMN "public"."BuilderTableColumn"."EntityType" IS '实体类型';
 COMMENT ON COLUMN "public"."BuilderTableColumn"."EntityName" IS '实体名称';
@@ -1435,10 +1435,10 @@ INSERT INTO "public"."Relevance" VALUES ('feec44e3-3f88-4ac2-a4ad-a5bd3161f1bb',
 INSERT INTO "public"."Relevance" VALUES ('fef68b50-ef7f-45a4-8f0e-38e8d8ecaaea', '', 'RoleElement', 0, '2020-03-19 00:16:54.797', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '68484265-7802-4f06-b024-33e8b2f2edcf', '', '');
 
 -- ----------------------------
--- Table structure for Resource
+-- Table structure for SysResource
 -- ----------------------------
-DROP TABLE IF EXISTS "public"."Resource";
-CREATE TABLE "public"."Resource" (
+DROP TABLE IF EXISTS "public"."SysResource";
+CREATE TABLE "public"."SysResource" (
   "Id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "CascadeId" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "Name" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
@@ -1459,36 +1459,36 @@ CREATE TABLE "public"."Resource" (
   "UpdateUserName" varchar(200) COLLATE "pg_catalog"."default"
 )
 ;
-COMMENT ON COLUMN "public"."Resource"."Id" IS '资源标识';
-COMMENT ON COLUMN "public"."Resource"."CascadeId" IS '节点语义ID';
-COMMENT ON COLUMN "public"."Resource"."Name" IS '名称';
-COMMENT ON COLUMN "public"."Resource"."SortNo" IS '排序号';
-COMMENT ON COLUMN "public"."Resource"."Description" IS '描述';
-COMMENT ON COLUMN "public"."Resource"."ParentName" IS '父节点名称';
-COMMENT ON COLUMN "public"."Resource"."ParentId" IS '父节点流ID';
-COMMENT ON COLUMN "public"."Resource"."AppId" IS '资源所属应用ID';
-COMMENT ON COLUMN "public"."Resource"."AppName" IS '所属应用名称';
-COMMENT ON COLUMN "public"."Resource"."TypeName" IS '分类名称';
-COMMENT ON COLUMN "public"."Resource"."TypeId" IS '分类ID';
-COMMENT ON COLUMN "public"."Resource"."Disable" IS '是否可用';
-COMMENT ON COLUMN "public"."Resource"."CreateTime" IS '创建时间';
-COMMENT ON COLUMN "public"."Resource"."CreateUserId" IS '创建人ID';
-COMMENT ON COLUMN "public"."Resource"."CreateUserName" IS '创建人';
-COMMENT ON COLUMN "public"."Resource"."UpdateTime" IS '最后更新时间';
-COMMENT ON COLUMN "public"."Resource"."UpdateUserId" IS '最后更新人ID';
-COMMENT ON COLUMN "public"."Resource"."UpdateUserName" IS '最后更新人';
-COMMENT ON TABLE "public"."Resource" IS '资源表';
+COMMENT ON COLUMN "public"."SysResource"."Id" IS '资源标识';
+COMMENT ON COLUMN "public"."SysResource"."CascadeId" IS '节点语义ID';
+COMMENT ON COLUMN "public"."SysResource"."Name" IS '名称';
+COMMENT ON COLUMN "public"."SysResource"."SortNo" IS '排序号';
+COMMENT ON COLUMN "public"."SysResource"."Description" IS '描述';
+COMMENT ON COLUMN "public"."SysResource"."ParentName" IS '父节点名称';
+COMMENT ON COLUMN "public"."SysResource"."ParentId" IS '父节点流ID';
+COMMENT ON COLUMN "public"."SysResource"."AppId" IS '资源所属应用ID';
+COMMENT ON COLUMN "public"."SysResource"."AppName" IS '所属应用名称';
+COMMENT ON COLUMN "public"."SysResource"."TypeName" IS '分类名称';
+COMMENT ON COLUMN "public"."SysResource"."TypeId" IS '分类ID';
+COMMENT ON COLUMN "public"."SysResource"."Disable" IS '是否可用';
+COMMENT ON COLUMN "public"."SysResource"."CreateTime" IS '创建时间';
+COMMENT ON COLUMN "public"."SysResource"."CreateUserId" IS '创建人ID';
+COMMENT ON COLUMN "public"."SysResource"."CreateUserName" IS '创建人';
+COMMENT ON COLUMN "public"."SysResource"."UpdateTime" IS '最后更新时间';
+COMMENT ON COLUMN "public"."SysResource"."UpdateUserId" IS '最后更新人ID';
+COMMENT ON COLUMN "public"."SysResource"."UpdateUserName" IS '最后更新人';
+COMMENT ON TABLE "public"."SysResource" IS '资源表';
 
 -- ----------------------------
 -- Records of Resource
 -- ----------------------------
-INSERT INTO "public"."Resource" VALUES ('SYS_DEL_USER', '.0.2.', '删除用户', 0, '拥有删除OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:58', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:58', '', '');
-INSERT INTO "public"."Resource" VALUES ('SYS_UPDATE_USER', '.0.1.', '更新用户信息', 0, '拥有更新OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:17', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:12', '', '');
-INSERT INTO "public"."Resource" VALUES ('SYS_VIEW_USER', '.0.3.', '查看用户列表', 0, '查看OpenAuth.Net用户列表', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:44:39', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:44:39', '', '');
-INSERT INTO "public"."Resource" VALUES ('XXX_ADDORDER', '.0.6.', '创建订单', 0, '在XXX平台创建订单', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:24', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:24', '', '');
-INSERT INTO "public"."Resource" VALUES ('XXX_DEL_LOG', '.0.4.', '删除XXX平台日志', 0, '删除XXX平台日志', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:45:02', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:45:02', '', '');
-INSERT INTO "public"."Resource" VALUES ('XXX_LOGIN', '.0.7.', '登录', 0, '登录XXX平台', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:55:20', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:55:20', '', '');
-INSERT INTO "public"."Resource" VALUES ('XXX_VIEW_USER', '.0.5.', '查看用户', 0, '查看XXX平台用户列表', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:01', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:01', '', '');
+INSERT INTO "public"."SysResource" VALUES ('SYS_DEL_USER', '.0.2.', '删除用户', 0, '拥有删除OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:58', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:58', '', '');
+INSERT INTO "public"."SysResource" VALUES ('SYS_UPDATE_USER', '.0.1.', '更新用户信息', 0, '拥有更新OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:17', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:12', '', '');
+INSERT INTO "public"."SysResource" VALUES ('SYS_VIEW_USER', '.0.3.', '查看用户列表', 0, '查看OpenAuth.Net用户列表', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:44:39', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:44:39', '', '');
+INSERT INTO "public"."SysResource" VALUES ('XXX_ADDORDER', '.0.6.', '创建订单', 0, '在XXX平台创建订单', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:24', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:24', '', '');
+INSERT INTO "public"."SysResource" VALUES ('XXX_DEL_LOG', '.0.4.', '删除XXX平台日志', 0, '删除XXX平台日志', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:45:02', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:45:02', '', '');
+INSERT INTO "public"."SysResource" VALUES ('XXX_LOGIN', '.0.7.', '登录', 0, '登录XXX平台', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:55:20', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:55:20', '', '');
+INSERT INTO "public"."SysResource" VALUES ('XXX_VIEW_USER', '.0.5.', '查看用户', 0, '查看XXX平台用户列表', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:01', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:01', '', '');
 
 -- ----------------------------
 -- Table structure for Role
@@ -1528,22 +1528,22 @@ DROP TABLE IF EXISTS "public"."Stock";
 CREATE TABLE "public"."Stock" (
   "Id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "Name" text COLLATE "pg_catalog"."default" NOT NULL,
-  "Number" int4 NOT NULL,
+  "ProdCnt" int4 NOT NULL,
   "Price" "pg_catalog"."numeric" NOT NULL,
   "Status" int4 NOT NULL,
   "Viewable" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "User" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
+  "CreateUser" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "Time" timestamp(6) NOT NULL,
   "OrgId" varchar(50) COLLATE "pg_catalog"."default"
 )
 ;
 COMMENT ON COLUMN "public"."Stock"."Id" IS '数据ID';
 COMMENT ON COLUMN "public"."Stock"."Name" IS '产品名称';
-COMMENT ON COLUMN "public"."Stock"."Number" IS '产品数量';
+COMMENT ON COLUMN "public"."Stock"."ProdCnt" IS '产品数量';
 COMMENT ON COLUMN "public"."Stock"."Price" IS '产品单价';
 COMMENT ON COLUMN "public"."Stock"."Status" IS '出库/入库';
 COMMENT ON COLUMN "public"."Stock"."Viewable" IS '可见范围';
-COMMENT ON COLUMN "public"."Stock"."User" IS '操作人';
+COMMENT ON COLUMN "public"."Stock"."CreateUser" IS '操作人';
 COMMENT ON COLUMN "public"."Stock"."Time" IS '操作时间';
 COMMENT ON COLUMN "public"."Stock"."OrgId" IS '组织ID';
 COMMENT ON TABLE "public"."Stock" IS '出入库信息表';
@@ -1695,10 +1695,10 @@ COMMENT ON TABLE "public"."UploadFile" IS '文件';
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for User
+-- Table structure for SysUser
 -- ----------------------------
-DROP TABLE IF EXISTS "public"."User";
-CREATE TABLE "public"."User" (
+DROP TABLE IF EXISTS "public"."SysUser";
+CREATE TABLE "public"."SysUser" (
   "Id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "Account" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "Password" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
@@ -1713,31 +1713,31 @@ CREATE TABLE "public"."User" (
   "ParentId" varchar(50) COLLATE "pg_catalog"."default"
 )
 ;
-COMMENT ON COLUMN "public"."User"."Id" IS '流水号';
-COMMENT ON COLUMN "public"."User"."Account" IS '用户登录帐号';
-COMMENT ON COLUMN "public"."User"."Password" IS '密码';
-COMMENT ON COLUMN "public"."User"."Name" IS '用户姓名';
-COMMENT ON COLUMN "public"."User"."Sex" IS '性别';
-COMMENT ON COLUMN "public"."User"."Status" IS '用户状态';
-COMMENT ON COLUMN "public"."User"."BizCode" IS '业务对照码';
-COMMENT ON COLUMN "public"."User"."CreateTime" IS '经办时间';
-COMMENT ON COLUMN "public"."User"."CreateId" IS '创建人';
-COMMENT ON COLUMN "public"."User"."TypeName" IS '分类名称';
-COMMENT ON COLUMN "public"."User"."TypeId" IS '分类ID';
-COMMENT ON COLUMN "public"."User"."ParentId" IS '直接上级;';
-COMMENT ON TABLE "public"."User" IS '用户基本信息表';
+COMMENT ON COLUMN "public"."SysUser"."Id" IS '流水号';
+COMMENT ON COLUMN "public"."SysUser"."Account" IS '用户登录帐号';
+COMMENT ON COLUMN "public"."SysUser"."Password" IS '密码';
+COMMENT ON COLUMN "public"."SysUser"."Name" IS '用户姓名';
+COMMENT ON COLUMN "public"."SysUser"."Sex" IS '性别';
+COMMENT ON COLUMN "public"."SysUser"."Status" IS '用户状态';
+COMMENT ON COLUMN "public"."SysUser"."BizCode" IS '业务对照码';
+COMMENT ON COLUMN "public"."SysUser"."CreateTime" IS '经办时间';
+COMMENT ON COLUMN "public"."SysUser"."CreateId" IS '创建人';
+COMMENT ON COLUMN "public"."SysUser"."TypeName" IS '分类名称';
+COMMENT ON COLUMN "public"."SysUser"."TypeId" IS '分类ID';
+COMMENT ON COLUMN "public"."SysUser"."ParentId" IS '直接上级;';
+COMMENT ON TABLE "public"."SysUser" IS '用户基本信息表';
 
 -- ----------------------------
 -- Records of User
 -- ----------------------------
-INSERT INTO "public"."User" VALUES ('0ceff0f8-f848-440c-bc26-d8605ac858cd', 'test5', 'test5', 'test5', 1, 1, '', '2022-03-15 09:19:05', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
-INSERT INTO "public"."User" VALUES ('1df68dfd-3b6d-4491-872f-00a0fc6c5a64', 'test4', 'test4', 'test4', 1, 1, '', '2022-12-12 14:07:11', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
-INSERT INTO "public"."User" VALUES ('229f3a49-ab27-49ce-b383-9f10ca23a9d5', 'test3', 'test3', 'test3', 1, 0, '', '2022-12-12 14:07:05', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
-INSERT INTO "public"."User" VALUES ('49df1602-f5f3-4d52-afb7-3802da619558', 'admin', 'admin', 'admin', 1, 0, '', '2022-12-11 16:18:54', '', '', '', NULL);
-INSERT INTO "public"."User" VALUES ('6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', 'test', 'test', 1, 0, '', '2022-12-11 16:19:00', '', '', '', '49df1602-f5f3-4d52-afb7-3802da619558');
-INSERT INTO "public"."User" VALUES ('758a34c7-5a31-438c-bdf7-02fdd846b901', 'test77', 'test77', 'test77', 0, 0, '', '2022-10-31 21:59:08', '00000000-0000-0000-0000-000000000000', '', '', NULL);
-INSERT INTO "public"."User" VALUES ('96f63f9d-e8c8-4258-963e-3327ed7d6f56', 'test66', 'test66', 'test66', 0, 0, '', '2022-10-31 21:58:43', '00000000-0000-0000-0000-000000000000', '', '', NULL);
-INSERT INTO "public"."User" VALUES ('de8be521-f1ec-4483-b124-0be342890507', 'test2', 'test2', 'test2', 1, 0, '', '2022-12-11 16:19:06', '', '', '', '49df1602-f5f3-4d52-afb7-3802da619558');
+INSERT INTO "public"."SysUser" VALUES ('0ceff0f8-f848-440c-bc26-d8605ac858cd', 'test5', 'test5', 'test5', 1, 1, '', '2022-03-15 09:19:05', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
+INSERT INTO "public"."SysUser" VALUES ('1df68dfd-3b6d-4491-872f-00a0fc6c5a64', 'test4', 'test4', 'test4', 1, 1, '', '2022-12-12 14:07:11', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
+INSERT INTO "public"."SysUser" VALUES ('229f3a49-ab27-49ce-b383-9f10ca23a9d5', 'test3', 'test3', 'test3', 1, 0, '', '2022-12-12 14:07:05', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
+INSERT INTO "public"."SysUser" VALUES ('49df1602-f5f3-4d52-afb7-3802da619558', 'admin', 'admin', 'admin', 1, 0, '', '2022-12-11 16:18:54', '', '', '', NULL);
+INSERT INTO "public"."SysUser" VALUES ('6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', 'test', 'test', 1, 0, '', '2022-12-11 16:19:00', '', '', '', '49df1602-f5f3-4d52-afb7-3802da619558');
+INSERT INTO "public"."SysUser" VALUES ('758a34c7-5a31-438c-bdf7-02fdd846b901', 'test77', 'test77', 'test77', 0, 0, '', '2022-10-31 21:59:08', '00000000-0000-0000-0000-000000000000', '', '', NULL);
+INSERT INTO "public"."SysUser" VALUES ('96f63f9d-e8c8-4258-963e-3327ed7d6f56', 'test66', 'test66', 'test66', 0, 0, '', '2022-10-31 21:58:43', '00000000-0000-0000-0000-000000000000', '', '', NULL);
+INSERT INTO "public"."SysUser" VALUES ('de8be521-f1ec-4483-b124-0be342890507', 'test2', 'test2', 'test2', 1, 0, '', '2022-12-11 16:19:06', '', '', '', '49df1602-f5f3-4d52-afb7-3802da619558');
 
 -- ----------------------------
 -- Table structure for WmsInboundOrderDtbl
@@ -1971,7 +1971,7 @@ ALTER TABLE "public"."Relevance" ADD CONSTRAINT "relevance_pkey" PRIMARY KEY ("I
 -- ----------------------------
 -- Primary Key structure for table Resource
 -- ----------------------------
-ALTER TABLE "public"."Resource" ADD CONSTRAINT "resource_pkey" PRIMARY KEY ("Id");
+ALTER TABLE "public"."SysResource" ADD CONSTRAINT "resource_pkey" PRIMARY KEY ("Id");
 
 -- ----------------------------
 -- Primary Key structure for table Role
@@ -2006,7 +2006,7 @@ ALTER TABLE "public"."UploadFile" ADD CONSTRAINT "uploadfile_pkey" PRIMARY KEY (
 -- ----------------------------
 -- Primary Key structure for table User
 -- ----------------------------
-ALTER TABLE "public"."User" ADD CONSTRAINT "user_pkey" PRIMARY KEY ("Id");
+ALTER TABLE "public"."SysUser" ADD CONSTRAINT "user_pkey" PRIMARY KEY ("Id");
 
 -- ----------------------------
 -- Primary Key structure for table WmsInboundOrderDtbl

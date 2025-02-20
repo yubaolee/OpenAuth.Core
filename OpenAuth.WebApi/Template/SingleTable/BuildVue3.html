@@ -6,23 +6,13 @@
 <template>
   <div class="flex flex-column">
     <sticky>
-      <el-input
-        @keyup.enter="handleFilter"
-        size="small"
-        style="width: 200px"
-        class="filter-item"
-        :placeholder="'名称'"
-        v-model="listQuery.key"></el-input>
-      <el-button
-        class="filter-item"
-        size="small"
-        icon="el-icon-search"
-        @click="handleFilter">
-        搜索
-      </el-button>
-      <permission-btn
-        size="small"
-        v-on:btn-event="onBtnClicked"></permission-btn>
+      <div class="search-box">
+        <el-input @keyup.enter="handleFilter" size="small" class="custom-input w-200" :placeholder="'名称'"
+          v-model="listQuery.key"></el-input>
+
+        <el-button size="small" class="custom-button filter-item" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+      </div>
+      <permission-btn v-on:btn-event="onBtnClicked"></permission-btn>
     </sticky>
 
     <auth-table

@@ -9,9 +9,9 @@
   <div class="flex-column">
     <sticky :className="'sub-navbar'">
       <div class="filter-container">
-        <el-input @keyup.enter.native="handleFilter" size="mini" style="width: 200px;" class="filter-item" :placeholder="'名称'" v-model="firstQuery.key"> </el-input>
-        <el-button class="filter-item" size="mini" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
-        <permission-btn  size="mini" v-on:btn-event="onBtnClicked"></permission-btn>
+        <el-input @keyup.enter.native="handleFilter" size="small" style="width: 200px;" class="filter-item" :placeholder="'名称'" v-model="firstQuery.key"> </el-input>
+        <el-button class="filter-item" size="small" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
+        <permission-btn  size="small" v-on:btn-event="onBtnClicked"></permission-btn>
       </div>
     </sticky>
     <div class="app-container flex-item flex-column">
@@ -40,8 +40,8 @@
               <span v-if="radio == ''">明细</span>
               <span v-else>{{ radio }}明细</span>
               <div class="edit-buttons">
-                <el-button v-if="editModel" class="filter-item edit-button" size="mini" v-waves icon="el-icon-plus" @click="onBtnClicked('btnAddDetail')">添加</el-button>
-                <el-button v-if="editModel" class="filter-item edit-button delete-button" size="mini" v-waves icon="el-icon-delete" @click="onBtnClicked('btnDelDetail')">删除</el-button>
+                <el-button v-if="editModel" class="filter-item edit-button" size="small" v-waves icon="el-icon-plus" @click="onBtnClicked('btnAddDetail')">添加</el-button>
+                <el-button v-if="editModel" class="filter-item edit-button delete-button" size="small" v-waves icon="el-icon-delete" @click="onBtnClicked('btnDelDetail')">删除</el-button>
               </div>
             </div>
             <auth-table style="height:calc(100% - 52px - 34px)" ref="secondTable" border :editModel="editModel" :table-fields="secondHeaderList" :data="secondList" @row-click="rowClickSecondTable" @selection-change="selChangeSecondTable"></auth-table>
@@ -52,9 +52,9 @@
       <el-card shadow="nerver" v-if="editModel" style="text-align: right;padding-bottom: 10px;">
         <el-row>
           <el-col :span="24"
-            ><el-button size="mini" @click="editModel = false">取消</el-button>
-            <el-button size="mini" v-if="dialogStatus == 'create'" type="primary" @click="createData">确认</el-button>
-            <el-button size="mini" v-else type="primary" @click="updateData">确认</el-button></el-col
+            ><el-button size="small" @click="editModel = false">取消</el-button>
+            <el-button size="small" v-if="dialogStatus == 'create'" type="primary" @click="createData">确认</el-button>
+            <el-button size="small" v-else type="primary" @click="updateData">确认</el-button></el-col
           >
         </el-row>
       </el-card>

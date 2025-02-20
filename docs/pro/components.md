@@ -10,11 +10,11 @@ OpenAuth.Pro封装了一些组件，方便开发使用，组件全部在`src\com
 
 静态字典。根据【字典分类】模块的`分类标识`关键字获取，如：
 ```html
-<auth-select :isEdit="isEdit" @change="change" :data-source="'SYS_STATUS'" v-model="val" size="mini"></auth-select>
+<auth-select :isEdit="isEdit" @change="change" :data-source="'SYS_STATUS'" v-model="val" size="small"></auth-select>
 ```
 动态列表。从指定Url获取value/label结构的数据进行渲染，如：
 ```html
-<auth-select :default-props="{label:'name', value:'id'}" :isEdit="isEdit" @change="change" :type="'dynamic'" :data-source="'/CategoryTypes/Load'" v-model="val" size="mini"></auth-select>
+<auth-select :default-props="{label:'name', value:'id'}" :isEdit="isEdit" @change="change" :type="'dynamic'" :data-source="'/CategoryTypes/Load'" v-model="val" size="small"></auth-select>
 ```
 
 该组件有以下几个参数：

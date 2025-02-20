@@ -7,9 +7,9 @@
   <div class="flex-column">
     <sticky :className="'sub-navbar'">
       <div class="filter-container">
-        <el-input @keyup.enter.native="handleFilter" size="mini" style="width: 200px;" class="filter-item" :placeholder="'名称'" v-model="listQuery.key"> </el-input>
-        <el-button class="filter-item" size="mini" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
-        <permission-btn size="mini" v-on:btn-event="onBtnClicked"></permission-btn>
+        <el-input @keyup.enter.native="handleFilter" size="small" style="width: 200px;" class="filter-item" :placeholder="'名称'" v-model="listQuery.key"> </el-input>
+        <el-button class="filter-item" size="small" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
+        <permission-btn size="small" v-on:btn-event="onBtnClicked"></permission-btn>
       </div>
     </sticky>
     <div class="app-container flex-item">
@@ -29,9 +29,9 @@
       <el-dialog v-el-drag-dialog class="dialog-mini" width="500px" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
         <auth-form ref="dataForm" :rules="rules" :edit-model="true" :form-fields="headerList" v-model="temp" :col-num="2"></auth-form>
         <div slot="footer">
-          <el-button size="mini" @click="dialogFormVisible = false">取消</el-button>
-          <el-button size="mini" v-if="dialogStatus == 'create'" type="primary" @click="createData">确认</el-button>
-          <el-button size="mini" v-else type="primary" @click="updateData">确认</el-button>
+          <el-button size="small" @click="dialogFormVisible = false">取消</el-button>
+          <el-button size="small" v-if="dialogStatus == 'create'" type="primary" @click="createData">确认</el-button>
+          <el-button size="small" v-else type="primary" @click="updateData">确认</el-button>
         </div>
       </el-dialog>
     </div>

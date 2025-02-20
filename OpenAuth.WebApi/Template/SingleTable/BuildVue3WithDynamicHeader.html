@@ -8,20 +8,20 @@
     <sticky>
       <el-input
         @keyup.enter="handleFilter"
-        size="mini"
+        size="small"
         style="width: 200px"
         class="filter-item"
         :placeholder="'名称'"
         v-model="listQuery.key"></el-input>
       <el-button
         class="filter-item"
-        size="mini"
+        size="small"
         icon="el-icon-search"
         @click="handleFilter">
         搜索
       </el-button>
       <permission-btn
-        size="mini"
+        size="small"
         v-on:btn-event="onBtnClicked"></permission-btn>
     </sticky>
 
@@ -55,17 +55,17 @@
       :col-num="2"></auth-form>
     <template v-slot:footer>
       <div>
-        <el-button size="mini" @click="dialogFormVisible = false">
+        <el-button size="small" @click="dialogFormVisible = false">
           取消
         </el-button>
         <el-button
-          size="mini"
+          size="small"
           v-if="dialogStatus == 'create'"
           type="primary"
           @click="createData">
           确认
         </el-button>
-        <el-button size="mini" v-else type="primary" @click="updateData">
+        <el-button size="small" v-else type="primary" @click="updateData">
           确认
         </el-button>
       </div>

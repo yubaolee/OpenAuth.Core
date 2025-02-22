@@ -177,7 +177,7 @@ layui.config({
                 type: 1,
                 content: $('#divMenuEdit'),
                 success: function () {
-                    if (data == undefined) {
+                    if (!update) {
                         form.val("mfromEdit", menuInital);
                     } else {
                         form.val("mfromEdit", data);
@@ -204,6 +204,7 @@ layui.config({
         }
         return {
             add: function (moduleId) { //弹出添加
+                menuInital.ModuleId = moduleId;
                 show(false);
             },
             update: function (data) { //弹出编辑框

@@ -18,7 +18,7 @@ features:
   details: 角色授权、代码生成、智能打印、数据权限、拖拽表单、工作流引擎、定时任务。
 - title: 主流技术
   details: IdentityServer、EF、SqlSugar、Quartz、AutoFac、WebAPI、Swagger、Mock、NUnit、VUE2、VUE3、Element-ui、Element-plus。
-footer: Copyright © 2024- yubaolee
+footer: Copyright © 2025- yubaolee
 ---
 
 

@@ -104,13 +104,23 @@ namespace OpenAuth.IdentityServer
                 {
                     DbType = sugarDbtype.Value,
                     ConnectionString = connectionString,
-                    IsAutoCloseConnection = true,
-                    MoreSettings=new ConnMoreSettings() { 
-                        PgSqlIsAutoToLower = false,//增删查改支持驼峰表
-                        PgSqlIsAutoToLowerCodeFirst = false, // 建表建驼峰表。5.1.3.30 
-                        IsAutoToUpper=false //禁用自动转成大写表
-                    }
+                    IsAutoCloseConnection = true
                 });
+                // 配置bool类型转换为smallint
+                sqlSugar.Aop.OnExecutingChangeSql = (sql, parameters) =>
+                {
+                    foreach (var param in parameters)
+                    {
+                        if (param.Value is bool boolValue)
+                        {
+                            param.DbType = System.Data.DbType.Int16;
+                            // 将 bool 转换为 smallint
+                            param.Value = boolValue ? (short)1 : (short)0;
+                        }
+                    }
+                    // 返回修改后的 SQL 和参数
+                    return new System.Collections.Generic.KeyValuePair<string, SugarParameter[]>(sql, parameters);
+                };
                 return sqlSugar;
             });
 

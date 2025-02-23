@@ -184,11 +184,7 @@ namespace OpenAuth.WebApi
                 {
                     DbType = dbType.Value,
                     ConnectionString = connectionString,
-                    IsAutoCloseConnection = true,
-                    MoreSettings=new ConnMoreSettings() { 
-                        PgSqlIsAutoToLower = false,//增删查改支持驼峰表
-                        PgSqlIsAutoToLowerCodeFirst = false// 建表建驼峰表。5.1.3.30 
-                    }
+                    IsAutoCloseConnection = true
                 }, db => { db.Aop.OnLogExecuting = (sql, pars) => { logger.LogInformation(sql); }; });
                 return sqlSugar;
             });

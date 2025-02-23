@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Infrastructure;
 using OpenAuth.App.Interface;
@@ -41,10 +40,7 @@ namespace OpenAuth.App
             }
 
             var columnnames = columnFields.Select(u => u.ColumnName);
-            if (SugarClient.CurrentConnectionConfig.DbType == DbType.PostgreSQL)
-            {
-                columnnames = columnFields.Select(u => "\"" + u.ColumnName +"\"");
-            }
+           
             var propertyStr = string.Join(',', columnnames);
             result.columnFields = columnFields;
             result.data = objs.OrderByDescending(u => u.CreateTime)

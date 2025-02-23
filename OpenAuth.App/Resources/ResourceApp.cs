@@ -85,10 +85,7 @@ namespace OpenAuth.App
             }
 
             var columnnames = columnFields.Select(u => u.ColumnName);
-            if (SugarClient.CurrentConnectionConfig.DbType == DbType.PostgreSQL)
-            {
-                columnnames = columnFields.Select(u => "\"" + u.ColumnName +"\"");
-            }
+            
             var propertyStr = string.Join(',', columnnames);
             result.columnFields = columnFields;
             result.data = resources.OrderBy(u => u.TypeId)

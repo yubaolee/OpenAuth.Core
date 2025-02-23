@@ -77,7 +77,7 @@ namespace OpenAuth.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DataPrivilegeRule>()
-                .HasKey(c => new {c.Id});
+                .HasKey(c => new { c.Id });
             modelBuilder.Entity<SysTableColumn>().HasNoKey();
             modelBuilder.Entity<QueryStringObj>().HasNoKey();
 
@@ -86,7 +86,7 @@ namespace OpenAuth.Repository
                 || Database.ProviderName == "Oracle.EntityFrameworkCore")
             {
                 var boolToSmallIntConverter = new ValueConverter<bool, short>(
-                    v => v ? (short) 1 : (short) 0,
+                    v => v ? (short)1 : (short)0,
                     v => v != 0);
                 foreach (var entityType in modelBuilder.Model.GetEntityTypes())
                 {
@@ -106,21 +106,32 @@ namespace OpenAuth.Repository
                         }
                     }
                 }
-            }
 
-            //如果数据库是Oracle，则将所有表名和字段名转换为大写
-            if (Database.ProviderName == "Oracle.EntityFrameworkCore")
-            {
+                // Oracle和PostgreSQL将所有属性映射到大写/小写列名
                 foreach (var entity in modelBuilder.Model.GetEntityTypes())
                 {
-                    entity.SetTableName(entity.GetTableName().ToUpper());
-                    // 将所有属性映射到大写列名
+                    if (Database.ProviderName == "Oracle.EntityFrameworkCore")
+                    {
+                        entity.SetTableName(entity.GetTableName().ToUpper());
+                    }
+                    else if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL")
+                    {
+                        entity.SetTableName(entity.GetTableName().ToLower());
+                    }
+
                     foreach (var property in entity.GetProperties())
                     {
                         var storeObject = StoreObjectIdentifier.Create(entity, StoreObjectType.Table);
                         if (storeObject.HasValue)
                         {
-                            property.SetColumnName(property.GetColumnName(storeObject.Value).ToUpper());
+                            if (Database.ProviderName == "Oracle.EntityFrameworkCore")
+                            {
+                                property.SetColumnName(property.GetColumnName(storeObject.Value).ToUpper());
+                            }
+                            else if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL")
+                            {
+                                property.SetColumnName(property.GetColumnName(storeObject.Value).ToLower());
+                            }
                         }
                     }
                 }

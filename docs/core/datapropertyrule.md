@@ -1,3 +1,4 @@
+
 # 字段权限
 
 ::: warning 注意
@@ -59,7 +60,7 @@ return result;
 		     var columns = data.columnFields.filter(u => u.IsList ===true).map(function (e) {
 			    return {
                     field: e.ColumnName,
-                    title: e.Comment
+                    title: e.Remark
 			    };
 		    });
 		    columns.unshift({

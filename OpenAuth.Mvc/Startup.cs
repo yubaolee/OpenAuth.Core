@@ -111,6 +111,26 @@ namespace OpenAuth.Mvc
                     ConnectionString = connectionString,
                     IsAutoCloseConnection = true
                 }, db => { db.Aop.OnLogExecuting = (sql, pars) => { logger.LogInformation(sql); }; });
+
+                 if(dbType.Value != SqlSugar.DbType.PostgreSQL){
+                    return sqlSugar;
+                }
+
+                // 配置bool类型转换为smallint
+                sqlSugar.Aop.OnExecutingChangeSql = (sql, parameters) =>
+                {
+                    foreach (var param in parameters)
+                    {
+                        if (param.Value is bool boolValue)
+                        {
+                            param.DbType = System.Data.DbType.Int16;
+                            // 将 bool 转换为 smallint
+                            param.Value = boolValue ? (short)1 : (short)0;
+                        }
+                    }
+                    // 返回修改后的 SQL 和参数
+                    return new System.Collections.Generic.KeyValuePair<string, SugarParameter[]>(sql, parameters);
+                };
                 return sqlSugar;
             });
             

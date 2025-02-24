@@ -106,32 +106,32 @@ namespace OpenAuth.Repository
                         }
                     }
                 }
+            }
 
-                // Oracle和PostgreSQL将所有属性映射到大写/小写列名
-                foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            // Oracle和PostgreSQL将所有属性映射到大写/小写列名
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                if (Database.ProviderName == "Oracle.EntityFrameworkCore")
                 {
-                    if (Database.ProviderName == "Oracle.EntityFrameworkCore")
-                    {
-                        entity.SetTableName(entity.GetTableName().ToUpper());
-                    }
-                    else if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL")
-                    {
-                        entity.SetTableName(entity.GetTableName().ToLower());
-                    }
+                    entity.SetTableName(entity.GetTableName().ToUpper());
+                }
+                else if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL" || Database.ProviderName == "Pomelo.EntityFrameworkCore.MySql")
+                {
+                    entity.SetTableName(entity.GetTableName().ToLower());
+                }
 
-                    foreach (var property in entity.GetProperties())
+                foreach (var property in entity.GetProperties())
+                {
+                    var storeObject = StoreObjectIdentifier.Create(entity, StoreObjectType.Table);
+                    if (storeObject.HasValue)
                     {
-                        var storeObject = StoreObjectIdentifier.Create(entity, StoreObjectType.Table);
-                        if (storeObject.HasValue)
+                        if (Database.ProviderName == "Oracle.EntityFrameworkCore")
                         {
-                            if (Database.ProviderName == "Oracle.EntityFrameworkCore")
-                            {
-                                property.SetColumnName(property.GetColumnName(storeObject.Value).ToUpper());
-                            }
-                            else if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL")
-                            {
-                                property.SetColumnName(property.GetColumnName(storeObject.Value).ToLower());
-                            }
+                            property.SetColumnName(property.GetColumnName(storeObject.Value).ToUpper());
+                        }
+                        else if (Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL" || Database.ProviderName == "Pomelo.EntityFrameworkCore.MySql")
+                        {
+                            property.SetColumnName(property.GetColumnName(storeObject.Value).ToLower());
                         }
                     }
                 }

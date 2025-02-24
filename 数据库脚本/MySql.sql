@@ -7,16 +7,16 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `application`;
 CREATE TABLE `application`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'AppId',
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '应用名称',
-  `AppSecret` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '应用密钥',
-  `Description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '应用描述',
-  `Icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '应用图标',
-  `Disable` tinyint(4) NOT NULL COMMENT '是否可用',
-  `CreateTime` date NOT NULL COMMENT '创建日期',
-  `CreateUser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '应用' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'AppId',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '应用名称',
+  `appsecret` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '应用密钥',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '应用描述',
+  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '应用图标',
+  `disable` tinyint(4) NOT NULL COMMENT '是否可用',
+  `createtime` date NOT NULL COMMENT '创建日期',
+  `createuser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '应用' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of application
@@ -29,30 +29,30 @@ INSERT INTO `application` VALUES ('119', 'XXX管理平台', 'manageryubaolee', '
 -- ----------------------------
 DROP TABLE IF EXISTS `buildertable`;
 CREATE TABLE `buildertable`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
-  `TableName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表英文全称',
-  `Remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表描述、中文名称',
-  `DetailTableName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子表英文全称',
-  `DetailComment` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子表描述、中文名称',
-  `ClassName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '实体类名称',
-  `Namespace` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '命名空间',
-  `ModuleCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模块标识',
-  `ModuleName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模块名称',
-  `Folder` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '代码相对文件夹路径',
-  `Options` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其它生成选项',
-  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
-  `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
-  `CreateTime` datetime NOT NULL COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
-  `UpdateTime` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人ID',
-  `UpdateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人姓名',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人姓名',
-  `ForeignKey` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字表外键',
-  `IsDynamicHeader` tinyint(4) NULL DEFAULT 0 COMMENT '是否动态加载表头信息',
-  `ParentTableId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主表Id，如果为空，则默认为主表',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成器的表信息' ROW_FORMAT = DYNAMIC;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
+  `tablename` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表英文全称',
+  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表描述、中文名称',
+  `detailtablename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子表英文全称',
+  `detailcomment` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '子表描述、中文名称',
+  `classname` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '实体类名称',
+  `namespace` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '命名空间',
+  `modulecode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模块标识',
+  `modulename` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '模块名称',
+  `folder` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '代码相对文件夹路径',
+  `options` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '其它生成选项',
+  `typeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
+  `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
+  `updatetime` datetime NULL DEFAULT NULL COMMENT '修改时间',
+  `updateuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人ID',
+  `updateusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人姓名',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人姓名',
+  `foreignkey` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '外键',
+  `isdynamicheader` tinyint(4) NULL DEFAULT NULL COMMENT '是否为动态头部',
+  `parenttableid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成器的表信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of buildertable
@@ -69,217 +69,218 @@ INSERT INTO `buildertable` VALUES ('fc52b31a-fc29-42b6-b53c-99463644fff2', 'data
 -- ----------------------------
 DROP TABLE IF EXISTS `buildertablecolumn`;
 CREATE TABLE `buildertablecolumn`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
-  `TableId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '归属表编号',
-  `TableName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表名称',
-  `ColumnName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列名称',
-  `Remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列描述',
-  `ColumnType` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列类型',
-  `EntityType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实体类型',
-  `EntityName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实体名称',
-  `IsKey` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否主键',
-  `IsIncrement` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否自增',
-  `IsRequired` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否必填',
-  `IsInsert` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否为插入字段',
-  `IsEdit` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否编辑字段',
-  `IsList` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否列表字段',
-  `IsQuery` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否查询字段',
-  `QueryType` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询方式（等于、不等于、大于、小于、范围）',
-  `HtmlType` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
-  `DataSource` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据源（用于下拉框、复选框等取值）',
-  `EditType` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编辑类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
-  `Sort` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
-  `CreateTime` datetime NOT NULL COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
-  `UpdateTime` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人ID',
-  `EditRow` int(11) NULL DEFAULT NULL COMMENT '修改时的行位置',
-  `EditCol` int(11) NULL DEFAULT NULL COMMENT '修改时的列位置',
-  `UpdateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人姓名',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人姓名',
-  `MaxLength` int(11) NULL DEFAULT NULL COMMENT '最大长度',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成器的字段信息' ROW_FORMAT = DYNAMIC;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
+  `tableid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '归属表编号',
+  `tablename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表名称',
+  `columnname` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列名称',
+  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '列描述',
+  `columntype` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '列类型',
+  `entitytype` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '实体类型',
+  `entityname` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实体名称',
+  `iskey` tinyint(4) NOT NULL COMMENT '是否主键',
+  `isincrement` tinyint(4) NOT NULL COMMENT '是否自增',
+  `isrequired` tinyint(4) NOT NULL COMMENT '是否必填',
+  `isinsert` tinyint(4) NOT NULL COMMENT '是否为插入字段',
+  `isedit` tinyint(4) NOT NULL COMMENT '是否编辑字段',
+  `islist` tinyint(4) NOT NULL COMMENT '是否列表字段',
+  `isquery` tinyint(4) NOT NULL COMMENT '是否查询字段',
+  `querytype` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '查询方式（等于、不等于、大于、小于、范围）',
+  `htmltype` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+  `edittype` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编辑类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+  `sort` int(11) NOT NULL COMMENT '排序',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
+  `updatetime` datetime NULL DEFAULT NULL COMMENT '修改时间',
+  `updateuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人ID',
+  `editrow` int(11) NULL DEFAULT NULL COMMENT '修改时的行位置',
+  `editcol` int(11) NULL DEFAULT NULL COMMENT '修改时的列位置',
+  `updateusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人姓名',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人姓名',
+  `maxlength` int(11) NULL DEFAULT NULL COMMENT '最大长度',
+  `datasource` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据源（当类型为复选框、下拉列表时使用）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成器的字段信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of buildertablecolumn
 -- ----------------------------
-INSERT INTO `buildertablecolumn` VALUES ('01fab5d4-f004-47e7-909a-c548c0949f04', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'HoldNum', '占用数量', 'decimal', 'decimal', 'HoldNum', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'number', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:02', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('03129db7-5ba9-4410-b43e-b77ac9fe7929', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 0, 0, 0, 0, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:57:46', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('08e80261-e4ae-4a6f-adf5-09ad5267a975', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'GoodsBatch', '商品批号', 'varchar', 'string', 'GoodsBatch', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('0ff3a09e-5a37-459f-be55-49ad2b90d934', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'Id', '入库通知单号', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 1, 0, '', '', NULL, 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:59', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('10462120-3731-4b3d-a44e-f8ee039b3b26', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'Disable', '是否禁用', 'tinyint', 'bool', 'Disable', 0, 0, 1, 1, 1, 1, 0, '', '', '', 'switch', 93, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 11:39:46', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('11997d76-06da-480f-9505-d7b6ed824d30', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'OrgId', '所属部门', 'varchar', 'string', 'OrgId', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:50:35', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('15797df5-1392-4eff-8c2f-e142eed7a9f9', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:53', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('165bb5dd-634d-470a-850c-8483bf967d0b', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'UpdateTime', '最后更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:40:31', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('17cf3076-9b38-4ac8-a05a-07b1f5b4a309', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'Remark', '备注', 'varchar', 'string', 'Remark', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'textarea', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:42', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 128);
-INSERT INTO `buildertablecolumn` VALUES ('18f07476-eaa9-4f5e-a4fd-14a8e1bd4c87', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, '', 80, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:59:35', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('2105d04e-8c65-4a21-9701-76f64ac119d3', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'OrderId', '入库单号', 'varchar', 'string', 'OrderId', 1, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 03:06:40', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('24d51a8f-7102-41f1-8d39-c8e9e6d72a53', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'SortNo', '排序号', 'int', 'int', 'SortNo', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'number', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:19', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('27178bae-387a-4e16-84c4-3fb9d5927afb', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:27', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('28bd8b85-b62a-4fa3-a50d-a78b015897be', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'OwnerId', '货主编号', 'varchar', 'string', 'OwnerId', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', 32);
-INSERT INTO `buildertablecolumn` VALUES ('2bc4953d-a863-492e-845f-36bff59bc107', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'UpdateUserId', '更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:27', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('2bed33d9-c8bf-46ea-8a35-99a6b079da66', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'UpdateTime', '更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 0, 0, 1, 0, '', '', NULL, 'datetime', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 03:06:47', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('32b5b4e9-44a7-410a-80d9-1200ffe048d5', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'UpdateUserId', '最后更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:38', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('33a8a1bd-ea81-4942-9469-4f20a037bf94', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'AppName', '应用名称', 'varchar', 'string', 'AppName', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, '', 90, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('3508e108-6fb3-44f2-aa61-4c61a42f5f38', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:09:47', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('37219218-c8a1-40a8-be28-77d423a019b7', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'AppId', '应用ID', 'varchar', 'string', 'AppId', 0, 0, 0, 1, 1, 0, 0, '', '', 'PLATFORM', 'select', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:49', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('3a5ed37f-4dca-420f-8a62-8465650dc1a3', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'UpdateTime', '最后更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 1, 0, 1, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:33', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('3b96bd7f-38a6-4188-9205-5f6340e29548', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'UpdateTime', '最后更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:52:29', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('3d1b1192-aad3-4a6f-9770-ecf486bc4cc0', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Status', '出库/入库', 'int', 'int', 'Status', 0, 0, 1, 1, 1, 1, 0, '', '', 'COMMON_STATUS', 'select', 7, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:15', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('3e0dcc3c-3978-4615-bfe9-e65b78e67f4e', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 0, 0, 0, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:51:57', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('430a695a-7975-4c63-bf57-13c9614d086d', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'TaxRate', '税率', 'decimal', 'decimal', 'TaxRate', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'decimal', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:47', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('450ff804-a22e-4676-83e8-474a2d32cc75', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:32', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('4922ec7f-8730-4c48-913b-a1c110c1e8c4', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ScheduledInboundTime', '预定入库时间', 'datetime', 'DateTime', 'ScheduledInboundTime', 0, 0, 0, 1, 1, 0, 0, '', '', NULL, 'date', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:51:12', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('4b52a996-4f4d-4a7c-b068-091d1a378b4c', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'OrgId', '组织ID', 'varchar', 'string', 'OrgId', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 20, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:02', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('4c44c915-d771-44b5-8030-f1c242425c7d', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'Id', '入库通知单明细号', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 1, 0, '', '', NULL, 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:11', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('4d6d87f3-b597-4dda-8f1f-a0d3d66a25e7', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'DtValue', '分类值', 'varchar', 'string', 'DtValue', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'textarea', 95, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:07', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('4ddd9669-84c6-4fd4-ae2b-fc72eb2aecf7', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'Description', '描述', 'varchar', 'string', 'Description', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 85, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:59:28', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 500);
-INSERT INTO `buildertablecolumn` VALUES ('4e967746-afe2-431c-b549-3ffbe982c25a', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'TypeName', '分类名称', 'varchar', 'string', 'TypeName', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:27:29', '', NULL, NULL, '', '超级管理员', 20);
-INSERT INTO `buildertablecolumn` VALUES ('50cf4640-ef20-4122-b21e-c4a6562813f3', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'SortNo', '排序号', 'int', 'int', 'SortNo', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'text', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:31:48', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('51f693cc-33c9-47e0-8080-81118a1d6924', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:40:06', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('53b76400-51d6-4f38-8142-7a855e9f872a', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'DtCode', '分类标识', 'varchar', 'string', 'DtCode', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 99, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:00', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('54954a8b-b34b-41c3-a2bf-46cf5c3f1afa', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'UpdateTime', '更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 1, 0, 1, 0, '', '', NULL, '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:24', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('56f222a5-bce9-4ae9-acfc-a6c7de0c6dfa', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Name', '产品名称', 'text', 'string', 'Name', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'text', 40, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:29:52', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 0);
-INSERT INTO `buildertablecolumn` VALUES ('5d372a7e-09f8-480c-9f05-0b28d24b713b', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ShipperId', '承运人编号', 'varchar', 'string', 'ShipperId', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('5d6c8d4f-b127-4959-a34c-5e641a9d89ed', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'SortNo', '排序号', 'int', 'int', 'SortNo', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'number', 70, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:51', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('6383b218-2658-4981-9f62-4690f398c1f2', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'Price', '含税单价', 'decimal', 'decimal', 'Price', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'decimal', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:05', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('67137a1d-f572-40ed-8c67-7fd570b63f42', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 0, 0, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:52:05', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('67a497dd-19b5-44d6-9804-6b8c0769cef0', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Viewable', '可见范围', 'varchar', 'string', 'Viewable', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 1, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:25', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('6bd63965-6353-47f8-bf46-eaa507457669', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'OrderType', '入库类型', 'varchar', 'string', 'OrderType', 0, 0, 1, 1, 1, 1, 0, '', '', 'SYS_INBOUNDTYPE', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:23', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('6cb07125-18fd-4268-adcc-e23ca1144ba5', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'PrivilegeRules', '权限规则', 'varchar', 'string', 'PrivilegeRules', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:35:02', '', NULL, NULL, '', '超级管理员', 1000);
-INSERT INTO `buildertablecolumn` VALUES ('6e6c331c-31ff-40cf-bddc-f331f936c982', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'Name', '名称', 'varchar', 'string', 'Name', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 95, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:58:42', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 255);
-INSERT INTO `buildertablecolumn` VALUES ('6ec4c6b1-7a5f-4000-bf69-a2511b0febb2', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ExternalType', '相关单据类型', 'varchar', 'string', 'ExternalType', 0, 0, 0, 0, 0, 0, 0, '', '', 'SYS_ORDERTYPE', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:13:21', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('6f59479c-9795-4df2-bd33-8f659f6b659d', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 1, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:38:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('7000e82f-da5d-4d5e-ac4b-eda825ae40c7', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'GoodsType', '商品类别', 'varchar', 'string', 'GoodsType', 0, 0, 0, 1, 1, 1, 0, '', '', 'SYS_GOODSTYPE', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:10:28', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('73759b1d-df4a-4c88-879e-503196604f67', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Time', '操作时间', 'datetime', 'DateTime', 'Time', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, 'date', 5, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:19', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('7bc33f75-16dc-49b7-822d-32be5aae904b', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'OrderNum', '通知数量', 'decimal', 'decimal', 'OrderNum', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'number', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:58', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('7edebf71-aa41-4bac-bff3-eaa3c3159b40', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'SourceCode', '资源标识（模块编号）', 'varchar', 'string', 'SourceCode', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:35:02', '', NULL, NULL, '', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('85ebb3a8-1a19-44f8-9706-acac1c8bdc44', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'AsnStatus', '到货状况', 'int', 'int', 'AsnStatus', 0, 0, 1, 1, 1, 1, 0, '', '', 'SYS_STATUS', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:47:30', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('861ca9ab-e81e-4fa8-8b56-375127a8cb59', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'LeaveNum', '剩余数量', 'decimal', 'decimal', 'LeaveNum', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'number', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('87d68d3a-22b1-475c-a20a-d39724ca7639', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 1, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:38:48', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('8a43f4d1-73a7-408d-b3cc-02be321b8ef9', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'OwnerId', '货主编号', 'varchar', 'string', 'OwnerId', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:33', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('8c0836e9-6da1-4510-a59b-ccc94f4c2c14', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'GoodsId', '商品编号', 'varchar', 'string', 'GoodsId', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('8d0326c3-fcbc-4b37-8c8b-20421daf6b34', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'Description', '权限描述', 'varchar', 'string', 'Description', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:35:02', '', NULL, NULL, '', '超级管理员', 255);
-INSERT INTO `buildertablecolumn` VALUES ('8effdc32-477a-44a4-a0e6-3e58c5631307', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Price', '产品单价', 'decimal', 'decimal', 'Price', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'text', 10, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:31:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('8f161c08-1880-4b9f-95d6-88abb78a573b', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'SubSourceCode', '二级资源标识', 'varchar', 'string', 'SubSourceCode', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-26 00:28:18', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('94d03bc7-832c-4dbe-9df1-84e8ec6f1707', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'Description', '描述', 'varchar', 'string', 'Description', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 55, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:45:53', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 500);
-INSERT INTO `buildertablecolumn` VALUES ('95b6e356-3687-4001-9ffb-1271c3baf31e', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'Id', '标识', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 1, 0, '', '', NULL, 'text', 99, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:52:12', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('96083a87-d21b-4b25-98c6-780156d68b08', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'ParentName', '父节点名称', 'varchar', 'string', 'ParentName', 0, 0, 0, 1, 0, 1, 0, '', '', NULL, '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:50:16', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('9864568d-9816-47e6-ae35-992a3b10bae2', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ReturnBoxNum', '销退箱数', 'decimal', 'decimal', 'ReturnBoxNum', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'number', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:44:24', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('9b140a3f-4d00-4a94-80d4-c7fac7be15cb', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'UpdateUserId', '最后更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:49:42', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('9cdf9bd0-a017-49d3-8724-843fe98c2c41', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'CascadeId', '节点语义ID', 'varchar', 'string', 'CascadeId', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, 'text', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:36:14', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 255);
-INSERT INTO `buildertablecolumn` VALUES ('9ce375d3-6087-467d-8b59-7f45ac0b68a6', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'UpdateUserId', '最后更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 0, 0, 0, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:52:05', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('9f689acf-84ac-4840-b1c7-39bb82ba47a9', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'Remark', '备注', 'varchar', 'string', 'Remark', 0, 0, 0, 1, 1, 0, 0, '', '', NULL, 'textarea', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:44:30', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 256);
-INSERT INTO `buildertablecolumn` VALUES ('a131adb2-9410-40ed-879e-b42af5d29c8c', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'Enable', '有效标志', 'tinyint', 'bool', 'Enable', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'switch', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:46:03', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('a32c75ea-4095-458a-97b6-815db63d951e', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'TransferType', '承运方式', 'varchar', 'string', 'TransferType', 0, 0, 0, 1, 1, 1, 0, '', '', 'SYS_SHIPTYPE', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:17:20', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('a33882d0-89f1-4d21-b740-051b1742e33c', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'QualityFlg', '品质', 'varchar', 'string', 'QualityFlg', 0, 0, 1, 1, 1, 1, 0, '', '', 'SYS_GOODSTYPE', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:51:39', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('a5f9c89e-474f-4047-9e18-a8a31050a952', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'SupplierId', '供应商编号', 'varchar', 'string', 'SupplierId', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:13:11', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('a6e98eac-afd5-4465-9b60-206cfdeab9e1', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 1, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:09:56', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('a76d32c3-312e-41ba-af71-bee893648a56', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:40:33', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('a79e8649-e2d9-4b51-a169-8c7f20472498', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'Name', '分类名称或描述', 'varchar', 'string', 'Name', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 85, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:46', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 255);
-INSERT INTO `buildertablecolumn` VALUES ('a8249275-9be3-4a92-ae3e-fa135233ef76', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'InNum', '到货数量', 'decimal', 'decimal', 'InNum', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('acbae3d8-fb55-404b-8680-53cb02b02927', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:56:36', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('b0898ec0-ff90-46a6-9129-bd67aad6a547', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, 'datetime', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:28:32', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('b1d3a4ef-ca85-48af-abdb-ca8b02a67b5e', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'PriceNoTax', '无税单价', 'decimal', 'decimal', 'PriceNoTax', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'decimal', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:09', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('b7f96e95-0adf-4dfe-a153-5048f778a518', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Number', '产品数量', 'int', 'int', 'Number', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'number', 30, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:29:55', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('b8a74c6e-4ad9-44b2-9c66-a799f6c3feb6', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:09:57', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('b98e4da3-32c0-48bd-b09a-e56b4521504d', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'TypeId', '分类ID', 'varchar', 'string', 'TypeId', 0, 0, 0, 1, 1, 0, 0, '', '', 'APP_TYPE', 'select', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:32:40', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('bcf8079e-f046-4fba-b98f-3f840c59edd3', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 0, 0, 0, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:51:58', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('bd084fcd-b00b-41b1-85c4-ea856eda4bc1', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Id', '数据ID', 'varchar', 'string', 'Id', 1, 0, 1, 1, 0, 0, 0, '', '', NULL, '', 50, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:31:36', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('c084f056-fd43-4b47-8fea-d668d2aef488', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'PurchaseNo', '采购单号', 'varchar', 'string', 'PurchaseNo', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:39', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 30);
-INSERT INTO `buildertablecolumn` VALUES ('c7366b20-7fcf-4784-8a7f-57695c2745c0', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'Id', 'Id', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 0, 0, '', '', NULL, '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:40:19', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('c7b30d11-9a00-48ba-86ff-68e4b78fd8c2', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'TypeId', '分类ID', 'varchar', 'string', 'TypeId', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'text', 80, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:59', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('c7e16730-9af0-4290-9c4f-e37bb3a22aef', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 1, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:38:37', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('cac9af55-805e-4af8-8936-8a2ef0f886f5', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'InBondedArea', '是否保税', 'tinyint', 'bool', 'InBondedArea', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'switch', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:12', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('d2366b5d-992f-4f68-b08d-ebd01962c55c', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'User', '操作人', 'varchar', 'string', 'User', 0, 0, 1, 1, 0, 1, 0, '', '', NULL, '', 3, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:22', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('d73b377d-c6a3-4f74-b608-0e0223dbbd0a', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 1, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:28:40', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('d8913d5b-c62f-4cb5-aedc-60b652a41427', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 1, 0, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:49:50', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200);
-INSERT INTO `buildertablecolumn` VALUES ('dfbb6dd4-d03a-452a-8f9e-b6747b585819', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ExternalNo', '相关单据号', 'varchar', 'string', 'ExternalNo', 0, 0, 0, 0, 0, 0, 0, '', '', NULL, 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:46:16', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('e075aeb7-82ba-4858-9551-d11ee7f61156', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'UpdateUserId', '最后更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 1, 0, 0, 0, '', '', NULL, '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:38:22', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('e7f071ca-2ba0-4a89-a988-424d1e9b0b8b', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'Enable', '是否可用', 'tinyint', 'bool', 'Enable', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'switch', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:38:54', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('ea35d6b5-aa14-495f-ba36-d51eb73125ac', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'ExpireDate', '失效日期', 'varchar', 'string', 'ExpireDate', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', 30);
-INSERT INTO `buildertablecolumn` VALUES ('ec8aac16-7f9c-4b19-977c-aecede234910', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'Status', '入库通知单状态', 'int', 'int', 'Status', 0, 0, 0, 0, 0, 0, 0, '', '', 'COMMON_STATUS', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:14:30', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('ecab3cf5-312c-46a9-aa82-87c34396ea90', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'StockId', '仓库编号', 'varchar', 'string', 'StockId', 0, 0, 0, 0, 0, 0, 0, '', '', NULL, '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:14:39', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 12);
-INSERT INTO `buildertablecolumn` VALUES ('ee53d454-c8f9-48d3-9bc1-b4a1fdf6c390', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'InStockStatus', '是否收货中', 'tinyint', 'bool', 'InStockStatus', 0, 0, 1, 1, 1, 1, 0, '', 'switch', NULL, 'switch', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:30', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('f8392fe0-0591-4ca7-8ebe-c8f69a8a30f0', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'ProdDate', '生产日期', 'varchar', 'string', 'ProdDate', 0, 0, 0, 1, 1, 1, 0, '', '', NULL, 'datetime', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:17', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 30);
-INSERT INTO `buildertablecolumn` VALUES ('f8d7f45a-8754-46a1-8ce4-9a8992801f68', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'ParentId', '父节点ID', 'varchar', 'string', 'ParentId', 0, 0, 0, 1, 1, 0, 0, '', '', '/Resources/Load', 'selectDynamic', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:13', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
-INSERT INTO `buildertablecolumn` VALUES ('fc13f50a-51ec-4bfc-82b6-ad1f4c71c297', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'Enable', '是否可用', 'tinyint', 'bool', 'Enable', 0, 0, 1, 1, 1, 1, 0, '', '', NULL, 'switch', 90, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:13', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL);
-INSERT INTO `buildertablecolumn` VALUES ('fd03c732-f369-4b79-a1be-dc16ee053cb4', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'Id', '数据ID', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 0, 0, '', '', NULL, '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:05', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50);
+INSERT INTO `buildertablecolumn` VALUES ('01fab5d4-f004-47e7-909a-c548c0949f04', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'HoldNum', '占用数量', 'decimal', 'decimal', 'HoldNum', 0, 0, 1, 1, 1, 1, 0, '', '', 'number', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:02', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('03129db7-5ba9-4410-b43e-b77ac9fe7929', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 0, 0, 0, 0, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:57:46', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('08e80261-e4ae-4a6f-adf5-09ad5267a975', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'GoodsBatch', '商品批号', 'varchar', 'string', 'GoodsBatch', 0, 0, 1, 1, 1, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('0ff3a09e-5a37-459f-be55-49ad2b90d934', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'Id', '入库通知单号', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 1, 0, '', '', 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:59', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('10462120-3731-4b3d-a44e-f8ee039b3b26', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'Disable', '是否禁用', 'tinyint', 'bool', 'Disable', 0, 0, 1, 1, 1, 1, 0, '', '', 'switch', 93, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 11:39:46', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, '');
+INSERT INTO `buildertablecolumn` VALUES ('11997d76-06da-480f-9505-d7b6ed824d30', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'OrgId', '所属部门', 'varchar', 'string', 'OrgId', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:50:35', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('15797df5-1392-4eff-8c2f-e142eed7a9f9', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 1, 1, 0, 1, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:53', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('165bb5dd-634d-470a-850c-8483bf967d0b', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'UpdateTime', '最后更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:40:31', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('17cf3076-9b38-4ac8-a05a-07b1f5b4a309', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'Remark', '备注', 'varchar', 'string', 'Remark', 0, 0, 0, 1, 1, 1, 0, '', '', 'textarea', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:42', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 128, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('18f07476-eaa9-4f5e-a4fd-14a8e1bd4c87', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 1, 1, 0, 1, 0, '', '', '', 80, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:59:35', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('2105d04e-8c65-4a21-9701-76f64ac119d3', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'OrderId', '入库单号', 'varchar', 'string', 'OrderId', 1, 0, 1, 1, 1, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 03:06:40', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('24d51a8f-7102-41f1-8d39-c8e9e6d72a53', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'SortNo', '排序号', 'int', 'int', 'SortNo', 0, 0, 1, 1, 1, 1, 0, '', '', 'number', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:19', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('27178bae-387a-4e16-84c4-3fb9d5927afb', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 1, 1, 0, 1, 0, '', '', '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:27', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('28bd8b85-b62a-4fa3-a50d-a78b015897be', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'OwnerId', '货主编号', 'varchar', 'string', 'OwnerId', 0, 0, 1, 1, 1, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', 32, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('2bc4953d-a863-492e-845f-36bff59bc107', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'UpdateUserId', '更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:27', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('2bed33d9-c8bf-46ea-8a35-99a6b079da66', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'UpdateTime', '更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 0, 0, 1, 0, '', '', 'datetime', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 03:06:47', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('32b5b4e9-44a7-410a-80d9-1200ffe048d5', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'UpdateUserId', '最后更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:38', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('33a8a1bd-ea81-4942-9469-4f20a037bf94', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'AppName', '应用名称', 'varchar', 'string', 'AppName', 0, 0, 0, 1, 1, 1, 0, '', '', '', 90, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('3508e108-6fb3-44f2-aa61-4c61a42f5f38', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 1, 1, 0, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:09:47', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('37219218-c8a1-40a8-be28-77d423a019b7', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'AppId', '应用ID', 'varchar', 'string', 'AppId', 0, 0, 0, 1, 1, 0, 0, '', '', 'select', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:49', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, 'PLATFORM');
+INSERT INTO `buildertablecolumn` VALUES ('3a5ed37f-4dca-420f-8a62-8465650dc1a3', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'UpdateTime', '最后更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 1, 0, 1, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:33', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('3b96bd7f-38a6-4188-9205-5f6340e29548', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'UpdateTime', '最后更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:52:29', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('3d1b1192-aad3-4a6f-9770-ecf486bc4cc0', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Status', '出库/入库', 'int', 'int', 'Status', 0, 0, 1, 1, 1, 1, 0, '', '', 'select', 7, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:15', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, 'COMMON_STATUS');
+INSERT INTO `buildertablecolumn` VALUES ('3e0dcc3c-3978-4615-bfe9-e65b78e67f4e', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 0, 0, 0, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:51:57', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('430a695a-7975-4c63-bf57-13c9614d086d', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'TaxRate', '税率', 'decimal', 'decimal', 'TaxRate', 0, 0, 0, 1, 1, 1, 0, '', '', 'decimal', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:47', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('450ff804-a22e-4676-83e8-474a2d32cc75', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 1, 1, 0, 1, 0, '', '', '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:32', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('4922ec7f-8730-4c48-913b-a1c110c1e8c4', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ScheduledInboundTime', '预定入库时间', 'datetime', 'DateTime', 'ScheduledInboundTime', 0, 0, 0, 1, 1, 0, 0, '', '', 'date', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:51:12', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('4b52a996-4f4d-4a7c-b068-091d1a378b4c', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'OrgId', '组织ID', 'varchar', 'string', 'OrgId', 0, 0, 0, 1, 0, 0, 0, '', '', '', 20, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:02', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('4c44c915-d771-44b5-8030-f1c242425c7d', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'Id', '入库通知单明细号', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 1, 0, '', '', 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:11', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('4d6d87f3-b597-4dda-8f1f-a0d3d66a25e7', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'DtValue', '分类值', 'varchar', 'string', 'DtValue', 0, 0, 0, 1, 1, 1, 0, '', '', 'textarea', 95, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:07', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('4ddd9669-84c6-4fd4-ae2b-fc72eb2aecf7', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'Description', '描述', 'varchar', 'string', 'Description', 0, 0, 1, 1, 1, 1, 0, '', '', '', 85, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:59:28', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 500, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('4e967746-afe2-431c-b549-3ffbe982c25a', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'TypeName', '分类名称', 'varchar', 'string', 'TypeName', 0, 0, 0, 1, 1, 1, 0, '', '', '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:27:29', '', NULL, NULL, '', '超级管理员', 20, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('50cf4640-ef20-4122-b21e-c4a6562813f3', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'SortNo', '排序号', 'int', 'int', 'SortNo', 0, 0, 1, 1, 1, 1, 0, '', '', 'text', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:31:48', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('51f693cc-33c9-47e0-8080-81118a1d6924', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:40:06', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('53b76400-51d6-4f38-8142-7a855e9f872a', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'DtCode', '分类标识', 'varchar', 'string', 'DtCode', 0, 0, 1, 1, 1, 1, 0, '', '', '', 99, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:00', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('54954a8b-b34b-41c3-a2bf-46cf5c3f1afa', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'UpdateTime', '更新时间', 'datetime', 'DateTime', 'UpdateTime', 0, 0, 0, 1, 0, 1, 0, '', '', '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:24', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('56f222a5-bce9-4ae9-acfc-a6c7de0c6dfa', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Name', '产品名称', 'text', 'string', 'Name', 0, 0, 1, 1, 1, 1, 0, '', '', 'text', 40, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:29:52', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 0, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('5d372a7e-09f8-480c-9f05-0b28d24b713b', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ShipperId', '承运人编号', 'varchar', 'string', 'ShipperId', 0, 0, 0, 1, 1, 1, 0, '', '', 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('5d6c8d4f-b127-4959-a34c-5e641a9d89ed', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'SortNo', '排序号', 'int', 'int', 'SortNo', 0, 0, 1, 1, 1, 1, 0, '', '', 'number', 70, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:51', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('6383b218-2658-4981-9f62-4690f398c1f2', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'Price', '含税单价', 'decimal', 'decimal', 'Price', 0, 0, 0, 1, 1, 1, 0, '', '', 'decimal', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:05', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('67137a1d-f572-40ed-8c67-7fd570b63f42', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 0, 0, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:52:05', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('67a497dd-19b5-44d6-9804-6b8c0769cef0', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Viewable', '可见范围', 'varchar', 'string', 'Viewable', 0, 0, 1, 1, 1, 1, 0, '', '', '', 1, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:25', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('6bd63965-6353-47f8-bf46-eaa507457669', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'OrderType', '入库类型', 'varchar', 'string', 'OrderType', 0, 0, 1, 1, 1, 1, 0, '', '', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:23', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, 'SYS_INBOUNDTYPE');
+INSERT INTO `buildertablecolumn` VALUES ('6cb07125-18fd-4268-adcc-e23ca1144ba5', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'PrivilegeRules', '权限规则', 'varchar', 'string', 'PrivilegeRules', 0, 0, 1, 1, 1, 1, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:35:02', '', NULL, NULL, '', '超级管理员', 1000, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('6e6c331c-31ff-40cf-bddc-f331f936c982', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'Name', '名称', 'varchar', 'string', 'Name', 0, 0, 1, 1, 1, 1, 0, '', '', '', 95, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:58:42', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 255, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('6ec4c6b1-7a5f-4000-bf69-a2511b0febb2', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ExternalType', '相关单据类型', 'varchar', 'string', 'ExternalType', 0, 0, 0, 0, 0, 0, 0, '', '', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:13:21', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, 'SYS_ORDERTYPE');
+INSERT INTO `buildertablecolumn` VALUES ('6f59479c-9795-4df2-bd33-8f659f6b659d', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 1, 1, 0, 0, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:38:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('7000e82f-da5d-4d5e-ac4b-eda825ae40c7', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'GoodsType', '商品类别', 'varchar', 'string', 'GoodsType', 0, 0, 0, 1, 1, 1, 0, '', '', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:10:28', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, 'SYS_GOODSTYPE');
+INSERT INTO `buildertablecolumn` VALUES ('73759b1d-df4a-4c88-879e-503196604f67', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Time', '操作时间', 'datetime', 'DateTime', 'Time', 0, 0, 1, 1, 0, 1, 0, '', '', 'date', 5, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:19', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('7bc33f75-16dc-49b7-822d-32be5aae904b', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'OrderNum', '通知数量', 'decimal', 'decimal', 'OrderNum', 0, 0, 1, 1, 1, 1, 0, '', '', 'number', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:58', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('7edebf71-aa41-4bac-bff3-eaa3c3159b40', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'SourceCode', '资源标识（模块编号）', 'varchar', 'string', 'SourceCode', 0, 0, 1, 1, 1, 1, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:35:02', '', NULL, NULL, '', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('85ebb3a8-1a19-44f8-9706-acac1c8bdc44', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'AsnStatus', '到货状况', 'int', 'int', 'AsnStatus', 0, 0, 1, 1, 1, 1, 0, '', '', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:47:30', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, 'SYS_STATUS');
+INSERT INTO `buildertablecolumn` VALUES ('861ca9ab-e81e-4fa8-8b56-375127a8cb59', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'LeaveNum', '剩余数量', 'decimal', 'decimal', 'LeaveNum', 0, 0, 1, 1, 1, 1, 0, '', '', 'number', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('87d68d3a-22b1-475c-a20a-d39724ca7639', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 1, 1, 0, 0, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:38:48', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('8a43f4d1-73a7-408d-b3cc-02be321b8ef9', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'OwnerId', '货主编号', 'varchar', 'string', 'OwnerId', 0, 0, 0, 1, 1, 1, 0, '', '', 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:33', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('8c0836e9-6da1-4510-a59b-ccc94f4c2c14', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'GoodsId', '商品编号', 'varchar', 'string', 'GoodsId', 0, 0, 1, 1, 1, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('8d0326c3-fcbc-4b37-8c8b-20421daf6b34', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'Description', '权限描述', 'varchar', 'string', 'Description', 0, 0, 1, 1, 1, 1, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:35:02', '', NULL, NULL, '', '超级管理员', 255, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('8effdc32-477a-44a4-a0e6-3e58c5631307', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Price', '产品单价', 'decimal', 'decimal', 'Price', 0, 0, 1, 1, 1, 1, 0, '', '', 'text', 10, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:31:44', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('8f161c08-1880-4b9f-95d6-88abb78a573b', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'SubSourceCode', '二级资源标识', 'varchar', 'string', 'SubSourceCode', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-26 00:28:18', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('94d03bc7-832c-4dbe-9df1-84e8ec6f1707', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'Description', '描述', 'varchar', 'string', 'Description', 0, 0, 0, 1, 0, 0, 0, '', '', '', 55, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:45:53', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 500, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('95b6e356-3687-4001-9ffb-1271c3baf31e', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'Id', '标识', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 1, 0, '', '', 'text', 99, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:52:12', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('96083a87-d21b-4b25-98c6-780156d68b08', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'ParentName', '父节点名称', 'varchar', 'string', 'ParentName', 0, 0, 0, 1, 0, 1, 0, '', '', '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:50:16', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('9864568d-9816-47e6-ae35-992a3b10bae2', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ReturnBoxNum', '销退箱数', 'decimal', 'decimal', 'ReturnBoxNum', 0, 0, 1, 1, 1, 1, 0, '', '', 'number', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:44:24', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('9b140a3f-4d00-4a94-80d4-c7fac7be15cb', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'UpdateUserId', '最后更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:49:42', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('9cdf9bd0-a017-49d3-8724-843fe98c2c41', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'CascadeId', '节点语义ID', 'varchar', 'string', 'CascadeId', 0, 0, 1, 1, 0, 1, 0, '', '', 'text', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:36:14', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 255, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('9ce375d3-6087-467d-8b59-7f45ac0b68a6', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'UpdateUserId', '最后更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 0, 0, 0, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:52:05', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('9f689acf-84ac-4840-b1c7-39bb82ba47a9', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'Remark', '备注', 'varchar', 'string', 'Remark', 0, 0, 0, 1, 1, 0, 0, '', '', 'textarea', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:44:30', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 256, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('a131adb2-9410-40ed-879e-b42af5d29c8c', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'Enable', '有效标志', 'tinyint', 'bool', 'Enable', 0, 0, 1, 1, 1, 1, 0, '', '', 'switch', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:46:03', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('a32c75ea-4095-458a-97b6-815db63d951e', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'TransferType', '承运方式', 'varchar', 'string', 'TransferType', 0, 0, 0, 1, 1, 1, 0, '', '', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:17:20', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, 'SYS_SHIPTYPE');
+INSERT INTO `buildertablecolumn` VALUES ('a33882d0-89f1-4d21-b740-051b1742e33c', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'QualityFlg', '品质', 'varchar', 'string', 'QualityFlg', 0, 0, 1, 1, 1, 1, 0, '', '', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:51:39', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, 'SYS_GOODSTYPE');
+INSERT INTO `buildertablecolumn` VALUES ('a5f9c89e-474f-4047-9e18-a8a31050a952', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'SupplierId', '供应商编号', 'varchar', 'string', 'SupplierId', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:13:11', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('a6e98eac-afd5-4465-9b60-206cfdeab9e1', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 1, 1, 0, 0, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:09:56', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('a76d32c3-312e-41ba-af71-bee893648a56', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:40:33', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('a79e8649-e2d9-4b51-a169-8c7f20472498', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'Name', '分类名称或描述', 'varchar', 'string', 'Name', 0, 0, 1, 1, 1, 1, 0, '', '', '', 85, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:46', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 255, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('a8249275-9be3-4a92-ae3e-fa135233ef76', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'InNum', '到货数量', 'decimal', 'decimal', 'InNum', 0, 0, 1, 1, 1, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('acbae3d8-fb55-404b-8680-53cb02b02927', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:56:36', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('b0898ec0-ff90-46a6-9129-bd67aad6a547', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'CreateTime', '创建时间', 'datetime', 'DateTime', 'CreateTime', 0, 0, 1, 1, 0, 1, 0, '', '', 'datetime', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:28:32', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('b1d3a4ef-ca85-48af-abdb-ca8b02a67b5e', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'PriceNoTax', '无税单价', 'decimal', 'decimal', 'PriceNoTax', 0, 0, 0, 1, 1, 1, 0, '', '', 'decimal', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:09', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('b7f96e95-0adf-4dfe-a153-5048f778a518', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Number', '产品数量', 'int', 'int', 'Number', 0, 0, 1, 1, 1, 1, 0, '', '', 'number', 30, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:29:55', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('b8a74c6e-4ad9-44b2-9c66-a799f6c3feb6', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 1, 1, 0, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:09:57', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('b98e4da3-32c0-48bd-b09a-e56b4521504d', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'TypeId', '分类ID', 'varchar', 'string', 'TypeId', 0, 0, 0, 1, 1, 0, 0, '', '', 'select', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:32:40', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, 'APP_TYPE');
+INSERT INTO `buildertablecolumn` VALUES ('bcf8079e-f046-4fba-b98f-3f840c59edd3', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'CreateUserName', '创建人', 'varchar', 'string', 'CreateUserName', 0, 0, 0, 0, 0, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:51:58', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('bd084fcd-b00b-41b1-85c4-ea856eda4bc1', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'Id', '数据ID', 'varchar', 'string', 'Id', 1, 0, 1, 1, 0, 0, 0, '', '', '', 50, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:31:36', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('c084f056-fd43-4b47-8fea-d668d2aef488', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'PurchaseNo', '采购单号', 'varchar', 'string', 'PurchaseNo', 0, 0, 0, 1, 1, 1, 0, '', '', 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:39', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 30, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('c7366b20-7fcf-4784-8a7f-57695c2745c0', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'Id', 'Id', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 0, 0, '', '', '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:40:19', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('c7b30d11-9a00-48ba-86ff-68e4b78fd8c2', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'TypeId', '分类ID', 'varchar', 'string', 'TypeId', 0, 0, 0, 1, 1, 1, 0, '', '', 'text', 80, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:59', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('c7e16730-9af0-4290-9c4f-e37bb3a22aef', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 1, 1, 0, 0, 0, '', '', '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:38:37', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('cac9af55-805e-4af8-8936-8a2ef0f886f5', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'InBondedArea', '是否保税', 'tinyint', 'bool', 'InBondedArea', 0, 0, 1, 1, 1, 1, 0, '', '', 'switch', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:45:12', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('d2366b5d-992f-4f68-b08d-ebd01962c55c', '03761b53-e229-4e0e-b7b1-2831bdc84384', 'Stock', 'User', '操作人', 'varchar', 'string', 'User', 0, 0, 1, 1, 0, 1, 0, '', '', '', 3, '2020-09-29 00:52:58', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:30:22', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('d73b377d-c6a3-4f74-b608-0e0223dbbd0a', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'CreateUserId', '创建人ID', 'varchar', 'string', 'CreateUserId', 0, 0, 1, 1, 0, 0, 0, '', '', '', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-29 00:28:40', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('d8913d5b-c62f-4cb5-aedc-60b652a41427', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'UpdateUserName', '最后更新人', 'varchar', 'string', 'UpdateUserName', 0, 0, 0, 1, 0, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:49:50', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 200, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('dfbb6dd4-d03a-452a-8f9e-b6747b585819', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'ExternalNo', '相关单据号', 'varchar', 'string', 'ExternalNo', 0, 0, 0, 0, 0, 0, 0, '', '', 'text', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:46:16', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('e075aeb7-82ba-4858-9551-d11ee7f61156', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'UpdateUserId', '最后更新人ID', 'varchar', 'string', 'UpdateUserId', 0, 0, 0, 1, 0, 0, 0, '', '', '', 0, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:38:22', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('e7f071ca-2ba0-4a89-a988-424d1e9b0b8b', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'Enable', '是否可用', 'tinyint', 'bool', 'Enable', 0, 0, 1, 1, 1, 1, 0, '', '', 'switch', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:38:54', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('ea35d6b5-aa14-495f-ba36-d51eb73125ac', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'ExpireDate', '失效日期', 'varchar', 'string', 'ExpireDate', 0, 0, 0, 1, 1, 1, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-11 22:54:21', '', NULL, NULL, '', '超级管理员', 30, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('ec8aac16-7f9c-4b19-977c-aecede234910', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'Status', '入库通知单状态', 'int', 'int', 'Status', 0, 0, 0, 0, 0, 0, 0, '', '', 'select', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:14:30', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, 'COMMON_STATUS');
+INSERT INTO `buildertablecolumn` VALUES ('ecab3cf5-312c-46a9-aa82-87c34396ea90', '7f0ca2fd-7fa0-4316-a466-22733d466dd2', 'wmsinboundordertbl', 'StockId', '仓库编号', 'varchar', 'string', 'StockId', 0, 0, 0, 0, 0, 0, 0, '', '', '', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 01:14:39', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 12, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('ee53d454-c8f9-48d3-9bc1-b4a1fdf6c390', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'InStockStatus', '是否收货中', 'tinyint', 'bool', 'InStockStatus', 0, 0, 1, 1, 1, 1, 0, '', 'switch', 'switch', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:48:30', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('f8392fe0-0591-4ca7-8ebe-c8f69a8a30f0', 'f07df6d0-eb47-4f00-9167-79d88bcace36', 'wmsinboundorderdtbl', 'ProdDate', '生产日期', 'varchar', 'string', 'ProdDate', 0, 0, 0, 1, 1, 1, 0, '', '', 'datetime', 0, '2021-08-11 22:54:21', '00000000-0000-0000-0000-000000000000', '2021-08-23 02:49:17', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 30, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('f8d7f45a-8754-46a1-8ce4-9a8992801f68', 'de4a5527-0d8c-4493-b668-39fc9c555df1', 'Resource', 'ParentId', '父节点ID', 'varchar', 'string', 'ParentId', 0, 0, 0, 1, 1, 0, 0, '', '', 'selectDynamic', 0, '2021-08-29 00:27:29', '00000000-0000-0000-0000-000000000000', '2021-08-30 00:51:13', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, '/Resources/Load');
+INSERT INTO `buildertablecolumn` VALUES ('fc13f50a-51ec-4bfc-82b6-ad1f4c71c297', '1751d517-6d2b-4638-8f5c-aa6355bccb0e', 'Category', 'Enable', '是否可用', 'tinyint', 'bool', 'Enable', 0, 0, 1, 1, 1, 1, 0, '', '', 'switch', 90, '2021-09-27 00:26:55', '00000000-0000-0000-0000-000000000000', '2021-09-27 00:42:13', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', NULL, NULL);
+INSERT INTO `buildertablecolumn` VALUES ('fd03c732-f369-4b79-a1be-dc16ee053cb4', 'fc52b31a-fc29-42b6-b53c-99463644fff2', 'dataprivilegerule', 'Id', '数据ID', 'varchar', 'string', 'Id', 1, 0, 1, 1, 1, 0, 0, '', '', '', 0, '2021-09-23 22:35:02', '00000000-0000-0000-0000-000000000000', '2021-09-23 22:39:05', '00000000-0000-0000-0000-000000000000', NULL, NULL, '超级管理员', '超级管理员', 50, NULL);
 
 -- ----------------------------
 -- Table structure for category
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '分类名称或描述',
-  `DtCode` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类标识',
-  `DtValue` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '通常与分类标识一致，但万一有不一样的情况呢？',
-  `Enable` tinyint(1) NOT NULL DEFAULT 0,
-  `SortNo` int(11) NOT NULL DEFAULT 0 COMMENT '排序号',
-  `Description` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
-  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
-  `UpdateTime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
-  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
-  `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '分类表，也可用作数据字典。表示一个全集，比如：男、女、未知。关联的分类类型表示按什么进行的分类，如：按照性别对人类对象集' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类名称或描述',
+  `dtcode` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类标识',
+  `dtvalue` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '通常与分类标识一致，但万一有不一样的情况呢？',
+  `enable` tinyint(4) NOT NULL,
+  `sortno` int(11) NOT NULL COMMENT '排序号',
+  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `typeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
+  `createusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `updatetime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
+  `updateuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
+  `updateusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类表，也可用作数据字典。表示一个全集，比如：男、女、未知。关联的分类类型表示按什么进行的分类，如：按照性别对人类对象集' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
 INSERT INTO `category` VALUES ('01a2736c-cebe-43a2-8068-7e3f88fa7c23', '审核', 'SYS_ORDERSTATUS_CHECK', 'SYS_ORDERSTATUS_CHECK', 1, 0, '', 'SYS_ORDERSTATUS', '2019-10-29 21:20:40', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:20:40', '', '');
+INSERT INTO `category` VALUES ('07d21d6d-3bce-4b73-8273-c9f948f468fe', '释放', 'PICKSTATUS_RELEASE', 'PICKSTATUS_RELEASE', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:29:35', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:29:35', '', '');
 INSERT INTO `category` VALUES ('08776116-d1bf-40d1-b7ff-78b7392f4aef', '自提', 'SYS_SHIPTYPE_NORMAL', 'SYS_SHIPTYPE_NORMAL', 1, 0, '', 'SYS_SHIPTYPE', '2019-11-07 01:19:12', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 01:19:12', '', '');
-INSERT INTO `category` VALUES ('10a13e57-0ba7-4cce-a6d9-9fffe9f1c8fb', 'XXX管理平台', 'XXXPLATFORM', 'XXXPLATFORM', 1, 0, '', 'PLATFORM', '2021-08-30 00:57:50', '00000000-0000-0000-0000-000000000000', '超级管理员', '2021-08-30 00:57:50', '', '');
 INSERT INTO `category` VALUES ('1979955b-901d-4394-8a3c-f81c32970365', '中药材', 'SYS_GOODSTYPE_TCM', 'SYS_GOODSTYPE_TCM', 1, 0, '', 'SYS_GOODSTYPE', '2019-11-07 01:17:36', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 01:17:36', '', '');
+INSERT INTO `category` VALUES ('2615b6bf-7fc3-46e1-8105-708dda0e6c42', '发货完成', 'PICKSTATUS_OUTSTOCK', 'PICKSTATUS_OUTSTOCK', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:32:02', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:32:02', '', '');
 INSERT INTO `category` VALUES ('354f50b7-0d93-43d6-a721-a4931c650ea3', '创建', 'SYS_ORDERSTATUS_CREATE', 'SYS_ORDERSTATUS_CREATE', 1, 0, '', 'SYS_ORDERSTATUS', '2019-10-29 21:20:02', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:20:02', '', '');
-INSERT INTO `category` VALUES ('400c37f2-52d6-4854-956d-4e6d08cdf643', '正常', 'COMMON_STATUS_OK', '0', 0, 0, '', 'COMMON_STATUS', '2020-09-29 00:54:24', '00000000-0000-0000-0000-000000000000', '超级管理员', '2020-09-29 00:54:24', '', '');
 INSERT INTO `category` VALUES ('43303bfb-11e3-4e12-8cdd-2ef090017e4c', '样品入库', 'SYS_INBOUNDTYPE_SAMPLE', 'SYS_INBOUNDTYPE_SAMPLE', 1, 0, '', 'SYS_INBOUNDTYPE', '2019-11-07 00:51:26', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 00:51:26', '', '');
 INSERT INTO `category` VALUES ('4de1cf0d-b1f5-44f7-a329-4b5fcff73ca6', '普药', 'SYS_GOODSTYPE_COMMON', 'SYS_GOODSTYPE_COMMON', 1, 0, '', 'SYS_GOODSTYPE', '2019-11-07 01:15:35', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 01:15:35', '', '');
 INSERT INTO `category` VALUES ('52f662c3-39bc-4f5a-9730-107cf26b12f0', '直送', 'SYS_SHIPTYPE_DIRECT', 'SYS_SHIPTYPE_DIRECT', 1, 0, '', 'SYS_SHIPTYPE', '2019-11-07 01:19:41', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 01:19:41', '', '');
-INSERT INTO `category` VALUES ('5a0bf590-77bb-49a9-be8f-20eb451f8731', '安卓应用', 'APP_TYPE_ANDROID', 'APP_TYPE_ANDROID', 1, 0, '', 'APP_TYPE', '2021-08-30 00:34:43', '00000000-0000-0000-0000-000000000000', '超级管理员', '2021-08-30 00:34:43', '', '');
+INSERT INTO `category` VALUES ('74f7bcc8-50a3-4c02-9a25-ee2fa4575e25', '集货完成', 'PICKSTATUS_STAGED', 'PICKSTATUS_STAGED', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:31:11', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:31:11', '', '');
 INSERT INTO `category` VALUES ('77a7f565-cb5c-4876-a139-7901e54b5dde', '正常', 'SYS_STATUS_OK', '0', 0, 0, '', 'SYS_STATUS', '2019-11-06 10:38:46', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-06 10:38:46', '', '');
 INSERT INTO `category` VALUES ('7fbeb155-8fbb-44ce-a726-2a6fea7920d5', '异常', 'SYS_STATUS_ERROR', '1', 1, 0, '', 'SYS_STATUS', '2019-11-06 10:39:24', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-06 10:39:24', '', '');
 INSERT INTO `category` VALUES ('845ef9f2-4d33-4887-acf0-6d45fdf5e05c', 'EMS', 'SYS_SHIPTYPE_EMS', 'SYS_SHIPTYPE_EMS', 1, 0, '', 'SYS_SHIPTYPE', '2019-11-07 01:20:45', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 01:20:45', '', '');
+INSERT INTO `category` VALUES ('8641c594-e43e-4469-a5b5-5da06a53eaf9', '打包完成', 'PICKSTATUS_PACK', 'PICKSTATUS_PACK', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:31:50', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:31:50', '', '');
 INSERT INTO `category` VALUES ('86b8d963-63b6-4936-87b1-af248cd26c44', '已完成', 'SYS_ORDERSTATUS_FINISHED', 'SYS_ORDERSTATUS_FINISHED', 1, 0, '', 'SYS_ORDERSTATUS', '2019-10-29 21:27:32', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:27:32', '', '');
 INSERT INTO `category` VALUES ('8dcbc59a-c045-4e06-ad13-095cfe9a3209', '销退入库', 'SYS_INBOUNDTYPE_RETURN', 'SYS_INBOUNDTYPE_RETURN', 1, 0, '', 'SYS_INBOUNDTYPE', '2019-11-07 00:52:04', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 00:52:04', '', '');
+INSERT INTO `category` VALUES ('9bddbcfd-f41e-429f-b112-76db0c1bf0f3', '复核完成', 'PICKSTATUS_CHECKED', 'PICKSTATUS_CHECKED', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:30:37', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:30:37', '', '');
 INSERT INTO `category` VALUES ('a4017f4d-c113-4ec9-bdcb-d9c49019a916', '生物制品', 'SYS_GOODSTYPE_BIOLPROD', 'SYS_GOODSTYPE_BIOLPROD', 1, 0, '', 'SYS_GOODSTYPE', '2019-11-07 01:16:59', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 01:16:59', '', '');
-INSERT INTO `category` VALUES ('b42043b2-edd0-40e2-9bb4-13dc5be15ab7', '移动前端', 'APP_TYPE_H5', 'APP_TYPE_H5', 1, 0, '', 'APP_TYPE', '2021-08-30 00:34:19', '00000000-0000-0000-0000-000000000000', '超级管理员', '2021-08-30 00:34:19', '', '');
+INSERT INTO `category` VALUES ('b1d4301b-2378-4598-9b96-8592afbb64d1', '缓存完成', 'PICKSTATUS_CACHE', 'PICKSTATUS_CACHE', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:30:53', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:30:53', '', '');
 INSERT INTO `category` VALUES ('b44bb9f4-166c-4c59-a693-baacd01d2db4', '4+7集中采购', 'SYS_SHIPTYPE_FREIGHT', 'SYS_SHIPTYPE_FREIGHT', 1, 0, '', 'SYS_SHIPTYPE', '2019-11-07 01:20:21', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 01:20:21', '', '');
 INSERT INTO `category` VALUES ('b77f4a7d-0d22-47dd-97d1-7f8ccd9e5f77', '采购入库', 'SYS_INBOUNDTYPE_PURCHASE', 'SYS_INBOUNDTYPE_PURCHASE', 1, 0, '', 'SYS_INBOUNDTYPE', '2019-11-07 00:50:51', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 00:50:51', '', '');
 INSERT INTO `category` VALUES ('c3ce85b1-0115-47d4-b562-1bbcc51105e2', '食品', 'SYS_GOODSTYPE_FOOD', 'SYS_GOODSTYPE_FOOD', 1, 0, '', 'SYS_GOODSTYPE', '2019-11-07 01:17:58', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 01:17:58', '', '');
-INSERT INTO `category` VALUES ('cd6cf8ee-9e17-48f2-af4b-9072fbd43713', 'OpenAuth.Net', 'OPENAUTHNET', 'OPENAUTHNET', 1, 0, '', 'PLATFORM', '2021-08-30 00:57:23', '00000000-0000-0000-0000-000000000000', '超级管理员', '2021-08-30 00:57:23', '', '');
-INSERT INTO `category` VALUES ('eac7f2d0-2817-40bf-bd89-2f0dd064fd69', '网站', 'APP_TYPE_WEB', 'APP_TYPE_WEB', 1, 0, '', 'APP_TYPE', '2021-08-30 00:35:00', '00000000-0000-0000-0000-000000000000', '超级管理员', '2021-08-30 00:35:00', '', '');
+INSERT INTO `category` VALUES ('d2dd6a7f-797e-4ff2-96cc-56bf9fbfc24b', '装车完成', 'PICKSTATUS_CAR', 'PICKSTATUS_CAR', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:31:27', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:31:27', '', '');
+INSERT INTO `category` VALUES ('d8152952-cf55-40ba-af81-0d4863247d6a', '拣选完成', 'PICKSTATUS_PICKFINISH', 'PICKSTATUS_PICKFINISH', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:30:16', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:30:16', '', '');
+INSERT INTO `category` VALUES ('de4ccb7b-19e4-4203-a092-b2d8bafe3131', '拣选执行中', 'PICKSTATUS_PICKEXECUTE', 'PICKSTATUS_PICKEXECUTE', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:29:55', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:29:55', '', '');
+INSERT INTO `category` VALUES ('e6292744-a6e8-4a6f-b077-14bd35e31a27', '创建', 'PICKSTATUS_CREATE', 'PICKSTATUS_CREATE', 1, 0, '', 'SYS_PICKSTATUS', '2019-10-29 21:29:18', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:29:18', '', '');
 INSERT INTO `category` VALUES ('faef67e8-48e4-44e5-981c-eebb78d79a0f', '已处理', 'SYS_ORDERSTATUS_DISPOSED', 'SYS_ORDERSTATUS_DISPOSED', 1, 0, '', 'SYS_ORDERSTATUS', '2019-10-29 21:27:05', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-10-29 21:27:05', '', '');
 INSERT INTO `category` VALUES ('fe1f7181-d3d0-4b0e-b9b3-5d05b503ff0e', '医疗器械', 'SYS_GOODSTYPE_MEDINSTR', 'SYS_GOODSTYPE_MEDINSTR', 1, 0, '', 'SYS_GOODSTYPE', '2019-11-07 01:16:02', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-07 01:16:02', '', '');
-INSERT INTO `category` VALUES ('ffbb5c54-9ee1-4eb8-89dc-79fde3b4824c', '异常', 'COMMON_STATUS_ERROR', '1', 0, 1, '', 'COMMON_STATUS', '2020-09-29 00:54:51', '00000000-0000-0000-0000-000000000000', '超级管理员', '2020-09-29 00:54:51', '', '');
 
 -- ----------------------------
 -- Table structure for categorytype
 -- ----------------------------
 DROP TABLE IF EXISTS `categorytype`;
 CREATE TABLE `categorytype`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类表ID',
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `CreateTime` datetime NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类类型' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类表ID',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类类型' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of categorytype
 -- ----------------------------
-INSERT INTO `categorytype` VALUES ('APP_TYPE', '应用分类', '2021-08-30 00:33:15');
-INSERT INTO `categorytype` VALUES ('COMMON_STATUS', '状态', '2020-09-29 00:53:40');
-INSERT INTO `categorytype` VALUES ('PLATFORM', '平台分类', '2021-08-30 00:56:22');
 INSERT INTO `categorytype` VALUES ('SYS_CUSTTYPE', '客户类型', '2019-11-07 00:49:50');
 INSERT INTO `categorytype` VALUES ('SYS_GOODSTYPE', '商品类别', '2019-11-07 00:48:47');
 INSERT INTO `categorytype` VALUES ('SYS_INBOUNDTYPE', '入库类型', '2019-11-07 00:48:08');
 INSERT INTO `categorytype` VALUES ('SYS_ORDERSTATUS', '订单状态', '2019-10-29 21:18:56');
 INSERT INTO `categorytype` VALUES ('SYS_ORDERTYPE', '订单类型', '2019-10-29 21:18:32');
+INSERT INTO `categorytype` VALUES ('SYS_PICKSTATUS', '拣选任务状态', '2019-10-29 21:28:50');
 INSERT INTO `categorytype` VALUES ('SYS_SHIPTYPE', '承运方式', '2019-11-07 00:47:36');
 INSERT INTO `categorytype` VALUES ('SYS_STATUS', '系统状态', '2019-11-06 10:38:17');
 INSERT INTO `categorytype` VALUES ('USERTYPE', '按用户类型分类', '2017-11-29 21:27:42');
@@ -289,21 +290,21 @@ INSERT INTO `categorytype` VALUES ('USERTYPE', '按用户类型分类', '2017-11
 -- ----------------------------
 DROP TABLE IF EXISTS `dataprivilegerule`;
 CREATE TABLE `dataprivilegerule`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据ID',
-  `SourceCode` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源标识（模块编号）',
-  `SubSourceCode` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '二级资源标识',
-  `Description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '权限描述',
-  `SortNo` int(11) NOT NULL DEFAULT 0 COMMENT '排序号',
-  `PrivilegeRules` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '权限规则',
-  `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否可用',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
-  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `UpdateTime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
-  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
-  `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '系统授权规制表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据ID',
+  `sourcecode` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源标识（模块编号）',
+  `subsourcecode` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '二级资源标识',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限描述',
+  `sortno` int(11) NOT NULL COMMENT '排序号',
+  `privilegerules` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限规则',
+  `enable` tinyint(4) NOT NULL COMMENT '是否可用',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
+  `createusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `updatetime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
+  `updateuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
+  `updateusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统授权规制表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dataprivilegerule
@@ -314,38 +315,69 @@ INSERT INTO `dataprivilegerule` VALUES ('ab177ea0-89f3-429e-8f0f-7a00819d8ef3', 
 INSERT INTO `dataprivilegerule` VALUES ('e7c95fb1-91f7-422e-a11a-73cea0c404b9', 'Resource', NULL, '【管理员】角色可以看所有人的资源，【测试】只能看自己创建的资源，账号test3/test4只能看属于（XXX管理平台）的资源', 0, '{\"Operation\":\"or\",\"Filters\":[{\"Key\":\"{loginRole}\",\"Value\":\"09ee2ffa-7463-4938-ae0b-1cb4e80c7c13\",\"Contrast\":\"contains\",\"Text\":\"管理员\"}],\"Children\":[{\"Operation\":\"and\",\"Filters\":[{\"Key\":\"{loginRole}\",\"Value\":\"0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d\",\"Contrast\":\"contains\",\"Text\":\"测试\"},{\"Key\":\"CreateUserId\",\"Value\":\"{loginUser}\",\"Contrast\":\"==\",\"Text\":\"\"}]},{\"Operation\":\"and\",\"Filters\":[{\"Key\":\"AppName\",\"Value\":\"XXX管理平台\",\"Contrast\":\"==\",\"Text\":\"\"},{\"Key\":\"{loginUser}\",\"Value\":\"229f3a49-ab27-49ce-b383-9f10ca23a9d5,1df68dfd-3b6d-4491-872f-00a0fc6c5a64\",\"Contrast\":\"in\",\"Text\":\"test3,test4\"}]}]}', 1, '2019-10-29 11:05:02', '00000000-0000-0000-0000-000000000000', '', '2019-11-23 01:00:19', '00000000-0000-0000-0000-000000000000', '');
 
 -- ----------------------------
+-- Table structure for flowapprover
+-- ----------------------------
+DROP TABLE IF EXISTS `flowapprover`;
+CREATE TABLE `flowapprover`  (
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
+  `instanceid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工作流实例Id',
+  `activityid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '当前节点ID',
+  `reason` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '加签原因',
+  `createdate` datetime NULL DEFAULT NULL COMMENT '加签时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '加签人Id',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '加签人',
+  `status` int(11) NOT NULL COMMENT '状态（0未处理，1通过，2未通过，3驳回）',
+  `approvetype` int(11) NOT NULL COMMENT '类型（0顺序，1并行且，2并行或）',
+  `approverid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '审批人ID',
+  `approvername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '审批人',
+  `orderno` int(11) NULL DEFAULT NULL COMMENT '顺序号（当类型为0时）',
+  `verifydate` datetime NULL DEFAULT NULL COMMENT '审批日期',
+  `verifycomment` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '审批意见',
+  `cascadeid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '层级ID，应对多次加签',
+  `parentid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点ID，应对多次加签',
+  `parentname` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点名称，应对多次加签结构',
+  `returntosignnode` tinyint(4) NOT NULL COMMENT '是否回到加签节点',
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '加签节点名称，应对多次加签结构',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工作流加签' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of flowapprover
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for flowinstance
 -- ----------------------------
 DROP TABLE IF EXISTS `flowinstance`;
 CREATE TABLE `flowinstance`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键Id',
-  `InstanceSchemeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程实例模板Id',
-  `Code` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实例编号',
-  `CustomName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '自定义名称',
-  `ActivityId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前节点ID',
-  `ActivityType` int(11) NULL DEFAULT NULL COMMENT '当前节点类型（0会签节点）',
-  `ActivityName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前节点名称',
-  `PreviousId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '前一个ID',
-  `SchemeContent` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '流程模板内容',
-  `SchemeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程模板ID',
-  `DbName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库名称',
-  `FrmData` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单数据',
-  `FrmType` int(11) NOT NULL COMMENT '表单类型',
-  `FrmContentData` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单中的控件属性描述',
-  `FrmContentParse` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单控件位置模板',
-  `FrmId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单ID',
-  `SchemeType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程类型',
-  `Disabled` int(11) NOT NULL COMMENT '有效标志',
-  `CreateDate` datetime NOT NULL COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
-  `FlowLevel` int(11) NOT NULL COMMENT '等级',
-  `Description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实例备注',
-  `IsFinish` int(11) NOT NULL COMMENT '是否完成',
-  `MakerList` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '执行人',
-  `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工作流流程实例表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键Id',
+  `instanceschemeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流程实例模板Id',
+  `code` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实例编号',
+  `customname` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '自定义名称',
+  `activityid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前节点ID',
+  `activitytype` int(11) NULL DEFAULT NULL COMMENT '当前节点类型（0会签节点）',
+  `activityname` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前节点名称',
+  `previousid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '前一个ID',
+  `schemecontent` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '流程模板内容',
+  `schemeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程模板ID',
+  `dbname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库名称',
+  `frmdata` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单数据',
+  `frmtype` int(11) NOT NULL COMMENT '表单类型',
+  `frmcontentdata` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单中的控件属性描述',
+  `frmcontentparse` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单控件位置模板',
+  `frmid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单ID',
+  `schemetype` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程类型',
+  `disabled` int(11) NOT NULL COMMENT '有效标志',
+  `createdate` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `flowlevel` int(11) NOT NULL COMMENT '等级',
+  `description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实例备注',
+  `isfinish` int(11) NOT NULL COMMENT '是否完成',
+  `makerlist` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '执行人',
+  `orgid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工作流流程实例表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of flowinstance
@@ -364,47 +396,19 @@ INSERT INTO `flowinstance` VALUES ('d4f8d2b9-6374-4c10-8d3c-1ca540bc309b', '', '
 INSERT INTO `flowinstance` VALUES ('df6df6b5-53f7-4db4-931b-12e3352ef413', '', '1564334658879', '按角色执行2019-07-29 01:24:21', '1564334332325', 2, '管理员', '1564334327861', '{\"title\":\"newFlow_1\",\"nodes\":[{\"name\":\"node_1\",\"left\":99,\"top\":32,\"type\":\"start round mix\",\"id\":\"1564334327861\",\"width\":26,\"height\":26,\"alt\":true},{\"name\":\"node_2\",\"left\":70,\"top\":295,\"type\":\"end round\",\"id\":\"1564334330157\",\"width\":26,\"height\":26,\"alt\":true},{\"name\":\"管理员\",\"left\":43,\"top\":131,\"type\":\"node\",\"id\":\"1564334332325\",\"width\":104,\"height\":36,\"alt\":true,\"setInfo\":{\"NodeConfluenceType\":\"all\",\"NodeDesignate\":\"SPECIAL_ROLE\",\"ThirdPartyUrl\":\"\",\"NodeDesignateData\":{\"users\":[],\"roles\":[\"09ee2ffa-7463-4938-ae0b-1cb4e80c7c13\"]}}},{\"name\":\"测试人员\",\"left\":185,\"top\":226,\"type\":\"node\",\"id\":\"1564334333133\",\"width\":104,\"height\":36,\"alt\":true,\"setInfo\":{\"NodeConfluenceType\":\"all\",\"NodeDesignate\":\"SPECIAL_ROLE\",\"ThirdPartyUrl\":\"\",\"NodeDesignateData\":{\"users\":[],\"roles\":[\"0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d\"]}}}],\"lines\":[{\"type\":\"sl\",\"from\":\"1564334327861\",\"to\":\"1564334332325\",\"id\":\"1564334335789\",\"name\":\"\",\"dash\":false,\"alt\":true},{\"type\":\"sl\",\"from\":\"1564334332325\",\"to\":\"1564334333133\",\"id\":\"1564334336629\",\"name\":\"\",\"dash\":false,\"alt\":true},{\"type\":\"sl\",\"from\":\"1564334333133\",\"to\":\"1564334330157\",\"id\":\"1564334337805\",\"name\":\"\",\"dash\":false,\"alt\":true}],\"areas\":[],\"initNum\":9}', '0b21f59c-7809-4275-acb4-8e8c08e0167e', '', '{\"REASON\":\"身体原因\",\"DAYS\":\"1\",\"CUSTOME_NAME\":\"玉宝\"}', 0, '[{\"type\":\"text\",\"name\":\"REASON\",\"title\":\"REASON\",\"value\":\"身体原因\",\"leipiplugins\":\"text\",\"orghide\":\"0\",\"orgalign\":\"left\",\"orgwidth\":\"150\",\"orgtype\":\"text\",\"style\":\"text-align: left; width: 150px;\",\"content\":\"<input name=\\\"leipiNewField\\\" type=\\\"text\\\" title=\\\"REASON\\\" value=\\\"身体原因\\\" leipiplugins=\\\"text\\\" orghide=\\\"0\\\" orgalign=\\\"left\\\" orgwidth=\\\"150\\\" orgtype=\\\"text\\\" style=\\\"text-align: left; width: 150px;\\\"/>\"},{\"leipiplugins\":\"select\",\"name\":\"DAYS\",\"title\":\"DAYS\",\"size\":\"1\",\"orgwidth\":\"150\",\"style\":\"width: 150px;\",\"value\":\"1,3,5,10\",\"selected\":\"selected\",\"content\":\"<span leipiplugins=\\\"select\\\"><select name=\\\"leipiNewField\\\" title=\\\"DAYS\\\" leipiplugins=\\\"select\\\" size=\\\"1\\\" orgwidth=\\\"150\\\" style=\\\"width: 150px;\\\"><option value=\\\"1\\\" selected=\\\"selected\\\">1</option><option value=\\\"3\\\">3</option><option value=\\\"5\\\">5</option><option value=\\\"10\\\">10</option></select>&nbsp;&nbsp;</span>\"},{\"type\":\"text\",\"name\":\"CUSTOME_NAME\",\"title\":\"CUSTOME_NAME\",\"value\":\"玉宝\",\"leipiplugins\":\"text\",\"orghide\":\"0\",\"orgalign\":\"left\",\"orgwidth\":\"150\",\"orgtype\":\"text\",\"style\":\"text-align: left; width: 150px;\",\"content\":\"<input name=\\\"leipiNewField\\\" type=\\\"text\\\" title=\\\"CUSTOME_NAME\\\" value=\\\"玉宝\\\" leipiplugins=\\\"text\\\" orghide=\\\"0\\\" orgalign=\\\"left\\\" orgwidth=\\\"150\\\" orgtype=\\\"text\\\" style=\\\"text-align: left; width: 150px;\\\"/>\"}]', '<p style=\"text-align: center;\"><span style=\"font-size: 36px;\">请假条</span></p><p><span style=\"font-size: 36px;\"><br/></span></p><p style=\"text-align: center;\">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style=\"text-align: center;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style=\"text-align: right;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', 'ef89f96a-af33-407c-b02e-897faf46ecf0', '', 0, '2019-07-29 01:24:26', '00000000-0000-0000-0000-000000000000', 'System', 0, '', 0, '49df1602-f5f3-4d52-afb7-3802da619558', NULL);
 INSERT INTO `flowinstance` VALUES ('ee589689-3ae0-4037-abec-ba70e566da16', '', '1564334720434', '普通的请假2019-07-29 01:25:24', '1564334035352', 2, '所有人可以审批', '1564334032785', '{\"title\":\"newFlow_1\",\"initNum\":9,\"lines\":[{\"id\":\"1564334041040\",\"type\":\"sl\",\"from\":\"1564334032785\",\"to\":\"1564334035352\",\"name\":\"\",\"dash\":false,\"Compares\":null},{\"id\":\"1564334041720\",\"type\":\"sl\",\"from\":\"1564334035352\",\"to\":\"1564334036152\",\"name\":\"\",\"dash\":false,\"Compares\":null},{\"id\":\"1564334042927\",\"type\":\"sl\",\"from\":\"1564334036152\",\"to\":\"1564334038904\",\"name\":\"\",\"dash\":false,\"Compares\":null}],\"nodes\":[{\"id\":\"1564334032785\",\"name\":\"node_1\",\"type\":\"start round mix\",\"left\":19,\"top\":36,\"width\":26,\"height\":26,\"alt\":true,\"setInfo\":null},{\"id\":\"1564334035352\",\"name\":\"所有人可以审批\",\"type\":\"node\",\"left\":133,\"top\":50,\"width\":104,\"height\":56,\"alt\":true,\"setInfo\":{\"NodeDesignate\":\"ALL_USER\",\"NodeDesignateData\":{\"users\":[],\"roles\":[],\"orgs\":null},\"NodeCode\":null,\"NodeName\":null,\"ThirdPartyUrl\":\"http://xxxx.com/api/workflow/callback\",\"NodeRejectType\":null,\"Taged\":2,\"UserName\":\"test\",\"UserId\":\"6ba79766-faa0-4259-8139-a4a6d35784e0\",\"Description\":\"最近有很多事情要处理\",\"TagedTime\":\"2019-07-29 01:28\",\"NodeConfluenceType\":\"all\",\"ConfluenceOk\":null,\"ConfluenceNo\":null}},{\"id\":\"1564334036152\",\"name\":\"所有人可以审批\",\"type\":\"node\",\"left\":139,\"top\":123,\"width\":104,\"height\":56,\"alt\":true,\"setInfo\":{\"NodeDesignate\":\"ALL_USER\",\"NodeDesignateData\":{\"users\":[],\"roles\":[],\"orgs\":null},\"NodeCode\":null,\"NodeName\":null,\"ThirdPartyUrl\":\"\",\"NodeRejectType\":null,\"Taged\":null,\"UserName\":null,\"UserId\":null,\"Description\":null,\"TagedTime\":null,\"NodeConfluenceType\":\"all\",\"ConfluenceOk\":null,\"ConfluenceNo\":null}},{\"id\":\"1564334038904\",\"name\":\"node_4\",\"type\":\"end round\",\"left\":47,\"top\":193,\"width\":26,\"height\":26,\"alt\":true,\"setInfo\":null}],\"areas\":[]}', '61806396-9498-492b-bc22-9f9e95a389bc', '', '{\"REASON\":\"身体原因\",\"DAYS\":\"1\",\"CUSTOME_NAME\":\"玉宝\"}', 0, '[{\"type\":\"text\",\"name\":\"REASON\",\"title\":\"REASON\",\"value\":\"身体原因\",\"leipiplugins\":\"text\",\"orghide\":\"0\",\"orgalign\":\"left\",\"orgwidth\":\"150\",\"orgtype\":\"text\",\"style\":\"text-align: left; width: 150px;\",\"content\":\"<input name=\\\"leipiNewField\\\" type=\\\"text\\\" title=\\\"REASON\\\" value=\\\"身体原因\\\" leipiplugins=\\\"text\\\" orghide=\\\"0\\\" orgalign=\\\"left\\\" orgwidth=\\\"150\\\" orgtype=\\\"text\\\" style=\\\"text-align: left; width: 150px;\\\"/>\"},{\"leipiplugins\":\"select\",\"name\":\"DAYS\",\"title\":\"DAYS\",\"size\":\"1\",\"orgwidth\":\"150\",\"style\":\"width: 150px;\",\"value\":\"1,3,5,10\",\"selected\":\"selected\",\"content\":\"<span leipiplugins=\\\"select\\\"><select name=\\\"leipiNewField\\\" title=\\\"DAYS\\\" leipiplugins=\\\"select\\\" size=\\\"1\\\" orgwidth=\\\"150\\\" style=\\\"width: 150px;\\\"><option value=\\\"1\\\" selected=\\\"selected\\\">1</option><option value=\\\"3\\\">3</option><option value=\\\"5\\\">5</option><option value=\\\"10\\\">10</option></select>&nbsp;&nbsp;</span>\"},{\"type\":\"text\",\"name\":\"CUSTOME_NAME\",\"title\":\"CUSTOME_NAME\",\"value\":\"玉宝\",\"leipiplugins\":\"text\",\"orghide\":\"0\",\"orgalign\":\"left\",\"orgwidth\":\"150\",\"orgtype\":\"text\",\"style\":\"text-align: left; width: 150px;\",\"content\":\"<input name=\\\"leipiNewField\\\" type=\\\"text\\\" title=\\\"CUSTOME_NAME\\\" value=\\\"玉宝\\\" leipiplugins=\\\"text\\\" orghide=\\\"0\\\" orgalign=\\\"left\\\" orgwidth=\\\"150\\\" orgtype=\\\"text\\\" style=\\\"text-align: left; width: 150px;\\\"/>\"}]', '<p style=\"text-align: center;\"><span style=\"font-size: 36px;\">请假条</span></p><p><span style=\"font-size: 36px;\"><br/></span></p><p style=\"text-align: center;\">因{REASON}，本人想请假{DAYS}天，望领导批准！</p><p><br/></p><p style=\"text-align: center;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;谢谢！</p><p><br/></p><p style=\"text-align: right;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 申请人：{CUSTOME_NAME}</p>', 'ef89f96a-af33-407c-b02e-897faf46ecf0', '', 0, '2019-07-29 01:25:30', '00000000-0000-0000-0000-000000000000', 'System', 0, '', 3, '1', NULL);
 
-
-
-DROP TABLE IF EXISTS flowapprover;
-CREATE TABLE flowapprover(
-    `Id` VARCHAR(50) NOT NULL   COMMENT 'Id' ,
-    `InstanceId` VARCHAR(50) NOT NULL   COMMENT '工作流实例Id' ,
-    `ActivityId` VARCHAR(50) NOT NULL   COMMENT '当前节点ID' ,
-    `Reason` VARCHAR(200)  CHARACTER SET utf8 COLLATE utf8_general_ci    COMMENT '加签原因' ,
-    `CreateDate` DATETIME    COMMENT '加签时间' ,
-    `CreateUserId` VARCHAR(50)    COMMENT '加签人Id' ,
-    `CreateUserName` VARCHAR(50)  CHARACTER SET utf8 COLLATE utf8_general_ci    COMMENT '加签人' ,
-    `Status` INT NOT NULL   COMMENT '状态（0未处理，1通过，2未通过，3驳回）' ,
-    `ApproveType` INT NOT NULL   COMMENT '类型（0顺序，1并行且，2并行或）' ,
-    `ApproverId` VARCHAR(50) NOT NULL   COMMENT '审批人ID' ,
-    `ApproverName` VARCHAR(50)  CHARACTER SET utf8 COLLATE utf8_general_ci   COMMENT '审批人' ,
-    `OrderNo` INT    COMMENT '顺序号（当类型为0时）' ,
-    `VerifyDate` DATETIME    COMMENT '审批日期' ,
-    `VerifyComment` VARCHAR(200)   CHARACTER SET utf8 COLLATE utf8_general_ci   COMMENT '审批意见' ,
-    `CascadeId` VARCHAR(100) NOT NULL   COMMENT '层级ID，应对多次加签' ,
-    `ParentId` VARCHAR(50)    COMMENT '父节点ID，应对多次加签' ,
-    `ParentName` VARCHAR(100)  CHARACTER SET utf8 COLLATE utf8_general_ci    COMMENT '父节点名称，应对多次加签结构' ,
-    `Name` VARCHAR(100)   CHARACTER SET utf8 COLLATE utf8_general_ci   COMMENT '加签节点名称，应对多次加签结构' ,
-    `ReturnToSignNode` tinyint(4) COMMENT '是否回到加签节点',
-    PRIMARY KEY (Id)
-)  COMMENT = '工作流加签';
-
-
-
 -- ----------------------------
 -- Table structure for flowinstanceoperationhistory
 -- ----------------------------
 DROP TABLE IF EXISTS `flowinstanceoperationhistory`;
 CREATE TABLE `flowinstanceoperationhistory`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键Id',
-  `InstanceId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '实例进程Id',
-  `Content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作内容',
-  `CreateDate` datetime NOT NULL COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工作流实例操作记录' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键Id',
+  `instanceid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '实例进程Id',
+  `content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作内容',
+  `createdate` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工作流实例操作记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of flowinstanceoperationhistory
@@ -438,21 +442,21 @@ INSERT INTO `flowinstanceoperationhistory` VALUES ('efa37871-2d37-4bae-8e0d-5bf9
 -- ----------------------------
 DROP TABLE IF EXISTS `flowinstancetransitionhistory`;
 CREATE TABLE `flowinstancetransitionhistory`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键Id',
-  `InstanceId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '实例Id',
-  `FromNodeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '开始节点Id',
-  `FromNodeType` int(11) NULL DEFAULT NULL COMMENT '开始节点类型',
-  `FromNodeName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '开始节点名称',
-  `ToNodeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结束节点Id',
-  `ToNodeType` int(11) NULL DEFAULT NULL COMMENT '结束节点类型',
-  `ToNodeName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结束节点名称',
-  `TransitionSate` int(11) NOT NULL COMMENT '转化状态',
-  `IsFinish` int(11) NOT NULL COMMENT '是否结束',
-  `CreateDate` datetime NOT NULL COMMENT '转化时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作人Id',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作人名称',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工作流实例流转历史记录' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键Id',
+  `instanceid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '实例Id',
+  `fromnodeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '开始节点Id',
+  `fromnodetype` int(11) NULL DEFAULT NULL COMMENT '开始节点类型',
+  `fromnodename` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '开始节点名称',
+  `tonodeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结束节点Id',
+  `tonodetype` int(11) NULL DEFAULT NULL COMMENT '结束节点类型',
+  `tonodename` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结束节点名称',
+  `transitionsate` int(11) NOT NULL COMMENT '转化状态',
+  `isfinish` int(11) NOT NULL COMMENT '是否结束',
+  `createdate` datetime NOT NULL COMMENT '转化时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作人Id',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作人名称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工作流实例流转历史记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of flowinstancetransitionhistory
@@ -484,29 +488,29 @@ INSERT INTO `flowinstancetransitionhistory` VALUES ('f7f86afc-be9d-4521-b346-3e3
 -- ----------------------------
 DROP TABLE IF EXISTS `flowscheme`;
 CREATE TABLE `flowscheme`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键Id',
-  `SchemeCode` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程编号',
-  `SchemeName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程名称',
-  `SchemeType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程分类',
-  `SchemeVersion` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程内容版本',
-  `SchemeCanUser` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '流程模板使用者',
-  `SchemeContent` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '流程内容',
-  `FrmId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单ID',
-  `FrmType` int(11) NOT NULL COMMENT '表单类型',
-  `AuthorizeType` int(11) NOT NULL COMMENT '模板权限类型：0完全公开,1指定部门/人员',
-  `SortCode` int(11) NOT NULL COMMENT '排序码',
-  `DeleteMark` int(11) NOT NULL COMMENT '删除标记',
-  `Disabled` int(11) NOT NULL COMMENT '有效',
-  `Description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `CreateDate` datetime NOT NULL COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
-  `ModifyDate` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `ModifyUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改用户主键',
-  `ModifyUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改用户',
-  `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工作流模板信息表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键Id',
+  `schemecode` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程编号',
+  `schemename` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程名称',
+  `schemetype` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程分类',
+  `schemeversion` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程内容版本',
+  `schemecanuser` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '流程模板使用者',
+  `schemecontent` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '流程内容',
+  `frmid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单ID',
+  `frmtype` int(11) NOT NULL COMMENT '表单类型',
+  `authorizetype` int(11) NOT NULL COMMENT '模板权限类型：0完全公开,1指定部门/人员',
+  `sortcode` int(11) NOT NULL COMMENT '排序码',
+  `deletemark` int(11) NOT NULL COMMENT '删除标记',
+  `disabled` int(11) NOT NULL COMMENT '有效',
+  `description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `createdate` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `modifydate` datetime NULL DEFAULT NULL COMMENT '修改时间',
+  `modifyuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改用户主键',
+  `modifyusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改用户',
+  `orgid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工作流模板信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of flowscheme
@@ -526,28 +530,28 @@ INSERT INTO `flowscheme` VALUES ('fb1f3cac-a259-4969-9171-addbe22ab102', '158463
 -- ----------------------------
 DROP TABLE IF EXISTS `form`;
 CREATE TABLE `form`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表单模板Id',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单名称',
-  `FrmType` int(11) NOT NULL COMMENT '表单类型，0：默认动态表单；1：Web自定义表单',
-  `WebId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统页面标识，当表单类型为用Web自定义的表单时，需要标识加载哪个页面',
-  `Fields` int(11) NOT NULL COMMENT '字段个数',
-  `ContentData` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单中的控件属性描述',
-  `ContentParse` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单控件位置模板',
-  `Content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单原html模板未经处理的',
-  `SortCode` int(11) NOT NULL COMMENT '排序码',
-  `DeleteMark` int(11) NOT NULL COMMENT '删除标记',
-  `DbName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库名称',
-  `Disabled` int(11) NOT NULL COMMENT '有效',
-  `Description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `CreateDate` datetime NOT NULL COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
-  `ModifyDate` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `ModifyUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改用户主键',
-  `ModifyUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改用户',
-  `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '表单模板表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表单模板Id',
+  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单名称',
+  `frmtype` int(11) NOT NULL COMMENT '表单类型，0：默认动态表单；1：Web自定义表单',
+  `webid` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统页面标识，当表单类型为用Web自定义的表单时，需要标识加载哪个页面',
+  `fields` int(11) NOT NULL COMMENT '字段个数',
+  `contentdata` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单中的控件属性描述',
+  `contentparse` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单控件位置模板',
+  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '表单原html模板未经处理的',
+  `sortcode` int(11) NOT NULL COMMENT '排序码',
+  `deletemark` int(11) NOT NULL COMMENT '删除标记',
+  `dbname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库名称',
+  `disabled` int(11) NOT NULL COMMENT '有效',
+  `description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `createdate` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `modifydate` datetime NULL DEFAULT NULL COMMENT '修改时间',
+  `modifyuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改用户主键',
+  `modifyusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改用户',
+  `orgid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '表单模板表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of form
@@ -564,21 +568,21 @@ INSERT INTO `form` VALUES ('febe218d-21a6-44b6-b7ce-b83e73556ad9', '审批流程
 -- ----------------------------
 DROP TABLE IF EXISTS `frmleavereq`;
 CREATE TABLE `frmleavereq`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
-  `UserName` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请假人姓名',
-  `RequestType` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请假分类，病假，事假，公休等',
-  `StartDate` date NOT NULL COMMENT '开始日期',
-  `StartTime` datetime NULL DEFAULT NULL COMMENT '开始时间',
-  `EndDate` date NOT NULL COMMENT '结束日期',
-  `EndTime` datetime NULL DEFAULT NULL COMMENT '结束时间',
-  `RequestComment` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '请假说明',
-  `Attachment` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '附件，用于提交病假证据等',
-  `CreateDate` datetime NOT NULL COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
-  `FlowInstanceId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属流程ID',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模拟一个自定页面的表单，该数据会关联到流程实例FrmData，可用于复杂页面的设计及后期的数据分析' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `username` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请假人姓名',
+  `requesttype` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请假分类，病假，事假，公休等',
+  `startdate` date NOT NULL COMMENT '开始日期',
+  `starttime` datetime NULL DEFAULT NULL COMMENT '开始时间',
+  `enddate` date NOT NULL COMMENT '结束日期',
+  `endtime` datetime NULL DEFAULT NULL COMMENT '结束时间',
+  `requestcomment` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '请假说明',
+  `attachment` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '附件，用于提交病假证据等',
+  `createdate` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户主键',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `flowinstanceid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属流程实例',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模拟一个自定页面的表单，该数据会关联到流程实例FrmData，可用于复杂页面的设计及后期的数据分析' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of frmleavereq
@@ -591,24 +595,24 @@ INSERT INTO `frmleavereq` VALUES ('59b5b72f-b8fb-44d4-bb24-319d02b2ab80', '李�
 -- ----------------------------
 DROP TABLE IF EXISTS `module`;
 CREATE TABLE `module`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '功能模块流水号',
-  `CascadeId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点语义ID',
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '功能模块名称',
-  `Url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主页面URL',
-  `HotKey` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '热键',
-  `IsLeaf` tinyint(4) NOT NULL COMMENT '是否叶子节点',
-  `IsAutoExpand` tinyint(4) NOT NULL COMMENT '是否自动展开',
-  `IconName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节点图标文件名称',
-  `Status` int(11) NOT NULL COMMENT '当前状态',
-  `ParentName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '父节点名称',
-  `Vector` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '矢量图标',
-  `SortNo` int(11) NOT NULL COMMENT '排序号',
-  `ParentId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点流水号',
-  `Code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `IsSys` tinyint(4) NOT NULL COMMENT '是否为系统模块',
-  `KeepAlive` tinyint(4) NULL DEFAULT NULL COMMENT '前端是否缓存',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '功能模块表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '功能模块流水号',
+  `cascadeid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点语义ID',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '功能模块名称',
+  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主页面URL',
+  `hotkey` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '热键',
+  `isleaf` tinyint(4) NOT NULL COMMENT '是否叶子节点',
+  `isautoexpand` tinyint(4) NOT NULL COMMENT '是否自动展开',
+  `iconname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点图标文件名称',
+  `status` int(11) NOT NULL COMMENT '当前状态',
+  `parentname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '父节点名称',
+  `vector` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '矢量图标',
+  `sortno` int(11) NOT NULL COMMENT '排序号',
+  `parentid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点流水号',
+  `code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `issys` tinyint(4) NOT NULL COMMENT '是否为系统模块',
+  `keepalive` tinyint(4) NULL DEFAULT NULL COMMENT '前端是否缓存',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '功能模块表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of module
@@ -639,20 +643,20 @@ INSERT INTO `module` VALUES ('ef386d5d-cd58-43c0-a4ab-80afd0dbcd6c', '.0.1.15.',
 -- ----------------------------
 DROP TABLE IF EXISTS `moduleelement`;
 CREATE TABLE `moduleelement`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
-  `DomId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'DOM ID',
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `Attr` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '元素附加属性',
-  `Script` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '元素调用脚本',
-  `Icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素图标',
-  `Class` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素样式',
-  `Remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `Sort` int(11) NOT NULL COMMENT '排序字段',
-  `ModuleId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '功能模块Id',
-  `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
-  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模块元素表(需要权限控制的按钮)' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
+  `domid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'DOM ID',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `attr` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素附加属性',
+  `script` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素调用脚本',
+  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素图标',
+  `class` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '元素样式',
+  `remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '备注',
+  `sort` int(11) NOT NULL COMMENT '排序字段',
+  `moduleid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '功能模块Id',
+  `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `typeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模块元素表(需要权限控制的按钮)' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of moduleelement
@@ -720,28 +724,28 @@ INSERT INTO `moduleelement` VALUES ('f8dde22a-2a37-47c4-8e67-70fb3af5303e', 'btn
 -- ----------------------------
 DROP TABLE IF EXISTS `openjob`;
 CREATE TABLE `openjob`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
-  `JobName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务名称',
-  `RunCount` int(11) NOT NULL DEFAULT 0 COMMENT '任务执行次数',
-  `ErrorCount` int(11) NOT NULL DEFAULT 0 COMMENT '异常次数',
-  `NextRunTime` datetime NULL DEFAULT NULL COMMENT '下次执行时间',
-  `LastRunTime` datetime NULL DEFAULT NULL COMMENT '最后一次执行时间',
-  `LastErrorTime` datetime NULL DEFAULT NULL COMMENT '最后一次失败时间',
-  `JobType` int(11) NOT NULL DEFAULT 0 COMMENT '任务执行方式0：本地任务；1：外部接口任务',
-  `JobCall` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务地址',
-  `JobCallParams` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务参数，JSON格式',
-  `Cron` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'CRON表达式',
-  `Status` int(11) NOT NULL DEFAULT 0 COMMENT '任务运行状态（0：停止，1：正在运行，2：暂停）',
-  `Remark` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
-  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
-  `UpdateTime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
-  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
-  `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
-  `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
+  `jobname` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务名称',
+  `runcount` int(11) NOT NULL COMMENT '任务执行次数',
+  `errorcount` int(11) NOT NULL COMMENT '异常次数',
+  `nextruntime` datetime NULL DEFAULT NULL COMMENT '下次执行时间',
+  `lastruntime` datetime NULL DEFAULT NULL COMMENT '最后一次执行时间',
+  `lasterrortime` datetime NULL DEFAULT NULL COMMENT '最后一次失败时间',
+  `jobtype` int(11) NOT NULL COMMENT '任务执行方式0：本地任务；1：外部接口任务',
+  `jobcall` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务地址',
+  `jobcallparams` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '任务参数，JSON格式',
+  `cron` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'CRON表达式',
+  `status` int(11) NOT NULL COMMENT '任务运行状态（0：停止，1：正在运行，2：暂停）',
+  `remark` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
+  `createusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `updatetime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
+  `updateuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
+  `updateusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
+  `orgid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of openjob
@@ -753,26 +757,26 @@ INSERT INTO `openjob` VALUES ('f40fe48d-71a4-4f47-b324-6178d97abfb9', '定时日
 -- ----------------------------
 DROP TABLE IF EXISTS `org`;
 CREATE TABLE `org`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
-  `CascadeId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点语义ID',
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '组织名称',
-  `HotKey` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '热键',
-  `ParentName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '父节点名称',
-  `IsLeaf` tinyint(4) NOT NULL COMMENT '是否叶子节点',
-  `IsAutoExpand` tinyint(4) NOT NULL COMMENT '是否自动展开',
-  `IconName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节点图标文件名称',
-  `Status` int(11) NOT NULL COMMENT '当前状态',
-  `BizCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '业务对照码',
-  `CustomCode` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '自定义扩展码',
-  `CreateTime` datetime NOT NULL COMMENT '创建时间',
-  `CreateId` int(11) NOT NULL COMMENT '创建人ID',
-  `SortNo` int(11) NOT NULL COMMENT '排序号',
-  `ParentId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点流水号',
-  `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
-  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
-  `ChairmanId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '负责人ID;',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '组织表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
+  `cascadeid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点语义ID',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '组织名称',
+  `hotkey` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '热键',
+  `parentname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '父节点名称',
+  `isleaf` tinyint(4) NOT NULL COMMENT '是否叶子节点',
+  `isautoexpand` tinyint(4) NOT NULL COMMENT '是否自动展开',
+  `iconname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点图标文件名称',
+  `status` int(11) NOT NULL COMMENT '当前状态',
+  `bizcode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '业务对照码',
+  `customcode` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '自定义扩展码',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createid` int(11) NOT NULL COMMENT '创建人ID',
+  `sortno` int(11) NOT NULL COMMENT '排序号',
+  `parentid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点流水号',
+  `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `typeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
+  `chairmanid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '负责人ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '组织表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of org
@@ -802,18 +806,18 @@ INSERT INTO `org` VALUES ('eed8756d-587b-46de-96c7-0a400e3d80fa', '.0.6.', '华�
 -- ----------------------------
 DROP TABLE IF EXISTS `relevance`;
 CREATE TABLE `relevance`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
-  `Description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `Key` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '映射标识',
-  `Status` int(11) NOT NULL COMMENT '状态',
-  `OperateTime` datetime NOT NULL COMMENT '授权时间',
-  `OperatorId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '授权人',
-  `FirstId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '第一个表主键ID',
-  `SecondId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '第二个表主键ID',
-  `ThirdId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '第三个表主键ID',
-  `ExtendInfo` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '扩展信息',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '多对多关系集中映射' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
+  `description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '描述',
+  `key` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '映射标识',
+  `status` int(11) NOT NULL COMMENT '状态',
+  `operatetime` datetime NOT NULL COMMENT '授权时间',
+  `operatorid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '授权人',
+  `firstid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '第一个表主键ID',
+  `secondid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '第二个表主键ID',
+  `thirdid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '第三个表主键ID',
+  `extendinfo` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '扩展信息',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '多对多关系集中映射' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of relevance
@@ -861,9 +865,11 @@ INSERT INTO `relevance` VALUES ('2014027e-0cff-41cf-974b-56126d6eaa9a', '', 'Rol
 INSERT INTO `relevance` VALUES ('224fa0b0-cdd6-47cf-89c5-45ad2a64bfd5', '', 'RoleDataProperty', 0, '2019-11-23 01:05:44', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'WmsInboundOrderTbl', 'OrderType', '');
 INSERT INTO `relevance` VALUES ('23339fa0-94f4-4d35-a775-bda84d152841', '', 'RoleModule', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '069475e3-c997-487a-9f29-e6a864c5c1d4', '', '');
 INSERT INTO `relevance` VALUES ('242e9543-3343-41d4-8816-15ffeeaef551', '', 'UserElement', 0, '2016-09-07 15:31:16', '0', 'ea25646b-964b-4d41-ab03-d8964e1494fb', '584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL);
+INSERT INTO `relevance` VALUES ('24dbc2ce-8474-463f-871b-96cb5edb9800', '', 'RoleElement', 0, '2020-04-25 11:49:36', '', 'd27ae3cf-135f-4d57-93a6-2120ddf98650', '4770af29-1375-4d27-ab0c-fdbeab87b710', '', '');
 INSERT INTO `relevance` VALUES ('27c4d50c-32da-4dbc-88a1-84b343cdd649', '', 'UserElement', 0, '2016-10-20 17:01:00', '0', '3a95e392-07d4-4af3-b30d-140ca93340f5', '6839a297-350b-4215-b680-4e5dfdae5615', NULL, NULL);
 INSERT INTO `relevance` VALUES ('29b06cd6-af0c-4c63-9aba-e5431c5d62ec', '', 'UserOrg', 0, '2017-10-12 09:13:38', '', '3eacdedd-e93a-4816-b49c-99ba3d5323c2', '08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL);
 INSERT INTO `relevance` VALUES ('2a36a2b7-41aa-4190-b88c-75d44a56ad6e', '', 'UserModule', 0, '2017-02-06 00:14:18', '0', '3a95e392-07d4-4af3-b30d-140ca93340f5', '92b00259-2d15-43e7-9321-adffb29e8bf2', NULL, NULL);
+INSERT INTO `relevance` VALUES ('2a818d22-1ca8-48e2-a2ed-3dbc3d05cc8b', '', 'RoleElement', 0, '2020-04-25 11:49:11', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '5fba6316-5599-4245-822c-48ff33299868', '', '');
 INSERT INTO `relevance` VALUES ('2a8a790f-0b9a-4ab3-8e4f-aae4bfddc609', '', 'RoleDataProperty', 0, '2019-11-23 01:05:44', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'WmsInboundOrderTbl', 'PurchaseNo', '');
 INSERT INTO `relevance` VALUES ('2bb3fddb-0f51-442e-8dbf-236beb47d8a6', '', 'RoleOrg', 0, '2018-04-14 13:16:45', '', '77e6d0c3-f9e1-4933-92c3-c1c6eef75593', '08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL);
 INSERT INTO `relevance` VALUES ('2c67ac44-5b67-4942-b457-2212e9a5dbf9', '', 'RoleModule', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'e8dc5db6-4fc4-4795-a1cc-681cbcceec91', '', '');
@@ -893,6 +899,7 @@ INSERT INTO `relevance` VALUES ('42ba8a59-5493-4e11-b61b-d87000092767', '', 'Rol
 INSERT INTO `relevance` VALUES ('4459ffd7-446b-456b-aee5-48e67ca000f8', '', 'UserOrg', 0, '2019-10-31 21:51:45', '', '6ba79766-faa0-4259-8139-a4a6d35784e0', '08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', '', '');
 INSERT INTO `relevance` VALUES ('456ddfed-6607-41e9-9c46-0d4c7c9c38d4', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'WmsInboundOrderTbl', 'Status', '');
 INSERT INTO `relevance` VALUES ('45744773-1b85-4913-bc1b-2f00b95a8198', '', 'RoleElement', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '9e2c6754-f258-4b14-96a0-b9d981196a65', '', '');
+INSERT INTO `relevance` VALUES ('45dee058-6b62-4005-a134-dcf7c2781851', '', 'RoleElement', 0, '2020-04-25 11:50:18', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'a6b61073-9e76-40ef-88ad-15c8789e2033', '', '');
 INSERT INTO `relevance` VALUES ('45e97612-46d8-4c36-b89e-ce6572ed7988', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'Resource', 'Id', '');
 INSERT INTO `relevance` VALUES ('460d1c98-2a68-43cf-8d38-d40ceb89916f', '', 'UserOrg', 0, '2017-10-12 09:13:38', '', '3eacdedd-e93a-4816-b49c-99ba3d5323c2', '86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL);
 INSERT INTO `relevance` VALUES ('465b8bc0-b817-410d-849e-55f66b2a3211', '', 'RoleModule', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '98a949e8-8704-40a7-b9a1-c0e8801e4057', '', '');
@@ -909,13 +916,16 @@ INSERT INTO `relevance` VALUES ('4ec39ee9-9ee9-4aa9-a0db-eb0fdf8d2f00', '', 'Use
 INSERT INTO `relevance` VALUES ('4ee89c07-55e2-4ca6-9ef1-449cfe0a2c3c', '', 'RoleResource', 0, '2018-09-12 00:15:54', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'OPENAUTH_LOGIN', NULL, NULL);
 INSERT INTO `relevance` VALUES ('4fde1dc6-9d73-4c7c-9238-28981858c5a6', '', 'RoleModule', 0, '2016-09-05 09:21:56', '0', '4980a85b-e3db-4607-bc2c-0baf0140d7df', '89c3bfbe-246f-4112-8eb1-b6789da54202', NULL, NULL);
 INSERT INTO `relevance` VALUES ('5167dbcd-3a32-4ae8-827e-6f381cc58fa2', '', 'RoleElement', 0, '2016-09-04 23:21:00', '0', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', 'fa816af1-a28d-47b5-9b8b-c46e18f902e9', NULL, NULL);
+INSERT INTO `relevance` VALUES ('51c56567-bbf8-466e-8678-9b6bfb38c493', '', 'RoleElement', 0, '2020-04-25 11:49:11', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', '5fba6316-5599-4245-822c-48ff33299868', '', '');
 INSERT INTO `relevance` VALUES ('526d6f39-e75a-402b-8ba6-9bb08731da1e', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'Resource', 'CreateTime', '');
 INSERT INTO `relevance` VALUES ('53a4be87-4fa8-415b-97b5-2298ce8b17c8', '', 'UserResource', 0, '2018-04-14 14:38:04', '', '49df1602-f5f3-4d52-afb7-3802da619558', 'XXX_LOGIN', NULL, NULL);
 INSERT INTO `relevance` VALUES ('54b2e9b6-1f7c-4a39-92c9-98f58429c1fc', '', 'RoleModule', 0, '2016-09-02 17:03:39', '0', '211e12c7-e466-496e-8d26-0660a38e24cc', 'bc80478d-0547-4437-9cff-be4b40144bdf', NULL, NULL);
+INSERT INTO `relevance` VALUES ('54eadc62-a77e-4baa-aa6d-34f5af2d6774', '', 'RoleElement', 0, '2020-04-25 11:49:36', '', '77e6d0c3-f9e1-4933-92c3-c1c6eef75593', '4770af29-1375-4d27-ab0c-fdbeab87b710', '', '');
 INSERT INTO `relevance` VALUES ('55b10ecc-3fb3-4127-b69e-e7a3467d7a1a', '', 'RoleElement', 0, '2016-09-05 09:22:11', '0', '4980a85b-e3db-4607-bc2c-0baf0140d7df', '6db928fe-93df-460f-9472-8bb0b6cae52c', NULL, NULL);
 INSERT INTO `relevance` VALUES ('5725ff79-43c6-4778-bbff-131cf364dab6', '', 'UserElement', 0, '2016-10-20 17:01:01', '0', '3a95e392-07d4-4af3-b30d-140ca93340f5', 'cf7388be-2677-427c-ad78-8f00f1062b96', NULL, NULL);
 INSERT INTO `relevance` VALUES ('575221eb-0e4d-4cfa-9cd8-59607784d43d', '', 'UserRole', 0, '2019-10-31 21:59:41', '', '6ba79766-faa0-4259-8139-a4a6d35784e0', '3e761e88-ddf7-4a62-b219-9a315b4564f2', '', '');
 INSERT INTO `relevance` VALUES ('5965ae4d-c718-421f-9895-fdf6255a002e', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'WmsInboundOrderTbl', 'ReturnBoxNum', '');
+INSERT INTO `relevance` VALUES ('59c8b633-167e-47c1-bb63-837780ea93dc', '', 'RoleModule', 0, '2020-04-25 11:48:20', '', '77e6d0c3-f9e1-4933-92c3-c1c6eef75593', '5c55f7eb-4552-4610-a584-d72685f8d064', '', '');
 INSERT INTO `relevance` VALUES ('5a20d59c-6ee6-4fe2-98fe-7b35b11026ae', '', 'UserElement', 0, '2016-09-07 15:30:20', '0', '3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', '68484265-7802-4f06-b024-33e8b2f2edcf', NULL, NULL);
 INSERT INTO `relevance` VALUES ('5aa8ae27-e5b1-4f46-9342-73f1ba11c14c', '', 'RoleElement', 0, '2020-03-19 21:23:19', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', '826b12b3-e916-446d-a2fa-329cfd13c831', '', '');
 INSERT INTO `relevance` VALUES ('5b2d5db8-d603-4be3-add2-c85ef3c53ddc', '', 'UserResource', 0, '2018-04-14 14:38:05', '', '49df1602-f5f3-4d52-afb7-3802da619558', 'OPENAUTH_LOGIN', NULL, NULL);
@@ -930,6 +940,7 @@ INSERT INTO `relevance` VALUES ('6532f9c1-3067-4952-b008-e766f833050e', '', 'Use
 INSERT INTO `relevance` VALUES ('6552d053-69b3-4ae9-b1f2-497582dcb8aa', '', 'RoleElement', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'c7d7daf0-3669-4a22-8bed-b092617deb9c', '', '');
 INSERT INTO `relevance` VALUES ('6645b6fb-efcf-4e48-9c13-84f79bc5be34', '', 'RoleOrg', 0, '2018-04-14 13:16:45', '', '77e6d0c3-f9e1-4933-92c3-c1c6eef75593', '86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL);
 INSERT INTO `relevance` VALUES ('66e25fc5-093d-42ab-85dc-a38f6600889b', '', 'UserOrg', 0, '2016-09-02 13:57:32', '0', 'ea25646b-964b-4d41-ab03-d8964e1494fb', 'c36e43df-3a99-45da-80d9-3ac5d24f4014', NULL, NULL);
+INSERT INTO `relevance` VALUES ('67c502cf-c9bf-4ad3-b749-eda1c7f388e7', '', 'RoleElement', 0, '2020-04-25 11:50:18', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'a6b61073-9e76-40ef-88ad-15c8789e2033', '', '');
 INSERT INTO `relevance` VALUES ('68912e65-256e-45b6-b48e-036382598d32', '', 'RoleOrg', 0, '2016-10-17 10:03:49', '0', '2eb423d6-6ad9-4efe-b423-872478a2a434', '990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL);
 INSERT INTO `relevance` VALUES ('68984a83-ce96-4144-9e23-0e0f2249fb45', '', 'UserOrg', 0, '2019-10-31 21:51:30', '', 'de8be521-f1ec-4483-b124-0be342890507', 'c36e43df-3a99-45da-80d9-3ac5d24f4014', '', '');
 INSERT INTO `relevance` VALUES ('6a0d3b61-67d0-4090-a622-08d5643e1af8', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'Resource', 'Name', '');
@@ -939,6 +950,7 @@ INSERT INTO `relevance` VALUES ('6d6eb70e-0caf-485f-943c-671be021a588', '', 'Rol
 INSERT INTO `relevance` VALUES ('6da6d662-8cef-47cd-80b3-fa885b2dca7a', '', 'RoleOrg', 0, '2018-04-14 13:16:45', '', '77e6d0c3-f9e1-4933-92c3-c1c6eef75593', '990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL);
 INSERT INTO `relevance` VALUES ('6db5666b-6f8c-4e83-bada-0b45054bd9a4', '', 'RoleElement', 0, '2016-09-04 23:20:42', '0', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', '0d25438e-1436-48e0-aedf-0f1690693282', NULL, NULL);
 INSERT INTO `relevance` VALUES ('6fe52499-f800-47ce-96fc-a2b5b43505d5', '', 'UserElement', 0, '2018-04-06 09:48:22', '', '6ba79766-faa0-4259-8139-a4a6d35784e0', '584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL);
+INSERT INTO `relevance` VALUES ('7024c6fa-28d2-494f-93af-0651c690e063', '', 'RoleModule', 0, '2020-04-25 11:48:20', '', 'd27ae3cf-135f-4d57-93a6-2120ddf98650', '5c55f7eb-4552-4610-a584-d72685f8d064', '', '');
 INSERT INTO `relevance` VALUES ('7082bc48-535e-4b92-9dc0-c58340a8239d', '', 'RoleDataProperty', 0, '2019-11-23 01:05:44', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'Resource', 'Name', '');
 INSERT INTO `relevance` VALUES ('715d017a-68b6-468d-aa3f-32ca4cfd4b9e', '', 'RoleModule', 0, '2016-09-04 23:20:34', '0', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', 'bedb41a2-f310-4775-af99-01be08adda93', NULL, NULL);
 INSERT INTO `relevance` VALUES ('71fa1d0c-1928-4a16-aa94-c92e6f671581', '', 'RoleDataProperty', 0, '2019-11-23 00:51:40', '', 'd27ae3cf-135f-4d57-93a6-2120ddf98650', 'Resource', 'AppName', '');
@@ -981,6 +993,7 @@ INSERT INTO `relevance` VALUES ('8adae84f-6516-4d87-a476-353bc48ae597', '', 'Rol
 INSERT INTO `relevance` VALUES ('8af3581e-257f-4655-bac2-5b5afb85ef88', '', 'UserOrg', 0, '2019-10-31 21:59:08', '', '758a34c7-5a31-438c-bdf7-02fdd846b901', 'b2083488-64e5-44cc-b8f4-929ffa6f2f72', '', '');
 INSERT INTO `relevance` VALUES ('8b633f3c-965b-4e35-8496-c364890d7760', '', 'RoleElement', 0, '2016-09-04 23:21:09', '0', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', 'c3d7b478-21e9-4c1e-b866-a3c80be7909b', NULL, NULL);
 INSERT INTO `relevance` VALUES ('8c93cb3c-b535-4ab1-af9e-b3ad50847423', '', 'RoleDataProperty', 0, '2019-11-23 00:51:40', '', 'd27ae3cf-135f-4d57-93a6-2120ddf98650', 'Resource', 'Id', '');
+INSERT INTO `relevance` VALUES ('8e229d71-3b25-4efe-a2fe-829be732a1c6', '', 'RoleElement', 0, '2020-04-25 11:49:11', '', 'd27ae3cf-135f-4d57-93a6-2120ddf98650', '5fba6316-5599-4245-822c-48ff33299868', '', '');
 INSERT INTO `relevance` VALUES ('8f741d9e-e7f5-4b73-95f4-4b55e0cf6605', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'WmsInboundOrderTbl', 'UpdateUserId', '');
 INSERT INTO `relevance` VALUES ('8fa4a52f-9c0a-43c9-9b7e-b378efb4e1df', '', 'RoleResource', 0, '2018-09-10 12:54:14', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'OPENAUTH_LOGIN', NULL, NULL);
 INSERT INTO `relevance` VALUES ('90f19c4e-609f-4dc6-84f7-8b936be05568', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'Category', 'Name', '');
@@ -988,6 +1001,7 @@ INSERT INTO `relevance` VALUES ('928e8ddd-b990-471e-983d-f2dac77428d7', '', 'Rol
 INSERT INTO `relevance` VALUES ('92b2d699-9875-4978-af79-24c83ff4e212', '', 'UserOrg', 0, '2019-10-31 21:58:43', '', '96f63f9d-e8c8-4258-963e-3327ed7d6f56', 'df442c27-68a0-428e-a309-cba23a994a9d', '', '');
 INSERT INTO `relevance` VALUES ('92f0b297-96c1-47d4-84dd-571374431bc0', '', 'RoleElement', 0, '2016-09-04 23:21:04', '0', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', '84694ea5-d6e1-4a65-8a59-7b5b779688d4', NULL, NULL);
 INSERT INTO `relevance` VALUES ('93bcac7a-0ff1-488c-8d1c-3da7e44cbefc', '', 'RoleElement', 0, '2016-09-04 23:21:00', '0', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', 'd1ba6a72-ba14-44c0-baba-46d0ad96fe8a', NULL, NULL);
+INSERT INTO `relevance` VALUES ('95b51b38-177e-4e69-9265-d2c9fcd8b09a', '', 'RoleElement', 0, '2020-04-25 11:50:18', '', '77e6d0c3-f9e1-4933-92c3-c1c6eef75593', 'a6b61073-9e76-40ef-88ad-15c8789e2033', '', '');
 INSERT INTO `relevance` VALUES ('960224e6-5910-472b-a5ef-b2aa9a8b106f', '', 'UserRole', 0, '2016-09-06 17:06:15', '0', '3b64b643-cb9a-4654-81e4-6dd9b2f8a6f7', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', NULL, NULL);
 INSERT INTO `relevance` VALUES ('962b278b-0894-4b36-b1a0-6c5c3d11d4c3', '', 'UserElement', 0, '2018-04-06 14:50:17', '', '49df1602-f5f3-4d52-afb7-3802da619558', 'b3e23ebc-0ff2-41b3-bff0-fd5e93f6828a', NULL, NULL);
 INSERT INTO `relevance` VALUES ('965f010b-2fd6-4b34-ba23-3e44c1af2877', '', 'RoleOrg', 0, '2016-09-08 16:19:18', '0', '36094f5d-07e7-40d5-91dc-ff60f98b496a', '990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL);
@@ -1019,6 +1033,7 @@ INSERT INTO `relevance` VALUES ('aa051096-a23a-431d-9053-bb954f9453a7', '', 'Rol
 INSERT INTO `relevance` VALUES ('aac9206e-a77b-421c-9c85-5f202fddeb31', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'WmsInboundOrderTbl', 'TransferType', '');
 INSERT INTO `relevance` VALUES ('ab84b111-fb5d-4ddd-99d5-479954d9d521', '', 'RoleOrg', 0, '2016-09-08 16:19:18', '0', '36094f5d-07e7-40d5-91dc-ff60f98b496a', '08f41bf6-4388-4b1e-bd3e-2ff538b44b1b', NULL, NULL);
 INSERT INTO `relevance` VALUES ('ab924ba7-8a74-4804-82b0-ecbbedf4c13e', '', 'RoleElement', 0, '2016-09-05 09:22:11', '0', '4980a85b-e3db-4607-bc2c-0baf0140d7df', '38109ca0-32ec-44bd-a243-017e591b532b', NULL, NULL);
+INSERT INTO `relevance` VALUES ('abbf150f-907d-450c-836c-6ad3d6885549', '', 'RoleModule', 0, '2020-04-25 11:48:20', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', '5c55f7eb-4552-4610-a584-d72685f8d064', '', '');
 INSERT INTO `relevance` VALUES ('ac184827-9899-4b40-8939-61fe9d2b187c', '', 'UserElement', 0, '2016-09-07 17:48:49', '0', '3a95e392-07d4-4af3-b30d-140ca93340f5', '584c7a3b-d28a-47b4-8648-7797d05d83d1', NULL, NULL);
 INSERT INTO `relevance` VALUES ('acb4d37f-8b45-4a99-b364-99f3881dfcda', '', 'RoleElement', 0, '2016-09-04 23:21:13', '0', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', 'f8dde22a-2a37-47c4-8e67-70fb3af5303e', NULL, NULL);
 INSERT INTO `relevance` VALUES ('acc51898-5335-4903-83b9-4701a782bc4d', '', 'UserElement', 0, '2016-10-20 17:01:02', '0', '3a95e392-07d4-4af3-b30d-140ca93340f5', 'fa816af1-a28d-47b5-9b8b-c46e18f902e9', NULL, NULL);
@@ -1057,6 +1072,7 @@ INSERT INTO `relevance` VALUES ('bbdc3ea9-3f21-48b0-9d7a-39545d6183d0', '', 'Use
 INSERT INTO `relevance` VALUES ('bc39df48-cbcf-4757-af8c-b023ad195721', '', 'RoleElement', 0, '2020-03-19 21:23:19', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', '816b12b3-e916-446d-a2fa-329cfd13c831', '', '');
 INSERT INTO `relevance` VALUES ('bc63b763-cdb8-4516-a3c4-fabe74d7dc56', '', 'RoleDataProperty', 0, '2019-11-23 00:19:30', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'Category', 'DtValue', '');
 INSERT INTO `relevance` VALUES ('bd783f53-23fa-41f4-8cec-7c61fab52072', '', 'UserOrg', 0, '2018-03-15 09:19:06', '', '0ceff0f8-f848-440c-bc26-d8605ac858cd', '86449128-d5ac-44bf-b999-f7735b7458fd', NULL, NULL);
+INSERT INTO `relevance` VALUES ('bd82fa18-2500-4e6b-920d-dc235b57f788', '', 'RoleModule', 0, '2020-04-25 11:48:20', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '5c55f7eb-4552-4610-a584-d72685f8d064', '', '');
 INSERT INTO `relevance` VALUES ('bda5f089-64d6-4fb8-9012-d7f3ff36902a', '', 'UserOrg', 0, '2017-10-12 13:59:09', '', 'ffd92ed2-5330-4ec2-a42d-6e0e9005db3b', '990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL);
 INSERT INTO `relevance` VALUES ('be17df2b-a4bb-4080-9d3f-465875a0bd52', '', 'RoleModule', 0, '2020-03-19 21:23:19', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', '9486ff22-b696-4d7f-8093-8a3e53c45453', '', '');
 INSERT INTO `relevance` VALUES ('bee6572d-8fb8-4e0e-af15-93aafc989717', '', 'RoleElement', 0, '2016-09-04 23:20:42', '0', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', '68fc793f-069f-43e1-a012-42ac2d7c585c', NULL, NULL);
@@ -1083,6 +1099,7 @@ INSERT INTO `relevance` VALUES ('d72b9de9-998b-432c-9ccf-d961d386d778', '', 'Rol
 INSERT INTO `relevance` VALUES ('d892294d-2a2f-410e-bae9-86be3f6e3674', '', 'RoleDataProperty', 0, '2019-11-23 01:05:44', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'WmsInboundOrderTbl', 'StockId', '');
 INSERT INTO `relevance` VALUES ('d967ed9b-a083-4398-954b-ea73edcefa32', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'WmsInboundOrderTbl', 'ExternalNo', '');
 INSERT INTO `relevance` VALUES ('da6c0645-0bf9-4ade-9dd3-1b09e91e504c', '', 'RoleElement', 0, '2016-09-05 09:22:07', '0', '4980a85b-e3db-4607-bc2c-0baf0140d7df', '816b12b3-e916-446d-a2fa-329cfd13c831', NULL, NULL);
+INSERT INTO `relevance` VALUES ('db621de5-12e0-4ff1-9532-4cd7a696cf65', '', 'RoleElement', 0, '2020-04-25 11:50:18', '', 'd27ae3cf-135f-4d57-93a6-2120ddf98650', 'a6b61073-9e76-40ef-88ad-15c8789e2033', '', '');
 INSERT INTO `relevance` VALUES ('dbdd5bf2-5910-4644-b087-2f50711840df', '', 'UserRole', 0, '2019-11-23 00:48:35', '', '49df1602-f5f3-4d52-afb7-3802da619558', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '', '');
 INSERT INTO `relevance` VALUES ('dc7dd8ef-c8e6-414f-8e97-31774718654c', '', 'RoleDataProperty', 0, '2019-11-23 01:05:44', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'WmsInboundOrderTbl', 'Id', '');
 INSERT INTO `relevance` VALUES ('de4205b7-4832-40d4-b6ae-956f7b4997ba', '', 'RoleModule', 0, '2020-03-19 22:31:02', '', 'd27ae3cf-135f-4d57-93a6-2120ddf98650', '7580672f-a390-4bb6-982d-9a4570cb5199', '', '');
@@ -1092,6 +1109,7 @@ INSERT INTO `relevance` VALUES ('e12b77de-b7ce-4f38-b7a3-f3b2d285f33b', '', 'Rol
 INSERT INTO `relevance` VALUES ('e28c0dcd-168a-4b60-a514-7b6eb8026709', '', 'RoleOrg', 0, '2016-10-17 10:03:30', '0', 'db309d88-fd21-4b81-a4d9-ae6276a1d813', '990cb229-cc18-41f3-8e2b-13f0f0110798', NULL, NULL);
 INSERT INTO `relevance` VALUES ('e4ccd68d-b31b-4d2d-b591-665818a7bd9f', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'Category', 'Id', '');
 INSERT INTO `relevance` VALUES ('e50d78ae-004d-4f89-95a2-bd5c6327d16c', '', 'RoleModule', 0, '2020-03-19 21:23:19', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', '0031262c-689c-4b96-bae2-2c9d67076ade', '', '');
+INSERT INTO `relevance` VALUES ('e5aa43b8-86df-43be-b5f1-9edd13dc07f8', '', 'RoleElement', 0, '2020-04-25 11:49:36', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '4770af29-1375-4d27-ab0c-fdbeab87b710', '', '');
 INSERT INTO `relevance` VALUES ('e619a82e-edfb-4542-94df-0b92850667ad', '', 'RoleResource', 0, '2018-04-14 14:39:56', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'OPENAUTH_MODIFYACCOUNT', NULL, NULL);
 INSERT INTO `relevance` VALUES ('e6bd480f-592a-46e0-9f83-2adefb12dca0', '', 'RoleElement', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '8966b04f-8e26-4046-8b03-0c64f9f833dd', '', '');
 INSERT INTO `relevance` VALUES ('e785147c-f46b-474f-8fad-73b14fa69822', '', 'UserRole', 0, '2016-09-06 17:06:29', '0', '3a95e392-07d4-4af3-b30d-140ca93340f5', '4980a85b-e3db-4607-bc2c-0baf0140d7df', NULL, NULL);
@@ -1106,6 +1124,7 @@ INSERT INTO `relevance` VALUES ('ef43a7a6-4a4c-46fe-82d4-1e1055fdac6d', '', 'Rol
 INSERT INTO `relevance` VALUES ('ef8024e8-dab3-4b85-9952-821a005c1f2b', '', 'RoleDataProperty', 0, '2019-11-23 00:51:40', '', 'd27ae3cf-135f-4d57-93a6-2120ddf98650', 'Resource', 'CascadeId', '');
 INSERT INTO `relevance` VALUES ('f012d886-f204-4599-a00d-7b9847cc0bb7', '', 'RoleModule', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '92b00259-2d15-43e7-9321-adffb29e8bf2', '', '');
 INSERT INTO `relevance` VALUES ('f125441c-f28c-4ffa-9183-c8168ab09afb', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'Category', 'TypeId', '');
+INSERT INTO `relevance` VALUES ('f163873c-2b44-4279-8b2c-498bcd01f05b', '', 'RoleElement', 0, '2020-04-25 11:49:36', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', '4770af29-1375-4d27-ab0c-fdbeab87b710', '', '');
 INSERT INTO `relevance` VALUES ('f25d98ff-46bc-48e7-86a0-5eca5e6d98c2', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'WmsInboundOrderTbl', 'UpdateUserName', '');
 INSERT INTO `relevance` VALUES ('f3671c95-a33f-4a11-89dd-00d734d4a230', '', 'RoleModule', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '15a3a401-e8eb-4d8b-9035-ecd5f53ed0c9', '', '');
 INSERT INTO `relevance` VALUES ('f4ba636a-9002-43e6-93eb-95132a3e68c5', '', 'ProcessUser', 0, '2016-09-28 09:23:30', '0', '68295d2a-4dfd-4c5e-81e3-9c787e2603bc', '3a95e392-07d4-4af3-b30d-140ca93340f5', NULL, NULL);
@@ -1121,61 +1140,25 @@ INSERT INTO `relevance` VALUES ('fa7c4d39-b31a-4668-8716-d40a62aa722b', '', 'Use
 INSERT INTO `relevance` VALUES ('fa955d08-fe15-42d2-ae39-98e22e4f9b50', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'WmsInboundOrderTbl', 'OrderType', '');
 INSERT INTO `relevance` VALUES ('fa9ce486-4b1f-4630-bad3-7625744cb8e8', '', 'RoleDataProperty', 0, '2020-03-19 00:17:02', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', 'Resource', 'CascadeId', '');
 INSERT INTO `relevance` VALUES ('faf837f2-8ac3-4269-8a1c-b2af432bf7b5', '', 'RoleElement', 0, '2020-03-19 21:23:19', '', '0a7ebd0c-78d6-4fbc-8fbe-6fc25c3a932d', 'a7eea5dc-3b10-4550-9cf3-0dba9b9fc32c', '', '');
+INSERT INTO `relevance` VALUES ('fafcaba7-57fe-44dd-9343-6112db385dce', '', 'RoleElement', 0, '2020-04-25 11:49:11', '', '77e6d0c3-f9e1-4933-92c3-c1c6eef75593', '5fba6316-5599-4245-822c-48ff33299868', '', '');
 INSERT INTO `relevance` VALUES ('fdc16578-e4eb-474d-8cc8-4188693a7c12', '', 'RoleElement', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '6c814946-db5c-48bd-84dd-b1c38196ad74', '', '');
 INSERT INTO `relevance` VALUES ('feec44e3-3f88-4ac2-a4ad-a5bd3161f1bb', '', 'UserOrg', 0, '2019-10-31 21:59:08', '', '758a34c7-5a31-438c-bdf7-02fdd846b901', '66386671-0494-4e83-8346-fbcf73283f7b', '', '');
 INSERT INTO `relevance` VALUES ('fef68b50-ef7f-45a4-8f0e-38e8d8ecaaea', '', 'RoleElement', 0, '2020-03-19 00:16:55', '', '09ee2ffa-7463-4938-ae0b-1cb4e80c7c13', '68484265-7802-4f06-b024-33e8b2f2edcf', '', '');
-
--- ----------------------------
--- Table structure for resource
--- ----------------------------
-DROP TABLE IF EXISTS `sysresource`;
-CREATE TABLE `sysresource`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源标识',
-  `CascadeId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '节点语义ID',
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '名称',
-  `SortNo` int(11) NOT NULL DEFAULT 0 COMMENT '排序号',
-  `Description` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '描述',
-  `ParentName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点名称',
-  `ParentId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点流ID',
-  `AppId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源所属应用ID',
-  `AppName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属应用名称',
-  `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
-  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
-  `Disable` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否可用',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
-  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
-  `UpdateTime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
-  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
-  `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '资源表' ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Records of resource
--- ----------------------------
-INSERT INTO `sysresource` VALUES ('SYS_DEL_USER', '.0.2.', '删除用户', 0, '拥有删除OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:58', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:58', '', '');
-INSERT INTO `sysresource` VALUES ('SYS_UPDATE_USER', '.0.1.', '更新用户信息', 0, '拥有更新OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:17', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:12', '', '');
-INSERT INTO `sysresource` VALUES ('SYS_VIEW_USER', '.0.3.', '查看用户列表', 0, '查看OpenAuth.Net用户列表', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:44:39', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:44:39', '', '');
-INSERT INTO `sysresource` VALUES ('XXX_ADDORDER', '.0.6.', '创建订单', 0, '在XXX平台创建订单', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:24', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:24', '', '');
-INSERT INTO `sysresource` VALUES ('XXX_DEL_LOG', '.0.4.', '删除XXX平台日志', 0, '删除XXX平台日志', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:45:02', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:45:02', '', '');
-INSERT INTO `sysresource` VALUES ('XXX_LOGIN', '.0.7.', '登录', 0, '登录XXX平台', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:55:20', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:55:20', '', '');
-INSERT INTO `sysresource` VALUES ('XXX_VIEW_USER', '.0.5.', '查看用户', 0, '查看XXX平台用户列表', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:01', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:01', '', '');
 
 -- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
-  `Status` int(11) NOT NULL COMMENT '当前状态',
-  `CreateTime` datetime NOT NULL COMMENT '创建时间',
-  `CreateId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
-  `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
-  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
+  `status` int(11) NOT NULL COMMENT '当前状态',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
+  `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `typeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of role
@@ -1190,17 +1173,17 @@ INSERT INTO `role` VALUES ('d27ae3cf-135f-4d57-93a6-2120ddf98650', '测试二组
 -- ----------------------------
 DROP TABLE IF EXISTS `stock`;
 CREATE TABLE `stock`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据ID',
-  `Name` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '产品名称',
-  `ProdCnt` int(11) NOT NULL COMMENT '产品数量',
-  `Price` decimal(10, 1) NOT NULL COMMENT '产品单价',
-  `Status` int(11) NOT NULL COMMENT '出库/入库',
-  `Viewable` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '可见范围',
-  `CreateUser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '操作人',
-  `Time` datetime NOT NULL COMMENT '操作时间',
-  `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组织ID',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '出入库信息表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据ID',
+  `name` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '产品名称',
+  `prodcnt` int(11) NOT NULL COMMENT '产品数量',
+  `price` decimal(10, 1) NOT NULL COMMENT '产品单价',
+  `status` int(11) NOT NULL COMMENT '出库/入库',
+  `viewable` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '可见范围',
+  `createuser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '操作人',
+  `time` datetime NOT NULL COMMENT '操作时间',
+  `orgid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组织ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '出入库信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of stock
@@ -1211,19 +1194,19 @@ CREATE TABLE `stock`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `syslog`;
 CREATE TABLE `syslog`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `Content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '日志内容',
-  `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
-  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
-  `Href` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作所属模块地址',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
-  `CreateId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '操作人ID',
-  `CreateName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作人',
-  `Ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作机器的IP地址',
-  `Result` int(11) NOT NULL DEFAULT 0 COMMENT '操作的结果：0：成功；1：失败；',
-  `Application` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属应用',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '系统日志' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '日志内容',
+  `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `typeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
+  `href` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作所属模块地址',
+  `createtime` datetime NOT NULL COMMENT '记录时间',
+  `createid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '操作人ID',
+  `createname` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作人',
+  `ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作机器的IP地址',
+  `result` int(11) NOT NULL COMMENT '操作的结果：0：成功；1：失败；',
+  `application` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属应用',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of syslog
@@ -1234,101 +1217,107 @@ CREATE TABLE `syslog`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sysmessage`;
 CREATE TABLE `sysmessage`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `FromId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ToId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `FromName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ToName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `FromStatus` int(11) NOT NULL DEFAULT 0 COMMENT '-1:已删除；0:默认',
-  `ToStatus` int(11) NOT NULL DEFAULT 0 COMMENT '-1:已删除；0:默认未读；1：已读',
-  `Href` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '点击消息跳转的页面等',
-  `Title` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `CreateId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '系统消息表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
+  `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `typeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
+  `fromid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '消息源头',
+  `toid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '到达',
+  `fromname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '消息源头名称',
+  `toname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '消息到达名称',
+  `fromstatus` int(11) NOT NULL COMMENT '-1:已删除；0:默认',
+  `tostatus` int(11) NOT NULL COMMENT '-1:已删除；0:默认未读；1：已读',
+  `href` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '点击消息跳转的页面等',
+  `title` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '消息标题',
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '消息内容',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统消息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sysmessage
 -- ----------------------------
-INSERT INTO `sysmessage` VALUES ('2e34d7de-2203-42c8-80f7-7d60d7ad996b', '系统消息', 'SYS_MSG', '00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', '系统管理员', 'System', 0, 0, '', '', '你的流程[带分支条件/普通动态表单的模板2020-02-17 21:32:53]已被超级管理员处理。处理情况如下:【任务节点】【2021-06-13 12:02】同意,备注：同意处理', '2021-06-13 12:02:29', '');
-INSERT INTO `sysmessage` VALUES ('a0d898bd-ca62-46c8-90df-b73074e76500', '系统消息', 'SYS_MSG', '00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000', '系统管理员', 'System', 0, 1, '', '', '你的流程[带有开发者自定义表单的流程2020-02-17 21:35:45]已被超级管理员处理。处理情况如下:【任意人可以审批】【2021-06-13 13:14】不同意,备注：不同意', '2021-06-13 13:14:39', '');
 
 -- ----------------------------
 -- Table structure for sysprinterplan
 -- ----------------------------
 DROP TABLE IF EXISTS `sysprinterplan`;
 CREATE TABLE `sysprinterplan`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方案ID',
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方案名称',
-  `SourceSql` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '数据源;打印方案对应的数据来源SQL',
-  `ColumnView` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '中文视图名;设计打印方案时，提供中文快捷按钮的视图来源',
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方案ID',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方案名称',
+  `sourcesql` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '数据源;打印方案对应的数据来源SQL',
+  `columnview` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '中文视图名;设计打印方案时，提供中文快捷按钮的视图来源',
   `groupby` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分组字段',
-  `PlanContent` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '打印方案内容;打印方案JSON对象',
-  `Disable` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否可用',
-  `CreateTime` date NOT NULL COMMENT '创建日期',
-  `CreateUser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `InParamColumn` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '入口参数字段;入口参数字段数组，通过,分隔',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '打印方案模板' ROW_FORMAT = DYNAMIC;
+  `plancontent` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '打印方案内容;打印方案JSON对象',
+  `disable` tinyint(4) NOT NULL COMMENT '是否可用',
+  `createtime` date NOT NULL COMMENT '创建日期',
+  `createuser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `inparamcolumn` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '入口参数字段;入口参数字段数组，通过,分隔'
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '打印方案模板' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sysprinterplan
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for uploadfile
+-- Table structure for sysresource
 -- ----------------------------
-DROP TABLE IF EXISTS `uploadfile`;
-CREATE TABLE `uploadfile`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
-  `FileName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件名称',
-  `FilePath` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件路径',
-  `Description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `FileType` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件类型',
-  `FileSize` int(11) NULL DEFAULT NULL COMMENT '文件大小',
-  `Extension` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '扩展名称',
-  `Enable` tinyint(4) NOT NULL COMMENT '是否可用',
-  `SortCode` int(11) NOT NULL COMMENT '排序',
-  `DeleteMark` tinyint(4) NOT NULL COMMENT '删除标识',
-  `CreateUserId` char(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上传人',
-  `CreateUserName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上传人姓名',
-  `CreateTime` datetime NOT NULL COMMENT '上传时间',
-  `Thumbnail` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '缩略图',
-  `BelongApp` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属应用',
-  `BelongAppId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属应用ID',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件' ROW_FORMAT = COMPACT;
+DROP TABLE IF EXISTS `sysresource`;
+CREATE TABLE `sysresource`  (
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源标识',
+  `cascadeid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点语义ID',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `sortno` int(11) NOT NULL COMMENT '排序号',
+  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '描述',
+  `parentname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点名称',
+  `parentid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父节点流ID',
+  `appid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源所属应用ID',
+  `appname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属应用名称',
+  `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `typeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
+  `disable` tinyint(4) NOT NULL COMMENT '是否可用',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
+  `createusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `updatetime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
+  `updateuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
+  `updateusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资源表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of uploadfile
+-- Records of sysresource
 -- ----------------------------
+INSERT INTO `sysresource` VALUES ('SYS_DEL_USER', '.0.2.', '删除用户', 0, '拥有删除OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:58', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:58', '', '');
+INSERT INTO `sysresource` VALUES ('SYS_UPDATE_USER', '.0.1.', '更新用户信息', 0, '拥有更新OpenAuth.Net系统用户信息的权限', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:27:17', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:27:12', '', '');
+INSERT INTO `sysresource` VALUES ('SYS_VIEW_USER', '.0.3.', '查看用户列表', 0, '查看OpenAuth.Net用户列表', '根节点', NULL, '110', 'OpenAuth.Net', NULL, NULL, 0, '2019-11-23 00:44:39', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:44:39', '', '');
+INSERT INTO `sysresource` VALUES ('XXX_ADDORDER', '.0.6.', '创建订单', 0, '在XXX平台创建订单', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:24', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:24', '', '');
+INSERT INTO `sysresource` VALUES ('XXX_DEL_LOG', '.0.4.', '删除XXX平台日志', 0, '删除XXX平台日志', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:45:02', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:45:02', '', '');
+INSERT INTO `sysresource` VALUES ('XXX_LOGIN', '.0.7.', '登录', 0, '登录XXX平台', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:55:20', '00000000-0000-0000-0000-000000000000', '超级管理员', '2019-11-23 00:55:20', '', '');
+INSERT INTO `sysresource` VALUES ('XXX_VIEW_USER', '.0.5.', '查看用户', 0, '查看XXX平台用户列表', '根节点', NULL, '119', 'XXX管理平台', NULL, NULL, 0, '2019-11-23 00:53:01', '6ba79766-faa0-4259-8139-a4a6d35784e0', 'test', '2019-11-23 00:53:01', '', '');
 
 -- ----------------------------
--- Table structure for user
+-- Table structure for sysuser
 -- ----------------------------
 DROP TABLE IF EXISTS `sysuser`;
 CREATE TABLE `sysuser`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
-  `Account` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户登录帐号',
-  `Password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `Name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户姓名',
-  `Sex` int(11) NOT NULL COMMENT '性别',
-  `Status` int(11) NOT NULL COMMENT '用户状态',
-  `BizCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '业务对照码',
-  `CreateTime` datetime NOT NULL COMMENT '经办时间',
-  `CreateId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `TypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
-  `TypeId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
-  `ParentId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '直接上级;',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户基本信息表' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '流水号',
+  `account` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户登录帐号',
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户姓名',
+  `sex` int(11) NOT NULL COMMENT '性别',
+  `status` int(11) NOT NULL COMMENT '用户状态',
+  `bizcode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '业务对照码',
+  `createtime` datetime NOT NULL COMMENT '经办时间',
+  `createid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
+  `typeid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID',
+  `parentid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '直属上级',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户基本信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of user
+-- Records of sysuser
 -- ----------------------------
 INSERT INTO `sysuser` VALUES ('0ceff0f8-f848-440c-bc26-d8605ac858cd', 'test5', 'test5', 'test5', 1, 1, '', '2022-03-15 09:19:05', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
 INSERT INTO `sysuser` VALUES ('1df68dfd-3b6d-4491-872f-00a0fc6c5a64', 'test4', 'test4', 'test4', 1, 1, '', '2022-12-12 14:07:11', '', '', '', '6ba79766-faa0-4259-8139-a4a6d35784e0');
@@ -1340,36 +1329,64 @@ INSERT INTO `sysuser` VALUES ('96f63f9d-e8c8-4258-963e-3327ed7d6f56', 'test66', 
 INSERT INTO `sysuser` VALUES ('de8be521-f1ec-4483-b124-0be342890507', 'test2', 'test2', 'test2', 1, 0, '', '2022-12-11 16:19:06', '', '', '', '49df1602-f5f3-4d52-afb7-3802da619558');
 
 -- ----------------------------
+-- Table structure for uploadfile
+-- ----------------------------
+DROP TABLE IF EXISTS `uploadfile`;
+CREATE TABLE `uploadfile`  (
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Id',
+  `filename` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件名称',
+  `filepath` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件路径',
+  `description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `filetype` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件类型',
+  `filesize` int(11) NULL DEFAULT NULL COMMENT '文件大小',
+  `extension` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '扩展名称',
+  `enable` tinyint(4) NOT NULL COMMENT '是否可用',
+  `sortcode` int(11) NOT NULL COMMENT '排序',
+  `deletemark` tinyint(4) NOT NULL COMMENT '删除标识',
+  `createuserid` char(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上传人',
+  `createusername` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上传人姓名',
+  `createtime` datetime NOT NULL COMMENT '上传时间',
+  `thumbnail` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '缩略图',
+  `belongapp` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属应用',
+  `belongappid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属应用ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of uploadfile
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for wmsinboundorderdtbl
 -- ----------------------------
 DROP TABLE IF EXISTS `wmsinboundorderdtbl`;
 CREATE TABLE `wmsinboundorderdtbl`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库通知单明细号',
-  `OrderId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库通知单号',
-  `Price` decimal(18, 6) NULL DEFAULT NULL COMMENT '含税单价',
-  `PriceNoTax` decimal(18, 6) NULL DEFAULT NULL COMMENT '无税单价',
-  `InStockStatus` tinyint(1) NULL DEFAULT 0 COMMENT '是否收货中(0:非收货中,1:收货中)',
-  `AsnStatus` int(11) NULL DEFAULT 1 COMMENT '到货状况(SYS_GOODSARRIVESTATUS)',
-  `GoodsId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品编号',
-  `GoodsBatch` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品批号',
-  `QualityFlg` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '品质(SYS_QUALITYFLAG)',
-  `OrderNum` decimal(18, 2) NULL DEFAULT 0.00 COMMENT '通知数量',
-  `InNum` decimal(18, 2) NULL DEFAULT 0.00 COMMENT '到货数量',
-  `LeaveNum` decimal(18, 2) NULL DEFAULT 0.00 COMMENT '剩余数量',
-  `HoldNum` decimal(18, 2) NULL DEFAULT 0.00 COMMENT '占用数量',
-  `ProdDate` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '生产日期',
-  `ExpireDate` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '失效日期',
-  `TaxRate` decimal(10, 2) NULL DEFAULT NULL COMMENT '税率',
-  `OwnerId` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '货主编号',
-  `Remark` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `CreateTime` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
-  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `UpdateTime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
-  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
-  `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
-  PRIMARY KEY (`Id`, `OrderId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '入库通知单明细' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库通知单明细号',
+  `orderid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库通知单号',
+  `price` decimal(18, 6) NULL DEFAULT NULL COMMENT '含税单价',
+  `pricenotax` decimal(18, 6) NULL DEFAULT NULL COMMENT '无税单价',
+  `instockstatus` tinyint(4) NOT NULL COMMENT '是否收货中(0:非收货中,1:收货中)',
+  `asnstatus` int(11) NOT NULL COMMENT '到货状况(SYS_GOODSARRIVESTATUS)',
+  `goodsid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品编号',
+  `goodsbatch` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品批号',
+  `qualityflg` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '品质(SYS_QUALITYFLAG)',
+  `ordernum` decimal(18, 2) NOT NULL COMMENT '通知数量',
+  `innum` decimal(18, 2) NOT NULL COMMENT '到货数量',
+  `leavenum` decimal(18, 2) NOT NULL COMMENT '剩余数量',
+  `holdnum` decimal(18, 2) NOT NULL COMMENT '占用数量',
+  `proddate` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '生产日期',
+  `expiredate` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '失效日期',
+  `taxrate` decimal(10, 2) NULL DEFAULT NULL COMMENT '税率',
+  `ownerid` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '货主编号',
+  `remark` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
+  `createusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `updatetime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
+  `updateuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
+  `updateusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
+  PRIMARY KEY (`id`, `orderid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '入库通知单明细' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wmsinboundorderdtbl
@@ -1393,32 +1410,32 @@ INSERT INTO `wmsinboundorderdtbl` VALUES ('fcf051d3-5c00-4617-895f-e45891d975df'
 -- ----------------------------
 DROP TABLE IF EXISTS `wmsinboundordertbl`;
 CREATE TABLE `wmsinboundordertbl`  (
-  `Id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库通知单号',
-  `ExternalNo` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '相关单据号',
-  `ExternalType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '相关单据类型',
-  `Status` int(11) NOT NULL DEFAULT 0 COMMENT '入库通知单状态(SYS_INSTCINFORMSTATUS)',
-  `OrderType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库类型(SYS_INSTCTYPE)',
-  `GoodsType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品类别',
-  `PurchaseNo` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '采购单号',
-  `StockId` varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '仓库编号',
-  `OwnerId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '货主编号(固定值CQM)',
-  `ShipperId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '承运人编号',
-  `SupplierId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '供应商编号',
-  `ScheduledInboundTime` datetime NULL DEFAULT NULL COMMENT '预定入库时间',
-  `Remark` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '有效标志',
-  `TransferType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '承运方式',
-  `InBondedArea` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否入保税库(0:否,1:是)',
-  `ReturnBoxNum` decimal(8, 0) NOT NULL DEFAULT 0 COMMENT '销退箱数',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `CreateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
-  `CreateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
-  `UpdateTime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
-  `UpdateUserId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
-  `UpdateUserName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
-  `OrgId` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '所属部门',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '入库通知单（入库订单）' ROW_FORMAT = COMPACT;
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库通知单号',
+  `externalno` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '相关单据号',
+  `externaltype` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '相关单据类型',
+  `status` int(11) NOT NULL COMMENT '入库通知单状态(SYS_INSTCINFORMSTATUS)',
+  `ordertype` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '入库类型(SYS_INSTCTYPE)',
+  `goodstype` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品类别',
+  `purchaseno` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '采购单号',
+  `stockid` varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '仓库编号',
+  `ownerid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '货主编号(固定值CQM)',
+  `shipperid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '承运人编号',
+  `supplierid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '供应商编号',
+  `scheduledinboundtime` datetime NULL DEFAULT NULL COMMENT '预定入库时间',
+  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '备注',
+  `enable` tinyint(4) NOT NULL COMMENT '有效标志',
+  `transfertype` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '承运方式',
+  `inbondedarea` tinyint(4) NOT NULL COMMENT '是否入保税库(0:否,1:是)',
+  `returnboxnum` decimal(8, 0) NOT NULL COMMENT '销退箱数',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `createuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
+  `createusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `updatetime` datetime NULL DEFAULT NULL COMMENT '最后更新时间',
+  `updateuserid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
+  `updateusername` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
+  `orgid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属部门',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '入库通知单（入库订单）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wmsinboundordertbl

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using Autofac.Extensions.DependencyInjection;
+using Humanizer;
 using Infrastructure;
 using Infrastructure.Utilities;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +23,7 @@ namespace OpenAuth.App
     public class DbExtension
     {
         private List<DbContext> _contexts = new List<DbContext>();
-        
+
         private IOptions<AppSetting> _appConfiguration;
         private IHttpContextAccessor _httpContextAccessor;
 
@@ -43,7 +44,7 @@ namespace OpenAuth.App
         {
             var result = new List<BuilderTableColumn>();
             const string domain = "openauth.repository.domain.";
-            IEntityType entity = null; 
+            IEntityType entity = null;
             _contexts.ForEach(u =>
             {
                 entity = u.Model.GetEntityTypes()
@@ -58,11 +59,11 @@ namespace OpenAuth.App
             {
                 object[] objs = property.GetCustomAttributes(typeof(DescriptionAttribute), true);
                 object[] browsableObjs = property.GetCustomAttributes(typeof(BrowsableAttribute), true);
-                var description = objs.Length > 0 ? ((DescriptionAttribute) objs[0]).Description : property.Name;
+                var description = objs.Length > 0 ? ((DescriptionAttribute)objs[0]).Description : property.Name;
                 if (string.IsNullOrEmpty(description)) description = property.Name;
                 //如果没有BrowsableAttribute或 [Browsable(true)]表示可见，其他均为不可见，需要前端配合显示
                 bool browsable = browsableObjs == null || browsableObjs.Length == 0 ||
-                                 ((BrowsableAttribute) browsableObjs[0]).Browsable;
+                                 ((BrowsableAttribute)browsableObjs[0]).Browsable;
                 var typeName = property.PropertyType.Name;
                 if (Nullable.GetUnderlyingType(property.PropertyType) != null)
                 {
@@ -88,7 +89,7 @@ namespace OpenAuth.App
         public List<string> GetDbEntityNames()
         {
             var names = new List<string>();
-            var models = _contexts.Select(u =>u.Model);
+            var models = _contexts.Select(u => u.Model);
 
             foreach (var model in models)
             {
@@ -135,63 +136,65 @@ namespace OpenAuth.App
         /// </summary>
         private IList<SysTableColumn> GetOracleStructure(string tableName)
         {
+            tableName = tableName.ToUpper();
             var sql = $@"
-select utc.column_name as columnname
-     , utc.data_type columntype
-     , utc.data_length maxlength
-     , case utc.nullable when 'N' then 0 else 1 end isnull
-     , utc.data_default defaultval
-     , ucc.comments ""COMMENT""
-     , utc.table_name tablename
-     , case utc.column_name
-           when (select col.column_name
-                 from user_constraints con
-                    , user_cons_columns col
-                 where con.constraint_name = col.constraint_name
-                   and con.constraint_type = 'P'
-                   and col.table_name = '{tableName}') then 1
-           else 0 end as iskey
-     , case
-           when utc.column_name in ('CreateUserId', 'UpdateUserId', 'Id')
-               then 0
-           else 1
-    end as isdisplay
-     , case
-           when data_type in ('BIT', 'BOOL') then
-               'bool'
-           when data_type in ('SMALLINT') then 'short'
-           when data_type in ('TINYINT') then 'bool'
-           when data_type in ('NUMBER', 'CHAR', 'INT', 'Year') then
-               'int'
-           when data_type in ('BIGINT') then
-               'bigint'
-           when data_type in ('FLOAT', 'DOUBLE', 'DECIMAL') then
-               'decimal'
-           when data_type in
-                ('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB',
-                 'MEDIUMBLOB', 'LONGBLOB', 'Time') then
-               'string'
-           when data_type in ('Date', 'DateTime', 'TIMESTAMP(6)') then
-               'DateTime'
-           else 'string'
-    end as entitytype
-from user_tab_columns utc
-   , user_col_comments ucc
-where utc.table_name = ucc.table_name
-  and utc.column_name = ucc.column_name
-  and utc.table_name = '{tableName}'
-order by column_id;  ";
-            
+            select utc.column_name as columnname
+                , utc.data_type columntype
+                , utc.data_length maxlength
+                , case utc.nullable when 'N' then 0 else 1 end isnull
+                , utc.data_default defaultval
+                , ucc.comments ""COMMENT""
+                , utc.table_name tablename
+                , case utc.column_name
+                    when (select col.column_name
+                            from user_constraints con
+                                , user_cons_columns col
+                            where con.constraint_name = col.constraint_name
+                            and con.constraint_type = 'P'
+                            and col.table_name = '{tableName}') then 1
+                    else 0 end as iskey
+                , case
+                    when utc.column_name in ('CreateUserId', 'UpdateUserId', 'Id')
+                        then 0
+                    else 1
+                end as isdisplay
+                , case
+                    when data_type in ('BIT', 'BOOL') then
+                        'bool'
+                    when data_type in ('SMALLINT') then 'short'
+                    when data_type in ('TINYINT') then 'bool'
+                    when data_type in ('NUMBER', 'CHAR', 'INT', 'Year') then
+                        'int'
+                    when data_type in ('BIGINT') then
+                        'bigint'
+                    when data_type in ('FLOAT', 'DOUBLE', 'DECIMAL') then
+                        'decimal'
+                    when data_type in
+                            ('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB',
+                            'MEDIUMBLOB', 'LONGBLOB', 'Time') then
+                        'string'
+                    when data_type in ('DATE', 'DATETIME', 'TIMESTAMP(6)') then
+                        'DateTime'
+                    else 'string'
+                end as entitytype
+            from user_tab_columns utc
+            , user_col_comments ucc
+            where utc.table_name = ucc.table_name
+            and utc.column_name = ucc.column_name
+            and utc.table_name = '{tableName}'
+            order by column_id;  ";
+
             foreach (var context in _contexts)
             {
                 var columns = context.Set<SysTableColumn>().FromSqlRaw(sql);
                 var columnList = columns?.ToList();
                 if (columnList != null && columnList.Any())
                 {
+                    columnList.ForEach(u => u.ColumnName = u.ColumnName.Transform(To.LowerCase, To.TitleCase));
                     return columnList;
                 }
             }
-            
+
             return new List<SysTableColumn>();
         }
 
@@ -200,9 +203,9 @@ order by column_id;  ";
         /// </summary>
         private IList<SysTableColumn> GetMySqlStructure(string tableName)
         {
-            var sql =  $@"SELECT  DISTINCT
+            var sql = $@"SELECT  DISTINCT
                     Column_Name AS ColumnName,
-                     '{ tableName}'  as tableName,
+                     '{tableName}'  as tableName,
 	                Column_Comment AS Comment,
                     data_type as ColumnType,
                         CASE
@@ -253,74 +256,76 @@ order by column_id;  ";
                 var columnList = columns?.ToList();
                 if (columnList != null && columnList.Any())
                 {
+                    columnList.ForEach(u => u.ColumnName = u.ColumnName.Transform(To.LowerCase, To.TitleCase));
                     return columnList;
                 }
             }
-            
+
             return new List<SysTableColumn>();
-            
+
         }
-       
-        
-          /// <summary>
-        /// 获取Mysql表结构信息
+
+
+        /// <summary>
+        /// 获取pgsql表结构信息
         /// </summary>
         private IList<SysTableColumn> GetPostgreStructure(string tableName)
         {
-            var sql =  $@"select attr.attrelid
-     , schema.nspname as schemaname
-     , class.relname as tablename --表名
-     , attr.attname as columnname --列名
-     , attr.atttypid --类型ID
-     , attr.atttypmod
-     , case when con.conname is not null then 1 else 0 end as iskey --是否主键
-     , case when attr.attnotnull is true then 0 else 1 end as isnull --可空
-     , t.typname columntype --类型名称
-     , case
-           when typname in ('BIT', 'BOOL', 'bit', 'bool') then
-               'bool'
-           when typname in ('smallint', 'SMALLINT') then 'short'
-           when typname in ('tinyint', 'TINYINT') then 'bool'
-           when typname in ('int4', 'int', 'INT') then
-               'int'
-           when typname in ('BIGINT', 'bigint') then
-               'bigint'
-           when typname in ('FLOAT', 'DOUBLE', 'DECIMAL', 'float', 'double', 'decimal') then
-               'decimal'
-           when typname in ('varchar', 'text') then
-               'string'
-           when typname in ('Date', 'DateTime', 'TimeStamp', 'date', 'datetime', 'timestamp') then
-               'DateTime'
-           else 'string'
-    end as entitytype
-     , comment.description as comment
-     , 1 as iscolumndata
-     , case
-           when t.typname = 'varchar' or t.typname = 'bpchar' then attr.atttypmod - 4
-           else 10
-    end as columnwidth
-     , 0 as orderno
-     , case
-           when t.typname = 'varchar' or t.typname = 'bpchar' then attr.atttypmod - 4
-           else 10
-    end as maxlength
-     , case
-           when attname in ('createid', 'modifyid', '')
-               or con.conname is null then 0
-           else 1
-    end as isdisplay --是否显示
-from pg_catalog.pg_class class
-         inner join pg_catalog.pg_attribute attr on attr.attrelid = class.oid
-         left join pg_catalog.pg_constraint con
-                   on con.conrelid = class.oid and attr.attnum = any (con.conkey) and con.contype = 'p'
-         left join pg_catalog.pg_type t on attr.atttypid = t.oid
-         inner join pg_catalog.pg_description comment
-                    on comment.objoid = attr.attrelid and comment.objsubid = attr.attnum
-         inner join pg_catalog.pg_namespace schema on schema.oid = class.relnamespace
-where attr.attnum > 0
-  and not attr.attisdropped
-  and schema.nspname = 'public' -- replace 'your_schema' with your schema name
-  and class.relname = '{tableName}'";
+            tableName = tableName.ToLower();
+            var sql = $@"select attr.attrelid
+                , schema.nspname as schemaname
+                , class.relname as tablename --表名
+                , attr.attname as columnname --列名
+                , attr.atttypid --类型ID
+                , attr.atttypmod
+                , case when con.conname is not null then 1 else 0 end as iskey --是否主键
+                , case when attr.attnotnull is true then 0 else 1 end as isnull --可空
+                , t.typname columntype --类型名称
+                , case
+                    when typname in ('BIT', 'BOOL', 'bit', 'bool') then
+                        'bool'
+                    when typname in ('smallint', 'SMALLINT') then 'short'
+                    when typname in ('tinyint', 'TINYINT') then 'bool'
+                    when typname in ('int4', 'int', 'INT') then
+                        'int'
+                    when typname in ('BIGINT', 'bigint') then
+                        'bigint'
+                    when typname in ('FLOAT', 'DOUBLE', 'DECIMAL', 'float', 'double', 'decimal') then
+                        'decimal'
+                    when typname in ('varchar', 'text') then
+                        'string'
+                    when typname in ('Date', 'DateTime', 'TimeStamp', 'date', 'datetime', 'timestamp') then
+                        'DateTime'
+                    else 'string'
+                end as entitytype
+                , comment.description as comment
+                , 1 as iscolumndata
+                , case
+                    when t.typname = 'varchar' or t.typname = 'bpchar' then attr.atttypmod - 4
+                    else 10
+                end as columnwidth
+                , 0 as orderno
+                , case
+                    when t.typname = 'varchar' or t.typname = 'bpchar' then attr.atttypmod - 4
+                    else 10
+                end as maxlength
+                , case
+                    when attname in ('createid', 'modifyid', '')
+                        or con.conname is null then 0
+                    else 1
+                end as isdisplay --是否显示
+            from pg_catalog.pg_class class
+                    inner join pg_catalog.pg_attribute attr on attr.attrelid = class.oid
+                    left join pg_catalog.pg_constraint con
+                            on con.conrelid = class.oid and attr.attnum = any (con.conkey) and con.contype = 'p'
+                    left join pg_catalog.pg_type t on attr.atttypid = t.oid
+                    inner join pg_catalog.pg_description comment
+                                on comment.objoid = attr.attrelid and comment.objsubid = attr.attnum
+                    inner join pg_catalog.pg_namespace schema on schema.oid = class.relnamespace
+            where attr.attnum > 0
+            and not attr.attisdropped
+            and schema.nspname = 'public' -- replace 'your_schema' with your schema name
+            and class.relname = '{tableName}'";
 
             foreach (var context in _contexts)
             {
@@ -328,24 +333,25 @@ where attr.attnum > 0
                 var columnList = columns?.ToList();
                 if (columnList != null && columnList.Any())
                 {
+                    columnList.ForEach(u => u.ColumnName = u.ColumnName.Transform(To.LowerCase, To.TitleCase));
                     return columnList;
                 }
             }
-            
+
             return new List<SysTableColumn>();
-            
+
         }
-       
-        
-        
-         /// <summary>
+
+
+
+        /// <summary>
         /// 获取SqlServer表结构信息
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
         private IList<SysTableColumn> GetSqlServerStructure(string tableName)
         {
-            var sql =  $@"
+            var sql = $@"
             SELECT TableName,
                 LTRIM(RTRIM(ColumnName)) AS ColumnName,
                 Comment,
@@ -426,7 +432,7 @@ where attr.attnum > 0
                             LEFT JOIN sys.extended_properties epTwo ON obj.id = epTwo.major_id
                                                               AND epTwo.minor_id = 0
                                                               AND epTwo.name = 'MS_Description'
-                  WHERE obj.name =  '{ tableName}') AS t
+                  WHERE obj.name =  '{tableName}') AS t
             ORDER BY t.colorder";
 
             foreach (var context in _contexts)

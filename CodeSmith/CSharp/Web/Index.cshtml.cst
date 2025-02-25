@@ -7,27 +7,22 @@ Description: 列表页面
 <%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context"
 Description="连接的数据库" %>
 <%@ Property Name="ModuleName" Type="String" Category="Context" Description="模块名称" %>
-
 <%@ Map Name="CSharpAlias" Src="System-CSharpAlias" Description="System to C# Type Map" %>
 <%@ Assembly Name="SchemaExplorer" %>
 <%@ Import Namespace="SchemaExplorer" %>
 <%@ Assembly Src="Util.cs" %>
 <%@ Import Namespace="Util" %>
-
 @section header
 {
     <link rel="stylesheet" href="/css/treetable.css" />
 }
 <blockquote class="layui-elem-quote news_search toolList" id="menus">
 </blockquote>
-
 <div class="layui-card">
-
     <table class="layui-table" id="mainList"
            lay-data="{height: 'full-80', page:true, id:'mainList'}"
            lay-filter="list" lay-size="sm">
     </table>
-
     <script type="text/html" id="Disable">
         {{# if(d.Disable){ }}
         <span class="layui-badge">已禁用</span>
@@ -35,41 +30,46 @@ Description="连接的数据库" %>
         <span class="layui-badge layui-bg-green">正常</span>
         {{# } }}
     </script>
-
 </div>  
-
 <!--添加/编辑窗口-->
 <div id="divEdit" style="display: none">
-    <form class="layui-form" action=""  id="formEdit">
+    <form class="layui-form" action=""  id="formEdit" lay-filter="formEdit">
 <% foreach (ColumnSchema column in this.SourceTable.Columns) {
+    var typename = CSharpAlias[column.SystemType.FullName];
+    //Response.WriteLine(typename);
     if(column.IsPrimaryKeyMember){%>
-    <input type="hidden" name="<%=column.Name%>" v-model="tmp.<%=column.Name%>" />
+    <input type="hidden" name="<%=column.Name%>"  />
     <%}else if(CSharpAlias[column.SystemType.FullName] == "bool") {%>
     <div class="layui-form-item">
         <label class="layui-form-label"><%=Tools.GetDescription(column)%></label>
         <div class="layui-input-block">
-            <input type="checkbox" name="<%=column.Name%>" v-model="tmp.<%=column.Name%>" lay-skin="switch" value="1">
+            <input type="checkbox" name="<%=column.Name%>"  lay-skin="switch" value="1">
+        </div>
+    </div>
+    <%}else if(CSharpAlias[column.SystemType.FullName] == "System.DateTime") {%>
+    <div class="layui-form-item">
+        <label class="layui-form-label"><%=Tools.GetDescription(column)%></label>
+        <div class="layui-input-block">
+            <input type="text" name="<%=column.Name%>" id="<%=column.Name%>" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
         </div>
     </div>
     <%}else if(CSharpAlias[column.SystemType.FullName] == "int" ) {%>
     <div class="layui-form-item">
         <label class="layui-form-label"><%=Tools.GetDescription(column)%></label>
         <div class="layui-input-block">
-            <input type="radio" name="<%=column.Name%>" value="1" title="value1" checked>
-            <input type="radio" name="<%=column.Name%>" value="0" title="value2">
+            <input type="number" name="<%=column.Name%>" placeholder="" autocomplete="off" class="layui-input" min="0" step="1" lay-affix="number">
         </div>
     </div>
     <%} else {%>
     <div class="layui-form-item">
         <label class="layui-form-label"><%=Tools.GetDescription(column)%></label>
         <div class="layui-input-block">
-            <input type="text" name="<%=column.Name%>" v-model="tmp.<%=column.Name%>" required lay-verify="required"
+            <input type="text" name="<%=column.Name%>"  required lay-verify="required"
                 placeholder="<%=Tools.GetDescription(column)%>" autocomplete="off" class="layui-input">
         </div>
     </div>
     <%} %>
 <%} %>
-
 <%if(Tools.NeedCascade(SourceTable)){ %>
 <div class="layui-form-item">
     <label class="layui-form-label">所属部门</label>
@@ -82,7 +82,6 @@ Description="连接的数据库" %>
     </div>
 </div>
 <%} %>
-
      <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
@@ -91,8 +90,5 @@ Description="连接的数据库" %>
         </div>
     </form>
 </div>
-
 <script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript" src="/userJs/<%=ModuleName.ToLower()%>s.js"></script>
-
-
